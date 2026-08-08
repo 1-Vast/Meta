@@ -142,6 +142,74 @@ X0-FEAS and X0-B selected
 zero affinity value fields. DAVIS and recipient reads remain zero. All evaluated
 panels are development evidence and must not be reused as untouched validation.
 
+## XP1 Crossed-Panel Identification (registered and run, 2026-08-08)
+
+Preregistration `research/crossed_panel_identification/PREREG_XP1.md`; report
+`report/crossed_panel_identification/XP1_RESEARCH_REPORT.md`.
+
+Three external complete crossed panels were acquired under the authorization
+below (Metz 2011 kinase `pKi`, Klaeger 2017 kinobeads, NIMH PDSP `Ki`), with
+DAVIS, PKIS2 and Anastassiadis excluded. No ChEMBL37 affinity value was read;
+`DAVIS_LABEL_READS` and `RECIPIENT_LABEL_READS` remain `0`.
+
+```text
+XP1 FINAL DECISION: OBJECTIVE_OR_PARAMETERIZATION_FAILURE
+  secondary: REPRESENTATION_FAILURE (zero-shot protein pathway only)
+  rejected:  DATA_IDENTIFIABILITY_FAILURE
+```
+
+The protein-by-ligand interaction exists, is reproducible across two independent
+measurement platforms, is rank 1-3, and transfers to unseen kinase **groups**
+when its coordinate is identified from `k` labelled support observations
+(`R2_gamma = +0.160 [+0.109, +0.195]`, target-specific at
+`+0.0695 [+0.0524, +0.0874]`). No protein representation tested — ESM-2 t30,
+aligned KLIFS pocket, pocket physicochemistry, KLIFS conformational state,
+family, group, homolog-kernel averaging — recovers that coordinate once
+near-homologs leave the training set. The same features reach `R2 = 0.52` when
+homologs are present, which is the quantitative content of
+`PARTNER_COMPATIBILITY_PARTIALLY_IDENTIFIED`.
+
+Admission status of the candidate statistic `z_section = <u(L), vhat(S)>`:
+
+```text
+SUPPORT_IDENTIFIED_INTERACTION_SECTION_ADMITTED_ON_PRIMARY_PANEL
+INDEPENDENT_REPLICATION_DIRECTIONAL_ONLY_EFFECT_BELOW_FLOOR
+BIOLOGICAL_Z_NOT_YET_ADMITTED_TO_PRODUCTION
+```
+
+`XP1` authorizes nothing further by itself. The named continuation was `XP2`: the
+transpose of `XP1-B`, holding out **ligands** and asking whether `u(L)` is
+predictable from chemistry for unseen compounds.
+
+## XP2 Crossed-Panel Deployability (registered and run, 2026-08-08)
+
+Preregistration `research/crossed_panel_deployability/PREREG_XP2.md`; report
+`report/crossed_panel_deployability/XP2_FINAL_REPORT.md`.
+
+```text
+XP2 TERMINAL VERDICT
+  CROSSED_INTERACTION_REPRODUCED
+  K_LE_5_SECTION_NOT_IDENTIFIED
+  PANEL_LOCAL_LOW_RANK_META_LEARNING
+  BIOLOGICAL_LANDING_NOT_IDENTIFIED
+```
+
+`DEPLOYABLE_SECTION_STATISTIC_IDENTIFIED` and
+`DOUBLE_HELD_OUT_SECTION_IDENTIFIED` are **refused**.
+`LIGAND_SIDE_DEPLOYMENT_REPRESENTATION_FAILED` does **not** apply; the correct
+statement is `LIGAND_LOADING_RECOVERABILITY_OBSERVED` — the loading transfers to unseen scaffolds at `R2 = +0.199 [+0.133, +0.261]`.
+
+The decisive facts: the identifiable section dimension is exactly `min(k-1, d)`,
+so a frozen `k <= 5` caps it at 4 and gives **zero** at `k = 1`; at `k <= 5` the
+section stays at `R2_gamma <= 0.025` against a frozen `0.05` floor; and under
+simultaneous protein-group and ligand-scaffold closure its derangement
+specificity collapses to `+0.00185 [-0.00477, +0.00552]`. XP1's specificity was
+conditional on ligand reuse.
+
+The mechanism is closed for production. Nothing entered `model/` or production
+`scripts/`; the frozen theory, CSMO, Band, `K` and mesh were not modified; the
+project status is unchanged pending separate review.
+
 ## External Data Authorization
 
 Acquisition of a new public dataset is authorized. Before any affinity outcome

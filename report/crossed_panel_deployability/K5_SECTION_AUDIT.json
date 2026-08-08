@@ -1,0 +1,1131 @@
+{
+  "stage": "XP2-C",
+  "closure": "protein-group only (ligands reused)",
+  "prereg": "PREREG_XP2.md",
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "1.26.4",
+    "scipy": "1.17.1",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.0",
+    "torch": "2.6.0+cu124",
+    "cuda_available": true,
+    "transformers": "4.46.3",
+    "rdkit": "2023.09.6",
+    "code_sha256_16": {
+      "acquire_klaeger_structures.py": "1fd618ea570c71b1",
+      "xp2_core.py": "ee873cc7d53f3967",
+      "xp2_finalize.py": "470921ed4f6a2991",
+      "xp2_panel.py": "b9494542315d24c8",
+      "xp2a_reproduction_audit.py": "0c1eaa2d2bc62281",
+      "xp2b_ligand_landing.py": "2f26a1e404bb7c7e",
+      "xp2cd_section.py": "6789236a9cd9fba9",
+      "xp2cd_sweep.py": "c6888040ce7868d5",
+      "xp2e_landing.py": "305437af1f3d2636",
+      "xp2f_external.py": "337df4d60bd9b606"
+    },
+    "git_head": "24a9ae0c8983bade675f98aebf0fe46c33915943",
+    "label_read_counters": {
+      "davis": 0,
+      "recipient": 0,
+      "chembl37_affinity": 0,
+      "pkis2": 0,
+      "anastassiadis": 0
+    }
+  },
+  "support_ladder": {
+    "1": {
+      "identified_section_dim_measured": 0.0,
+      "max_identifiable_dim_min_k_minus_1_d": 0,
+      "frac_underidentified": 1.0,
+      "median_condition_number": Infinity,
+      "mean_query_coverage": 0.0,
+      "coverage_percentiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "n_tasks": 735,
+      "arms": {
+        "P0": {
+          "rmse": 0.9921011928454155,
+          "r2_gamma_vs_ADD": {
+            "point": 0.20708703692400143,
+            "ci95": [
+              0.11154328385758765,
+              0.3126405418285887
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "LIG": {
+          "rmse": 0.9002542981198248,
+          "r2_gamma_vs_ADD": {
+            "point": 0.34710403970440884,
+            "ci95": [
+              0.27149692933002967,
+              0.480627011023894
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ADD": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": null
+        },
+        "ZERO": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC-UHATSUP": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "PERM": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "FOREIGN": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "RANDCORR": {
+          "rmse": 1.1141488408544005,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ORACLE-TRSC": {
+          "rmse": 0.7434682057030113,
+          "r2_gamma_vs_ADD": {
+            "point": 0.5547146818711618,
+            "ci95": [
+              0.5072817856695002,
+              0.5750087761479616
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        }
+      },
+      "contrasts": {
+        "Delta_deploy__LIG_minus_SEC": {
+          "point": -0.430869838293986,
+          "ci95": [
+            -0.5773960538402112,
+            -0.2865550634229528
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 0.9002542981198247,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_interaction__ADD_minus_SEC": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_zero__ZERO_minus_SEC": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_foreign__FOREIGN_minus_SEC": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_perm__PERM_minus_SEC": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_randcorr__RANDCORR_minus_SEC": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_oracle__ADD_minus_ORACLE": {
+          "point": 0.688582666685949,
+          "ci95": [
+            0.4726416663298929,
+            0.8675691243208258
+          ],
+          "rmse_a": 0.7434682057030114,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_strict__ADD_minus_SECUHATSUP": {
+          "point": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_a": 1.1141488408544005,
+          "rmse_b": 1.1141488408544005,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    },
+    "2": {
+      "identified_section_dim_measured": 0.998639455782313,
+      "max_identifiable_dim_min_k_minus_1_d": 1,
+      "frac_underidentified": 1.0,
+      "median_condition_number": 1.0,
+      "mean_query_coverage": 0.3426040943629332,
+      "coverage_percentiles": [
+        0.2512594635164845,
+        0.29277703824686974,
+        0.3379203898791094,
+        0.3887800290077471,
+        0.44087235603367675
+      ],
+      "n_tasks": 735,
+      "arms": {
+        "P0": {
+          "rmse": 0.9918916098248755,
+          "r2_gamma_vs_ADD": {
+            "point": -0.054178599165334074,
+            "ci95": [
+              -0.1512189240502106,
+              0.07368670759609072
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "LIG": {
+          "rmse": 0.9001985693806979,
+          "r2_gamma_vs_ADD": {
+            "point": 0.13171479933583008,
+            "ci95": [
+              0.03866894253194907,
+              0.2848636193550865
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ADD": {
+          "rmse": 0.9660667147169364,
+          "r2_gamma_vs_ADD": null
+        },
+        "ZERO": {
+          "rmse": 0.9646611287456524,
+          "r2_gamma_vs_ADD": {
+            "point": 0.002907798014343266,
+            "ci95": [
+              -0.0029671390773539585,
+              0.0063758543196019805
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC": {
+          "rmse": 0.96182158200329,
+          "r2_gamma_vs_ADD": {
+            "point": 0.008769178308231762,
+            "ci95": [
+              0.0015898937553456922,
+              0.012142530279090272
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC-UHATSUP": {
+          "rmse": 0.9617405318015488,
+          "r2_gamma_vs_ADD": {
+            "point": 0.008936228153181847,
+            "ci95": [
+              0.005339263861256552,
+              0.011018548612148692
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "PERM": {
+          "rmse": 0.9665853954193794,
+          "r2_gamma_vs_ADD": {
+            "point": -0.0010740871913608174,
+            "ci95": [
+              -0.006413126951642612,
+              0.0026341035462085337
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "FOREIGN": {
+          "rmse": 0.9633943763223859,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0055247577340864495,
+            "ci95": [
+              -0.0019583856645660866,
+              0.009561698980813807
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "RANDCORR": {
+          "rmse": 0.9655009841395868,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0011708610228707839,
+            "ci95": [
+              -0.004609227983797421,
+              0.004304775981498753
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ORACLE-TRSC": {
+          "rmse": 0.7434587812641921,
+          "r2_gamma_vs_ADD": {
+            "point": 0.40775752286640077,
+            "ci95": [
+              0.3703938886022988,
+              0.4248143632484992
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        }
+      },
+      "contrasts": {
+        "Delta_deploy__LIG_minus_SEC": {
+          "point": -0.11474329129225656,
+          "ci95": [
+            -0.24688263881403777,
+            -0.03047173281955285
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.9001985693806979,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_interaction__ADD_minus_SEC": {
+          "point": 0.008184141676662952,
+          "ci95": [
+            0.0009620544023872569,
+            0.01170180432999697
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.9660667147169364,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_zero__ZERO_minus_SEC": {
+          "point": 0.005470337705524018,
+          "ci95": [
+            0.0004995548727096828,
+            0.008358492425916055
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.9646611287456521,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_foreign__FOREIGN_minus_SEC": {
+          "point": 0.0030279687222872116,
+          "ci95": [
+            0.0006413429104698134,
+            0.0046435566316704174
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.9633943763223859,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_perm__PERM_minus_SEC": {
+          "point": 0.009186571030726268,
+          "ci95": [
+            0.0024470478335870127,
+            0.01313927338953804
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.9665853954193794,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_randcorr__RANDCORR_minus_SEC": {
+          "point": 0.007091394767199227,
+          "ci95": [
+            0.0014414696425208936,
+            0.01034819887357795
+          ],
+          "rmse_a": 0.96182158200329,
+          "rmse_b": 0.965500984139587,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_oracle__ADD_minus_ORACLE": {
+          "point": 0.3805539378451368,
+          "ci95": [
+            0.2787318531626766,
+            0.4569681100440789
+          ],
+          "rmse_a": 0.7434587812641921,
+          "rmse_b": 0.9660667147169364,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_strict__ADD_minus_SECUHATSUP": {
+          "point": 0.008340046774048532,
+          "ci95": [
+            0.0046256598796506655,
+            0.010912627514235523
+          ],
+          "rmse_a": 0.9617405318015488,
+          "rmse_b": 0.9660667147169364,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    },
+    "3": {
+      "identified_section_dim_measured": 1.9986394557823128,
+      "max_identifiable_dim_min_k_minus_1_d": 2,
+      "frac_underidentified": 1.0,
+      "median_condition_number": 2.777076571210439,
+      "mean_query_coverage": 0.6717959990423344,
+      "coverage_percentiles": [
+        0.5830679148853338,
+        0.6243267107010657,
+        0.6737866595739416,
+        0.7198237699370817,
+        0.762798613219702
+      ],
+      "n_tasks": 735,
+      "arms": {
+        "P0": {
+          "rmse": 0.9920774707222532,
+          "r2_gamma_vs_ADD": {
+            "point": -0.15451834781403506,
+            "ci95": [
+              -0.2732472543625343,
+              -0.004059011251069986
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "LIG": {
+          "rmse": 0.9004333883438589,
+          "r2_gamma_vs_ADD": {
+            "point": 0.04892920572309967,
+            "ci95": [
+              -0.06486658512602572,
+              0.20832663651124275
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ADD": {
+          "rmse": 0.9233049580267615,
+          "r2_gamma_vs_ADD": null
+        },
+        "ZERO": {
+          "rmse": 0.9185312829582358,
+          "r2_gamma_vs_ADD": {
+            "point": 0.01031367716582876,
+            "ci95": [
+              0.0034152991109027255,
+              0.015839906918669096
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC": {
+          "rmse": 0.9146355864649137,
+          "r2_gamma_vs_ADD": {
+            "point": 0.018690836556866763,
+            "ci95": [
+              0.008666289390987241,
+              0.024186480338403794
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC-UHATSUP": {
+          "rmse": 0.9161819392325652,
+          "r2_gamma_vs_ADD": {
+            "point": 0.01536987917923982,
+            "ci95": [
+              0.010537631688628948,
+              0.01815546682695419
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "PERM": {
+          "rmse": 0.9203788953012665,
+          "r2_gamma_vs_ADD": {
+            "point": 0.00632819347604574,
+            "ci95": [
+              -0.000812273743666031,
+              0.010938569330762805
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "FOREIGN": {
+          "rmse": 0.916819176552165,
+          "r2_gamma_vs_ADD": {
+            "point": 0.013999711886783284,
+            "ci95": [
+              0.006350778524067982,
+              0.018570295559261905
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "RANDCORR": {
+          "rmse": 0.919985294377113,
+          "r2_gamma_vs_ADD": {
+            "point": 0.007177901164986622,
+            "ci95": [
+              -0.0007354810132840006,
+              0.012578047638511242
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ORACLE-TRSC": {
+          "rmse": 0.7435721224004234,
+          "r2_gamma_vs_ADD": {
+            "point": 0.35143148359127496,
+            "ci95": [
+              0.30592139968842585,
+              0.38238492513252115
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        }
+      },
+      "contrasts": {
+        "Delta_deploy__LIG_minus_SEC": {
+          "point": -0.025777969183614007,
+          "ci95": [
+            -0.15628496836608852,
+            0.08622798733370547
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.9004333883438588,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_interaction__ADD_minus_SEC": {
+          "point": 0.015933789488783514,
+          "ci95": [
+            0.006466490553145442,
+            0.02274268002950481
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.9233049580267616,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_zero__ZERO_minus_SEC": {
+          "point": 0.007141461744886234,
+          "ci95": [
+            0.0003527170385626758,
+            0.010971507565596953
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.9185312829582358,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_foreign__FOREIGN_minus_SEC": {
+          "point": 0.003999146465773816,
+          "ci95": [
+            0.0006281481400988221,
+            0.006881071126503995
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.9168191765521652,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_perm__PERM_minus_SEC": {
+          "point": 0.010539054887963235,
+          "ci95": [
+            0.0024535155997659677,
+            0.015232152528933044
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.9203788953012665,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_randcorr__RANDCORR_minus_SEC": {
+          "point": 0.009814685842126681,
+          "ci95": [
+            0.0018489650376143248,
+            0.014267422624682719
+          ],
+          "rmse_a": 0.9146355864649136,
+          "rmse_b": 0.919985294377113,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_oracle__ADD_minus_ORACLE": {
+          "point": 0.29959254430572974,
+          "ci95": [
+            0.21890443481109137,
+            0.3543702762031718
+          ],
+          "rmse_a": 0.7435721224004234,
+          "rmse_b": 0.9233049580267616,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_strict__ADD_minus_SECUHATSUP": {
+          "point": 0.013102699740856228,
+          "ci95": [
+            0.007100866223972012,
+            0.018076252649310797
+          ],
+          "rmse_a": 0.9161819392325652,
+          "rmse_b": 0.9233049580267616,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    },
+    "4": {
+      "identified_section_dim_measured": 2.998639455782313,
+      "max_identifiable_dim_min_k_minus_1_d": 3,
+      "frac_underidentified": 0.0013605442176870747,
+      "median_condition_number": 9.185817150264835,
+      "mean_query_coverage": 0.9997082245147652,
+      "coverage_percentiles": [
+        0.9999999999999991,
+        0.9999999999999996,
+        0.9999999999999998,
+        1.0,
+        1.0
+      ],
+      "n_tasks": 735,
+      "arms": {
+        "P0": {
+          "rmse": 0.9921110278260732,
+          "r2_gamma_vs_ADD": {
+            "point": -0.24709540666415197,
+            "ci95": [
+              -0.3470387242590092,
+              -0.10972224126020393
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "LIG": {
+          "rmse": 0.9004601909678719,
+          "r2_gamma_vs_ADD": {
+            "point": -0.027325718672670973,
+            "ci95": [
+              -0.12799163489507226,
+              0.13719774950697727
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ADD": {
+          "rmse": 0.888403860862781,
+          "r2_gamma_vs_ADD": null
+        },
+        "ZERO": {
+          "rmse": 0.8844222625542676,
+          "r2_gamma_vs_ADD": {
+            "point": 0.008943401153856723,
+            "ci95": [
+              0.0031455968234927996,
+              0.014768389797955033
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC": {
+          "rmse": 0.8781383010572711,
+          "r2_gamma_vs_ADD": {
+            "point": 0.022976600341417353,
+            "ci95": [
+              0.014430896181192029,
+              0.02754226379921715
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC-UHATSUP": {
+          "rmse": 0.879470031032061,
+          "r2_gamma_vs_ADD": {
+            "point": 0.02001096735786667,
+            "ci95": [
+              0.013022696275380052,
+              0.023912130425374115
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "PERM": {
+          "rmse": 0.8860054092613007,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0053921738067884695,
+            "ci95": [
+              -0.005284018792417261,
+              0.014271636305741261
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "FOREIGN": {
+          "rmse": 0.8820054457362013,
+          "r2_gamma_vs_ADD": {
+            "point": 0.01435242291158667,
+            "ci95": [
+              0.008890852891031887,
+              0.018045002380625536
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "RANDCORR": {
+          "rmse": 0.8869582457583212,
+          "r2_gamma_vs_ADD": {
+            "point": 0.0032517619792317154,
+            "ci95": [
+              -0.004063290556737792,
+              0.009535503098260232
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ORACLE-TRSC": {
+          "rmse": 0.7435622618464509,
+          "r2_gamma_vs_ADD": {
+            "point": 0.29949086166521977,
+            "ci95": [
+              0.24468984436922883,
+              0.3253110694332799
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        }
+      },
+      "contrasts": {
+        "Delta_deploy__LIG_minus_SEC": {
+          "point": 0.03970167973414588,
+          "ci95": [
+            -0.08928838437680227,
+            0.14190302200779423
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.9004601909678719,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_interaction__ADD_minus_SEC": {
+          "point": 0.01813454421214525,
+          "ci95": [
+            0.010285199483837479,
+            0.024477088034968852
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.8884038608627811,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_zero__ZERO_minus_SEC": {
+          "point": 0.011075862717859378,
+          "ci95": [
+            0.0016050329205730277,
+            0.016512642934539554
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.8844222625542676,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_foreign__FOREIGN_minus_SEC": {
+          "point": 0.006806730524564771,
+          "ci95": [
+            0.0023189210284188066,
+            0.010837663583760164
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.8820054457362013,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_perm__PERM_minus_SEC": {
+          "point": 0.013878709456534728,
+          "ci95": [
+            0.0037977460608113107,
+            0.019367376492223608
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.8860054092613008,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_randcorr__RANDCORR_minus_SEC": {
+          "point": 0.015568053934928144,
+          "ci95": [
+            0.003932950857937693,
+            0.02203943055124728
+          ],
+          "rmse_a": 0.8781383010572711,
+          "rmse_b": 0.8869582457583213,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_oracle__ADD_minus_ORACLE": {
+          "point": 0.2363765827536857,
+          "ci95": [
+            0.1588541507103349,
+            0.2957507561201208
+          ],
+          "rmse_a": 0.7435622618464508,
+          "rmse_b": 0.8884038608627811,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_strict__ADD_minus_SECUHATSUP": {
+          "point": 0.01579388451236133,
+          "ci95": [
+            0.008544220121225278,
+            0.0224672946506273
+          ],
+          "rmse_a": 0.879470031032061,
+          "rmse_b": 0.8884038608627811,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    },
+    "5": {
+      "identified_section_dim_measured": 3.0,
+      "max_identifiable_dim_min_k_minus_1_d": 3,
+      "frac_underidentified": 0.0,
+      "median_condition_number": 4.832872855438211,
+      "mean_query_coverage": 1.0,
+      "coverage_percentiles": [
+        0.9999999999999994,
+        0.9999999999999997,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_tasks": 735,
+      "arms": {
+        "P0": {
+          "rmse": 0.9921953696692545,
+          "r2_gamma_vs_ADD": {
+            "point": -0.3096604786217283,
+            "ci95": [
+              -0.4110301008944881,
+              -0.1704404570231264
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "LIG": {
+          "rmse": 0.9004813922125231,
+          "r2_gamma_vs_ADD": {
+            "point": -0.07873263060058977,
+            "ci95": [
+              -0.17763602709791593,
+              0.08933155809009755
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ADD": {
+          "rmse": 0.8669974795012223,
+          "r2_gamma_vs_ADD": null
+        },
+        "ZERO": {
+          "rmse": 0.8642616723013465,
+          "r2_gamma_vs_ADD": {
+            "point": 0.006301035123926546,
+            "ci95": [
+              0.00224246952447682,
+              0.010394351898132129
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC": {
+          "rmse": 0.8561702075933785,
+          "r2_gamma_vs_ADD": {
+            "point": 0.024820522277208545,
+            "ci95": [
+              0.011417409894407423,
+              0.03211158121231771
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "SEC-UHATSUP": {
+          "rmse": 0.85701630878296,
+          "r2_gamma_vs_ADD": {
+            "point": 0.022892148205598928,
+            "ci95": [
+              0.01139069265072642,
+              0.029288232282636707
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "PERM": {
+          "rmse": 0.8678718269457831,
+          "r2_gamma_vs_ADD": {
+            "point": -0.0020179720128448153,
+            "ci95": [
+              -0.009288741450224736,
+              0.006387526764723698
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "FOREIGN": {
+          "rmse": 0.8610850024445068,
+          "r2_gamma_vs_ADD": {
+            "point": 0.01359246634314748,
+            "ci95": [
+              0.007862972795523008,
+              0.01652225043074045
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "RANDCORR": {
+          "rmse": 0.8674413662209354,
+          "r2_gamma_vs_ADD": {
+            "point": -0.0010242252396752693,
+            "ci95": [
+              -0.006639351726866493,
+              0.005678747350315274
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        },
+        "ORACLE-TRSC": {
+          "rmse": 0.743615782853224,
+          "r2_gamma_vs_ADD": {
+            "point": 0.2643664499238567,
+            "ci95": [
+              0.20411547273940125,
+              0.2931568158727184
+            ],
+            "ci_source": "widest of 2 clusterings"
+          }
+        }
+      },
+      "contrasts": {
+        "Delta_deploy__LIG_minus_SEC": {
+          "point": 0.07783931335051511,
+          "ci95": [
+            -0.05421756354759275,
+            0.18769342970027533
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.9004813922125231,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_interaction__ADD_minus_SEC": {
+          "point": 0.01865720509098374,
+          "ci95": [
+            0.007636951999219414,
+            0.026128018806647533
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.8669974795012223,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_zero__ZERO_minus_SEC": {
+          "point": 0.01392081383863132,
+          "ci95": [
+            0.0015094386787232383,
+            0.021160669228761326
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.8642616723013465,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_foreign__FOREIGN_minus_SEC": {
+          "point": 0.008439957064367403,
+          "ci95": [
+            0.0016234303294467675,
+            0.012762032809191953
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.8610850024445067,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_specific_perm__PERM_minus_SEC": {
+          "point": 0.020174083635722595,
+          "ci95": [
+            0.003746860105528786,
+            0.02973012544687322
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.8678718269457831,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_randcorr__RANDCORR_minus_SEC": {
+          "point": 0.01942709946075415,
+          "ci95": [
+            0.00410553889716513,
+            0.02824200328629941
+          ],
+          "rmse_a": 0.8561702075933785,
+          "rmse_b": 0.8674413662209354,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_oracle__ADD_minus_ORACLE": {
+          "point": 0.19872019695305917,
+          "ci95": [
+            0.13820621944768507,
+            0.24841458123007978
+          ],
+          "rmse_a": 0.743615782853224,
+          "rmse_b": 0.8669974795012223,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        },
+        "Delta_strict__ADD_minus_SECUHATSUP": {
+          "point": 0.017207675941502715,
+          "ci95": [
+            0.007549084219041639,
+            0.02636623780672395
+          ],
+          "rmse_a": 0.85701630878296,
+          "rmse_b": 0.8669974795012223,
+          "units": 8,
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    }
+  },
+  "rank_sweep_at_k5": {
+    "1": {
+      "SEC_r2": {
+        "point": 0.019260903214387337,
+        "ci95": [
+          0.008230108833654885,
+          0.024868541298844367
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "2": {
+      "SEC_r2": {
+        "point": 0.024191962062871775,
+        "ci95": [
+          0.010599657971676932,
+          0.03168068070218162
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "3": {
+      "SEC_r2": {
+        "point": 0.024820522277208545,
+        "ci95": [
+          0.011417409894407423,
+          0.03211158121231771
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "5": {
+      "SEC_r2": {
+        "point": 0.02216286602599926,
+        "ci95": [
+          0.011038408032980465,
+          0.02788018803513725
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    }
+  }
+}

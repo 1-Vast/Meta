@@ -1,0 +1,176 @@
+{
+  "stage": "XP2-E",
+  "closure": "double",
+  "rank": 3,
+  "k": 5,
+  "ligand_arm": "L-ECFP",
+  "arms": {
+    "ADD": {
+      "rmse": 0.949255812414182,
+      "cells": 29220
+    },
+    "SUP": {
+      "rmse": 0.9416893076286068,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.01587843537048972,
+        "ci95": [
+          0.005962500801677143,
+          0.020547985917134814
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-ESM": {
+      "rmse": 0.9486120276405348,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.0013559389534198996,
+        "ci95": [
+          -0.002769734247387012,
+          0.006978208358522793
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-POCKET": {
+      "rmse": 0.9482282588130854,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.0021637949072089713,
+        "ci95": [
+          -0.003539523929474958,
+          0.009148256332026183
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-GROUP": {
+      "rmse": 0.9481543795247381,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.002319277632352512,
+        "ci95": [
+          -0.0019180080874023674,
+          0.008049746076646661
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-ESM+SUP": {
+      "rmse": 0.9412745081204921,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.016745224940795556,
+        "ci95": [
+          0.005662332423865812,
+          0.02157297681984596
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-POCKET+SUP": {
+      "rmse": 0.9410933967131486,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.01712356626932643,
+        "ci95": [
+          0.005576525180465611,
+          0.02186243957508874
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PROT-RANDOM": {
+      "rmse": 0.9491511080478332,
+      "cells": 29220,
+      "r2_gamma_vs_ADD": {
+        "point": 0.00022059088910220126,
+        "ci95": [
+          -0.0018258636211692992,
+          0.0029811326110115305
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    }
+  },
+  "contrasts": {
+    "Delta__ADD_minus_SUP": {
+      "point": 0.01430784530006384,
+      "ci95": [
+        0.004839878809886952,
+        0.01850076664426629
+      ],
+      "rmse_a": 0.9416893076286068,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-ESM": {
+      "point": 0.0012218184178221085,
+      "ci95": [
+        -0.00235501137997468,
+        0.007034880800519574
+      ],
+      "rmse_a": 0.9486120276405346,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-POCKET": {
+      "point": 0.0019497665904129587,
+      "ci95": [
+        -0.0029060814199549077,
+        0.009033814821199207
+      ],
+      "rmse_a": 0.9482282588130854,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-GROUP": {
+      "point": 0.002089869990167326,
+      "ci95": [
+        -0.0016171165439278728,
+        0.007855487350394801
+      ],
+      "rmse_a": 0.9481543795247381,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-ESM+SUP": {
+      "point": 0.015088897764634393,
+      "ci95": [
+        0.004977471372638135,
+        0.019445872426824825
+      ],
+      "rmse_a": 0.9412745081204921,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-POCKET+SUP": {
+      "point": 0.015429816065016899,
+      "ci95": [
+        0.004744256195649674,
+        0.020003496952456297
+      ],
+      "rmse_a": 0.9410933967131486,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta__ADD_minus_PROT-RANDOM": {
+      "point": 0.00019877149367897,
+      "ci95": [
+        -0.0014754582750775035,
+        0.002938017133511926
+      ],
+      "rmse_a": 0.9491511080478332,
+      "rmse_b": 0.949255812414182,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+Some weights of EsmModel were not initialized from the model checkpoint at facebook/esm2_t30_150M_UR50D and are newly initialized: ['esm.pooler.dense.bias', 'esm.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+--- XP2-E biological landing (double closure, d=3, k=5) ---
+  ADD                RMSE=0.9493  R2_gamma vs ADD (baseline)
+  SUP                RMSE=0.9417  R2_gamma vs ADD +0.0159 [+0.0060,+0.0205]
+  PROT-ESM           RMSE=0.9486  R2_gamma vs ADD +0.0014 [-0.0028,+0.0070]
+  PROT-POCKET        RMSE=0.9482  R2_gamma vs ADD +0.0022 [-0.0035,+0.0091]
+  PROT-GROUP         RMSE=0.9482  R2_gamma vs ADD +0.0023 [-0.0019,+0.0080]
+  PROT-ESM+SUP       RMSE=0.9413  R2_gamma vs ADD +0.0167 [+0.0057,+0.0216]
+  PROT-POCKET+SUP    RMSE=0.9411  R2_gamma vs ADD +0.0171 [+0.0056,+0.0219]
+  PROT-RANDOM        RMSE=0.9492  R2_gamma vs ADD +0.0002 [-0.0018,+0.0030]
+wrote D:\MetaSieve\report\crossed_panel_deployability\XP2E_BIOLOGICAL_LANDING.json

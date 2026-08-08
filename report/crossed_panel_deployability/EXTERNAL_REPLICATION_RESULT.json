@@ -1,0 +1,136 @@
+{
+  "stage": "XP2-F",
+  "external_panel": {
+    "panel": "BLK-KLAEGER-XP2",
+    "n_drugs": 142,
+    "n_kinases": 106,
+    "measured_cells": 2838,
+    "density": 0.1885463725750731,
+    "n_scaffolds": 133,
+    "floor": 5.0,
+    "endpoint": "pKd_app (kinobeads); cells at the 5.0 floor are excluded, mirroring the measured-only convention used on Metz",
+    "drugs_unresolved_structure": 3,
+    "kinases_without_klifs": 126
+  },
+  "source_panel": "BLK-METZ-XP2",
+  "conclusion_1_direction_transfer": {
+    "arms": {
+      "P0": {
+        "rmse": 0.8768058619277083,
+        "cells": 7568,
+        "r2_gamma_vs_ADD": {
+          "point": 0.11200663250807685,
+          "ci95": [
+            -0.05101160318111533,
+            0.25104081106417014
+          ],
+          "ci_source": "widest of 2 clusterings"
+        }
+      },
+      "LIG": {
+        "rmse": 0.8863796450277995,
+        "cells": 7568,
+        "r2_gamma_vs_ADD": {
+          "point": 0.09250888580515682,
+          "ci95": [
+            0.04523152483241071,
+            0.14545737744886686
+          ],
+          "ci_source": "widest of 2 clusterings"
+        }
+      },
+      "ADD": {
+        "rmse": 0.930461876531403,
+        "cells": 7568
+      },
+      "SEC": {
+        "rmse": 0.9286011670380137,
+        "cells": 7568,
+        "r2_gamma_vs_ADD": {
+          "point": 0.003995540376270701,
+          "ci95": [
+            -0.0025767296589028765,
+            0.009557495503730052
+          ],
+          "ci_source": "widest of 2 clusterings"
+        }
+      },
+      "FOREIGN": {
+        "rmse": 0.9302140690244659,
+        "cells": 7568,
+        "r2_gamma_vs_ADD": {
+          "point": 0.0005325839010066336,
+          "ci95": [
+            -0.006856964821052964,
+            0.0071999910489452985
+          ],
+          "ci_source": "widest of 2 clusterings"
+        }
+      },
+      "PERM": {
+        "rmse": 0.934387139422413,
+        "cells": 7568,
+        "r2_gamma_vs_ADD": {
+          "point": -0.008455032026291498,
+          "ci95": [
+            -0.014405317581460863,
+            -0.0019035645846126462
+          ],
+          "ci_source": "widest of 2 clusterings"
+        }
+      }
+    },
+    "contrasts": {
+      "Delta_interaction__ADD_minus_SEC": {
+        "point": 0.0034591762539787803,
+        "ci95": [
+          -0.0023374694367872973,
+          0.00862848157240672
+        ],
+        "rmse_a": 0.9286011670380137,
+        "rmse_b": 0.930461876531403,
+        "units": 7,
+        "ci_source": "widest of 2 clusterings"
+      },
+      "Delta_specific_foreign__FOREIGN_minus_SEC": {
+        "point": 0.0029980867866929435,
+        "ci95": [
+          -0.003045318577392263,
+          0.00903605411141903
+        ],
+        "rmse_a": 0.9286011670380137,
+        "rmse_b": 0.9302140690244659,
+        "units": 7,
+        "ci_source": "widest of 2 clusterings"
+      },
+      "Delta_specific_perm__PERM_minus_SEC": {
+        "point": 0.010779198893638955,
+        "ci95": [
+          0.002256257990076484,
+          0.019693077270373237
+        ],
+        "rmse_a": 0.9286011670380137,
+        "rmse_b": 0.934387139422413,
+        "units": 7,
+        "ci_source": "widest of 2 clusterings"
+      },
+      "Delta_deploy__LIG_minus_SEC": {
+        "point": -0.07663125230475287,
+        "ci95": [
+          -0.12184116384637513,
+          -0.0369516911279215
+        ],
+        "rmse_a": 0.9286011670380137,
+        "rmse_b": 0.8863796450277996,
+        "units": 7,
+        "ci_source": "widest of 2 clusterings"
+      }
+    }
+  },
+  "conclusion_2_basis_transfer": {
+    "affine_a": 4.205008247595203,
+    "affine_b": 0.33164297249882474,
+    "fitted_on": "external calibration scaffold components only",
+    "note": "reported separately; never merged with conclusion 1"
+  }
+}

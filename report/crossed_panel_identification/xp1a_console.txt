@@ -1,0 +1,52 @@
+==============================================================================
+XP1-A  release verification
+  metz_matrix.csv        sha256 match = True
+  klaeger_matrix.csv     sha256 match = True
+  KiDatabase.csv         sha256 match = True
+
+==============================================================================
+XP1-A1  variance decomposition + XP1-A2 in-matrix rank curve
+
+[BLK-METZ-60] two-way decomposition on 34764 observed cells
+   sd(y)=0.905  sd(alpha)=0.508 sd(beta)=0.330  sd(gamma+eps)=0.699
+   variance share  ligand=0.283  protein=0.131  interaction+noise=0.596
+
+[BLK-METZ-70] two-way decomposition on 20254 observed cells
+   sd(y)=0.933  sd(alpha)=0.543 sd(beta)=0.290  sd(gamma+eps)=0.717
+   variance share  ligand=0.327  protein=0.093  interaction+noise=0.590
+
+  random-cell 5-fold CV, additive vs additive+rank r
+   additive RMSE = 0.7174 log units
+   rank   1: RMSE=0.6392  R2_gamma=+0.2060   per-fold MSE gain +0.10602 [+0.09923,+0.11280]
+   rank   2: RMSE=0.6236  R2_gamma=+0.2444   per-fold MSE gain +0.12577 [+0.12074,+0.13079]
+   rank   3: RMSE=0.6088  R2_gamma=+0.2799   per-fold MSE gain +0.14404 [+0.13593,+0.15215]
+   rank   5: RMSE=0.5900  R2_gamma=+0.3236   per-fold MSE gain +0.16654 [+0.15731,+0.17577]
+   rank   8: RMSE=0.5755  R2_gamma=+0.3564   per-fold MSE gain +0.18342 [+0.17721,+0.18963]
+   rank  12: RMSE=0.5663  R2_gamma=+0.3769   per-fold MSE gain +0.19395 [+0.18428,+0.20362]
+   rank  20: RMSE=0.5648  R2_gamma=+0.3801   per-fold MSE gain +0.19562 [+0.18526,+0.20599]
+   rank  30: RMSE=0.5712  R2_gamma=+0.3660   per-fold MSE gain +0.18836 [+0.17275,+0.20397]
+
+==============================================================================
+XP1-A3  protein-side interaction geometry: disjoint compound halves (Metz)
+   kinase pairs compared: 3321
+   Pearson r = 0.8849   Spearman = 0.8688
+   label-permutation null |r|: mean 0.0133, p95 0.0331, p = 0
+   [raw, main effects retained] Pearson r = 0.8570  perm p = 0
+
+==============================================================================
+XP1-A4  cross-platform replication: Metz (pKi) vs Klaeger (kinobeads)
+   shared kinases usable in both panels: 48
+   kinase pairs compared: 1128
+   Pearson r = 0.5650   Spearman = 0.4938
+   label-permutation null |r|: mean 0.0237, p95 0.0589, p = 0
+
+==============================================================================
+XP1-A5  measurement-noise ceiling from PDSP independent replicates
+   human uncensored rows 25022, cells 18603, replicated cells 2490
+   replicate half-split pairs: 2490
+   sd(h1-h2) = 1.0103 log units -> per-report sigma ~ 0.7144
+   r(h1,h2) = 0.7270
+
+   KLIFS pocket coverage of BLK-METZ-60: 82/82; missing=[]
+
+wrote D:\MetaSieve\report\crossed_panel_identification\xp1a_existence.json

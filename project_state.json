@@ -38,7 +38,19 @@
     "PKIS_MECHANISM_V2": "DEVELOPMENT_TRANSFER_MIXED_NO_PRODUCTION_ADMISSION",
     "SECTION_OPERATOR_F6I": "COMPONENT_IDENTIFIABILITY_OBSERVED_TOTAL_GATE_NOT_ADMISSIBLE",
     "SECTION_LAW_BRIDGE": "RESEARCH_INVARIANTS_PASS_NOT_FROZEN_OPERATOR_EQUIVALENT",
-    "FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION": "NOT_REGISTERED"
+    "FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION": "NOT_REGISTERED",
+    "XP1_CROSSED_PANEL_A_EXISTENCE": "CROSSED_INTERACTION_EXISTENCE_IDENTIFIED_TWO_PLATFORMS",
+    "XP1_CROSSED_PANEL_B_TRANSFER": "SUPPORT_IDENTIFIED_SECTION_PASSES_GATE_ON_PRIMARY_PANEL",
+    "XP1_CROSSED_PANEL_B_ZERO_SHOT": "PROTEIN_FEATURE_INTERACTION_MAP_NOT_IDENTIFIED_AT_GROUP_CLOSURE",
+    "XP1_CROSSED_PANEL_C_PDSP": "DIRECTIONAL_REPLICATION_EFFECT_BELOW_NEGLIGIBILITY_FLOOR",
+    "XP1_CROSSED_PANEL_E_TRUNCATION": "DESTRUCTIVE_CONTROL_PASSED_ARTEFACT_FALSIFIED",
+    "XP2_A_REPRODUCTION": "XP1_EVIDENCE_REPRODUCED_18_OF_18_CHECKS",
+    "XP2_B_LIGAND_LANDING": "LIGAND_LOADING_RECOVERABILITY_OBSERVED",
+    "XP2_C_K_LE_5": "K_LE_5_SECTION_NOT_IDENTIFIED_BELOW_FROZEN_FLOOR",
+    "XP2_D_DOUBLE_HELD_OUT": "SPECIFICITY_LOST_RANDOM_FEATURES_REPRODUCE_GAIN",
+    "XP2_E_BIOLOGICAL_LANDING": "BIOLOGICAL_LANDING_NOT_IDENTIFIED",
+    "XP2_F_EXTERNAL_REPLICATION": "EXTERNAL_REPLICATION_FAILED",
+    "XP2_G_THEORY_INTERFACE": "CONDITIONAL_REQUIRES_GAUGE_RADIUS_AND_KAPPA_PLACEMENT"
   },
   "historical_verdict_annotations": {
     "P1R2B_E_AFF_X0": {
@@ -71,7 +83,8 @@
       "verdict_unchanged": true,
       "annotation": "COMPONENT_LEVEL_DEVELOPMENT_EVIDENCE_ONLY",
       "detail": "The supplied F6I package separates a source-atlas protein-dependent surface from a one-dimensional support location statistic and shows positive component contrasts on consumed kinase panels. Its registered total verdict remains F6I_COMPONENTS_NOT_ADMISSIBLE because the Anastassiadis nearest-protein raw-MSE contrast reverses slightly. PKIS2 and Anastassiadis are consumed development panels; no fresh endpoint-consistent production admission has run.",
-      "reclassified_as_pass": false
+      "reclassified_as_pass": false,
+      "xp1_mechanism_note": "XP1 supplies the mechanism behind the registered F6I NOT_ADMISSIBLE verdict: on an independent complete crossed panel under strict kinase-group closure the zero-shot protein-dependent surface contributes R2_gamma = 0.020 [-0.016, +0.058] while the support-location term generalised to a rank-1..3 section contributes +0.160 [+0.109, +0.195] and is target-specific (+0.0695 [+0.0524, +0.0874] against a deranged-support control). The F6I total verdict is NOT reclassified."
     }
   },
   "current_scientific_state": [
@@ -80,10 +93,19 @@
     "FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN",
     "WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED",
     "PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED",
-    "CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED",
+    "CROSSED_INTERACTION_EXISTENCE_IDENTIFIED_XP1",
+    "INTERACTION_IS_LOW_RANK_r1_TO_r3_XP1",
+    "SUPPORT_IDENTIFIED_INTERACTION_SECTION_TRANSFERS_TO_UNSEEN_KINASE_GROUPS_XP1",
+    "ZERO_SHOT_PROTEIN_FEATURE_INTERACTION_MAP_NOT_IDENTIFIED_XP1",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
-    "NO_VALIDATED_END_TO_END_DTA_MODEL"
+    "NO_VALIDATED_END_TO_END_DTA_MODEL",
+    "LIGAND_LOADING_RECOVERABILITY_OBSERVED_XP2",
+    "K_LE_5_SECTION_NOT_IDENTIFIED_XP2",
+    "DOUBLE_HELD_OUT_SECTION_NOT_IDENTIFIED_XP2",
+    "BIOLOGICAL_LANDING_NOT_IDENTIFIED_XP2",
+    "EXTERNAL_REPLICATION_FAILED_XP2",
+    "PROBABILITY_LAW_OPERATOR_NOT_SCORED"
   ],
   "estimand_separation": {
     "claim_a": "does the correct protein provide affinity-location information beyond population, ligand-only and protein-sequence-only baselines",
@@ -139,5 +161,41 @@
     "fraction_of_assay_noise": 0.0713,
     "closure_components": 78,
     "meaning": "ligand identity, the easiest available signal, is worth about 7% of assay noise for cross-component absolute-location prediction in governed ChEMBL37 Ki and is not separable from zero at this panel size; this bounds any L0-style Gate"
+  },
+  "xp1_decision": {
+    "final": "OBJECTIVE_OR_PARAMETERIZATION_FAILURE",
+    "secondary": "REPRESENTATION_FAILURE_ZERO_SHOT_PROTEIN_PATHWAY_ONLY",
+    "rejected": "DATA_IDENTIFIABILITY_FAILURE",
+    "report": "report/crossed_panel_identification/XP1_RESEARCH_REPORT.md",
+    "prereg": "research/crossed_panel_identification/PREREG_XP1.md",
+    "next_registered": "XP2_LIGAND_SIDE_TRANSPOSE_UNSEEN_LIGAND_LOADING"
+  },
+  "external_panels_acquired": {
+    "P-METZ": "abe1e3c580478775a352ec5ee78ca565d4c863f0e3e642fdb21d956d8f9d4375",
+    "P-KLAEGER": "cdf66c7d4e7c1e3a35aeb6995abbfdaf15be80f3e07715524b2bb4449d871010",
+    "P-PDSP": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+    "A-KLAEGER-STRUCTURES": "4afbd6dc65661e26f6e9932d57b2c0859fac1dd5fdd0be6919f908ee686494b9"
+  },
+  "xp2_decision": {
+    "terminal": [
+      "CROSSED_INTERACTION_REPRODUCED",
+      "K_LE_5_SECTION_NOT_IDENTIFIED",
+      "PANEL_LOCAL_LOW_RANK_META_LEARNING",
+      "BIOLOGICAL_LANDING_NOT_IDENTIFIED",
+      "EXTERNAL_REPLICATION_FAILED"
+    ],
+    "refused": [
+      "DEPLOYABLE_SECTION_STATISTIC_IDENTIFIED",
+      "DOUBLE_HELD_OUT_SECTION_IDENTIFIED"
+    ],
+    "not_applicable": [
+      "LIGAND_SIDE_DEPLOYMENT_REPRESENTATION_FAILED",
+      "XP1_EVIDENCE_NOT_REPRODUCIBLE"
+    ],
+    "gate_conditions_passed": 2,
+    "gate_conditions_scored": 7,
+    "report": "report/crossed_panel_deployability/XP2_FINAL_REPORT.md",
+    "prereg": "research/crossed_panel_deployability/PREREG_XP2.md",
+    "probability_law_operator_scored": false
   }
 }

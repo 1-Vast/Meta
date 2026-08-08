@@ -13,7 +13,11 @@ F6I_TOTAL_GATE_NOT_ADMISSIBLE
 FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN
 WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED
 PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+CROSSED_INTERACTION_EXISTENCE_IDENTIFIED_XP1_EXTERNAL_PANELS
+INTERACTION_IS_LOW_RANK_r1_TO_r3_XP1
+SUPPORT_IDENTIFIED_INTERACTION_SECTION_TRANSFERS_XP1
+ZERO_SHOT_PROTEIN_FEATURE_INTERACTION_MAP_NOT_IDENTIFIED_XP1
+UNSEEN_LIGAND_LOADING_NOT_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
@@ -37,8 +41,14 @@ PKIS/F6I COMPONENT DECOMPOSITION OBSERVED ON CONSUMED DEVELOPMENT PANELS
 F6I TOTAL GATE NOT ADMISSIBLE
 RESEARCH LAW BRIDGE TESTED; NOT PRODUCTION OPERATOR EQUIVALENCE
 X1/X2, ANGULAR BASIS, RFSA, DAVIS, P2-P4 FROZEN
+XP1-A CROSSED INTERACTION EXISTENCE IDENTIFIED ON TWO PLATFORMS
+XP1-B SUPPORT-IDENTIFIED SECTION PASSES GATE; ZERO-SHOT SURFACE DOES NOT
+XP1-C PDSP REPLICATION DIRECTIONAL, EFFECT BELOW NEGLIGIBILITY FLOOR
+XP1-D REPRESENTATION FAILURE LOCALISED TO CROSS-GROUP TRANSFER
+XP1-E TRUNCATION DESTRUCTIVE CONTROL PASSED
 RECIPIENT_LABEL_READS=0
 DAVIS_LABEL_READS=0
+CHEMBL37_AFFINITY_VALUE_READS_IN_XP1=0
 ```
 
 ## Two Separate Claims
@@ -80,21 +90,56 @@ effective sample size, leaving the frozen effect size, alpha, power, 245
 requirement and `+0.03` affinity margins unchanged. Its verdict is **conditional
 design support**, not evidence that affinity interaction exists.
 
+## XP1 Crossed-Panel Identification (2026-08-08)
+
+Registered in `research/crossed_panel_identification/PREREG_XP1.md`, reported in
+`report/crossed_panel_identification/XP1_RESEARCH_REPORT.md`. Three external
+complete crossed panels acquired (Metz 2011, Klaeger 2017, NIMH PDSP). DAVIS,
+PKIS2 and Anastassiadis excluded. No ChEMBL37 affinity value read.
+
+```text
+XP1 DECISION: OBJECTIVE_OR_PARAMETERIZATION_FAILURE
+  secondary REPRESENTATION_FAILURE (zero-shot protein pathway only)
+  DATA_IDENTIFIABILITY_FAILURE REJECTED
+```
+
+- Protein-by-ligand interaction is `59.6%` of panel affinity variance; `38%` of
+  the residual is reproducible; geometry replicates at `r=0.885` across disjoint
+  compound halves and `r=0.565` across an independent platform.
+- Under strict kinase-group closure, a rank-1..3 section identified from `k=16`
+  support labels reaches `R2_gamma = +0.160 [+0.109, +0.195]` and is
+  target-specific: `+0.0695 [+0.0524, +0.0874]` against deranged support.
+- Every zero-shot protein representation — ESM-2 t30 (production encoder),
+  aligned KLIFS pocket, pocket physicochemistry, KLIFS conformational state,
+  family, group, homolog kNN — is indistinguishable from a random-feature null at
+  group closure, while the aligned pocket reaches `R2 = 0.52` leave-one-protein-out.
+  This is `PARTNER_COMPATIBILITY` measured, not affinity direction.
+- Destructive control: a synthetic additive panel with identical margins, noise
+  and 40% truncation yields `Delta_specific = +0.00004 [-0.0005, +0.0011]`.
+
+Candidate statistic `z_section = <u(L), vhat(S)>` (a bounded scalar, one CSMO
+view) passes the registered Gate on the primary panel; PDSP replication is
+directional only (`R2_gamma = 0.024`, below the preregistered floor). It is
+**not** promoted to production `z`. Named continuation is `XP2`: the transpose,
+holding out ligands, testing whether `u(L)` is predictable from chemistry.
+
 ## Read Order
 
-1. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
-2. `task.md`
-3. `experiment.md`
-4. `report/VERIFIED_EVIDENCE_SUMMARY.md`
-5. `history.md`
+1. `report/crossed_panel_identification/XP1_RESEARCH_REPORT.md`
+2. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
+3. `task.md`
+4. `experiment.md`
+5. `report/VERIFIED_EVIDENCE_SUMMARY.md`
+6. `history.md`
 
 ## Code Boundaries
 
 - `model/` has verified mathematical primitives and P1B geometry only.
 - `scripts/` has passed data, geometry, and governance workflows only.
-- `research/` contains only the policy boundary for future preregistered work.
-  Terminal research implementations and artifacts were removed after their
-  conclusions were consolidated in `history.md`.
+- `research/` contains the policy boundary plus the registered XP1 package in
+  `research/crossed_panel_identification/`. Terminal pre-XP1 research
+  implementations and artifacts were removed after their conclusions were
+  consolidated in `history.md`.
 - `model/component_statistic.py` retains only the gauge-separated algebra from
   F6I and is deliberately not exported or connected to the production state.
 - `report/` retains only current protocol and PASS evidence.
@@ -124,4 +169,14 @@ modify the frozen mathematical operator without a new explicit registration.
   variance share up to `0.985`.
 - Removed PKIS/F6I research package: isolated `39 passed`, recoverable at
   `8b7789e`.
-- Consolidated repository regression: `73 passed` in the `drug` environment.
+- Consolidated repository regression: `73 passed` in the `drug` environment,
+  re-verified after XP1.
+- XP1 `BLK-METZ-60`: 704 compounds x 82 kinases, 34,764 uncensored cells;
+  variance shares ligand `0.283`, protein `0.131`, interaction+noise `0.596`.
+- XP1 reproducible interaction sd `0.442` log units, saturating near rank 12-20.
+- XP1 group-closure arms: `A2` RMSE `0.8021`, `A4` `0.7352`, oracle `AO1`
+  `0.6315`; `A3` best zero-shot `0.7913`.
+- XP1 support-size identification curve `R2_gamma`: `0.052 / 0.092 / 0.160 /
+  0.221 / 0.258` at `k = 4 / 8 / 16 / 32 / 64`.
+- XP1 PDSP measurement noise: per-report `sigma = 0.714` log units over 2,490
+  replicated cells.

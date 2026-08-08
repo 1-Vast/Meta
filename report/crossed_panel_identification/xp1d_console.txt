@@ -1,0 +1,28 @@
+==============================================================================
+D1  leave-one-component-out R^2 for predicting the interaction coordinate V from protein features
+representation                 group    family  pocket60  leave-1-protein
+pocket_identity_kernel       -0.0867   +0.1400   +0.1328          +0.5156
+pocket_onehot                -0.0998   +0.1477   +0.1347          +0.5093
+pocket_physchem              -0.1053   +0.1214   +0.0933          +0.5161
+group_onehot                 -0.1306   +0.0729   +0.0818          +0.2293
+family_onehot                -0.1465   -0.0515   +0.0122          +0.4631
+esm2_t30_fullseq             -0.1338   -0.0592   -0.0495          +0.2928
+esm2_t30_pocket85            -0.1355   -0.0639   -0.0404          +0.3155
+klifs_conformation           -0.1465   +0.0083   -0.0156          +0.0812
+random_gaussian              -0.1520   -0.0575   -0.0626          -0.0249
+
+==============================================================================
+D2  learning curve: does adding training proteins help the zero-shot map?
+  pocket_identity_kernel     n=20: R2=+0.001  n=35: R2=+0.004  n=50: R2=+0.007  n=65: R2=+0.004
+  esm2_t30_fullseq           n=20: R2=-0.208  n=35: R2=-0.395  n=50: R2=-0.420  n=65: R2=-0.278
+  klifs_conformation         n=20: R2=-0.001  n=35: R2=-0.045  n=50: R2=-0.022  n=65: R2=-0.033
+
+==============================================================================
+D3  what is V?
+  in-sample R^2 of V on kinase GROUP  (8 levels): 0.3508
+  in-sample R^2 of V on kinase FAMILY (36 levels): 0.8064
+  top KLIFS pocket positions by in-sample R^2 of V (1-indexed):
+   pos42=0.366, pos54=0.356, pos50=0.334, pos20=0.304, pos22=0.303, pos33=0.300, pos18=0.292, pos51=0.280, pos13=0.272, pos29=0.270
+  mean over all 85 positions: 0.166 (a single 20-level factor on 82 proteins costs ~0.232 R^2 by chance)
+
+wrote D:\MetaSieve\report\crossed_panel_identification\xp1d_statistic.json

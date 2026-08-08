@@ -2,6 +2,52 @@
 
 Updated: 2026-08-08
 
+## 0. XP1 / XP2 External Crossed-Panel Programme (2026-08-08)
+
+```text
+XP1: OBJECTIVE_OR_PARAMETERIZATION_FAILURE
+XP2: CROSSED_INTERACTION_REPRODUCED
+     K_LE_5_SECTION_NOT_IDENTIFIED
+     PANEL_LOCAL_LOW_RANK_META_LEARNING
+     BIOLOGICAL_LANDING_NOT_IDENTIFIED
+     EXTERNAL_REPLICATION_FAILED
+```
+
+XP1 established on external release-pinned panels that a protein-by-ligand
+interaction exists, is large (`59.6%` of panel variance), low-rank, reproducible
+across disjoint compound halves (`r = 0.885`) and across an independent platform
+(`r = 0.565`), and that a support-identified section transfers to unseen kinase
+groups at `k = 16` while no zero-shot protein representation does.
+
+XP2 then tested whether that section is deployable and **closed the mechanism**:
+
+- XP2-A reproduced XP1 from immutable artifacts (18/18 checks) and corrected
+  XP1's single-floor censoring *description* without changing its analysis set.
+- XP2-B **passed**: the ligand loading transfers to unseen Bemis-Murcko
+  scaffolds (`R2 = +0.199 [+0.133, +0.261]` vs random `+0.025`), so `u(L)` is
+  not a lookup table.
+- XP2-C: the identifiable section dimension is exactly `min(k-1, d)` — measured
+  `0,1,2,3,3` at `k = 1..5` — so a frozen `k <= 5` caps it at four and gives
+  **zero** at `k = 1`; magnitude never exceeds `R2_gamma = 0.025` against a
+  frozen `0.05` floor.
+- XP2-D: under simultaneous protein-group and ligand-scaffold closure the
+  derangement, permutation, zero-adaptation and random-correction controls all
+  have intervals containing zero, and **random ligand features reproduce the
+  entire remaining gain**. XP1's specificity was conditional on ligand reuse.
+- XP2-E: every zero-shot protein representation lies within `0.002` of a random
+  protein embedding.
+- XP2-F: direction transfer to Klaeger kinobeads fails
+  (`Delta_interaction = +0.00346 [−0.00234, +0.00863]`).
+
+Nothing was promoted. `model/`, production `scripts/`, `contracts/` and
+`theory/` were not modified; CSMO, Band, `K` and the mesh are untouched; the
+regression suite is `73 passed` before and after. Full record in `history.md`,
+`report/crossed_panel_identification/XP1_RESEARCH_REPORT.md` and
+`report/crossed_panel_deployability/XP2_FINAL_REPORT.md`.
+
+The probability-law operator `K(B(z)F(z))` was **never scored** in either stage.
+Interaction `R2` is not law calibration.
+
 ## 1. Current Scientific Verdict
 
 ```text

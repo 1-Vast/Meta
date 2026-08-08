@@ -1,0 +1,27 @@
+external panel: {
+  "panel": "BLK-KLAEGER-XP2",
+  "n_drugs": 142,
+  "n_kinases": 106,
+  "measured_cells": 2838,
+  "density": 0.1885463725750731,
+  "n_scaffolds": 133,
+  "floor": 5.0,
+  "endpoint": "pKd_app (kinobeads); cells at the 5.0 floor are excluded, mirroring the measured-only convention used on Metz",
+  "drugs_unresolved_structure": 3,
+  "kinases_without_klifs": 126
+}
+
+--- XP2-F conclusion 1: DIRECTION transfer (all source params frozen) ---
+  P0         RMSE=0.8768  R2_gamma vs ADD +0.1120 [-0.0510,+0.2510]
+  LIG        RMSE=0.8864  R2_gamma vs ADD +0.0925 [+0.0452,+0.1455]
+  ADD        RMSE=0.9305  R2_gamma vs ADD (baseline)
+  SEC        RMSE=0.9286  R2_gamma vs ADD +0.0040 [-0.0026,+0.0096]
+  FOREIGN    RMSE=0.9302  R2_gamma vs ADD +0.0005 [-0.0069,+0.0072]
+  PERM       RMSE=0.9344  R2_gamma vs ADD -0.0085 [-0.0144,-0.0019]
+  Delta_interaction__ADD_minus_SEC             +0.00346 [-0.00234,+0.00863]
+  Delta_specific_foreign__FOREIGN_minus_SEC    +0.00300 [-0.00305,+0.00904]
+  Delta_specific_perm__PERM_minus_SEC          +0.01078 [+0.00226,+0.01969]
+  Delta_deploy__LIG_minus_SEC                  -0.07663 [-0.12184,-0.03695]
+
+--- conclusion 2: BASIS transfer affine a=4.205 b=0.332 ---
+wrote D:\MetaSieve\report\crossed_panel_deployability\EXTERNAL_REPLICATION_RESULT.json

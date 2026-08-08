@@ -1,6 +1,6 @@
 # MetaSieve-DTA Experiment History
 
-Last updated: 2026-08-07.
+Last updated: 2026-08-08.
 
 > HISTORICAL EVIDENCE ONLY. This file is not an execution plan.
 >
@@ -2492,3 +2492,167 @@ endpoint-consistent source has demonstrated that the biological surface yields
 a transferable improvement over both ligand-only and wrong-protein controls.
 Consequently affinity energetics and biological-statistic admission to `z`
 remain unidentified.
+
+
+---
+
+## XP1 / XP2 External Crossed-Panel Programme (2026-08-08)
+
+Registered in `research/crossed_panel_identification/PREREG_XP1.md` and
+`research/crossed_panel_deployability/PREREG_XP2.md`. Reports in
+`report/crossed_panel_identification/XP1_RESEARCH_REPORT.md` and
+`report/crossed_panel_deployability/XP2_FINAL_REPORT.md`.
+
+```text
+XP1 DECISION: OBJECTIVE_OR_PARAMETERIZATION_FAILURE
+XP2 DECISION: CROSSED_INTERACTION_REPRODUCED
+              K_LE_5_SECTION_NOT_IDENTIFIED
+              PANEL_LOCAL_LOW_RANK_META_LEARNING
+              BIOLOGICAL_LANDING_NOT_IDENTIFIED
+```
+
+**DATA.** Three external release-pinned panels were acquired. DAVIS, PKIS2 and
+Anastassiadis were excluded by governance and never downloaded. No ChEMBL37
+affinity value was read at any point; DAVIS and recipient label reads remain 0.
+
+| release | SHA-256 | role |
+|---|---|---|
+| `metz.xls` (Metz 2011 Nat Chem Biol Table S1) | `81731c4004823bd45fa3898e25d6491d799dfd0e0486fcc8c9c821f9419dd591` | XP1 provenance; XP2 primary source |
+| `metz_matrix.csv` | `abe1e3c580478775a352ec5ee78ca565d4c863f0e3e642fdb21d956d8f9d4375` | XP1 primary; XP2 cross-check |
+| `aan4368_Table_S2.xlsx` (Klaeger 2017 Science) | `d28b91e62e78e5e011b60da27672875621fef5cdabbea793ac9cce4b98db2c32` | provenance |
+| `klaeger_matrix.csv` | `cdf66c7d4e7c1e3a35aeb6995abbfdaf15be80f3e07715524b2bb4449d871010` | cross-platform replication; XP2-F external |
+| `KiDatabase.csv` (NIMH PDSP) | `45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6` | independent protein class |
+
+**XP1 POSITIVE RESULTS (retained).** On `BLK-METZ-60` (704 x 82, 34,764 measured
+cells) the protein-by-ligand interaction is `59.6%` of affinity variance with
+`38%` of the residual reproducible (implied interaction sd `0.442` log units).
+The protein-side interaction geometry replicates at `r = 0.8849` across disjoint
+compound halves and at `r = 0.5650` across an independent platform with no shared
+compounds (label-permutation `p < 5e-4` in both). Under strict KLIFS-group
+closure a rank-1..3 support-identified section reached `R2_gamma = +0.160
+[+0.109, +0.195]` with derangement specificity `+0.0695 [+0.0524, +0.0874]`,
+while every zero-shot protein representation (ESM-2 t30, aligned KLIFS pocket,
+pocket physicochemistry, KLIFS conformational state, family, group, homolog kNN)
+was indistinguishable from a random-feature null. A synthetic additive panel with
+matched margins, noise and truncation gave derangement specificity `+0.00004
+[-0.0005, +0.0011]`, falsifying the censoring-artefact explanation.
+
+**XP2-A CORRECTION TO XP1's CENSORING DESCRIPTION.** The journal supplement
+encodes 103,118 measured cells, 154,175 left-censored strings at 50 distinct
+thresholds (`4.0`-`6.2`), and 405,482 untested blanks; the derived matrix
+collapses the latter two to `4.0`. XP1's mask nevertheless admitted 49,457 cells
+of which all 49,457 are genuinely measured, matching the supplement at max
+`|diff| = 0.0`. XP1's analysis set is therefore correct and no XP1 conclusion
+changes; only its single-floor censoring *description*, and the censoring model
+used in its destructive control, were approximations. Verdict recorded as
+`XP1_EVIDENCE_REPRODUCED`, 18/18 checks.
+
+**XP2 NEGATIVE RESULTS (terminal for this mechanism).** On `BLK-METZ-XP2`
+(928 compounds x 147 kinases, 32,849 measured cells, 258 ECFP4-merged
+Bemis-Murcko scaffold components, index SHA-256 `7bcb2c05daa4aa5a...`):
+
+1. *Ligand landing succeeded.* Gauge-invariant interaction reconstruction on
+   unseen scaffolds reached `R2 = +0.199 [+0.133, +0.261]` (ECFP, `d = 3`)
+   against random-feature `+0.025` and mean-loading `+0.024`. The verdict
+   `LIGAND_SIDE_DEPLOYMENT_REPRESENTATION_FAILED` does **not** apply.
+2. *The identifiable section dimension is exactly `min(k-1, d)`.* Measured
+   `0, 1, 2, 3, 3` at `k = 1..5`. At `k = 1` the ridge returns `v = 0` and the
+   section arm is identically the additive arm.
+3. *At `k <= 5` the section is below the frozen non-negligibility floor.* Under
+   protein-group closure only, `R2_gamma` peaks at `+0.0248 [+0.0114, +0.0321]`
+   against a registered floor of `0.05`, and `Delta_deploy` over ligand-only
+   chemistry never clears zero.
+4. *Under simultaneous protein-group and ligand-scaffold closure the section
+   loses target specificity altogether.* At the registered primary configuration
+   (`k = 5`, `d = 3`): `R2_gamma = +0.0199 [+0.0076, +0.0283]`,
+   derangement specificity `+0.00185 [-0.00477, +0.00552]` (CI spans zero), and
+   `Delta_deploy = -0.0331 [-0.09108, +0.02326]`. Support design rank was
+   `3.00/3` with query coverage `1.000`, so this is not an identifiability
+   artefact. XP1's specificity was conditional on ligand reuse.
+
+**GAUGE.** Coordinate-wise loading `R2` in a fold-local gauge was ~0 or negative
+in the same runs where the gauge-invariant reconstruction `R2` was clearly
+positive. Latent factor coordinates are not stable objects and must never be
+assigned hydrogen-bond, hydrophobic, DFG or other biological names. Only fixed
+named features and gauge-invariant objects are interpretable.
+
+**INTERFACE.** `research/crossed_panel_deployability/THEORY_INTERFACE_AUDIT.md`
+records that the candidate seven-tuple statistic is interface-legal only
+conditional on (i) a declared gauge, since `query_coverage` and
+`inverse_conditioning` are not `GL(d)`-invariant, (ii) a two-term outer radius
+whose second term bounds the unidentified component rather than letting ridge
+zero it, and (iii) placement of `validity_flag` and `support_rank` in the finite
+context map `kappa` rather than in the continuous sieve coordinates. Abstention
+is the existing `p = e_0` simplex vertex and needs no new operator. CSMO, Band,
+`K` and the mesh were not modified, and `model/`, `scripts/`, `contracts/` and
+`theory/` were not touched at any point in XP1 or XP2.
+
+**NOT ESTABLISHED.** Affinity energetics, biological `z` admission, probability-law
+calibration of `K(B(z)F(z))` (never scored in either stage), protein-side
+biological landing, and any end-to-end DTA claim.
+
+**DELETION RECORD.** See `report/crossed_panel_deployability/XP2_FINAL_REPORT.md`
+section 10 for the disposition of failed implementations. All immutable metrics
+are preserved above and in the JSON artifacts under
+`report/crossed_panel_identification/` and `report/crossed_panel_deployability/`.
+
+### XP1/XP2 immutable code and artifact hashes (SHA-256, first 32 hex)
+
+| path | sha256[:32] | bytes |
+|---|---|---|
+| `research/crossed_panel_identification/PREREG_XP1.md` | `51fe525c1171cd3720b2bc606e818808` | 14782 |
+| `research/crossed_panel_identification/acquire_kinase_panels.py` | `0f360d02ac0b5f8732b35d575d062e50` | 1889 |
+| `research/crossed_panel_identification/acquire_klifs.py` | `2103f052e17838bea0c0c6bda4e55e09` | 1565 |
+| `research/crossed_panel_identification/acquire_pdsp.py` | `bffe2d5f0dbcf6d56dca5e1be4ebb6d6` | 858 |
+| `research/crossed_panel_identification/build_conformation_features.py` | `f995cf66fa0e620dfc921898da43bb9d` | 4050 |
+| `research/crossed_panel_identification/build_protein_features.py` | `f91297f5395217a45a2025d475883bf4` | 3961 |
+| `research/crossed_panel_identification/lowrank.py` | `94ee1c86930be9c5d9c6aa0764f553ed` | 3582 |
+| `research/crossed_panel_identification/panels.py` | `82b9006fbc5ca3e35f00375933bc1624` | 6843 |
+| `research/crossed_panel_identification/pdsp_build.py` | `4fafd1cbe0e57c64b8dbf7977d4c06f3` | 5192 |
+| `research/crossed_panel_identification/xp1a_existence.py` | `1e04af414794a2a6039278417b841c10` | 9498 |
+| `research/crossed_panel_identification/xp1b_sweep.py` | `cad3c158f3f8142c085236fbb9d0bc12` | 1738 |
+| `research/crossed_panel_identification/xp1b_transfer.py` | `f16ae55e939f834a53b42a329dd07944` | 15956 |
+| `research/crossed_panel_identification/xp1c_pdsp.py` | `fb7721cadc3076219328e62e4a4a7b5d` | 9312 |
+| `research/crossed_panel_identification/xp1d_statistic.py` | `a1ce7033964104db7b40e6f9f0b1a454` | 8375 |
+| `research/crossed_panel_identification/xp1e_truncation_control.py` | `baef67903924ad8432ed49283c195a40` | 4373 |
+| `research/crossed_panel_deployability/PREREG_XP2.md` | `dd50ec9aedb3df5ac0abeb79a2f3b997` | 11702 |
+| `research/crossed_panel_deployability/THEORY_INTERFACE_AUDIT.md` | `4044433219139ade5a8bd759f7625e5c` | 8645 |
+| `research/crossed_panel_deployability/acquire_klaeger_structures.py` | `1fd618ea570c71b12949d19f61539565` | 2747 |
+| `research/crossed_panel_deployability/xp2_core.py` | `ee873cc7d53f3967d55881bded22aa7f` | 6639 |
+| `research/crossed_panel_deployability/xp2_finalize.py` | `470921ed4f6a29911f3690d4adb50531` | 7175 |
+| `research/crossed_panel_deployability/xp2_panel.py` | `b9494542315d24c822fec67db9006e28` | 9105 |
+| `research/crossed_panel_deployability/xp2a_reproduction_audit.py` | `0c1eaa2d2bc6228144d5f433d55b5312` | 14317 |
+| `research/crossed_panel_deployability/xp2b_ligand_landing.py` | `2f26a1e404bb7c7e89cfc3831cd53214` | 7144 |
+| `research/crossed_panel_deployability/xp2cd_section.py` | `6789236a9cd9fba9c2eef8002c0bc4c1` | 11639 |
+| `research/crossed_panel_deployability/xp2cd_sweep.py` | `c6888040ce7868d5e4cd0f4469d750bc` | 1821 |
+| `research/crossed_panel_deployability/xp2e_landing.py` | `305437af1f3d26366a90432b088b9c0c` | 9644 |
+| `research/crossed_panel_deployability/xp2f_external.py` | `337df4d60bd9b606e2c8d88575c42c56` | 10460 |
+| `report/crossed_panel_identification/XP1_RESEARCH_REPORT.md` | `e8c084bd076ff3d48b96dc181fe9b4d7` | 43629 |
+| `report/crossed_panel_identification/xp1a_console.txt` | `60e61e7e96fe220c8d39d3de6d1c1aba` | 2813 |
+| `report/crossed_panel_identification/xp1a_existence.json` | `bfb1b8b0d57bc7b57fdf45ac2c09fff2` | 7603 |
+| `report/crossed_panel_identification/xp1b_sweep_console.txt` | `95cc9801e7537b1e5b515398e322fe3f` | 49764 |
+| `report/crossed_panel_identification/xp1b_sweeps.json` | `51e72e33bba99658d0aa410b2f55ad79` | 151643 |
+| `report/crossed_panel_identification/xp1c_console.txt` | `69612a8b1706b3c3e98d1b97da328d29` | 1655 |
+| `report/crossed_panel_identification/xp1c_pdsp.json` | `21c66f8a15f0de5a4bf6bef8961b6c2c` | 4544 |
+| `report/crossed_panel_identification/xp1d_console.txt` | `730a5592b08b6ded8d578cea797f2ff2` | 1974 |
+| `report/crossed_panel_identification/xp1d_statistic.json` | `307a3b4a1a925fa0fbda0856d78276be` | 5689 |
+| `report/crossed_panel_identification/xp1e_console.txt` | `83bf7e80a86ab91da08b4f6597e1f618` | 3630 |
+| `report/crossed_panel_identification/xp1e_truncation_control.json` | `ab836d6c3d1a6691cedfc22dc46a4568` | 42095 |
+| `report/crossed_panel_deployability/DOUBLE_HELD_OUT_RESULT.json` | `70bcc987f600944b8c52e3fc46002f73` | 87671 |
+| `report/crossed_panel_deployability/EXTERNAL_REPLICATION_RESULT.json` | `cfc8fda9433d425aec26f9eb145bd9ed` | 3891 |
+| `report/crossed_panel_deployability/K5_SECTION_AUDIT.json` | `5d46a245dd6d2ec962e7c1a12fe33cc5` | 33503 |
+| `report/crossed_panel_deployability/LIGAND_LANDING_AUDIT.json` | `94a3a621117283f47d006315eb8f380b` | 18749 |
+| `report/crossed_panel_deployability/XP1_REPRODUCTION_AUDIT.json` | `8ce175b3271d5764d253a28e116303ad` | 5905 |
+| `report/crossed_panel_deployability/XP2E_BIOLOGICAL_LANDING.json` | `00f9a41e64fc0018fbb3ded5b1f7494b` | 4557 |
+| `report/crossed_panel_deployability/XP2_FINAL_REPORT.md` | `a15bd43b76f1f73579431665f1609647` | 27990 |
+| `report/crossed_panel_deployability/xp2b_console.txt` | `c98eee340505b2119e6b03bb57f2aea4` | 2483 |
+| `report/crossed_panel_deployability/xp2cd_console.txt` | `2ec278c09f03b4badbbb891138ed2b3f` | 30778 |
+| `report/crossed_panel_deployability/xp2cd_sweeps.json` | `876882af074e3c6af9a6df88428dd73f` | 141591 |
+| `report/crossed_panel_deployability/xp2e_console.txt` | `86b88dc53750124752dc5c3ad719c737` | 1045 |
+| `report/crossed_panel_deployability/xp2f_console.txt` | `80bd510d103d8438954bb374fe9f5609` | 1325 |
+
+Environment: python 3.11.15, numpy 1.26.4, scipy 1.17.1, pandas 2.3.3, rdkit 2023.09.6, torch 2.6.0+cu124, transformers 4.46.3, scikit-learn 1.9.0; `xlrd` was installed to read the `.xls` supplement. Seeds `{0,1,2,3,4}` throughout; bootstrap seeds are fixed per contrast in source.
+
+**Regression suite: `73 passed` before and after XP2.** `model/`, production `scripts/`, `contracts/` and `theory/` show no modification under `git status` for the whole programme.
+
+Upstream release licences: Metz 2011 and Klaeger 2017 supplements are publisher supplementary data accessed through a public mirror pinned at commit `8ab79cae31c18e49007dcce6dd11f93d2667ab14`; the NIMH PDSP Ki database is a free public NIMH resource; KLIFS is open academic access; PubChem PUG-REST was used for name-to-structure resolution only, with `affinity_values_read = 0`.
