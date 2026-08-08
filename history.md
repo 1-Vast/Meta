@@ -2656,3 +2656,26 @@ Environment: python 3.11.15, numpy 1.26.4, scipy 1.17.1, pandas 2.3.3, rdkit 202
 **Regression suite: `73 passed` before and after XP2.** `model/`, production `scripts/`, `contracts/` and `theory/` show no modification under `git status` for the whole programme.
 
 Upstream release licences: Metz 2011 and Klaeger 2017 supplements are publisher supplementary data accessed through a public mirror pinned at commit `8ab79cae31c18e49007dcce6dd11f93d2667ab14`; the NIMH PDSP Ki database is a free public NIMH resource; KLIFS is open academic access; PubChem PUG-REST was used for name-to-structure resolution only, with `affinity_values_read = 0`.
+
+### XP1/XP2 implementation removal (2026-08-08)
+
+Recovery commit `3281780` on branch `research/xp1-xp2-crossed-panel` holds the
+complete reproducible tree. The following terminal-negative or negligible-effect
+implementations were then removed from the active surface. Their conclusions,
+metrics and artifact hashes are preserved above and their JSON artifacts are
+retained under `report/`.
+
+| removed file | conclusion preserved in | verdict it produced |
+|---|---|---|
+| `research/crossed_panel_identification/xp1c_pdsp.py` | XP1 report section 6.4, `xp1c_pdsp.json` | PDSP replication below the non-negligibility floor |
+| `research/crossed_panel_identification/xp1d_statistic.py` | XP1 report section 6.6, `xp1d_statistic.json` | no protein representation predicts the interaction coordinate across groups |
+| `research/crossed_panel_identification/build_conformation_features.py` | XP1 report sections 5 and 6.4 | KLIFS conformational-state arm disqualified on availability (16/82 kinases lack any structure) and circularity |
+| `research/crossed_panel_deployability/xp2e_landing.py` | XP2 report section 7, `XP2E_BIOLOGICAL_LANDING.json` | `BIOLOGICAL_LANDING_NOT_IDENTIFIED` |
+| `research/crossed_panel_deployability/xp2f_external.py` | XP2 report section 6.3, `EXTERNAL_REPLICATION_RESULT.json` | `EXTERNAL_REPLICATION_FAILED` |
+
+Retained deliberately: `panels.py`, `lowrank.py`, `xp1a_existence.py`,
+`xp1b_transfer.py`, `xp1b_sweep.py`, `build_protein_features.py`,
+`xp1e_truncation_control.py` (a control that PASSED), the acquisition scripts,
+and the whole XP2 core, because `xp2a_reproduction_audit.py` reproduces XP1 by
+reading `xp1b_transfer.py` directly and the destructive control is structurally
+reusable.
