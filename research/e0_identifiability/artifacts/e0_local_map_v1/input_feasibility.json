@@ -1,0 +1,85 @@
+{
+  "affinity_value_fields_materialized": false,
+  "atom_counts": {
+    "maximum": 128,
+    "median": 31,
+    "minimum": 4
+  },
+  "audit_mode": "LABEL_BLIND",
+  "contract": {
+    "max_atoms": 128,
+    "valid_residues": "ACDEFGHIKLMNPQRSTVWY"
+  },
+  "counts": {
+    "governed_rows": 154165,
+    "governed_tasks": 3817,
+    "invalid_rows_by_reason": {
+      "atom_count_exceeds_128": 1111,
+      "unsupported_protein_residue": 120
+    },
+    "missing_tasks": 0,
+    "unique_valid_ligands": 93879,
+    "unique_valid_proteins": 689,
+    "valid_rows": 152934
+  },
+  "created_utc": "2026-08-06T15:15:58.209555+00:00",
+  "folds": {
+    "0": {
+      "retained_tasks_at_20_valid_compounds": 1463,
+      "rows": 59431,
+      "tasks": 1467,
+      "unique_ligands": 32289,
+      "unique_proteins": 153,
+      "valid_rows": 59359
+    },
+    "1": {
+      "retained_tasks_at_20_valid_compounds": 586,
+      "rows": 17408,
+      "tasks": 588,
+      "unique_ligands": 5496,
+      "unique_proteins": 70,
+      "valid_rows": 17263
+    },
+    "2": {
+      "retained_tasks_at_20_valid_compounds": 579,
+      "rows": 27611,
+      "tasks": 588,
+      "unique_ligands": 20471,
+      "unique_proteins": 204,
+      "valid_rows": 27090
+    },
+    "3": {
+      "retained_tasks_at_20_valid_compounds": 582,
+      "rows": 26557,
+      "tasks": 587,
+      "unique_ligands": 19286,
+      "unique_proteins": 119,
+      "valid_rows": 26432
+    },
+    "4": {
+      "retained_tasks_at_20_valid_compounds": 573,
+      "rows": 23158,
+      "tasks": 587,
+      "unique_ligands": 17559,
+      "unique_proteins": 143,
+      "valid_rows": 22790
+    }
+  },
+  "inputs": {
+    "canonical_rows_sha256": "c8b2762683a6ce8abbf7c0722a11eefaca4b5d042270f9167963ec308efe9a29",
+    "rdkit_version": "2023.09.6",
+    "split_assignments_sha256": "1e0bf9d6bbd287782d861825278968260980fb615764bc07d57450b309cc6689"
+  },
+  "missing_task_ids": [],
+  "post_contract_floor": {
+    "closure_components": 245,
+    "minimum_tasks_per_fold": 573,
+    "pass": true,
+    "proteins": 681,
+    "tasks_with_at_least_20_valid_compounds": 3783
+  },
+  "recipient_labels_read": false,
+  "schema": "MetaSieve.E0InputFeasibility.v1",
+  "stage": "P1R2B-E0",
+  "training_performed": false
+}

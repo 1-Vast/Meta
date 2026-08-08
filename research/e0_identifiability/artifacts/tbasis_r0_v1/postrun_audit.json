@@ -1,0 +1,23 @@
+{
+  "stage": "P1R2B-T-BASIS-R0_FIXED_RADIAL_BASIS_RECOVERABILITY",
+  "artifact_verdict": "RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED",
+  "independent_checks": {
+    "basis_values_all_finite": true,
+    "reported_train_correct_mse_recomputed": 0.5096699078083016,
+    "reported_validation_correct_mse_recomputed": 0.5528892046538266,
+    "reported_test_correct_mse_recomputed": 0.5157427879913051,
+    "reported_test_deranged_mse_recomputed": 0.6875250983157413,
+    "cross_split_scaffold_overlap": 0,
+    "cross_split_exact_connectivity_overlap": 0,
+    "derangement_wrong_reuse": 0,
+    "derangement_max_identity": 0.3263157894736842
+  },
+  "interpretation_limits": [
+    "The fixed teacher covers two-body radial moments only.",
+    "The wrong-protein contrast changes both residue composition and predicted distance distributions; it is not a pure geometry intervention.",
+    "The shared radial calibration is required; raw P1B radial moments are not directly calibrated teacher coordinates.",
+    "No affinity, DAVIS, recipient, angular, many-body, few-shot or production claim is authorized."
+  ],
+  "procedural_deviations": [],
+  "next_automatic_stage": null
+}

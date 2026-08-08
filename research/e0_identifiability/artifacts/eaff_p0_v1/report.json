@@ -1,0 +1,194 @@
+{
+  "affinity_labels_read": true,
+  "component_bootstrap_ci95": {
+    "correct_minus_deranged": [
+      -0.013009019538862734,
+      0.008052980089174575
+    ],
+    "correct_minus_ligand": [
+      -0.020693983566402233,
+      -0.00018157293461483395
+    ],
+    "correct_minus_null": [
+      -0.00558278596571656,
+      0.005303202190730572
+    ]
+  },
+  "created_utc": "2026-08-07T07:44:56.212295+00:00",
+  "davis_label_reads": 0,
+  "endpoint_secondary": {
+    "Kd": {
+      "components": 53,
+      "correct": 0.5457721145588257,
+      "correct_minus_deranged": 0.0026051518657861372,
+      "correct_minus_ligand": -0.00679811747425485,
+      "correct_minus_null": 0.006932429626407721,
+      "deranged": 0.5431669626930395,
+      "ligand": 0.5525702320330805,
+      "null": 0.538839684932418
+    },
+    "Ki": {
+      "components": 192,
+      "correct": 0.5410738144286332,
+      "correct_minus_deranged": -0.003728386030545039,
+      "correct_minus_ligand": -0.011084286648778696,
+      "correct_minus_null": -0.0019212559050317823,
+      "deranged": 0.5448022004591783,
+      "ligand": 0.5521581010774119,
+      "null": 0.542995070333665
+    }
+  },
+  "gate_conditions": {
+    "correct_minus_deranged_ge_0_03": false,
+    "correct_minus_deranged_lcb_positive": false,
+    "correct_minus_ligand_ge_0_03": false,
+    "correct_minus_ligand_lcb_positive": false,
+    "correct_minus_null_lcb_positive": false,
+    "correct_minus_null_positive": false
+  },
+  "h0_data_census": {
+    "closure_components_with_task_ge_40": 107,
+    "h0a_data_supported": true,
+    "h0b_data_supported": true,
+    "target_endpoint_groups_with_ge_2_tasks_and_documents": 374,
+    "tasks_ge_40_ligands": 891
+  },
+  "interpretation_limits": [
+    "lightweight source-feasibility panel, not terminal E-AFF",
+    "coupling null is an attribution control, not a nonbinder",
+    "shared-w failure does not establish radial-basis insufficiency",
+    "task-local headroom does not establish target biology"
+  ],
+  "label_audit": {
+    "mapped_activities": 152737,
+    "paffinity_formula_max_error": 0.0,
+    "stronger_is_larger": true
+  },
+  "ligand_prior": {
+    "alpha": 10.0,
+    "folds": [
+      {
+        "alpha": 10.0,
+        "fold": 0,
+        "test": 56633,
+        "train": 91128
+      },
+      {
+        "alpha": 10.0,
+        "fold": 1,
+        "test": 17146,
+        "train": 130615
+      },
+      {
+        "alpha": 10.0,
+        "fold": 2,
+        "test": 26450,
+        "train": 121311
+      },
+      {
+        "alpha": 10.0,
+        "fold": 3,
+        "test": 25724,
+        "train": 122037
+      },
+      {
+        "alpha": 10.0,
+        "fold": 4,
+        "test": 21808,
+        "train": 125953
+      }
+    ],
+    "type": "closure-OOF pooled-state Ridge"
+  },
+  "primary_component_macro": {
+    "components": 245,
+    "correct": 0.5420901813955729,
+    "correct_minus_deranged": -0.002358273750930562,
+    "correct_minus_ligand": -0.010157074541636724,
+    "correct_minus_null": -5.96883088355149e-06,
+    "deranged": 0.5444484551465034,
+    "ligand": 0.5522472559372096,
+    "null": 0.5420961502264564
+  },
+  "recipient_label_reads": 0,
+  "research_only": true,
+  "schema": "MetaSieve.EAffPilot.v1",
+  "selection": {
+    "closure_components": 245,
+    "fold_rows": {
+      "0": 20,
+      "1": 820,
+      "2": 1360,
+      "3": 1280,
+      "4": 1420
+    },
+    "fold_tasks": {
+      "0": 1,
+      "1": 41,
+      "2": 68,
+      "3": 64,
+      "4": 71
+    },
+    "rows": 4900,
+    "selection_policy": "one SHA256-selected task per closure; 20 SHA256-selected states",
+    "tasks": 245
+  },
+  "shared_direction": {
+    "alpha": 10.0,
+    "folds": [
+      {
+        "active_dimensions": 288,
+        "alpha": 10.0,
+        "fold": 0,
+        "pairs": 46360,
+        "tasks": 244,
+        "test_rows": 20,
+        "train_rows": 4880,
+        "weighted_pair_rmse": 1.1220811208066106
+      },
+      {
+        "active_dimensions": 288,
+        "alpha": 10.0,
+        "fold": 1,
+        "pairs": 38760,
+        "tasks": 204,
+        "test_rows": 820,
+        "train_rows": 4080,
+        "weighted_pair_rmse": 1.1265173908896884
+      },
+      {
+        "active_dimensions": 288,
+        "alpha": 10.0,
+        "fold": 2,
+        "pairs": 33630,
+        "tasks": 177,
+        "test_rows": 1360,
+        "train_rows": 3540,
+        "weighted_pair_rmse": 1.1375655837476402
+      },
+      {
+        "active_dimensions": 288,
+        "alpha": 10.0,
+        "fold": 3,
+        "pairs": 34390,
+        "tasks": 181,
+        "test_rows": 1280,
+        "train_rows": 3620,
+        "weighted_pair_rmse": 1.07891103832609
+      },
+      {
+        "active_dimensions": 288,
+        "alpha": 10.0,
+        "fold": 4,
+        "pairs": 33060,
+        "tasks": 174,
+        "test_rows": 1420,
+        "train_rows": 3480,
+        "weighted_pair_rmse": 1.1169306651361623
+      }
+    ],
+    "type": "task-balanced residual-difference Ridge"
+  },
+  "stage": "P1R2B-E-AFF-P0_FIXED_RADIAL_SOURCE_FEASIBILITY",
+  "verdict": "SHARED_DIRECTION_NOT_OBSERVED_H0_DATA_SUPPORTED"
+}

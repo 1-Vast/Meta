@@ -1,0 +1,57 @@
+{
+  "benchmark_unique_sequences": 316,
+  "candidate_identity_threshold": 0.3,
+  "candidate_pairs": 0,
+  "confirmation": "parasail_nw_blosum62_gap_open10_extend1_matches_per_alignment_length",
+  "created_utc": "2026-08-06T07:52:17.747745+00:00",
+  "excluded_source_entry_ids": [],
+  "excluded_unique_sequences": 0,
+  "gate_status": "PASS",
+  "identity_threshold": 0.4,
+  "inputs": {
+    "complexes": {
+      "path": "D:\\MetaSieve\\dataset\\processed\\open_structures\\preflight_holo_v1b\\complexes.jsonl",
+      "sha256": "93599c8c2fd7a40ee4705732c958f9242ba25d4a16ed15f0284085ca78a3526a"
+    },
+    "davis": {
+      "path": "D:\\MetaSieve\\dataset\\processed\\canonical\\DAVIS_mechanism_v2\\rows.jsonl",
+      "sha256": "0080d05a76c213666aba996e1cf3d01de391135d40b7b5492db779b7d156610e"
+    },
+    "kiba": {
+      "path": "D:\\MetaSieve\\dataset\\raw\\dta\\kiba.tab",
+      "sha256": "eb77bed3ba64cc0cd07e05ff7f4b94f94a866a54cf673bb2c798cfeb0ebe2322"
+    }
+  },
+  "ligand_overlap_report": {
+    "exact_connectivity_records": 0,
+    "ligand_exclusion_applied": false,
+    "murcko_scaffold_records": 0
+  },
+  "mmseqs": {
+    "command": [
+      "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "easy-search",
+      "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\structure.fasta",
+      "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\benchmark.fasta",
+      "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\candidates.tsv",
+      "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\tmp",
+      "--min-seq-id",
+      "0.3",
+      "-c",
+      "0.5",
+      "--cov-mode",
+      "0",
+      "--format-output",
+      "query,target,fident,qcov,tcov,evalue",
+      "--threads",
+      "4"
+    ],
+    "path": "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+    "sha256": "ad319fc9fc67500ca2da9b9247d9611d2113e66cb800c15b603949f5652e2a0b",
+    "version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f"
+  },
+  "retained_records": 2,
+  "schema": "MetaSieve.StructureHomologyGovernance.v1",
+  "structure_records": 2,
+  "structure_unique_sequences": 2
+}

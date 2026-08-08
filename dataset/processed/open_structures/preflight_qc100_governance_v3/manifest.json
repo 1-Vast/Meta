@@ -1,0 +1,58 @@
+{
+  "benchmark_unique_sequences": 316,
+  "candidate_identity_threshold": 0.3,
+  "candidate_pairs": 159,
+  "confirmation": "parasail_sw_blosum62_gap_open10_extend1_matches_per_local_alignment_length",
+  "created_utc": "2026-08-06T08:13:43.728340+00:00",
+  "excluded_source_entry_ids": [
+    "1a25:B:PSE:B:1:BS04",
+    "1a9u:A:SB2:A:800:BS01",
+    "1ad5:A:ANP:A:1:BS02"
+  ],
+  "excluded_unique_sequences": 3,
+  "gate_status": "PASS",
+  "identity_threshold": 0.4,
+  "inputs": {
+    "complexes": {
+      "path": "D:\\MetaSieve\\dataset\\processed\\open_structures\\preflight_qc100_holo_v3\\complexes.jsonl",
+      "sha256": "dfe4797d909d2a8fcc7676943b0c58db141f15936e302e4698d2c1d062f56c35"
+    },
+    "davis": {
+      "path": "D:\\MetaSieve\\dataset\\processed\\canonical\\DAVIS_mechanism_v2\\rows.jsonl",
+      "sha256": "0080d05a76c213666aba996e1cf3d01de391135d40b7b5492db779b7d156610e"
+    },
+    "kiba": {
+      "path": "D:\\MetaSieve\\dataset\\raw\\dta\\kiba.tab",
+      "sha256": "eb77bed3ba64cc0cd07e05ff7f4b94f94a866a54cf673bb2c798cfeb0ebe2322"
+    }
+  },
+  "ligand_overlap_report": {
+    "exact_connectivity_records": 1,
+    "ligand_exclusion_applied": false,
+    "murcko_scaffold_records": 22
+  },
+  "mmseqs": {
+    "command": [
+      "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "easy-search",
+      "dataset\\processed\\open_structures\\preflight_qc100_governance_v3\\work\\structure.fasta",
+      "dataset\\processed\\open_structures\\preflight_qc100_governance_v3\\work\\benchmark.fasta",
+      "dataset\\processed\\open_structures\\preflight_qc100_governance_v3\\work\\candidates.tsv",
+      "dataset\\processed\\open_structures\\preflight_qc100_governance_v3\\work\\tmp",
+      "--min-seq-id",
+      "0.3",
+      "--format-output",
+      "query,target,fident,qcov,tcov,evalue",
+      "--threads",
+      "4"
+    ],
+    "path": "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+    "sha256": "ad319fc9fc67500ca2da9b9247d9611d2113e66cb800c15b603949f5652e2a0b",
+    "version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f"
+  },
+  "retained_records": 67,
+  "schema": "MetaSieve.StructureHomologyGovernance.v1",
+  "structure_records": 70,
+  "structure_records_sha256": "b0ae178dee3d24c06952f36065675efe209ec86a9b7400ac8bfc3422ea62f234",
+  "structure_unique_sequences": 70
+}

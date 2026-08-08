@@ -1,0 +1,121 @@
+{
+  "affinity_labels_read": false,
+  "holdout": {
+    "correct_minus_deranged": 0.48750000000000004,
+    "correct_oracle_ci": 1.0,
+    "deranged_oracle_ci": 0.5125,
+    "gate": {
+      "oracle_correct_ci_at_least_0_80": true,
+      "oracle_correct_minus_deranged_at_least_0_10": true,
+      "pass": true
+    },
+    "label_tied_pairs": 0,
+    "label_total_pairs": 1520
+  },
+  "normalization": {
+    "train_mean": -0.03531158380151701,
+    "train_std": 0.044415724024864184
+  },
+  "per_holdout_task_correct": [
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "01a5165285a345b34657787782430c4b1507ef7b3d0dbf7e81ed064ceb3ec387"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "0212d651e037f8c048bbb4566b4ae4b89a9c6615cde0588aac923c7e5864ccfe"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "0223d9c9474ef5db844111142a6c35d4dd3f20fae4a821315b26c1a6a1709c58"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "023b7409ea33a6a8f811be0e16c5491b593bc9aebf1a939d04dea4e4f3062967"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "0254a39bdbdcf8535c05ffbab7c91f261c6a8ba844dd5b11587999adf985f324"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "0298e58ab793a20de569da7183a4d83bbc2676904e14c895ead878cb01bd8835"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "02eb916dc72292cc152ab1ced0bdb45e3d98c9cc377f8dabb829effd7d02f146"
+    },
+    {
+      "ci": 1.0,
+      "rows": 20,
+      "task_id": "02f09e60807d91179efbc5ca5214d4e15179123c53479694305119ad620842f3"
+    }
+  ],
+  "per_holdout_task_deranged": [
+    {
+      "ci": 0.7315789473684211,
+      "rows": 20,
+      "task_id": "01a5165285a345b34657787782430c4b1507ef7b3d0dbf7e81ed064ceb3ec387"
+    },
+    {
+      "ci": 0.4052631578947368,
+      "rows": 20,
+      "task_id": "0212d651e037f8c048bbb4566b4ae4b89a9c6615cde0588aac923c7e5864ccfe"
+    },
+    {
+      "ci": 0.29473684210526313,
+      "rows": 20,
+      "task_id": "0223d9c9474ef5db844111142a6c35d4dd3f20fae4a821315b26c1a6a1709c58"
+    },
+    {
+      "ci": 0.5736842105263158,
+      "rows": 20,
+      "task_id": "023b7409ea33a6a8f811be0e16c5491b593bc9aebf1a939d04dea4e4f3062967"
+    },
+    {
+      "ci": 0.3263157894736842,
+      "rows": 20,
+      "task_id": "0254a39bdbdcf8535c05ffbab7c91f261c6a8ba844dd5b11587999adf985f324"
+    },
+    {
+      "ci": 0.7526315789473684,
+      "rows": 20,
+      "task_id": "0298e58ab793a20de569da7183a4d83bbc2676904e14c895ead878cb01bd8835"
+    },
+    {
+      "ci": 0.5263157894736842,
+      "rows": 20,
+      "task_id": "02eb916dc72292cc152ab1ced0bdb45e3d98c9cc377f8dabb829effd7d02f146"
+    },
+    {
+      "ci": 0.48947368421052634,
+      "rows": 20,
+      "task_id": "02f09e60807d91179efbc5ca5214d4e15179123c53479694305119ad620842f3"
+    }
+  ],
+  "recipient_labels_read": false,
+  "schema": "MetaSieve.SyntheticTeacherAudit.v1",
+  "stage": "P1R2B-E0S",
+  "sufficient_statistic": {
+    "exact_within_1e_6": true,
+    "maximum_direct_reconstruction_error": 2.193200173139509e-07,
+    "shape": [
+      8,
+      6,
+      5
+    ]
+  },
+  "teacher_formula": {
+    "interaction_mass_channel": "denominator_only",
+    "label": "ligand_baseline + (raw-train_mean)/train_std",
+    "noise": "none",
+    "raw": "sum(contact * qWr * dot(distance_prob,[1,.7,.2,-.2,-.6])) / sum(contact)"
+  }
+}

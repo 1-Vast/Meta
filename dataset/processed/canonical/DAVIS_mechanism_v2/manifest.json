@@ -1,0 +1,53 @@
+{
+  "biological_context": {
+    "continuous": [],
+    "endpoint": {
+      "column": null,
+      "mapping": {
+        "IC50": 2,
+        "Kd": 0,
+        "Ki": 1,
+        "functional-response": 3,
+        "score-like": 4,
+        "unknown": 5
+      },
+      "unknown": "unknown",
+      "vocabulary": [
+        "Kd",
+        "Ki",
+        "IC50",
+        "functional-response",
+        "score-like",
+        "unknown"
+      ]
+    },
+    "schema": "MetaSieve.BiologicalContext.v1"
+  },
+  "contract": {
+    "target_split_unit": "exact_sequence_sha256",
+    "value_range": [
+      0.0,
+      1.0
+    ]
+  },
+  "counts": {
+    "canonical_rows": 25772,
+    "drugs": 68,
+    "raw_rows": 25772,
+    "targets": 379,
+    "tasks": 379
+  },
+  "dataset": "DAVIS",
+  "dropped": {},
+  "normalization": {
+    "high": 8.55284196865778,
+    "low": 5.0,
+    "mode": "train_quantile_affine"
+  },
+  "schema": "MetaSieve.CanonicalDTA.v2",
+  "spec_sha256": "5f200b0db4dffba610cefe1e16c76b4d024b28ac47e50d7d8aadd159c2b4ef32",
+  "split_governance": {
+    "mode": "external_label_blind",
+    "sha256": "2352f23684da851dd296df38cbb4662f98c1c142e293d611b748dc1c23eafd67"
+  }
+}

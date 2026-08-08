@@ -1,0 +1,54 @@
+{
+  "confirmation": "parasail_sw_blosum62_gap_open10_extend1_matches_per_local_alignment_length",
+  "confirmed_representative_edges": 11499,
+  "coverage_mode": 0,
+  "coverage_threshold": 0.8,
+  "created_utc": "2026-08-06T08:36:23.730619+00:00",
+  "gate_status": "PASS",
+  "homology_groups": 3606,
+  "identity_threshold": 0.4,
+  "input": {
+    "path": "D:\\MetaSieve\\dataset\\processed\\open_structures\\pilot20k_holo_governed_v1\\complexes.jsonl",
+    "sha256": "4839a52df2fe80f93e5948b3d1649a6fedbf04a94151484d31db25ba566d124f"
+  },
+  "mmseqs": {
+    "command": [
+      "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "easy-cluster",
+      "dataset\\processed\\open_structures\\pilot20k_homology_split_v1\\work\\sequences.fasta",
+      "dataset\\processed\\open_structures\\pilot20k_homology_split_v1\\work\\cluster",
+      "dataset\\processed\\open_structures\\pilot20k_homology_split_v1\\work\\tmp",
+      "--min-seq-id",
+      "0.4",
+      "-c",
+      "0.8",
+      "--cov-mode",
+      "0",
+      "--threads",
+      "4"
+    ],
+    "path": "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+    "sha256": "ad319fc9fc67500ca2da9b9247d9611d2113e66cb800c15b603949f5652e2a0b",
+    "version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f"
+  },
+  "output_sha256": "d78cc29b9e208eaeecfb160349193e99f3c5566e4432c6eb8dd80c7f3f4f05e3",
+  "records": 14906,
+  "rejected_representative_edges": 199,
+  "schema": "MetaSieve.StructureHomologySplit.v1",
+  "split_fractions": {
+    "test": 0.1,
+    "train": 0.8,
+    "val": 0.1
+  },
+  "split_groups": {
+    "test": 361,
+    "train": 2883,
+    "val": 362
+  },
+  "split_records": {
+    "test": 1490,
+    "train": 11926,
+    "val": 1490
+  },
+  "unique_sequences": 14906
+}

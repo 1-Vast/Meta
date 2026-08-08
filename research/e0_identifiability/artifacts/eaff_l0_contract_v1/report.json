@@ -1,0 +1,124 @@
+{
+  "checks": {
+    "K_law_classes_valid_on_fixed_mesh": true,
+    "all_anchors_lie_in_frozen_band_polytope": true,
+    "anchors_are_z_independent_and_data_free": true,
+    "frozen_theory_files_unmodified": true,
+    "hausdorff_w1_respects_frozen_stability_bound": true,
+    "ladder_mean_interval_is_strictly_increasing": true,
+    "moving_weight_up_the_ladder_never_lowers_the_interval": true,
+    "ordered_ladder_satisfies_stochastic_dominance": true,
+    "output_mesh_unchanged": true,
+    "simplex_assembly_stays_in_polytope": true
+  },
+  "data_read": 0,
+  "deployment": {
+    "M": 32,
+    "a_max": 1.0,
+    "a_min": 0.0,
+    "anchor_spec": [
+      [
+        "logistic",
+        0.15,
+        0.08,
+        0.12
+      ],
+      [
+        "logistic",
+        0.3,
+        0.08,
+        0.12
+      ],
+      [
+        "logistic",
+        0.45,
+        0.08,
+        0.12
+      ],
+      [
+        "logistic",
+        0.6,
+        0.08,
+        0.12
+      ],
+      [
+        "logistic",
+        0.75,
+        0.08,
+        0.12
+      ],
+      [
+        "logistic",
+        0.9,
+        0.08,
+        0.12
+      ],
+      [
+        "uniform",
+        0.0,
+        0.0,
+        0.9
+      ]
+    ],
+    "h": 0.03125,
+    "lambda_w": 0.35,
+    "m": 7,
+    "mu": 0.05,
+    "ordered_ladder_length": 6,
+    "unordered_width_anchors": 1
+  },
+  "interpretation_limits": [
+    "the ordered ladder fixes a sign convention only for weight moved inside it",
+    "the broad uniform anchor is deliberately outside the dominance order and acts as a width and abstention channel, so mixtures involving it are not claimed to be monotone",
+    "no biological information claim follows from any property verified here"
+  ],
+  "labels_read": 0,
+  "ladder_mean_intervals": [
+    [
+      0.186278,
+      0.30252
+    ],
+    [
+      0.308857,
+      0.417163
+    ],
+    [
+      0.451263,
+      0.545273
+    ],
+    [
+      0.597135,
+      0.674324
+    ],
+    [
+      0.735454,
+      0.795188
+    ],
+    [
+      0.84521,
+      0.889204
+    ],
+    [
+      0.5,
+      0.994922
+    ]
+  ],
+  "max_dominance_gap": 0.0,
+  "max_mixture_monotonicity_violation": 0.0,
+  "max_stability_violation": 0.0,
+  "model_file_sha256": {
+    "bands.py": "b828523e8b363656fbbebda819f23b4e85fb1894b3c565740782cf77bca3a9b1",
+    "config.py": "a7c3165198aeced18decd37f465b8128026de69f49740fb88eb43d49adeb0094",
+    "encoders.py": "5a707d92417046258ff013d9a1c7e2ca0bfb57492bb6192de6a9b4e79b6dfd45",
+    "mathematical.py": "1c32b7dcc3b2a3072b8aca381848c984eb8a585f8688eae89f5bafbd7b012622",
+    "mechanism.py": "123f17152fb118eb5a53cb85a121daf646c15bf97f10e8dd35497dc8af89ea3f",
+    "meta_operator.py": "0a377c199c22e80944ce0435811cde7bfec65c3dd5e312856ebc9e8b1fe7a3f5",
+    "runtime.py": "c6e461368968a64396e0eb202bd20a839bba0efc438aeeb34713f2cbffc85c8b"
+  },
+  "schema": "MetaSieve.EAffL0ContractAudit.v1",
+  "sign_convention_disclaimer": "sign fixed by deployment convention != protein-specific affinity information identified from biological input",
+  "stage": "P1R2B-E-AFF-L0_OPERATOR_AND_ANCHOR_CONTRACT_AUDIT",
+  "theory_files_checked": 258,
+  "verdict": "L0_OPERATOR_AND_ANCHOR_CONTRACT_FROZEN",
+  "w1_characterisation": "W1(P, P + c) = |c|, so W1 is sensitive to common translations, while it may also respond to distribution-shape changes. The frozen theory controls law-class distances and declared Lipschitz losses but does not automatically derive pairwise or listwise affinity ranking."
+}

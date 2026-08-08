@@ -1,0 +1,60 @@
+{
+  "affinity_labels_read": false,
+  "e0_source_authorized": false,
+  "edges": [
+    {
+      "from": "T0",
+      "maximum_reconstruction_error": 2.193200173139509e-07,
+      "to": "T1"
+    },
+    {
+      "from": "T1",
+      "note": "teacher sufficient statistics are computed from frozen P1B geometry",
+      "to": "T2"
+    },
+    {
+      "from": "T2",
+      "holdout_ci_gap": 0.31447368421052624,
+      "partner_delta_gap": 0.4513157894736841,
+      "to": "T3"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "T0",
+      "name": "teacher_oracle",
+      "status": "PASS"
+    },
+    {
+      "id": "T1",
+      "name": "teacher_sufficient_statistics",
+      "status": "PASS"
+    },
+    {
+      "id": "T2",
+      "name": "frozen_p1b_geometry",
+      "status": "PASS_BY_CONSTRUCTION"
+    },
+    {
+      "id": "T3",
+      "name": "map_checkpoint",
+      "status": "FAIL"
+    },
+    {
+      "id": "C0",
+      "name": "derangement_contract",
+      "status": "PARTIAL_VIOLATION"
+    },
+    {
+      "id": "S0",
+      "name": "synthetic_holdout_coverage",
+      "status": "INSUFFICIENT_FOR_ARCHITECTURE_WIDE_CLAIM"
+    }
+  ],
+  "realization_vs_optimization": "UNRESOLVED_NO_TRAINING_TRACE",
+  "recipient_labels_read": false,
+  "repair_authorized": false,
+  "schema": "MetaSieve.E0FailureGraph.v1",
+  "stage": "P1R2B-E0S",
+  "verdict": "MAP_REALIZATION_OR_OPTIMIZATION_DEFECT"
+}

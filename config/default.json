@@ -1,0 +1,47 @@
+{
+  "name": "MetaSieve operator configuration",
+  "status": "NO_VALIDATED_END_TO_END_DTA_MODEL",
+  "frozen_theory": {
+    "path": "theory/FINAL_FROZEN_THEORY/00_CORE_THEORY/FINAL_THEORY_COMPLETE.md",
+    "sha256": "3d660448a585662083979c198d42258466cdcca7e0aab197095800cc2d42501e"
+  },
+  "operator": {
+    "definition": "A(F,z) = K(B(z) F(z))",
+    "value_space": [0.0, 1.0],
+    "mesh_h": 0.03125,
+    "mesh_intervals": 32,
+    "anchors": 7,
+    "simplex_dim": 8,
+    "positive_ridge_mu": 0.05,
+    "width_weight": 0.35
+  },
+  "statistic_interface": {
+    "dimension": 28,
+    "status": "ABSTRACT_BIOLOGICAL_STATISTIC_NOT_ADMITTED",
+    "coordinates": "z1 through z28",
+    "range": "[0,1]",
+    "context_map": {
+      "bins": [3, 2, 1],
+      "n_context": 6,
+      "coords": ["z13", "z17"]
+    },
+    "default_abstract_views": [[8, 9], [10, 11], [0, 2], [17, 19], [12, 13], [4, 22]]
+  },
+  "validated_biology": {
+    "local_encoders": "P1B geometry only",
+    "contact_distance_bridge": "P1B PASS",
+    "affinity_statistic": null,
+    "assembled_model": null
+  },
+  "research": {
+    "path": "research/e0_identifiability",
+    "status": "NOT_RUN_NUMERICAL_PRECONDITION_FAILED"
+  },
+  "forbidden_without_new_gate": [
+    "real affinity E0-S",
+    "DAVIS evaluation",
+    "typed interaction training",
+    "production integration",
+    "P2-P4"
+  ]
+}

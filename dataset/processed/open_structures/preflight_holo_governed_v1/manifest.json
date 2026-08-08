@@ -1,0 +1,100 @@
+{
+  "annotation_path": "D:\\MetaSieve\\dataset\\raw\\open_structures\\preflight_real\\biolip2\\BioLiP.txt.gz",
+  "annotation_sha256": "c92229bbc8c55c3bd84a9813c3e278ba62f4cfa44e6315cc98d9bf63ed64b6ec",
+  "candidate_limit": 10,
+  "candidates": 10,
+  "created_utc": "2026-08-06T07:52:36.683385+00:00",
+  "gate_reason": "P1A requires corpus thresholds and hash-bound 40% benchmark homology exclusion",
+  "gate_requirements": {
+    "benchmark_identity_exclusion": 0.4,
+    "unique_ligand_chemotypes": 2000,
+    "unique_receptor_sequences": 2000,
+    "valid_holo_complexes": 10000
+  },
+  "gate_status": "NOT_RUN_FAIL_CLOSED",
+  "governance_pass": true,
+  "homology_governance": {
+    "benchmark_unique_sequences": 316,
+    "candidate_identity_threshold": 0.3,
+    "candidate_pairs": 0,
+    "confirmation": "parasail_nw_blosum62_gap_open10_extend1_matches_per_alignment_length",
+    "created_utc": "2026-08-06T07:52:17.747745+00:00",
+    "excluded_source_entry_ids": [],
+    "excluded_unique_sequences": 0,
+    "gate_status": "PASS",
+    "identity_threshold": 0.4,
+    "inputs": {
+      "complexes": {
+        "path": "D:\\MetaSieve\\dataset\\processed\\open_structures\\preflight_holo_v1b\\complexes.jsonl",
+        "sha256": "93599c8c2fd7a40ee4705732c958f9242ba25d4a16ed15f0284085ca78a3526a"
+      },
+      "davis": {
+        "path": "D:\\MetaSieve\\dataset\\processed\\canonical\\DAVIS_mechanism_v2\\rows.jsonl",
+        "sha256": "0080d05a76c213666aba996e1cf3d01de391135d40b7b5492db779b7d156610e"
+      },
+      "kiba": {
+        "path": "D:\\MetaSieve\\dataset\\raw\\dta\\kiba.tab",
+        "sha256": "eb77bed3ba64cc0cd07e05ff7f4b94f94a866a54cf673bb2c798cfeb0ebe2322"
+      }
+    },
+    "ligand_overlap_report": {
+      "exact_connectivity_records": 0,
+      "ligand_exclusion_applied": false,
+      "murcko_scaffold_records": 0
+    },
+    "mmseqs": {
+      "command": [
+        "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+        "easy-search",
+        "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\structure.fasta",
+        "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\benchmark.fasta",
+        "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\candidates.tsv",
+        "dataset\\processed\\open_structures\\preflight_governance_v1\\work\\tmp",
+        "--min-seq-id",
+        "0.3",
+        "-c",
+        "0.5",
+        "--cov-mode",
+        "0",
+        "--format-output",
+        "query,target,fident,qcov,tcov,evalue",
+        "--threads",
+        "4"
+      ],
+      "path": "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "sha256": "ad319fc9fc67500ca2da9b9247d9611d2113e66cb800c15b603949f5652e2a0b",
+      "version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f"
+    },
+    "retained_records": 2,
+    "schema": "MetaSieve.StructureHomologyGovernance.v1",
+    "structure_records": 2,
+    "structure_unique_sequences": 2
+  },
+  "quantitative_pass": false,
+  "record_schema": "MetaSieve.HoloComplex.v1",
+  "rejection_examples": {
+    "ligand_heavy_atom_count": [
+      "110m:A:MNC:A:156:BS02",
+      "117e:A:MN:A:2001:BS01",
+      "121p:A:MG:A:168:BS01",
+      "12ca:A:ZN:A:262:BS01"
+    ],
+    "ligand_instance_not_found": [
+      "10mh:A:DNA:B:402 ~ 413:BS01"
+    ],
+    "ligand_not_regular_nonpolymer": [
+      "10gs:A:VWW:A:210:BS01",
+      "11as:A:ASN:A:331:BS01",
+      "13gs:A:GSH:A:210:BS01"
+    ]
+  },
+  "rejections": {
+    "ligand_heavy_atom_count": 4,
+    "ligand_instance_not_found": 1,
+    "ligand_not_regular_nonpolymer": 3
+  },
+  "schema": "MetaSieve.HoloComplexIndexManifest.v1",
+  "unique_ligand_chemotypes": 2,
+  "unique_receptor_sequences": 2,
+  "valid_holo_complexes": 2
+}

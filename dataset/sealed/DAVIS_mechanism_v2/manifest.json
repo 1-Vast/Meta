@@ -1,0 +1,60 @@
+{
+  "artifacts": {
+    "governance.jsonl": "0694a727556f8c94cdab9f08571ad92b5c7a752c10346c0332ac7c154d295ebf",
+    "metaval/rows.jsonl": "c9e6f1a06574929f7d957aeed4b509f8fe7f0643372412555fe2a72a5b6ffc68",
+    "source/rows.jsonl": "6cc51180514fc1823faeb774b64cdf1bca2e54bd8fa0d1c0f829b73cbf55fbdc"
+  },
+  "biological_context": {
+    "continuous": [],
+    "endpoint": {
+      "column": null,
+      "mapping": {
+        "IC50": 2,
+        "Kd": 0,
+        "Ki": 1,
+        "functional-response": 3,
+        "score-like": 4,
+        "unknown": 5
+      },
+      "unknown": "unknown",
+      "vocabulary": [
+        "Kd",
+        "Ki",
+        "IC50",
+        "functional-response",
+        "score-like",
+        "unknown"
+      ]
+    },
+    "schema": "MetaSieve.BiologicalContext.v1"
+  },
+  "compiled_manifest_sha256": "0c98c79389061c80f2a116f7befc4e30798602a3794a570404c445caead49ee1",
+  "compiled_rows_sha256": "0080d05a76c213666aba996e1cf3d01de391135d40b7b5492db779b7d156610e",
+  "counts": {
+    "metaval": {
+      "rows": 4284,
+      "targets": 63
+    },
+    "recipient": {
+      "rows": 6528,
+      "targets": 96
+    },
+    "source": {
+      "rows": 14960,
+      "targets": 220
+    }
+  },
+  "dataset": "DAVIS",
+  "normalization": {
+    "high": 8.55284196865778,
+    "low": 5.0,
+    "mode": "train_quantile_affine"
+  },
+  "recipient_label_artifact_emitted": false,
+  "schema": "MetaSieve.CompiledDTASeal.v2",
+  "split_mapping": {
+    "test": "recipient",
+    "train": "source",
+    "val": "metaval"
+  }
+}

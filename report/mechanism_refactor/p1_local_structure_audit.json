@@ -1,0 +1,47 @@
+{
+  "schema": "MetaSieve.MechanismGateAudit.v1",
+  "date": "2026-08-06",
+  "environment": {
+    "conda": "drug",
+    "torch": "2.6.0+cu124",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  },
+  "local_structure_source": {
+    "name": "local PLINDER-MLSB subset",
+    "systems": 346,
+    "receptor_pdb_files": 346,
+    "ligand_coordinate_files": 0,
+    "available_ligand_field": "ligand_smiles",
+    "admissible_for_atom_residue_geometry_supervision": false,
+    "scope_note": "This result does not describe full PLINDER, which contains holo systems."
+  },
+  "implementation_checks": {
+    "explicit_holo_sidecar_fixture": "PASS",
+    "residue_slot_mapping": "PASS",
+    "contact_distance_shapes": "PASS",
+    "cuda_forward_backward": "PASS"
+  },
+  "stage_r0": {
+    "status": "NOT_RUN",
+    "reason": "No local holo ligand coordinates; contact/distance labels cannot be constructed without guessing."
+  },
+  "stage_r1": {
+    "status": "NOT_RUN_FAIL_CLOSED",
+    "reason": "A bridge cannot be admitted before genuine geometry-supervised R0 training.",
+    "stop_rule": "Do not enter P2, Section Adapter, or CSMO changes."
+  },
+  "replacement_plan": {
+    "stage": "P1A_OPEN_STRUCTURE_PILOT",
+    "biological_relevance_source": "BioLiP2",
+    "coordinate_source": "RCSB_PDB_CCD",
+    "coordinate_license": "CC0-1.0",
+    "pilot_complexes": 10000,
+    "minimum_unique_receptor_sequences": 2000,
+    "minimum_unique_ligand_chemotypes": 2000,
+    "mechanism_residue_slots": 128,
+    "pdbbind_mandatory": false,
+    "full_plinder_mandatory": false,
+    "status": "NOT_STARTED"
+  }
+}

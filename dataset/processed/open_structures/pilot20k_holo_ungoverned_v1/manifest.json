@@ -1,0 +1,155 @@
+{
+  "acquisition_manifest_sha256": "1a9e4c3c57a2dd6a6339b5deff6af338da6d7a11e6687163f8e6eb3c62922e2f",
+  "annotation_path": "D:\\MetaSieve\\dataset\\raw\\open_structures\\pilot20k\\biolip2\\BioLiP.txt.gz",
+  "annotation_sha256": "c92229bbc8c55c3bd84a9813c3e278ba62f4cfa44e6315cc98d9bf63ed64b6ec",
+  "biological_relevance_source": "BioLiP2",
+  "candidate_limit": 20000,
+  "candidates": 20000,
+  "ccd_snapshot_sha256": "b7e98c38f6ddc472768ae3368811b25746693fe733fb4776cff784d2727d26d6",
+  "coordinate_license": "CC0-1.0",
+  "coordinate_source": "RCSB_PDB",
+  "created_utc": "2026-08-06T08:23:52.297563+00:00",
+  "gate_reason": "P1A requires corpus thresholds, CC0 acquisition provenance, and hash-bound 40% benchmark homology exclusion",
+  "gate_requirements": {
+    "benchmark_identity_exclusion": 0.4,
+    "unique_ligand_chemotypes": 2000,
+    "unique_receptor_sequences": 2000,
+    "valid_holo_complexes": 10000
+  },
+  "gate_status": "NOT_RUN_FAIL_CLOSED",
+  "governance_pass": false,
+  "homology_governance": null,
+  "homology_governance_manifest_sha256": null,
+  "ligand_overlap_audit_sha256": null,
+  "pdb_release_cutoff": null,
+  "pdb_snapshot_utc": "2026-08-06T08:15:08.382076+00:00",
+  "provenance_pass": true,
+  "quality_filter": {
+    "covalent_complexes": "exclude",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "ligand_heavy_atoms": [
+      6,
+      96
+    ],
+    "ligand_mapping_coverage": 1.0,
+    "protein_length": [
+      50,
+      1022
+    ],
+    "protein_mapping_coverage_min": 0.9,
+    "regular_ligand": "HETATM instance with label_seq_id='.' and non-peptide CCD type",
+    "resolution_angstrom_max": 3.0
+  },
+  "quality_filter_sha256": "7b58652f0d8879ef4cd6db7075ced8e2c2337fbbba29da9e3835be7a18188518",
+  "quantitative_pass": true,
+  "record_schema": "MetaSieve.HoloComplex.v1",
+  "rejection_examples": {
+    "Explicit valence for atom # 0 O, 3, is greater than permitted": [
+      "2bzh:B:HB1:B:1307:BS01",
+      "2bzi:B:DW2:B:1306:BS01",
+      "2iwi:A:HB1:A:1289:BS01",
+      "2iwi:B:HB1:B:1288:BS01",
+      "3csf:A:DW2:A:1:BS01"
+    ],
+    "Explicit valence for atom # 1 C, 5, is greater than permitted": [
+      "1gjm:A:FEM:A:418:BS02"
+    ],
+    "Explicit valence for atom # 3 O, 3, is greater than permitted": [
+      "1r1c:B:REP:A:801:BS01",
+      "2fnw:A:REP:A:801:BS02",
+      "2i7s:A:REP:A:801:BS02"
+    ],
+    "Explicit valence for atom # 5 O, 3, is greater than permitted": [
+      "1e3d:B:FNE:B:543:BS02",
+      "1h2f:A:VA3:A:1209:BS01"
+    ],
+    "Explicit valence for atom # 6 O, 3, is greater than permitted": [
+      "1cc1:L:FCO:L:499:BS04",
+      "1yqw:R:FCO:R:550:BS02",
+      "2wpn:B:FCO:B:1497:BS01",
+      "3cus:Q:FCO:Q:550:BS02",
+      "3cus:R:FCO:R:550:BS02",
+      "3h3x:Q:FCO:Q:550:BS01",
+      "3h3x:R:FCO:R:550:BS01"
+    ],
+    "covalent_complex": [
+      "1a0l:A:APA:A:301:BS01",
+      "1a3b:H:T29:H:1:BS03",
+      "1a78:A:YIO:E:1:BS01",
+      "1aec:A:E64:A:219:BS01",
+      "1af6:A:FRU:D:2:BS02",
+      "1ah5:A:DPM:A:314:BS01",
+      "1ahu:A:FAA:A:600:BS01",
+      "1aiq:A:UMP:A:265:BS01",
+      "1amn:A:NAF:A:594:BS01",
+      "1at3:A:DFP:A:300:BS01"
+    ],
+    "ligand_instance_not_found": [
+      "1b25:A:PTT:A:800:BS02",
+      "1h82:B:GZZ:B:590:BS02",
+      "1nop:B:DNA:F:806:BS01",
+      "1uvk:A:G:A:704:BS03",
+      "1w55:A:C:A:1372:BS01",
+      "2c6c:A:24I:A:1767:BS04",
+      "2dej:A:APW:A:402:BS02",
+      "2fpz:A:270:A:1000:BS01",
+      "2ong:A:FPG:A:600:BS04",
+      "2vvp:B:R52:A:200:BS01"
+    ],
+    "ligand_mapping_not_100_percent": [
+      "148l:E:MUB:A:1:BS02",
+      "1a0t:P:GLC:A:1:BS01",
+      "1a26:A:CNA:A:200:BS01",
+      "1a34:A:U5P:B:11:BS04",
+      "1a3g:A:PLP:A:413:BS01",
+      "1a3k:A:GAL:B:2:BS01",
+      "1a47:A:G6D:C:3:BS03",
+      "1a59:A:COA:A:380:BS01",
+      "1a6w:H:NIP:H:430:BS01",
+      "1a7c:A:RIP:D:3:BS03"
+    ],
+    "ligand_not_regular_small_molecule": [
+      "10gs:A:VWW:A:210:BS01",
+      "11as:A:ASN:A:331:BS01",
+      "13gs:A:GSH:A:210:BS01",
+      "1a16:A:PRO:A:441:BS01",
+      "1a46:H:00K:H:372:BS03",
+      "1a4w:H:QWE:H:373:BS03",
+      "1a5i:A:0GJ:A:245:BS01",
+      "1a5s:B:SER:B:902:BS02",
+      "1a85:A:0DY:A:1:BS05",
+      "1a8g:A:2Z4:A:100:BS01"
+    ],
+    "not_xray": [
+      "1tvk:B:EP:B:1001:BS02",
+      "1zyt:A:MTN:A:165:BS01",
+      "2inq:A:MT1:A:1146:BS01",
+      "1ntp:A:ISP:A:1:BS01",
+      "1tvk:A:GTP:A:9500:BS01",
+      "2q9d:A:MTN:A:841:BS01",
+      "2q9e:B:MTN:A:844:BS01",
+      "3cwh:A:XUL:A:401:BS01"
+    ],
+    "protein_mapping_coverage": [
+      "2pxq:A:RNA:B:130:BS01"
+    ]
+  },
+  "rejections": {
+    "Explicit valence for atom # 0 O, 3, is greater than permitted": 5,
+    "Explicit valence for atom # 1 C, 5, is greater than permitted": 1,
+    "Explicit valence for atom # 3 O, 3, is greater than permitted": 3,
+    "Explicit valence for atom # 5 O, 3, is greater than permitted": 2,
+    "Explicit valence for atom # 6 O, 3, is greater than permitted": 7,
+    "covalent_complex": 1301,
+    "ligand_instance_not_found": 43,
+    "ligand_mapping_not_100_percent": 1872,
+    "ligand_not_regular_small_molecule": 1112,
+    "not_xray": 8,
+    "protein_mapping_coverage": 1
+  },
+  "schema": "MetaSieve.HoloComplexIndexManifest.v1",
+  "ungoverned_record_sha256": "e922ebf7c5689c8363a7a63dd578fb3fa3c8dcb630c571593132300404dd3dfc",
+  "unique_ligand_chemotypes": 3185,
+  "unique_receptor_sequences": 15645,
+  "valid_holo_complexes": 15645
+}

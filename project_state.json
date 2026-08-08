@@ -1,0 +1,128 @@
+{
+  "schema": "MetaSieve.ProjectState.v1",
+  "updated": "2026-08-08",
+  "current_phase": "E_AFF_L0R_NOT_RUN_POSITIVE_CONTROL_ABSENT",
+  "gates": {
+    "P0": "PASS",
+    "P1A": "PASS",
+    "P1B": "PASS",
+    "P1C": "FAIL",
+    "P1R2B_F0R": "HISTORICAL_CLOSED_FAILURE",
+    "P1R2B_D0_C": "PASS",
+    "P1R2B_D1": "PASS",
+    "P1R2B_E0": "SYNTHETIC_PRE_GATE_FAIL_CLOSED_SOURCE_NOT_RUN",
+    "P1R2B_E0S": "COMPLETE_MAP_REALIZATION_OR_OPTIMIZATION_DEFECT",
+    "P1R2B_E0R0": "ANALYTIC_PASS_LEARNED_HEADS_FAIL",
+    "P1R2B_E0R1": "OBJECTIVE_DEFECT_PINV_PASS_D_NUMERICAL_NOT_RUN",
+    "P1R2B_E0R2": "SYNTHETIC_OBJECTIVE_DESIGN_SOLVER_IDENTIFIED",
+    "P1R2B_TDIR_P0": "PILOT_LEARNABILITY_SIGNAL_NOT_OBSERVED",
+    "P1R2B_T_BASIS_R0": "RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED",
+    "P1R2B_T_BASIS_ANGULAR": "FROZEN_NOT_REGISTERED",
+    "P1R2B_E_AFF_P0": "SHARED_DIRECTION_NOT_OBSERVED_H0_DATA_SUPPORTED",
+    "P1R2B_E_AFF_H0A": "TASK_LOCAL_HEADROOM_WITHOUT_PARTNER_SPECIFICITY",
+    "P1R2B_E_AFF_H0C": "FIXED_RADIAL_INTERACTION_RESIDUAL_NOT_OBSERVED",
+    "P1R2B_E_AFF_H0B": "NOT_AUTHORIZED_PARTNER_MARGIN_FAILED",
+    "P1R2B_E_AFF_X0": "STOP_SOURCE_INTERACTION_UNDERDETERMINED",
+    "P1R2B_E_AFF_X0_FEAS": "X0_UNIT_REQUIREMENT_UNATTAINABLE_BY_CONSTRUCTION",
+    "P1R2B_E_AFF_X0B": "CONDITIONAL_DESIGN_SUPPORTED_KI_KD_PENDING_RHO",
+    "P1R2B_E_AFF_R0": "READOUT_SCOPE_AUDIT_RANK_METRIC_BLIND_TO_TASK_LEVEL_LOCATION",
+    "P1R2B_E_AFF_L0": "NOT_RUN_NUMERICAL_PRECONDITION_FAILED",
+    "P1R2B_E_AFF_X1": "NOT_AUTHORIZED_RHO_GATE_NOT_EVALUATED",
+    "P1R2B_E_AFF_X2": "FROZEN_X1_NOT_AUTHORIZED",
+    "P1R2B_RFSA": "FROZEN_PARTNER_SPECIFIC_SECTION_NOT_IDENTIFIED",
+    "P1R2B_T": "FROZEN",
+    "P2": "FROZEN",
+    "P3": "FROZEN",
+    "P4": "FROZEN",
+    "P1R2B_E_AFF_L0R": "NOT_RUN_POSITIVE_CONTROL_ABSENT"
+  },
+  "historical_verdict_annotations": {
+    "P1R2B_E_AFF_X0": {
+      "verdict_unchanged": true,
+      "annotation": "SPECIFICATION_INDUCED_STOP",
+      "detail": "X0-FEAS established that the registered 245-effective-component requirement exceeded the structural ceiling of X0's own independence unit at every governed population (best ceiling Ki 97, Kd 56). The X0 stop therefore reflects its unit definition, not a measurement of ChEMBL crossing. The X0 verdict, metrics and artifacts are retained unchanged.",
+      "reclassified_as_pass": false
+    },
+    "P1C_P1R_E_AFF_P0_H0A_H0C": {
+      "verdicts_unchanged": true,
+      "annotation": "SCOPE_LIMITED_TO_WITHIN_TASK_RANKING",
+      "detail": "E-AFF-R0 established that within-task concordance is exactly invariant to per-task affinity shift and positive rescaling. These negative results remain valid statements about within-task ranking information and are not evidence about protein-specific affinity location.",
+      "reclassified_as_pass": false
+    },
+    "P1R2B_E_AFF_X0B": {
+      "annotation": "CONDITIONAL_DESIGN_SUPPORT_ONLY",
+      "detail": "X0-B is a design statement about effective sample size under a cell-disjoint unit. It is not evidence that protein-by-ligand affinity interaction exists. X1 remains unauthorized until intra-cluster correlation is estimated and gated."
+    },
+    "P1R2B_E_AFF_L0": {
+      "annotation": "NOT_RUN_NOT_A_SCIENTIFIC_NEGATIVE",
+      "detail": "The run executed and produced arm scores, but registered gate condition 3 used a step-containment coverage statistic that is identically 0.0 for every arm on the fixed 33-point mesh, so one of three gate conditions did not execute as specified. Fail-closed to NOT-RUN. Ligand-only also failed to beat population-only, so no positive control was established. Claim A remains untested and the 115-task panel is consumed.",
+      "reclassified_as_pass": false
+    },
+    "P1R2B_E_AFF_L0R": {
+      "annotation": "NOT_RUN_NOT_A_SCIENTIFIC_NEGATIVE",
+      "detail": "The corrected Gate fixed both L0 defects: mean-interval coverage is informative (0.0674-0.1664 across arms) and a registered positive control was enforced. The control failed: ligand-only beat population-only by only +0.03421 log units, CI [-0.03304, 0.10793], against a required 0.1*sigma_assay = 0.04797. No protein contrast is interpretable or reported. Claim A remains untested.",
+      "reclassified_as_pass": false
+    }
+  },
+  "current_scientific_state": [
+    "WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED",
+    "PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED",
+    "CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED",
+    "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
+    "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
+    "NO_VALIDATED_END_TO_END_DTA_MODEL"
+  ],
+  "estimand_separation": {
+    "claim_a": "does the correct protein provide affinity-location information beyond population, ligand-only and protein-sequence-only baselines",
+    "claim_a_stage": "E-AFF-L0",
+    "claim_b": "does a non-additive protein-by-ligand affinity interaction exist",
+    "claim_b_stage": "E-AFF-X0-B then X1",
+    "relation": "different estimands; neither stage replaces, implies or authorizes the other"
+  },
+  "current_mission": "STOPPED_NO_VALIDATED_END_TO_END_MODEL",
+  "repository_consolidation": "COMPLETE_THROUGH_E_AFF_R0_X0FEAS_X0B",
+  "last_full_regression": "70_PASSED",
+  "mandatory_sources": {
+    "affinity_primary": "ChEMBL37_SQLite_static_release",
+    "affinity_replication": "BindingDB_archived_snapshot_not_started",
+    "geometry": "frozen_P1B_BioLiP2_RCSB"
+  },
+  "not_mandatory": [
+    "PDBbind",
+    "Papyrus_E0_primary",
+    "PLINDER_full",
+    "PLINDER_MLSB"
+  ],
+  "integration_status": "INTERFACE_COMPATIBLE_BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
+  "code_surfaces": {
+    "model": "VERIFIED_MATH_AND_P1B_GEOMETRY_ONLY",
+    "scripts": "PASSED_DATA_GEOMETRY_GOVERNANCE_ONLY",
+    "research": "R0_READOUT_SCOPE_X0FEAS_UNIT_CEILING_X0B_CONDITIONAL_DESIGN_L0_REGISTERED",
+    "report": "CURRENT_PROTOCOL_AND_PASS_EVIDENCE_ONLY"
+  },
+  "frozen_math": true,
+  "recipient_label_reads": 0,
+  "davis_label_reads": 0,
+  "next_authorized_on_pass": null,
+  "sigma_assay_ki_log_units": {
+    "value": 0.47971,
+    "ci95": [
+      0.47034,
+      0.48946
+    ],
+    "replicate_cells": 4261,
+    "degrees_of_freedom": 4840,
+    "estimated_before_scoring": true
+  },
+  "location_design_power_ki": {
+    "best_cross_component_location_signal_log_units": 0.03421,
+    "ci95": [
+      -0.03304,
+      0.10793
+    ],
+    "sigma_assay_log_units": 0.47971,
+    "fraction_of_assay_noise": 0.0713,
+    "closure_components": 78,
+    "meaning": "ligand identity, the easiest available signal, is worth about 7% of assay noise for cross-component absolute-location prediction in governed ChEMBL37 Ki and is not separable from zero at this panel size; this bounds any L0-style Gate"
+  }
+}

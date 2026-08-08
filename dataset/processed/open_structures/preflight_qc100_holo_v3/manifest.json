@@ -1,0 +1,60 @@
+{
+  "annotation_path": "D:\\MetaSieve\\dataset\\raw\\open_structures\\preflight_qc100\\biolip2\\BioLiP.txt.gz",
+  "annotation_sha256": "c92229bbc8c55c3bd84a9813c3e278ba62f4cfa44e6315cc98d9bf63ed64b6ec",
+  "candidate_limit": 100,
+  "candidates": 100,
+  "created_utc": "2026-08-06T08:04:16.185412+00:00",
+  "gate_reason": "P1A requires corpus thresholds and hash-bound 40% benchmark homology exclusion",
+  "gate_requirements": {
+    "benchmark_identity_exclusion": 0.4,
+    "unique_ligand_chemotypes": 2000,
+    "unique_receptor_sequences": 2000,
+    "valid_holo_complexes": 10000
+  },
+  "gate_status": "NOT_RUN_FAIL_CLOSED",
+  "governance_pass": false,
+  "homology_governance": null,
+  "quantitative_pass": false,
+  "record_schema": "MetaSieve.HoloComplex.v1",
+  "rejection_examples": {
+    "covalent_complex": [
+      "1a0l:A:APA:A:301:BS01",
+      "1a3b:H:T29:H:1:BS03",
+      "1a78:A:YIO:E:1:BS01"
+    ],
+    "ligand_mapping_not_100_percent": [
+      "148l:E:MUB:A:1:BS02",
+      "1a0t:P:GLC:A:1:BS01",
+      "1a26:A:CNA:A:200:BS01",
+      "1a34:A:U5P:B:11:BS04",
+      "1a3g:A:PLP:A:413:BS01",
+      "1a3k:A:GAL:B:2:BS01",
+      "1a47:A:G6D:C:3:BS03",
+      "1a59:A:COA:A:380:BS01",
+      "1a6w:H:NIP:H:430:BS01",
+      "1a7c:A:RIP:D:3:BS03"
+    ],
+    "ligand_not_regular_small_molecule": [
+      "10gs:A:VWW:A:210:BS01",
+      "11as:A:ASN:A:331:BS01",
+      "13gs:A:GSH:A:210:BS01",
+      "1a16:A:PRO:A:441:BS01",
+      "1a46:H:00K:H:372:BS03",
+      "1a4w:H:QWE:H:373:BS03",
+      "1a5i:A:0GJ:A:245:BS01",
+      "1a5s:B:SER:B:902:BS02",
+      "1a85:A:0DY:A:1:BS05",
+      "1a8g:A:2Z4:A:100:BS01"
+    ]
+  },
+  "rejections": {
+    "covalent_complex": 3,
+    "ligand_mapping_not_100_percent": 12,
+    "ligand_not_regular_small_molecule": 15
+  },
+  "schema": "MetaSieve.HoloComplexIndexManifest.v1",
+  "ungoverned_record_sha256": "b0ae178dee3d24c06952f36065675efe209ec86a9b7400ac8bfc3422ea62f234",
+  "unique_ligand_chemotypes": 70,
+  "unique_receptor_sequences": 70,
+  "valid_holo_complexes": 70
+}

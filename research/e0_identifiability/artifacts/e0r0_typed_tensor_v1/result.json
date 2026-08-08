@@ -1,0 +1,110 @@
+{
+  "affinity_labels_read": false,
+  "analytic_witness": {
+    "correct_ci": 1.0,
+    "correct_minus_deranged": 0.48750000000000004,
+    "correct_minus_ligand": 0.5154605263157894,
+    "cp_rank_6_residual_error": 4.50644962235458e-07,
+    "cp_rank_6_tensor_error": 2.3447910280083306e-13,
+    "deranged_ci": 0.5125,
+    "gate": {
+      "correct_ci_at_least_0_80": true,
+      "correct_minus_deranged_at_least_0_10": true,
+      "correct_minus_ligand_at_least_0_10": true,
+      "pass": true,
+      "permutation_error_at_most_1e_6": true
+    },
+    "ligand_ci": 0.4845394736842106,
+    "maximum_raw_teacher_reconstruction_error": 2.000779686373022e-08,
+    "maximum_residual_error": 4.506449604591012e-07
+  },
+  "created_utc": "2026-08-06T17:17:59.449296+00:00",
+  "davis_accessed": false,
+  "downstream_authorized": false,
+  "frozen_map": {
+    "correct_ci": 0.6855263157894738,
+    "correct_minus_deranged": 0.03618421052631593,
+    "correct_minus_ligand": 0.20098684210526319,
+    "deranged_ci": 0.6493421052631578,
+    "ligand_ci": 0.4845394736842106,
+    "permutation_error": 0.0
+  },
+  "inputs": {
+    "cache_manifest_sha256": "4a924c67ec4ed58f31b7478b2773cfecc1d637f569d0d2297ca9843979c75d50",
+    "checkpoint_sha256": "90b0010b81fa2758a2dbdd1a8dbe06adae2e05acbbc267ccb62ceee6ff6c4f37",
+    "input_manifest_sha256": "2c45a3684ffb70c59dc4979e5121c95af6ded03c767a6c5b799d82c076877467",
+    "synthetic_gate_sha256": "2688285ffdab6b0d9f6a71e17d6d5d42de0cc69fe6cefb59259589474af297b9"
+  },
+  "learned_cp_rank_6": {
+    "correct_ci": 0.6677631578947368,
+    "correct_minus_deranged": 0.06710526315789478,
+    "correct_minus_ligand": 0.18322368421052626,
+    "deranged_ci": 0.6006578947368421,
+    "gate": {
+      "correct_ci_at_least_0_80": false,
+      "correct_minus_deranged_at_least_0_10": false,
+      "correct_minus_ligand_at_least_0_10": true,
+      "pass": false,
+      "permutation_error_at_most_1e_6": true
+    },
+    "ligand_ci": 0.4845394736842106,
+    "model": "cp_rank_6",
+    "parameter_count": 114,
+    "permutation_error": 0.0,
+    "residual_pearson": 0.7759293235712581,
+    "residual_spearman": 0.6416178366342435,
+    "train_correct_ci": 0.7587171052631579
+  },
+  "learned_full_240": {
+    "correct_ci": 0.6901315789473684,
+    "correct_minus_deranged": 0.05986842105263157,
+    "correct_minus_ligand": 0.20559210526315785,
+    "deranged_ci": 0.6302631578947369,
+    "gate": {
+      "correct_ci_at_least_0_80": false,
+      "correct_minus_deranged_at_least_0_10": false,
+      "correct_minus_ligand_at_least_0_10": true,
+      "pass": false,
+      "permutation_error_at_most_1e_6": true
+    },
+    "ligand_ci": 0.4845394736842106,
+    "model": "full_240",
+    "parameter_count": 240,
+    "permutation_error": 0.0,
+    "residual_pearson": 0.6304690327608872,
+    "residual_spearman": 0.5919518340560178,
+    "train_correct_ci": 0.7534539473684211
+  },
+  "model_hashes": {
+    "cp_rank_6": "ba314a2a8f5dc0746747acc2d95c46fa3f6a93230c3eab0cbcfff810204eebf1",
+    "full_240": "f9c8618c5ac1863c4dafe3ad5c7197bb330c717cb49fc48ffd95235c1bf4daca"
+  },
+  "optimization": {
+    "batch_size": 4,
+    "epochs": 60,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001
+  },
+  "parameter_contract": {
+    "cp_rank_6_expected": 114,
+    "full_expected": 240
+  },
+  "production_model_modified": false,
+  "recipient_labels_read": false,
+  "schema": "MetaSieve.E0R0TypedTensor.v1",
+  "selection": {
+    "holdout_fold": 4,
+    "ligands_per_task": 20,
+    "seed": 17,
+    "tasks_per_fold": 8,
+    "train_folds": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "stage": "P1R2B-E0R0_TYPED_TENSOR_IDENTIFIABILITY",
+  "typed_interaction_training_performed": false,
+  "verdict": "TYPED_TENSOR_LEARNED_HEADS_FAIL"
+}

@@ -1,0 +1,44 @@
+# Python and test runtime
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp*/
+.coverage
+htmlcov/
+
+# Editors and local agents
+.vscode/
+.idea/
+.claude/
+
+# Local secrets and machine-specific remote configuration
+.env
+.env.*
+config/remote/ssh_config
+config/remote/hosts.json
+config/remote/keys/
+config/remote/sync_manifest.txt
+LOCAL_RETENTION.md
+
+# Downloaded third-party tools and model caches
+tools/
+weights/**
+!weights/README.md
+
+# Raw and processed datasets are not redistributed through Git. Keep only
+# provenance, license, checksum, warning, and manifest files.
+dataset/**
+!dataset/**/
+!dataset/**/README.md
+!dataset/**/LICENSE
+!dataset/**/LICENSE.*
+!dataset/**/checksums.txt
+!dataset/**/DO_NOT_USE_FOR_STRICT_EVALUATION.txt
+!dataset/**/*manifest*.json
+
+# Generic local residue
+*.log
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store

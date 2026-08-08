@@ -1,0 +1,304 @@
+{
+  "affinity_labels_read": false,
+  "boundaries": {
+    "T0_teacher_oracle": {
+      "holdout_ci": 1.0
+    },
+    "T1_teacher_sufficient_statistics": {
+      "dimensions": 240,
+      "maximum_reconstruction_error": 2.193200173139509e-07,
+      "rank_retention": 1.0
+    },
+    "T2_frozen_geometry": {
+      "maximum_teacher_statistic_reconstruction_error": 2.193200173139509e-07,
+      "teacher_is_defined_directly_from_frozen_geometry": true,
+      "verdict": "PASS_BY_CONSTRUCTION"
+    },
+    "T3_map": {
+      "correct_minus_deranged": 0.03618421052631593,
+      "holdout_correct_ci": 0.6855263157894738,
+      "holdout_deranged_ci": 0.6493421052631578,
+      "train_correct_ci": 0.8531250000000001
+    }
+  },
+  "derangement": {
+    "all_selected_pairs": {
+      "contact_relative_l2_mean": 1.1060806383192539,
+      "distance_relative_l2_mean": 0.6935824005305767,
+      "map_absolute_delta_mean": 0.6346869591533323,
+      "residue_relative_l2_mean": 1.0772729769349099,
+      "teacher_absolute_delta_mean": 0.8958120078232872
+    },
+    "holdout": {
+      "contact_relative_l2_mean": 1.048182748630643,
+      "distance_relative_l2_mean": 0.6632219567894936,
+      "map_absolute_delta_mean": 0.37609825963008914,
+      "residue_relative_l2_mean": 1.056601032614708,
+      "teacher_absolute_delta_mean": 0.8648402617627096,
+      "teacher_absolute_delta_median": 0.6890914635968534,
+      "teacher_delta_vs_contact_delta": {
+        "pearson": -0.5030415317652338,
+        "spearman": -0.45148247978436656
+      },
+      "teacher_delta_vs_distance_delta": {
+        "pearson": -0.5317098063858022,
+        "spearman": -0.5412545411930154
+      },
+      "teacher_delta_vs_map_delta": {
+        "pearson": 0.3137205701070481,
+        "spearman": 0.19581624282198523
+      },
+      "teacher_delta_vs_residue_delta": {
+        "pearson": -0.011597465136916672,
+        "spearman": -0.03832870845598974
+      }
+    }
+  },
+  "derangement_contract": {
+    "does_not_explain_aggregate_partner_gap": true,
+    "pairs_at_or_above_40pct_local_identity": 1,
+    "reason": "the violating task retains strong teacher and MAP correct-minus-deranged contrast; it is reported as a control-contract caveat",
+    "status": "PARTIAL_VIOLATION"
+  },
+  "optimization": {
+    "activation_summary": {
+      "atom": {
+        "fraction_abs_gt_10": 0.012088462570946465,
+        "fraction_abs_lt_1e_6": 0.053125958736002454,
+        "maximum": 23.391359329223633,
+        "mean": 0.5048409700393677,
+        "minimum": -0.27846455574035645,
+        "std": 1.9910075664520264
+      },
+      "geometry": {
+        "fraction_abs_gt_10": 0.0,
+        "fraction_abs_lt_1e_6": 1.1553517842077005e-05,
+        "maximum": 0.43958839774131775,
+        "mean": -0.009143869392573833,
+        "minimum": -0.19779086112976074,
+        "std": 0.10253748297691345
+      },
+      "pair": {
+        "fraction_abs_gt_10": 0.0006200044611184614,
+        "fraction_abs_lt_1e_6": 0.0022703598825308713,
+        "maximum": 34.01033401489258,
+        "mean": 0.22877025604248047,
+        "minimum": -0.27846458554267883,
+        "std": 1.0330694913864136
+      },
+      "residue": {
+        "fraction_abs_gt_10": 0.0,
+        "fraction_abs_lt_1e_6": 0.0,
+        "maximum": 6.5515313148498535,
+        "mean": 0.2809108793735504,
+        "minimum": -0.27846458554267883,
+        "std": 0.7964868545532227
+      }
+    },
+    "convergence_identifiable": false,
+    "gradient_trace_persisted": false,
+    "holdout_correct_ci": 0.6855263157894738,
+    "holdout_residual_pearson": 0.7998864841522993,
+    "holdout_residual_spearman": 0.6386587366694011,
+    "parameter_summary": {
+      "atom.0.bias": {
+        "l2": 0.43260687589645386,
+        "maximum_abs": 0.14345291256904602
+      },
+      "atom.0.weight": {
+        "l2": 12.665202140808105,
+        "maximum_abs": 1.7190804481506348
+      },
+      "geometry.0.bias": {
+        "l2": 0.5985636115074158,
+        "maximum_abs": 0.3487757444381714
+      },
+      "geometry.0.weight": {
+        "l2": 2.4351723194122314,
+        "maximum_abs": 0.6011728644371033
+      },
+      "mass_weight": {
+        "l2": 0.012052545323967934,
+        "maximum_abs": 0.012052545323967934
+      },
+      "pair.0.bias": {
+        "l2": 0.3854958713054657,
+        "maximum_abs": 0.1721460372209549
+      },
+      "pair.0.weight": {
+        "l2": 8.49467658996582,
+        "maximum_abs": 0.6433492302894592
+      },
+      "pair.2.bias": {
+        "l2": 0.007654874119907618,
+        "maximum_abs": 0.007654874119907618
+      },
+      "pair.2.weight": {
+        "l2": 0.9372696280479431,
+        "maximum_abs": 0.28491735458374023
+      },
+      "residue.0.bias": {
+        "l2": 0.42523372173309326,
+        "maximum_abs": 0.16626057028770447
+      },
+      "residue.0.weight": {
+        "l2": 11.427872657775879,
+        "maximum_abs": 0.842113733291626
+      }
+    },
+    "reason": "the frozen run persisted final weights and metrics but no epoch/gradient trace",
+    "train_correct_ci": 0.8531250000000001,
+    "train_residual_pearson": 0.9454276351654375,
+    "train_residual_spearman": 0.9344399339353858,
+    "training_curve_persisted": false
+  },
+  "recipient_labels_read": false,
+  "sample": {
+    "derangement_contract_all_pairs_below_40pct": false,
+    "derangement_contract_violations": [
+      {
+        "closure_component_id": "9f42fc1aa2a3da7995836475cdd401e9911a26c7aba9aab1672188740a0ff14e",
+        "correct_deranged_local_identity": 0.5454545454545454,
+        "deranged_protein_sequence_sha256": "bc397cc8eb78693a226a23c89a09eb3c0054deef0ef8c9cae74b11a491fad1df",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.868421052631579,
+        "map_deranged_ci": 0.6947368421052632,
+        "protein_sequence_sha256": "9f42fc1aa2a3da7995836475cdd401e9911a26c7aba9aab1672188740a0ff14e",
+        "rows": 20,
+        "task_id": "0223d9c9474ef5db844111142a6c35d4dd3f20fae4a821315b26c1a6a1709c58",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.29473684210526313
+      }
+    ],
+    "derangement_pairs_at_or_above_40pct_local_identity": 1,
+    "fold4_population_closure_components": 71,
+    "fold4_population_proteins": 142,
+    "fold4_population_tasks": 573,
+    "holdout_closure_components": 8,
+    "holdout_closure_coverage_of_fold4": 0.11267605633802817,
+    "holdout_closure_coverage_of_retained_245": 0.0326530612244898,
+    "holdout_connectivity_overlap_with_train": 0,
+    "holdout_endpoint_counts": {
+      "Kd": 2,
+      "Ki": 6
+    },
+    "holdout_ligand_connectivity_keys": 157,
+    "holdout_ligand_states": 160,
+    "holdout_protein_coverage_of_fold4": 0.056338028169014086,
+    "holdout_proteins": 8,
+    "holdout_state_overlap_with_train": 0,
+    "holdout_task_coverage_of_fold4": 0.013961605584642234,
+    "holdout_tasks": 8,
+    "per_holdout_task": [
+      {
+        "closure_component_id": "280a4cad50f44a91ca84500d89c99501814d92248b54c8a66d3d1fc5ee0d15b5",
+        "correct_deranged_local_identity": 0.2413793103448276,
+        "deranged_protein_sequence_sha256": "ed2277a5b7e4e7c44a5a8b9cb05f59452041ffcfcca4654de1a91e4705570cda",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.8631578947368421,
+        "map_deranged_ci": 0.8473684210526315,
+        "protein_sequence_sha256": "280a4cad50f44a91ca84500d89c99501814d92248b54c8a66d3d1fc5ee0d15b5",
+        "rows": 20,
+        "task_id": "01a5165285a345b34657787782430c4b1507ef7b3d0dbf7e81ed064ceb3ec387",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.7315789473684211
+      },
+      {
+        "closure_component_id": "bc397cc8eb78693a226a23c89a09eb3c0054deef0ef8c9cae74b11a491fad1df",
+        "correct_deranged_local_identity": 0.3157894736842105,
+        "deranged_protein_sequence_sha256": "de3c8c9ee981bcae4644a62f0dc0c4d048dfb1cd4070aa145425fce918531bb5",
+        "endpoint_family": "Kd",
+        "map_correct_ci": 0.5947368421052631,
+        "map_deranged_ci": 0.6,
+        "protein_sequence_sha256": "bc397cc8eb78693a226a23c89a09eb3c0054deef0ef8c9cae74b11a491fad1df",
+        "rows": 20,
+        "task_id": "0212d651e037f8c048bbb4566b4ae4b89a9c6615cde0588aac923c7e5864ccfe",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.4052631578947368
+      },
+      {
+        "closure_component_id": "9f42fc1aa2a3da7995836475cdd401e9911a26c7aba9aab1672188740a0ff14e",
+        "correct_deranged_local_identity": 0.5454545454545454,
+        "deranged_protein_sequence_sha256": "bc397cc8eb78693a226a23c89a09eb3c0054deef0ef8c9cae74b11a491fad1df",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.868421052631579,
+        "map_deranged_ci": 0.6947368421052632,
+        "protein_sequence_sha256": "9f42fc1aa2a3da7995836475cdd401e9911a26c7aba9aab1672188740a0ff14e",
+        "rows": 20,
+        "task_id": "0223d9c9474ef5db844111142a6c35d4dd3f20fae4a821315b26c1a6a1709c58",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.29473684210526313
+      },
+      {
+        "closure_component_id": "1fc281bc0377a44d573c730a9c58649a3f9c3d9af338c2e7ba3f6cc82975de42",
+        "correct_deranged_local_identity": 0.2962962962962963,
+        "deranged_protein_sequence_sha256": "5862305c8302b2d7dd9de31f34102a1220d9099d9f6f7b961610ed4337934880",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.5263157894736842,
+        "map_deranged_ci": 0.5421052631578948,
+        "protein_sequence_sha256": "c497f29417b886ff019812f69b1ed95fa872225c9180283496bec6d9ca65f664",
+        "rows": 20,
+        "task_id": "023b7409ea33a6a8f811be0e16c5491b593bc9aebf1a939d04dea4e4f3062967",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.5736842105263158
+      },
+      {
+        "closure_component_id": "2fcab038f670c1f501827f6ee95db92c00852db0be60b7f7810ad88d3a3cc81e",
+        "correct_deranged_local_identity": 0.2777777777777778,
+        "deranged_protein_sequence_sha256": "3e63d306265781bbc1e001372f1a6e7c77338903be925c3d5e83a4f8c29dcee5",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.8263157894736842,
+        "map_deranged_ci": 0.8526315789473684,
+        "protein_sequence_sha256": "ed2277a5b7e4e7c44a5a8b9cb05f59452041ffcfcca4654de1a91e4705570cda",
+        "rows": 20,
+        "task_id": "0254a39bdbdcf8535c05ffbab7c91f261c6a8ba844dd5b11587999adf985f324",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.3263157894736842
+      },
+      {
+        "closure_component_id": "011b29df0ce28bf5ed25ab922e3b490924ed2bb990c8e2c6cfbbb7ae893b21db",
+        "correct_deranged_local_identity": 0.3157894736842105,
+        "deranged_protein_sequence_sha256": "31d4d2f5301bb477b0b173ab4a9959776cb9d1398d429b828bf6de5396a44a36",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.7631578947368421,
+        "map_deranged_ci": 0.6947368421052632,
+        "protein_sequence_sha256": "8b858a0c09ffd4bb0f2b21d49eeed9f2271f787199ce6c5896d8aca87d3d3325",
+        "rows": 20,
+        "task_id": "0298e58ab793a20de569da7183a4d83bbc2676904e14c895ead878cb01bd8835",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.7526315789473684
+      },
+      {
+        "closure_component_id": "003b9a582f3b93da4484c1acfb668f69be46cae18563c05c846701caba374cb3",
+        "correct_deranged_local_identity": 0.2916666666666667,
+        "deranged_protein_sequence_sha256": "32d61aba7a823674fd552153a3ed08e864258b7720546b2ca65e7e29f6cc0a13",
+        "endpoint_family": "Ki",
+        "map_correct_ci": 0.5736842105263158,
+        "map_deranged_ci": 0.4789473684210526,
+        "protein_sequence_sha256": "81962b47787bfaba76936dd091396e21617e3f444f9efac4085cd2ac133f56d2",
+        "rows": 20,
+        "task_id": "02eb916dc72292cc152ab1ced0bdb45e3d98c9cc377f8dabb829effd7d02f146",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.5263157894736842
+      },
+      {
+        "closure_component_id": "4c0cef143858b123b57fe94ba580d433ebbad7bbfb5265d8ae729c1e43be5e46",
+        "correct_deranged_local_identity": 0.38461538461538464,
+        "deranged_protein_sequence_sha256": "9f42fc1aa2a3da7995836475cdd401e9911a26c7aba9aab1672188740a0ff14e",
+        "endpoint_family": "Kd",
+        "map_correct_ci": 0.46842105263157896,
+        "map_deranged_ci": 0.4842105263157895,
+        "protein_sequence_sha256": "9796e4a195066b95cb46d4fbb869f06afddbe3672b9e1f789fa4e3e5c9560e0c",
+        "rows": 20,
+        "task_id": "02f09e60807d91179efbc5ca5214d4e15179123c53479694305119ad620842f3",
+        "teacher_correct_ci": 1.0,
+        "teacher_deranged_ci": 0.48947368421052634
+      }
+    ],
+    "selection_policy": "lexical_first_8_tasks_per_frozen_fold_first_20_ligand_states",
+    "tasks": 40,
+    "train_tasks": 32
+  },
+  "schema": "MetaSieve.SyntheticInformationRetention.v1",
+  "stage": "P1R2B-E0S"
+}
