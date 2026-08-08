@@ -2,6 +2,22 @@
 
 Updated: 2026-08-08
 
+## 0-PRE. Terminal outcome of the external programme (2026-08-08)
+
+```text
+PUBLIC_DATA_INSUFFICIENT_FOR_IDENTIFICATION
+DEPLOYMENT_INPUTS_INSUFFICIENT
+```
+
+XP3 quantified the governing trade-off: single-lab profiling panels have real
+reproducible interaction but only ~8 protein-group independence units (kinase
+taxonomy cap); literature aggregations have 70-85 units but their interaction
+sits below the measurement noise floor. XP4 confirmed the latter directly
+(`sigma=0.777`, `gamma` sd `0.406`, chemistry ceiling `R2=-0.539`). XP5 closed
+the pose-free typed rung on the panel that does have signal (derangement
+specificity exactly `+0.00000`). Full account:
+`report/FINAL_IDENTIFIABILITY_REPORT.md`.
+
 ## 0. XP1 / XP2 External Crossed-Panel Programme (2026-08-08)
 
 ```text

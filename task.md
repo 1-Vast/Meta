@@ -217,3 +217,26 @@ is read, a new registration must freeze the release checksum, endpoint
 semantics, target/ligand/document closure, positive control, wrong-protein
 control and promotion Gate. Dataset acquisition alone does not authorize model
 selection, DAVIS access or biological-`z` admission.
+
+
+## Terminal Outcome (2026-08-08)
+
+```text
+PUBLIC_DATA_INSUFFICIENT_FOR_IDENTIFICATION
+DEPLOYMENT_INPUTS_INSUFFICIENT
+```
+
+Report: `report/FINAL_IDENTIFIABILITY_REPORT.md`.
+
+A real protein-specific interaction exists above noise in single-laboratory
+profiling panels. It is not observable from any deployment-available
+representation tested, and the public-data landscape offers either low noise with
+~8 protein-group independence units or many units with noise exceeding the
+interaction. Rung `B2` (pose-based structure) is recorded as untested with a
+stated feasibility barrier of ~136k dockings.
+
+The probability-law operator `K(B(z)F(z))` was never scored, because no
+biological statistic ever passed a Gate that would have justified scoring it.
+No GPU training was performed; the Stage-4 trigger condition never occurred.
+
+The exact missing experimental design is stated in section 7 of the final report.

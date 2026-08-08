@@ -1,0 +1,222 @@
+{
+  "stage": "XP5",
+  "panel": "BLK-METZ-XP2",
+  "channels": [
+    "hbond_donor_compl",
+    "hbond_acceptor_compl",
+    "electrostatic_anionic",
+    "electrostatic_cationic",
+    "hydrophobic_burial",
+    "aromatic_pi",
+    "steric_gatekeeper",
+    "steric_hinge",
+    "polar_surface_compl",
+    "size_compl"
+  ],
+  "folds": 5,
+  "hyperparameters": [
+    {
+      "fold": 0,
+      "lambda": 10000.0,
+      "channel_effect": {
+        "hbond_donor_compl": 0.0012738072896470664,
+        "hbond_acceptor_compl": 0.00011321067804835947,
+        "electrostatic_anionic": -0.0027156964607042084,
+        "electrostatic_cationic": -0.0027156964607042058,
+        "hydrophobic_burial": 0.0003386822790122462,
+        "aromatic_pi": 0.0025872338178562666,
+        "steric_gatekeeper": -0.002453782038205881,
+        "steric_hinge": 0.0012989906407635506,
+        "polar_surface_compl": 0.0011496404282612636,
+        "size_compl": 0.0011236098260255425
+      }
+    },
+    {
+      "fold": 1,
+      "lambda": 10000.0,
+      "channel_effect": {
+        "hbond_donor_compl": -0.003830355870843885,
+        "hbond_acceptor_compl": 0.002340515664525906,
+        "electrostatic_anionic": 0.0010571416675070988,
+        "electrostatic_cationic": 0.001057141667507099,
+        "hydrophobic_burial": 0.00525800553907668,
+        "aromatic_pi": -0.00289268462171793,
+        "steric_gatekeeper": -0.008432158966564648,
+        "steric_hinge": 0.0018763416164461982,
+        "polar_surface_compl": 0.0022706499192099495,
+        "size_compl": 0.0012954033848535324
+      }
+    },
+    {
+      "fold": 2,
+      "lambda": 10000.0,
+      "channel_effect": {
+        "hbond_donor_compl": -0.002608212372126941,
+        "hbond_acceptor_compl": 0.0014669743417317067,
+        "electrostatic_anionic": -0.0006639539441252265,
+        "electrostatic_cationic": -0.0006639539441252265,
+        "hydrophobic_burial": 0.004779537069246573,
+        "aromatic_pi": -0.0008267317976453454,
+        "steric_gatekeeper": -0.010589321951347918,
+        "steric_hinge": 0.0027433991827045495,
+        "polar_surface_compl": 0.0029083681636258457,
+        "size_compl": 0.0034538952520619826
+      }
+    },
+    {
+      "fold": 3,
+      "lambda": 10000.0,
+      "channel_effect": {
+        "hbond_donor_compl": 0.0011858920696959457,
+        "hbond_acceptor_compl": 0.0011724015087351538,
+        "electrostatic_anionic": -0.000719325938802626,
+        "electrostatic_cationic": -0.0007193259388026256,
+        "hydrophobic_burial": 0.0024836371987305653,
+        "aromatic_pi": -0.0005463274286805756,
+        "steric_gatekeeper": -0.007458459380218224,
+        "steric_hinge": 0.0010266781905694448,
+        "polar_surface_compl": 0.0012134014410218935,
+        "size_compl": 0.0023614282777510483
+      }
+    },
+    {
+      "fold": 4,
+      "lambda": 10000.0,
+      "channel_effect": {
+        "hbond_donor_compl": -0.003353107323489111,
+        "hbond_acceptor_compl": 0.0028724232772358547,
+        "electrostatic_anionic": -4.1556498522772345e-05,
+        "electrostatic_cationic": -4.1556498522772576e-05,
+        "hydrophobic_burial": 0.005821061812751141,
+        "aromatic_pi": -0.0014134378197811636,
+        "steric_gatekeeper": -0.012190290515704161,
+        "steric_hinge": 0.002457143109069975,
+        "polar_surface_compl": 0.0034066141669219516,
+        "size_compl": 0.002482706290041058
+      }
+    }
+  ],
+  "arms": {
+    "Z0": {
+      "rmse": 0.9460509115594053,
+      "cells": 5852
+    },
+    "TYPED": {
+      "rmse": 0.9467442797350847,
+      "cells": 5852,
+      "r2_gamma_vs_Z0": {
+        "point": -0.0014663529302851863,
+        "ci95": [
+          -0.0023445522459911326,
+          -0.00041109687657900655
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "RAND-C": {
+      "rmse": 0.9461700461280472,
+      "cells": 5852,
+      "r2_gamma_vs_Z0": {
+        "point": -0.000251872427566191,
+        "ci95": [
+          -0.0017584934173628995,
+          0.000778474498308615
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "PERM-P": {
+      "rmse": 0.9463697073770656,
+      "cells": 5852,
+      "r2_gamma_vs_Z0": {
+        "point": -0.0006740642114015927,
+        "ci95": [
+          -0.0014022095730774008,
+          0.00032198340705232004
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "FOREIGN-P": {
+      "rmse": 0.9467462345509629,
+      "cells": 5852,
+      "r2_gamma_vs_Z0": {
+        "point": -0.0014704885440748328,
+        "ci95": [
+          -0.0022746177836894255,
+          -0.0001615137674579825
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    },
+    "SHUF-PAIR": {
+      "rmse": 0.946195847564154,
+      "cells": 5852,
+      "r2_gamma_vs_Z0": {
+        "point": -0.0003064255953932893,
+        "ci95": [
+          -0.0008078650354113759,
+          0.000761248870771097
+        ],
+        "ci_source": "widest of 2 clusterings"
+      }
+    }
+  },
+  "contrasts": {
+    "Delta_null__Z0_minus_TYPED": {
+      "point": -0.0013124039487224773,
+      "ci95": [
+        -0.0021126291086646164,
+        -0.00027484619303493903
+      ],
+      "rmse_a": 0.9467442797350848,
+      "rmse_b": 0.9460509115594053,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta_random__RANDC_minus_TYPED": {
+      "point": -0.0010869750211532372,
+      "ci95": [
+        -0.0020319944990373376,
+        0.0006357881595786836
+      ],
+      "rmse_a": 0.9467442797350848,
+      "rmse_b": 0.9461700461280473,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta_permP__PERMP_minus_TYPED": {
+      "point": -0.0007091081701516238,
+      "ci95": [
+        -0.002283874685752168,
+        0.00021781745669769892
+      ],
+      "rmse_a": 0.9467442797350848,
+      "rmse_b": 0.9463697073770656,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta_specific__FOREIGNP_minus_TYPED": {
+      "point": 3.7014253225392335e-06,
+      "ci95": [
+        -0.0006870823127006398,
+        0.0006599005054024656
+      ],
+      "rmse_a": 0.9467442797350848,
+      "rmse_b": 0.946746234550963,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    },
+    "Delta_pair__SHUFPAIR_minus_TYPED": {
+      "point": -0.00103814926345673,
+      "ci95": [
+        -0.002186524694836081,
+        -0.00047771613689344676
+      ],
+      "rmse_a": 0.9467442797350848,
+      "rmse_b": 0.946195847564154,
+      "units": 8,
+      "ci_source": "widest of 2 clusterings"
+    }
+  }
+}

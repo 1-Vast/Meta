@@ -1,0 +1,63 @@
+{
+  "stage": "XP3-1",
+  "panels": {
+    "METZ": {
+      "release_sha256": "81731c4004823bd45fa3898e25d6491d799dfd0e0486fcc8c9c821f9419dd591",
+      "license": "publisher supplementary data (Nature Chemical Biology), public mirror pinned",
+      "endpoint": "pKi, single laboratory, single assay family",
+      "compounds": 928,
+      "proteins": 147,
+      "measured_cells": 32849,
+      "density": 0.24080019939010086,
+      "protein_closure_components_group": 8,
+      "protein_closure_components_family": 58,
+      "ligand_scaffold_components": 258,
+      "scaffolds": 518,
+      "exact_sequences": true,
+      "canonical_structures": true,
+      "censoring": "50313 left-censored cells at 44 distinct thresholds; excluded",
+      "replicate_structure": "none within panel (single measurement per cell)",
+      "residual_sd_after_two_way": 0.6747636569560861,
+      "reproducible_interaction_sd_XP1": 0.442,
+      "independent_units_double_closure": 5,
+      "mdi_group_units": 0.6679819405446343,
+      "mdi_scaffold_units": 0.11762506099233447,
+      "verdict": "supports the estimand structurally; CONSUMED as XP1/XP2 development panel"
+    },
+    "KLAEGER": {
+      "release_sha256": "cdf66c7d4e7c1e3a35aeb6995abbfdaf15be80f3e07715524b2bb4449d871010",
+      "license": "publisher supplementary data (Science), public mirror pinned",
+      "endpoint": "apparent pKd (kinobeads chemical proteomics)",
+      "compounds": 222,
+      "proteins": 343,
+      "measured_cells_above_floor": 4889,
+      "floor_fraction": 0.9357943949780685,
+      "ligand_scaffold_components": 153,
+      "scaffolds": 207,
+      "structures_resolved": 219,
+      "exact_sequences": true,
+      "canonical_structures": true,
+      "replicate_structure": "none published per cell",
+      "verdict": "independent platform; 93.3% floor makes it a hit matrix, not a continuous crossed panel; already CONSUMED as XP1 cross-platform check and XP2-F external test"
+    },
+    "PDSP": {
+      "release_sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+      "license": "free public NIMH resource",
+      "endpoint": "Ki (nM) from radioligand displacement; heterogeneous radioligands",
+      "rows_uncensored_human": 25022,
+      "targets": 252,
+      "ligands": 7142,
+      "cells": 18603,
+      "replicated_cells": 2490,
+      "ligands_with_structure": 2745,
+      "ligand_scaffold_components": 404,
+      "scaffolds": 1147,
+      "distinct_radioligands": 287,
+      "per_report_sigma_log_units": 0.7144,
+      "replicate_r": 0.727,
+      "assay_comparability": "radioligand is nearly a function of the target, so an assay-by-compound interaction is not separable from gamma",
+      "verdict": "continuous and replicated, but the assay confound is structural and the per-report noise is 0.714 log units; CONSUMED as XP1-C"
+    }
+  },
+  "generated": "2026-08-08"
+}

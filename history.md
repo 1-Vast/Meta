@@ -2679,3 +2679,59 @@ Retained deliberately: `panels.py`, `lowrank.py`, `xp1a_existence.py`,
 and the whole XP2 core, because `xp2a_reproduction_audit.py` reproduces XP1 by
 reading `xp1b_transfer.py` directly and the destructive control is structurally
 reusable.
+
+### XP1/XP2 immutable code and artifact hashes (SHA-256, first 32 hex)
+
+| path | sha256[:32] | bytes |
+|---|---|---|
+| `research/crossed_panel_identification/PREREG_XP1.md` | `51fe525c1171cd3720b2bc606e818808` | 14782 |
+| `research/crossed_panel_identification/acquire_kinase_panels.py` | `0f360d02ac0b5f8732b35d575d062e50` | 1889 |
+| `research/crossed_panel_identification/acquire_klifs.py` | `2103f052e17838bea0c0c6bda4e55e09` | 1565 |
+| `research/crossed_panel_identification/acquire_pdsp.py` | `bffe2d5f0dbcf6d56dca5e1be4ebb6d6` | 858 |
+| `research/crossed_panel_identification/build_protein_features.py` | `f91297f5395217a45a2025d475883bf4` | 3961 |
+| `research/crossed_panel_identification/lowrank.py` | `94ee1c86930be9c5d9c6aa0764f553ed` | 3582 |
+| `research/crossed_panel_identification/panels.py` | `82b9006fbc5ca3e35f00375933bc1624` | 6843 |
+| `research/crossed_panel_identification/pdsp_build.py` | `4fafd1cbe0e57c64b8dbf7977d4c06f3` | 5192 |
+| `research/crossed_panel_identification/xp1a_existence.py` | `1e04af414794a2a6039278417b841c10` | 9498 |
+| `research/crossed_panel_identification/xp1b_sweep.py` | `cad3c158f3f8142c085236fbb9d0bc12` | 1738 |
+| `research/crossed_panel_identification/xp1b_transfer.py` | `f16ae55e939f834a53b42a329dd07944` | 15956 |
+| `research/crossed_panel_identification/xp1e_truncation_control.py` | `baef67903924ad8432ed49283c195a40` | 4373 |
+| `research/crossed_panel_deployability/PREREG_XP2.md` | `dd50ec9aedb3df5ac0abeb79a2f3b997` | 11702 |
+| `research/crossed_panel_deployability/THEORY_INTERFACE_AUDIT.md` | `4044433219139ade5a8bd759f7625e5c` | 8645 |
+| `research/crossed_panel_deployability/acquire_klaeger_structures.py` | `1fd618ea570c71b12949d19f61539565` | 2747 |
+| `research/crossed_panel_deployability/xp2_core.py` | `ee873cc7d53f3967d55881bded22aa7f` | 6639 |
+| `research/crossed_panel_deployability/xp2_finalize.py` | `470921ed4f6a29911f3690d4adb50531` | 7175 |
+| `research/crossed_panel_deployability/xp2_panel.py` | `b9494542315d24c822fec67db9006e28` | 9105 |
+| `research/crossed_panel_deployability/xp2a_reproduction_audit.py` | `0c1eaa2d2bc6228144d5f433d55b5312` | 14317 |
+| `research/crossed_panel_deployability/xp2b_ligand_landing.py` | `2f26a1e404bb7c7e89cfc3831cd53214` | 7144 |
+| `research/crossed_panel_deployability/xp2cd_section.py` | `6789236a9cd9fba9c2eef8002c0bc4c1` | 11639 |
+| `research/crossed_panel_deployability/xp2cd_sweep.py` | `c6888040ce7868d5e4cd0f4469d750bc` | 1821 |
+| `report/crossed_panel_identification/XP1_RESEARCH_REPORT.md` | `e8c084bd076ff3d48b96dc181fe9b4d7` | 43629 |
+| `report/crossed_panel_identification/xp1a_console.txt` | `60e61e7e96fe220c8d39d3de6d1c1aba` | 2813 |
+| `report/crossed_panel_identification/xp1a_existence.json` | `bfb1b8b0d57bc7b57fdf45ac2c09fff2` | 7603 |
+| `report/crossed_panel_identification/xp1b_sweep_console.txt` | `95cc9801e7537b1e5b515398e322fe3f` | 49764 |
+| `report/crossed_panel_identification/xp1b_sweeps.json` | `51e72e33bba99658d0aa410b2f55ad79` | 151643 |
+| `report/crossed_panel_identification/xp1c_console.txt` | `69612a8b1706b3c3e98d1b97da328d29` | 1655 |
+| `report/crossed_panel_identification/xp1c_pdsp.json` | `21c66f8a15f0de5a4bf6bef8961b6c2c` | 4544 |
+| `report/crossed_panel_identification/xp1d_console.txt` | `730a5592b08b6ded8d578cea797f2ff2` | 1974 |
+| `report/crossed_panel_identification/xp1d_statistic.json` | `307a3b4a1a925fa0fbda0856d78276be` | 5689 |
+| `report/crossed_panel_identification/xp1e_console.txt` | `83bf7e80a86ab91da08b4f6597e1f618` | 3630 |
+| `report/crossed_panel_identification/xp1e_truncation_control.json` | `ab836d6c3d1a6691cedfc22dc46a4568` | 42095 |
+| `report/crossed_panel_deployability/DOUBLE_HELD_OUT_RESULT.json` | `70bcc987f600944b8c52e3fc46002f73` | 87671 |
+| `report/crossed_panel_deployability/EXTERNAL_REPLICATION_RESULT.json` | `cfc8fda9433d425aec26f9eb145bd9ed` | 3891 |
+| `report/crossed_panel_deployability/K5_SECTION_AUDIT.json` | `5d46a245dd6d2ec962e7c1a12fe33cc5` | 33503 |
+| `report/crossed_panel_deployability/LIGAND_LANDING_AUDIT.json` | `94a3a621117283f47d006315eb8f380b` | 18749 |
+| `report/crossed_panel_deployability/XP1_REPRODUCTION_AUDIT.json` | `8ce175b3271d5764d253a28e116303ad` | 5905 |
+| `report/crossed_panel_deployability/XP2E_BIOLOGICAL_LANDING.json` | `00f9a41e64fc0018fbb3ded5b1f7494b` | 4557 |
+| `report/crossed_panel_deployability/XP2_FINAL_REPORT.md` | `5d7a5f47f571d41d3cfbe75b914aac8a` | 29674 |
+| `report/crossed_panel_deployability/xp2b_console.txt` | `c98eee340505b2119e6b03bb57f2aea4` | 2483 |
+| `report/crossed_panel_deployability/xp2cd_console.txt` | `2ec278c09f03b4badbbb891138ed2b3f` | 30778 |
+| `report/crossed_panel_deployability/xp2cd_sweeps.json` | `876882af074e3c6af9a6df88428dd73f` | 141591 |
+| `report/crossed_panel_deployability/xp2e_console.txt` | `86b88dc53750124752dc5c3ad719c737` | 1045 |
+| `report/crossed_panel_deployability/xp2f_console.txt` | `80bd510d103d8438954bb374fe9f5609` | 1325 |
+
+Environment: python 3.11.15, numpy 1.26.4, scipy 1.17.1, pandas 2.3.3, rdkit 2023.09.6, torch 2.6.0+cu124, transformers 4.46.3, scikit-learn 1.9.0; `xlrd` was installed to read the `.xls` supplement. Seeds `{0,1,2,3,4}` throughout; bootstrap seeds are fixed per contrast in source.
+
+**Regression suite: `73 passed` before and after XP2.** `model/`, production `scripts/`, `contracts/` and `theory/` show no modification under `git status` for the whole programme.
+
+Upstream release licences: Metz 2011 and Klaeger 2017 supplements are publisher supplementary data accessed through a public mirror pinned at commit `8ab79cae31c18e49007dcce6dd11f93d2667ab14`; the NIMH PDSP Ki database is a free public NIMH resource; KLIFS is open academic access; PubChem PUG-REST was used for name-to-structure resolution only, with `affinity_values_read = 0`.

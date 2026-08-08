@@ -44,6 +44,9 @@ Updated: 2026-08-08
 | XP2-B | PASS | ligand loading transfers to unseen Bemis-Murcko scaffolds: gauge-invariant reconstruction `R2=+0.199 [+0.133,+0.261]` (ECFP, `d=3`) vs random-feature `+0.025` and mean-loading `+0.024`; `u(L)` is not a lookup table |
 | XP2-C | FAIL (below floor) | identifiable section dimension is exactly `min(k-1,d)`, measured `0,1,2,3,3` at `k=1..5`; at `k=1` ridge returns `v=0` and the arm is identically additive; `R2_gamma` peaks at `+0.0248 [+0.0114,+0.0321]` against the frozen `0.05` floor; `Delta_deploy` over ligand-only never clears zero |
 | XP2-D | FAIL (specificity lost) | under simultaneous protein-group and ligand-scaffold closure at the primary `k=5, d=3`: `R2_gamma=+0.0199 [+0.0076,+0.0283]`, derangement specificity `+0.00185 [-0.00477,+0.00552]` (CI spans zero), `Delta_deploy=-0.0331`; design rank `3.00/3`, coverage `1.000`, so not an identifiability artefact. XP1's specificity was conditional on ligand reuse |
+| XP3 | CENSUS | public data offers either low noise with ~8 protein-group units (single-lab profiling) or 70-85 independent units with noise exceeding the interaction (literature aggregation); no accessible source offers both |
+| XP4 | DATA-LIMITED NULL | 85 independent BindingDB panels, 70 protein clusters: per-report `sigma=0.777`, `gamma` sd `0.406` below the `0.650` noise alone transmits; within-panel chemistry-neighbour ceiling `R2=-0.539` |
+| XP5 | FAIL | ten fixed named physicochemical complementarity channels, computed not predicted: `R2_gamma=-0.0015`, derangement specificity exactly `+0.00000 [-0.00069,+0.00066]`; shuffling the pairing improves the fit |
 | XP2-G | CONDITIONAL | interface legality requires a declared gauge, a two-term outer radius, and placement of the discrete coordinates in `kappa`; abstention is the existing `p=e_0` vertex; CSMO/Band/`K`/mesh untouched |
 
 All detailed metrics and former report conclusions are preserved in `history.md`

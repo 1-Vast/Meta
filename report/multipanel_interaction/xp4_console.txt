@@ -1,0 +1,25 @@
+panels=85 cells=6363 targets=129 ligands=2845 scaffold_components=179 protein_clusters=70
+gamma sd = 0.4058 log units, raw pKi sd = 1.3845
+Some weights of EsmModel were not initialized from the model checkpoint at facebook/esm2_t30_150M_UR50D and are newly initialized: ['esm.pooler.dense.bias', 'esm.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+  esm 4/129  esm 8/129  esm 12/129  esm 16/129  esm 20/129  esm 24/129  esm 28/129  esm 32/129  esm 36/129  esm 40/129  esm 44/129  esm 48/129  esm 52/129  esm 56/129  esm 60/129  esm 64/129  esm 68/129  esm 72/129  esm 76/129  esm 80/129  esm 84/129  esm 88/129  esm 92/129  esm 96/129  esm 100/129  esm 104/129  esm 108/129  esm 112/129  esm 116/129  esm 120/129  esm 124/129  esm 128/129  esm 129/129
+
+arm              RMSE         R2_gamma vs Z0 [95% CI]
+Z0             0.3325                      (baseline)
+BILIN          0.3326       -0.0007 [-0.0047,+0.0003]
+RAND-P         0.3324       +0.0006 [-0.0051,+0.0050]
+RAND-L         0.3329       -0.0026 [-0.0147,+0.0028]
+RAND-BOTH      0.3335       -0.0062 [-0.0142,-0.0028]
+PERM-PAIR      0.3323       +0.0012 [-0.0009,+0.0054]
+FOREIGN-P      0.3325       -0.0003 [-0.0018,+0.0012]
+ORACLE-R       0.3332       -0.0044 [-0.0110,+0.0016]
+
+registered contrasts:
+  Delta_null__Z0_minus_BILIN                   -0.00008 [-0.00043,+0.00006]
+  Delta_bio__RANDBOTH_minus_BILIN              +0.00060 [+0.00022,+0.00102]
+  Delta_protein__RANDP_minus_BILIN             -0.00015 [-0.00047,+0.00023]
+  Delta_ligand__RANDL_minus_BILIN              +0.00021 [-0.00060,+0.00084]
+  Delta_pair__PERMPAIR_minus_BILIN             -0.00021 [-0.00058,+0.00003]
+  Delta_specific__FOREIGNP_minus_BILIN         -0.00005 [-0.00041,+0.00010]
+  Delta_oracle__Z0_minus_ORACLE                -0.00049 [-0.00129,+0.00009]
+wrote D:\MetaSieve\report\multipanel_interaction\XP4_MULTIPANEL_RESULT.json

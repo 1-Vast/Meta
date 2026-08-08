@@ -50,7 +50,10 @@
     "XP2_D_DOUBLE_HELD_OUT": "SPECIFICITY_LOST_RANDOM_FEATURES_REPRODUCE_GAIN",
     "XP2_E_BIOLOGICAL_LANDING": "BIOLOGICAL_LANDING_NOT_IDENTIFIED",
     "XP2_F_EXTERNAL_REPLICATION": "EXTERNAL_REPLICATION_FAILED",
-    "XP2_G_THEORY_INTERFACE": "CONDITIONAL_REQUIRES_GAUGE_RADIUS_AND_KAPPA_PLACEMENT"
+    "XP2_G_THEORY_INTERFACE": "CONDITIONAL_REQUIRES_GAUGE_RADIUS_AND_KAPPA_PLACEMENT",
+    "XP3_DATA_CENSUS": "PUBLIC_DATA_TRADEOFF_QUANTIFIED",
+    "XP4_MULTIPANEL": "INTERACTION_BELOW_NOISE_FLOOR_IN_LITERATURE_PANELS",
+    "XP5_TYPED_BASIS": "POSE_FREE_TYPED_BASIS_CARRIES_NO_SPECIFICITY"
   },
   "historical_verdict_annotations": {
     "P1R2B_E_AFF_X0": {
@@ -105,7 +108,10 @@
     "DOUBLE_HELD_OUT_SECTION_NOT_IDENTIFIED_XP2",
     "BIOLOGICAL_LANDING_NOT_IDENTIFIED_XP2",
     "EXTERNAL_REPLICATION_FAILED_XP2",
-    "PROBABILITY_LAW_OPERATOR_NOT_SCORED"
+    "PROBABILITY_LAW_OPERATOR_NOT_SCORED",
+    "PUBLIC_DATA_TRADEOFF_UNITS_VERSUS_NOISE_QUANTIFIED_XP3",
+    "LITERATURE_PANEL_INTERACTION_BELOW_NOISE_FLOOR_XP4",
+    "POSE_FREE_TYPED_BASIS_NOT_SPECIFIC_XP5"
   ],
   "estimand_separation": {
     "claim_a": "does the correct protein provide affinity-location information beyond population, ligand-only and protein-sequence-only baselines",
@@ -197,5 +203,17 @@
     "report": "report/crossed_panel_deployability/XP2_FINAL_REPORT.md",
     "prereg": "research/crossed_panel_deployability/PREREG_XP2.md",
     "probability_law_operator_scored": false
+  },
+  "terminal_outcome": {
+    "verdicts": [
+      "PUBLIC_DATA_INSUFFICIENT_FOR_IDENTIFICATION",
+      "DEPLOYMENT_INPUTS_INSUFFICIENT"
+    ],
+    "report": "report/FINAL_IDENTIFIABILITY_REPORT.md",
+    "interaction_exists_above_noise": true,
+    "observable_from_deployment_inputs": false,
+    "untested_rung": "B2 pose-based structure, blocked on 136k dockings (~380 GPU-hours)",
+    "probability_law_operator_scored": false,
+    "gpu_training_performed": false
   }
 }
