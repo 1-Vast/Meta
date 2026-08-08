@@ -85,20 +85,18 @@ design support**, not evidence that affinity interaction exists.
 1. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
 2. `task.md`
 3. `experiment.md`
-4. `research/e0_identifiability/THEORY_BIOLOGY_INTEGRATION.md`
-5. `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md`
-6. `history.md`
+4. `report/VERIFIED_EVIDENCE_SUMMARY.md`
+5. `history.md`
 
 ## Code Boundaries
 
 - `model/` has verified mathematical primitives and P1B geometry only.
 - `scripts/` has passed data, geometry, and governance workflows only.
-- `research/e0_identifiability/` contains terminal synthetic, structural and
-  source-affinity research evidence plus the registered, unrun L0. It is not
-  production code.
-- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`
-  contain imported kinase-panel development evidence. Their F6I total Gate is
-  not admissible; neither package may be imported by production code.
+- `research/` contains only the policy boundary for future preregistered work.
+  Terminal research implementations and artifacts were removed after their
+  conclusions were consolidated in `history.md`.
+- `model/component_statistic.py` retains only the gauge-separated algebra from
+  F6I and is deliberately not exported or connected to the production state.
 - `report/` retains only current protocol and PASS evidence.
 
 Do not recreate deleted failed implementations from prose. Do not run X1/X2,
@@ -124,5 +122,6 @@ modify the frozen mathematical operator without a new explicit registration.
 - R0: within-task concordance invariance deviation `0.0` on all four
   transforms; a perfect task-level predictor scores exactly `0.5000` at every
   variance share up to `0.985`.
-- Imported PKIS/F6I research regression: `39 passed` in the `drug` environment.
-- Full repository regression after intake: `70 passed`.
+- Removed PKIS/F6I research package: isolated `39 passed`, recoverable at
+  `8b7789e`.
+- Consolidated repository regression: `73 passed` in the `drug` environment.

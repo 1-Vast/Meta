@@ -29,8 +29,15 @@ geometry, not affinity energetics.
 
 These implement D0-C/D1 data governance. They do not authorize model training.
 
+## Component-statistic interface
+
+- `evaluate_component_statistic.py` applies the internal gauge-separated
+  component algebra to precomputed biological surfaces and support residuals.
+- It rejects query-label fields and does not construct, train or validate the
+  biological surface.
+
 Failed P1C/P1R*/F0R implementations were removed after their evidence was
 consolidated in `history.md` and
 `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`. Terminal synthetic, structural
-and source-affinity research evidence is under `research/e0_identifiability/`;
-it is not imported by this package.
+and source-affinity research implementations were removed from the active tree
+and remain recoverable from Git history.

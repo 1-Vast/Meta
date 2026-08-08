@@ -2,7 +2,8 @@
 
 There is intentionally no assembled production DTA model. The former biological
 frontend did not identify incremental affinity information and is recorded only
-in ``history.md``. Unresolved E0 work lives under ``research/``.
+in ``history.md``. The unadmitted component algebra is intentionally not
+exported from this package.
 """
 
 from .config import DEFAULT, MetaSieveConfig, profile

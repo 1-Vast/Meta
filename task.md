@@ -98,8 +98,8 @@ X0's `36` and `12`. Breakeven thresholds are `rho* = 0.0915` (Ki) and `0.0164`
 
 ## Success Criteria For Any Future Admission
 
-Code may return from `research/` to `model/` only after a separately registered
-Gate establishes both:
+A biological predictor may be exported from `model/` or connected to `z` only
+after a separately registered Gate establishes both:
 
 1. correct protein improves over ligand-only by the frozen margin; and
 2. correct protein improves over deranged protein with a positive lower bound.
@@ -118,23 +118,34 @@ transfer Gate.
 
 ## New PKIS/F6I Research Intake
 
-The supplied `pkis_mechanism_pilot` and `section_operator_pilot` packages have
-been integrated under `research/` only. Their isolated suite passes `39` tests.
-The evidence supports a component-level decomposition on consumed kinase
-activity panels: a protein-dependent zero-shot surface plus a bounded
-one-dimensional support-location statistic. It does not establish Ki/Kd
-affinity energetics, an untouched external result, or production admission.
+The supplied `pkis_mechanism_pilot` and `section_operator_pilot` packages were
+audited and then consolidated out of the working tree. Their evidence supports
+a component-level decomposition on consumed kinase activity panels: a
+protein-dependent zero-shot surface plus a bounded one-dimensional
+support-location statistic. Only that algebra remains in
+`model/component_statistic.py`, with a label-safe script interface. It does not
+establish Ki/Kd affinity energetics, an untouched external result, or
+production admission.
 
 The registered F6I total verdict remains `F6I_COMPONENTS_NOT_ADMISSIBLE`; it is
 not rewritten as PASS. The seven-point categorical `law_bridge.py` is also not
 type-equivalent to the frozen 33-point CDF-band operator in `model/`. See
-`research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md` for the accepted claims,
+`history.md` and `report/VERIFIED_EVIDENCE_SUMMARY.md` for the accepted claims,
 provenance limitation and next evidence boundary.
 
 ## Verification
 
-The imported research package regression is `39 passed`; the full repository
-regression is `70 passed` in the `drug` environment. R0, X0-FEAS and X0-B carry
-independent audits. R0 read no affinity label; X0-FEAS and X0-B selected
+The consolidated full repository regression is `73 passed` in the `drug`
+environment. The removed imported research package had separately passed `39`
+tests. R0, X0-FEAS and X0-B carry independent audits. R0 read no affinity label;
+X0-FEAS and X0-B selected
 zero affinity value fields. DAVIS and recipient reads remain zero. All evaluated
 panels are development evidence and must not be reused as untouched validation.
+
+## External Data Authorization
+
+Acquisition of a new public dataset is authorized. Before any affinity outcome
+is read, a new registration must freeze the release checksum, endpoint
+semantics, target/ligand/document closure, positive control, wrong-protein
+control and promotion Gate. Dataset acquisition alone does not authorize model
+selection, DAVIS access or biological-`z` admission.

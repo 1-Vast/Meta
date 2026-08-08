@@ -2433,3 +2433,62 @@ frozen decomposition on a fresh endpoint-consistent, target/ligand/document-
 governed panel. A future PASS could authorize a production-interface
 registration only; it would not directly authorize overwriting `model/`, the
 frozen theory, CSMO/Band, DAVIS or P2-P4.
+
+### F-94: active-tree consolidation and component-algebra promotion
+
+**AUTHORIZATION.** The user authorized new external-dataset acquisition,
+promotion of reusable information into `model/`/`scripts/`, deletion of failed
+or ineffective research code after historical consolidation, deep report/data
+summarization, and creation of a code-only branch.
+
+**RESEARCH DELETION.** Removed all 325 tracked files under the former
+`research/` tree (`86,869,561` bytes) plus ignored interpreter caches. The
+deleted tree contained terminal P1C/E0/E-AFF implementations, synthetic retry
+artifacts, T-DIR/T-BASIS development artifacts, PKIS mechanism pilots, section
+operator pilots, duplicate preregistrations and consumed-panel reports. The
+scientific metrics, verdicts, provenance limitations and stop rules were already
+recorded in F-1 through F-93 and the evidence-triage document. The exact tree is
+recoverable from Git commit `8b7789e`; deletion is a working-tree
+consolidation, not destruction of provenance.
+
+**PROMOTED CORE.** Retained only the algebra established by the F6I audit:
+
+```text
+prediction(P,L;S) = biological_surface(P,L) + location(S)
+```
+
+`location(S)` is one-dimensional, bounded, support-multiset permutation
+invariant and independent of the protein representation. It is implemented in
+`model/component_statistic.py` but deliberately not exported by `model` and not
+connected to biological `z`. `scripts/evaluate_component_statistic.py` provides
+a query-label-free JSONL interface and rejects query-label fields. Three new
+tests verify the bounds, invariance, protein independence and label firewall.
+
+**NOT PROMOTED.** The PKIS/KLIFS predictor, task-specific section variants,
+seven-point categorical-law bridge, PLIP probes, radial affinity heads and all
+failed/mixed experimental trainers were not moved into production. The
+seven-point bridge is not type-equivalent to the frozen 33-point CDF-band
+operator, and F6I's registered total Gate remains not admissible.
+
+**MODEL/SCRIPT AUDIT.** The pre-existing nine `model/` files were all part of
+the frozen operator or P1B geometry surface. The pre-existing 36 `scripts/`
+files were all part of passed canonical-data, structure-geometry or
+release-governance workflows. No additional production file was deleted merely
+for having few textual references.
+
+**REPORT CONSOLIDATION.** Added `report/VERIFIED_EVIDENCE_SUMMARY.md`. Retained
+only the current split protocol, P1B PASS checkpoint/control artifacts and
+D0-C/D1 corpus/governance evidence as active report objects. Historical
+research reports now resolve to this ledger and Git history.
+
+**DATA AUTHORIZATION BOUNDARY.** New public data may be downloaded, but affinity
+outcome access still requires a preregistration fixing release, endpoint,
+closure, controls and Gate. No unspecified dataset was downloaded during this
+cleanup, avoiding post-hoc selection of a convenient panel.
+
+**CORE PROBLEM AFTER CONSOLIDATION.** Correct-protein geometry is identified,
+and a gauge-separated component interface now exists, but no fresh,
+endpoint-consistent source has demonstrated that the biological surface yields
+a transferable improvement over both ligand-only and wrong-protein controls.
+Consequently affinity energetics and biological-statistic admission to `z`
+remain unidentified.

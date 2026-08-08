@@ -29,17 +29,18 @@ primitives and the P1B-passing local geometry bridge. It intentionally contains
 no assembled DTA pipeline because the previous biological state did not provide
 registered protein-specific affinity increment.
 
+The F6I component algebra is retained internally as a bounded,
+protein-independent support-location correction added to a protein-dependent
+biological surface. It removes a known gauge freedom but has not passed the
+fresh endpoint-consistent external Gate required for production admission.
+
 ## Repository Boundaries
 
 - `theory/FINAL_FROZEN_THEORY/`: authoritative read-only mathematics.
 - `model/`: verified Band/CSMO/law primitives and P1B geometry components.
 - `scripts/`: passed data, structure, geometry, and release-governance workflows.
-- `research/e0_identifiability/`: synthetic identifiability evidence, E0R2,
-  the negative T-DIR-P0 pilot, and the passing T-BASIS-R0 fixed-radial study;
-  no production model.
-- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`:
-  governed PKIS/KLIFS/KiSSim component-identifiability development evidence;
-  registered F6I total Gate not admissible.
+- `research/`: empty experiment boundary plus cleanup policy. Terminal research
+  code and artifacts were consolidated into `history.md` and removed.
 - `report/`: current split protocol and immutable PASS evidence only.
 - `history.md`: complete failure ledger and deleted-artifact record.
 
@@ -72,7 +73,7 @@ theory-to-biology assessment, evidence map, and stop rules.
 2. `task.md`
 3. `experiment.md`
 4. `history.md`
-5. `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md`
+5. `report/VERIFIED_EVIDENCE_SUMMARY.md`
 6. `report/CURRENT_DATA_SPLIT_PROTOCOL.md`
 
 ## Verification
@@ -83,8 +84,9 @@ Environment: `D:\anaconda\envs\drug`, PyTorch `2.6.0+cu124`, CUDA RTX 4060.
 D:\anaconda\envs\drug\python.exe -m pytest -q
 ```
 
-The imported PKIS/F6I package passes `39` tests; the post-intake full repository
-suite passes `70` tests. T-DIR, T-BASIS, E-AFF and F6I remain research-only.
+The consolidated repository suite passes `73` tests. The removed PKIS/F6I
+package previously passed its isolated `39`-test suite and remains recoverable
+from Git history. T-DIR, T-BASIS, E-AFF and F6I are not production-admitted.
 
 ## Data Availability
 

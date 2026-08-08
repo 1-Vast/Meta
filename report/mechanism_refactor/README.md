@@ -9,4 +9,6 @@ Only PASS evidence remains in this directory:
 
 Failed and superseded reports were consolidated into `history.md` and
 `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`, then deleted. The unresolved
-E0 synthetic solver evidence lives in `research/e0_identifiability/artifacts/`.
+E0 synthetic solver evidence was consolidated into `history.md`; its executable
+research artifacts were removed from the active tree and remain recoverable
+from Git history.

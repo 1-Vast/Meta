@@ -80,18 +80,18 @@ an identified statistic coordinate system.
 | observable bounded `z(S,Q,gamma)` | no admitted production implementation | previous arbitrary latent state failed biological gates | remove failed implementation |
 | protein/ligand local states | `model/encoders.py` | used by P1B geometry PASS | retain |
 | contact/distance geometry | `model/mechanism.py` | P1B correct-partner Gate PASS | retain |
-| fixed privileged radial basis | `research/e0_identifiability/` | T-BASIS-R0 partner-recoverability PASS | research only |
-| population-shared basis-to-affinity calibration | `research/e0_identifiability/` | E-AFF-P0 negative | retain as failure evidence |
-| task-local basis-to-affinity calibration | `research/e0_identifiability/` | headroom positive; partner margin failed | research only |
-| centered radial interaction residual | `research/e0_identifiability/` | no increment over support-matched ligand nuisance | retain negative evidence |
-| crossed affinity interaction data | `research/e0_identifiability/` | X0 effective components insufficient before label read | source-data stop |
-| X0 independence unit and its 245 requirement | `research/e0_identifiability/` | X0-FEAS: requirement exceeds the unit's own ceiling | specification-induced stop |
-| cell-disjoint crossed design | `research/e0_identifiability/` | X0-B: conditional design support pending `rho` | research only |
-| within-task rank readout | `research/e0_identifiability/` | R0: exactly invariant to task-level affinity location | scope annotation only |
-| ordered-anchor location interface | `research/e0_identifiability/` | L0 not run, precondition failed | research only |
-| PKIS/KLIFS zero-shot biological surface | `research/pkis_mechanism_pilot/`, `research/section_operator_pilot/` | component-level development signal on consumed panels | research only |
-| protein-independent support location `tau` | `research/section_operator_pilot/component_independent.py` | bounded one-dimensional permutation-invariant statistic | research only |
-| seven-point categorical law bridge | `research/section_operator_pilot/law_bridge.py` | local invariants pass; not type-equivalent to frozen production CDF bands | do not promote |
+| fixed privileged radial basis | `history.md` | T-BASIS-R0 partner-recoverability PASS | historical development evidence |
+| population-shared basis-to-affinity calibration | `history.md` | E-AFF-P0 negative | failure record only |
+| task-local basis-to-affinity calibration | `history.md` | headroom positive; partner margin failed | mixed record only |
+| centered radial interaction residual | `history.md` | no increment over support-matched ligand nuisance | failure record only |
+| crossed affinity interaction data | `history.md` | X0 effective components insufficient before label read | source-data stop |
+| X0 independence unit and its 245 requirement | `history.md` | X0-FEAS: requirement exceeds the unit's own ceiling | specification-induced stop |
+| cell-disjoint crossed design | `history.md` | X0-B: conditional design support pending `rho` | historical design record |
+| within-task rank readout | `history.md` | R0: exactly invariant to task-level affinity location | scope annotation only |
+| ordered-anchor location interface | `history.md` | L0 not run, precondition failed | failure record only |
+| PKIS/KLIFS zero-shot biological surface | `history.md` | component-level development signal on consumed panels | consumed development evidence |
+| protein-independent support location `tau` | `model/component_statistic.py` | bounded one-dimensional permutation-invariant algebra | internal, not exported |
+| seven-point categorical law bridge | `history.md` | local invariants passed; not type-equivalent to frozen production CDF bands | removed |
 
 The theory proves properties conditional on a legal statistic and coefficient
 map. It does not prove that ESM/GINE features, QPMA, CSMO views, or any proposed
@@ -354,13 +354,10 @@ evidence.
 
 ### Research surface
 
-- `research/e0_identifiability/`: terminal synthetic, structural and
-  source-affinity research evidence plus explicitly frozen hypotheses.
-- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`:
-  consumed-panel kinase interaction and section-identifiability evidence. The
-  registered F6I total verdict is not admissible.
-- It contains research-only code, tests, preregistrations and final artifacts.
-- It is not imported by `model/` or normal `scripts/` workflows.
+- `research/README.md` is now only the boundary for future preregistered work.
+- Terminal synthetic, negative, mixed and consumed-development implementations
+  were removed after consolidation into `history.md`.
+- The exact deleted tree remains recoverable from Git commit `8b7789e`.
 
 ### Canonical evidence index
 
@@ -369,9 +366,9 @@ evidence.
 | Frozen mathematics | `theory/FINAL_FROZEN_THEORY/` | authoritative theorem and scope contract |
 | P1B geometry PASS | `report/mechanism_refactor/p1b_*` | accepted checkpoint and partner-control evidence |
 | D0-C/D1 PASS | `report/mechanism_refactor/p1r2b_d0_chembl37_v1/` | immutable corpus and closure governance |
-| E0 through X0 research | `research/e0_identifiability/` | preregistration, terminal result, audit and hashed final artifact |
-| PKIS/F6I component research | `research/pkis_mechanism_pilot/`, `research/section_operator_pilot/` | supplied preregistrations, compact artifacts and component-level development evidence |
-| PKIS/F6I intake audit | `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md` | scope, hash and production-boundary decision |
+| E0 through X0 research | `history.md`, Git `8b7789e` | consolidated terminal result and recoverable deleted artifacts |
+| PKIS/F6I component research | `history.md`, Git `8b7789e` | component-level development evidence and exact deleted sources |
+| Consolidated report | `report/VERIFIED_EVIDENCE_SUMMARY.md` | retained PASS evidence and current boundary |
 | Current scientific summary | this file | single theory-to-evidence interpretation |
 | Full historical ledger | `history.md` | negative results, supersession and deletion record |
 
