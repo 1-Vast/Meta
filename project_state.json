@@ -53,7 +53,13 @@
     "XP2_G_THEORY_INTERFACE": "CONDITIONAL_REQUIRES_GAUGE_RADIUS_AND_KAPPA_PLACEMENT",
     "XP3_DATA_CENSUS": "PUBLIC_DATA_TRADEOFF_QUANTIFIED",
     "XP4_MULTIPANEL": "INTERACTION_BELOW_NOISE_FLOOR_IN_LITERATURE_PANELS",
-    "XP5_TYPED_BASIS": "POSE_FREE_TYPED_BASIS_CARRIES_NO_SPECIFICITY"
+    "XP5_TYPED_BASIS": "POSE_FREE_TYPED_BASIS_CARRIES_NO_SPECIFICITY",
+    "S1_STRUCTURAL_EXPOSURE": "INDEPENDENT_TEST_SET_FORMED_EXPOSURE_OVERLAP_ZERO",
+    "S2_TEACHER": "REPRODUCIBLE_AT_MACHINE_PRECISION_NO_CHANNEL_DEGENERATE",
+    "S3_POWER": "MDE_R2_0.02_AT_100PC_DETECTION_124_UNITS_PER_FOLD",
+    "S4_OBSERVABILITY": "TWO_CHANNELS_OBSERVABLE_NONE_PROTEIN_SPECIFIC",
+    "S4B_ATTRIBUTION": "OBSERVABLE_SIGNAL_IS_LIGAND_SIDE",
+    "S5_GPU_DISTILLATION": "NOT_AUTHORISED_TARGET_IS_A_LIGAND_DESCRIPTOR"
   },
   "historical_verdict_annotations": {
     "P1R2B_E_AFF_X0": {
@@ -111,7 +117,12 @@
     "PROBABILITY_LAW_OPERATOR_NOT_SCORED",
     "PUBLIC_DATA_TRADEOFF_UNITS_VERSUS_NOISE_QUANTIFIED_XP3",
     "LITERATURE_PANEL_INTERACTION_BELOW_NOISE_FLOOR_XP4",
-    "POSE_FREE_TYPED_BASIS_NOT_SPECIFIC_XP5"
+    "POSE_FREE_TYPED_BASIS_NOT_SPECIFIC_XP5",
+    "SIX_3D_MECHANISM_CHANNELS_REPRODUCIBLE_FROM_EXPERIMENTAL_STRUCTURE_S2",
+    "TWO_CHANNELS_OBSERVABLE_FROM_SEQUENCE_2D_S4",
+    "NO_CHANNEL_PROTEIN_SPECIFIC_S4",
+    "OBSERVABLE_STRUCTURAL_SIGNAL_IS_LIGAND_SIDE_S4B",
+    "POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT"
   ],
   "estimand_separation": {
     "claim_a": "does the correct protein provide affinity-location information beyond population, ligand-only and protein-sequence-only baselines",
@@ -215,5 +226,21 @@
     "untested_rung": "B2 pose-based structure, blocked on 136k dockings (~380 GPU-hours)",
     "probability_law_operator_scored": false,
     "gpu_training_performed": false
+  },
+  "s_programme_terminal": {
+    "verdict": "POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT",
+    "report": "report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md",
+    "independent_complexes": 1118,
+    "protein_clusters": 621,
+    "scaffolds": 586,
+    "p1b_exposure_overlap": 0,
+    "channels_observable": [
+      "hbond_directional",
+      "hydrophobic_burial"
+    ],
+    "channels_protein_specific": [],
+    "gpu_training_performed": false,
+    "affinity_values_read": 0,
+    "next_indicated": "rung B1 residue-local/atom-local pair-local targets, then conditional S7 pose-aware pilot"
   }
 }

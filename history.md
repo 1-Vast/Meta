@@ -2735,3 +2735,119 @@ Environment: python 3.11.15, numpy 1.26.4, scipy 1.17.1, pandas 2.3.3, rdkit 202
 **Regression suite: `73 passed` before and after XP2.** `model/`, production `scripts/`, `contracts/` and `theory/` show no modification under `git status` for the whole programme.
 
 Upstream release licences: Metz 2011 and Klaeger 2017 supplements are publisher supplementary data accessed through a public mirror pinned at commit `8ab79cae31c18e49007dcce6dd11f93d2667ab14`; the NIMH PDSP Ki database is a free public NIMH resource; KLIFS is open academic access; PubChem PUG-REST was used for name-to-structure resolution only, with `affinity_values_read = 0`.
+
+
+## S0-S4 Structural Self-Supervision Programme (2026-08-08)
+
+Registered under `research/ssl_b2_structural_observability/`; artifacts in
+`report/ssl_b2_structural_observability/`. Branch `research/ssl-b2-structural`.
+Entirely label-free: DAVIS 0, recipient 0, ChEMBL37 affinity 0, any affinity
+value 0.
+
+**S1 independent structural test set.** RCSB Search (X-ray, `<= 2.5 A`, bound
+non-polymer, one protein entity, released `>= 2024-01-01`) returned 15,003
+entries with **exposed overlap 0** against all 10,468 pilot20k PDB ids. 1,476
+acquired under CC0-1.0, 1,162 usable complexes, 1,118 with a parsable CCD
+ligand. Final block: **1,118 complexes, 621 MMseqs40/80cov protein clusters,
+586 Bemis-Murcko scaffolds.** All P1B-exposed ids, including P1B's own val and
+test partitions, were treated as exposed. PLINDER and PDBbind recorded as
+deliberately not used, with reasons.
+
+**S2 teacher.** Six named channels computed from raw holo coordinates:
+directional H-bond, signed electrostatics, hydrophobic burial, aromatic
+orientation, steric overlap, pocket burial. Reproducibility audit on 78
+complexes: rotation/translation `7.6e-15`, atom permutation `1.6e-14`,
+determinism exactly `0.0`, tolerance `1e-9`, **no channel degenerate**. An
+implementation defect was found and fixed after the contract was frozen: the
+RCSB filter admitted homo-oligomers (one entity, many chains) and the O(nP^2)
+neighbour step reached 10.5 GB, so the teacher restricts to protein residues
+within 10 A of the ligand. Every channel is defined at `<= 8 A` and bonded
+neighbours are `<= 1.8 A`, so this is exactly equivalent; the full invariance
+audit was re-run afterwards and channel statistics were unchanged.
+
+**S3 power.** 124 effective independence units per fold; minimum detectable
+`R2 = 0.02` at 100% detection under the registered decision rule. The frozen S6
+effect floor is `0.02`. **The design is not underpowered**, so the null
+contrasts below are real nulls.
+
+**S4 observability, upper bound on the sequence+2D class.** Deviation recorded:
+rather than running the P1B checkpoint, the audit asks whether the six channels
+are reachable from ESM-2 + ECFP at all. P1B's predicted geometry is a function
+of exactly those inputs, so a negative bounds the whole class rather than one
+model.
+
+| channel | R2 vs mean | vs random | vs deranged protein |
+|---|---|---|---|
+| hbond_directional | **+0.268 [+0.166, +0.378]** | **+0.366 [+0.222, +0.505]** | +0.037 [-0.015, +0.084] |
+| hydrophobic_burial | **+0.299 [+0.162, +0.454]** | **+0.307 [+0.167, +0.431]** | -0.006 [-0.035, +0.024] |
+| steric_overlap | +0.079 [-0.012, +0.137] | +0.058 [-0.005, +0.132] | +0.070 [-0.009, +0.184] |
+| pocket_burial | +0.055 [-0.029, +0.138] | +0.052 [-0.029, +0.137] | +0.029 [-0.045, +0.098] |
+| aromatic_orientation | +0.033 [-0.013, +0.069] | +0.071 [+0.014, +0.133] | +0.010 [-0.026, +0.041] |
+| electrostatic_signed | +0.027 [-0.015, +0.048] | +0.044 [-0.004, +0.103] | -0.006 [-0.031, +0.018] |
+
+Two channels are genuinely observable from deployment inputs and clearly beat
+capacity-matched random features. **No channel beats the deranged-protein
+control**; every interval spans zero. Substituting a foreign protein's embedding
+costs nothing, which localises the predictive information to the ligand side.
+
+**GPU training was NOT authorised.** Three of the four S4 preconditions are met
+(teacher reproducible, no channel degenerate, measurable information above
+random), but the information is not protein-specific, so a distillation network
+would learn ligand chemistry - exactly the population shortcut the programme
+forbids. No GPU training was performed at any point in S0-S4; GPU was used only
+for frozen ESM-2 inference.
+
+**S4b attribution — the decisive control.** Ligand-only, protein-only and joint
+arms on the same cells and split, identical hyperparameter selection:
+
+| channel | LIG-ONLY | PROT-ONLY | BOTH - LIG |
+|---|---|---|---|
+| hbond_directional | +0.266 [+0.160, +0.391] | +0.009 [-0.026, +0.047] | +0.0015 [-0.0379, +0.0363] |
+| hydrophobic_burial | +0.331 [+0.204, +0.485] | -0.017 [-0.044, +0.004] | **-0.0321 [-0.0621, -0.0052]** |
+| pocket_burial | +0.077 [+0.027, +0.125] | -0.027 [-0.080, +0.023] | -0.0200 |
+| aromatic_orientation | +0.044 [+0.006, +0.078] | +0.000 [-0.010, +0.010] | -0.0137 |
+| steric_overlap | +0.043 [+0.009, +0.114] | +0.012 [-0.047, +0.052] | +0.0385 |
+| electrostatic_signed | +0.036 [+0.006, +0.054] | +0.001 [-0.013, +0.012] | -0.0101 |
+
+Protein-only is ~0 for all six. The ligand alone explains everything the joint
+model explains; adding the protein buys +0.0015 on the best channel (CI spans
+zero) and costs -0.032 on hydrophobic burial with a CI excluding zero. The
+observable teacher signal is a ligand descriptor.
+
+```text
+S-PROGRAMME TERMINAL VERDICT: POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT
+```
+
+GPU training was not authorised: three of the four S4 conditions were met, but
+the probe reaches R2=0.30 where information exists (so it is not underfitting)
+and that information is ligand-side (so distillation would learn chemistry, the
+forbidden population shortcut). No affinity value was read; S8 was never entered.
+Full account: `report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md`.
+
+### S0-S4 immutable code and artifact hashes
+
+| path | sha256[:32] | bytes |
+|---|---|---|
+| `research/ssl_b2_structural_observability/LICENSE_AND_PROVENANCE_AUDIT.md` | `33cb45bfca2a35c321f55ff8a5379bdc` | 4232 |
+| `research/ssl_b2_structural_observability/TEACHER_CONTRACT.md` | `5c5763137946630017c0b9c303bd6009` | 4622 |
+| `research/ssl_b2_structural_observability/s1_registry_and_exposure.py` | `7081076ed826880d5a932ff8a7925f18` | 6783 |
+| `research/ssl_b2_structural_observability/s1b_acquire_independent.py` | `e1b4fdbb2bed0e8b4c3de288830e0680` | 4841 |
+| `research/ssl_b2_structural_observability/s2_teacher.py` | `1199bde00e502413636f5c57ea687cb6` | 10002 |
+| `research/ssl_b2_structural_observability/s3_power.py` | `3eb30b6854feed90ddb27023ab2f979b` | 3308 |
+| `research/ssl_b2_structural_observability/s3s4_observability.py` | `36d725ba832534d1bc5d7a6f2ca3153c` | 13821 |
+| `research/ssl_b2_structural_observability/s4b_attribution.py` | `4090ba950b6a843013a14470075f3c67` | 4870 |
+| `report/ssl_b2_structural_observability/DATASET_ROLE_REGISTRY.json` | `63ad6710a6909e7c41ff0f4f32ab689c` | 3380 |
+| `report/ssl_b2_structural_observability/S4B_ATTRIBUTION.json` | `83198f9931cfaf8f9b89229b404063be` | 6181 |
+| `report/ssl_b2_structural_observability/S4_OBSERVABILITY_AUDIT.json` | `4ed05b8c683a861150adffefc0f5a5c5` | 5427 |
+| `report/ssl_b2_structural_observability/STRUCTURAL_EXPOSURE_AUDIT.json` | `02c7774f68d45aabb893162a1b0db901` | 676 |
+| `report/ssl_b2_structural_observability/STRUCTURAL_POWER_ANALYSIS.json` | `873728e0cc53d4c1d01962af4c0f86f2` | 599 |
+| `report/ssl_b2_structural_observability/STRUCTURAL_SPLIT_MANIFEST.json` | `23e76f98a77304abf90232f5b57fe9d2` | 569 |
+| `report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md` | `b8be2b37de541fd1a48a67b290cbb8a9` | 12794 |
+| `report/ssl_b2_structural_observability/TEACHER_REPRODUCIBILITY_AUDIT.json` | `3544d05cdb971d3be1a25d6f87e3d0f7` | 1624 |
+| `report/ssl_b2_structural_observability/s1b_console.txt` | `9e581b1faac5d63ed0f9fd530a208f45` | 520 |
+| `report/ssl_b2_structural_observability/s3_power_console.txt` | `b659122bcad2f785b02c09277013f68f` | 601 |
+| `report/ssl_b2_structural_observability/s4_console.txt` | `f279e1fd1b5a5c37798584de2e316e5e` | 5500 |
+| `report/ssl_b2_structural_observability/s4b_console.txt` | `b8f3322c038ac001b6d5d7f48141dd82` | 852 |
+
+Independent structural release: RCSB PDB CC0-1.0, 1,476 entries released >= 2024-01-01, acquisition manifest with per-file SHA-256 at `dataset/raw/ssl_b2_independent/acquisition_manifest.json`. gemmi 0.7.5, MMseqs2 repo-pinned. Seeds fixed. GPU used for frozen ESM-2 inference only; no GPU training was performed.
+

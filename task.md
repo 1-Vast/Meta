@@ -240,3 +240,27 @@ biological statistic ever passed a Gate that would have justified scoring it.
 No GPU training was performed; the Stage-4 trigger condition never occurred.
 
 The exact missing experimental design is stated in section 7 of the final report.
+
+
+## S0-S4 Structural Self-Supervision (2026-08-08)
+
+```text
+POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT
+```
+
+Report: `report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md`.
+
+An independent, zero-exposure structural test set was formed (1,118 complexes,
+621 protein clusters, 586 scaffolds) and a deterministic six-channel 3D teacher
+was frozen and validated at machine precision. Two channels are observable from
+deployment inputs and beat random features; **none is protein-specific**, and the
+attribution control localises the whole observable signal to the ligand.
+
+GPU training was **not authorised** and none was performed. No affinity value was
+read at any point. `model/`, production `scripts/`, `theory/`, CSMO, Band and the
+fixed mesh are unmodified.
+
+Next indicated, in order: rung `B1` (residue-local protein states, atom-local
+ligand states, pair-local channel targets) before the conditional `S7` pose-aware
+pilot, whose principal risk is already quantified — XP2 showed predicted-input
+noise degrades the target-specific component faster than the shared one.

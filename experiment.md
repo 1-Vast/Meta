@@ -47,6 +47,12 @@ Updated: 2026-08-08
 | XP3 | CENSUS | public data offers either low noise with ~8 protein-group units (single-lab profiling) or 70-85 independent units with noise exceeding the interaction (literature aggregation); no accessible source offers both |
 | XP4 | DATA-LIMITED NULL | 85 independent BindingDB panels, 70 protein clusters: per-report `sigma=0.777`, `gamma` sd `0.406` below the `0.650` noise alone transmits; within-panel chemistry-neighbour ceiling `R2=-0.539` |
 | XP5 | FAIL | ten fixed named physicochemical complementarity channels, computed not predicted: `R2_gamma=-0.0015`, derangement specificity exactly `+0.00000 [-0.00069,+0.00066]`; shuffling the pairing improves the fit |
+| S1 | INDEPENDENT SET FORMED | RCSB CC0, released >=2024, 15,003 candidates with **exposed overlap 0** against all 10,468 P1B-exposed ids; 1,118 usable complexes, 621 protein clusters, 586 scaffolds |
+| S2 | TEACHER PASS | six named 3D channels from raw holo coordinates; rot/trans `7.6e-15`, permutation `1.6e-14`, determinism `0.0`, no channel degenerate |
+| S3 | WELL POWERED | 124 effective units per fold, minimum detectable `R2=0.02` at 100% detection; S6 floor frozen at `0.02` before opening the test set |
+| S4 | MIXED / DECISIVE | H-bond `R2=+0.268 [+0.166,+0.378]` and hydrophobic burial `+0.299 [+0.162,+0.454]` beat random features, but **no channel beats deranged protein** |
+| S4b | LIGAND-SIDE | protein-only `R2 ~ 0` for all six; ligand-only matches the joint model; adding the protein costs `-0.032` on hydrophobic burial with CI excluding zero |
+| S5 | NOT AUTHORISED | the distillation target is a ligand descriptor; training it would learn the forbidden population shortcut |
 | XP2-G | CONDITIONAL | interface legality requires a declared gauge, a two-term outer radius, and placement of the discrete coordinates in `kappa`; abstention is the existing `p=e_0` vertex; CSMO/Band/`K`/mesh untouched |
 
 All detailed metrics and former report conclusions are preserved in `history.md`

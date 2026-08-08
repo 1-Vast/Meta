@@ -2,6 +2,24 @@
 
 Updated: 2026-08-08
 
+## 0-PRE-2. Structural self-supervision programme (2026-08-08)
+
+```text
+POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT
+```
+
+The only untested information rung was genuine 3D structural mechanism. S1 formed
+an independent zero-exposure RCSB CC0 test set (1,118 complexes, 621 protein
+clusters, 586 scaffolds). S2 froze a six-channel coordinate teacher, reproducible
+at machine precision with no degenerate channel. S3 showed the design detects
+`R2 >= 0.02` at 100% power. S4 found two channels observable from sequence+2D and
+beating random features, but **no channel beats the deranged-protein control**.
+S4b localised the entire observable signal to the **ligand**: protein-only
+`R2 ~ 0` on all six channels, and adding the protein to the ligand costs
+`-0.032` on hydrophobic burial with a CI excluding zero. GPU training was not
+authorised because the distillation target is a ligand descriptor. See
+`report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md`.
+
 ## 0-PRE. Terminal outcome of the external programme (2026-08-08)
 
 ```text
