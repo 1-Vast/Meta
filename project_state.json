@@ -1,7 +1,7 @@
 {
   "schema": "MetaSieve.ProjectState.v1",
   "updated": "2026-08-08",
-  "current_phase": "E_AFF_L0R_NOT_RUN_POSITIVE_CONTROL_ABSENT",
+  "current_phase": "F6I_COMPONENT_IDENTIFIABILITY_DEVELOPMENT_EVIDENCE_EXTERNAL_ADMISSION_REQUIRED",
   "gates": {
     "P0": "PASS",
     "P1A": "PASS",
@@ -34,7 +34,11 @@
     "P2": "FROZEN",
     "P3": "FROZEN",
     "P4": "FROZEN",
-    "P1R2B_E_AFF_L0R": "NOT_RUN_POSITIVE_CONTROL_ABSENT"
+    "P1R2B_E_AFF_L0R": "NOT_RUN_POSITIVE_CONTROL_ABSENT",
+    "PKIS_MECHANISM_V2": "DEVELOPMENT_TRANSFER_MIXED_NO_PRODUCTION_ADMISSION",
+    "SECTION_OPERATOR_F6I": "COMPONENT_IDENTIFIABILITY_OBSERVED_TOTAL_GATE_NOT_ADMISSIBLE",
+    "SECTION_LAW_BRIDGE": "RESEARCH_INVARIANTS_PASS_NOT_FROZEN_OPERATOR_EQUIVALENT",
+    "FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION": "NOT_REGISTERED"
   },
   "historical_verdict_annotations": {
     "P1R2B_E_AFF_X0": {
@@ -62,9 +66,18 @@
       "annotation": "NOT_RUN_NOT_A_SCIENTIFIC_NEGATIVE",
       "detail": "The corrected Gate fixed both L0 defects: mean-interval coverage is informative (0.0674-0.1664 across arms) and a registered positive control was enforced. The control failed: ligand-only beat population-only by only +0.03421 log units, CI [-0.03304, 0.10793], against a required 0.1*sigma_assay = 0.04797. No protein contrast is interpretable or reported. Claim A remains untested.",
       "reclassified_as_pass": false
+    },
+    "SECTION_OPERATOR_F6I": {
+      "verdict_unchanged": true,
+      "annotation": "COMPONENT_LEVEL_DEVELOPMENT_EVIDENCE_ONLY",
+      "detail": "The supplied F6I package separates a source-atlas protein-dependent surface from a one-dimensional support location statistic and shows positive component contrasts on consumed kinase panels. Its registered total verdict remains F6I_COMPONENTS_NOT_ADMISSIBLE because the Anastassiadis nearest-protein raw-MSE contrast reverses slightly. PKIS2 and Anastassiadis are consumed development panels; no fresh endpoint-consistent production admission has run.",
+      "reclassified_as_pass": false
     }
   },
   "current_scientific_state": [
+    "KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT",
+    "F6I_TOTAL_GATE_NOT_ADMISSIBLE",
+    "FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN",
     "WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED",
     "PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED",
     "CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED",
@@ -80,8 +93,8 @@
     "relation": "different estimands; neither stage replaces, implies or authorizes the other"
   },
   "current_mission": "STOPPED_NO_VALIDATED_END_TO_END_MODEL",
-  "repository_consolidation": "COMPLETE_THROUGH_E_AFF_R0_X0FEAS_X0B",
-  "last_full_regression": "70_PASSED",
+  "repository_consolidation": "COMPLETE_THROUGH_F6I_RESEARCH_INTAKE",
+  "last_full_regression": "70_PASSED_PLUS_39_IMPORTED_RESEARCH_PASSED",
   "mandatory_sources": {
     "affinity_primary": "ChEMBL37_SQLite_static_release",
     "affinity_replication": "BindingDB_archived_snapshot_not_started",
@@ -97,7 +110,7 @@
   "code_surfaces": {
     "model": "VERIFIED_MATH_AND_P1B_GEOMETRY_ONLY",
     "scripts": "PASSED_DATA_GEOMETRY_GOVERNANCE_ONLY",
-    "research": "R0_READOUT_SCOPE_X0FEAS_UNIT_CEILING_X0B_CONDITIONAL_DESIGN_L0_REGISTERED",
+    "research": "R0_X0FEAS_X0B_L0_PLUS_PKIS_F6I_COMPONENT_DEVELOPMENT_EVIDENCE",
     "report": "CURRENT_PROTOCOL_AND_PASS_EVIDENCE_ONLY"
   },
   "frozen_math": true,

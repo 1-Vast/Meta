@@ -8,6 +8,9 @@ The repository has been consolidated around verified evidence. There is no
 validated assembled DTA model.
 
 ```text
+KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT
+F6I_TOTAL_GATE_NOT_ADMISSIBLE
+FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN
 WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED
 PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED
 CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
@@ -30,6 +33,9 @@ E-AFF-X0-FEAS X0 UNIT REQUIREMENT UNATTAINABLE BY CONSTRUCTION
 E-AFF-X0-B CONDITIONAL DESIGN SUPPORT PENDING RHO
 E-AFF-L0 NOT RUN: NUMERICAL PRECONDITION FAILED
 E-AFF-L0R NOT RUN: POSITIVE CONTROL ABSENT
+PKIS/F6I COMPONENT DECOMPOSITION OBSERVED ON CONSUMED DEVELOPMENT PANELS
+F6I TOTAL GATE NOT ADMISSIBLE
+RESEARCH LAW BRIDGE TESTED; NOT PRODUCTION OPERATOR EQUIVALENCE
 X1/X2, ANGULAR BASIS, RFSA, DAVIS, P2-P4 FROZEN
 RECIPIENT_LABEL_READS=0
 DAVIS_LABEL_READS=0
@@ -80,7 +86,8 @@ design support**, not evidence that affinity interaction exists.
 2. `task.md`
 3. `experiment.md`
 4. `research/e0_identifiability/THEORY_BIOLOGY_INTEGRATION.md`
-5. `history.md`
+5. `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md`
+6. `history.md`
 
 ## Code Boundaries
 
@@ -89,6 +96,9 @@ design support**, not evidence that affinity interaction exists.
 - `research/e0_identifiability/` contains terminal synthetic, structural and
   source-affinity research evidence plus the registered, unrun L0. It is not
   production code.
+- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`
+  contain imported kinase-panel development evidence. Their F6I total Gate is
+  not admissible; neither package may be imported by production code.
 - `report/` retains only current protocol and PASS evidence.
 
 Do not recreate deleted failed implementations from prose. Do not run X1/X2,
@@ -114,4 +124,5 @@ modify the frozen mathematical operator without a new explicit registration.
 - R0: within-task concordance invariance deviation `0.0` on all four
   transforms; a perfect task-level predictor scores exactly `0.5000` at every
   variance share up to `0.985`.
-- Current regression: `70 passed` in the `drug` environment.
+- Imported PKIS/F6I research regression: `39 passed` in the `drug` environment.
+- Full repository regression after intake: `70 passed`.

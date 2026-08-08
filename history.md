@@ -2373,3 +2373,63 @@ must change the design power or the estimand rather than the model.
 recipient labels, X1, X2, angular and many-body work, RFSA, theory changes and
 P2-P4 remain frozen. DAVIS and recipient reads remain zero. No rerun on this
 panel is permitted.
+
+### F-93: PKIS/F6I identifiability-resolution intake
+
+**SCOPE.** Integrated the supplied
+`MetaSieve_identifiability_resolution_20260808.zip`, standalone final report,
+`law_bridge.py` and `component_independent.py` as a new research-only evidence
+branch. No production `model/`, normal `scripts/`, frozen theory, DAVIS,
+recipient or governed ChEMBL affinity path was modified or read.
+
+**PROVENANCE.** Archive SHA-256
+`02d5a3586a90caba6cf6392edc0796d24948b06d49c6a389377d509635d842c1`;
+107 entries, 90 files, 1,116,376 uncompressed bytes. All archive paths passed a
+path-traversal check. The standalone report, law bridge and F6I implementation
+were byte-identical to their archive copies. Exact hashes and the scope decision
+are recorded in `research/IDENTIFIABILITY_RESOLUTION_INTAKE.json`.
+
+**CODE VERIFICATION.** The imported PKIS and section-operator suite initially
+returned `38 passed, 1 failed`. The failure was an undeclared test-only working-
+directory dependency on an unbundled KiSSim CSV, not a model failure. The test
+was made self-contained with an equivalent temporary 85-position CSV fixture;
+runtime research data loading was unchanged. The suite then returned
+`39 passed`. PKIS v1/v2 output hashes match their manifests.
+
+**PROVENANCE LIMITATION.** The historical F0 manifest binds
+`ceiling_probe.py` SHA-256 `2c925e...`, while the supplied current script hashes
+to `6ca01a...`. Therefore the F0 artifact is preserved as historical evidence
+but is not claimed byte-identically rerunnable from the supplied code alone.
+
+**EVIDENCE ACCEPTED.** On consumed kinase activity panels, the supplied branch
+supports a component decomposition into a protein-dependent, source-atlas
+zero-shot surface and a bounded, protein-independent one-dimensional support
+location statistic. The latter is support-multiset permutation invariant and
+satisfies `d_adapt = 1 <= k = 5`. PKIS2 component contrasts and the isolated
+interaction contrast on Anastassiadis are positive as recorded in the supplied
+artifacts.
+
+**UNCHANGED TERMINAL VERDICT.** The registered F6I total verdict remains
+`F6I_COMPONENTS_NOT_ADMISSIBLE`. On Anastassiadis the nearest-protein raw MSE is
+better by approximately `1.47e-5`; the supplied report may interpret this as an
+additive-main-effect mixture, but the preregistered total Gate cannot be
+rewritten after observation. PKIS2 and Anastassiadis are consumed development
+panels, not fresh external validation.
+
+**THEORY BOUNDARY.** The research `law_bridge.py` passes mass, barycentre,
+column-stochasticity, tridiagonal and permutation-invariance tests. It produces
+a categorical law on a seven-point mesh followed by mean-preserving Markov
+diffusion. The frozen production object instead uses a 33-point mesh, CDF-band
+polytope, simplex coefficient map and band assembly. The abstract notation is
+compatible but the types are not identical. No production operator equivalence
+or theorem-certified biological `z` admission is claimed.
+
+**DECISION.** New formal state:
+`KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT;
+F6I_TOTAL_GATE_NOT_ADMISSIBLE;
+FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN`. The next scientifically
+admissible action is a separately registered, once-only evaluation of the
+frozen decomposition on a fresh endpoint-consistent, target/ligand/document-
+governed panel. A future PASS could authorize a production-interface
+registration only; it would not directly authorize overwriting `model/`, the
+frozen theory, CSMO/Band, DAVIS or P2-P4.

@@ -1,6 +1,6 @@
 # MetaSieve Experiment Registry
 
-Updated: 2026-08-07
+Updated: 2026-08-08
 
 ## Terminal Evidence
 
@@ -32,9 +32,18 @@ Updated: 2026-08-07
 | E-AFF-X0-B | CONDITIONAL DESIGN | cell-disjoint units reach the unchanged 245 requirement only if intra-cluster correlation is small; not evidence of interaction |
 | E-AFF-L0 | NOT RUN | Claim A Gate failed a registered precondition; a gate condition used a degenerate coverage statistic, so Claim A is untested |
 | E-AFF-L0R | NOT RUN | corrected Gate; both defects fixed, but the registered ligand-only positive control failed, so no protein contrast is interpretable |
+| PKIS mechanism v2 | MIXED DEVELOPMENT | product-kernel interaction transfers on PKIS2 but does not establish a fresh endpoint-consistent affinity result |
+| Section F6I | COMPONENT EVIDENCE / TOTAL NOT ADMISSIBLE | protein-dependent zero-shot surface and one-dimensional support location separate the named gauge; registered total Gate remains not admissible |
+| Research law bridge | INVARIANTS PASS / RESEARCH ONLY | seven-point categorical-law bridge passes local invariants but is not type-equivalent to the frozen production CDF-band operator |
 
 All detailed metrics and former report conclusions are preserved in `history.md`
 and `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`.
+
+The new intake preserves the supplied preregistrations, code and compact
+artifacts under `research/pkis_mechanism_pilot/` and
+`research/section_operator_pilot/`. PKIS2 and Anastassiadis are consumed
+development panels. The F6I registered total verdict remains
+`F6I_COMPONENTS_NOT_ADMISSIBLE`; this update is not a production PASS.
 
 ## Estimand Separation
 

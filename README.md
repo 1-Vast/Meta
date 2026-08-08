@@ -3,12 +3,14 @@
 Mechanism-first few-shot drug-target affinity research with a frozen convex
 law-valued operator.
 
-Updated: 2026-08-07
+Updated: 2026-08-08
 
 ## Current Verdict
 
 ```text
 MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED
+KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT
+F6I_TOTAL_GATE_NOT_ADMISSIBLE
 GEOMETRY_IDENTIFIED
 PAIR_COMPATIBILITY_IDENTIFIED
 FIXED_RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED
@@ -35,6 +37,9 @@ registered protein-specific affinity increment.
 - `research/e0_identifiability/`: synthetic identifiability evidence, E0R2,
   the negative T-DIR-P0 pilot, and the passing T-BASIS-R0 fixed-radial study;
   no production model.
+- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`:
+  governed PKIS/KLIFS/KiSSim component-identifiability development evidence;
+  registered F6I total Gate not admissible.
 - `report/`: current split protocol and immutable PASS evidence only.
 - `history.md`: complete failure ledger and deleted-artifact record.
 
@@ -57,6 +62,8 @@ theory-to-biology assessment, evidence map, and stop rules.
 - E-AFF-H0C support-matched interaction residual: NOT OBSERVED.
 - E-AFF-X0 crossed ChEMBL census: INSUFFICIENT INDEPENDENT COMPONENTS; STOP.
 - Formal typed-interaction T and P2-P4: FROZEN.
+- F6I component decomposition: DEVELOPMENT SIGNAL OBSERVED; total Gate NOT
+  ADMISSIBLE; fresh endpoint-consistent external admission NOT RUN.
 - Recipient-label reads: `0`.
 
 ## Read First
@@ -65,7 +72,8 @@ theory-to-biology assessment, evidence map, and stop rules.
 2. `task.md`
 3. `experiment.md`
 4. `history.md`
-5. `report/CURRENT_DATA_SPLIT_PROTOCOL.md`
+5. `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md`
+6. `report/CURRENT_DATA_SPLIT_PROTOCOL.md`
 
 ## Verification
 
@@ -75,8 +83,8 @@ Environment: `D:\anaconda\envs\drug`, PyTorch `2.6.0+cu124`, CUDA RTX 4060.
 D:\anaconda\envs\drug\python.exe -m pytest -q
 ```
 
-Current result: `70 passed in 77.02s`, including E-AFF/L0/X0-B contract tests. T-DIR,
-T-BASIS and E-AFF stages remain research-only.
+The imported PKIS/F6I package passes `39` tests; the post-intake full repository
+suite passes `70` tests. T-DIR, T-BASIS, E-AFF and F6I remain research-only.
 
 ## Data Availability
 

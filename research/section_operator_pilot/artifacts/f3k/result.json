@@ -1,0 +1,241 @@
+{
+  "elapsed_seconds": 53.424455642700195,
+  "gate": {
+    "passed": false,
+    "source_budget_identified": false,
+    "verdict": "F3K_NOT_IDENTIFIABLE_THROUGH_K40"
+  },
+  "read_firewall": {
+    "anastassiadis": "NOT_READ_BY_F3K",
+    "davis_labels": "NOT_READ",
+    "kcgs_numeric_outcomes": "NOT_READ",
+    "pkis1": "source",
+    "pkis2": "NOT_READ_BY_F3K",
+    "recipient_labels": "NOT_READ"
+  },
+  "schema": "MetaSieve.IdentifiabilitySampleComplexity.F3K.v1",
+  "selected": {
+    "candidate_k": [
+      5,
+      10,
+      20,
+      40
+    ],
+    "certificate_ridge": 10.0,
+    "conformal_level": 0.8,
+    "d_adapt": 4,
+    "ligand_ridge": 0.1,
+    "location_ridge": 100.0,
+    "selected_k": null,
+    "tangent_ridge": 0.1
+  },
+  "source": {
+    "budget_ladder": {
+      "budgets": {
+        "10": {
+          "admission_rate": 0.0,
+          "admitted_margin": {
+            "ci95": [
+              null,
+              null
+            ],
+            "estimate": null,
+            "n_targets": 0
+          },
+          "conformal_error_quantile": 0.0003737165173559793,
+          "crossfit_correlation": 0.14998264028057548,
+          "crossfit_rmse": 0.0014988321350360497,
+          "n_episodes": 875,
+          "source_gate_passed": false
+        },
+        "20": {
+          "admission_rate": 0.008,
+          "admitted_margin": {
+            "ci95": [
+              -0.0013006105888520132,
+              -0.00019843622571582404
+            ],
+            "draws": 10000,
+            "estimate": -0.000731392422921012,
+            "n_targets": 4
+          },
+          "conformal_error_quantile": 0.00048419968910358435,
+          "crossfit_correlation": 0.18927091203885799,
+          "crossfit_rmse": 0.0018276270767978032,
+          "n_episodes": 875,
+          "source_gate_passed": false
+        },
+        "40": {
+          "admission_rate": 0.04114285714285714,
+          "admitted_margin": {
+            "ci95": [
+              -0.001747854529422703,
+              -0.0008318883174009292
+            ],
+            "draws": 10000,
+            "estimate": -0.0012826661136851947,
+            "n_targets": 11
+          },
+          "conformal_error_quantile": 0.00024939163917752174,
+          "crossfit_correlation": 0.051391547611125216,
+          "crossfit_rmse": 0.003036521021528739,
+          "n_episodes": 875,
+          "source_gate_passed": false
+        },
+        "5": {
+          "admission_rate": 0.0,
+          "admitted_margin": {
+            "ci95": [
+              null,
+              null
+            ],
+            "estimate": null,
+            "n_targets": 0
+          },
+          "conformal_error_quantile": 0.00017422872202581025,
+          "crossfit_correlation": 0.06166484920477314,
+          "crossfit_rmse": 0.0013762871069400513,
+          "n_episodes": 875,
+          "source_gate_passed": false
+        }
+      },
+      "folds": [
+        {
+          "episodes": {
+            "5": 565,
+            "10": 565,
+            "20": 565,
+            "40": 565
+          },
+          "fold": 0,
+          "valid_ligands": 123,
+          "valid_targets": 113
+        },
+        {
+          "episodes": {
+            "5": 70,
+            "10": 70,
+            "20": 70,
+            "40": 70
+          },
+          "fold": 1,
+          "valid_ligands": 132,
+          "valid_targets": 14
+        },
+        {
+          "episodes": {
+            "5": 240,
+            "10": 240,
+            "20": 240,
+            "40": 240
+          },
+          "fold": 2,
+          "valid_ligands": 111,
+          "valid_targets": 48
+        }
+      ]
+    },
+    "ligand_cv": {
+      "0.01": {
+        "fold_mse": [
+          0.015113602745836003,
+          0.013328727074019997,
+          0.012381296444671562
+        ],
+        "mean_mse": 0.013607875421509187
+      },
+      "0.1": {
+        "fold_mse": [
+          0.014813463954249553,
+          0.012996018657725846,
+          0.012190398613224514
+        ],
+        "mean_mse": 0.013333293741733305
+      },
+      "1.0": {
+        "fold_mse": [
+          0.015290852105410325,
+          0.01330850939857129,
+          0.012288281031786086
+        ],
+        "mean_mse": 0.013629214178589234
+      },
+      "10.0": {
+        "fold_mse": [
+          0.018837056622079865,
+          0.016918051742336827,
+          0.015736574702276337
+        ],
+        "mean_mse": 0.017163894355564344
+      },
+      "100.0": {
+        "fold_mse": [
+          0.021296347940620887,
+          0.019659599164705253,
+          0.0187489523884903
+        ],
+        "mean_mse": 0.01990163316460548
+      },
+      "1000.0": {
+        "fold_mse": [
+          0.02173794796768287,
+          0.020145300617138068,
+          0.019286903088356417
+        ],
+        "mean_mse": 0.020390050557725786
+      }
+    },
+    "panel": "PKIS1",
+    "section_cv": {
+      "location=1.0,tangent=0.01": {
+        "mean_mse": 0.026359923839004467,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=0.1": {
+        "mean_mse": 0.027024398596491268,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=1.0": {
+        "mean_mse": 0.027955652049858344,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=10.0": {
+        "mean_mse": 0.028200364055909814,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=0.01": {
+        "mean_mse": 0.022330935484229316,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=0.1": {
+        "mean_mse": 0.022288623340024526,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=1.0": {
+        "mean_mse": 0.022617417859405724,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=10.0": {
+        "mean_mse": 0.02272971383738935,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=0.01": {
+        "mean_mse": 0.021601479059541292,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=0.1": {
+        "mean_mse": 0.021324333505653763,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=1.0": {
+        "mean_mse": 0.021452950083462128,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=10.0": {
+        "mean_mse": 0.02152167752062086,
+        "n_episodes": 175
+      }
+    }
+  },
+  "transfers": {}
+}

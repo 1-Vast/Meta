@@ -5,6 +5,9 @@ Updated: 2026-08-08
 ## 1. Current Scientific Verdict
 
 ```text
+KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT
+F6I_TOTAL_GATE_NOT_ADMISSIBLE
+FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN
 WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED
 PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED
 CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
@@ -24,6 +27,7 @@ TASK_LOCAL_RADIAL_AFFINITY_HEADROOM_OBSERVED
 CORRECT_PARTNER_AFFINITY_SECTION_NOT_IDENTIFIED
 FIXED_RADIAL_INTERACTION_RESIDUAL_NOT_OBSERVED
 CHEMBL_CROSSED_SOURCE_INTERACTION_UNDERDETERMINED
+PKIS_ZERO_SHOT_SURFACE_PLUS_ONE_DIMENSIONAL_LOCATION_OBSERVED
 ```
 
 ### 1.1 Two separate estimands
@@ -85,6 +89,9 @@ an identified statistic coordinate system.
 | cell-disjoint crossed design | `research/e0_identifiability/` | X0-B: conditional design support pending `rho` | research only |
 | within-task rank readout | `research/e0_identifiability/` | R0: exactly invariant to task-level affinity location | scope annotation only |
 | ordered-anchor location interface | `research/e0_identifiability/` | L0 not run, precondition failed | research only |
+| PKIS/KLIFS zero-shot biological surface | `research/pkis_mechanism_pilot/`, `research/section_operator_pilot/` | component-level development signal on consumed panels | research only |
+| protein-independent support location `tau` | `research/section_operator_pilot/component_independent.py` | bounded one-dimensional permutation-invariant statistic | research only |
+| seven-point categorical law bridge | `research/section_operator_pilot/law_bridge.py` | local invariants pass; not type-equivalent to frozen production CDF bands | do not promote |
 
 The theory proves properties conditional on a legal statistic and coefficient
 map. It does not prove that ESM/GINE features, QPMA, CSMO views, or any proposed
@@ -349,6 +356,9 @@ evidence.
 
 - `research/e0_identifiability/`: terminal synthetic, structural and
   source-affinity research evidence plus explicitly frozen hypotheses.
+- `research/pkis_mechanism_pilot/` and `research/section_operator_pilot/`:
+  consumed-panel kinase interaction and section-identifiability evidence. The
+  registered F6I total verdict is not admissible.
 - It contains research-only code, tests, preregistrations and final artifacts.
 - It is not imported by `model/` or normal `scripts/` workflows.
 
@@ -360,6 +370,8 @@ evidence.
 | P1B geometry PASS | `report/mechanism_refactor/p1b_*` | accepted checkpoint and partner-control evidence |
 | D0-C/D1 PASS | `report/mechanism_refactor/p1r2b_d0_chembl37_v1/` | immutable corpus and closure governance |
 | E0 through X0 research | `research/e0_identifiability/` | preregistration, terminal result, audit and hashed final artifact |
+| PKIS/F6I component research | `research/pkis_mechanism_pilot/`, `research/section_operator_pilot/` | supplied preregistrations, compact artifacts and component-level development evidence |
+| PKIS/F6I intake audit | `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md` | scope, hash and production-boundary decision |
 | Current scientific summary | this file | single theory-to-evidence interpretation |
 | Full historical ledger | `history.md` | negative results, supersession and deletion record |
 
@@ -400,6 +412,13 @@ evidence and the frozen theory are not deleted.
 8. X0-B's conditional design support is not permission to read interaction
    values. X1 requires a separate registration whose first step estimates `rho`
    and abstains if its upper bound exceeds `rho*`.
+9. A component-level result on consumed PKIS/Anastassiadis panels does not
+   override a registered total `NOT_ADMISSIBLE` verdict and does not identify
+   Ki/Kd affinity energetics.
+10. The research seven-point categorical-law bridge shares the abstract
+    `z -> F -> B F -> K` notation but is not the frozen 33-point CDF-band
+    operator. Interface resemblance is not type equivalence or production
+    admission.
 
 ## 7. Current Stop Boundary
 
@@ -417,6 +436,10 @@ COMPLETE SOURCE NEGATIVE: E-AFF-P0 shared direction not observed
 COMPLETE MIXED DIAGNOSTIC: E-AFF-H0A headroom without partner specificity
 COMPLETE SOURCE NEGATIVE: E-AFF-H0C centered interaction residual not observed
 COMPLETE DATA STOP: E-AFF-X0 ChEMBL crossed source underdetermined
+COMPLETE RESEARCH INTAKE: PKIS/F6I component-level development evidence
+REGISTERED TOTAL F6I VERDICT: NOT ADMISSIBLE
+RESEARCH LAW BRIDGE: INVARIANTS PASS, PRODUCTION EQUIVALENCE NOT ESTABLISHED
+NOT RUN: fresh endpoint-consistent external admission
 NOT AUTHORIZED: E-AFF-X1/X2 value access
 NOT AUTHORIZED/FROZEN: H0-B, angular basis, replication, RFSA, DAVIS, production, P2-P4
 NEXT AUTOMATIC STAGE: none

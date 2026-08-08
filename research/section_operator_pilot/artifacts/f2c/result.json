@@ -1,0 +1,1260 @@
+{
+  "elapsed_seconds": 100.56422805786133,
+  "gate": {
+    "anastassiadis_coverage": false,
+    "anastassiadis_interaction_point_estimates": true,
+    "anastassiadis_raw_point_estimates": false,
+    "passed": false,
+    "pkis2_coverage": false,
+    "pkis2_interaction_controls": false,
+    "pkis2_raw_controls": false,
+    "verdict": "F2C_PARTIAL_SECTION_NOT_ADMISSIBLE"
+  },
+  "limitations": [
+    "The 80% conformal certificate is marginal under source-episode exchangeability, not conditional under panel shift.",
+    "Abstention is required outside the admitted partial task domain.",
+    "The scalar decoder remains a feasibility diagnostic only."
+  ],
+  "read_firewall": {
+    "anastassiadis": "consumed_development",
+    "davis_labels": "NOT_READ",
+    "kcgs_numeric_outcomes": "NOT_READ",
+    "pkis1": "source",
+    "pkis2": "consumed_development",
+    "recipient_labels": "NOT_READ"
+  },
+  "schema": "MetaSieve.ConformalIdentifiabilitySection.F2C.v1",
+  "selected": {
+    "certificate_ridge": 10.0,
+    "conformal_error_quantile": 0.00018909474188836097,
+    "conformal_level": 0.8,
+    "d_adapt": 4,
+    "k_primary": 5,
+    "ligand_ridge": 0.1,
+    "location_ridge": 100.0,
+    "tangent_ridge": 0.1
+  },
+  "source": {
+    "certificate_calibration": {
+      "conformal_level": 0.8,
+      "crossfit_admission_rate": 0.0,
+      "crossfit_admitted_margin_mean": null,
+      "crossfit_correlation": 0.03958087213964513,
+      "crossfit_rmse": 0.0014491679158367917,
+      "error_quantile": 0.00018909474188836097,
+      "feature_dimension": 14,
+      "folds": [
+        {
+          "episodes": 1130,
+          "fold": 0,
+          "valid_ligands": 123,
+          "valid_targets": 113
+        },
+        {
+          "episodes": 140,
+          "fold": 1,
+          "valid_ligands": 132,
+          "valid_targets": 14
+        },
+        {
+          "episodes": 480,
+          "fold": 2,
+          "valid_ligands": 111,
+          "valid_targets": 48
+        }
+      ],
+      "n_episodes": 1750
+    },
+    "ligand_cv": {
+      "0.01": {
+        "fold_mse": [
+          0.015113602745836003,
+          0.013328727074019997,
+          0.012381296444671562
+        ],
+        "mean_mse": 0.013607875421509187
+      },
+      "0.1": {
+        "fold_mse": [
+          0.014813463954249553,
+          0.012996018657725846,
+          0.012190398613224514
+        ],
+        "mean_mse": 0.013333293741733305
+      },
+      "1.0": {
+        "fold_mse": [
+          0.015290852105410325,
+          0.01330850939857129,
+          0.012288281031786086
+        ],
+        "mean_mse": 0.013629214178589234
+      },
+      "10.0": {
+        "fold_mse": [
+          0.018837056622079865,
+          0.016918051742336827,
+          0.015736574702276337
+        ],
+        "mean_mse": 0.017163894355564344
+      },
+      "100.0": {
+        "fold_mse": [
+          0.021296347940620887,
+          0.019659599164705253,
+          0.0187489523884903
+        ],
+        "mean_mse": 0.01990163316460548
+      },
+      "1000.0": {
+        "fold_mse": [
+          0.02173794796768287,
+          0.020145300617138068,
+          0.019286903088356417
+        ],
+        "mean_mse": 0.020390050557725786
+      }
+    },
+    "panel": "PKIS1",
+    "section_cv": {
+      "location=1.0,tangent=0.01": {
+        "mean_mse": 0.026359923839004467,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=0.1": {
+        "mean_mse": 0.027024398596491268,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=1.0": {
+        "mean_mse": 0.027955652049858344,
+        "n_episodes": 175
+      },
+      "location=1.0,tangent=10.0": {
+        "mean_mse": 0.028200364055909814,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=0.01": {
+        "mean_mse": 0.022330935484229316,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=0.1": {
+        "mean_mse": 0.022288623340024526,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=1.0": {
+        "mean_mse": 0.022617417859405724,
+        "n_episodes": 175
+      },
+      "location=10.0,tangent=10.0": {
+        "mean_mse": 0.02272971383738935,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=0.01": {
+        "mean_mse": 0.021601479059541292,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=0.1": {
+        "mean_mse": 0.021324333505653763,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=1.0": {
+        "mean_mse": 0.021452950083462128,
+        "n_episodes": 175
+      },
+      "location=100.0,tangent=10.0": {
+        "mean_mse": 0.02152167752062086,
+        "n_episodes": 175
+      }
+    }
+  },
+  "transfers": {
+    "Anastassiadis2011": {
+      "n_ligands": 143,
+      "n_targets": 63,
+      "policies": {
+        "d_optimal": {
+          "coverage": {
+            "admitted_episodes": 0,
+            "admitted_target_clusters": 0,
+            "certificate_admitted_mean": null,
+            "certificate_mean": -0.0008145404460506641,
+            "eligible_episodes": 63,
+            "episode_rate": 0.0
+          },
+          "interaction_mse_reduction_atlas_vs": {
+            "nearest_protein": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "support_free": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            }
+          },
+          "metrics": {
+            "atlas_section": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "location_only": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "nearest_protein": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "permuted_support": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "support_free": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "wrong_support": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            },
+            "zero_protein": {
+              "interaction_mse": NaN,
+              "mae": NaN,
+              "mse": NaN,
+              "spearman": NaN
+            }
+          },
+          "mse_reduction_atlas_vs": {
+            "location_only": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "nearest_protein": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "permuted_support": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "support_free": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "wrong_support": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            },
+            "zero_protein": {
+              "ci95": [
+                null,
+                null
+              ],
+              "estimate": null,
+              "n_targets": 0
+            }
+          },
+          "nearest_nonself_target_index": [
+            37,
+            2,
+            1,
+            1,
+            5,
+            4,
+            7,
+            6,
+            12,
+            26,
+            11,
+            10,
+            4,
+            42,
+            15,
+            14,
+            21,
+            19,
+            19,
+            17,
+            17,
+            16,
+            23,
+            22,
+            25,
+            24,
+            27,
+            26,
+            9,
+            0,
+            31,
+            30,
+            48,
+            53,
+            57,
+            48,
+            56,
+            38,
+            37,
+            38,
+            31,
+            31,
+            45,
+            45,
+            43,
+            43,
+            47,
+            46,
+            35,
+            57,
+            14,
+            39,
+            3,
+            57,
+            34,
+            56,
+            57,
+            56,
+            56,
+            36,
+            39,
+            62,
+            61
+          ]
+        },
+        "random": {
+          "coverage": {
+            "admitted_episodes": 1,
+            "admitted_target_clusters": 1,
+            "certificate_admitted_mean": 8.073843334071456e-06,
+            "certificate_mean": -0.0007744119692326038,
+            "eligible_episodes": 1260,
+            "episode_rate": 0.0007936507936507937
+          },
+          "interaction_mse_reduction_atlas_vs": {
+            "nearest_protein": {
+              "ci95": [
+                0.0002681003780783259,
+                0.0002681003780783259
+              ],
+              "draws": 10000,
+              "estimate": 0.0002681003780783259,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                1.6757082401185758e-05,
+                1.6757082401185758e-05
+              ],
+              "draws": 10000,
+              "estimate": 1.6757082401185758e-05,
+              "n_targets": 1,
+              "seed": 20260808
+            }
+          },
+          "metrics": {
+            "atlas_section": {
+              "interaction_mse": 0.023430572701379413,
+              "mae": 0.12645986547388827,
+              "mse": 0.03881313450468588,
+              "spearman": 0.12027738559106237
+            },
+            "location_only": {
+              "interaction_mse": 0.023466656762798344,
+              "mae": 0.11779914659302924,
+              "mse": 0.036679418977299434,
+              "spearman": 0.34748437121350456
+            },
+            "nearest_protein": {
+              "interaction_mse": 0.02369867307945774,
+              "mae": 0.12679899625140872,
+              "mse": 0.039062859760654295,
+              "spearman": 0.12313552642410637
+            },
+            "permuted_support": {
+              "interaction_mse": 0.023527819635627698,
+              "mae": 0.12671248353451744,
+              "mse": 0.0388728786025828,
+              "spearman": 0.11883614687804445
+            },
+            "support_free": {
+              "interaction_mse": 0.0234473297837806,
+              "mae": 0.12484984962547602,
+              "mse": 0.0388959995140404,
+              "spearman": 0.11965389665892533
+            },
+            "wrong_support": {
+              "interaction_mse": 0.02341465497607691,
+              "mae": 0.12405133383539707,
+              "mse": 0.038920906249956005,
+              "spearman": 0.11981429694621011
+            },
+            "zero_protein": {
+              "interaction_mse": 0.023466656762798344,
+              "mae": 0.11779914659302924,
+              "mse": 0.036679418977299434,
+              "spearman": 0.34748437121350456
+            }
+          },
+          "mse_reduction_atlas_vs": {
+            "location_only": {
+              "ci95": [
+                -0.0021337155273864483,
+                -0.0021337155273864483
+              ],
+              "draws": 10000,
+              "estimate": -0.0021337155273864483,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "nearest_protein": {
+              "ci95": [
+                0.0002497252559684124,
+                0.0002497252559684124
+              ],
+              "draws": 10000,
+              "estimate": 0.0002497252559684124,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "permuted_support": {
+              "ci95": [
+                5.97440978969202e-05,
+                5.97440978969202e-05
+              ],
+              "draws": 10000,
+              "estimate": 5.97440978969202e-05,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                8.286500935451857e-05,
+                8.286500935451857e-05
+              ],
+              "draws": 10000,
+              "estimate": 8.286500935451857e-05,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "wrong_support": {
+              "ci95": [
+                0.00010777174527012295,
+                0.00010777174527012295
+              ],
+              "draws": 10000,
+              "estimate": 0.00010777174527012295,
+              "n_targets": 1,
+              "seed": 20260808
+            },
+            "zero_protein": {
+              "ci95": [
+                -0.0021337155273864483,
+                -0.0021337155273864483
+              ],
+              "draws": 10000,
+              "estimate": -0.0021337155273864483,
+              "n_targets": 1,
+              "seed": 20260808
+            }
+          },
+          "nearest_nonself_target_index": [
+            37,
+            2,
+            1,
+            1,
+            5,
+            4,
+            7,
+            6,
+            12,
+            26,
+            11,
+            10,
+            4,
+            42,
+            15,
+            14,
+            21,
+            19,
+            19,
+            17,
+            17,
+            16,
+            23,
+            22,
+            25,
+            24,
+            27,
+            26,
+            9,
+            0,
+            31,
+            30,
+            48,
+            53,
+            57,
+            48,
+            56,
+            38,
+            37,
+            38,
+            31,
+            31,
+            45,
+            45,
+            43,
+            43,
+            47,
+            46,
+            35,
+            57,
+            14,
+            39,
+            3,
+            57,
+            34,
+            56,
+            57,
+            56,
+            56,
+            36,
+            39,
+            62,
+            61
+          ]
+        }
+      },
+      "role": "external_cross_assay_transfer",
+      "support_size": 5
+    },
+    "PKIS2": {
+      "n_ligands": 261,
+      "n_targets": 201,
+      "policies": {
+        "d_optimal": {
+          "coverage": {
+            "admitted_episodes": 13,
+            "admitted_target_clusters": 13,
+            "certificate_admitted_mean": 0.0004935219625938334,
+            "certificate_mean": -0.000859013462338295,
+            "eligible_episodes": 201,
+            "episode_rate": 0.06467661691542288
+          },
+          "interaction_mse_reduction_atlas_vs": {
+            "nearest_protein": {
+              "ci95": [
+                -0.002737465198226302,
+                0.0004004027307857854
+              ],
+              "draws": 10000,
+              "estimate": -0.0009927481854648179,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                -0.0013243649254445307,
+                1.6119167825100164e-05
+              ],
+              "draws": 10000,
+              "estimate": -0.000536559067043661,
+              "n_targets": 13,
+              "seed": 20260808
+            }
+          },
+          "metrics": {
+            "atlas_section": {
+              "interaction_mse": 0.05375242142565999,
+              "mae": 0.18461244866337728,
+              "mse": 0.0780502056896584,
+              "spearman": 0.09704274426473584
+            },
+            "location_only": {
+              "interaction_mse": 0.05438076186521445,
+              "mae": 0.18483336325436786,
+              "mse": 0.07753770813695425,
+              "spearman": 0.030431876841680996
+            },
+            "nearest_protein": {
+              "interaction_mse": 0.05275967324019516,
+              "mae": 0.1839618120130077,
+              "mse": 0.07718879102871869,
+              "spearman": 0.11501716242858172
+            },
+            "permuted_support": {
+              "interaction_mse": 0.05364960722138285,
+              "mae": 0.18434361873185098,
+              "mse": 0.07764301128934595,
+              "spearman": 0.09243018039554572
+            },
+            "support_free": {
+              "interaction_mse": 0.053215862358616334,
+              "mae": 0.18444131959923427,
+              "mse": 0.07954517189558152,
+              "spearman": 0.10785880135909326
+            },
+            "wrong_support": {
+              "interaction_mse": 0.05275359819567998,
+              "mae": 0.18371749907819465,
+              "mse": 0.07769917467459854,
+              "spearman": 0.10664920896090946
+            },
+            "zero_protein": {
+              "interaction_mse": 0.05438076186521445,
+              "mae": 0.18483336325436786,
+              "mse": 0.07753770813695425,
+              "spearman": 0.030435306809123853
+            }
+          },
+          "mse_reduction_atlas_vs": {
+            "location_only": {
+              "ci95": [
+                -0.0017876427596784522,
+                0.000840201380281704
+              ],
+              "draws": 10000,
+              "estimate": -0.0005124975527041582,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "nearest_protein": {
+              "ci95": [
+                -0.0026497660765512298,
+                0.0005224329012582342
+              ],
+              "draws": 10000,
+              "estimate": -0.0008614146609397242,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "permuted_support": {
+              "ci95": [
+                -0.0016907394549068157,
+                0.0005900218266658291
+              ],
+              "draws": 10000,
+              "estimate": -0.00040719440031246573,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                3.451952320019783e-05,
+                0.00320651304701052
+              ],
+              "draws": 10000,
+              "estimate": 0.001494966205923108,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "wrong_support": {
+              "ci95": [
+                -0.0017198945287302352,
+                0.0009199806576907891
+              ],
+              "draws": 10000,
+              "estimate": -0.00035103101505987085,
+              "n_targets": 13,
+              "seed": 20260808
+            },
+            "zero_protein": {
+              "ci95": [
+                -0.0017876427596784509,
+                0.0008402013802817072
+              ],
+              "draws": 10000,
+              "estimate": -0.0005124975527041585,
+              "n_targets": 13,
+              "seed": 20260808
+            }
+          },
+          "nearest_nonself_target_index": [
+            9,
+            5,
+            177,
+            4,
+            3,
+            1,
+            7,
+            6,
+            159,
+            0,
+            11,
+            10,
+            4,
+            166,
+            15,
+            14,
+            14,
+            18,
+            17,
+            20,
+            19,
+            65,
+            28,
+            24,
+            23,
+            26,
+            131,
+            23,
+            22,
+            23,
+            31,
+            32,
+            31,
+            31,
+            49,
+            36,
+            35,
+            39,
+            39,
+            38,
+            41,
+            40,
+            179,
+            44,
+            43,
+            46,
+            45,
+            59,
+            90,
+            50,
+            49,
+            52,
+            51,
+            200,
+            59,
+            57,
+            57,
+            55,
+            55,
+            54,
+            59,
+            179,
+            63,
+            62,
+            126,
+            23,
+            103,
+            68,
+            67,
+            0,
+            73,
+            72,
+            71,
+            70,
+            27,
+            76,
+            75,
+            97,
+            45,
+            91,
+            81,
+            80,
+            83,
+            82,
+            85,
+            84,
+            87,
+            86,
+            163,
+            198,
+            48,
+            79,
+            199,
+            199,
+            95,
+            94,
+            94,
+            77,
+            97,
+            162,
+            114,
+            104,
+            105,
+            105,
+            101,
+            102,
+            103,
+            108,
+            107,
+            107,
+            198,
+            137,
+            43,
+            114,
+            113,
+            116,
+            115,
+            118,
+            117,
+            115,
+            200,
+            123,
+            123,
+            121,
+            199,
+            99,
+            64,
+            171,
+            83,
+            130,
+            129,
+            130,
+            133,
+            131,
+            135,
+            134,
+            139,
+            138,
+            137,
+            138,
+            34,
+            152,
+            143,
+            142,
+            145,
+            144,
+            185,
+            151,
+            149,
+            148,
+            148,
+            147,
+            182,
+            75,
+            156,
+            112,
+            154,
+            88,
+            104,
+            8,
+            142,
+            162,
+            161,
+            182,
+            99,
+            99,
+            35,
+            122,
+            45,
+            147,
+            114,
+            127,
+            160,
+            175,
+            173,
+            173,
+            198,
+            2,
+            4,
+            42,
+            181,
+            180,
+            97,
+            87,
+            165,
+            186,
+            185,
+            185,
+            97,
+            190,
+            189,
+            193,
+            191,
+            191,
+            191,
+            196,
+            197,
+            196,
+            110,
+            92,
+            182
+          ]
+        },
+        "random": {
+          "coverage": {
+            "admitted_episodes": 7,
+            "admitted_target_clusters": 7,
+            "certificate_admitted_mean": 0.0003800729876926738,
+            "certificate_mean": -0.0010220879975598772,
+            "eligible_episodes": 4020,
+            "episode_rate": 0.0017412935323383085
+          },
+          "interaction_mse_reduction_atlas_vs": {
+            "nearest_protein": {
+              "ci95": [
+                -0.0018312654662142424,
+                0.002784191034140334
+              ],
+              "draws": 10000,
+              "estimate": 0.000310103315650086,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                -0.00020626395090115116,
+                0.0004488384686849936
+              ],
+              "draws": 10000,
+              "estimate": 0.00010255233463229934,
+              "n_targets": 7,
+              "seed": 20260808
+            }
+          },
+          "metrics": {
+            "atlas_section": {
+              "interaction_mse": 0.04470014211897027,
+              "mae": 0.16521043773924723,
+              "mse": 0.06667821944435157,
+              "spearman": 0.14571667321696985
+            },
+            "location_only": {
+              "interaction_mse": 0.04681823861985359,
+              "mae": 0.1680522213865054,
+              "mse": 0.06817267970185191,
+              "spearman": 0.01638121769550039
+            },
+            "nearest_protein": {
+              "interaction_mse": 0.04501024543462036,
+              "mae": 0.16653353855433903,
+              "mse": 0.06700485772691174,
+              "spearman": 0.13228807142581006
+            },
+            "permuted_support": {
+              "interaction_mse": 0.04491315509701255,
+              "mae": 0.16575791140358462,
+              "mse": 0.06643092078615073,
+              "spearman": 0.14107860356955235
+            },
+            "support_free": {
+              "interaction_mse": 0.04480269445360257,
+              "mae": 0.16445673681584005,
+              "mse": 0.0678413910061353,
+              "spearman": 0.13769380197145323
+            },
+            "wrong_support": {
+              "interaction_mse": 0.04475129545626609,
+              "mae": 0.16619293041145053,
+              "mse": 0.06663667668789561,
+              "spearman": 0.15039758680771267
+            },
+            "zero_protein": {
+              "interaction_mse": 0.04681823861985359,
+              "mae": 0.1680522213865054,
+              "mse": 0.06817267970185191,
+              "spearman": 0.016384634312540697
+            }
+          },
+          "mse_reduction_atlas_vs": {
+            "location_only": {
+              "ci95": [
+                -0.0011146575241295792,
+                0.004103578039130276
+              ],
+              "draws": 10000,
+              "estimate": 0.0014944602575003485,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "nearest_protein": {
+              "ci95": [
+                -0.0020976752022735254,
+                0.002818649694378033
+              ],
+              "draws": 10000,
+              "estimate": 0.0003266382825601718,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "permuted_support": {
+              "ci95": [
+                -0.0006110716082636579,
+                3.3828339963144e-05
+              ],
+              "draws": 10000,
+              "estimate": -0.00024729865820082367,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "support_free": {
+              "ci95": [
+                8.341354719939338e-05,
+                0.0024120719816365884
+              ],
+              "draws": 10000,
+              "estimate": 0.001163171561783742,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "wrong_support": {
+              "ci95": [
+                -0.0005495125333959226,
+                0.0005117009349032776
+              ],
+              "draws": 10000,
+              "estimate": -4.15427564559649e-05,
+              "n_targets": 7,
+              "seed": 20260808
+            },
+            "zero_protein": {
+              "ci95": [
+                -0.0011146575241295792,
+                0.004103578039130276
+              ],
+              "draws": 10000,
+              "estimate": 0.0014944602575003485,
+              "n_targets": 7,
+              "seed": 20260808
+            }
+          },
+          "nearest_nonself_target_index": [
+            9,
+            5,
+            177,
+            4,
+            3,
+            1,
+            7,
+            6,
+            159,
+            0,
+            11,
+            10,
+            4,
+            166,
+            15,
+            14,
+            14,
+            18,
+            17,
+            20,
+            19,
+            65,
+            28,
+            24,
+            23,
+            26,
+            131,
+            23,
+            22,
+            23,
+            31,
+            32,
+            31,
+            31,
+            49,
+            36,
+            35,
+            39,
+            39,
+            38,
+            41,
+            40,
+            179,
+            44,
+            43,
+            46,
+            45,
+            59,
+            90,
+            50,
+            49,
+            52,
+            51,
+            200,
+            59,
+            57,
+            57,
+            55,
+            55,
+            54,
+            59,
+            179,
+            63,
+            62,
+            126,
+            23,
+            103,
+            68,
+            67,
+            0,
+            73,
+            72,
+            71,
+            70,
+            27,
+            76,
+            75,
+            97,
+            45,
+            91,
+            81,
+            80,
+            83,
+            82,
+            85,
+            84,
+            87,
+            86,
+            163,
+            198,
+            48,
+            79,
+            199,
+            199,
+            95,
+            94,
+            94,
+            77,
+            97,
+            162,
+            114,
+            104,
+            105,
+            105,
+            101,
+            102,
+            103,
+            108,
+            107,
+            107,
+            198,
+            137,
+            43,
+            114,
+            113,
+            116,
+            115,
+            118,
+            117,
+            115,
+            200,
+            123,
+            123,
+            121,
+            199,
+            99,
+            64,
+            171,
+            83,
+            130,
+            129,
+            130,
+            133,
+            131,
+            135,
+            134,
+            139,
+            138,
+            137,
+            138,
+            34,
+            152,
+            143,
+            142,
+            145,
+            144,
+            185,
+            151,
+            149,
+            148,
+            148,
+            147,
+            182,
+            75,
+            156,
+            112,
+            154,
+            88,
+            104,
+            8,
+            142,
+            162,
+            161,
+            182,
+            99,
+            99,
+            35,
+            122,
+            45,
+            147,
+            114,
+            127,
+            160,
+            175,
+            173,
+            173,
+            198,
+            2,
+            4,
+            42,
+            181,
+            180,
+            97,
+            87,
+            165,
+            186,
+            185,
+            185,
+            97,
+            190,
+            189,
+            193,
+            191,
+            191,
+            191,
+            196,
+            197,
+            196,
+            110,
+            92,
+            182
+          ]
+        }
+      },
+      "role": "consumed_development_transfer",
+      "support_size": 5
+    }
+  }
+}

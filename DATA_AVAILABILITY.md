@@ -16,6 +16,9 @@ sources or regenerated from the tracked workflows.
 - upstream checksum and license records;
 - compact P1B PASS evidence and checkpoint;
 - registered research artifacts under `research/e0_identifiability/artifacts/`;
+- compact PKIS/KLIFS section-pilot artifacts under
+  `research/pkis_mechanism_pilot/artifacts/` and
+  `research/section_operator_pilot/artifacts/`;
 - reports required to reproduce the current evidence ledger.
 
 Research artifacts are evidence for the registered experiments only. They do
@@ -30,6 +33,8 @@ model.
 - ESM and ligand feature banks;
 - OntoProtein, KeAP, ProteinKG25, PLINDER, and other third-party archives;
 - downloaded MMseqs2 binaries and model caches.
+- Informer/PKIS matrices, KLIFS kinase records, KiSSim distance tables and the
+  Anastassiadis workbook used by the imported component pilots.
 
 ## Primary upstream sources
 
@@ -52,3 +57,9 @@ by those contracts.
 
 No private key, access token, local credential, or machine-specific SSH target
 is included in this repository.
+
+The imported component-pilot manifests record upstream hashes, but the source
+files themselves are not included. One historical F0 manifest binds an earlier
+`ceiling_probe.py` hash that is not present in the supplied package; that F0
+artifact is therefore historical evidence rather than a byte-for-byte rerun
+claim. See `research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md`.

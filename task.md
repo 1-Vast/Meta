@@ -5,6 +5,9 @@ Updated: 2026-08-08
 ## Current Decision
 
 ```text
+KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT
+F6I_TOTAL_GATE_NOT_ADMISSIBLE
+FRESH_ENDPOINT_CONSISTENT_EXTERNAL_ADMISSION_NOT_RUN
 WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED
 PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED
 CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
@@ -29,6 +32,10 @@ E-AFF-X0-FEAS X0 UNIT REQUIREMENT UNATTAINABLE BY CONSTRUCTION
 E-AFF-X0-B CONDITIONAL DESIGN SUPPORT PENDING RHO
 E-AFF-L0 NOT RUN: NUMERICAL PRECONDITION FAILED
 E-AFF-L0R NOT RUN: POSITIVE CONTROL ABSENT (CLAIM A UNTESTED)
+PKIS/KLIFS F6I COMPONENT DECOMPOSITION: DEVELOPMENT SIGNAL OBSERVED
+F6I REGISTERED TOTAL GATE: NOT ADMISSIBLE
+RESEARCH LAW BRIDGE INVARIANTS PASS; NOT THE FROZEN PRODUCTION OPERATOR
+FRESH ENDPOINT-CONSISTENT EXTERNAL ADMISSION: NOT REGISTERED
 E-AFF-H0B/X1/X2/RFSA/ANGULAR BASIS/P2-P4 NOT AUTHORIZED OR FROZEN
 ```
 
@@ -109,9 +116,25 @@ interpretation. Production or biological-`z` admission still requires a
 separately registered independent-source replication and a sealed novel-target
 transfer Gate.
 
+## New PKIS/F6I Research Intake
+
+The supplied `pkis_mechanism_pilot` and `section_operator_pilot` packages have
+been integrated under `research/` only. Their isolated suite passes `39` tests.
+The evidence supports a component-level decomposition on consumed kinase
+activity panels: a protein-dependent zero-shot surface plus a bounded
+one-dimensional support-location statistic. It does not establish Ki/Kd
+affinity energetics, an untouched external result, or production admission.
+
+The registered F6I total verdict remains `F6I_COMPONENTS_NOT_ADMISSIBLE`; it is
+not rewritten as PASS. The seven-point categorical `law_bridge.py` is also not
+type-equivalent to the frozen 33-point CDF-band operator in `model/`. See
+`research/IDENTIFIABILITY_RESOLUTION_INTAKE_AUDIT.md` for the accepted claims,
+provenance limitation and next evidence boundary.
+
 ## Verification
 
-Current regression: `70 passed` in the `drug` environment. R0, X0-FEAS and X0-B
-carry independent audits. R0 read no affinity label; X0-FEAS and X0-B selected
+The imported research package regression is `39 passed`; the full repository
+regression is `70 passed` in the `drug` environment. R0, X0-FEAS and X0-B carry
+independent audits. R0 read no affinity label; X0-FEAS and X0-B selected
 zero affinity value fields. DAVIS and recipient reads remain zero. All evaluated
 panels are development evidence and must not be reused as untouched validation.

@@ -1,0 +1,1607 @@
+{
+  "admission_to_biological_z_authorized": false,
+  "end_to_end_dta_validated": false,
+  "formal_gate": false,
+  "limitations": [
+    "PKIS and Anastassiadis are single-concentration inhibition panels, not Ki/Kd affinity.",
+    "The external validation remains kinase-focused; non-kinase protein generalization is untested.",
+    "The five channels are transfer coordinates, not identified free-energy terms.",
+    "The Anastassiadis workbook schema and a small header preview were inspected before freeze; no outcome statistic or fit was computed.",
+    "This exploratory run cannot change X1 authorization or admit biological z."
+  ],
+  "main_verdict": "REVISION_V2_NOT_VALIDATED",
+  "read_firewall": {
+    "anastassiadis_role": "external_cross_assay_transfer",
+    "chembl_x1_labels": 0,
+    "davis_labels": 0,
+    "pkis1_role": "source_training",
+    "pkis2_role": "consumed_development_transfer",
+    "recipient_labels": 0
+  },
+  "revision_budget": {
+    "permitted_representation_revisions": 1,
+    "remaining": 0,
+    "used": 1
+  },
+  "schema": "MetaSieve.ProductKernelRevision.v2",
+  "source": {
+    "ligand_exclusions": [],
+    "mean_activity": 0.09405734894613584,
+    "model_selection": {
+      "channels": {
+        "aromatic_packing": {
+          "fold_mse": {
+            "0.01": [
+              0.026117263735816156,
+              0.026141520515225187,
+              0.01631006525008129
+            ],
+            "0.1": [
+              0.025838819670314025,
+              0.024784377082597196,
+              0.01586220084218322
+            ],
+            "1.0": [
+              0.025206523617590938,
+              0.02276230551646588,
+              0.015105820969714167
+            ],
+            "10.0": [
+              0.024806488242820397,
+              0.021401349471590326,
+              0.014549640272121305
+            ],
+            "100.0": [
+              0.024805908489197483,
+              0.02083538688795656,
+              0.014335803376796215
+            ],
+            "1000.0": [
+              0.024826723961855618,
+              0.02072084336192838,
+              0.014329180801884884
+            ],
+            "10000.0": [
+              0.02482973091408461,
+              0.020707482955302347,
+              0.014331481199159423
+            ]
+          },
+          "mean_mse": {
+            "0.01": 0.022856283167040876,
+            "0.1": 0.022161799198364817,
+            "1.0": 0.02102488336792366,
+            "10.0": 0.020252492662177345,
+            "100.0": 0.019992366251316753,
+            "1000.0": 0.019958916041889627,
+            "10000.0": 0.01995623168951546
+          },
+          "selected_lambda": 10000.0
+        },
+        "hbond_complementarity": {
+          "fold_mse": {
+            "0.01": [
+              0.026276074893451292,
+              0.02345996849764558,
+              0.017981921838149617
+            ],
+            "0.1": [
+              0.02589129035018566,
+              0.023305682651384413,
+              0.01717203293177593
+            ],
+            "1.0": [
+              0.025399644140114783,
+              0.022631931702764604,
+              0.01598626904337261
+            ],
+            "10.0": [
+              0.02497585496260114,
+              0.021571625534882375,
+              0.014798167488015707
+            ],
+            "100.0": [
+              0.02484242738943908,
+              0.020881581035710788,
+              0.014383432321457083
+            ],
+            "1000.0": [
+              0.024830708761424337,
+              0.020725142770692907,
+              0.014336370822419864
+            ],
+            "10000.0": [
+              0.02483012607936414,
+              0.020707894369185607,
+              0.014332228267429825
+            ]
+          },
+          "mean_mse": {
+            "0.01": 0.022572655076415496,
+            "0.1": 0.022123001977781998,
+            "1.0": 0.021339281628750664,
+            "10.0": 0.02044854932849974,
+            "100.0": 0.020035813582202317,
+            "1000.0": 0.019964074118179038,
+            "10000.0": 0.01995674957199319
+          },
+          "selected_lambda": 10000.0
+        },
+        "hydrophobic_packing": {
+          "fold_mse": {
+            "0.01": [
+              0.026142976013471646,
+              0.023458076358985225,
+              0.016365763727170617
+            ],
+            "0.1": [
+              0.02577682935699523,
+              0.022991408125282973,
+              0.015788318538688527
+            ],
+            "1.0": [
+              0.02519321171715229,
+              0.02219171425673227,
+              0.014922965738947335
+            ],
+            "10.0": [
+              0.024821947240716753,
+              0.021154595373124068,
+              0.01440563109182467
+            ],
+            "100.0": [
+              0.02481407344060453,
+              0.020772029388696676,
+              0.014310026730118042
+            ],
+            "1000.0": [
+              0.024827935476256814,
+              0.02071378217916609,
+              0.01432733002006275
+            ],
+            "10000.0": [
+              0.024829855443406375,
+              0.02070675974300889,
+              0.014331266744880632
+            ]
+          },
+          "mean_mse": {
+            "0.01": 0.021988938699875827,
+            "0.1": 0.02151885200698891,
+            "1.0": 0.02076929723761063,
+            "10.0": 0.02012739123522183,
+            "100.0": 0.019965376519806417,
+            "1000.0": 0.019956349225161884,
+            "10000.0": 0.019955960643765296
+          },
+          "selected_lambda": 10000.0
+        },
+        "ionic_complementarity": {
+          "fold_mse": {
+            "0.01": [
+              0.025152988071903606,
+              0.024744999898783815,
+              0.016285807348594188
+            ],
+            "0.1": [
+              0.025064809056504933,
+              0.02397191538137207,
+              0.01588816780709291
+            ],
+            "1.0": [
+              0.024923449614943104,
+              0.022641958344648445,
+              0.015206084891665568
+            ],
+            "10.0": [
+              0.02482905237599283,
+              0.02162907199361448,
+              0.014513668196368184
+            ],
+            "100.0": [
+              0.02482356067377981,
+              0.020964542921937068,
+              0.014307208945632264
+            ],
+            "1000.0": [
+              0.02482924638666115,
+              0.020740717839029258,
+              0.014323429511979931
+            ],
+            "10000.0": [
+              0.024829997559937717,
+              0.020709608375503317,
+              0.014330787769948766
+            ]
+          },
+          "mean_mse": {
+            "0.01": 0.022061265106427207,
+            "0.1": 0.021641630748323305,
+            "1.0": 0.02092383095041904,
+            "10.0": 0.020323930855325165,
+            "100.0": 0.020031770847116378,
+            "1000.0": 0.019964464579223445,
+            "10000.0": 0.019956797901796598
+          },
+          "selected_lambda": 10000.0
+        },
+        "steric_accommodation": {
+          "fold_mse": {
+            "0.01": [
+              0.026031047793751927,
+              0.024494914035163667,
+              0.015967821798229923
+            ],
+            "0.1": [
+              0.025554802956154633,
+              0.023793114822875182,
+              0.015660368444663404
+            ],
+            "1.0": [
+              0.024958615735840437,
+              0.02241583517774517,
+              0.015292125121325491
+            ],
+            "10.0": [
+              0.024730889902030092,
+              0.021179047928098493,
+              0.014634637179953613
+            ],
+            "100.0": [
+              0.024800464240489595,
+              0.020711938741193814,
+              0.014350572397110913
+            ],
+            "1000.0": [
+              0.02482649670846628,
+              0.020700987673263546,
+              0.014331933160918249
+            ],
+            "10000.0": [
+              0.024829713657512572,
+              0.020705392373646124,
+              0.014331755976276334
+            ]
+          },
+          "mean_mse": {
+            "0.01": 0.02216459454238184,
+            "0.1": 0.021669428741231078,
+            "1.0": 0.0208888586783037,
+            "10.0": 0.020181525003360734,
+            "100.0": 0.019954325126264775,
+            "1000.0": 0.01995313918088269,
+            "10000.0": 0.019955620669145007
+          },
+          "selected_lambda": 1000.0
+        }
+      },
+      "convex_weight_fit": {
+        "channel_names": [
+          "hbond_complementarity",
+          "ionic_complementarity",
+          "aromatic_packing",
+          "hydrophobic_packing",
+          "steric_accommodation"
+        ],
+        "fitted_mse": 0.02181159871186412,
+        "mse_reduction": 2.7597050940957046e-06,
+        "optimizer_message": "Optimization terminated successfully",
+        "sum": 1.0,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          2.0122792321330957e-16,
+          0.9999999999999998
+        ],
+        "zero_mse": 0.021814358416958217
+      },
+      "folds": [
+        {
+          "fold": 0,
+          "train_ligands": 243,
+          "train_targets": 62,
+          "valid_cells": 13899,
+          "valid_ligands": 123,
+          "valid_targets": 113
+        },
+        {
+          "fold": 1,
+          "train_ligands": 234,
+          "train_targets": 161,
+          "valid_cells": 1848,
+          "valid_ligands": 132,
+          "valid_targets": 14
+        },
+        {
+          "fold": 2,
+          "train_ligands": 255,
+          "train_targets": 127,
+          "valid_cells": 5328,
+          "valid_ligands": 111,
+          "valid_targets": 48
+        }
+      ],
+      "lambda_grid": [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0,
+        1000.0,
+        10000.0
+      ],
+      "protein_rbf_tau": {
+        "aromatic_packing": 0.11764705882352944,
+        "hbond_complementarity": 0.09428104575163399,
+        "hydrophobic_packing": 0.21176470588235297,
+        "ionic_complementarity": 0.11176470588235295,
+        "steric_accommodation": 0.09983660130718974
+      },
+      "source_channel_bounds": {
+        "high": [
+          -0.0,
+          -0.0,
+          0.0,
+          1.6614474776598e-19,
+          0.009322055618407127
+        ],
+        "low": [
+          0.0,
+          0.0,
+          0.0,
+          -1.0883121409519543e-19,
+          -0.007613705150509496
+        ],
+        "span": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.016935760768916622
+        ]
+      }
+    },
+    "n_ligands": 366,
+    "n_targets": 175,
+    "nuisance_model_selection": {
+      "ligand": {
+        "fold_mse": {
+          "0.01": [
+            0.010898898874470623,
+            0.014258673823639689,
+            0.00796320506180827,
+            0.01677598105219907,
+            0.013038721917811288
+          ],
+          "0.1": [
+            0.010938947059082212,
+            0.014283142583593766,
+            0.007021983939168373,
+            0.010902751118364928,
+            0.0056796824288788995
+          ],
+          "1.0": [
+            0.009484626610234664,
+            0.012628197405960563,
+            0.006756758953253384,
+            0.006102351139481398,
+            0.005091633755450736
+          ],
+          "10.0": [
+            0.007682806833978062,
+            0.011571278421893625,
+            0.0063041957092896716,
+            0.004340395604745624,
+            0.004453403850816849
+          ],
+          "100.0": [
+            0.004810076731611083,
+            0.008891469308674268,
+            0.005196514465719707,
+            0.003175725477096413,
+            0.0038112258340585363
+          ],
+          "1000.0": [
+            0.002817806628282841,
+            0.007531944348039973,
+            0.004177589656854024,
+            0.003078279851789846,
+            0.003464836608530189
+          ]
+        },
+        "mean_mse": {
+          "0.01": 0.012587096145985788,
+          "0.1": 0.009765301425817635,
+          "1.0": 0.00801271357287615,
+          "10.0": 0.0068704160841447665,
+          "100.0": 0.0051770023634320015,
+          "1000.0": 0.004214091418699375
+        },
+        "selected_alpha": 1000.0
+      },
+      "protein": {
+        "fold_mse": {
+          "0.01": [
+            0.007567994628385148,
+            0.006074723637427738,
+            0.007645524333582082,
+            0.003868052263225597,
+            0.009989917195120514
+          ],
+          "0.1": [
+            0.007430015778500979,
+            0.005747219140448718,
+            0.00801067195073961,
+            0.0037761056324661837,
+            0.009690746053705677
+          ],
+          "1.0": [
+            0.006893459968253553,
+            0.004464471060596043,
+            0.010373116234280414,
+            0.0033911604907804014,
+            0.008497537690107491
+          ],
+          "10.0": [
+            0.006438210353809132,
+            0.0031420386897447203,
+            0.011499255975957072,
+            0.0030258388030657874,
+            0.006290319867127899
+          ],
+          "100.0": [
+            0.005807405129560682,
+            0.0024129297900379997,
+            0.006036567505349076,
+            0.003254707438099659,
+            0.004060150900189258
+          ],
+          "1000.0": [
+            0.005411323064308098,
+            0.0017116013396804857,
+            0.0021621203942976887,
+            0.0031128445731340294,
+            0.003597894510862464
+          ]
+        },
+        "mean_mse": {
+          "0.01": 0.007029242411548217,
+          "0.1": 0.006930951711172234,
+          "1.0": 0.006723949088803581,
+          "10.0": 0.006079132737940923,
+          "100.0": 0.0043143521526473345,
+          "1000.0": 0.0031991567764565526
+        },
+        "selected_alpha": 1000.0
+      }
+    },
+    "panel": "PKIS1",
+    "target_exclusions": [
+      {
+        "assay_target": "ABL1_E255K",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "ABL1_H396P",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "ABL1_M351T",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "ABL1_Q252H",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "ABL1_T315I",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "ABL1_Y253F",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "AMPKA1_A1B1G1",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "AMPKA2_A2B1G1",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "BRAF_V599E",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK1_cyclinB",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK2_cyclinA",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK2_cyclinE",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK3_cyclinE",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK4_cyclinD",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK5_p35",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CDK6_cyclinD3",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "CK2",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "EGFR_L858R",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "EGFR_L861Q",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "EGFR_T790M",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "EGFR_T790M.L858R",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "FLT3_D835Y",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "KIT_D816V",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "KIT_T6701",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "KIT_V560G",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "LRRK2_G2019S",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "LYNA",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "LYNB",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "PAR.1Balpha",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PDGFRA_D842V",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "PDGFRA_T674I",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "PDGFRA_V561D",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "PI3K.alpha",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PI3K.delta",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PI4K.beta",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.alpha",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.beta1",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.beta2",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.eta",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.gamma",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.iota",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PKC.theta",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "PTK5",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "RET_V804L",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "RET_Y791F",
+        "reason": "construct_or_variant"
+      },
+      {
+        "assay_target": "SNF1LK2_QIK",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "SNF1LK_SIK",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "SPHK1",
+        "reason": "no_unambiguous_klifs_pocket"
+      },
+      {
+        "assay_target": "SPHK2",
+        "reason": "no_unambiguous_klifs_pocket"
+      }
+    ]
+  },
+  "transfers": {
+    "Anastassiadis2011": {
+      "assay_transform": "clip(1 - percent_remaining_activity/100, 0, 1)",
+      "candidate_biological_z": {
+        "admitted_to_model_config": false,
+        "bounded": true,
+        "coordinate_names": [
+          "hbond_complementarity",
+          "ionic_complementarity",
+          "aromatic_packing",
+          "hydrophobic_packing",
+          "steric_accommodation"
+        ],
+        "maximum_by_coordinate": [
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.7756802562925009
+        ],
+        "mean_by_coordinate": [
+          0.11920292202214172,
+          0.11920292202214172,
+          0.11920292202214172,
+          0.11920292202214172,
+          0.4457042631953477
+        ],
+        "minimum_by_coordinate": [
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.2434989512376644
+        ],
+        "shape": [
+          143,
+          63,
+          5
+        ]
+      },
+      "coverage": {
+        "abstention_required": true,
+        "nearest_source_mean_pocket_kernel": {
+          "max": 0.9805258412549002,
+          "median": 0.692800489663578,
+          "min": 0.3659567781493809
+        },
+        "nearest_source_steric_tanimoto": {
+          "max": 0.5882352941176471,
+          "median": 0.2604166666666667,
+          "min": 0.14925373134328357
+        },
+        "pair_confidence": {
+          "max": 0.7594602732339129,
+          "median": 0.4319760467374195,
+          "min": 0.23371010814502938
+        }
+      },
+      "family_cold_stratum": {
+        "correct_interaction_pearson": {
+          "ci95": [
+            -0.023298528217784054,
+            0.08760693709418937
+          ],
+          "draws": 10000,
+          "estimate": 0.03388880033746876,
+          "n_target_clusters": 20,
+          "seed": 20260808
+        },
+        "interaction_metrics": {
+          "correct": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.02186740272974695,
+            "target_macro_pearson": 0.03388880033746876
+          },
+          "deranged": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.021865221880229744,
+            "target_macro_pearson": 0.0629619179628048
+          },
+          "zero": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.021871301087842514,
+            "target_macro_pearson": 0.0
+          }
+        },
+        "interaction_mse_reduction_correct_vs": {
+          "deranged": {
+            "ci95": [
+              -9.431562139899354e-06,
+              4.533204309210405e-06
+            ],
+            "draws": 10000,
+            "estimate": -2.1808495172091162e-06,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          },
+          "zero": {
+            "ci95": [
+              -1.909812017141966e-06,
+              9.518035694045517e-06
+            ],
+            "draws": 10000,
+            "estimate": 3.898358095563454e-06,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          }
+        },
+        "interaction_signal_observed": false,
+        "ligand_positive_control_mse_reduction": {
+          "ci95": [
+            0.000707575685989952,
+            0.0024606063495869585
+          ],
+          "draws": 10000,
+          "estimate": 0.001583978709667894,
+          "n_target_clusters": 20,
+          "seed": 20260808
+        },
+        "minimum_size_precondition": true,
+        "n_finite_cells": 2725,
+        "n_ligands": 143,
+        "n_targets": 20,
+        "name": "klifs_family_cold_and_scaffold_cold",
+        "raw_location_signal_observed": false,
+        "raw_metrics": {
+          "additive": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.03892089025762758,
+            "target_macro_spearman": 0.16738208159530774
+          },
+          "correct": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.0389135109088368,
+            "target_macro_spearman": 0.1689416120337013
+          },
+          "deranged": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.03890656682054289,
+            "target_macro_spearman": 0.1691447129105391
+          },
+          "ligand": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.038611514353316785,
+            "target_macro_spearman": 0.16738366751026176
+          },
+          "population": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.040195493062984665,
+            "target_macro_spearman": 0.0
+          },
+          "protein": {
+            "finite_target_clusters": 20,
+            "target_macro_mse": 0.04057023758221122,
+            "target_macro_spearman": 0.0
+          }
+        },
+        "raw_mse_reduction_correct_vs": {
+          "additive": {
+            "ci95": [
+              -4.5118906649753635e-06,
+              2.018372160973497e-05
+            ],
+            "draws": 10000,
+            "estimate": 7.3793487907840814e-06,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          },
+          "deranged": {
+            "ci95": [
+              -1.8214499236332967e-05,
+              4.427522989008969e-06
+            ],
+            "draws": 10000,
+            "estimate": -6.944088293912029e-06,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          },
+          "ligand": {
+            "ci95": [
+              -0.0010491192790751964,
+              0.0004880689600283035
+            ],
+            "draws": 10000,
+            "estimate": -0.00030199655552002344,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          },
+          "population": {
+            "ci95": [
+              0.00027837487425270437,
+              0.002356961651589953
+            ],
+            "draws": 10000,
+            "estimate": 0.0012819821541478703,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          },
+          "protein": {
+            "ci95": [
+              0.0007978009524853708,
+              0.002517286174788733
+            ],
+            "draws": 10000,
+            "estimate": 0.0016567266733744208,
+            "n_target_clusters": 20,
+            "seed": 20260808
+          }
+        },
+        "status": "SIGNAL_NOT_OBSERVED"
+      },
+      "formal_gate": false,
+      "group_cold_stratum": {
+        "n_targets": 0,
+        "name": "klifs_group_cold_and_scaffold_cold",
+        "status": "EMPTY"
+      },
+      "law_interface_contract": {
+        "admission_to_biological_z_authorized": false,
+        "candidate_z_bounded": true,
+        "candidate_z_dimension": 5,
+        "diagnostic_raw_activity_scored": true,
+        "direct_scalar_output_used_for_deployment": false,
+        "frozen_operator_modified": false
+      },
+      "main_stratum": {
+        "correct_interaction_pearson": {
+          "ci95": [
+            0.026400795290323128,
+            0.10201391771123997
+          ],
+          "draws": 10000,
+          "estimate": 0.06412527619728173,
+          "n_target_clusters": 63,
+          "seed": 20260808
+        },
+        "interaction_metrics": {
+          "correct": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.020337611970318928,
+            "target_macro_pearson": 0.06412527619728173
+          },
+          "deranged": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.020340446824596767,
+            "target_macro_pearson": 0.04910194479569578
+          },
+          "zero": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.020354456982037538,
+            "target_macro_pearson": 0.0
+          }
+        },
+        "interaction_mse_reduction_correct_vs": {
+          "deranged": {
+            "ci95": [
+              -3.1717916272209656e-06,
+              8.23730293316743e-06
+            ],
+            "draws": 10000,
+            "estimate": 2.834854277841978e-06,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          },
+          "zero": {
+            "ci95": [
+              8.549946299886887e-06,
+              2.6032880748123932e-05
+            ],
+            "draws": 10000,
+            "estimate": 1.684501171861519e-05,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          }
+        },
+        "interaction_signal_observed": false,
+        "ligand_positive_control_mse_reduction": {
+          "ci95": [
+            0.000524335719927206,
+            0.001548140854515999
+          ],
+          "draws": 10000,
+          "estimate": 0.0010303242657615952,
+          "n_target_clusters": 63,
+          "seed": 20260808
+        },
+        "minimum_size_precondition": true,
+        "n_finite_cells": 8678,
+        "n_ligands": 143,
+        "n_targets": 63,
+        "name": "exact_target_cold_and_scaffold_cold",
+        "raw_location_signal_observed": false,
+        "raw_metrics": {
+          "additive": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.03192482959087442,
+            "target_macro_spearman": 0.1518869278444728
+          },
+          "correct": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.031903813123046826,
+            "target_macro_spearman": 0.1538395932483224
+          },
+          "deranged": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.03190547645276529,
+            "target_macro_spearman": 0.1535341333411705
+          },
+          "ligand": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.03212826884762446,
+            "target_macro_spearman": 0.15192717071295142
+          },
+          "population": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.033158593113386065,
+            "target_macro_spearman": 0.0
+          },
+          "protein": {
+            "finite_target_clusters": 63,
+            "target_macro_mse": 0.033034901568862934,
+            "target_macro_spearman": 0.0
+          }
+        },
+        "raw_mse_reduction_correct_vs": {
+          "additive": {
+            "ci95": [
+              1.3340767337703609e-05,
+              2.8914145803090797e-05
+            ],
+            "draws": 10000,
+            "estimate": 2.1016467827608575e-05,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          },
+          "deranged": {
+            "ci95": [
+              -5.201564049685569e-06,
+              8.270726974833725e-06
+            ],
+            "draws": 10000,
+            "estimate": 1.6633297184696408e-06,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          },
+          "ligand": {
+            "ci95": [
+              -0.00029539534960146356,
+              0.0007411088473077558
+            ],
+            "draws": 10000,
+            "estimate": 0.00022445572457764436,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          },
+          "population": {
+            "ci95": [
+              0.0006291029221318482,
+              0.0019238453332298359
+            ],
+            "draws": 10000,
+            "estimate": 0.0012547799903392396,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          },
+          "protein": {
+            "ci95": [
+              0.0006322222492691863,
+              0.0016368951329222684
+            ],
+            "draws": 10000,
+            "estimate": 0.0011310884458161107,
+            "n_target_clusters": 63,
+            "seed": 20260808
+          }
+        },
+        "status": "SIGNAL_NOT_OBSERVED"
+      },
+      "panel": "Anastassiadis2011",
+      "role": "external_cross_assay_transfer",
+      "sample": {
+        "n_family_cold_targets": 20,
+        "n_finite_cells": 8678,
+        "n_group_cold_targets": 0,
+        "n_ligands": 143,
+        "n_targets": 63
+      },
+      "schema": "MetaSieve.ProductKernelTransfer.v2",
+      "verdict": "REVISION_V2_NOT_VALIDATED"
+    },
+    "PKIS2": {
+      "assay_transform": "identity_continuous_activity",
+      "candidate_biological_z": {
+        "admitted_to_model_config": false,
+        "bounded": true,
+        "coordinate_names": [
+          "hbond_complementarity",
+          "ionic_complementarity",
+          "aromatic_packing",
+          "hydrophobic_packing",
+          "steric_accommodation"
+        ],
+        "maximum_by_coordinate": [
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.8914785909226278
+        ],
+        "mean_by_coordinate": [
+          0.11920292202201094,
+          0.11920292202201094,
+          0.11920292202201094,
+          0.11920292202201094,
+          0.4389885338532297
+        ],
+        "minimum_by_coordinate": [
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11920292202211757,
+          0.11379959954182334
+        ],
+        "shape": [
+          261,
+          201,
+          5
+        ]
+      },
+      "coverage": {
+        "abstention_required": true,
+        "nearest_source_mean_pocket_kernel": {
+          "max": 0.9913339474735471,
+          "median": 0.5291224246467303,
+          "min": 0.27061496081473047
+        },
+        "nearest_source_steric_tanimoto": {
+          "max": 0.9772727272727273,
+          "median": 0.3482142857142857,
+          "min": 0.16417910447761194
+        },
+        "pair_confidence": {
+          "max": 0.9842782281883066,
+          "median": 0.43913589029478517,
+          "min": 0.21078264142193137
+        }
+      },
+      "family_cold_stratum": {
+        "correct_interaction_pearson": {
+          "ci95": [
+            0.0035833396092804135,
+            0.04452922460615057
+          ],
+          "draws": 10000,
+          "estimate": 0.023932298403245653,
+          "n_target_clusters": 112,
+          "seed": 20260808
+        },
+        "interaction_metrics": {
+          "correct": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.03783128970605065,
+            "target_macro_pearson": 0.023932298403245653
+          },
+          "deranged": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.037834028804358474,
+            "target_macro_pearson": 0.01265730692019908
+          },
+          "zero": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.037840131088805365,
+            "target_macro_pearson": 0.0
+          }
+        },
+        "interaction_mse_reduction_correct_vs": {
+          "deranged": {
+            "ci95": [
+              -2.3312243953317077e-06,
+              8.430095505324388e-06
+            ],
+            "draws": 10000,
+            "estimate": 2.739098307827209e-06,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          },
+          "zero": {
+            "ci95": [
+              3.824024732242309e-06,
+              1.4492411139229793e-05
+            ],
+            "draws": 10000,
+            "estimate": 8.841382754718166e-06,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          }
+        },
+        "interaction_signal_observed": false,
+        "ligand_positive_control_mse_reduction": {
+          "ci95": [
+            0.0001104607464888633,
+            0.0007843188616894291
+          ],
+          "draws": 10000,
+          "estimate": 0.0004432789024685887,
+          "n_target_clusters": 112,
+          "seed": 20260808
+        },
+        "minimum_size_precondition": true,
+        "n_finite_cells": 29232,
+        "n_ligands": 261,
+        "n_targets": 112,
+        "name": "klifs_family_cold_and_scaffold_cold",
+        "raw_location_signal_observed": false,
+        "raw_metrics": {
+          "additive": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.05058549634111298,
+            "target_macro_spearman": 0.03293116092030072
+          },
+          "correct": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.05058983096086507,
+            "target_macro_spearman": 0.0338519379635985
+          },
+          "deranged": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.050595877836196575,
+            "target_macro_spearman": 0.033799386712081915
+          },
+          "ligand": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.04915540664695165,
+            "target_macro_spearman": 0.03291822807698092
+          },
+          "population": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.04959868554942024,
+            "target_macro_spearman": 0.0
+          },
+          "protein": {
+            "finite_target_clusters": 112,
+            "target_macro_mse": 0.05117656546611866,
+            "target_macro_spearman": 0.0
+          }
+        },
+        "raw_mse_reduction_correct_vs": {
+          "additive": {
+            "ci95": [
+              -1.5046967658643972e-05,
+              5.817170297114091e-06
+            ],
+            "draws": 10000,
+            "estimate": -4.334619752089133e-06,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          },
+          "deranged": {
+            "ci95": [
+              -4.123372696449383e-06,
+              1.7814993856260584e-05
+            ],
+            "draws": 10000,
+            "estimate": 6.046875331503587e-06,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          },
+          "ligand": {
+            "ci95": [
+              -0.002251416226959453,
+              -0.0007507480468109881
+            ],
+            "draws": 10000,
+            "estimate": -0.0014344243139134201,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          },
+          "population": {
+            "ci95": [
+              -0.0016990766559911276,
+              -0.00035478772210750776
+            ],
+            "draws": 10000,
+            "estimate": -0.0009911454114448315,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          },
+          "protein": {
+            "ci95": [
+              0.0002526562132386052,
+              0.0009320663958057158
+            ],
+            "draws": 10000,
+            "estimate": 0.0005867345052535915,
+            "n_target_clusters": 112,
+            "seed": 20260808
+          }
+        },
+        "status": "SIGNAL_NOT_OBSERVED"
+      },
+      "formal_gate": false,
+      "group_cold_stratum": {
+        "correct_interaction_pearson": {
+          "ci95": [
+            -0.0942908605422944,
+            0.0683218053492807
+          ],
+          "draws": 10000,
+          "estimate": -0.012258152331984884,
+          "n_target_clusters": 12,
+          "seed": 20260808
+        },
+        "interaction_metrics": {
+          "correct": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.04180487973308402,
+            "target_macro_pearson": -0.012258152331984884
+          },
+          "deranged": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.04179632910302004,
+            "target_macro_pearson": 0.07170008515071426
+          },
+          "zero": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.0418018460880068,
+            "target_macro_pearson": 0.0
+          }
+        },
+        "interaction_mse_reduction_correct_vs": {
+          "deranged": {
+            "ci95": [
+              -1.846747686684116e-05,
+              9.692010966801433e-08
+            ],
+            "draws": 10000,
+            "estimate": -8.550630063972747e-06,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          },
+          "zero": {
+            "ci95": [
+              -1.0107142539541446e-05,
+              3.0044847359921195e-06
+            ],
+            "draws": 10000,
+            "estimate": -3.0336450772145327e-06,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          }
+        },
+        "interaction_signal_observed": false,
+        "ligand_positive_control_mse_reduction": {
+          "ci95": [
+            -0.001646718843799628,
+            0.002064379441216879
+          ],
+          "draws": 10000,
+          "estimate": 0.00013193150506630538,
+          "n_target_clusters": 12,
+          "seed": 20260808
+        },
+        "minimum_size_precondition": false,
+        "n_finite_cells": 3132,
+        "n_ligands": 261,
+        "n_targets": 12,
+        "name": "klifs_group_cold_and_scaffold_cold",
+        "raw_location_signal_observed": false,
+        "raw_metrics": {
+          "additive": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.07559150086539258,
+            "target_macro_spearman": -0.03358326067789656
+          },
+          "correct": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.07560948044722311,
+            "target_macro_spearman": -0.03314303204357918
+          },
+          "deranged": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.07559335661190071,
+            "target_macro_spearman": -0.03283133611799087
+          },
+          "ligand": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.0685127670546651,
+            "target_macro_spearman": -0.033676754953345774
+          },
+          "population": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.0686446985597314,
+            "target_macro_spearman": 0.0
+          },
+          "protein": {
+            "finite_target_clusters": 12,
+            "target_macro_mse": 0.07622872042623687,
+            "target_macro_spearman": 0.0
+          }
+        },
+        "raw_mse_reduction_correct_vs": {
+          "additive": {
+            "ci95": [
+              -5.6059087381742046e-05,
+              7.193670749569546e-06
+            ],
+            "draws": 10000,
+            "estimate": -1.7979581830534126e-05,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          },
+          "deranged": {
+            "ci95": [
+              -4.662101672910161e-05,
+              4.613733400261496e-06
+            ],
+            "draws": 10000,
+            "estimate": -1.6123835322411188e-05,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          },
+          "ligand": {
+            "ci95": [
+              -0.012632468719823261,
+              -0.002582535566515877
+            ],
+            "draws": 10000,
+            "estimate": -0.007096713392558018,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          },
+          "population": {
+            "ci95": [
+              -0.011080133214441281,
+              -0.0036179779919477285
+            ],
+            "draws": 10000,
+            "estimate": -0.006964781887491713,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          },
+          "protein": {
+            "ci95": [
+              -0.001169879693743645,
+              0.0025581965168661796
+            ],
+            "draws": 10000,
+            "estimate": 0.0006192399790137453,
+            "n_target_clusters": 12,
+            "seed": 20260808
+          }
+        },
+        "status": "SIGNAL_NOT_OBSERVED"
+      },
+      "law_interface_contract": {
+        "admission_to_biological_z_authorized": false,
+        "candidate_z_bounded": true,
+        "candidate_z_dimension": 5,
+        "diagnostic_raw_activity_scored": true,
+        "direct_scalar_output_used_for_deployment": false,
+        "frozen_operator_modified": false
+      },
+      "main_stratum": {
+        "correct_interaction_pearson": {
+          "ci95": [
+            0.026413318749229923,
+            0.0566666160024341
+          ],
+          "draws": 10000,
+          "estimate": 0.041640557432730575,
+          "n_target_clusters": 201,
+          "seed": 20260808
+        },
+        "interaction_metrics": {
+          "correct": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.03837770225376735,
+            "target_macro_pearson": 0.041640557432730575
+          },
+          "deranged": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.038381896675120826,
+            "target_macro_pearson": 0.027481537438564626
+          },
+          "zero": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.03839689440029309,
+            "target_macro_pearson": 0.0
+          }
+        },
+        "interaction_mse_reduction_correct_vs": {
+          "deranged": {
+            "ci95": [
+              6.995509350346993e-07,
+              7.9245034166093e-06
+            ],
+            "draws": 10000,
+            "estimate": 4.194421353478494e-06,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          },
+          "zero": {
+            "ci95": [
+              1.2412903852699443e-05,
+              2.6821559475538305e-05
+            ],
+            "draws": 10000,
+            "estimate": 1.9192146525740822e-05,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          }
+        },
+        "interaction_signal_observed": true,
+        "ligand_positive_control_mse_reduction": {
+          "ci95": [
+            0.0002743607732800351,
+            0.0008253947486407704
+          ],
+          "draws": 10000,
+          "estimate": 0.0005481152251507208,
+          "n_target_clusters": 201,
+          "seed": 20260808
+        },
+        "minimum_size_precondition": true,
+        "n_finite_cells": 52461,
+        "n_ligands": 261,
+        "n_targets": 201,
+        "name": "exact_target_cold_and_scaffold_cold",
+        "raw_location_signal_observed": false,
+        "raw_metrics": {
+          "additive": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.05202390302411068,
+            "target_macro_spearman": 0.03895522068426247
+          },
+          "correct": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.05201693480809197,
+            "target_macro_spearman": 0.04026954131608931
+          },
+          "deranged": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.05202576595899009,
+            "target_macro_spearman": 0.04015929268690109
+          },
+          "ligand": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.0509631221262706,
+            "target_macro_spearman": 0.03895982319877797
+          },
+          "population": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.05151123735142132,
+            "target_macro_spearman": 0.0
+          },
+          "protein": {
+            "finite_target_clusters": 201,
+            "target_macro_mse": 0.05270176566428988,
+            "target_macro_spearman": 0.0
+          }
+        },
+        "raw_mse_reduction_correct_vs": {
+          "additive": {
+            "ci95": [
+              -6.478910940476737e-06,
+              2.1922203858382643e-05
+            ],
+            "draws": 10000,
+            "estimate": 6.968216018710734e-06,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          },
+          "deranged": {
+            "ci95": [
+              9.1852663176861e-07,
+              1.7634711068144772e-05
+            ],
+            "draws": 10000,
+            "estimate": 8.831150898121759e-06,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          },
+          "ligand": {
+            "ci95": [
+              -0.0015914653473199664,
+              -0.0005771200684083075
+            ],
+            "draws": 10000,
+            "estimate": -0.0010538126818213783,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          },
+          "population": {
+            "ci95": [
+              -0.0010277487801562963,
+              -7.879352609804507e-06
+            ],
+            "draws": 10000,
+            "estimate": -0.0005056974566706574,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          },
+          "protein": {
+            "ci95": [
+              0.0004143863474312558,
+              0.0009616129891500048
+            ],
+            "draws": 10000,
+            "estimate": 0.000684830856197902,
+            "n_target_clusters": 201,
+            "seed": 20260808
+          }
+        },
+        "status": "INTERACTION_ONLY_OBSERVED"
+      },
+      "panel": "PKIS2",
+      "role": "consumed_development_transfer",
+      "sample": {
+        "n_family_cold_targets": 112,
+        "n_finite_cells": 52461,
+        "n_group_cold_targets": 12,
+        "n_ligands": 261,
+        "n_targets": 201
+      },
+      "schema": "MetaSieve.ProductKernelTransfer.v2",
+      "verdict": "CANDIDATE_INTERACTION_VALIDATED"
+    }
+  }
+}

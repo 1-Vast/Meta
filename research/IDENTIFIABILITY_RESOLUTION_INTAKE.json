@@ -1,0 +1,44 @@
+{
+  "schema": "MetaSieve.ResearchIntake.v1",
+  "integrated_at": "2026-08-08",
+  "source": {
+    "archive": {
+      "name": "MetaSieve_identifiability_resolution_20260808.zip",
+      "sha256": "02d5a3586a90caba6cf6392edc0796d24948b06d49c6a389377d509635d842c1",
+      "entries": 107,
+      "files": 90,
+      "uncompressed_bytes": 1116376,
+      "path_traversal_check": "PASS"
+    },
+    "standalone_files": {
+      "FINAL_IDENTIFIABILITY_RESOLUTION.md": "95a63126d119f0e5f59105dccec113bc0270df4e3266be7a073a5f3a2181b5a5",
+      "law_bridge.py": "0c20e9f75bca4c42b6195f11a68503739932572ddd20d24f4cd07132364f3fae",
+      "component_independent.py": "fbfb265c47822cd5242b31fb8560f3477dbc8c478a215624df14979c24b4fafe"
+    },
+    "standalone_matches_archive": true
+  },
+  "integrated_paths": [
+    "research/pkis_mechanism_pilot",
+    "research/section_operator_pilot"
+  ],
+  "verification": {
+    "environment": "D:/anaconda/envs/drug/python.exe",
+    "command": "python -m pytest -q research/pkis_mechanism_pilot research/section_operator_pilot",
+    "result": "39 passed",
+    "test_repair": "Replaced one undeclared KiSSim filesystem dependency in a unit test with an equivalent temporary CSV fixture; runtime data loading was not changed.",
+    "pkis_artifact_output_hashes": "PASS",
+    "historical_f0_manifest_code_binding": "MISMATCH",
+    "historical_f0_manifest_expected_script_sha256": "2c925e811879c2cb2b6e939da4c4b73dbc18f7d8e17f544bed8a41eb35d4f561",
+    "included_ceiling_probe_sha256": "6ca01a04ed0efa69ba3ac0e9c3abf6f52dfd42f16cc9ee5fc35b9bebaf7181c0"
+  },
+  "formal_scope": {
+    "status": "RESEARCH_ONLY_COMPONENT_LEVEL_DEVELOPMENT_EVIDENCE",
+    "f6i_registered_total_verdict": "F6I_COMPONENTS_NOT_ADMISSIBLE",
+    "production_model_modified": false,
+    "frozen_theory_modified": false,
+    "biological_statistic_admitted_to_z": false,
+    "davis_label_reads": 0,
+    "recipient_label_reads": 0,
+    "fresh_external_admission": "NOT_RUN"
+  }
+}
