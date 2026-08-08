@@ -1,97 +1,65 @@
 # MetaSieve-DTA
 
-Mechanism-first few-shot drug-target affinity research with a frozen convex
-law-valued operator.
+Mechanism-first few-shot drug–target affinity research with a frozen
+probability-law operator.
 
-Updated: 2026-08-08
-
-## Current Verdict
+## Current status
 
 ```text
 MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED
-KINASE_PANEL_COMPONENT_IDENTIFIABILITY_OBSERVED_IN_DEVELOPMENT
-F6I_TOTAL_GATE_NOT_ADMISSIBLE
 GEOMETRY_IDENTIFIED
 PAIR_COMPATIBILITY_IDENTIFIED
-FIXED_RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED
-TASK_LOCAL_RADIAL_AFFINITY_HEADROOM_OBSERVED
-CORRECT_PARTNER_AFFINITY_SECTION_NOT_IDENTIFIED
-FIXED_RADIAL_INTERACTION_RESIDUAL_NOT_OBSERVED
-CHEMBL_CROSSED_SOURCE_INTERACTION_UNDERDETERMINED
+PAIR_LOCAL_P1B_MECHANISM_OBSERVABILITY_NOT_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
 ```
 
-The implementation is mathematically interface-compatible, but it is not yet
-deeply integrated with bioinformatics. `model/` contains the frozen operator
-primitives and the P1B-passing local geometry bridge. It intentionally contains
-no assembled DTA pipeline because the previous biological state did not provide
-registered protein-specific affinity increment.
+The current scientific boundary is not whether the encoders see the protein.
+P1B already established correct-protein contact/distance geometry.  The open
+question is whether its atom-local, residue-local and pair-local observables can
+recover a protein-specific structural mechanism that subsequently provides
+affinity value beyond ligand-only and wrong-protein controls.
 
-The F6I component algebra is retained internally as a bounded,
-protein-independent support-location correction added to a protein-dependent
-biological surface. It removes a known gauge freedom but has not passed the
-fresh endpoint-consistent external Gate required for production admission.
+## Repository boundaries
 
-## Repository Boundaries
+- `theory/FINAL_FROZEN_THEORY/`: authoritative frozen mathematics.
+- `model/`: passed mathematical, encoder and P1B geometry primitives; no
+  validated assembled DTA pipeline.
+- `scripts/`: passed data, sealing, structure, geometry and source-governance
+  workflows.
+- `research/`: only the active S5 preregistration.  Unvalidated code must remain
+  here until its Gate passes.
+- `report/`: current status, split protocol and compact PASS evidence.
+- `history.md`: authoritative experimental and failure ledger.
 
-- `theory/FINAL_FROZEN_THEORY/`: authoritative read-only mathematics.
-- `model/`: verified Band/CSMO/law primitives and P1B geometry components.
-- `scripts/`: passed data, structure, geometry, and release-governance workflows.
-- `research/`: empty experiment boundary plus cleanup policy. Terminal research
-  code and artifacts were consolidated into `history.md` and removed.
-- `report/`: current split protocol and immutable PASS evidence only.
-- `history.md`: complete failure ledger and deleted-artifact record.
+Terminal-negative implementations and duplicate reports were removed after
+consolidation.  They remain recoverable from Git history at `3281780`,
+`12a2765`, and `608decf`.
 
-Failed experimental implementations and duplicate reports were consolidated and
-deleted. Start with `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md` for the full
-theory-to-biology assessment, evidence map, and stop rules.
+## Active stage
 
-## Retained Evidence
+`P1R2B-S5_LOCAL_MECHANISM_OBSERVABILITY` tests the actual frozen P1B local
+contract.  It begins with chain/mapping and pseudo-teacher audits, then an
+observability ladder and synthetic trainability control.  Lightweight GPU
+distillation is conditional on those checks.
 
-- P0 canonical data contracts: PASS.
-- P1A governed open holo corpus: PASS.
-- P1B partner-specific contact/distance geometry: PASS.
-- D0-C release-pinned ChEMBL37 Ki/Kd corpus: PASS.
-- D1 homology/document closure: PASS.
-- E0 real affinity source gate: NOT RUN.
-- T-DIR-P0 lightweight pilot: learnability signal not observed.
-- T-BASIS-R0 fixed radial basis partner recoverability: PASS in research.
-- E-AFF-P0 population-shared radial affinity direction: NOT OBSERVED.
-- E-AFF-H0A task-local radial headroom: OBSERVED; partner specificity below Gate.
-- E-AFF-H0C support-matched interaction residual: NOT OBSERVED.
-- E-AFF-X0 crossed ChEMBL census: INSUFFICIENT INDEPENDENT COMPONENTS; STOP.
-- Formal typed-interaction T and P2-P4: FROZEN.
-- F6I component decomposition: DEVELOPMENT SIGNAL OBSERVED; total Gate NOT
-  ADMISSIBLE; fresh endpoint-consistent external admission NOT RUN.
-- Recipient-label reads: `0`.
+No real affinity value, DAVIS/recipient label, production `z`, CSMO/Band change
+or P2–P4 stage is authorized by S5.
 
-## Read First
+## Read first
 
-1. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
+1. `report/CURRENT_RESEARCH_STATUS.md`
 2. `task.md`
 3. `experiment.md`
-4. `history.md`
-5. `report/VERIFIED_EVIDENCE_SUMMARY.md`
-6. `report/CURRENT_DATA_SPLIT_PROTOCOL.md`
+4. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
+5. `history.md`
 
 ## Verification
 
-Environment: `D:\anaconda\envs\drug`, PyTorch `2.6.0+cu124`, CUDA RTX 4060.
-
 ```powershell
-D:\anaconda\envs\drug\python.exe -m pytest -q
+conda run -n drug python -m pytest -q
 ```
 
-The consolidated repository suite passes `73` tests. The removed PKIS/F6I
-package previously passed its isolated `39`-test suite and remains recoverable
-from Git history. T-DIR, T-BASIS, E-AFF and F6I are not production-admitted.
-
-## Data Availability
-
-The Git repository tracks code, frozen theory, provenance manifests, compact
-PASS evidence, and registered research artifacts. Large third-party releases,
-raw benchmark labels, embedding banks, downloaded tools, and model caches are
-not redistributed. See [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md) for the
-exact boundary and upstream provenance.
+The consolidated suite currently passes 70 tests.  Large third-party releases,
+embedding banks and caches are not redistributed; see `DATA_AVAILABILITY.md`.

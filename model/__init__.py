@@ -2,8 +2,7 @@
 
 There is intentionally no assembled production DTA model. The former biological
 frontend did not identify incremental affinity information and is recorded only
-in ``history.md``. The unadmitted component algebra is intentionally not
-exported from this package.
+in ``history.md``. Unadmitted research algebra is not retained in this package.
 """
 
 from .config import DEFAULT, MetaSieveConfig, profile

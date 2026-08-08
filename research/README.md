@@ -1,19 +1,13 @@
-# Research Archive Boundary
+# Research boundary
 
-The executable research branches were consolidated on 2026-08-08.
+Only the active S5 preregistration is retained in this directory.  S5 tests
+actual frozen-P1B pair-local mechanism observability and is not production code.
 
-Terminal negative, mixed, synthetic-only and consumed-development code was
-removed from the working tree after its scientific conclusions, metrics,
-provenance limits and deletion scope were recorded in `history.md` and
-`EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`. The exact deleted files remain
-recoverable from Git history through commit `8b7789e`.
+Terminal-negative XP1–XP5 and aggregate S4 implementations were deleted after
+their metrics and limits were consolidated into `history.md`.  They remain
+recoverable from Git commits `3281780`, `12a2765`, and `608decf`.
 
-The only reusable algebra admitted from the F6I branch is the internal,
-gauge-separated component statistic in `model/component_statistic.py`, with a
-label-safe JSONL interface in `scripts/evaluate_component_statistic.py`.
-Neither file is connected to the production operator or exported by `model`.
-
-New experiments must be created here only after a new preregistration defines
-the dataset release, endpoint, split closure, controls, Gate and promotion
-boundary. Downloading a dataset does not itself authorize affinity-label access
-or production integration.
+Promotion from `research/` requires a preregistered Gate, immutable inputs and
+hashes, closure-safe evaluation, no forbidden label reads, correct-protein and
+shortcut controls, regression tests, and the production-admission criteria in
+`task.md`.

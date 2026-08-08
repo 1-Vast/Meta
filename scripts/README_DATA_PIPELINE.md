@@ -29,12 +29,11 @@ geometry, not affinity energetics.
 
 These implement D0-C/D1 data governance. They do not authorize model training.
 
-## Component-statistic interface
+## Removed unadmitted interface
 
-- `evaluate_component_statistic.py` applies the internal gauge-separated
-  component algebra to precomputed biological surfaces and support residuals.
-- It rejects query-label fields and does not construct, train or validate the
-  biological surface.
+The F6I component-statistic wrapper was removed after consolidation because it
+did not complete external biological admission.  It remains recoverable from
+Git commit `24a9ae0`.
 
 Failed P1C/P1R*/F0R implementations were removed after their evidence was
 consolidated in `history.md` and

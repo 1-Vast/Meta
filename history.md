@@ -2824,6 +2824,40 @@ and that information is ligand-side (so distillation would learn chemistry, the
 forbidden population shortcut). No affinity value was read; S8 was never entered.
 Full account: `report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md`.
 
+### Post-run interpretation correction and S5 redesign
+
+The S4/S4b numbers above are preserved, but the claim that they form an upper
+bound on the complete sequence+2D model class is withdrawn.  The probe used
+mean-pooled ESM, ECFP and linear Ridge; it omitted the existing P1B atom-local
+GINE states, residue-local ESM states, and atom-by-slot contact/distance tensor.
+It therefore establishes only that the tested **aggregate** representation is
+ligand-dominated and not protein-specific.  It does not close the pose-free
+pair-local route.
+
+Corrected status:
+
+```text
+AGGREGATE_ESM_ECFP_PROBE_NOT_PROTEIN_SPECIFIC
+AGGREGATE_TEACHER_SIGNAL_IS_LIGAND_DOMINATED
+PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED
+POSE_FREE_CLASS_NOT_CLOSED
+```
+
+The redesign also records two new fail-closed audits.  First, one protein entity
+can contain several homo-oligomer chains, while deployment provides one target
+sequence; single-chain and interface complexes must be separated.  Second, the
+six S2 channels are deterministic structural pseudo-labels rather than physical
+ground truth, and their ligand atom chemistry must be rebuilt from a mapped CCD
+bond/charge/donor/acceptor/ring contract before mechanistic claims.
+
+`PREREG_S5_LOCAL_MECHANISM_OBSERVABILITY.md` freezes the continuation.  It
+requires exact ligand-atom and residue-sequence mapping, a slot-information
+ceiling, an actual frozen-P1B observability ladder, a synthetic optimization
+control, and only conditionally a small pair-local GPU head.  The existing
+1,118-complex S4 block is development-exposed; a new score-blind RCSB block must
+be sealed for confirmation.  No affinity label, DAVIS label, biological `z`,
+production model change, CSMO/Band change, or P2-P4 authorization follows.
+
 ### S0-S4 immutable code and artifact hashes
 
 | path | sha256[:32] | bytes |
@@ -2850,4 +2884,41 @@ Full account: `report/ssl_b2_structural_observability/S_PROGRAMME_REPORT.md`.
 | `report/ssl_b2_structural_observability/s4b_console.txt` | `b8f3322c038ac001b6d5d7f48141dd82` | 852 |
 
 Independent structural release: RCSB PDB CC0-1.0, 1,476 entries released >= 2024-01-01, acquisition manifest with per-file SHA-256 at `dataset/raw/ssl_b2_independent/acquisition_manifest.json`. gemmi 0.7.5, MMseqs2 repo-pinned. Seeds fixed. GPU used for frozen ESM-2 inference only; no GPU training was performed.
+
+## Global consolidation after S5 redesign (2026-08-08)
+
+The repository was reduced to passed production/data/geometry surfaces and the
+single active S5 preregistration.  Terminal-negative research implementations
+and duplicate reports were removed from the working tree; exact recovery points
+remain Git commits `3281780` (XP1/XP2 recovery), `12a2765` (XP3/XP4/XP5
+boundary), and `608decf` (S0-S4 implementation and raw report).
+
+The deleted XP3 census recorded the governing public-data tradeoff: Metz had
+928 compounds, 147 proteins but only 8 protein-group closure components;
+Klaeger was 93.6% at the measurement floor; PDSP per-report noise was 0.7144 log
+units.  The deleted XP4 implementation formed 85 BindingDB panels, 70 protein
+clusters and 6,363 cells, but its interaction SD was 0.4058 versus estimated
+per-report noise 0.7774 and the bilinear arm had `R2_gamma=-0.00072` relative to
+the additive null.  The deleted XP5 pose-free typed basis was worse than the
+null (`R2_gamma=-0.00147`) and indistinguishable from foreign-protein control.
+These are terminal evidence records, not production code.
+
+S4 numerical evidence is retained in this ledger: aggregate H-bond and
+hydrophobic pseudo-labels were predictable by mean-pooled ESM+ECFP, but no
+channel beat deranged protein and ligand-only matched the joint probe.  Its
+class-wide `POSE_FREE_DEPLOYMENT_INPUTS_INSUFFICIENT` interpretation was
+withdrawn because the probe omitted P1B local pair features.  The active status
+is `PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED`, governed by the S5 preregistration.
+
+Deleted root proposals (`DRP_MODULE_PROPOSAL.md`,
+`IDENTIFICATION_ROADMAP_AND_Z_ADMISSION.md`, and
+`SOLUTION_MENU_LITERATURE_INFORMED.md`) were superseded by
+`report/CURRENT_RESEARCH_STATUS.md`, `task.md`, and the S5 preregistration.
+The unadmitted F6I `component_statistic` implementation, its label-safe wrapper,
+and their isolated tests were also removed from `model/`, `scripts/`, and
+`tests/`: their algebraic invariants passed, but the component never completed
+fresh external biological admission and therefore did not satisfy the stricter
+production-retention rule.  It remains recoverable from commit `24a9ae0`.
+The post-prune regression contains 70 tests and passes in the `drug` environment;
+the three removed tests belonged exclusively to that unadmitted component.
 

@@ -1,14 +1,14 @@
 # Model Package
 
-This package contains two verified production boundaries and one isolated
-candidate algebra:
+This package contains two verified production boundaries:
 
 - `bands.py`, `mathematical.py`, `meta_operator.py`, `config.py`, and
   `runtime.py` implement and test the frozen mathematical operator contract;
 - `encoders.py` and `mechanism.py` implement the local sequence/graph geometry
   bridge that passed P1B.
-- `component_statistic.py` preserves the gauge-separated F6I component algebra.
-  It is not exported, connected to `z`, or production-admitted.
+
+The unadmitted F6I component algebra was removed after consolidation and remains
+recoverable from Git commit `24a9ae0`.
 
 There is no assembled production DTA pipeline. The previous support encoder,
 QPMA, arbitrary 28-dimensional biological state, and end-to-end assembly failed
