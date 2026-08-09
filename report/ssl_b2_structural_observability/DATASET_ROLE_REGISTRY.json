@@ -1,0 +1,118 @@
+{
+  "schema": "MetaSieve.DatasetRoleRegistry.v1",
+  "generated": "2026-08-08",
+  "sources": {
+    "RCSB_PDB_pilot20k": {
+      "tier": "A",
+      "role": "STRUCTURAL_TRAINING_ONLY",
+      "url": "https://files.rcsb.org/",
+      "license": "CC0-1.0",
+      "redistributable": true,
+      "endpoint": null,
+      "structures": true,
+      "sequences": true,
+      "ligand_structures": true,
+      "poses": "experimental holo",
+      "exposure": "P1B TRAINED ON THIS; not independent validation"
+    },
+    "BioLiP2_annotations": {
+      "tier": "B",
+      "role": "ANNOTATION_ONLY",
+      "url": "https://zhanggroup.org/BioLiP/",
+      "license": "academic use, see readme",
+      "redistributable": false,
+      "endpoint": null,
+      "note": "used only to select biologically relevant ligands; the S2 teacher is computed from raw coordinates, never from BioLiP absence-as-negative"
+    },
+    "RCSB_PDB_independent": {
+      "tier": "A",
+      "role": "STRUCTURAL_INDEPENDENT_TEST",
+      "url": "https://files.rcsb.org/",
+      "license": "CC0-1.0",
+      "redistributable": true,
+      "selection": "entries absent from pilot20k AND homology-disjoint from the P1B training groups"
+    },
+    "ChEMBL37_static": {
+      "tier": "A",
+      "role": "AFFINITY_SOURCE_CALIBRATION_ONLY",
+      "license": "CC BY-SA 3.0",
+      "endpoint": "Ki/Kd",
+      "gated": "not opened in this programme; S8 only, after structural admission"
+    },
+    "BindingDB_Articles_202608": {
+      "tier": "A",
+      "role": "AFFINITY_REPLICATION",
+      "license": "CC BY 3.0",
+      "endpoint": "Ki/Kd",
+      "note": "XP4 measured its within-panel interaction as below the noise floor"
+    },
+    "Metz_2011": {
+      "tier": "A",
+      "role": "CONSUMED_DEVELOPMENT_DIAGNOSTIC_ONLY",
+      "endpoint": "pKi",
+      "consumed_by": [
+        "XP1",
+        "XP2",
+        "XP5"
+      ]
+    },
+    "Klaeger_2017": {
+      "tier": "A",
+      "role": "BOUNDED_SECONDARY_EVIDENCE",
+      "endpoint": "pKd_app",
+      "consumed_by": [
+        "XP1",
+        "XP2-F"
+      ]
+    },
+    "PDSP_KiDB": {
+      "tier": "A",
+      "role": "BOUNDED_SECONDARY_EVIDENCE",
+      "endpoint": "Ki",
+      "consumed_by": [
+        "XP1-C"
+      ]
+    },
+    "DAVIS": {
+      "tier": "PROHIBITED",
+      "role": "NONE",
+      "reads": 0
+    },
+    "recipient_labels": {
+      "tier": "PROHIBITED",
+      "role": "NONE",
+      "reads": 0
+    },
+    "PDBbind": {
+      "tier": "B",
+      "role": "NOT_USED",
+      "reason": "redistribution contract not verified as compatible; explicitly avoided per policy"
+    },
+    "PLINDER": {
+      "tier": "B",
+      "role": "NOT_USED_IN_S1",
+      "reason": "full 400k systems not downloaded by policy; the independent test set is built from raw RCSB CC0 coordinates instead, which needs no separate annotation licence"
+    },
+    "TierC_DTI_and_KG": {
+      "tier": "C",
+      "role": "NOT_USED",
+      "members": [
+        "Yamanishi",
+        "BIOSNAP",
+        "STITCH",
+        "DrugBank",
+        "SuperTarget",
+        "TTD",
+        "DGIdb",
+        "DrugCentral",
+        "OpenTargets",
+        "CTD",
+        "ChemProt",
+        "Hetionet",
+        "DRKG",
+        "PharmKG"
+      ],
+      "reason": "S9 only, and never as affinity evidence"
+    }
+  }
+}
