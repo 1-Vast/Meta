@@ -43,10 +43,18 @@ DTYPE = DEFAULT_DTYPE
 MAX_EXACT_HN_NODES = 1_000_000
 
 
+def assert_unit_statistic_domain(z: torch.Tensor, name: str = "statistic z") -> None:
+    """Reject off-coverage statistics instead of silently projecting them."""
+    assert_finite(z, name)
+    if bool(((z < 0.0) | (z > 1.0)).any().item()):
+        raise ValueError(f"{name} is outside the declared [0,1] domain")
+
+
 def context_index(z: torch.Tensor, cfg: DeploymentConfig) -> torch.Tensor:
     """Map declared statistic coordinates to the finite deployment context."""
     if z.ndim != 2 or z.shape[1] != cfg.d_z:
         raise ValueError("z does not match the declared statistic dimension")
+    assert_unit_statistic_domain(z)
 
     def digit(column: int, edges: tuple) -> torch.Tensor:
         boundaries = torch.as_tensor(edges, dtype=z.dtype, device=z.device)
@@ -154,7 +162,7 @@ class MultilinearSieve(nn.Module):
         """
         B = z.shape[0]
         K = self.n_coef
-        f = z.index_select(-1, self.view_idx).clamp(0.0, 1.0)          # (B, d_a)
+        f = z.index_select(-1, self.view_idx)                           # (B, d_a)
         W = om.reshape(2, -1, K)
         f0 = f[:, 0].view(B, 1, 1)
         W = W[0].unsqueeze(0) * (1.0 - f0) + W[1].unsqueeze(0) * f0    # (B, rest, K)
@@ -165,7 +173,9 @@ class MultilinearSieve(nn.Module):
         return W.reshape(B, K)
 
     def forward(self, z: torch.Tensor) -> torch.Tensor:
-        assert_finite(z, "sieve input z")
+        assert_unit_statistic_domain(
+            z.index_select(-1, self.view_idx), "sieve input coordinates"
+        )
         om = self.omega()
         assert_finite(om, "sieve simplex nodes")
         if self.d_a == 0:
@@ -368,6 +378,9 @@ class CSMO(nn.Module):
         """z: (B, d_z) -> p: (B, m+1) exactly in Delta_m."""
         if not z.is_cuda:
             raise RuntimeError("CSMO requires CUDA input")
+        if z.ndim != 2 or z.shape[1] != self.cfg.d_z:
+            raise ValueError("z does not match the declared statistic dimension")
+        assert_unit_statistic_domain(z)
         if self.head == "direct":
             p = self.gate(z)
             assert_finite(p, "CSMO output")
@@ -645,9 +658,8 @@ def build_band_operator(cfg, z_source: torch.Tensor, Y_source: torch.Tensor,
                         device=None, dtype=DEFAULT_DTYPE) -> BandOperator:
     """Stage 4. SOURCE statistics and SOURCE labels only."""
     device = require_cuda(device)
-    from .biological import kappa
     with torch.no_grad():
-        ctx = kappa(z_source.to(device), cfg)
+        ctx = context_index(z_source.to(device), cfg)
     anchors = build_anchors(cfg, device=device, dtype=dtype)
     b_pop = build_population_bands(cfg, ctx, Y_source, device=device, dtype=dtype)
     return BandOperator(cfg, anchors, b_pop, device=device, dtype=dtype)
@@ -677,31 +689,29 @@ DEPLOYMENT_ARTIFACT_KEYS = (
 def deployment_manifest(cfg: DeploymentConfig, B_table, *, frontend_hash: str,
                         source_manifest_hash: str, artifact_hashes: dict | None = None) -> dict:
     """Bind a frozen B(z) artifact to its statistic and source-data semantics."""
-    semantics = {
-        "z_names": Z_NAMES,
-        "kappa_edges_y": cfg.kappa_edges_y,
-        "kappa_edges_mass": cfg.kappa_edges_mass,
-        "kappa_edges_context_cont": cfg.kappa_edges_context_cont,
-        "n_context": cfg.n_context,
-    }
     artifacts = {} if artifact_hashes is None else dict(artifact_hashes)
     unknown = set(artifacts) - set(DEPLOYMENT_ARTIFACT_KEYS)
     if unknown:
         raise ValueError(f"unknown deployment artifact hashes: {sorted(unknown)}")
+    missing = sorted(key for key in DEPLOYMENT_ARTIFACT_KEYS if not artifacts.get(key))
+    if missing:
+        raise ValueError(f"deployment artifact hashes are incomplete: {missing}")
+    if not frontend_hash or not source_manifest_hash:
+        raise ValueError("frontend and source manifest hashes must be nonempty")
     manifest = {
         "version": 2,
         "math_config_hash": cfg.fingerprint(),
-        "state_schema_hash": artifacts.get("state_schema_hash", _sha256_json(semantics)),
-        "view_registry_hash": artifacts.get("view_registry_hash"),
-        "context_registry_hash": artifacts.get("context_registry_hash"),
-        "mechanism_schema_hash": artifacts.get("mechanism_schema_hash"),
-        "protein_bank_hash": artifacts.get("protein_bank_hash"),
-        "ligand_bank_hash": artifacts.get("ligand_bank_hash"),
-        "pair_bank_hash": artifacts.get("pair_bank_hash"),
+        "state_schema_hash": artifacts["state_schema_hash"],
+        "view_registry_hash": artifacts["view_registry_hash"],
+        "context_registry_hash": artifacts["context_registry_hash"],
+        "mechanism_schema_hash": artifacts["mechanism_schema_hash"],
+        "protein_bank_hash": artifacts["protein_bank_hash"],
+        "ligand_bank_hash": artifacts["ligand_bank_hash"],
+        "pair_bank_hash": artifacts["pair_bank_hash"],
         "frontend_hash": str(frontend_hash),
         "source_manifest_hash": str(source_manifest_hash),
         "B_table_hash": _band_table_sha256(B_table),
-        "archetype_manifest_hash": artifacts.get("archetype_manifest_hash"),
+        "archetype_manifest_hash": artifacts["archetype_manifest_hash"],
     }
     manifest["deployment_hash"] = _sha256_json(manifest)
     return manifest

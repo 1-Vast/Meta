@@ -1,5 +1,14 @@
 # Active experiment protocol
 
+## R-VERIFY external SSL evidence recovery
+
+Before S5 execution, recover the exact source commits, immutable manifests,
+checkpoints, per-unit predictions, control maps, bootstrap units and label-read
+audit behind the supplied S5-S9 report. Missing evidence keeps those numbers at
+`EXTERNAL_CLAIM_NOT_REPRODUCED`; it does not authorize a substitute run or a
+new ensemble/gauge model. The existing S5 protocol below remains the only
+registered experiment if recovery fails.
+
 ## S5 structural-mechanism observability
 
 S5 is label-free with respect to affinity.  The 14,906 historical holo records

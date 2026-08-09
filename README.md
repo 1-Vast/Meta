@@ -13,6 +13,7 @@ PAIR_LOCAL_P1B_MECHANISM_OBSERVABILITY_NOT_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
+EXTERNAL_S5_S9_CLAIMS_NOT_REPRODUCED
 ```
 
 The current scientific boundary is not whether the encoders see the protein.
@@ -54,6 +55,7 @@ or P2–P4 stage is authorized by S5.
 3. `experiment.md`
 4. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
 5. `history.md`
+6. `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`
 
 ## Verification
 
@@ -61,5 +63,5 @@ or P2–P4 stage is authorized by S5.
 conda run -n drug python -m pytest -q
 ```
 
-The consolidated suite currently passes 70 tests.  Large third-party releases,
+The consolidated suite currently passes 75 tests.  Large third-party releases,
 embedding banks and caches are not redistributed; see `DATA_AVAILABILITY.md`.

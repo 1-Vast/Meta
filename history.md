@@ -2922,3 +2922,28 @@ production-retention rule.  It remains recoverable from commit `24a9ae0`.
 The post-prune regression contains 70 tests and passes in the `drug` environment;
 the three removed tests belonged exclusively to that unadmitted component.
 
+## External SSL report audit and contract hardening (2026-08-09)
+
+The supplied `METASIEVE_SSL_DETAILED_ANALYSIS_REPORT_2026-08-08.md` was checked
+against every local branch and all GitHub branch tips. The report describes S5
+through S9 metrics, but the repository contains no matching source commits,
+input/split manifests, checkpoints, prediction files, bootstrap units, or
+result JSON. The report itself states that it did not independently rerun those
+experiments. The numerical claims are therefore classified as
+`EXTERNAL_CLAIM_NOT_REPRODUCED`; formal status remains `S5 REGISTERED_NOT_RUN`.
+
+The theoretical warning is retained: native-decoy NCE depends on the negative
+proposal, and coordinate score matching leaves system-dependent additive
+energy constants. This makes ensemble and quantitative difference anchors a
+reasonable future hypothesis, not an identified explanation of an unverified
+S9 result. MISATO can support MD/QM ensemble observability, while PLINDER can
+support pocket/ligand/apo leakage governance; neither alone supplies a complete
+binding-free-energy gauge.
+
+Four code defects from the report were independently reproduced and repaired:
+the removed `biological.kappa` import in `build_band_operator`, silent
+off-domain statistic clamping, zero-partner encoder inputs, and incomplete
+deployment semantic hashes. These are contract repairs only and do not change
+the scientific verdict or admit a biological statistic to `z`. Detailed triage
+is in `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`.
+

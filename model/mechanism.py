@@ -56,6 +56,10 @@ class MechanisticInteractionBridge(nn.Module):
         if ligand_mask.shape != ligand_atoms.shape[:2] or \
                 residue_mask.shape != protein_residues.shape[:2]:
             raise ValueError("bridge masks do not match state shapes")
+        if bool((ligand_mask.sum(dim=1) <= 0).any().item()):
+            raise ValueError("bridge received a zero-atom ligand")
+        if bool((residue_mask.sum(dim=1) <= 0).any().item()):
+            raise ValueError("bridge received a zero-residue protein")
         pair_mask = ligand_mask.to(ligand_atoms.dtype).unsqueeze(-1) * \
             residue_mask.to(ligand_atoms.dtype).unsqueeze(-2)
         scale = math.sqrt(self.rank)
@@ -71,4 +75,3 @@ class MechanisticInteractionBridge(nn.Module):
         distance = torch.einsum("bndr,bldr->bnld", atom_distance,
                                 residue_distance) / scale
         return DenseMechanismPrediction(contact, distance, pair_mask)
-

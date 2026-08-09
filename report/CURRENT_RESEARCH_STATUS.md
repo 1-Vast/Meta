@@ -1,6 +1,19 @@
 # MetaSieve current research status
 
-Updated: 2026-08-08.
+Updated: 2026-08-09.
+
+## External SSL report audit
+
+The supplied detailed SSL report describes S5-S9 experiments that are not
+present on any local or GitHub branch. No corresponding manifests, predictions,
+checkpoints, result JSON, or commits were found. Its numerical claims are
+therefore recorded as `EXTERNAL_CLAIM_NOT_REPRODUCED`, not as project facts.
+The full assessment is in `SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`.
+
+The report's independent code findings were audited. Four fail-closed contract
+repairs were made: the broken Band-operator factory import, statistic-domain
+validation, empty partner validation, and complete deployment semantic hashes.
+These repairs do not alter the scientific stage or authorize affinity work.
 
 ## Proven facts
 
@@ -35,6 +48,7 @@ PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
+EXTERNAL_S5_S9_CLAIMS_NOT_REPRODUCED
 ```
 
 ## Active research stage

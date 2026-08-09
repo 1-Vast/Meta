@@ -21,3 +21,8 @@ bio-mechanistically integrated**. The theory accepts an observable bounded
 statistic `z(S,Q,gamma)`, but no biological statistic has yet passed the gate
 required to enter that coordinate system. Terminal research evidence has been
 consolidated into `history.md`; exact deleted sources remain in Git history.
+
+The runtime boundary fails closed for statistics outside the declared `[0,1]`
+domain, zero-atom ligands, zero-residue bridge inputs, and incomplete deployment
+semantic hashes. `build_band_operator` uses the package-local frozen context
+map; it no longer depends on the removed biological frontend.

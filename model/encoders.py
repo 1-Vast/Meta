@@ -60,11 +60,18 @@ class LigandEncoder(nn.Module):
         self.norm = nn.LayerNorm(d_h, dtype=dtype)
 
     def forward(self, atoms, bonds, mask):
+        if atoms.ndim != 3 or bonds.ndim != 4 or mask.ndim != 2:
+            raise ValueError("ligand graph tensors have invalid ranks")
+        if atoms.shape[:2] != mask.shape or bonds.shape[:3] != (
+                atoms.shape[0], atoms.shape[1], atoms.shape[1]):
+            raise ValueError("ligand graph tensors have incompatible shapes")
+        if bool((mask.sum(dim=1) <= 0).any().item()):
+            raise ValueError("ligand graph contains a zero-atom sample")
         adjacency = (bonds.abs().sum(-1) > 0).to(atoms.dtype)
         states = self.inp(atoms) * mask.unsqueeze(-1)
         for layer in self.layers:
             states = states + layer(states, bonds, adjacency, mask)
-        denominator = mask.sum(1, keepdim=True).clamp(min=1.0)
+        denominator = mask.sum(1, keepdim=True)
         mean = (states * mask.unsqueeze(-1)).sum(1) / denominator
         maximum = states.masked_fill(
             mask.unsqueeze(-1) == 0, torch.finfo(states.dtype).min

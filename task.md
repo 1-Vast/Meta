@@ -15,6 +15,12 @@ P1R2B-S5_LOCAL_MECHANISM_OBSERVABILITY
 Registered at
 `research/ssl_b2_structural_observability/PREREG_S5_LOCAL_MECHANISM_OBSERVABILITY.md`.
 
+Before execution, perform `R-VERIFY`: recover the source commits, immutable
+manifests, checkpoints, per-unit predictions and label-access audit behind the
+externally supplied S5-S9 report. If recovery fails, those numbers remain
+external claims and S5 runs from the existing preregistration. Do not recreate
+a look-alike run and call it reproduction.
+
 ### Required order
 
 1. Build deterministic CCD-atom and canonical-residue mappings.
@@ -26,6 +32,15 @@ Registered at
 6. Run a synthetic trainability control.
 7. Only if steps 1–6 pass, train a small research-only pair-local GPU head.
 8. Freeze passing structural channels before any source-affinity stage.
+
+### Conditional ensemble/gauge research
+
+MISATO/PLINDER acquisition is not yet authorized as model training. It becomes
+eligible only after a verified pose-aware structural state and a reproducible
+source-affinity null. MISATO may support ensemble observability; PLINDER may
+support pocket/ligand/apo governance. Neither is, by itself, a thermodynamic
+gauge. A later gauge test requires separately governed same-target difference
+edges and a new preregistration.
 
 ## Frozen surfaces
 
