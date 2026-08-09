@@ -1,5 +1,9 @@
 # Verified evidence summary
 
+The complete numerical and decision-oriented summary is maintained in
+`EXPERIMENTAL_EVIDENCE_LEDGER.md`. This page is intentionally only a compact
+index of retained executable evidence.
+
 ## Retained executable evidence
 
 | Stage | Status | Retained evidence |
@@ -22,4 +26,5 @@ BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 
 Historical negative code and duplicate reports were deleted after consolidation
 into `history.md`.  Recovery commits are `3281780`, `12a2765`, and `608decf`.
-See `CURRENT_RESEARCH_STATUS.md` for the authoritative interpretation.
+See `EXPERIMENTAL_EVIDENCE_LEDGER.md` for consolidated results and
+`CURRENT_RESEARCH_STATUS.md` for the active interpretation.

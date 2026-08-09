@@ -2,6 +2,10 @@
 
 Updated: 2026-08-09.
 
+The canonical completed-experiment summary is
+`EXPERIMENTAL_EVIDENCE_LEDGER.md`. This page records only the current
+interpretation and execution boundary.
+
 ## External SSL report audit
 
 The supplied detailed SSL report describes S5-S9 experiments that are not

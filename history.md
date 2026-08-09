@@ -1,12 +1,13 @@
 # MetaSieve-DTA Experiment History
 
-Last updated: 2026-08-08.
+Last updated: 2026-08-09.
 
 > HISTORICAL EVIDENCE ONLY. This file is not an execution plan.
 >
 > Current execution authority is, in order: `AGENT_HANDOFF.md`, `task.md`, and
-> the active section of `experiment.md`. Any historical instruction that
-> conflicts with those files is superseded.
+> the active section of `experiment.md`. The canonical completed-experiment
+> summary is `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`. Any historical
+> instruction that conflicts with those files is superseded.
 
 ## Current Project Decision
 
@@ -14,32 +15,16 @@ Last updated: 2026-08-08.
 P0_CANONICAL_DTA_V2_PASS
 P1A_OPEN_STRUCTURE_PILOT_PASS
 P1B_GEOMETRY_GATE_PASS
-P1C_AFFINITY_TRANSFER_FAIL
-P1R0_READOUT_DEFECT_CONFIRMED
-P1R1_MIF_RESIDUAL_FAIL_SUBTHRESHOLD_SIGNAL
-P1R2A_INTERACTION_RESIDUAL_FAIL_AFFINITY_INCREMENT
-P1R2B0_NO_NONLINEAR_RESCUE_OF_COMPRESSED_GLOBAL_MIF
-P1R2B1_COMPATIBILITY_WITHOUT_AFFINITY_DIRECTION
-P1R2B_F0_AFFINITY_PILOT_NOT_READY
-P1R2B_F0R_HISTORICAL_CLOSED_LIVE_API_DRIFT
 P1R2B_D0_C_PASS
 P1R2B_D1_PASS
-P1R2B_E0_SYNTHETIC_PRE_GATE_FAIL_CLOSED
-P1R2B_E0_SOURCE_GATE_NOT_RUN
-P1R2B_E0S_MAP_REALIZATION_OR_OPTIMIZATION_DEFECT
-P1R2B_E0R0_ANALYTIC_PASS_LEARNED_HEADS_FAIL
-P1R2B_E0R1_OBJECTIVE_DEFECT_PINV_PASS_D_NUMERICAL_NOT_RUN
 P1R2B_E0R2_SYNTHETIC_OBJECTIVE_DESIGN_SOLVER_IDENTIFIED
-P1R2B_TDIR_P0_PILOT_LEARNABILITY_SIGNAL_NOT_OBSERVED
 P1R2B_T_BASIS_R0_RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED
-P1R2B_E_AFF_P0_SHARED_DIRECTION_NOT_OBSERVED
-P1R2B_E_AFF_H0A_TASK_LOCAL_HEADROOM_WITHOUT_PARTNER_SPECIFICITY
-P1R2B_E_AFF_H0C_FIXED_RADIAL_INTERACTION_RESIDUAL_NOT_OBSERVED
-P1R2B_E_AFF_X0_STOP_SOURCE_INTERACTION_UNDERDETERMINED
-P1R2B_E_AFF_R0_READOUT_SCOPE_AUDIT_RANK_METRIC_BLIND_TO_TASK_LEVEL_LOCATION
-P1R2B_E_AFF_X0_FEAS_UNIT_REQUIREMENT_UNATTAINABLE_BY_CONSTRUCTION
-P1R2B_E_AFF_X0B_CONDITIONAL_DESIGN_SUPPORTED_PENDING_RHO
-P1R2B_E_AFF_L0_REGISTERED_NOT_RUN
+S4_AGGREGATE_ESM_ECFP_NOT_PROTEIN_SPECIFIC_SCOPE_CORRECTED
+P1R2B_S5_LOCAL_MECHANISM_OBSERVABILITY_REGISTERED_NOT_RUN
+EXTERNAL_S5_S9_CLAIMS_NOT_REPRODUCED
+SSL_G0_DATA_FEASIBILITY_CONDITIONAL_METADATA_ONLY
+REAL_SOURCE_AFFINITY_FROZEN
+DAVIS_TRANSFER_FROZEN
 P1R2B_T_FROZEN
 P2_TO_P4_FROZEN
 RECIPIENT_LABEL_READS=0
@@ -47,13 +32,16 @@ DAVIS_LABEL_READS=0
 ```
 
 ```text
-WITHIN_TASK_RANKING_DIRECTION_NOT_IDENTIFIED
-PROTEIN_SPECIFIC_AFFINITY_LOCATION_NOT_YET_TESTED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED
+POSE_FREE_CLASS_NOT_CLOSED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
 ```
+
+The detailed earlier P1C--X0/L0 verdicts remain below as historical evidence;
+they were removed from this current-status block to avoid presenting closed or
+superseded branches as active work.
 
 `E-AFF-L0` addresses Claim A (protein affinity location). `E-AFF-X0-B` and `X1`
 address Claim B (non-additive protein-by-ligand interaction). These are
@@ -2965,4 +2953,20 @@ It separates MISATO bound trajectories, PLINDER linked apo candidates, and
 quantitative same-target graphs, and keeps all model training and affinity
 labels frozen. See `report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md` and
 `research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md`.
+
+## Experimental evidence consolidation (2026-08-09)
+
+Completed reports, raw retained Gates, current state records and all 94 failure
+entries were reconciled into
+`report/EXPERIMENTAL_EVIDENCE_LEDGER.md`. The ledger separates verified PASS
+evidence, negative model evidence, data/estimand underdetermination, experiments
+that were not run, and externally supplied claims that were not reproduced.
+
+No historical verdict, raw Gate artifact, model implementation, training script
+or frozen theory file was changed. `README.md`, `project_state.json`,
+`report/CURRENT_RESEARCH_STATUS.md` and the compact evidence index now point to
+the canonical ledger. This file's top current-status block was refreshed from
+the obsolete X0/L0 execution state to the active S5 boundary; the detailed
+X0/L0 and earlier records remain preserved below. The consolidated regression
+suite passed `75` tests.
 

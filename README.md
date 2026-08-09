@@ -50,13 +50,14 @@ or P2–P4 stage is authorized by S5.
 
 ## Read first
 
-1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `task.md`
-3. `experiment.md`
-4. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
-5. `history.md`
-6. `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`
-7. `report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`
+1. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+2. `report/CURRENT_RESEARCH_STATUS.md`
+3. `task.md`
+4. `experiment.md`
+5. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
+6. `history.md`
+7. `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`
+8. `report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`
 
 ## Verification
 
