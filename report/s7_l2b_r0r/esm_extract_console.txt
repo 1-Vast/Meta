@@ -1,12 +1,100 @@
 WARNING: overwriting environment variables set in the machine
 
-overwriting variable {'CUDA_PATH', 'PYTHONPATH', 'CUDA_HOME'}
+overwriting variable {'CUDA_HOME', 'PYTHONPATH', 'CUDA_PATH'}
 
-D:\anaconda\envs\drug\Lib\site-packages\huggingface_hub\file_download.py:143: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\59964\.cache\huggingface\hub\models--facebook--esm2_t33_650M_UR50D. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+Some weights of EsmModel were not initialized from the model checkpoint at D:\MetaSieve\dataset\raw\esm2_t33_650M_UR50D and are newly initialized: ['esm.pooler.dense.bias', 'esm.pooler.dense.weight']
 
-To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
-
-  warnings.warn(message)
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 
 
-ERROR conda.cli.main_run:execute(49): `conda run python research\s7_l2b_r0r\s7_esm_extract.py` failed. (See above for error)
+loaded D:\MetaSieve\dataset\raw\esm2_t33_650M_UR50D in 2s on cuda
+
+unique sequences: 2273  total residues: 1230006  max len: 7119
+
+  200/2273 sequences, 105862/1230006 residues, 34s
+
+  400/2273 sequences, 212843/1230006 residues, 57s
+
+  600/2273 sequences, 335152/1230006 residues, 86s
+
+  800/2273 sequences, 438747/1230006 residues, 108s
+
+  1000/2273 sequences, 538052/1230006 residues, 128s
+
+  1200/2273 sequences, 641281/1230006 residues, 150s
+
+  1400/2273 sequences, 743448/1230006 residues, 171s
+
+  1600/2273 sequences, 852993/1230006 residues, 194s
+
+  1800/2273 sequences, 965225/1230006 residues, 218s
+
+  2000/2273 sequences, 1095001/1230006 residues, 249s
+
+  2200/2273 sequences, 1190154/1230006 residues, 269s
+
+{
+
+  "schema": "MetaSieve.S7L2B.PLMRuntimeManifest.v1",
+
+  "model_id": "facebook/esm2_t33_650M_UR50D",
+
+  "loaded_from_local_dir": "D:\\MetaSieve\\dataset\\raw\\esm2_t33_650M_UR50D",
+
+  "weights_sha256": "c874668852c7275a159e2c7ceb6069671d7b1ba2c7b52f59600b34ce0f721008",
+
+  "model_revision": "08e4846e537177426273712802403f7ba8261b6c",
+
+  "offline": true,
+
+  "hidden_dim": 1280,
+
+  "frozen": true,
+
+  "eval_mode": true,
+
+  "dtype": "float16",
+
+  "window": 1000,
+
+  "stride": 500,
+
+  "bos_eos_excluded": true,
+
+  "overlap_policy": "arithmetic mean",
+
+  "sequences": 2273,
+
+  "total_residues": 1230006,
+
+  "max_sequence_length": 7119,
+
+  "cache_path": "dataset/processed/s7_l2b_r0r/esm2_650M/esm2_650M_residues.fp16.dat",
+
+  "cache_sha256": "ada2413765b56efb280010d47265f3a7b9f0394eedf2bc52d66b79a9d3908798",
+
+  "cache_bytes": 3148815360,
+
+  "length_checks": {
+
+    "length_exact": 2273,
+
+    "length_mismatch": 0,
+
+    "nonfinite": 0
+
+  },
+
+  "torch": "2.6.0+cu124",
+
+  "cuda": "12.4",
+
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+
+  "python": "3.11.15",
+
+  "elapsed_sec": 281.5
+
+}
+
+

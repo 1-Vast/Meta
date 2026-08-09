@@ -1,65 +1,32 @@
 {
-  "schema": "MetaSieve.S7L2B.GPUPreflightAudit.v2",
-  "created_utc": "2026-08-09",
-  "supersedes": "v1 of this file, whose stall diagnosis was premature and is corrected below",
-  "step": "B5 preflight — acquisition of frozen esm2_t33_650M_UR50D",
-  "verdict": "PLM_WEIGHT_ACQUISITION_INCOMPLETE_TRANSFER_RESTARTS_NOT_RESUMES",
-
-  "explicitly_not_claimed": [
-    "PLM_RUNTIME_NOT_FEASIBLE — the GPU contract was never exercised, so its feasibility is untested; asserting infeasibility would be a fabricated verdict",
-    "any statement that the PLM hypothesis is false — no B5 model exists and no B5 number exists",
-    "any substitution of a smaller PLM — none was made and none is permitted"
-  ],
-
-  "self_correction": {
-    "what_I_got_wrong_twice": "I twice concluded the transfer had stalled by polling the blob file size with Get-ChildItem. On Windows the reported length of a file being actively written lags, so a growing download can appear frozen. I killed a download at what turned out to be 2157 MB of 2610 MB on that false reading.",
-    "correct_method": "wait on process exit, or inspect the .incomplete blob length via a fresh handle; do not infer liveness from a cached directory listing",
-    "why_it_is_recorded": "the same mistake would corrupt any future judgement about acquisition feasibility, and constraint 10 requires the actual technical cause"
+  "schema": "MetaSieve.S7L2B.PLMRuntimeManifest.v1",
+  "model_id": "facebook/esm2_t33_650M_UR50D",
+  "loaded_from_local_dir": "D:\\MetaSieve\\dataset\\raw\\esm2_t33_650M_UR50D",
+  "weights_sha256": "c874668852c7275a159e2c7ceb6069671d7b1ba2c7b52f59600b34ce0f721008",
+  "model_revision": "08e4846e537177426273712802403f7ba8261b6c",
+  "offline": true,
+  "hidden_dim": 1280,
+  "frozen": true,
+  "eval_mode": true,
+  "dtype": "float16",
+  "window": 1000,
+  "stride": 500,
+  "bos_eos_excluded": true,
+  "overlap_policy": "arithmetic mean",
+  "sequences": 2273,
+  "total_residues": 1230006,
+  "max_sequence_length": 7119,
+  "cache_path": "dataset/processed/s7_l2b_r0r/esm2_650M/esm2_650M_residues.fp16.dat",
+  "cache_sha256": "ada2413765b56efb280010d47265f3a7b9f0394eedf2bc52d66b79a9d3908798",
+  "cache_bytes": 3148815360,
+  "length_checks": {
+    "length_exact": 2273,
+    "length_mismatch": 0,
+    "nonfinite": 0
   },
-
-  "compute_environment_measured": {
-    "torch": "2.6.0+cu124",
-    "cuda_available": true,
-    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
-    "gpu_free_at_probe_gb": 7.44,
-    "transformers": "present",
-    "assessment": "compute is adequate for a frozen 650M forward at window 1000, batch 1. Nothing about the GPU blocked this step."
-  },
-
-  "acquisition_observations": {
-    "target": "facebook/esm2_t33_650M_UR50D",
-    "declared_weight_bytes": 2609621831,
-    "endpoint_reachable": true,
-    "http_head_config_json": 200,
-    "http_head_weights": 200,
-    "proxy": "HTTP(S)_PROXY = http://127.0.0.1:10808",
-    "measured_throughput_when_flowing_mb_per_s": "roughly 3.5 to 6.6",
-    "observed_pattern": "the transfer runs for several hundred MB to about 2.1 GB, the connection drops, and the retry begins a NEW .incomplete blob from zero instead of resuming the existing one. Progress is therefore not cumulative across attempts.",
-    "blob_state_at_report": [
-      {"blob": "a08adabb...incomplete", "bytes": 837602713},
-      {"blob": "c874668852...incomplete", "bytes": 268005212}
-    ],
-    "diagnosis": "sustained large-object throughput through the local proxy is unreliable, and the client restarts rather than range-resumes. This is an acquisition-infrastructure failure. It is not connectivity, not credentials, not licence, not disk space and not GPU capacity.",
-    "download_still_running_at_report_time": true
-  },
-
-  "consequence_for_the_stage": {
-    "B5_status": "NOT_RUN",
-    "B5_authorised": true,
-    "authorisation_source": "PREREG_S7_L2B_UNIFIED.md section 7 escalation rule, which fired on the measured B4 result (G2 delta +0.01845 below the 0.02 threshold, and B4 macro-AP 0.0229 far below 0.10)",
-    "what_is_blocked": "only acquisition of the frozen 650M weights",
-    "what_is_already_ready": [
-      "research/s7_l2b_r0r/s7_esm_extract.py implements the frozen windowing contract: window 1000, stride 500, extra final C-terminal window, BOS/EOS excluded, overlapping positions arithmetically averaged, canonical indices preserved, no silent truncation, with per-sequence length and finiteness checks",
-      "research/s7_l2b_r0r/s7_run_b5.py uses the identical head, rank 32, projected dim 128, negative sampler, epochs, optimiser, learning rate, weight decay, seeds and evaluation mask as B4",
-      "the frozen wrong-partner control maps and the sealed per-complex B4 and BL predictions are on disk, so G6 (B5 - B4) is computable against sealed baselines without retraining B4"
-    ]
-  },
-
-  "resume_instructions": [
-    "re-run research/s7_l2b_r0r/s7_esm_extract.py; if the client keeps restarting, fetch the weight file out of band with a range-resuming downloader and place it in the HuggingFace cache, then run with HF_HUB_OFFLINE=1",
-    "record the weight SHA-256 in this file BEFORE any extracted embedding is used for scoring",
-    "monitor by waiting on process exit, never by polling directory listings"
-  ],
-
-  "confirmation_cohort": "SEALED and untouched. R0R-3 publication/time closure is still unbuilt, so confirmation could not be opened even if B5 had completed."
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "python": "3.11.15",
+  "elapsed_sec": 281.5
 }

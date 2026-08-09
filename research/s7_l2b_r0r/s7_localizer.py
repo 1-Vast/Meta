@@ -183,9 +183,12 @@ class FeatureStore:
         return self.atom[k]
 
 
-def train_arm(recs, store, mol_cache, use_protein, device, log=None):
+def train_arm(recs, store, mol_cache, use_protein, device, log=None, d_res_in=None):
+    """d_res_in defaults to the B4 explicit-feature width; B5 passes 1280 for the
+    frozen ESM2 representation. Nothing else differs between the two arms."""
     torch.manual_seed(SEED_MODEL)
-    model = Localizer(RES_DIM, use_protein=use_protein).to(device)
+    model = Localizer(RES_DIM if d_res_in is None else d_res_in,
+                      use_protein=use_protein).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WD)
     lossfn = nn.BCEWithLogitsLoss()
     trace = []
