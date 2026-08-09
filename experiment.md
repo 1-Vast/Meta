@@ -5,76 +5,76 @@
 ```text
 S7_L2B_PHASE1_B5 ................. COMPLETE, DEVELOPMENT PASS 6/6
 S7_L2B_PHASE2A_AUDIT ............. COMPLETE, AUDIT-ONLY, NOTHING TRAINED
-S7_L2B_PHASE2B_PREREGISTRATION ... WRITTEN AND HASHED, NOT AUTHORIZED
+S7_L2B_PHASE2B_PREREG_R1 ......... COMMITTED b9753db BEFORE IMPLEMENTATION
+S7_L2B_PHASE2B_REAL_TRAINING ..... NOT EXECUTED, PRECONDITION FAILED
 NEW MODEL TRAINING ............... NOT AUTHORIZED
-DOCUMENT-CLOSED CONFIRMATION ..... SEALED
-TIME-FORWARD MONN CONFIRMATION ... INFEASIBLE BY DATA CONSTRUCTION
 SOURCE AFFINITY / DAVIS / KIBA / z  FROZEN
-GIT COMMIT ....................... NOT AUTHORIZED, NOTHING COMMITTED
+GIT PUSH ......................... NOT AUTHORIZED, NOTHING PUSHED
 ```
 
-## Phase 2A protocol as executed
+## Chronology
 
-Registered by `research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2A.md`
-(SHA-256 `4e01401d…`) with amendments 01–03, each frozen before the phase it
-governs. Every output artifact embeds those hashes.
+| step | commit |
+|---|---|
+| Phase 2A evidence closure | `0bd1702` |
+| Phase 2B preregistration R1, before any implementation | `b9753db` |
+| Phase 2B code and contract tests | `0a8b62e` |
+| Phase 2B results and status | this commit |
 
-| phase | executed | outcome |
-|---|---|---|
-| 0 contract and artifact audit | 26 artifacts hashed, 7 fail-closed checks | `PHASE2A_CONTRACT_PASS` |
-| 1 data identifiability census | full corpus, label-blind power | `DATA_IDENTIFIABLE` |
-| 2 teacher ligand-conditionality | replicate floor vs alternative ligand | teacher **is** ligand-conditioned |
-| 3 marginal/coupling decomposition | weighted ALS, orthogonality `1.2e-9` | additive dominates |
-| 4 matched attribution battery | 9 arms, degree-preserving rewiring | `BC = false` |
-| 5 label semantics | type census, dense-distance comparator | not ambiguous |
+The Phase 2A registration was frozen by hash only; commit `0bd1702` preserves
+that evidence bundle and **does not** supply retroactive chronology for it. The
+Phase 2B R1 registration **does** carry a commit timestamp that precedes its
+implementation.
 
-The load-bearing Phase 0 check was `C3`: Phase 1's marginal decomposition
-indexed the B5-family memmaps with the B4-family offset table. Both tables were
-rebuilt independently and proved identical key-for-key, so the Phase 1 B5/BX5/BP5
-marginal numbers were correctly aligned.
+## Phase 2B as executed
 
-## Terminal verdict and mandated action
+Registered by `research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md`
+(`5e6688f6…`), which supersedes `ae6d1a01…`
+(`SUPERSEDED_BEFORE_EXECUTION_DESIGN_DEFECT`, never executed, kept
+byte-identical; eleven defects in `PHASE2B_DESIGN_AUDIT.md`).
+
+| stage | outcome |
+|---|---|
+| contract and artifact audit | `PHASE2B_CONTRACT_PASS`, 14/14 preflight items |
+| census verification | matched the registration exactly |
+| control materialisation | foreign-pair coverage 1.000; derangement 0 fixed points |
+| synthetic trainability | **FAILED** `AP_bidir 0.3577 < 0.50` |
+| real-label training | **not executed** |
+| gates `R1`–`R6` | **not scored** |
 
 ```text
-LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING
-  -> preregister one ligand-conditioned residue residual head
+TERMINAL VERDICT
+    PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
 ```
 
-Precedence was applied in the registered order; rules 1–4 did not fire, and
-`BC = false` with `TC = false` selects rule 7. The verdict was not chosen for
-interest.
+Two defects in the preflight itself were found and fixed before the run rather
+than passing silently: the gradient-reachability probe used `d.sum()`, which the
+projection annihilates by construction; and the ESM-availability check demanded
+states for the sealed confirmation cohort, which correctly has none.
 
-## Phase 2B registration boundary
+## Phase 2B registration boundary, unchanged
 
-`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
-(SHA-256 `ae6d1a01…`) freezes, before any Phase 2B number exists:
+The following remain frozen exactly as registered and must be carried
+byte-identical into any repair: the frozen protein-only prior
+`b^P = b + alpha*w_pi(GELU(W_h(LN(h))))`; the single trainable head `U` (8×1280)
+and `V` (8×41), 10,568 parameters, no bias; `g(L)` = mean of the 41-D atom
+features; the float64 Gram–Schmidt gauge with tolerance `1e-8`; the all-residue
+gain/loss/change metric aggregated residue → unordered pair → construct →
+closure component; the two-ligand foreign-pair and trained-permutation controls;
+and gates `R1`–`R6`.
 
-- the frozen prior `b_r(P)` and the single trainable residual `delta_r(P, L)`;
-- rank `K <= 8` low-rank bilinear form over existing frozen states only;
-- the mandatory projection away from constant, pocket-prior and ligand-only
-  directions, with tolerance `1e-8`;
-- the differential objective on symmetric-difference residues;
-- the split, inference unit and differential-AUPRC metric;
-- the replicate-oracle ceiling, so a modest absolute number is read correctly;
-- Gates `D1`–`D5` with margins and lower bounds;
-- a fail-closed module-participation audit.
-
-It authorizes nothing by itself. No Phase 2B code exists.
-
-## Decision rule for Phase 2B
+## Decision rule for the next stage
 
 ```text
-D1 fails
-  -> the sequence-plus-2D residue-differential route is closed; do not
-     substitute a larger model
+repair the OPTIMIZATION contract only
+  -> budget and sampler caps set from a measured synthetic scaling curve
+  -> synthetic acceptance threshold derived from that curve, not asserted
+  -> fresh synthetic teacher seed (20260905 has been observed)
+  -> architecture, projection, metric, controls, gates R1-R6 unchanged
 
-D1 passes but D2 or D4 fails
-  -> the head is fitting construct or annotation structure, not ligand
-     chemistry; reject it
-
-all gates pass and the module-participation audit passes
-  -> a structural ligand-conditioned residue statistic is established, and
-     nothing more
+adding capacity, a PLM, attention, a GNN, a geometry branch or a
+typed-interaction branch
+  -> NOT an admissible response to a synthetic-precondition failure
 ```
 
 No branch authorizes affinity, DAVIS, KIBA, support adaptation, production `z`,
@@ -82,6 +82,7 @@ or any modification of the frozen probability-law operator.
 
 ## Historical record
 
-Superseded and failed protocols are recorded in `history.md` and
-`report/EXPERIMENTAL_EVIDENCE_LEDGER.md`. They are not part of the active
-protocol.
+Superseded and failed protocols are recorded in `history.md`,
+`report/EXPERIMENTAL_EVIDENCE_LEDGER.md` and
+`report/s7_l2b_r0r/PHASE1_ARTIFACT_SUPERSESSION.json`. They are not part of the
+active protocol.

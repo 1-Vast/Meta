@@ -25,10 +25,34 @@ B5's ligand dependence sits entirely in its coupling term, which is real but
 below the preregistered margin over both the rewiring null and the wrong-ligand
 arm. The teacher's own edge coupling is likewise not identifiable.
 
-## Planned path
+## Phase 2B — implemented, run to its precondition, stopped
 
-`PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md` (SHA-256 `ae6d1a01…`) is written and
-frozen. It registers one head and nothing else:
+`p2b_residue_residual.py` and `p2b_run.py` implement
+`PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md` (`5e6688f6…`, committed `b9753db`
+**before** the code was written). That registration supersedes `ae6d1a01…`,
+which was never executed and is kept byte-identical; its eleven defects are
+itemised in `PHASE2B_DESIGN_AUDIT.md`.
+
+```text
+TERMINAL VERDICT  PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
+```
+
+Every contract and numerical precondition passed. The stage stopped at its own
+synthetic trainability control (`AP_bidir 0.3577` against a registered `>=
+0.50`), so the real-label run was not executed and gates `R1`–`R6` were not
+scored. No biological conclusion follows. Diagnostics put the shortfall in the
+optimization budget, not the hypothesis class, the evaluation code or
+generalisation.
+
+The next stage may repair the **optimization contract only**: budget and
+sampler caps from a measured synthetic scaling curve, an acceptance threshold
+derived from that curve, a fresh synthetic teacher seed, and architecture,
+projection, metric, controls and gates unchanged. It is not registered.
+
+## Superseded design
+
+`PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md` (SHA-256 `ae6d1a01…`), never
+executed. It registered one head and nothing else:
 
 ```text
 logit p_r(P, L) = b_r(P) + delta_r(P, L)
@@ -43,8 +67,6 @@ logit p_r(P, L) = b_r(P) + delta_r(P, L)
   residues only, which removes the generic pocket marginal by construction.
 - Gates `D1`–`D5`, a replicate-oracle ceiling, and a fail-closed
   module-participation audit are frozen in the document.
-
-**Registered, not authorized.** No Phase 2B implementation exists.
 
 Explicitly excluded by that registration: any additional PLM, cross-attention
 stack, typed-interaction head, geometry branch, knowledge graph, parallel SSL

@@ -1,7 +1,7 @@
 {
   "schema": "MetaSieve.ProjectState.v3",
   "updated": "2026-08-10",
-  "current_phase": "S7_L2B_PHASE2A_COMPLETE_PHASE2B_REGISTERED_NOT_AUTHORIZED",
+  "current_phase": "S7_L2B_PHASE2B_NOT_RUN_SYNTHETIC_PRECONDITION_FAILED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_IDENTIFIED",
@@ -14,6 +14,7 @@
     "EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED",
     "TEACHER_EDGE_COUPLING_NOT_IDENTIFIED",
     "LABEL_SEMANTICS_NOT_AMBIGUOUS",
+    "PHASE2B_RESIDUE_RESIDUAL_NOT_RUN_ON_REAL_LABELS",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
@@ -65,15 +66,35 @@
       "ligand_conditioned": true
     },
     "decomposition_component_macro_ap": {
-      "B5": {"full": 0.069754, "residue_marginal": 0.040447, "atom_marginal": 0.005137,
-             "additive": 0.039833, "coupling": 0.011330},
-      "B4": {"full": 0.023228, "residue_marginal": 0.016186, "atom_marginal": 0.005503,
-             "additive": 0.015099, "coupling": 0.006368},
-      "BX5_wrong_ligand": {"full": 0.019694, "residue_marginal": 0.035954,
-                           "atom_marginal": 0.003264, "additive": 0.027692,
-                           "coupling": 0.003460},
-      "BP5_wrong_protein": {"full": 0.004639, "coupling": 0.003546},
-      "BL_ligand_only": {"full": 0.005730, "coupling": 0.003050}
+      "B5": {
+        "full": 0.069754,
+        "residue_marginal": 0.040447,
+        "atom_marginal": 0.005137,
+        "additive": 0.039833,
+        "coupling": 0.01133
+      },
+      "B4": {
+        "full": 0.023228,
+        "residue_marginal": 0.016186,
+        "atom_marginal": 0.005503,
+        "additive": 0.015099,
+        "coupling": 0.006368
+      },
+      "BX5_wrong_ligand": {
+        "full": 0.019694,
+        "residue_marginal": 0.035954,
+        "atom_marginal": 0.003264,
+        "additive": 0.027692,
+        "coupling": 0.00346
+      },
+      "BP5_wrong_protein": {
+        "full": 0.004639,
+        "coupling": 0.003546
+      },
+      "BL_ligand_only": {
+        "full": 0.00573,
+        "coupling": 0.00305
+      }
     },
     "oracle_ceilings_label_fitted": {
       "least_squares_additive_projection_of_Y": 0.388892,
@@ -89,7 +110,7 @@
       "BC_b5_edge_coupling": false,
       "BC_vs_rewiring_null_delta": 0.006005,
       "BC_vs_rewiring_null_lcb95": 0.004608,
-      "BC_vs_wrong_ligand_delta": 0.007870,
+      "BC_vs_wrong_ligand_delta": 0.00787,
       "BC_vs_wrong_ligand_lcb95": 0.006197,
       "registered_margin": 0.01,
       "note": "both contrasts are clearly above zero but below the preregistered practical margin"
@@ -113,10 +134,8 @@
     }
   },
   "active_stage": {
-    "name": "S7_L2B_PHASE2B_LIGAND_CONDITIONED_RESIDUE_RESIDUAL",
-    "preregistration": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md",
-    "preregistration_sha256": "ae6d1a0186bb37af86f3b6eb98c513bce7e67a8745aaf5a3811ce5c9b98ab477",
-    "status": "REGISTERED_NOT_AUTHORIZED_NOT_EXECUTED",
+    "name": "S7_L2B_PHASE2B_OPTIMIZATION_CONTRACT_REPAIR",
+    "status": "NOT_REGISTERED_NOT_AUTHORIZED",
     "training_allowed": false,
     "affinity_reads_allowed": false
   },
@@ -144,18 +163,86 @@
     "phase2a_verdict": "report/s7_l2b_r0r/PHASE2A_VERDICT.json",
     "phase1_synthesis": "report/s7_l2b_r0r/PHASE1_EVIDENCE_CONSOLIDATION_AND_PHASE2A_TRIAGE.md",
     "phase1_report": "report/s7_l2b_r0r/P1_B5_REPORT.md",
-    "history": "history.md"
+    "history": "history.md",
+    "phase2b_report": "report/s7_l2b_r0r/PHASE2B_REPORT.md",
+    "phase2b_gate": "report/s7_l2b_r0r/PHASE2B_GATE.json",
+    "artifact_supersession": "report/s7_l2b_r0r/PHASE1_ARTIFACT_SUPERSESSION.json"
   },
   "label_firewall": "INTACT",
   "frozen_math": true,
   "production_model_changed": false,
-  "last_full_regression": "75_PASSED",
+  "last_full_regression": "100_PASSED",
   "forbidden_claims": [
     "EXACT_RESIDUE_ATOM_COUPLING_IDENTIFIED",
     "LIGAND_CONDITIONED_POCKET_IDENTIFIED_IN_THE_MODEL",
     "AFFINITY_ENERGETICS_IDENTIFIED",
     "K_SHOT_SECTION_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_ADMITTED_TO_Z",
-    "VALIDATED_END_TO_END_DTA_MODEL"
-  ]
+    "VALIDATED_END_TO_END_DTA_MODEL",
+    "PHASE2B_RESIDUE_DIFFERENTIAL_IDENTIFIED"
+  ],
+  "phase2b": {
+    "superseded_preregistration": {
+      "file": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md",
+      "sha256": "ae6d1a0186bb37af86f3b6eb98c513bce7e67a8745aaf5a3811ce5c9b98ab477",
+      "status": "SUPERSEDED_BEFORE_EXECUTION_DESIGN_DEFECT",
+      "never_executed": true,
+      "kept_byte_identical": true,
+      "defects": "research/s7_l2b_r0r/PHASE2B_DESIGN_AUDIT.md"
+    },
+    "preregistration": {
+      "file": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md",
+      "sha256": "5e6688f68bf214b6f44c96ef0a2b909eba99da31f1adf17cdde003addb242c96",
+      "commit": "b9753db",
+      "committed_before_implementation": true
+    },
+    "commits": {
+      "phase2a_evidence_closure": "0bd1702",
+      "preregistration_r1": "b9753db",
+      "code_and_tests": "0a8b62e"
+    },
+    "contract_audit": "PHASE2B_CONTRACT_PASS",
+    "numerics": {
+      "parameters": 10568,
+      "g_atom_permutation_max_abs_diff": 0.0,
+      "ligand_order_swap_max_abs_sign_error": 0.0,
+      "prior_cancellation_max_abs_error": 2.05e-15,
+      "projection_max_orthogonality_ratio": 6.19e-15,
+      "train_heldoutA_component_overlap": 0,
+      "heldoutA_ligand_graph_overlap_with_train": 0
+    },
+    "census": {
+      "train_constructs": 760,
+      "train_components": 554,
+      "train_eligible_pairs": 226765,
+      "heldoutA_constructs": 174,
+      "heldoutA_components": 112,
+      "heldoutA_eligible_pairs": 46818,
+      "heldoutB_eligible_pairs": 30661
+    },
+    "controls": {
+      "foreign_pair_coverage": 1.0,
+      "derangement_fixed_points": 0,
+      "derangement_records_mapped": 11123
+    },
+    "synthetic_precondition": {
+      "required_ap_bidir": 0.5,
+      "observed_ap_bidir": 0.357675,
+      "chance_bidir": 0.037558,
+      "pass": false,
+      "teacher_self_ap": 0.99971,
+      "in_sample_ap": 0.365433,
+      "field_correlation_median": 0.753817,
+      "parameter_movement": {
+        "U": 1.8084,
+        "V": 0.4256
+      }
+    },
+    "terminal_verdict": "PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED",
+    "real_label_training_executed": false,
+    "gates_R1_to_R6_scored": false,
+    "biological_conclusion_permitted": false,
+    "failure_localisation": "registered optimization budget (and possibly the a priori 0.50 threshold calibration); NOT the hypothesis class, NOT the evaluation code, NOT generalisation",
+    "authorized_next_action": "preregister one repair of the Phase 2B OPTIMIZATION contract, with the budget and the synthetic acceptance threshold derived from a measured synthetic scaling curve and a fresh teacher seed; architecture, projection, metric, controls and gates R1-R6 unchanged"
+  }
 }

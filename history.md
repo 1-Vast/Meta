@@ -4256,3 +4256,129 @@ files are committed.
 Code `research/s7_l2b_r0r/pa0..pa5*.py`. Regression 75 passed. No affinity,
 DAVIS, KIBA or recipient read. Frozen surfaces unmodified. Nothing committed or
 pushed.
+
+## F-104: Phase 2B contract repaired, then stopped fail-closed at its own synthetic control (2026-08-10)
+
+```text
+Superseded prereg ........... ae6d1a01..., NEVER EXECUTED, 11 design defects
+New prereg R1 ............... 5e6688f6..., committed b9753db BEFORE any code
+Contract audit .............. PHASE2B_CONTRACT_PASS, 14/14
+Census ...................... matched the registration exactly
+Synthetic trainability ...... FAILED, AP_bidir 0.3577 vs required 0.50
+Real-label training ......... NOT EXECUTED
+Gates R1-R6 ................. NOT SCORED
+Terminal verdict ............ PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
+```
+
+**THE PREREGISTRATION WAS REPAIRED BEFORE IT WAS USED, NOT AFTER.** The Phase 2B
+preregistration written at the end of Phase 2A contained eleven defects that
+would have made its result uninterpretable. It was never executed, so nothing is
+withdrawn — a design was replaced before use. It is kept **byte-identical** and
+marked `SUPERSEDED_BEFORE_EXECUTION_DESIGN_DEFECT`. Four defects mattered most:
+`b_r(P)` was defined as the residue term of a **per-complex** additive
+decomposition of B5 pair logits, an object fitted per `(P,L)` and therefore
+ligand-dependent, so the same-protein cancellation the entire differential design
+rests on would not have held — and it existed only on held-out A, never on the
+training split; the projection span `{1, b(P), c(L)*1}` contained two collinear
+columns, making the stated projector singular; the primary metric ranked only the
+**symmetric-difference** residues, i.e. chose the candidate set using the answer;
+and the module-participation audit demanded that detaching the frozen `h_r`
+change the result, which is a mathematical no-op that could never be satisfied.
+
+**A SEPARATE INTEGRITY FINDING.** `P1_B5_REPORT.md` no longer matches the hash
+recorded for it in the Phase 1 triage (`19c9c205...` -> `dbfe8b92...`). The
+change is wording only, in section 3(b), and no number moved. Recorded in
+`PHASE1_ARTIFACT_SUPERSESSION.json` rather than reverted or ignored.
+
+**EVERYTHING ELSE PASSED.** `PHASE2B_CONTRACT_PASS` on all fourteen preflight
+items: exactly **10,568** trainable parameters with names `{U, V}` and no bias;
+`g(L)` atom-permutation invariant at **0.0**; ligand-order swap sign-exact at
+**0.0**; the protein-only prior cancels in the same-protein difference at
+**2.05e-15** against a 1e-12 tolerance; projection orthogonality **6.19e-15**
+against 1e-8; the degenerate-`b` Gram-Schmidt fallback returns rank 1 for a
+constant prior and rank 2 otherwise; **zero** train/held-out closure-component
+overlap; **zero** held-out ligand-graph overlap with training; **zero** held-out
+B scaffold overlap; **zero** affinity-marked paths opened.
+
+Census verified rather than assumed, and it matched the registration: train
+**760** constructs / **554** components / **226,765** eligible pairs; held-out A
+**174** constructs / **112** components / **46,818** eligible pairs; held-out B
+**30,661**. Foreign-pair control coverage **1.000** over all 46,818 held-out
+pairs from a 7,546-ligand training pool; within-construct derangement over
+**11,123** records with **0** fixed points.
+
+**TWO DEFECTS IN MY OWN PREFLIGHT, FOUND AND FIXED BEFORE THE RUN.** First, the
+gradient-reachability probe used `d.sum()` as its objective. The constant
+direction is the first column of `Q`, so the projection annihilates exactly that
+functional; the gradient came back at ~7e-12 — a "pass" that proved nothing.
+Replaced with a fixed generic random linear form. Second, the ESM-availability
+check demanded states for every construct in the corpus and failed on 573. Scoped
+to what Phase 2B actually requires: **0 missing**. Of the 573, 445 belong to the
+**sealed additional-PDB confirmation cohort**, which correctly has no states, and
+131 are development constructs whose records were all removed by the ligand-graph
+disjointness filter; **0** of them appear in any Phase 2B split.
+
+**THE STAGE STOPPED AT ITS OWN SYNTHETIC CONTROL.** The teacher is a rank-8
+projected bilinear differential that lies **exactly** in the candidate's
+hypothesis class by construction.
+
+```text
+required   AP_bidir >= 0.50
+observed   AP_bidir  = 0.3577       chance 0.0376       FAIL
+```
+
+The threshold was **not** lowered, nothing was tuned against the synthetic
+holdout, and no second seed was tried. Four gauge-invariant diagnostics localise
+the shortfall, and none of them is a gate:
+
+| diagnostic | value | reading |
+|---|---:|---|
+| teacher scored on its own labels | **0.99971** | metric and evaluation code sound |
+| in-sample AP, final-epoch sampled pairs | **0.3654** | - |
+| held-out AP | **0.3577** | **no generalisation gap**; this is underfitting |
+| output-level Pearson r(learned field, teacher field) | **0.717 mean / 0.754 median** | the class IS being fitted |
+| parameter movement U / V | **1.808 / 0.426** | the head trained; it did not sit still |
+
+So the failure is **not** the hypothesis class, **not** the evaluation code and
+**not** generalisation. It is the registered **optimization budget**: 6 epochs
+over at most 8,864 sampled pairs drive the learned field to r ~ 0.75 of the
+teacher but not into an exact top-8 ranking at AP >= 0.50.
+
+**AND A SECOND POSSIBILITY THAT MUST BE STATED, NOT ARGUED AWAY.** The 0.50
+threshold was set a priori with no scaling curve to calibrate against. Recovering
+a field correlation of 0.75 from a random rank-8 teacher is substantial.
+Distinguishing "budget too small" from "threshold too strict" is what the next
+registration must settle **before** touching real labels — and it cannot be
+settled by adjusting either number now, because both were frozen and the
+synthetic holdout has been seen.
+
+**NOTHING BIOLOGICAL IS CONCLUDED.** This run does **not** show that the frozen
+sequence + 2-D ligand representation lacks a ligand-conditioned residue
+correction. `R1`-`R6` were never scored. The Phase 2A finding stands unchanged:
+the MONN labels are ligand-conditioned at the residue level (dJ +0.258
+[LCB +0.234], chemistry association rho +0.322) and B5's residue marginal is not.
+
+**SOLE AUTHORIZED NEXT ACTION.** Preregister one repair of the Phase 2B
+**optimization contract** — not the biology, not the architecture, not the gates.
+It must fix the budget and sampler caps from a **measured synthetic scaling
+curve**, derive its acceptance threshold from that curve rather than by
+assertion, use a **fresh synthetic teacher seed** because 20260905 has been
+observed, and leave the architecture, projection, metric, controls and gates
+R1-R6 byte-identical. Adding capacity, another PLM, attention, a GNN, a geometry
+branch or a typed-interaction branch is **not** an admissible response to a
+synthetic-precondition failure and is not proposed.
+
+**DEVICE.** Phase 2B ran on **CPU**, chosen before any result was seen so the
+registered bit-exact determinism check is achievable rather than a gamble on
+cuBLAS reduction order; the head is 10,568 parameters and every heavy tensor is
+frozen. CUDA 12.4 was available and deliberately unused.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` - `PHASE2B_REPORT.md`, `PHASE2B_GATE.json`,
+`PHASE2B_SYNTHETIC_AUDIT.json`, `PHASE2B_INPUT_MANIFEST.json`,
+`PHASE2B_CONTROL_MANIFEST.json`, `PHASE2B_TRAINING_TRACE.json`,
+`PHASE1_ARTIFACT_SUPERSESSION.json`, `p2b_console.txt`. Code
+`research/s7_l2b_r0r/p2b_residue_residual.py`, `p2b_run.py`; audit
+`PHASE2B_DESIGN_AUDIT.md`. Tests `tests/test_s7_l2b_phase2b.py`, 25 new.
+Regression **100 passed** (75 pre-existing, verified). Commits `0bd1702`,
+`b9753db`, `0a8b62e`. No affinity, DAVIS, KIBA or recipient read. Sealed
+confirmation cohort not opened. Frozen surfaces unmodified. Nothing pushed.

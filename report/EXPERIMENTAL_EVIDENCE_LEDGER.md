@@ -199,6 +199,45 @@ which is what validates the Phase 1 marginal decomposition. Census:
 `DATA_IDENTIFIABLE` with 1,093 multi-scaffold constructs across 779 closure
 components and 323,410 within-construct scaffold-distinct pairs.
 
+### S7/L2B Phase 2B — contract repaired, then stopped fail-closed (2026-08-10)
+
+Registered by `PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md` (`5e6688f6…`),
+committed `b9753db` **before** any implementation existed. It supersedes
+`ae6d1a01…`, which was **never executed** and is kept byte-identical under
+`SUPERSEDED_BEFORE_EXECUTION_DESIGN_DEFECT`; its eleven defects are itemised in
+`PHASE2B_DESIGN_AUDIT.md`. Since that document produced no result, nothing is
+withdrawn — a design was replaced before use.
+
+```text
+TERMINAL VERDICT  PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
+```
+
+Every artifact and numerical precondition passed: exactly 10,568 trainable
+parameters with no bias, `g(L)` atom-permutation invariant at `0.0`, ligand-order
+swap sign-exact at `0.0`, the protein-only prior cancelling in the same-protein
+difference at `2.05e-15`, projection orthogonality `6.19e-15`, zero train/held-out
+component overlap, zero held-out ligand-graph overlap. The census matched the
+registration: 226,765 training and 46,818 held-out A eligible pairs, foreign-pair
+control coverage 1.000, derangement with 0 fixed points.
+
+The stage then stopped at its own synthetic trainability control:
+`AP_bidir = 0.3577` against a preregistered `>= 0.50`. The threshold was not
+lowered, nothing was tuned against the synthetic holdout, and no second seed was
+tried. The real-label run was not executed and gates `R1`–`R6` were not scored,
+so **no biological conclusion is permitted from this stage**.
+
+Gauge-invariant diagnostics localise the shortfall: the teacher scores `0.99971`
+on its own labels, so the metric is sound; in-sample `0.3654` versus held-out
+`0.3577`, so there is no generalisation gap; and the learned delta field
+correlates with the teacher field at `0.754` median, so the hypothesis class is
+being fitted. What failed is the registered optimization budget — and possibly
+the a priori `0.50` threshold, set without a calibration curve. Neither may be
+adjusted now, because both were frozen and the synthetic holdout has been seen.
+
+Also recorded: `P1_B5_REPORT.md` no longer matches the hash in the Phase 1 triage
+(`19c9c205…` → `dbfe8b92…`). The change is wording only, in section 3(b); no
+number moved. See `PHASE1_ARTIFACT_SUPERSESSION.json`.
+
 S0-S4 used 1,118 RCSB complexes with 621 protein clusters and 586 ligand
 scaffolds, disjoint from the 10,468 P1B-exposed PDB IDs. The deterministic
 six-channel 3D teacher passed rotation, translation, atom-permutation and
@@ -319,13 +358,16 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 ## Active authorization
 
-None. Phase 1 B5 and the Phase 2A audit are both complete. The Phase 2A verdict
-authorizes exactly one action, which has been taken: writing and freezing
-`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
-(SHA-256 `ae6d1a0186bb37af86f3b6eb98c513bce7e67a8745aaf5a3811ce5c9b98ab477`).
+None. Phase 1 B5, the Phase 2A audit and the Phase 2B contract stage are
+complete. Phase 2B's real-label run was **not** executed because its registered
+synthetic precondition failed.
 
-Phase 2B is **registered, not authorized**. No Phase 2B code exists and no run
-has occurred. Executing it requires explicit authorization.
+The sole next action is to preregister **one** repair of the Phase 2B
+**optimization contract**, with the budget and the synthetic acceptance
+threshold derived from a measured synthetic scaling curve and a fresh teacher
+seed, leaving the architecture, projection, metric, controls and gates `R1`–`R6`
+byte-identical. It is **not registered and not authorized**, and nothing has been
+implemented for it.
 
 The following remain frozen:
 

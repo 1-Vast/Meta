@@ -38,8 +38,8 @@ beyond ligand-only and wrong-protein controls remains untested.
 - `scripts/`: passed data, sealing, structure, geometry and source-governance
   workflows.
 - `research/`: completed S7/L2B development code, the Phase 2A audit
-  (`pa0`–`pa5`), and unvalidated follow-on research. The Phase 2B
-  preregistration is frozen but not authorized and has no implementation.
+  (`pa0`–`pa5`), the Phase 2B residue-residual implementation (`p2b_*`), and
+  unvalidated follow-on research.
 - `report/`: current status, split protocol and compact PASS evidence.
 - `history.md`: authoritative experimental and failure ledger.
 
@@ -49,13 +49,22 @@ consolidation.  They remain recoverable from Git history at `3281780`,
 
 ## Active stage
 
-S7/L2B Phase 0, Phase 1 and the audit-only Phase 2A are complete. Phase 2A
-trained nothing, read no affinity value, and returned
-`LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING`, whose single mandated
-action — writing and freezing a preregistration for one ligand-conditioned
-residue residual head — has been taken
-(`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`). Phase 2B is
-**registered, not authorized**: no Phase 2B code exists and no run has occurred.
+S7/L2B Phase 0, Phase 1, the audit-only Phase 2A and the Phase 2B contract stage
+are complete. Phase 2A returned
+`LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING`. Its Phase 2B
+preregistration was audited before use, found to contain eleven design defects,
+and superseded by `PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md` (committed
+before any implementation existed). The repaired contract passed every artifact
+and numerical precondition and then **stopped fail-closed at its own synthetic
+trainability control** (`AP_bidir 0.3577` against a registered `>= 0.50`):
+
+```text
+PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
+```
+
+The real-label run was not executed and gates `R1`–`R6` were not scored, so no
+biological conclusion follows. The only next action is a separately
+preregistered repair of the Phase 2B **optimization contract**.
 
 No real affinity value, DAVIS/recipient label, confirmation scoring, production
 `z`, CSMO/Band change or P2–P4 stage is authorized.
@@ -64,11 +73,11 @@ No real affinity value, DAVIS/recipient label, confirmation scoring, production
 
 1. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
 2. `report/CURRENT_RESEARCH_STATUS.md`
-3. `report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md`
-4. `report/s7_l2b_r0r/PHASE1_EVIDENCE_CONSOLIDATION_AND_PHASE2A_TRIAGE.md`
-5. `task.md`
-6. `experiment.md`
-7. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
+3. `report/s7_l2b_r0r/PHASE2B_REPORT.md`
+4. `report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md`
+5. `report/s7_l2b_r0r/PHASE1_EVIDENCE_CONSOLIDATION_AND_PHASE2A_TRIAGE.md`
+6. `task.md`
+7. `experiment.md`
 8. `history.md`
 
 ## Verification
@@ -77,5 +86,5 @@ No real affinity value, DAVIS/recipient label, confirmation scoring, production
 conda run -n drug python -m pytest -q
 ```
 
-The consolidated suite currently passes 75 tests.  Large third-party releases,
+The consolidated suite currently passes 100 tests.  Large third-party releases,
 embedding banks and caches are not redistributed; see `DATA_AVAILABILITY.md`.

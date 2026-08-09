@@ -22,6 +22,35 @@ BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
 ```
 
+## Phase 2B terminal verdict — the current stopping point
+
+```text
+PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
+  -> preregister one repair of the Phase 2B OPTIMIZATION contract
+```
+
+The Phase 2A verdict authorized one ligand-conditioned residue residual head.
+Its preregistration was audited before use, found to contain eleven design
+defects, and superseded by
+`PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md` (`5e6688f6…`, committed `b9753db`
+**before** any implementation existed). The superseded document
+(`ae6d1a01…`) was never executed and is kept byte-identical.
+
+The repaired contract then passed every artifact and numerical precondition —
+10,568 parameters exactly, atom-permutation invariance at 0.0, prior
+cancellation at `2.05e-15`, projection orthogonality at `6.19e-15`, zero
+component and ligand-graph overlap, census matching the registration exactly —
+and **stopped at its own synthetic trainability control**: `AP_bidir = 0.3577`
+against a preregistered `>= 0.50`.
+
+The real-label run was not executed and gates `R1`–`R6` were not scored, so
+**no biological conclusion is drawn**. Diagnostics localise the shortfall to the
+registered optimization budget (teacher scores 0.99971 on its own labels;
+in-sample 0.3654 vs held-out 0.3577, so no generalisation gap; learned field
+correlates with the teacher field at 0.754 median). The a priori `0.50`
+threshold may itself have been mis-calibrated; neither it nor the budget may be
+adjusted now, because both were frozen and the synthetic holdout has been seen.
+
 ## Phase 2A terminal verdict
 
 ```text
@@ -96,15 +125,18 @@ cohort supports development analysis only.
 
 ## Next eligible stage
 
-`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
-(SHA-256 `ae6d1a01…`) is written and frozen: one residue residual
-`logit p_r(P,L) = b_r(P) + delta_r(P,L)`, `b_r` frozen, `delta_r` one low-rank
-bilinear form (`K <= 8`) over existing frozen states, projected away from
-constant/pocket-prior/ligand-only directions, supervised only by the
-same-protein ligand differential, with Gates `D1`–`D5`, a replicate-oracle
-ceiling and a fail-closed module-participation audit.
+Preregister **one** repair of the Phase 2B **optimization contract**. Before any
+real label is read it must fix the budget and sampler caps from a measured
+synthetic scaling curve, derive the acceptance threshold from that curve rather
+than by assertion, use a fresh synthetic teacher seed (`20260905` has been
+observed), and leave the architecture, projection, metric, controls and gates
+`R1`–`R6` byte-identical to `PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md`.
 
-**Registered, not authorized.** No Phase 2B code exists and no run has occurred.
+Adding capacity, another PLM, attention, a GNN, a geometry branch or a
+typed-interaction branch is **not** an admissible response to a
+synthetic-precondition failure and is not proposed.
+
+**Not registered, not authorized.** Nothing has been implemented for it.
 
 ## Frozen boundary
 
@@ -120,6 +152,7 @@ ceiling and a fail-closed module-participation audit.
 
 ## Canonical records
 
+0. `report/s7_l2b_r0r/PHASE2B_REPORT.md`
 1. `report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md`
 2. `report/s7_l2b_r0r/PHASE2A_VERDICT.json`
 3. `report/s7_l2b_r0r/PHASE1_EVIDENCE_CONSOLIDATION_AND_PHASE2A_TRIAGE.md`

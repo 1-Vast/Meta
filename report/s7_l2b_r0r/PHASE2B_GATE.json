@@ -1,0 +1,199 @@
+{
+  "schema": "MetaSieve.S7L2B.P2B.Gate.v1",
+  "created_utc": "2026-08-10",
+  "preregistration": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md",
+  "preregistration_sha256": "5e6688f68bf214b6f44c96ef0a2b909eba99da31f1adf17cdde003addb242c96",
+  "preregistration_commit": "b9753db",
+  "superseded_preregistration_sha256": "ae6d1a0186bb37af86f3b6eb98c513bce7e67a8745aaf5a3811ce5c9b98ab477",
+  "device": "cpu",
+  "device_reason": "CPU chosen before any result was seen, to guarantee the registered bit-exact determinism check; the head is 10,568 parameters and all heavy tensors are frozen",
+  "seeds": {
+    "param": 20260901,
+    "sampler": 20260902,
+    "control": 20260904,
+    "synthetic": 20260905,
+    "bootstrap": 20260903
+  },
+  "contract_audit": {
+    "verdict": "PHASE2B_CONTRACT_PASS",
+    "checks": {
+      "esm_seq_keys_required_by_phase2b": 2273,
+      "esm_seq_keys_missing_required": 0,
+      "esm_seq_keys_absent_outside_required_scope": 573,
+      "esm_absent_by_cohort": {
+        "additional_pdb": 445,
+        "development": 131
+      },
+      "esm_absent_development_constructs_in_phase2b_split": 0,
+      "esm_absent_scope_note": "445 absent constructs belong to the sealed additional-PDB confirmation cohort, which Phase 2B never touches. 131 are development constructs whose records were all removed by the ligand-graph disjointness filter (held minus held_A) and therefore appear in no Phase 2B split; 0 of them appear in the Phase 2B split.",
+      "train_heldoutA_component_overlap": 0,
+      "heldoutA_ligand_graph_overlap_with_train": 0,
+      "heldoutB_scaffold_overlap_with_train": 0,
+      "g_atom_permutation_max_abs_diff": 0.0,
+      "trainable_parameters": 10568,
+      "ligand_order_swap_max_abs_sign_error": 0.0,
+      "prior_cancellation_max_abs_error": 1.9984014443252818e-15,
+      "projection_max_orthogonality_ratio": 6.395916023687634e-15,
+      "aggregation_duplication_shift": 0.050000000000000044,
+      "aggregation_full_duplication_shift": 0.0,
+      "degenerate_b_basis_rank": 1,
+      "nondegenerate_b_basis_rank": 2,
+      "grad_norm_U_through_projection": 58.987308502197266,
+      "grad_norm_V_through_projection": 21.23208999633789,
+      "grad_probe_note": "probe functional is a fixed random linear form; d.sum() is annihilated by the projection and would make this check vacuous",
+      "affinity_marked_paths_opened": [],
+      "affinity_value_reads": 0
+    }
+  },
+  "census": {
+    "train_records": 9757,
+    "train_constructs_with_pairs": 760,
+    "train_components_with_pairs": 554,
+    "train_eligible_pairs": 226765,
+    "heldoutA_records": 2409,
+    "heldoutA_constructs_with_pairs": 174,
+    "heldoutA_components_with_pairs": 112,
+    "heldoutA_eligible_pairs": 46818,
+    "heldoutB_eligible_pairs": 30661,
+    "exclusions": {
+      "train": {
+        "zero_symmetric_difference": 676,
+        "same_graph": 1154,
+        "scaffold_not_distinct": 12828
+      },
+      "heldA": {
+        "zero_symmetric_difference": 198,
+        "same_graph": 254,
+        "scaffold_not_distinct": 2016
+      },
+      "heldB": {
+        "zero_symmetric_difference": 132,
+        "same_graph": 190,
+        "scaffold_not_distinct": 1041
+      }
+    },
+    "expected_from_preregistration": {
+      "train_constructs": 766,
+      "train_components": 554,
+      "train_eligible_pairs": 226765,
+      "heldoutA_constructs": 175,
+      "heldoutA_components": 112,
+      "heldoutA_eligible_pairs": 46818
+    }
+  },
+  "control_manifest": {
+    "schema": "MetaSieve.S7L2B.P2B.ControlManifest.v1",
+    "created_utc": "2026-08-10",
+    "preregistration_sha256": "5e6688f68bf214b6f44c96ef0a2b909eba99da31f1adf17cdde003addb242c96",
+    "repo_commit": "b9753db",
+    "seed": 20260904,
+    "R3_two_ligand_foreign_pair": {
+      "rule": "both ligands replaced; all four graph_keys distinct; all four scaffolds distinct; matched by nearest heavy-atom count with pooled-feature Euclidean distance as tiebreak; no fixed points; no label and no score consulted",
+      "training_ligand_pool": 7546,
+      "heldout_pairs_with_a_foreign_pair": 46818,
+      "heldout_pairs_total": 46818,
+      "coverage": 1.0
+    },
+    "R5_within_construct_derangement": {
+      "records_mapped": 11123,
+      "singleton_constructs_not_permutable": 1043,
+      "fixed_points": 0
+    },
+    "control_maps_sha256": "e187a5f00f0b66328877bacd93b22471fe607e382e811f2674ecfc4a9dec9c33"
+  },
+  "synthetic_audit": {
+    "schema": "MetaSieve.S7L2B.P2B.SyntheticAudit.v1",
+    "created_utc": "2026-08-10",
+    "preregistration_sha256": "5e6688f68bf214b6f44c96ef0a2b909eba99da31f1adf17cdde003addb242c96",
+    "repo_commit": "b9753db",
+    "seed": 20260905,
+    "teacher": "rank-8 projected bilinear differential, top/bottom 8 residues per pair",
+    "heldout_synthetic_pairs": 46818,
+    "ap_bidir_recovered": 0.3576746028241672,
+    "chance_bidir": 0.037557508366358884,
+    "required_ap_bidir": 0.5,
+    "pass": false,
+    "diagnostics": {
+      "in_sample_ap_bidir_last_epoch_pairs": 0.3654327206783171,
+      "in_sample_pairs_scored": 3453,
+      "teacher_self_ap_bidir": 0.9997104244247538,
+      "output_level_correlation_with_teacher_field_mean": 0.7169859770776377,
+      "output_level_correlation_with_teacher_field_median": 0.7538169574613566,
+      "correlation_note": "Pearson r between the learned and teacher delta FIELDS, computed at output level so it is invariant to the U/V rotation gauge. It separates 'cannot fit the function class' from 'fits it but the top-8 discretisation makes AP a harsh readout'.",
+      "diagnostics_are_not_a_gate": true
+    },
+    "parameter_movement": {
+      "U": 1.8084056377410889,
+      "V": 0.42560282349586487
+    },
+    "training_trace": [
+      {
+        "epoch": 0,
+        "batches": 35,
+        "mean_batch_loss": 0.6499141000743424,
+        "grad_norm_U_mean": 0.09501807189413479,
+        "grad_norm_V_mean": 0.06055773725467069,
+        "grad_norm_U_min": 0.055090535432100296,
+        "grad_norm_V_min": 0.019427243620157242
+      },
+      {
+        "epoch": 1,
+        "batches": 35,
+        "mean_batch_loss": 0.5679373072992479,
+        "grad_norm_U_mean": 0.0560442787195955,
+        "grad_norm_V_mean": 0.07351807057857514,
+        "grad_norm_U_min": 0.039432622492313385,
+        "grad_norm_V_min": 0.05010271072387695
+      },
+      {
+        "epoch": 2,
+        "batches": 35,
+        "mean_batch_loss": 0.5220272270696503,
+        "grad_norm_U_mean": 0.04399019288165229,
+        "grad_norm_V_mean": 0.060123275646141595,
+        "grad_norm_U_min": 0.03298386558890343,
+        "grad_norm_V_min": 0.04397488012909889
+      },
+      {
+        "epoch": 3,
+        "batches": 35,
+        "mean_batch_loss": 0.4921083266181605,
+        "grad_norm_U_mean": 0.038725669043404715,
+        "grad_norm_V_mean": 0.05217352764947074,
+        "grad_norm_U_min": 0.027821483090519905,
+        "grad_norm_V_min": 0.03848010674118996
+      },
+      {
+        "epoch": 4,
+        "batches": 35,
+        "mean_batch_loss": 0.4714816596092922,
+        "grad_norm_U_mean": 0.03397387622722558,
+        "grad_norm_V_mean": 0.04587458771254335,
+        "grad_norm_U_min": 0.024467917159199715,
+        "grad_norm_V_min": 0.030719751492142677
+      },
+      {
+        "epoch": 5,
+        "batches": 35,
+        "mean_batch_loss": 0.4574143566989473,
+        "grad_norm_U_mean": 0.03167538765285696,
+        "grad_norm_V_mean": 0.042073665293199676,
+        "grad_norm_U_min": 0.023060891777276993,
+        "grad_norm_V_min": 0.0289988461881876
+      }
+    ],
+    "elapsed_sec": 194.8
+  },
+  "gates_R1_to_R6": "NOT SCORED \u2014 the real-label run was not executed",
+  "real_label_training_executed": false,
+  "TERMINAL_VERDICT": "PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED",
+  "failure_localisation": {
+    "hypothesis_class": "NOT AT FAULT \u2014 the teacher lies exactly in the rank-8 projected bilinear class by construction",
+    "evaluation_code": "NOT AT FAULT \u2014 the teacher scores 0.99971 on its own labels",
+    "generalisation": "NOT AT FAULT \u2014 in-sample 0.3654 vs held-out 0.3577; no gap",
+    "at_fault": "the registered OPTIMIZATION BUDGET. The learned delta field already correlates with the teacher field at r=0.754 (median, gauge-invariant), but 6 epochs over at most 8,864 sampled pairs do not drive that into an exact top-8 ranking at AP_bidir >= 0.50."
+  },
+  "no_biological_conclusion_permitted": true,
+  "affinity_value_reads": 0,
+  "elapsed_sec": 226.4
+}
