@@ -1,0 +1,27 @@
+{
+  "schema": "MetaSieve.S7L2B.P0.PublicationTimeClosureAudit.v1",
+  "created_utc": "2026-08-09",
+  "source": "RCSB Data API GraphQL, data.rcsb.org",
+  "query_sha256": "90f9af0984fdb5e23de11b1195cb1ab0d8f32b77386c024f1781b923c98e5dac",
+  "batch_size": 50,
+  "entries_requested": 14447,
+  "entries_returned": 14426,
+  "raw_responses_path": "dataset/processed/s7_l2b_r0r/rcsb/rcsb_raw_responses.jsonl.gz",
+  "raw_responses_sha256": "776b623d0f0100106114e4007346505aab8f7c1f19a6a5f30aafb3cf7a1d09e6",
+  "raw_batch_hashes_sha256": "2fbd98e59d939de706e5dd72dc3347f263aebee7fda53bb6c4db849e35b026d1",
+  "normalized_path": "dataset/processed/s7_l2b_r0r/rcsb/rcsb_normalized.json",
+  "normalized_sha256": "de1238cf40676a0036ce9e6bf28f3b8e38827a53c93df9e4eecdb716b8bbe8a9",
+  "document_key_rule": "canonical DOI, else canonical PubMed ID, else QUARANTINE; a PDB ID is NEVER substituted for missing publication metadata",
+  "missingness": {
+    "no_primary_publication_identifier": 323,
+    "entry_not_returned": 21
+  },
+  "entries_with_document_key": 14103,
+  "frozen_time_cutoff": "2019-01-01",
+  "cutoff_frozen_before_any_confirmation_score": true,
+  "development_documents": 6331,
+  "additional_pdb_documents": 707,
+  "documents_shared_by_both_cohorts": 4,
+  "additional_pdb_entries_released_on_or_after_cutoff": 2,
+  "reading": "documents shared by both cohorts must be removed from any confirmation set; entries without a primary publication identifier are quarantined from formal confirmation"
+}

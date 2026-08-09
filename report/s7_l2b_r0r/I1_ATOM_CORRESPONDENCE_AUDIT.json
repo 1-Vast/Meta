@@ -1,0 +1,40 @@
+{
+  "schema": "MetaSieve.S7L2B.I1.AtomCorrespondenceAudit.v1",
+  "created_utc": "2026-08-09",
+  "blocker": "ATOM_CORRESPONDENCE_NOT_FULLY_VERIFIED",
+  "mapping_under_test": "atom_slot -> rank among non-hydrogen positions in atom_names",
+  "authority_for_element": "the RDKit molecule's own atom symbols",
+  "name_parser_policy": "leading digits stripped; a name is COMPATIBLE with an element if either its two-letter or its one-letter reading matches the molecule. Names like CL1 (carbon), PD (phosphorus) and SB2 (sulfur) are single-element names with a positional suffix, which a strict two-letter parse over-matches. A genuinely misaligned name would be incompatible under BOTH readings, so this test still detects an ordering error.",
+  "positions_resolved_only_by_one_letter_reading": "counted as ambiguous below",
+  "records_total": 14589,
+  "records_compared": 14586,
+  "order_consistent": 14585,
+  "order_inconsistent": 1,
+  "heavy_count_mismatch": 3,
+  "mol_missing": 0,
+  "positions_compared": 375311,
+  "positions_excluded_as_ambiguous": 1679,
+  "ambiguous_fraction": 0.004474,
+  "mismatch_examples": [
+    {
+      "key": "5w8v",
+      "ccd": "9YP",
+      "n_disagree": 1,
+      "n_compared": 28,
+      "first": [
+        19,
+        "CAJ",
+        "C",
+        "N"
+      ]
+    }
+  ],
+  "quarantine_keys": [
+    "4xe1",
+    "5W31_MBO",
+    "5w8v",
+    "6GBR_MBO"
+  ],
+  "records_admitted": 14585,
+  "verdict": "ATOM_CORRESPONDENCE_VERIFIED_WITH_ENUMERATED_QUARANTINE"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "MetaSieve.S7L2B.P0.DeterminismAndSamplerCheck.v1",
+  "created_utc": "2026-08-09",
+  "earlier_determinism_comparison_was_confounded": {
+    "reason": "the I-1 atom quarantine was introduced between the two runs",
+    "train_before": 9758,
+    "train_after": 9757,
+    "heldout_A_before": 2415,
+    "heldout_A_after": 2409,
+    "conclusion": "a differing checkpoint hash across those runs is expected and is NOT evidence of non-determinism"
+  },
+  "same_data_determinism": {
+    "run1_sha256": "3afc0bb9acfe716479fd70e6bce1418f3fa3e89f5adaf51a7ed7cdad066a66e5",
+    "run2_sha256": "3afc0bb9acfe716479fd70e6bce1418f3fa3e89f5adaf51a7ed7cdad066a66e5",
+    "identical": true,
+    "device": "cuda",
+    "complexes": 800
+  },
+  "negative_sampler_audit": {
+    "positives_examined": 23197,
+    "negatives_drawn": 139182,
+    "exactly_six_per_positive": true,
+    "unique_within_each_positive_block": true,
+    "negatives_that_are_actually_positives": 0,
+    "cross_positive_duplicate_pairs": 6643,
+    "cross_positive_duplicate_fraction": 0.04773,
+    "contract_reading": "the registered contract requires six UNIQUE negatives PER POSITIVE and never a positive. Both hold. Repetition of the same pair across DIFFERENT positives in one complex is not a contract violation, but it does up-weight those pairs and is reported here rather than left implicit.",
+    "verdict": "SAMPLER_CONTRACT_SATISFIED"
+  }
+}
