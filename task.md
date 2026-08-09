@@ -42,6 +42,12 @@ support pocket/ligand/apo governance. Neither is, by itself, a thermodynamic
 gauge. A later gauge test requires separately governed same-target difference
 edges and a new preregistration.
 
+The supplied detailed test plan has been reviewed at
+`report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`. A metadata-only,
+conditional data census is registered at
+`research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md`; it does not supersede
+S5 or authorize A0/A1/A2 training.
+
 ## Frozen surfaces
 
 - `theory/FINAL_FROZEN_THEORY/`

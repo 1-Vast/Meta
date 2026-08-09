@@ -2947,3 +2947,22 @@ deployment semantic hashes. These are contract repairs only and do not change
 the scientific verdict or admit a biological statistic to `z`. Detailed triage
 is in `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`.
 
+The accompanying `METASIEVE_SSL_TEST_PLAN_2026-08-08.md` was then reviewed as
+a prospective protocol. Its A0/A1/A2 separation, U1/U2/U3 hierarchy,
+label-late join and destructive controls were retained. Eight corrections were
+registered: missing S5-S9 evidence cannot be assumed; the `k`-dimension law is
+not a blanket five-dimensional population-state theorem; wrong-protein margin
+and coverage are controls/validity objects rather than ordinary `z`
+coordinates; the current 28-coordinate context map cannot assemble a new
+five-coordinate sieve; an absolute source loss is empirical calibration rather
+than proof of a physical gauge; edge-direction shuffle needs an unambiguous
+graph perturbation; U3 cannot pass an unbound-reference test; and a
+`k`-dimensional adapter alone is not the frozen theory's conservative
+outer-section object.
+
+The only new conditional stage is a metadata-only G0 data-feasibility census.
+It separates MISATO bound trajectories, PLINDER linked apo candidates, and
+quantitative same-target graphs, and keeps all model training and affinity
+labels frozen. See `report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md` and
+`research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md`.
+

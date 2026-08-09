@@ -9,6 +9,13 @@ audit behind the supplied S5-S9 report. Missing evidence keeps those numbers at
 new ensemble/gauge model. The existing S5 protocol below remains the only
 registered experiment if recovery fails.
 
+## Conditional G0 metadata census
+
+`research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md` may audit versioned
+source metadata, licences, U1/U2/U3 coverage, apo/holo mappings, closure graphs
+and compute feasibility. Numeric affinity values and A0/A1/A2 training remain
+forbidden. G0 does not replace the active S5 experiment.
+
 ## S5 structural-mechanism observability
 
 S5 is label-free with respect to affinity.  The 14,906 historical holo records

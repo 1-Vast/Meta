@@ -29,8 +29,8 @@ affinity value beyond ligand-only and wrong-protein controls.
   validated assembled DTA pipeline.
 - `scripts/`: passed data, sealing, structure, geometry and source-governance
   workflows.
-- `research/`: only the active S5 preregistration.  Unvalidated code must remain
-  here until its Gate passes.
+- `research/`: the active S5 preregistration and one conditional metadata-only
+  SSL data-feasibility preregistration. Unvalidated code remains here.
 - `report/`: current status, split protocol and compact PASS evidence.
 - `history.md`: authoritative experimental and failure ledger.
 
@@ -56,6 +56,7 @@ or P2–P4 stage is authorized by S5.
 4. `EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`
 5. `history.md`
 6. `report/SSL_DETAILED_REPORT_EVIDENCE_AUDIT.md`
+7. `report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`
 
 ## Verification
 

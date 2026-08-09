@@ -136,6 +136,11 @@ contract. Basis-dependent latent coefficients cannot be given physical names.
 No real-affinity, DAVIS, few-shot, production-`z`, or P2-P4 stage is authorized
 by this audit.
 
+The subsequently supplied gauge-fixed SSL test plan is a prospective protocol,
+not missing S5-S9 evidence. Its corrected execution boundary is documented in
+`SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`; only a metadata-only G0 census
+is conditionally registered before any new model training.
+
 ## Code hardening completed from the audit
 
 The following defects were independently reproduced and repaired without

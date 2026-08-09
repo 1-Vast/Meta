@@ -15,6 +15,11 @@ repairs were made: the broken Band-operator factory import, statistic-domain
 validation, empty partner validation, and complete deployment semantic hashes.
 These repairs do not alter the scientific stage or authorize affinity work.
 
+The accompanying gauge-fixed SSL test plan is prospective rather than missing
+evidence. Its corrected boundary is recorded in
+`SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`. A metadata-only G0 feasibility
+census is conditional; A0/A1/A2 training remains frozen.
+
 ## Proven facts
 
 1. The frozen mathematical operator and its software contracts pass regression.
@@ -68,6 +73,10 @@ It performs, in order:
 
 The already opened 1,118-complex S4 set is development evidence.  A new
 score-blind RCSB confirmation block is required.
+
+The conditional G0 census may inspect release metadata, licences, ensemble
+roles, apo/holo mappings and nonnumeric matched-series graph structure. It may
+not read affinity values or train an ensemble model.
 
 ## Promotion boundary
 
