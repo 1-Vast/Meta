@@ -1,0 +1,130 @@
+{
+  "schema": "MetaSieve.S7L2B.P2A.TeacherConditionality.v1",
+  "created_utc": "2026-08-10",
+  "preregistration_sha256": "4e01401d0468e3241bd05cde93b2a517919209d770f8f75ab471e42228f1b12e",
+  "amendment": "PREREG_S7_L2B_PHASE2A_AMENDMENT_01.md",
+  "repo_commit": "623602e76b7d4f445af069014782278163183d59",
+  "scope": "label-side only; no model loaded; no affinity source opened",
+  "expected_ap_selftest": {
+    "max_abs_diff_vs_monte_carlo": 0.005269876510413857,
+    "monte_carlo_reps": 400,
+    "cases": 12,
+    "pass": true
+  },
+  "pairs": {
+    "replicate": 2408,
+    "scaffold_distinct": 323410,
+    "components_replicate": 448,
+    "components_alternative": 779,
+    "components_paired": 292
+  },
+  "T1_jaccard": {
+    "definition": "component-macro mean Jaccard of residue masks",
+    "replicate_mean": 0.6361329062954967,
+    "alternative_ligand_mean": 0.41645690476728914,
+    "dJ_paired": {
+      "delta": 0.25796207771786145,
+      "lcb95_one_sided": 0.23439878560054336,
+      "ci95": [
+        0.23015020889486984,
+        0.2855629459781923
+      ],
+      "units": 292,
+      "pass": true
+    },
+    "dJ_unpaired_fallback": {
+      "delta": 0.21967600152820754,
+      "lcb95_one_sided": 0.19837715334523398,
+      "units_replicate": 448,
+      "units_alternative": 779
+    },
+    "heldout_A_only": {
+      "delta": 0.1911175333724058,
+      "lcb95_one_sided": 0.1165371235466932,
+      "ci95": [
+        0.10428064254201487,
+        0.27824849769735144
+      ],
+      "units": 27
+    },
+    "threshold_dJ_min": 0.05,
+    "pass": true
+  },
+  "T2_ap_retention": {
+    "self_mask_degenerate": 1.0,
+    "replicate_mask": 0.6679384938407562,
+    "alternative_ligand_mask": 0.44894692573673106,
+    "leave_one_out_protein_marginal": 0.6062697839686513,
+    "prevalence": 0.022139157435315356,
+    "replicate_minus_alternative": {
+      "delta": 0.2540067197853754,
+      "lcb95_one_sided": 0.23043064583007827,
+      "ci95": [
+        0.22616919059234797,
+        0.2813213477088219
+      ],
+      "units": 292
+    },
+    "alternative_minus_prevalence": {
+      "delta": 0.42758639220681166,
+      "lcb95_one_sided": 0.4160164255421375,
+      "ci95": [
+        0.4139285049948663,
+        0.4411455062139965
+      ],
+      "units": 779
+    },
+    "loo_marginal_minus_alternative": {
+      "delta": 0.1573228582319203,
+      "lcb95_one_sided": 0.1499423638799794,
+      "ci95": [
+        0.14850707296056806,
+        0.16588615896398456
+      ],
+      "units": 779
+    },
+    "corruption_floor_note": "no teacher-level foreign-ligand control exists; residue indices are comparable only within one construct (amendment A5). Prevalence is the floor."
+  },
+  "T3_gain_loss": {
+    "mean_gain_rate": 0.5786358352098018,
+    "mean_loss_rate": 0.4907017236791999,
+    "median_gain_rate": 0.4,
+    "median_loss_rate": 0.5,
+    "n_pairs": 323410
+  },
+  "T4_between_ligand_variance": {
+    "multi_ligand_constructs_mean": 0.3110717438025898,
+    "multi_ligand_constructs_median": 0.2954087841575395,
+    "replicate_only_constructs_mean": 0.16514236207239733,
+    "replicate_only_constructs_median": 0.10791925465838509,
+    "n_multi": 1372,
+    "n_replicate_only": 142
+  },
+  "T5_scaffold_distance_sensitivity": {
+    "statistic": "Spearman rho between (1 - Jaccard) and (1 - Tanimoto), within construct, component-macro",
+    "constructs_used": 650,
+    "constructs_excluded_fewer_than_5_pairs": 443,
+    "component_macro_rho": 0.3221273470488326,
+    "component_bootstrap_lcb95": 0.2986939644164001,
+    "mean_tanimoto_alternative_pairs": 0.15965946754945895
+  },
+  "T6_ligand_permutation_control": {
+    "permutations": 200,
+    "seed": 20260820,
+    "median_per_construct_permutation_p": 0.03,
+    "median_per_construct_z": 1.8441190941115781,
+    "fraction_constructs_with_positive_z": 0.8476923076923077,
+    "pass": true
+  },
+  "T7_meaningful_change": {
+    "definition": "Jaccard <= 0.5 and symmetric difference >= 3 residues",
+    "fraction_of_scaffold_distinct_pairs": 0.8044772888902632,
+    "n": 323410
+  },
+  "teacher_verdict": {
+    "rule": "ligand-conditioned iff T1 and T6 both pass",
+    "T1_pass": true,
+    "T6_pass": true,
+    "ligand_conditioned": true
+  }
+}

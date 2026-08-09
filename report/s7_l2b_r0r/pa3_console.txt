@@ -1,0 +1,156 @@
+WARNING: overwriting environment variables set in the machine
+overwriting variable {'PYTHONPATH', 'CUDA_PATH', 'CUDA_HOME'}
+
+ANOVA self-test: {"uniform_matches_double_centering_max_abs_err": 2.7755575615628914e-16, "uniform_selftest_pass": true, "weighted_differs_from_double_centering_max_abs": 0.4226725235650321, "weighted_is_genuinely_different": true}
+AP self-test: {"max_abs_diff_untied_vs_plain_ap": 1.609823385706477e-15, "max_abs_diff_tied_vs_monte_carlo": 0.0008378210735768971, "pass": true}
+  200/2409  36s
+  400/2409  55s
+  600/2409  78s
+  800/2409  105s
+  1000/2409  129s
+  1200/2409  152s
+  1400/2409  173s
+  1600/2409  194s
+  1800/2409  215s
+  2000/2409  235s
+  2200/2409  258s
+  2400/2409  283s
+{
+  "numerics": {
+    "max_orthogonality_ratio": 1.1840182527004027e-09,
+    "orthogonality_tolerance": 1e-08,
+    "orthogonality_pass": true,
+    "max_abs_diff_weighted_ALS_vs_double_centering_B5": 1.0658141036401503e-14,
+    "double_centering_admissible": "Phase 0 C5 proved the mask complete and uniformly weighted; weighted ALS is used regardless and double centering only as a numerical self-test",
+    "rasch_irls_max_final_delta": 28.995815766963652,
+    "rasch_irls_median_final_delta": 20.04581529371377
+  },
+  "DEPLOYABLE_prediction_decomposition": {
+    "metric": "exact tie-aware E[AP], component-macro over protein closure components, complete residue x atom matrix",
+    "components": 196,
+    "arms": {
+      "B5": {
+        "full": 0.06975422390515287,
+        "res": 0.04044745283152485,
+        "atom": 0.005136508867311321,
+        "add": 0.039832658339543706,
+        "coup": 0.011330429840335759
+      },
+      "B4": {
+        "full": 0.023228470232959972,
+        "res": 0.01618598705254673,
+        "atom": 0.005503405102291355,
+        "add": 0.015099310751265027,
+        "coup": 0.006367536557412574
+      },
+      "BX5": {
+        "full": 0.01969376401836671,
+        "res": 0.035954329732464145,
+        "atom": 0.003263607717575238,
+        "add": 0.02769167543706095,
+        "coup": 0.0034601170367333546
+      },
+      "BP5": {
+        "full": 0.0046392525633279285,
+        "res": 0.00460929636856688,
+        "atom": 0.0049174874709097685,
+        "add": 0.005626708025076635,
+        "coup": 0.003545587964143476
+      },
+      "BL": {
+        "full": 0.0057304621049600645,
+        "res": 0.003296162754351693,
+        "atom": 0.0057304621049600645,
+        "add": 0.0057304621049600645,
+        "coup": 0.003049824069447634
+      }
+    }
+  },
+  "ORACLE_label_fitted_ceilings": {
+    "warning": "label-fitted; NEVER a deployable model arm and never a Gate",
+    "separation_note": "the unpenalised Rasch MLE does not exist on this corpus: the matrix is ~0.07% positive, so almost every residue row and atom column contains no positive and its coefficient is completely separated. The reported logistic object is therefore the ridge-penalised fit, and the least-squares additive projection of Y is reported alongside it as the well-posed ceiling.",
+    "rasch_additive_null_ridge_penalised": 0.03233276325374346,
+    "rasch_converged": false,
+    "rasch_usable_as_a_ceiling": false,
+    "rasch_interpretation": "REPORTED FOR TRANSPARENCY ONLY. The damped ridge-IRLS did not converge (see rasch_irls_max_final_delta) because the design is completely separated. Its AP is therefore NOT a valid ceiling and must not be quoted as one. The well-posed label-fitted additive ceiling on this corpus is least_squares_additive_projection_of_Y.",
+    "least_squares_additive_projection_of_Y": 0.38889168111277456,
+    "true_residue_margin_only": 0.2043467163469032,
+    "true_atom_margin_only": 0.010600530000800724,
+    "exact_pair_upper_bound": 1.0
+  },
+  "NULL_evaluation_only": {
+    "degree_preserving_rewiring_coupling_ap": {
+      "B5": 0.005563207699301262,
+      "B4": 0.004030867538990077,
+      "BX5": 0.0034851638819913297
+    },
+    "within_complex_shuffle_of_coupling_ap": {
+      "B5": 0.0033752909619858495,
+      "B4": 0.003749664394092332,
+      "BX5": 0.0030377135778946966
+    },
+    "rewiring_spec": {
+      "swap": "checkerboard; row and column degrees exactly preserved",
+      "burn_in_swaps": "100 x positives",
+      "swaps_between_samples": "30 x positives",
+      "independent_rewires": 20,
+      "seed": 20260817,
+      "degree_preservation_violations": 0,
+      "complexes_total": 2409,
+      "complexes_non_switchable": 99,
+      "complexes_switchable": 2310,
+      "components_with_a_rewiring_null": 189,
+      "components_total": 196,
+      "edge_overlap_vs_original_by_swaps_per_edge": {
+        "0": 1.0,
+        "1": 0.3336634722172382,
+        "5": 0.29838400547900634,
+        "10": 0.2920798324458718,
+        "30": 0.29248066075709417
+      },
+      "mean_overlap_between_successive_samples": 0.29152909810049416
+    },
+    "note": "rewiring is an attribution null only; never a non-binder label and never a training negative"
+  },
+  "TC_teacher_edge_coupling": {
+    "statistic": "leading singular-value share of the marginal-orthogonal residual of Y on the active submatrix (identical to I-2)",
+    "complexes": 2310,
+    "true_mean": 0.6119950107447255,
+    "null_mean": 0.5921279278120606,
+    "median_z": 0.41305702573246383,
+    "fraction_above_own_null": 0.6341991341991342,
+    "thresholds": {
+      "median_z": 2.0,
+      "fraction": 0.6
+    },
+    "TC": false
+  },
+  "BC_b5_edge_coupling": {
+    "b5_coupling_ap": 0.011330429840335759,
+    "b5_coupling_ap_switchable_subset": 0.011568548875685593,
+    "bx5_coupling_ap_switchable_subset": 0.0035079846769751444,
+    "vs_degree_preserving_null": {
+      "delta": 0.00600534117638433,
+      "lcb95_one_sided": 0.004607897218242319,
+      "ci95": [
+        0.004389104490935785,
+        0.007820094738171657
+      ],
+      "units": 189,
+      "pass": false
+    },
+    "vs_wrong_ligand_BX5_coupling": {
+      "delta": 0.007870312803602404,
+      "lcb95_one_sided": 0.006196912017665069,
+      "ci95": [
+        0.005873651612262297,
+        0.010091777759653909
+      ],
+      "units": 196,
+      "pass": false
+    },
+    "margin": 0.01,
+    "BC": false
+  }
+}
+

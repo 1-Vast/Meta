@@ -1,76 +1,96 @@
 # Current task
 
-## Objective
-
-Determine whether the frozen P1B atom-local, residue-local and contact/distance
-geometry contains a correct-protein structural mechanism that can later support
-transferable affinity calibration and a `k<=5` identifiable meta-section.
-
-## Active stage
+## Current state
 
 ```text
-P1R2B-S5_LOCAL_MECHANISM_OBSERVABILITY
+PHASE2A_AUDIT_COMPLETE
+TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED_IN_LABELS
+B5_RESIDUE_MARGINAL_IS_GENERIC_POCKET
+B5_LIGAND_DEPENDENCE_CONFINED_TO_THE_COUPLING_TERM
+TEACHER_EDGE_COUPLING_NOT_IDENTIFIED
+EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED
+LABEL_SEMANTICS_NOT_AMBIGUOUS
+AFFINITY_DIRECTION_NOT_TESTED
+BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 ```
 
-Registered at
-`research/ssl_b2_structural_observability/PREREG_S5_LOCAL_MECHANISM_OBSERVABILITY.md`.
-
-Before execution, perform `R-VERIFY`: recover the source commits, immutable
-manifests, checkpoints, per-unit predictions and label-access audit behind the
-externally supplied S5-S9 report. If recovery fails, those numbers remain
-external claims and S5 runs from the existing preregistration. Do not recreate
-a look-alike run and call it reproduction.
-
-### Required order
-
-1. Build deterministic CCD-atom and canonical-residue mappings.
-2. Separate single-chain pockets from oligomer/interface complexes.
-3. Audit a chemistry-faithful deterministic structural pseudo-teacher.
-4. Quantify exact-residue to 128-slot information retention.
-5. Run the actual frozen-P1B observability ladder with ligand-only, random,
-   deranged-protein and pair-shuffle controls.
-6. Run a synthetic trainability control.
-7. Only if steps 1–6 pass, train a small research-only pair-local GPU head.
-8. Freeze passing structural channels before any source-affinity stage.
-
-### Conditional ensemble/gauge research
-
-MISATO/PLINDER acquisition is not yet authorized as model training. It becomes
-eligible only after a verified pose-aware structural state and a reproducible
-source-affinity null. MISATO may support ensemble observability; PLINDER may
-support pocket/ligand/apo governance. Neither is, by itself, a thermodynamic
-gauge. A later gauge test requires separately governed same-target difference
-edges and a new preregistration.
-
-The supplied detailed test plan has been reviewed at
-`report/SSL_TEST_PLAN_REVIEW_AND_EXECUTION_BOUNDARY.md`. A metadata-only,
-conditional data census is registered at
-`research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md`; it does not supersede
-S5 or authorize A0/A1/A2 training.
-
-## Frozen surfaces
-
-- `theory/FINAL_FROZEN_THEORY/`
-- production CSMO, Band, mesh and `K`
-- DAVIS, recipient and other protected labels
-- real ChEMBL/BindingDB affinity training until separately authorized
-- production `z` admission
-- P2–P4
-
-## Promotion rule
-
-A structural S5 PASS does not prove affinity.  Production admission additionally
-requires source closure-OOF `correct-ligand>=0.03` and
-`correct-deranged>=0.03`, both with 95% LCB above zero, then a sealed transfer
-Gate.  Only afterward may a compact named mechanism basis enter a support
-row-space-constrained section and the unchanged probability-law operator.
-
-## Current verdict
+Phase 2A was audit-only: nothing trained, no affinity value read, no frozen
+surface touched, nothing committed.
 
 ```text
-GEOMETRY_IDENTIFIED
-AGGREGATE_ESM_ECFP_PROBE_NOT_PROTEIN_SPECIFIC
-PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED
-POSE_FREE_CLASS_NOT_CLOSED
-AFFINITY_ENERGETICS_NOT_IDENTIFIED
+TERMINAL VERDICT   LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING
+NEXT ACTION        preregister one ligand-conditioned residue residual head
 ```
+
+## What Phase 2A established
+
+The labels **are** ligand-conditioned at the residue level, measured against a
+noise floor taken from the data itself (same construct, same ligand, different
+crystal):
+
+| quantity | value |
+|---|---:|
+| replicate Jaccard (noise floor) | 0.636 |
+| alternative-ligand Jaccard | 0.416 |
+| `T1` ΔJ, paired over 292 components | +0.258 [LCB +0.234] |
+| `T5` Spearman ρ(mask dissimilarity, chemical distance) | +0.322 [LCB +0.299] |
+| `T7` pairs with a meaningful residue change | 80.4% |
+
+B5 is not. Decomposing the sealed logits, a wrong ligand retains **89%** of B5's
+residue marginal but only **31%** of its coupling term — B5's ligand dependence
+lives entirely in the pair term, and that term is small:
+
+| contrast | Δ | LCB95 | margin | |
+|---|---:|---:|---:|---|
+| B5 coupling − degree-preserving null | +0.0060 | +0.0046 | 0.01 | FAIL |
+| B5 coupling − wrong-ligand coupling | +0.0079 | +0.0062 | 0.01 | FAIL |
+
+Both are clearly above zero and both are below the preregistered practical
+margin. The teacher's own edge coupling also fails (median `z = +0.413` against
+a threshold of 2.0), reproducing I-2 under a stricter rewiring specification.
+
+The headroom number that sets the priority: B5 reaches **17.9%** of the
+well-posed label-fitted additive ceiling (0.0698 of 0.389). The bottleneck is
+the residue marginal, not the coupling.
+
+## Next eligible work
+
+`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
+(SHA-256 `ae6d1a01…`) is written and frozen. It registers one head:
+
+```text
+logit p_r(P, L) = b_r(P) + delta_r(P, L)
+```
+
+with `b_r(P)` the frozen B5 residue-marginal prior, `delta_r` one low-rank
+bilinear residual (`K <= 8`) over existing frozen states, projected away from
+the constant, the pocket prior and ligand-only directions, and supervised only
+by the same-protein ligand differential on symmetric-difference residues.
+
+Gates `D1`–`D5` and a fail-closed module-participation audit are frozen in that
+document. **It is registered, not authorized.** No Phase 2B code exists and no
+run has occurred.
+
+## Frozen
+
+- ChEMBL/BindingDB affinity training;
+- DAVIS, KIBA and recipient labels;
+- independent confirmation scoring;
+- new PLM, attention stack, geometry branch, typed-interaction branch, affinity
+  head, PU loss, knowledge graph or parallel module;
+- few-shot section adaptation;
+- biological `z` admission;
+- CSMO, Band, mesh, and frozen theory;
+- P2-P4.
+
+## Evidence
+
+- `report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md`
+- `report/s7_l2b_r0r/PHASE2A_VERDICT.json`
+- `report/s7_l2b_r0r/PHASE2A_TEACHER_CONDITIONALITY.json`
+- `report/s7_l2b_r0r/PHASE2A_MARGINAL_COUPLING_AUDIT.json`
+- `report/s7_l2b_r0r/PHASE2A_LABEL_SEMANTICS.json`
+- `report/s7_l2b_r0r/PHASE2A_DATA_IDENTIFIABILITY_CENSUS.json`
+- `report/s7_l2b_r0r/PHASE2A_INPUT_MANIFEST.json`
+- `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+- `history.md`

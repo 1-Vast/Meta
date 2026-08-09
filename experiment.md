@@ -1,82 +1,87 @@
 # Active experiment protocol
 
-## R-VERIFY external SSL evidence recovery
-
-Before S5 execution, recover the exact source commits, immutable manifests,
-checkpoints, per-unit predictions, control maps, bootstrap units and label-read
-audit behind the supplied S5-S9 report. Missing evidence keeps those numbers at
-`EXTERNAL_CLAIM_NOT_REPRODUCED`; it does not authorize a substitute run or a
-new ensemble/gauge model. The existing S5 protocol below remains the only
-registered experiment if recovery fails.
-
-## Conditional G0 metadata census
-
-`research/ssl_gauge_fixed/PREREG_G0_DATA_FEASIBILITY.md` may audit versioned
-source metadata, licences, U1/U2/U3 coverage, apo/holo mappings, closure graphs
-and compute feasibility. Numeric affinity values and A0/A1/A2 training remain
-forbidden. G0 does not replace the active S5 experiment.
-
-## S5 structural-mechanism observability
-
-S5 is label-free with respect to affinity.  The 14,906 historical holo records
-are development/training material.  The previously scored 1,118 S4 complexes
-are development-exposed.  A new score-blind RCSB block, disjoint from both
-registries, is required for final confirmation.
-
-### Inputs
-
-- frozen ligand GINE atom states;
-- frozen protein ESM residue-slot states;
-- explicit ligand atom chemistry and slot residue composition;
-- frozen P1B contact probability;
-- frozen P1B five-bin distance distribution.
-
-### Target
-
-A deterministic, mapped structural pseudo-teacher with pair-local contributions
-for prespecified channels.  It is not called binding free energy and does not
-observe waters, metals, complete protonation, solvation or entropy.
-
-### Controls
-
-- train mean;
-- ligand-only local chemistry;
-- historical pooled ESM+ECFP baseline;
-- local chemistry without geometry;
-- frozen P1B geometry;
-- full frozen P1B local states;
-- exact-coordinate oracle;
-- capacity-matched random features;
-- score-blind `<40%` deranged protein;
-- within-complex pair-geometry shuffle.
-
-### Statistics
-
-Protein-homology/scaffold closure components are the inference units.  Pair rows
-are never treated as IID.  At least one prespecified core channel must achieve
-all four component-bootstrap criteria:
+## Status
 
 ```text
-R2(correct vs mean) >= 0.02, LCB95 > 0
-R2(correct)-R2(ligand-only) >= 0.02, LCB95 > 0
-R2(correct)-R2(deranged) >= 0.02, LCB95 > 0
-R2(correct)-R2(pair-shuffle) >= 0.02, LCB95 > 0
+S7_L2B_PHASE1_B5 ................. COMPLETE, DEVELOPMENT PASS 6/6
+S7_L2B_PHASE2A_AUDIT ............. COMPLETE, AUDIT-ONLY, NOTHING TRAINED
+S7_L2B_PHASE2B_PREREGISTRATION ... WRITTEN AND HASHED, NOT AUTHORIZED
+NEW MODEL TRAINING ............... NOT AUTHORIZED
+DOCUMENT-CLOSED CONFIRMATION ..... SEALED
+TIME-FORWARD MONN CONFIRMATION ... INFEASIBLE BY DATA CONSTRUCTION
+SOURCE AFFINITY / DAVIS / KIBA / z  FROZEN
+GIT COMMIT ....................... NOT AUTHORIZED, NOTHING COMMITTED
 ```
 
-### Conditional training
+## Phase 2A protocol as executed
 
-If the mapping, teacher, slot ceiling, observability and synthetic controls
-pass, train only a 1–5M parameter pair-local head in `drug` on the RTX 4060.
-ESM, GINE, ProteinEncoder and P1B remain frozen.  Use AMP, batch 2–4, gradient
-accumulation and chunked atom-slot evaluation.  No affinity, identity or
-wrong-protein training objective is allowed.
+Registered by `research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2A.md`
+(SHA-256 `4e01401d…`) with amendments 01–03, each frozen before the phase it
+governs. Every output artifact embeds those hashes.
 
-### Terminal outcomes
+| phase | executed | outcome |
+|---|---|---|
+| 0 contract and artifact audit | 26 artifacts hashed, 7 fail-closed checks | `PHASE2A_CONTRACT_PASS` |
+| 1 data identifiability census | full corpus, label-blind power | `DATA_IDENTIFIABLE` |
+| 2 teacher ligand-conditionality | replicate floor vs alternative ligand | teacher **is** ligand-conditioned |
+| 3 marginal/coupling decomposition | weighted ALS, orthogonality `1.2e-9` | additive dominates |
+| 4 matched attribution battery | 9 arms, degree-preserving rewiring | `BC = false` |
+| 5 label semantics | type census, dense-distance comparator | not ambiguous |
+
+The load-bearing Phase 0 check was `C3`: Phase 1's marginal decomposition
+indexed the B5-family memmaps with the B4-family offset table. Both tables were
+rebuilt independently and proved identical key-for-key, so the Phase 1 B5/BX5/BP5
+marginal numbers were correctly aligned.
+
+## Terminal verdict and mandated action
 
 ```text
-S5_DATA_OR_MAPPING_CONTRACT_FAIL_CLOSED
-S5_TEACHER_OR_SLOT_CONTRACT_DEFECT
-S5_HEAD_OR_OPTIMIZATION_NOT_IDENTIFIED
-P1B_PAIR_LOCAL_MECHANISM_NOT_OBSERVABLE
-P1B_PAIR_LOCAL_STRUCTURAL_MECHANISM_OBSERVED
+LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING
+  -> preregister one ligand-conditioned residue residual head
 ```
+
+Precedence was applied in the registered order; rules 1–4 did not fire, and
+`BC = false` with `TC = false` selects rule 7. The verdict was not chosen for
+interest.
+
+## Phase 2B registration boundary
+
+`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
+(SHA-256 `ae6d1a01…`) freezes, before any Phase 2B number exists:
+
+- the frozen prior `b_r(P)` and the single trainable residual `delta_r(P, L)`;
+- rank `K <= 8` low-rank bilinear form over existing frozen states only;
+- the mandatory projection away from constant, pocket-prior and ligand-only
+  directions, with tolerance `1e-8`;
+- the differential objective on symmetric-difference residues;
+- the split, inference unit and differential-AUPRC metric;
+- the replicate-oracle ceiling, so a modest absolute number is read correctly;
+- Gates `D1`–`D5` with margins and lower bounds;
+- a fail-closed module-participation audit.
+
+It authorizes nothing by itself. No Phase 2B code exists.
+
+## Decision rule for Phase 2B
+
+```text
+D1 fails
+  -> the sequence-plus-2D residue-differential route is closed; do not
+     substitute a larger model
+
+D1 passes but D2 or D4 fails
+  -> the head is fitting construct or annotation structure, not ligand
+     chemistry; reject it
+
+all gates pass and the module-participation audit passes
+  -> a structural ligand-conditioned residue statistic is established, and
+     nothing more
+```
+
+No branch authorizes affinity, DAVIS, KIBA, support adaptation, production `z`,
+or any modification of the frozen probability-law operator.
+
+## Historical record
+
+Superseded and failed protocols are recorded in `history.md` and
+`report/EXPERIMENTAL_EVIDENCE_LEDGER.md`. They are not part of the active
+protocol.

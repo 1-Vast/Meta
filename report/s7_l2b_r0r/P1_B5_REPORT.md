@@ -86,8 +86,9 @@ matches I-2's finding that the true atom marginal is worth only 0.0085 pair AP.
 **(b) The residue localisation is largely ligand-independent.** Swapping in a
 wrong ligand leaves residue-marginal AP at **0.2453 against B5's 0.2651** — about
 **92.5 %** of it survives. B5 is predicting a *generic pocket*, not a
-ligand-conditioned one. The pair-level G5 gap (+0.0499) comes from the pairing,
-not from residue localisation being ligand-specific.
+ligand-conditioned one. The pair-level G5 gap (+0.0499) appears in pair scores,
+but may still be explained by additive residue and atom marginals rather than
+exact coupling; it does not show that residue localisation is ligand-specific.
 
 This is exactly the "strong `pi` alone means generic pocket localisation"
 outcome, and it was predicted in advance by I-2, which measured coupling beyond

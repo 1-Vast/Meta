@@ -11,6 +11,51 @@ Last updated: 2026-08-09.
 
 ## Current Project Decision
 
+### F-99 — S7/L2B B4 evidence-integrity and failure-localization audit
+
+The B4 development result remains **FAIL CLOSED** under its preregistered
+practical-effect thresholds.  The valid interpretation is narrower than the
+original report: B4 is directionally above prevalence, ligand-only,
+wrong-protein, motif-shuffle and wrong-ligand controls, with every component
+bootstrap lower bound above zero, but only G1 reaches the frozen `0.02` margin.
+This supports
+`PROTEIN_SIGNAL_IDENTIFIED_BELOW_PREREGISTERED_EFFECT_SIZE`; it does not admit
+an exact-residue mechanism to production and does not test affinity direction.
+
+The earlier statement `Representation: THE CAUSE` is **withdrawn as a unique
+causal localization**.  The synthetic control excludes gross pipeline
+untrainability for a known input-derived target, but it does not distinguish
+weak/non-exhaustive MONN interaction labels, atom correspondence error,
+pair-coupling limitations, real-task objective/optimization behavior, missing
+geometry, or inadequate residue representation.  Frozen ESM2 B5 is therefore
+a justified minimal discriminator, not a proven repair.
+
+Four integrity conditions must be closed before B5 is operationally allowed:
+
+1. verify MONN/PDB-to-RDKit atom correspondence by element, degree,
+   connectivity and source atom identity rather than heavy-atom count alone;
+2. replace index-ordered tie breaking with score-threshold-group tie-aware AP
+   and persist per-pair labels/scores so metrics can be recomputed;
+3. materialize negative-sampling and control maps plus parameter, activation,
+   gradient and checkpoint diagnostics;
+4. construct and freeze publication/time closure before opening any
+   confirmation cohort.
+
+Held-out B is a scaffold-strict **subset** of held-out A and is retained as a
+development robustness analysis, not independent replication. Wrong-protein is
+a nuisance corruption control until exact pairwise homology, fold familiarity,
+reuse and truncation semantics are fully reported. No threshold is relaxed and
+the already inspected development panel is not made untouched again.
+
+The conditional roadmap is frozen at a high level: integrity audit -> one
+matched frozen-ESM2 B5 run -> residue/atom/coupling marginal triage if B5 does
+not pass -> only then consider label-aware PU/continuous structural teachers or
+partner-conditioned geometry. Larger PLMs, generic SSL, typed energy,
+affinity, DAVIS, support adaptation and production `z` remain unauthorized.
+Any later SSL objective must train protein-ligand coupling rather than only a
+single-side embedding. The frozen mathematical operator remains unchanged;
+localization is only a candidate biological measurement frontend.
+
 ```text
 P0_CANONICAL_DTA_V2_PASS
 P1A_OPEN_STRUCTURE_PILOT_PASS
@@ -2970,3 +3015,1244 @@ the obsolete X0/L0 execution state to the active S5 boundary; the detailed
 X0/L0 and earlier records remain preserved below. The consolidated regression
 suite passed `75` tests.
 
+---
+
+## F-95: S5 stopped at the Stage 0 environment gate; representation-contract findings recorded (2026-08-09)
+
+**OUTCOME.** `S5_EXECUTION_ENVIRONMENT_UNAVAILABLE` and
+`S5_ARTIFACT_RECOVERY_REQUIRED`. No terminal S5 decision-tree verdict is
+claimed. Stage status remains `S5_REGISTERED_NOT_RUN`.
+
+**BLOCKER B-1 — no execution environment.** The isolated Linux workspace failed
+to start on all seven attempts (`session disk not found: ...sessiondata.vhdx`).
+No shell, Python, `gemmi`/`parasail`, `git`, SHA-256 hashing, GPU or `pytest`.
+Every numeric quantity in Stages 1-5 is `BLOCKED_NO_COMPUTE`. **The regression
+suite was not run**; the last known state is the recorded 75-test pass. All
+audits this session were read-only; no process was executed.
+
+**BLOCKER B-2 — the registered pseudo-teacher source is deleted.** `research/`
+contains zero `.py` files. Only `__pycache__/s2_teacher.cpython-311.pyc` and
+`s3s4_observability.cpython-311.pyc` survive the F-94 consolidation. Recovery is
+from commit `608decf` / `8b7789e`. Decompiling the bytecode was rejected: it
+yields a look-alike, not the registered implementation, which is precisely what
+the R-VERIFY rule forbids.
+
+**BLOCKER B-3 — the S4 exposure registry is absent.** `project_state.json`
+asserts 1,118 development-exposed complexes, but no file in the working tree
+enumerates them. The preregistration requires the new confirmation block to be
+disjoint from *both* exposure registries. One does not exist as data, so the
+block cannot be sealed score-blind.
+
+**P1B CONTRACT IS RECONSTRUCTABLE (correction).** Contrary to the risk the
+Stage 0 rule guards against, no proxy substitution was needed. Present and
+declared: `best.pt` (`checkpoint_sha256 90b0010b...`), geometry supervision
+(14,906 pairs, 117 hashed shards), frozen ESM 128-slot bank
+(`esm2_t30_150M_UR50D` rev `a695f604...`, hidden 640), ligand bank, MMseqs2
+homology split (3,606 groups, PASS), governed complex index and 20,295 raw
+mmCIF files. Hash *values* are recorded; hash *verification* is blocked.
+
+**STATIC REPRESENTATION-CONTRACT FINDINGS (all EXACT, derived from frozen source,
+verifiable by reading, no execution required).**
+
+1. **M-4.** The geometry slot map `min(127, seq_idx*128//L)` and the ESM slot map
+   `(i*128)//L` are the same function; the clamp is never active. The two frozen
+   banks join without re-indexing.
+2. **M-6.** `contact` is a deterministic function of `distance_bin`:
+   `contact <=> d<=6`, `bin<=1 <=> d<6`, differing only on the null set
+   `{d=6.0}`. Ladder arms A4 and A5 are **not** information-nested on the label
+   side; any gap between them measures two frozen heads, not extra structure.
+3. **M-7.** The frozen contract carries **no angular information at any stage**.
+   Directional hydrogen bonding and aromatic orientation are `NOT_EVALUABLE` at
+   the deployable arm under any model, at any capacity.
+4. **M-8 (most consequential).** Directional H-bond was S4's best-recovered
+   aggregate channel (`R2 = +0.268 [0.166, 0.378]`) **and** is exactly the
+   channel the frozen contract cannot carry to A5. Preregistering it as a core
+   S5 channel would have produced structurally guaranteed ligand dominance -- a
+   representational artefact indistinguishable in the output from a real
+   biological null.
+5. **Non-identifiability lemma.** For any additive distance-decaying pair-local
+   teacher, `Var[T | frozen pair-local state] > 0` whenever a slot holds >=2
+   residues at distinct distances, i.e. whenever `L > 128`. Direction proved;
+   **magnitude is the preregistered quantity and remains blocked.**
+6. **M-2, M-3, D-3 teacher-fidelity defects.** `_protein_residue_atoms` applies
+   no `type_symbol` filter, so deposited protein hydrogens enter the
+   min-distance while ligand hydrogens are excluded; residues with no tabulated
+   one-letter code become `"X"` and align against the BLOSUM62 `X` row instead
+   of failing closed, so the preregistered modified-residue exclusion is not
+   implemented in the frozen path; the governed corpus contains cofactors and
+   metalloporphyrins (e.g. `101m`/`HEM`) that no candidate channel models.
+
+**H-DILUTION registered.** Slots bin *sequence*, not space, so the slot `min` is
+generically attained by the pocket residue (geometry survives comparatively
+well) while the ESM slot mean gives that residue weight exactly `1/ceil(L/128)`
+(identity diluted linearly in `L`). These are confounded in the base ladder. One
+arm `A5c` was added -- explicit 20-dim slot residue-type composition replacing
+the mean-ESM slot state, ~20 input dimensions, **zero new parameters, zero new
+modules** -- to separate `FROZEN_P1B_LOCAL_STATE_INSUFFICIENT` from a
+recoverable pooling defect. Neither branch authorises a larger ESM, ESM
+fine-tuning, a deeper GNN, cross-attention, a knowledge graph or fusion.
+
+**AMENDMENT.** `research/ssl_b2_structural_observability/PREREG_S5R_PAIR_LOCAL_AMENDMENT.md`
+narrows the core channel set to `{K1 pocket burial coverage, K2 apolar-contact
+burial}`, demotes directional H-bond and aromatic orientation to oracle-only
+`NOT_EVALUABLE` diagnostics, declares A4/A5 non-nested, and registers the three
+teacher-fidelity defects before scoring. No threshold was relaxed, no module
+added, no label surface widened.
+
+**NOT CLAIMED.** `MAPPING_OR_SLOT_CONTRACT_FAIL_CLOSED` is explicitly **not**
+declared: fail-closed requires a measured retention below the preregistered
+requirement, and no measurement exists. Likewise none of
+`STRUCTURAL_TEACHER_NOT_REPRODUCIBLE`, `SYNTHETIC_TRAINABILITY_DEFECT`,
+`LIGAND_SHORTCUT_ONLY`, `FROZEN_P1B_LOCAL_STATE_INSUFFICIENT` or
+`PAIR_LOCAL_STRUCTURAL_MECHANISM_OBSERVED` is available from this session.
+
+**LABEL AUDIT.** `recipient_label_reads = 0`, `davis_label_reads = 0`, zero
+ChEMBL/BindingDB affinity value reads, zero PLIP or pose-aware reads. Label
+firewall intact. Confirmation block not sealed.
+
+**FROZEN SURFACES.** `theory/FINAL_FROZEN_THEORY/`, `model/`, production
+`scripts/`, CSMO, Band, positive ridge, the simplex, the fixed mesh,
+`K(B(z)F(z))` and production `z` were read only and not modified. Writes were
+confined to `report/ssl_s5/`, one new file under
+`research/ssl_b2_structural_observability/`, `history.md` and
+`project_state.json`.
+
+**ARTIFACTS.** `report/ssl_s5/` -- `S5_STAGE0_REPOSITORY_AND_EVIDENCE_AUDIT.md`,
+`S5_MAPPING_AND_SLOT_RETENTION_AUDIT.md`,
+`S5_TEACHER_SPECIFICATION_AND_REPRODUCIBILITY.md`,
+`S5_LADDER_AND_SYNTHETIC_CONTROL_EXECUTION_RECORD.md`,
+`S5_LABEL_ACCESS_AUDIT.md`, `S5_LITERATURE_EVIDENCE_TABLE.md`,
+`S5_FAILURE_LOCALIZATION_GRAPH.md`, `S5_RESULT.json`, `S5_FINAL_REPORT.md`.
+
+**NEXT ACTIONS, IN ORDER.** Restore an environment; run the sequence-length and
+slot-multiplicity census over `pilot20k_holo_governed_v1/complexes.jsonl` (pure
+text read, minutes, calibrates the whole ceiling question); restore
+`s2_teacher.py` and `s3s4_observability.py` from `608decf`/`8b7789e`; recover or
+re-register the 1,118-complex exposure registry; verify all declared SHA-256;
+run the regression suite; verify M-6 empirically on the shards; only then
+execute the Stage 1 oracle ceiling under the S5R amendment.
+
+
+## F-96: S5R-2 executed; pocket-chemistry enrichment observed, ligand margin does not survive de-proxying (2026-08-09)
+
+**OUTCOME.** Terminal verdict `P1B_PAIR_LOCAL_STRUCTURAL_MECHANISM_OBSERVED` on
+the registered 128-slot target, with two bounding qualifications. All three F-95
+blockers are discharged. Registered at
+`research/ssl_b2_structural_observability/PREREG_S5R2_POCKET_CHEMISTRY_ENRICHMENT.md`
+**before any arm was scored**. Full report `report/ssl_s5/S5R2_FINAL_REPORT.md`;
+machine-readable `report/ssl_s5/S5R2_RESULT.json`; hashes
+`report/ssl_s5/S5R2_ARTIFACT_HASHES.json`.
+
+**B-1 DISCHARGED.** Environment available: `conda run -n drug`, Python 3.11.15,
+torch 2.6.0+cu124, CUDA 12.4, RTX 4060 Laptop 8 GB. Regression suite: **75
+passed**.
+
+**B-2 DISCHARGED WITHOUT DECOMPILATION.** `s2_teacher.py` and
+`s3s4_observability.py` were restored with `git checkout 608decf --` and then
+*proved* to be the registered implementations: both compile to bytecode that is
+value-identical to the surviving `__pycache__` under CPython 3.11. Frozenset
+constant ordering is a marshal artefact of the compiling interpreter and is
+therefore compared by value, not by `repr`. This is recovery, not reconstruction.
+
+**B-3 DISCHARGED.** The 1,118-complex S4 exposure registry is recovered from
+`608decf` into `report/ssl_b2_structural_observability/` and is enumerable from
+`dataset/processed/ssl_b2/teacher_dataset.npz` (`pdbs`, `pclus`, `scaffold`).
+
+**PROVENANCE CORRECTION -- the F-95 audit pinned the wrong banks.** Resolved from
+bytes rather than prose, the P1B run manifest's four declared hashes are
+`supervision_manifest ad0e4803 -> pilot20k_structure_supervision_v2`,
+`records 45907b45 -> pilot20k_homology_split_v2`,
+`protein_manifest dc087bda -> pilot20k_esm2_t30_slots128_v1`,
+`ligand_bank 823815c2 -> pilot20k_mechanism_ligands_v1.pt`; one hop further,
+supervision v2 points to `pilot20k_holo_governed_v2` and
+`pilot20k_governance_v2`. F-95 recorded the `_v1` banks. **S5R-2 uses the v2
+chain throughout.** Every declared SHA-256 in that chain now verifies
+(checkpoint, ligand bank, 117/117 supervision shards, 117/117 ESM shards, all
+manifests); the checkpoint's stored `val_loss = 1.9781416454571206` matches the
+run manifest exactly.
+
+**T-RULE REGISTERED, AND LOAD-BEARING.** `K1` pocket-burial coverage was demoted
+to `TAUTOLOGICAL_REFERENCE` before scoring, because `contact = 1[d <= 6]` **is**
+the tensor P1B minimised its loss against. `K1` scores R2 = +0.390. Without
+T-RULE this run would have reported training fit as mechanism observability.
+
+**THE REGISTERED COORDINATE.** `e[t] = q[t] - b[t]`, the background-subtracted
+pocket residue-type composition, with pocket weight `w(s) = sum_a p_contact[a,s]`
+from the frozen P1B posterior and composition taken from the sequence under the
+identical slot map `min(127, i*128//L)`. **Zero trainable parameters.** Measured:
+gauge `max|sum_t e[t]| = 1.77e-16`, bound `max|e| = 0.566`, effective rank 19,
+test sd 0.125. Mean enrichment is positive for G,H,Y,F,C,W and negative for
+E,A,L,P,V,K -- the textbook binding-site signature, recovered with no
+binding-site label.
+
+**M-6 CONFIRMED EMPIRICALLY.** `contact == (distance_bin <= 1)` verified on
+**55,162,405** masked pairs across all 117 v2 shards: **zero violations**.
+
+**THE INFORMATION CEILING, PREVIOUSLY `BLOCKED_NO_COMPUTE`.** 94.0 % of
+complexes have `L > 128`; occupied slots hold 2.46 residues on average (p95 5,
+max 8); **69.1 % of occupied slots are chemically mixed** (1,303,872 of
+1,886,412); zero non-standard residues. Against exact-residue enrichment
+recomputed from raw coordinates (n=700, 265 homology groups), the *true slot
+target itself* reaches only R2 = 0.516 (APOLAR), 0.468 (NEG), 0.395 (ACCEPTOR),
+0.304 (AROMATIC), 0.289 (DONOR), 0.179 (POS). **About half the biological
+quantity is destroyed by the slot map before any model is involved.**
+
+**LADDER (test split, 1,449 complexes, 359 homology groups, 198 scaffolds;
+widest of two clusterings).** CORE = `APOLAR`, fixed in advance. All five
+registered conditions PASS: vs mean +0.4467 [+0.2899]; minus ligand-only
++0.1070 [+0.0240]; minus deranged protein +0.2980 [+0.2289]; minus geometry
+shuffle +0.4473 [+0.2907]; minus background +0.2587 [+0.1415]. Destructive
+controls collapse exactly: geometry shuffle -0.0006, chemistry shuffle +0.0004,
+capacity-matched random -0.0023; the oracle returns +1.0000.
+
+**QUALIFICATION 1 -- the ligand margin does not survive de-proxying.** On the
+exact-residue target the CORE margin over ligand-only is **+0.078
+[-0.003, +0.152]**, lower bound below zero. Ligand-only alone reaches +0.409.
+For `AROMATIC` ligand-only is *better* (-0.105). Only `DONOR` (+0.153 [+0.044])
+and `NEG` (+0.211 [+0.085]) retain a separable protein-specific increment --
+recorded as a **hypothesis generated by this run, not a result**, since `APOLAR`
+was the registered core and is not replaced post hoc.
+
+**QUALIFICATION 2 -- pair specificity is weak.** Wrong protein collapses the arm
+(`A5 - AD = +0.356 [+0.279]`), so partner specificity is unambiguous. Wrong
+ligand with the correct protein still reaches +0.372, so `A5 - AL = +0.114
+[+0.064]`: roughly three quarters of the deployable signal is a protein-only
+pocket property that does not depend on which ligand is bound. Per-slot
+localisation is weak: +0.085 [-0.004, +0.174].
+
+**H-DILUTION REFUTED.** `A5 - A5e = -0.0075 [-0.0452, +0.0408]`: explicit 20-dim
+slot composition (zero parameters) and pocket-weighted frozen ESM (fitted
+640-dim readout) are indistinguishable. The ESM slot mean is **not** the binding
+constraint. Enlarging ESM, fine-tuning it, deepening the GNN and adding
+cross-attention now have a *measured* reason to be refused, not only a policy
+reason.
+
+**MODULE PARTICIPATION.** Stage 4 synthetic control PASSES: a
+1,726,406-parameter head recovers a known function of the frozen pair state, so
+optimisation and the objective are not the defect. The un-normalised synthetic
+run left the protein and geometry branches `NOT_CAUSALLY_USED` -- a feature-scale
+imbalance (activation variance ligand 0.339 vs protein 0.018), exactly the
+*normalisation* defect base prereg section 7 names. The registered repair (frozen
+per-branch standardisation; constants, no capacity) fixes it: loss
+0.0764 -> 0.0037, a 20x reduction, with **all three branches causally used**. On
+the real target un-normalised, all three branches are causally used and ablating
+the geometry branch raises loss by 35 %. The repair is not uniformly good: on the
+real target its 1e-3 standard-deviation floor amplifies near-constant one-hot
+atom features and the ligand branch then reads `NOT_CAUSALLY_USED`. Reported as
+measured.
+
+**STAGE 5 DECISIVE -- LEARNING BUYS NOTHING.** Aggregated with exactly A5's
+denominator, so that A5 is the special case `g(u) = p_contact * C[j,u]`: the
+trained 1.73 M head scores +0.0149 against A5's +0.3943 on CORE (delta
+**-0.379**), and is worse on every channel. At the justified budget the
+**zero-parameter estimator is the better estimator**, and having no parameters it
+has no module that could fail to participate.
+
+**SECTION PROBE (structural dry run, NOT a stage advance).** Adapting
+coefficients on named mechanism channels, with the update confined to the
+numerically identifiable support row space and coverage computed on the
+standardised channel block: at k=5 the support rank is **2.84 of a possible 5**
+(median condition number 6.5), and the adaptation gain changes sign with k
+(+0.064, +0.002, -0.045, +0.035). Verdict
+`SECTION_ADAPTATION_WEAK_AND_NON_MONOTONE_ON_STRUCTURAL_CHANNEL`. The first
+version of this probe reported 0 % abstention; that was a defect -- the
+intercept's constant column dominates the coverage norm -- and it is recorded
+here because it would silently vacate any abstention rule built the same way.
+
+**FAILURE LOCALIZATION.** Rejected: insufficient data; missing partner
+specificity; objective or optimization defect. Confirmed: underdetermined
+estimand (slot proxy versus exact residues); representation failure (2.46
+residues per slot, 69.1 % chemically mixed, ceiling R2 about 0.52); **ligand
+shortcut, the dominant defect at the CORE channel**; unidentifiable support
+section on the structural channel. Not tested: affinity direction. Full graph in
+`report/ssl_s5/S5R2_FAILURE_LOCALIZATION.md`.
+
+**LABEL AUDIT.** `recipient_label_reads = 0`, `davis_label_reads = 0`, zero
+ChEMBL/BindingDB affinity value reads, zero PLIP or pose-aware reads. Label
+firewall intact.
+
+**FROZEN SURFACES.** `theory/FINAL_FROZEN_THEORY/`, `model/`, `contracts/`,
+production `scripts/`, CSMO, Band, the positive ridge, the simplex, the fixed
+mesh, `K(B(z)F(z))` and production `z` were read only. Writes were confined to
+`research/ssl_b2_structural_observability/`, `report/ssl_s5/`,
+`report/ssl_b2_structural_observability/` (git-restored),
+`dataset/processed/ssl_s5/`, `history.md` and `project_state.json`.
+
+**WHAT THIS AUTHORISES.** Exactly one separately preregistered source-affinity
+increment experiment, whose estimand should be the **exact-residue** quantity and
+whose primary reported number should be the increment over **ligand-only**. It
+does not admit `e` into production `z`, does not authorise DAVIS, recipient
+labels, ChEMBL/BindingDB affinity training, PLIP, pose-aware data, P2-P4, or any
+change to the frozen operator. Those remain frozen pending separate
+authorisation.
+
+
+## F-97: S5R-2 terminal verdict withdrawn after independent audit; U0-U3/LSMF not present; S7 registered (2026-08-09)
+
+**THIS ENTRY CORRECTS F-96. F-96 IS NOT DELETED.** Its text stands as the record
+of what was originally claimed; the claims listed below are withdrawn from it.
+Superseded artifacts are registered with their bytes and hashes in
+`report/ssl_s5/S5R2_SUPERSEDED_ARTIFACTS.json`; nothing was deleted.
+
+**CORRECTED VERDICT.**
+
+```text
+S5_DATA_OR_PREREGISTRATION_CONTRACT_FAIL_CLOSED
+SLOT_PROXY_POCKET_CHEMISTRY_SIGNAL_OBSERVED_AS_DEVELOPMENT_EVIDENCE
+EXACT_RESIDUE_PAIR_MECHANISM_NOT_IDENTIFIED
+AFFINITY_DIRECTION_NOT_TESTED
+S6_NOT_AUTHORIZED
+```
+
+`P1B_PAIR_LOCAL_STRUCTURAL_MECHANISM_OBSERVED` is **withdrawn**. Three of its
+four load-bearing words were wrong: the scored object is a complex-level
+aggregate, not pair-local; the statistic is contact localisation annotated with
+residue identity, not a mechanism; and the PASS was unit-dependent.
+
+**D-1, DECISION-CHANGING -- the inference unit was not the registered one.** The
+base preregistration and `experiment.md` both say the units are *closure
+components*. The implementation bootstrapped homology groups and scaffolds
+**separately** and reported the wider interval. Recomputed on the CORE channel
+from retained arrays, with no fitting:
+
+| unit | n | cond 1 | cond 3 | A5-AL |
+|---|---:|---|---|---|
+| homology | 359 | +0.447 [+0.304, +0.578] | +0.298 [+0.229, +0.371] | +0.134 [+0.076, +0.203] |
+| scaffold | 198 | +0.447 [+0.290, +0.597] | +0.298 [+0.237, +0.353] | +0.134 [+0.075, +0.216] |
+| cells | 546 | +0.447 [+0.310, +0.577] | +0.298 [+0.235, +0.362] | +0.134 [+0.081, +0.196] |
+| **closure components** | **54** | **+0.447 [-0.020, +0.497]** | **+0.298 [-0.076, +0.354]** | **+0.134 [-0.161, +0.223]** |
+
+The closure graph has **54** components and the largest holds **1,291 of 1,449 =
+89.1 %** of the test split. **Under the registered unit no condition retains a
+positive lower bound.**
+
+**D-2, FACTUALLY WRONG -- F-96's module-participation numbers came from a smoke
+test.** F-96 reported the un-normalised synthetic run as `0.0760 -> 0.0383` with
+the protein and geometry branches `NOT_CAUSALLY_USED`. Those are a
+**32-train/16-test/1-epoch smoke test** whose JSON was read before the registered
+run overwrote the same filename at 12:06:58. The authoritative artifact
+`S5R2_HEAD_SYNTHETIC.json` and the console log `head_syn.log` both record
+`train=1200 test=400`, **loss 0.077279 -> 0.002167, all three branches
+CAUSALLY_USED**. Consequently the "normalisation defect" never existed at the
+registered scale, and the repair applied in response **degraded every measured
+outcome**: synthetic 0.00373 vs 0.00217, real 0.00590 vs 0.00301, and it created
+the only `NOT_CAUSALLY_USED` verdict in the record via a 1e-3 standard-deviation
+floor amplifying near-constant one-hot atom features up to 1000x.
+
+**D-3 -- the head-versus-A5 conclusion is withdrawn, not corrected.** It exists
+only in the superseded normalised run, was computed on a complex-level aggregate
+the head never optimised, and used calibration fitted on **test** while the
+ladder fitted on **train**, so `+0.4467` and `+0.3943` were never comparable. The
+better un-normalised head was never compared to A5 at all. "Learning buys
+nothing" is not supported.
+
+**D-4 -- wrong-ligand arm was not masked.** `lig_valid` was never intersected, so
+67 of 1,449 test rows entered arm `AL` as exact zero vectors. Corrected on 1,382
+rows: `A5 - AL = +0.1383 [+0.0827, +0.2037]` versus the published
+`+0.1337 [+0.0750, +0.2164]`. Direction unchanged. **`s5r2_ladder.py` is
+deliberately left unedited** so its recorded hash still matches what produced
+`S5R2_LADDER.json`; the fix is mandatory in S7.
+
+**D-5 -- the exact-residue analysis is post hoc and unreproducible.**
+`s5r2_exact_eval.py` (11:53:46) postdates `S5R2_LADDER.json` (11:52:37), so the
+de-proxying was designed after the ladder was scored. Neither the 700 `e_exact`
+vectors nor the sampled indices were persisted, so the headline
+`+0.078 [-0.003, +0.152]` is **not reproducible from retained artifacts**. It
+weakened the author's own claim, which is the benign direction, but it is
+exploratory evidence.
+
+**D-6/D-7 -- controls looser than stated.** The wrong-ligand policy required only
+a different CCD hash and matched atom count, and **2,303 of 14,793 (15.6 %)**
+wrong ligands share the correct ligand's Bemis-Murcko scaffold. Partner reuse
+reached 18x (protein) and 58x (ligand), unmodelled by any bootstrap. Pairwise
+`< 40 %` identity was never verified directly, only inferred from MMseqs2 cluster
+membership.
+
+**D-9 -- the evaluation panel is development-exposed.**
+`p1b_gate_pilot20k_seed17_v4/gate_report.json` records `split = test`, 1,477 of
+1,490 scored, `gate_status = PASS`. The S5R-2 evaluation split **is** the split
+the P1B Gate was decided on. It is checkpoint-held-out but
+research-development-exposed, and is **not** a confirmation set. Base
+preregistration section 3.3 remains **unmet**.
+
+**D-10 -- preregistration chronology is prose, not proof.** `PREREG_S5R2` and all
+of `report/ssl_s5/` are untracked; `git log --all` returns nothing for them. The
+only evidence is one mutable mtime, and the prereg's last edit (11:26:05)
+postdates a census (11:24:05) that reported per-channel retention in which APOLAR
+ranks highest. The entire S5R-2 result is therefore `DEVELOPMENT_EVIDENCE_ONLY`.
+
+**D-11 -- wording.** "Proved to be the registered implementations" overstates.
+Bytecode equivalence gives **executable-semantic equivalence under CPython
+3.11**; `git checkout 608decf` is the actual source-identity evidence and the
+report inverted the emphasis.
+
+**WHAT SURVIVES.** The P1B input SHA-256 chain verifies end to end; the v1->v2
+provenance correction is right; `contact == (distance_bin <= 1)` holds on
+55,162,405 pairs with zero violations; the gauge is exact to 1.77e-16 and the
+bound is 0.566; the census (94.0 % `L>128`, 2.46 residues per occupied slot,
+69.1 % chemically mixed) reproduces; destructive controls sit at zero
+(-0.0006, +0.0004, -0.0023) and the oracle returns exactly 1.0000; the label
+firewall is intact; regression passes. **A real, non-artifactual structural
+association exists -- as development evidence, at slot resolution, on an exposed
+panel, under a non-registered unit.**
+
+**U0-U3 AND LSMF -- NOT PRESENT, THEREFORE NOT REPRODUCED.** An independent
+search found **zero** occurrences of `LSMF`, `sparse mechanism field`,
+`anchored satellite`, `satellite component` or `u_c(h_i)` anywhere in the tree or
+in `git log --all`. Every claimed statistic (549 clusters, 4,387 documents, 336
+union components, 64.6 % giant, 71,427 rows, 2,587 tasks, 325 satellite
+components) is absent; the apparent numeric hits are coincidental substrings
+inside floating-point values, e.g. `71427` inside `0.009371427498929866`. No
+preregistration, code, manifest, split, prediction file or label audit exists.
+The tokens `U1/U2/U3` **do** occur here, but they denote the apo/holo ensemble
+hierarchy of `PREREG_G0_DATA_FEASIBILITY.md`; `U0` does not occur at all. This is
+a token collision, not partial corroboration. The only BindingDB material on disk
+is the raw XP3/XP4 acquisition zips, which were not opened. Full record:
+`report/ssl_s5/U0_U3_AND_LSMF_REPRODUCIBILITY_AUDIT.json`.
+
+Noted without weight: the external summary reports a 64.6 % giant component and
+this audit independently measured 89.1 %. Giant-component pseudoreplication under
+simultaneous protein and ligand closure is evidently real in this domain, but the
+local measurement stands on its own and the external numbers add nothing.
+
+**BOUNDARY ADJUDICATED: A and B jointly, A dominant.** The data *as currently
+closed* cannot identify a population protein-ligand interaction -- 54 components
+with an 89.1 % giant is not a panel that resolves 0.02 at 95 %, and XP3/XP4
+already recorded the public-panel noise floor. But a localised **exact-residue**
+mechanism remains a justified hypothesis, because this repository measured that
+the 128-slot map destroys about half the biological quantity before any model
+runs. **C is rejected** -- that is precisely the withdrawn claim. **D is
+rejected** -- the P1B gate's correct-minus-deranged-protein contact AUPRC gap of
++0.353 [+0.341, +0.365] shows protein-specific information does reach the
+interface. Full reasoning:
+`report/ssl_s5/BOUNDARY_ADJUDICATION_AND_EVIDENCE_COMPARISON.md`.
+
+**PANEL FEASIBILITY -- the decisive practical finding.** The S1b acquisition
+registered 15,003 RCSB candidates released >= 2024-01-01, all disjoint from the
+10,468 pilot20k-exposed IDs. 1,118 were S4-scored and are exposed; 358 were
+downloaded and rejected; **13,885 were never downloaded and never scored**. A
+genuinely untouched confirmation panel is therefore available with no new
+governance question -- same source, same CC0-1.0 licence, same release rule, same
+acquisition script.
+
+**S7 REGISTERED, NOT AUTHORIZED TO EXECUTE.**
+`research/ssl_b2_structural_observability/PREREG_S7_EXACT_RESIDUE_LOCAL_MECHANISM.md`.
+Exact-residue target with the 128-slot readout demoted to a control arm; panel
+drawn score-blind from the 13,885 untouched IDs (seed 20260810, 2,500 records);
+**union closure components as the primary inference unit** with a fail-closed
+precondition if the largest component exceeds 25 % or fewer than 60 components
+exist; wrong-ligand control tightened to require a different Bemis-Murcko
+scaffold; all arm masks intersected; per-complex predictions, per-unit SSE and
+target vectors persisted before any metric is reported; smoke tests forced to a
+`_SMOKE` filename so they can never overwrite a registered artifact. Two **new**
+conditions make S7 decisive where S5R-2 was not: `B5 - BL` (pair specificity as a
+condition) and `B5 - B4` (the learner must beat the exact-residue zero-parameter
+estimator). Thresholds unchanged at 0.02 with LCB > 0.
+
+**S7 may not execute until this preregistration is committed and its SHA-256
+recorded in `project_state.json`.** That requirement exists because it is exactly
+what S5R-2 lacked.
+
+**LABEL AUDIT.** `recipient_label_reads = 0`, `davis_label_reads = 0`, zero
+ChEMBL/BindingDB affinity value reads, zero PLIP or pose-aware reads. Verified
+independently: no S5R-2 or audit script opens any protected path; keyword matches
+are docstrings only.
+
+**FROZEN SURFACES.** `theory/FINAL_FROZEN_THEORY/`, `model/`, `contracts/`,
+production `scripts/`, `weights/`, `config/`, CSMO, Band, positive ridge, the
+simplex, the fixed mesh, `K(B(z)F(z))` and production `z` are unmodified --
+`git status --porcelain` over all of them is empty. Regression: 75 passed.
+
+**NOT AUTHORIZED.** S6; any affinity read; any training; LSMF training; admission
+of any biological coordinate to `z`; any push. Nothing has been committed or
+pushed.
+
+
+## F-98: S7_L2B fails closed at R0 -- the five indexed L2 artifacts are not materialized (2026-08-09)
+
+**TERMINAL VERDICT: `FIVE_ARTIFACTS_NOT_MATERIALIZED`.** Earliest applicable in
+the registered hierarchy; R1-R6 were not entered; no GPU work was performed.
+
+**GOVERNING DOCUMENT.** `research/Residue locator/METASIEVE_L2B_FIVE_ARTIFACTS_CONSOLIDATED_REPORT_2026-08-09.md`
+(SHA-256 `16e6c62319750b54bcbc054d826fce3712c41473cabfc425fef9cb1c64ad0326`) is
+present and was read in full. It is a research synthesis and index. Under the
+governing rule its numerical claims become repository evidence only once the
+corresponding machine-readable artifacts are located or rebuilt; none were.
+
+**ALL FIVE INDEXED OBJECTS ARE ABSENT** from the working tree and from
+`git log --all`. `research/Residue locator/` contains exactly one file -- the
+consolidated report itself.
+
+| # | Artifact | Status | Blocks R0 |
+|---|---|---|---|
+| 1 | `METASIEVE_L2B_NEXT_STAGE_ANALYSIS_2026-08-09.md` | ORIGINAL_UNAVAILABLE | no |
+| 2 | `L2A_ORACLE_FACTOR_BUDGET.json` | ORIGINAL_UNAVAILABLE | **yes** |
+| 3 | `L2B_INDEPENDENT_DATA_GATE.json` | ORIGINAL_UNAVAILABLE | **yes** |
+| 4 | `L2B_RESIDUE_STUDENT_FEASIBILITY.json` | ORIGINAL_UNAVAILABLE | **yes** |
+| 5 | `PREREG_L2B_PLM_LOCALIZER.md` | ORIGINAL_UNAVAILABLE | no |
+
+**THE INPUTS ARE ABSENT TOO, SO NO FORMAL REPLACEMENT WAS POSSIBLE.** Searches
+for `monn`, `MONN`, `plip`, `PLIP`, `residue_atom`, `anchor`, `satellite` return
+**nothing**. There are no residue-atom interaction labels of any kind in this
+repository. CD-HIT-2D, the tool the claimed 40 % closure used, is **not
+installed** (the project standard is MMseqs2; substituting it would change the
+closure definition and therefore the experiment). The single `l2_` filename hit
+in the whole tree is the PDB code `5el2` inside PLINDER metadata -- a
+coincidence, not evidence.
+
+**No look-alike rebuild was created**, and no substitute corpus was used to
+simulate an L2A or L2B result.
+
+**STRUCTURAL BLOCKER THAT DATA ACQUISITION WOULD NOT FIX.** Arm `B4` is defined
+as the frozen incumbent exact-residue localizer from the prior low-capacity L2
+experiment. **No such checkpoint exists.** The only model checkpoint in the
+repository is `report/mechanism_refactor/p1b_pilot20k_seed17_v1/best.pt`, the
+P1B contact/distance bridge over a **128-slot** protein index -- a different
+estimand at a different protein resolution, and not an exact-residue localizer.
+The primary Gate `B5 - B4 >= 0.02 AP` is therefore **unsatisfiable by
+construction**. Even a successful MONN acquisition would leave S7_L2B blocked
+until an incumbent `B4` is separately built and frozen under its own
+preregistration. **S7_L2B is blocked at two independent points and only one of
+them is a data problem.**
+
+**THE GOVERNING DOCUMENT'S RUNTIME CLAIM IS FALSE IN THIS ENVIRONMENT.** It
+states the runtime "lacks PyTorch, the ESM software and weights, and a GPU".
+Measured: **torch 2.6.0+cu124 present, CUDA available, 7.44 GB GPU free,
+`transformers` present**. Genuinely absent: the `esm` package and the
+`esm2_t33_650M_UR50D` weights (only `esm2_t30_150M_UR50D` is cached -- the model
+P1B used). The runtime gap is real but far narrower than stated, and **it is not
+the binding constraint**. `PLM_RUNTIME_NOT_FEASIBLE` is **not** claimed: the
+650M contract was never attempted, so asserting infeasibility would be a
+fabricated verdict.
+
+**EVERY NUMBER IN THE GOVERNING DOCUMENT REMAINS AN EXTERNAL CLAIM**, including
+frozen L2 pair AP `0.01786`; the oracle factor table and
+`oracle residue - full = 0.23476 [0.22393, 0.24566]`; the ~33x residue-over-atom
+ratio; `72,226` same-protein pairs with Jaccard `0.47265` / overlap `0.75766`;
+the sequence student `0.08664` vs `0.06798` and its `0.01866` shortfall against
+the `0.02` threshold; `4,067`/`701`; `8,646`/`1,328`/`18,871`/`199,015`;
+`524`/`157`/`251`/`317`/`2,555`; `2,404`/`1,297,939`/`7,119`; atom-level AP
+`0.6767`; and all reported SHA-256, syntax-check and JSON-parse confirmations.
+This does not assert they are wrong -- it asserts they are unverifiable here,
+which under the evidence-precedence rule is the same as not being evidence.
+
+The withdrawn S5R2, U0-U3 and LSMF claims were **not** reinstated and were not
+used anywhere in this step.
+
+**STAGE-NAMING RECONCILIATION.** The instruction requires one stage and forbids
+parallel S7/L2B protocols. `PREREG_S7_EXACT_RESIDUE_LOCAL_MECHANISM.md`
+(SHA-256 `497ffda5...`) is marked **`SUPERSEDED_BY_STAGE_NAMING`, on hold, not
+deleted**. It is a *different* experiment -- exact-residue pocket composition
+from RCSB coordinates, versus S7_L2B's residue-atom interaction localization
+from PLIP labels. Note for planning: **if the MONN acquisition is not
+authorized, the held S7 is the only structural stage this repository can
+actually run**, because its data (the 13,885 never-downloaded, never-scored RCSB
+candidates) is already present and already governed.
+
+**WHAT R0 WOULD REQUIRE.** (1) authorize and acquire the MONN additional-PDB
+data at commit `f2b62ccf...` with a tier/licence/redistribution decision in
+`DATASET_ROLE_REGISTRY.json`; (2) rebuild the residue-atom edge corpus under new
+names and hashes, **not** reusing the historical `4,067/701` metric identity;
+(3) install CD-HIT-2D or formally register a change of closure tool; (4) build
+and freeze an incumbent `B4` under its own preregistration; (5) acquire the
+`esm` package and 650M weights (~2.5 GB) with revision, licence, URL and weight
+SHA-256 recorded; (6) only then write and freeze the single unified S7_L2B
+preregistration. Steps 1, 3, 4 and 5 each require explicit authorization; none
+was taken.
+
+**GPU AUTHORIZATION CHECKLIST: NOT_AUTHORIZED**, failing at its first item.
+No smoke test, no extraction, no training, no scoring, no download, no install.
+
+**LABEL AUDIT.** `recipient_label_reads = 0`, `davis_label_reads = 0`, zero
+ChEMBL/BindingDB affinity reads, zero PLIP or pose-aware reads. Firewall intact.
+
+**FROZEN SURFACES.** `theory/`, `model/`, `contracts/`, `scripts/`, `weights/`,
+`config/` unmodified. `K(B(z)F(z))`, CSMO, Band, simplex, positive ridge, fixed
+mesh and production `z` untouched. The trace-set/minimax structure and the
+frozen CDF-band theory were kept separate; no identification between the
+trace-set centre/radius and `K(BF)` was made or implied. Nothing committed,
+nothing pushed.
+
+
+## F-99: S7_L2B_R0R -- MONN raw layer reproduced; closure topology fails closed (2026-08-09)
+
+```text
+R0R-1 MONN raw provenance reproduction ... PASS
+R0R-2 new ligand identity and closure .... FAIL CLOSED
+R0R-3..R0R-6 ............................. NOT REACHED
+TERMINAL: NEW_CLOSURE_TOPOLOGY_INSUFFICIENT
+```
+
+Stopped at the earliest failed boundary. No closure was relaxed to continue, no
+`B4` was fabricated, no GPU work was performed, no affinity table was parsed.
+
+**R0R-1 PASS.** MONN cloned and pinned to `f2b62ccf49c18a9502aa0eb0d582c6e0735ef200`
+(HEAD verified). Licence recorded verbatim: *"The algorithm and data can be used
+only for NON COMMERCIAL purposes."* Declared non-commercial research use; the
+clone lives under `dataset/raw/monn/`, gitignored, so **no MONN byte is committed**.
+
+`rebuild_monn_edge_corpus.py --strict-hashes` reproduced every target exactly:
+development 12,987 raw / 12,738 mapped / 195,798 binary / 202,766 typed;
+additional PDB 1,853 / 1,851 / 9,832 / 9,832; missing atom references 0 in both.
+The deterministic outputs are **byte-identical to the supplied
+`VERIFIED_RAW_AUDIT.json` hashes** (`9489540b...`, `cbb0ed98...`) and
+**bit-identical across two independent runs**.
+
+**ACQUISITION DEFECT FOUND AND REPAIRED -- would have been silent.** All six
+source files failed SHA-256 on first clone, each *larger* than the manifest size:
+`out7` 58,935,197 vs 53,017,418; `independent_dataset_interaction_dict`
+4,719,169 vs 4,234,610; `mol_dict` 59,934,686 vs 59,740,405;
+`independent_dataset_mol_dict` 2,267,662 vs 2,259,203. Cause:
+`core.autocrlf=true` in the inherited Windows Git configuration, and MONN ships
+no `.gitattributes` marking its pickles binary, so Git applied LF->CRLF to
+binary pickles. Repaired with `core.autocrlf=false`, `core.eol=lf`,
+`git rm --cached -r .`, `git reset --hard`. **Without the supplied manifest
+hashes this would have produced a subtly corrupted corpus undetected.** Any
+future acquisition of a binary-bearing repository on this machine must disable
+autocrlf before checkout. This is a property of the acquisition environment, not
+of MONN.
+
+**R0R-2 ligand identities: complete.** All **10,972** required CCD codes resolved,
+sanitized, canonicalized and scaffolded. **Zero failures, zero quarantined
+complexes.** Frozen policies: RDKit 2023.09.6; `pickle.load(encoding="bytes")` --
+`latin1` and the default both fail with *"Bad pickle format: bad endian ID"*, so
+this is the only working policy; exact-graph identity =
+`sha256(MolToSmiles(isomericSmiles=False, canonical=True))`, collapsing
+stereoisomers, the conservative direction; an **empty** Murcko scaffold generates
+**no** closure edge, since treating `""` as shared would merge every acyclic
+ligand into one artificial blob. Homology used MMseqs2 strictly as a candidate
+generator (5,552 pairs) with parasail Smith-Waterman as the authority
+(BLOSUM62, gap_open 10, gap_extend 1, identity = matches / local alignment
+length, coverage = alignment length / min(len)); at 40 %/80 %, **1,883 accepted
+and 3,669 rejected** -- the candidate generator alone would have over-merged
+threefold.
+
+**R0R-2 FAIL CLOSED -- the topology.** 14,589 complexes -> **360** union
+components, largest **13,595 = 93.19 %**, median component size 1, only 42
+components with >=5 complexes, and **18 components straddle development and
+additional-PDB**, so the additional-PDB set is not an independent confirmation
+cohort even before publication/time closure. A paired whole-component bootstrap
+over 360 units where one holds 93 % of the data has effective sample size near
+one, while an equal-weight component macro-average is simultaneously dominated by
+singletons carrying a handful of edges.
+
+**CAUSE LOCALIZED BY ABLATION -- it is not protein homology.**
+
+| relations | components | largest | fraction |
+|---|---:|---:|---:|
+| **protein only** (PDB+seq+UniProt+40 % homology) | **1,994** | 453 | **3.11 %** |
+| protein + exact ligand graph | 722 | 11,120 | 76.22 % |
+| protein + scaffold | 556 | 13,185 | 90.38 % |
+| **frozen full rule set** | **360** | **13,595** | **93.19 %** |
+| homology only | 13,736 | 22 | 0.15 % |
+
+Protein closure alone partitions beautifully. Adding **exact ligand graph** alone
+drives the giant to 76 %. The mechanism is chemical: promiscuous ligands and
+cofactors (ATP/ADP/NAD/heme-like) recur across unrelated protein families, so
+"same exact ligand graph" transitively bridges the protein universe; shared ring
+systems compound it. **A closure that simultaneously closes protein identity and
+ligand identity over a promiscuous-cofactor corpus does not partition.** This is
+a property of the estimand, not an implementation artifact.
+
+**ONE HISTORICAL NUMBER REPRODUCED.** Development exact sequences = **2,404**,
+matching the consolidated report. That single claim graduates to *reproduced*.
+`4,067/701`, `8,646`, `524/157` and every AP value remain unverified external
+claims and were not used anywhere.
+
+**CORPUS CHARACTERISTICS RECORDED.** All seven PLIP channels clear a 5 %
+development-prevalence bar and are evaluable: Hydrogen Bonds 94.0 %, Hydrophobic
+86.5 %, Water Bridges 53.5 %, Salt Bridges 33.7 %, pi-Stacking 31.0 %, pi-Cation
+10.4 %, Halogen Bonds 7.2 %. The development complete residue x atom matrix is
+**403,454,851** cells at a positive rate of **4.85e-4** (~1 in 2,060).
+
+**THE ADJUDICATION THIS REQUIRES (not taken).** Exactly one decision could
+unblock R0R-2, and it is a scientific decision about the estimand: define the
+inference partition on the **protein side alone** and control ligand leakage by
+evaluation design -- held-out ligand graphs plus the `BX` wrong-ligand control --
+rather than by closure. Measured projection: development 12,738 complexes /
+1,669 components / largest 3.46 % / 458 components >=5; confirmation candidate
+(protein-disjoint from development) 710 complexes / 325 components / largest
+1.97 % / 348 sequences / 346 ligand graphs / 3,383 positive edges. That candidate
+passes **6 of 7** capacity checks and fails `components_ge5_complexes`
+(**37** against a required 60). So the alternative is **not a free pass** either.
+It would also change the claim: the experiment would generalize over *proteins*,
+not over *protein-ligand pairs*, and that must be written into the estimand
+rather than discovered afterwards.
+
+**WHAT MUST NOT BE CONCLUDED.** This is outcome **2 -- closure cannot support
+inference**. It is not outcome 5. Nothing here says sequence-plus-2D inputs lack
+the required information. No model was trained, no AP was computed, no `B4`
+exists, no `B5` Gate was attempted, and the previous session's probe showed the
+compute path is largely available.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` -- `R0R_RECONSTRUCTION_REPORT.md`,
+`MONN_LOCAL_REPRODUCTION_AUDIT.json`, `NEW_EDGE_CORPUS_MANIFEST.json`,
+`NEW_CLOSURE_AND_SPLIT_MANIFEST.json`, `CLOSURE_RELATION_ABLATION.json`,
+`PARTITION_FEASIBILITY_PROJECTION.json`, console logs. Code under
+`research/s7_l2b_r0r/`. `PUBLICATION_TIME_CLOSURE_AUDIT.json`,
+`PREREG_B4_EXACT_RESIDUE_BASELINE.md`, `B4_FROZEN_ARTIFACT_MANIFEST.json`,
+`PREREG_S7_L2B_UNIFIED.md` and `GPU_PREFLIGHT_AUDIT.json` were **not** created,
+because their steps were never reached and writing them would imply work that
+did not happen.
+
+**FROZEN SURFACES.** `theory/`, `model/`, `contracts/`, `scripts/`, `weights/`,
+`config/` unmodified. `K(B(z)F(z))`, CSMO, Band, simplex, positive ridge, fixed
+mesh and production `z` untouched. No affinity, DAVIS, recipient or few-shot
+support label read. Nothing committed, nothing pushed. The pre-existing dirty
+worktree was preserved; no unrelated change was reverted or deleted.
+
+
+## F-100: S7_L2B development gate -- protein signal identified, below preregistered effect size (2026-08-09)
+
+```text
+Data / provenance ........... PASS (R0R-1)
+Closure construction ........ RESOLVED (protein partition + ligand disjointness filter)
+Evaluator contract .......... PASS
+Trainability control ........ PASS
+Matched baseline B4 ......... TRAINED AND FROZEN
+Registered Gate outcome ..... FAIL CLOSED (1 of 5 gates met the effect size)
+Escalation rule ............. FIRED -- B5 authorised by the preregistration
+B5 frozen ESM2-650M ......... NOT RUN, blocked on weight acquisition
+Confirmation cohort ......... SEALED, never opened
+```
+
+**PREREGISTRATION COMMITTED BEFORE ANY MODEL EXISTED.**
+`research/s7_l2b_r0r/PREREG_S7_L2B_UNIFIED.md`, SHA-256
+`2c333f223ae450c566cc62b1a3b276ff59c065c38348005ad9504ac1930b9a92`, commit
+`ce186f4`. This is the F-97 lesson applied: chronology is now cryptographic, not
+prose. Only the preregistration was committed; nothing was pushed and the dirty
+worktree was preserved.
+
+**THE CLOSURE CORRECTION THAT MADE THIS MEASURABLE.** R0R-2 measured that
+union-MERGING ligand identity into the inference partition yields a 93.19 % giant
+component. Ablation localised the cause to the ligand side (protein closure alone
+gives 1,994 components with a 3.11 % largest; adding exact ligand graph alone
+drives it to 76.22 %). The correction is to enforce ligand closure as a
+**disjointness filter between train and held-out** rather than as a merge
+relation. This is *stricter* between the two sets than a merge, while leaving the
+partition usable: train 9,758 complexes / 151,065 positives; held-out A 2,415
+complexes / 196 components / largest 15.2 % / 36,046 positives; held-out B
+(scaffold-strict) 1,881 / 160 / 16.5 % / 29,073. Claim scope stated up front:
+generalisation over **proteins**.
+
+**CONTRACT CHECKS.** MONN `atom_name` lists deposited atoms INCLUDING hydrogens
+while `mol_dict` is heavy-atom only, and `atom_idx` is a plain identity range,
+NOT a mapping into the molecule. The correct mapping is the rank of a slot among
+heavy positions. Validated per record: **14,586 of 14,589 pass**, 3 quarantined
+on heavy-count mismatch, **zero** positive edges on hydrogens, **zero** residue
+indices out of range. Evaluator self-test: AP in float64 with ties broken by a
+fixed `(residue_index, atom_slot)` order is bit-identical under a random
+permutation of the flattened matrix, returns exactly 1.0 when all rows are
+positive, and excludes complexes with no positives. Trainability control: the
+identical pipeline recovers a KNOWN function of the frozen inputs at macro-AP
+**0.7588** against prevalence 0.0081, so optimisation and objective are **not**
+the defect.
+
+**RESULT, held-out A, complete-matrix AP, 196 components.**
+
+| arm | macro-AP |
+|---|---:|
+| B0 prevalence | 0.00250 |
+| BL ligand-only | 0.00450 |
+| BP wrong protein | 0.00485 |
+| BM motif shuffle | 0.00530 |
+| BX wrong ligand | 0.00768 |
+| **B4 non-PLM residue** | **0.02295** |
+
+| gate | delta | LCB95 | threshold | |
+|---|---:|---:|---:|---|
+| G1 B4-B0 | +0.02045 | +0.01719 | 0.02 | PASS |
+| G2 B4-BL | +0.01845 | +0.01523 | 0.02 | FAIL |
+| G3 B4-BP | +0.01810 | +0.01487 | 0.02 | FAIL |
+| G4 B4-BM | +0.01765 | +0.01408 | 0.02 | FAIL |
+| G5 B4-BX | +0.01527 | +0.01238 | 0.02 | FAIL |
+
+**Registered outcome: FAIL CLOSED.** Four of five contrasts fall below the
+preregistered 0.02 absolute-AP effect size. The threshold was frozen before any
+model existed and is **not** relaxed; statistical significance does not override
+a preregistered practical-effect requirement. Held-out B reproduces the ordering
+(B4 0.02153 vs BL 0.00452, delta +0.01701 [LCB +0.01399]) with **no sign
+reversal**, so the result is not an artifact of ligand-scaffold overlap.
+
+**EVERY CONTRAST IS DIRECTIONALLY POSITIVE WITH LCB ABOVE ZERO.** Substituting a
+wrong protein collapses B4 from 0.02295 to **0.00485**, essentially back to
+ligand-only: almost all of B4's advantage over ligand-only requires the correct
+protein. Motif shuffle collapses it to 0.00530, so residue order and position are
+load-bearing. Wrong ligand collapses it to 0.00768, well above ligand-only but
+far below B4. Ligand-only itself sits at 0.00450 against a prevalence of 0.00250.
+The constraint-2 identifiability requirement is met in DIRECTION on every
+control; it is the effect SIZE that is not met.
+
+**AUTO-ASSIGNED LABEL WITHDRAWN.** The runner emitted
+`S7L2B_LIGAND_ONLY_SHORTCUT` from a decision-logic defect that mapped "G2 did not
+pass" straight to the ligand-shortcut verdict. G2 can fail on effect size while
+being strongly directional, which is what happened. The label is contradicted by
+its own data: B4 is **5.1x** ligand-only and ligand-only barely clears
+prevalence. Corrected to
+`S7L2B_PROTEIN_SIGNAL_IDENTIFIED_BELOW_PREREGISTERED_EFFECT_SIZE`. A descriptive
+label does **not** convert the outcome into a pass; the Gate outcome remains FAIL
+CLOSED. The raw run output is retained unedited and the adjudication is in
+`S7L2B_DEVELOPMENT_GATE_ADJUDICATED.json`.
+
+**FAILURE LOCALIZATION.** Data: not the cause (six source hashes verified, corpus
+bit-identical across runs). Closure: not the cause (196 components, largest
+15.2 %, ligand-disjoint from train). Optimization: not the cause (trainability
+control at 0.759). Identifiability support: not the cause (all five LCBs above
+zero). **Representation: THE CAUSE** -- explicit non-PLM residue features carry
+real but weak protein information. Transfer: not tested, confirmation sealed.
+
+**ESCALATION RULE FIRED, AND IT IS EVIDENCE-BACKED.** PREREG section 7 authorises
+B5 only if B4-BL fails G2 OR B4 macro-AP stays below 0.10. Both hold. This is
+exactly what constraint 9 requires before adding a larger encoder: prior
+experiments must explicitly indicate missing information. That evidence now
+exists and is measured, and the residue representation is the only component B5
+changes. B5 must still clear G1-G5 plus G6 (B5-B4 >= 0.02, LCB > 0).
+
+**B5 NOT RUN -- acquisition blocked.** The frozen `esm2_t33_650M_UR50D` weights
+(2,609,621,831 bytes) could not be acquired. The endpoint answers HEAD 200 and
+throughput reaches 3.5-6.6 MB/s while flowing, but the transfer drops after
+several hundred MB to ~2.1 GB and the client begins a NEW `.incomplete` blob from
+zero instead of range-resuming, so progress is not cumulative.
+`PLM_RUNTIME_NOT_FEASIBLE` is **NOT** claimed: the GPU contract was never
+exercised and the GPU has 7.44 GB free, ample for a frozen 650M forward at window
+1000, batch 1. Nothing here is evidence about the PLM hypothesis.
+
+**SELF-CORRECTION RECORDED.** I twice declared the download stalled by polling
+blob size with `Get-ChildItem`; on Windows the reported length of an actively
+written file lags, and I killed one attempt at 2157 MB of 2610 MB on that false
+reading. The correct method is to wait on process exit. This is recorded because
+the same mistake would corrupt any future judgement about acquisition
+feasibility.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` -- `S7L2B_DEVELOPMENT_REPORT.md`,
+`S7L2B_DEVELOPMENT_GATE.json` (raw), `S7L2B_DEVELOPMENT_GATE_ADJUDICATED.json`,
+`GPU_PREFLIGHT_AUDIT.json`, `SPLIT_CONSTRUCTION_CENSUS.json`, plus the R0R-1/2
+artifacts. Sealed per-complex predictions for all six arms and the B4 checkpoint
+with SHA-256 are under `dataset/processed/s7_l2b_r0r/preds/`. Code under
+`research/s7_l2b_r0r/`.
+
+**BOUNDARIES HELD.** No affinity, DAVIS, recipient or few-shot support label was
+read. `theory/`, `model/`, `contracts/`, production `scripts/`, `weights/`,
+`config/`, CSMO, Band, simplex, positive ridge, mesh and production `z` are
+unmodified. All new code is under `research/`. The confirmation cohort was never
+scored, and R0R-3 publication/time closure remains unbuilt, so it could not be
+opened even on a development pass. Few-shot adaptation remains closed and no
+biological statistic is admitted to `z`.
+
+
+## F-101: I-1/I-2 integrity repairs -- atom correspondence verified; recoverable structure is the RESIDUE MARGINAL, coupling beyond margins is weak (2026-08-09)
+
+Label-side only. No training, no GPU, no affinity read. Held-out A: 2,409
+complexes with positives in 196 protein closure components; 2,314 entered the
+coupling test.
+
+**I-1 ATOM CORRESPONDENCE -- BLOCKER DISCHARGED.** The mapping under test was
+`atom_slot -> rank among non-hydrogen positions in atom_names`, with the RDKit
+molecule's own element symbols as the authority. Two earlier necessary
+conditions (heavy count equals `mol.GetNumAtoms()`; no positive edge on a
+hydrogen) do not establish that the ORDER corresponds, so order was tested
+directly at 375,311 positions.
+
+My first two parsers were wrong, and both errors are recorded. A strict
+two-letter element parser flagged 166 records, every one of which was the
+parser over-matching a single-element name with a positional suffix -- `CL1` is
+carbon, `PD` is phosphorus, `SB2` is sulfur. A one-or-two-letter compatibility
+rule left 3, of which two were gaps in my symbol list (`OS` osmium, `PR`
+praseodymium). The correct, list-free rule is the actual PDB convention: **a
+ligand atom name BEGINS with its element symbol**. Under it exactly **one**
+record is genuinely incompatible: `5w8v` / CCD `9YP`, position 19, name `CAJ`
+aligned to a nitrogen.
+
+Result: **14,585 records admitted; 4 enumerated and quarantined**
+(`4xe1`, `5W31_MBO`, `5w8v`, `6GBR_MBO`; sha256 `a64e071d...`). The quarantine
+is wired into `s7_dataset.build()`, so the exclusion is part of the data
+contract rather than a manual step. Verdict
+`ATOM_CORRESPONDENCE_VERIFIED_WITH_ENUMERATED_QUARANTINE`.
+
+**I-2 ANOVA MACHINERY VALIDATED, AND IT IS NOT DOUBLE CENTERING.** The registered
+coupling object `G = mu + alpha_i + beta_j + C`, `C = G - Proj_W(additive)`, is
+solved as a genuine weighted least-squares ANOVA on the actual mask by weighted
+ALS with an identified re-centring step. Self-test both directions: with a
+complete mask and uniform weights it reproduces classical double centering to
+**2.78e-16**; with non-uniform weights it **differs** by up to **0.423**. Naive
+double centering is used only as that oracle and never on real data.
+
+**I-2 THE RECOVERABLE STRUCTURE IS THE RESIDUE MARGINAL.** Macro-AP over
+components on the complete residue x heavy-atom matrix:
+
+| object | macro-AP |
+|---|---:|
+| ligand-only (measured) | 0.00450 |
+| Oracle-A true atom marginal | 0.00850 |
+| B4 (measured) | 0.02295 |
+| **Oracle-R true residue marginal** | **0.21633** |
+| **Oracle-RA additive projection** | **0.39075** |
+| exact pair (sanity) | 1.00000 |
+
+Residue localisation is worth about **25x** atom propensity. **B4 recovers only
+about 6 % of the oracle-marginal ceiling**; headroom to Oracle-RA is **+0.368 AP**
+and to Oracle-R alone **+0.193 AP**. The bottleneck is predicting *which residues
+bind at all*, not *which residue pairs with which atom*.
+
+This is a fresh measurement on our own corpus, split, evaluator and code. It is
+**not** a reproduction of the unverified consolidated-report figures
+(0.25262 / 0.02494), which remain external claims; the direction agrees, the
+numbers are ours and differ.
+
+**I-2 COUPLING BEYOND MARGINS IS WEAK IN THE LABELS.** Statistic: leading
+singular-value share of the marginal-orthogonal residual on the active
+submatrix. Null: degree-preserving bipartite rewiring by checkerboard swaps, 20
+per complex, 30x(positives) swap attempts, holding every `d_i` and `e_j` exactly
+fixed. True mean **0.6124** vs null mean **0.5921**, difference **+0.0203**,
+median z **+0.41**, and only **63.1 %** of complexes exceed their own null
+(chance 50 %). A real but small excess: the typical complex sits within half a
+standard deviation of a degree-matched random matrix. Rewiring was used strictly
+as an evaluation control and never as a training negative.
+
+**FALSIFIABLE PREDICTION REGISTERED IN ADVANCE.** Making the coupling term
+marginal-orthogonal and having it REPLACE the free pair term remains the right
+construction, because it stops the pair term absorbing marginal effects. But this
+measurement predicts the coupling head will **not** be the source of a large AP
+gain on these labels. A large reported gain from a coupling head on this corpus
+should first be suspected of marginal leakage into the coupling term.
+
+**FAILURE LOCALIZATION SHARPENED.** Excluded: label insufficiency for marginals
+(Oracle-RA = 0.391, there is much to find); optimization (trainability control
+0.759); closure (196 components, largest 15.2 %); atom correspondence (I-1).
+Partially confirmed: label insufficiency **for coupling specifically** (median
+z 0.41). **Leading explanation: biological representation failure** -- B4
+recovers 6 % of the marginal ceiling and the 0.368 AP gap lies in the residue
+representation. The prior state record listed representation as one of several
+competing explanations; this audit removes "there is nothing to find" from that
+list. Section non-identifiability: NOT REACHED, no adaptation attempted.
+
+**WHAT THIS SUPPORTS.** Exactly the registered B5 design as written: change
+**only** the residue features, holding the ligand branch, head, rank, sampler,
+budget and evaluation mask fixed. It does **not** authorise attention, a geometry
+branch, a PLM larger than the registered 650M, an affinity head, or any
+additional branch. No affinity, ranking, transfer, few-shot or `z`-admission
+claim is made.
+
+**BLOCKERS.** Discharged: `ATOM_CORRESPONDENCE_NOT_FULLY_VERIFIED`. Still open:
+tie-aware AP and per-pair prediction materialisation; negative and control
+manifest completion; publication/time closure; ESM2-650M weight acquisition.
+B5 remains operationally blocked.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/I1_ATOM_CORRESPONDENCE_AUDIT.json`,
+`I1_ATOM_QUARANTINE.json`, `I2_COUPLING_IDENTIFIABILITY_AUDIT.json`,
+`I2_COUPLING_IDENTIFIABILITY_REPORT.md`, `i2_console.txt`. Code under
+`research/s7_l2b_r0r/`. Frozen surfaces unmodified; nothing committed or pushed
+beyond the previously committed preregistration.
+
+
+## F-102: Phase 0 integrity repair complete; B5 PASSES ALL SIX GATES; gain is residue-side and largely generic (2026-08-10)
+
+```text
+Phase 0 blockers ............ ALL DISCHARGED
+B5 registered Gates ......... 6 of 6 PASS
+Failure localization ........ BIOLOGICAL REPRESENTATION, now resolved for residue localisation
+Ligand-conditioning ......... WEAK — 92.5% of residue localisation survives a ligand swap
+Confirmation cohort ......... SEALED, never opened
+```
+
+**PHASE 0 — EVERY BLOCKER DISCHARGED.** Atom correspondence verified at
+**375,311** positions; 14,585 admitted, 4 enumerated and quarantined, quarantine
+wired into the data contract. Tie-aware AP and sealed per-pair predictions
+materialised over **52,062,975** held-out cells per arm as hashed float16.
+Negative sampler audited at the contract's own granularity: exactly six per
+positive, unique within each positive block, **zero** negatives that are actually
+positives (cross-positive repetition 4.8 %, reported, not a violation).
+Publication/time closure built and frozen from RCSB. ESM2-650M acquired by
+range-resuming curl and **SHA-256 verified** (`c874668852...`, revision
+`08e4846e`), then run offline. Phase 0 committed as `139effd` **before** B5 was
+scored; the preregistration was already committed as `ce186f4`.
+
+**TWO PHASE-0 CORRECTIONS RECORDED RATHER THAN SMOOTHED OVER.** First, the
+earlier determinism comparison was **confounded**: the I-1 quarantine changed
+train from 9,758 to 9,757 between the two runs, so the differing checkpoint hash
+was expected and was NOT evidence of non-determinism. A same-data test in one
+process then gave **bit-identical** state dicts. Second, the ligand-only baseline
+is **massively tie-dependent** — optimistic 0.199 versus pessimistic 0.003 —
+because a ligand-only model assigns every residue the same score; only the
+tie-aware Monte-Carlo expectation is a defensible point estimate for it.
+
+**B5 RESULT — held-out A, 2,409 complexes, 196 protein components, tie-aware
+macro-AP over the complete residue x heavy-atom matrix.**
+
+| arm | macro-AP |
+|---|---:|
+| B0 prevalence | 0.00319 |
+| BM5 motif shuffle | 0.00451 |
+| BP5 wrong protein | 0.00464 |
+| BL ligand-only | 0.00572 |
+| BX5 wrong ligand | 0.01968 |
+| B4 non-PLM residue | 0.02325 |
+| **B5 frozen ESM2-650M** | **0.06960** |
+
+| gate | delta | LCB95 | |
+|---|---:|---:|---|
+| G1 B5-B0 | +0.06642 | +0.05998 | PASS |
+| G2 B5-BL | +0.06388 | +0.05751 | PASS |
+| G3 B5-BP | +0.06496 | +0.05849 | PASS |
+| G4 B5-BM | +0.06509 | +0.05876 | PASS |
+| G5 B5-BX | +0.04992 | +0.04424 | PASS |
+| G6 B5-B4 | +0.04635 | +0.04039 | PASS |
+
+Every lower bound clears the frozen 0.02 threshold by at least a factor of two.
+**Only the residue features changed** — atom branch, head, rank 32, projected
+dimension 128, sampler, optimiser, learning rate, weight decay, epochs, seeds,
+split, evaluation mask and tie policy are identical to B4. This is the first Gate
+PASS in the S7/L2B programme.
+
+**THE FAILURE IS NOW DEFINITIVELY LOCALISED.** Optimisation had already been
+excluded by the trainability control (0.759) and determinism is verified.
+Changing only the residue representation tripled pair AP and cleared every Gate,
+so the earlier `PROTEIN_SIGNAL_IDENTIFIED_BELOW_PREREGISTERED_EFFECT_SIZE` was
+**biological representation failure**, exactly as I-2 predicted from the oracle
+budget.
+
+**THE GAIN IS ENTIRELY RESIDUE-SIDE — AND LARGELY GENERIC.** Marginal
+decomposition from the sealed predictions, nothing retrained:
+
+| arm | residue-marginal AP | atom-marginal AP |
+|---|---:|---:|
+| BL | 0.0313 | 0.7246 |
+| B4 | 0.0879 | 0.6895 |
+| **B5** | **0.2651** | 0.6796 |
+| BX5 wrong ligand | 0.2453 | 0.5097 |
+| BP5 wrong protein | 0.0434 | 0.6595 |
+
+Residue marginal B5-B4 = **+0.1772 [LCB +0.1601]**. Atom marginal B5-B4 =
+**-0.0099 [-0.0218, +0.0044]** — no gain, interval spans zero. ESM2 buys residue
+localisation and nothing else; atom propensity is already near its ceiling for a
+ligand-only model (BL 0.7246, the highest of any arm), matching I-2's finding
+that the true atom marginal is worth only 0.0085 pair AP.
+
+**CAVEAT THAT TRAVELS WITH THE PASS.** Swapping in a wrong ligand leaves
+residue-marginal AP at **0.2453 against B5's 0.2651** — about **92.5 %** survives.
+B5 predicts a **generic pocket**, not a ligand-conditioned one. The pair-level G5
+gap appears in pair scores but may still be explained by additive residue and
+atom marginals; it does not identify exact coupling or ligand-specific residue
+localisation.
+This is precisely the "strong pi alone means generic pocket localisation"
+outcome, predicted in advance by I-2's median z of +0.41 against a
+degree-preserving rewiring null.
+
+**PUBLICATION/TIME CLOSURE — TIME-FORWARD CONFIRMATION IS INFEASIBLE FROM MONN.**
+14,447 entries requested, 14,426 returned, 14,103 with a document key (DOI else
+PubMed, never substituting a PDB ID); 323 lack a primary publication identifier
+and are quarantined. Development 6,331 documents, additional-PDB 707, with only
+**4** shared. But only **2** additional-PDB entries were released on or after the
+frozen 2019-01-01 cutoff, and **zero** would qualify at 2024-01-01: MONN was
+assembled in 2020 from PDBbind-v2018-era structures and contains no time-forward
+holdout by construction. A document-closed confirmation cohort remains
+constructible; a time-forward one does not and would need a different source
+carrying residue-atom interaction labels.
+
+**BOUNDARY CLASSIFICATION.** DATA/LABEL INSUFFICIENCY: excluded for marginals,
+confirmed weak for coupling. BIOLOGICAL REPRESENTATION FAILURE: **resolved for
+residue localisation**. OBJECTIVE/OPTIMIZATION FAILURE: excluded.
+SUPPORT-SECTION NON-IDENTIFIABILITY: not reached.
+
+**WHAT IS RETAINED AND WHAT IS REFUSED.** Residue localisation is retained as a
+**biological statistic candidate**. Exact residue-atom coupling is **not**
+claimed. No affinity, ranking, transfer, few-shot or `z`-admission claim is made.
+No ChEMBL, BindingDB, DAVIS or recipient label was read.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` — `P1_B5_REPORT.md`, `P1_B5_GATE.json`,
+`P1_MARGINAL_DECOMPOSITION.json`, `P0_SEALED_PREDICTION_MANIFEST.json`,
+`P0_DETERMINISM_AND_SAMPLER_CHECK.json`, `P0_ESM2_ACQUISITION_MANIFEST.json`,
+`PUBLICATION_TIME_CLOSURE_AUDIT.json`, `I1_*`, `I2_*`, `GPU_PREFLIGHT_AUDIT.json`.
+Sealed per-pair predictions and checkpoints under
+`dataset/processed/s7_l2b_r0r/`. Code under `research/s7_l2b_r0r/`. Frozen
+surfaces unmodified; nothing pushed.
+
+**PHASE 2 PRECONDITION.** Phase 2 may be entered only after a new preregistration
+is committed. Its expectation is registered in advance by this evidence: the
+residue-first component should improve, and the coupling component is predicted
+to be small. A large reported coupling gain on this corpus should first be
+suspected of marginal leakage into the coupling term.
+
+### F-103 — Active-tree convergence and pre-B5 archive (2026-08-10)
+
+The repository's active view had accumulated superseded preregistrations,
+withdrawn S5/S5R2 implementations, terminated XP/multipanel code, a failed
+five-artifact R0 report, and duplicate console logs. Their scientific outcomes
+were already consolidated in this ledger and the canonical evidence ledger,
+but their presence made obsolete stages look executable.
+
+Seventy-two files were removed from active `research/` and `report/` paths and
+packed into `archive/legacy_pre_b5_20260810.zip` before removal. Archive SHA-256:
+`a4c916cb09004383c0b55a6c8dd32df70748524874ada5c89a97c5d7ae9012e5` (361,895
+bytes). The archive is historical only and must not be used as current evidence
+or execution authority.
+
+Retained active surfaces are the passed production primitives, reusable S1-S4
+teacher/acquisition tools, the implemented S7/L2B Phase 0/1 path under
+`research/s7_l2b_r0r/`, MONN provenance, and Phase 0/1 machine artifacts under
+`report/s7_l2b_r0r/`. `task.md`, `experiment.md`, `project_state.json`, and
+`report/CURRENT_RESEARCH_STATUS.md` were reduced to the current B5/Phase 2A
+boundary. No model, theory, affinity data, DAVIS label, or production `z` was
+changed.
+
+
+## F-103: Phase 2A audit — the LABELS are ligand-conditioned; B5 is not; edge coupling is absent from both (2026-08-10)
+
+```text
+Preregistration ............. 4e01401d..., frozen before any metric, NOT committed
+Phase 0 contract ............ PASS, 26 artifacts, 7 fail-closed checks
+Data identifiability ........ DATA_IDENTIFIABLE
+Teacher ligand-conditioned .. YES  (dJ +0.258 [LCB +0.234], rho +0.322)
+B5 residue marginal ......... GENERIC  (89% wrong-ligand retention)
+B5 coupling ................. real but BELOW the registered 0.01 margin
+Teacher edge coupling ....... NOT identified (median z +0.413 vs threshold 2.0)
+Label semantics ............. NOT ambiguous
+Terminal verdict ............ LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING
+```
+
+**THE CORRECTION THIS ENTRY CARRIES.** F-102 reported that a wrong ligand
+retained 92.5 % of B5's residue AP and concluded "mostly generic pocket". That
+conclusion was about **B5**, and it was being carried forward as if it were also
+a statement about the **corpus**. It is not. The F-102 control substituted an
+*arbitrary foreign* ligand. Phase 2A replaced it with the scientifically correct
+comparison — a real alternative ligand of the same exact construct — against a
+noise floor measured from the data itself: two crystals of the same construct
+with the *same* ligand.
+
+| component-macro Jaccard of residue masks | value |
+|---|---:|
+| same construct, SAME ligand, different crystal (noise floor) | 0.6361 |
+| same construct, different scaffold-distinct ligand | 0.4165 |
+| **T1 dJ, paired over 292 closure components** | **+0.2580 [LCB +0.2344]** |
+
+Registered minimum meaningful effect was 0.05; the observed effect is five times
+that. It survives on held-out A alone (+0.1911 [+0.1165], 27 components) and
+under the unpaired fallback (+0.2197 [+0.1984]). It is chemistry-associated, not
+noise: within construct, mask dissimilarity rises with ligand chemical distance
+at Spearman **rho = +0.3221 [LCB +0.2987]**, with a ligand-permutation control
+giving median per-construct p = 0.03 and 84.8 % of constructs on the positive
+side. 80.4 % of scaffold-distinct pairs change the residue mask meaningfully
+(Jaccard <= 0.5 and symmetric difference >= 3 residues).
+
+**Roughly 44 % of the alternative-ligand mask difference is ligand-attributable;
+the other ~56 % sits at the replicate noise level.** Any differential objective
+must be designed expecting that.
+
+**WHERE B5's LIGAND INFORMATION ACTUALLY LIVES.** Decomposing the sealed logits
+on the complete, uniformly weighted mask (orthogonality achieved 1.18e-9 against
+a registered 1e-8 tolerance; weighted ALS agreed with double centering to
+1.07e-14):
+
+| arm | full | residue marg. | atom marg. | additive | coupling C |
+|---|---:|---:|---:|---:|---:|
+| **B5** | **0.06975** | 0.04045 | 0.00514 | 0.03983 | **0.01133** |
+| B4 | 0.02323 | 0.01619 | 0.00550 | 0.01510 | 0.00637 |
+| BX5 wrong ligand | 0.01969 | 0.03595 | 0.00326 | 0.02769 | 0.00346 |
+| BP5 wrong protein | 0.00464 | 0.00461 | 0.00492 | 0.00563 | 0.00355 |
+| BL ligand-only | 0.00573 | 0.00330 | 0.00573 | 0.00573 | 0.00305 |
+
+A wrong ligand retains **89 %** of B5's residue marginal but only **31 %** of its
+coupling term. So B5 *does* use ligand identity — but only through the pair term,
+and that term is small.
+
+**BOTH COUPLING CRITERIA FAIL THEIR REGISTERED BAR, AND ARE NOT ROUNDED UP.**
+
+| contrast | delta | LCB95 | margin | |
+|---|---:|---:|---:|---|
+| B5 coupling - degree-preserving rewiring null | +0.00601 | +0.00461 | 0.01 | FAIL |
+| B5 coupling - BX5 coupling | +0.00787 | +0.00620 | 0.01 | FAIL |
+
+Both are clearly separated from zero and both are below the practical margin
+that was fixed before the numbers were seen. The teacher's own edge coupling
+fails too: median **z = +0.413** with 63.4 % of complexes above their own null,
+against a registered threshold of z >= 2.0. This reproduces I-2's +0.41 under a
+*stricter* rewiring specification (100xE burn-in, 30xE between samples, 20
+independent rewires, **zero** degree-preservation violations) — an independent
+confirmation rather than a repetition. Mixing was checked, not assumed: edge
+overlap decays 1.000 -> 0.334 -> 0.298 -> 0.292 -> 0.292 at 0/1/5/10/30 swaps per
+edge, and successive samples overlap at 0.292, the degree-constrained plateau.
+
+**THE HEADROOM NUMBER THAT REFRAMES THE PROGRAMME.** The well-posed label-fitted
+additive ceiling — the AP obtainable by recovering the *true* residue and atom
+margins exactly — is **0.3889**. B5's full AP of 0.0698 is **17.9 %** of it; its
+additive part 0.0398 is 10.2 %; its residue marginal 0.0404 is 19.8 % of the true
+residue-margin ceiling 0.2043. **The bottleneck is the residue marginal, not the
+coupling.** A pair-coupling head would optimise a term worth 0.011 while leaving
+0.32 of additive AP unclaimed.
+
+The logistic Rasch additive null registered in section 7 is reported but flagged
+`rasch_converged: false`: the design is **completely separated** (the matrix is
+0.07 % positive, so almost every residue row and atom column has no positive at
+all and its coefficient diverges). Its AP is NOT a valid ceiling and is not used
+as one. Recorded rather than quietly dropped.
+
+**LABEL SEMANTICS — AUDITED, NOT AMBIGUOUS.** 212,556 typed edges: hydrophobic
+68,153; H-bond 57,647; pi-stacking 34,917; salt bridge 25,447; water bridge
+17,427; pi-cation 7,754; halogen 1,211. Water-mediated (indirect) edges are
+**8.2 %**, below the 20 % threshold, and removing them **strengthens** T1
+(dJ 0.258 -> 0.278) rather than reversing it. Metal-mediated edges: 0.0 %.
+
+The registration allowed recording the dense-teacher question as UNRESOLVED *if
+no comparator existed*. One did — 2,068 MONN entries already had local mmCIF from
+earlier governed stages. Declaring it unresolved would have been a fabrication in
+the convenient direction, so amendment 03 required building it. A local
+distance teacher was constructed on **1,909** complexes (median mapped sequence
+identity 1.000, exhaustive integer-offset scan, ligand copy chosen by a
+label-blind rule): **88.1 %** of PLIP positives lie within 5.0 A of a ligand heavy
+atom, and only 9.0 % beyond — consistent with the water-bridge fraction. Only 46 %
+of geometric neighbours are PLIP positives, which is expected because PLIP
+applies chemical *and* geometric criteria; a strict subset is correct behaviour
+and is NOT evidence of missing positives. A second interaction-annotation tool
+does not exist locally, so that specific comparison remains **UNRESOLVED**.
+PU learning and a soft teacher stay unauthorized.
+
+**PHASE 0 CONTRACT.** All seven checks passed fail-closed over 26 hashed
+artifacts. The load-bearing one was C3: Phase 1's marginal decomposition indexed
+the B5-family memmaps with the B4-family offset table. Both were rebuilt
+independently and proved **identical key-for-key and offset-for-offset** (the ESM
+filter dropped zero records), so the Phase 1 B5/BX5/BP5 marginals were correctly
+aligned. Every sealed prediction hash matched its recorded manifest. Mask:
+complete n_res x n_atoms, uniform weights, 52,062,975 cells, 36,237 positives,
+density 6.96e-4 — which is what makes classical double centering admissible.
+
+**CENSUS.** 14,585 records, 2,846 exact constructs, 2,916 UniProt ids, 1,994
+closure components (largest 3.1 % of records), **1,093** constructs with
+scaffold-distinct ligand pairs across **779** components, **292** components with
+both pair types, **323,410** scaffold-distinct within-construct pairs, 2,408
+replicate pairs. Label-blind power for dJ = 0.05 is >= 0.81 at the paired count
+even at the most pessimistic registered sigma of 0.30.
+
+**BOUNDARY CLASSIFICATION.** DATA/LABEL INSUFFICIENCY: **excluded** for
+residue-level ligand conditionality; **confirmed** for edge-level coupling.
+BIOLOGICAL REPRESENTATION FAILURE: **confirmed and localised** — the labels are
+ligand-conditioned, B5's residue marginal is not. OBJECTIVE/OPTIMIZATION FAILURE:
+not tested; Phase 2A trains nothing. SUPPORT-SECTION NON-IDENTIFIABILITY: not
+reached.
+
+**AUTHORIZED NEXT ACTION AND NOTHING ELSE.** One ligand-conditioned residue
+residual head, preregistered as
+`research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md`
+(SHA-256 `ae6d1a01...`): `logit p_r(P,L) = b_r(P) + delta_r(P,L)` with `b_r`
+frozen, `delta_r` one low-rank bilinear residual (K <= 8) over existing frozen
+states, projected away from constant / pocket-prior / ligand-only directions,
+supervised only by the same-protein ligand differential on symmetric-difference
+residues, with Gates D1-D5, a replicate-oracle ceiling, and a fail-closed
+module-participation audit. **Registered, not authorized. No Phase 2B code
+exists.**
+
+**CHRONOLOGY LIMITATION, STATED RATHER THAN CLAIMED AWAY.** Commit authorization
+was not granted for this run. The preregistration and its three amendments are
+anchored by SHA-256 and embedded in every output artifact, but carry **no git
+commit timestamp** — strictly weaker than the guarantee behind `ce186f4` /
+`139effd`. The Phase 2A verdict should be read with that attached until the
+files are committed.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` — `PHASE2A_SYNTHESIS.md`,
+`PHASE2A_VERDICT.json`, `PHASE2A_INPUT_MANIFEST.json`,
+`PHASE2A_DATA_IDENTIFIABILITY_CENSUS.json`, `PHASE2A_CONSTRUCT_GROUPS.json`,
+`PHASE2A_TEACHER_CONDITIONALITY.json`, `PHASE2A_MARGINAL_COUPLING_AUDIT.json`,
+`PHASE2A_COMPONENT_TABLES.json`, `PHASE2A_LABEL_SEMANTICS.json`,
+`PHASE2A_PREREGISTRATION_HASH.json`, `pa3_console.txt`, `pa4_console.txt`.
+Code `research/s7_l2b_r0r/pa0..pa5*.py`. Regression 75 passed. No affinity,
+DAVIS, KIBA or recipient read. Frozen surfaces unmodified. Nothing committed or
+pushed.
