@@ -394,13 +394,17 @@ def candidate_path_witness(ctx, teacher, panels, hcache):
     teacher_ap, candidate_ap, rows = [], [], []
     anti_max = 0.0
     identical_max = 0.0
+    candidate_uh = {}
     for row in panels["heldout"]:
         t = teacher.field(row["sk"], row["gk_a"], row["gk_b"])
-        h = hcache.get(row["sk"]).astype(np.float64)
+        if row["sk"] not in candidate_uh:
+            h = hcache.get(row["sk"]).astype(np.float64)
+            candidate_uh[row["sk"]] = h @ U.T
+        uh = candidate_uh[row["sk"]]
         gd = ctx["gvec"][row["gk_a"]] - ctx["gvec"][row["gk_b"]]
-        d = project_np(ctx["Qs"][row["sk"]], (h @ U.T) @ (V @ gd))
-        db = project_np(ctx["Qs"][row["sk"]], (h @ U.T) @ (V @ -gd))
-        dz = project_np(ctx["Qs"][row["sk"]], (h @ U.T) @ (V @ (gd - gd)))
+        d = project_np(ctx["Qs"][row["sk"]], uh @ (V @ gd))
+        db = project_np(ctx["Qs"][row["sk"]], uh @ (V @ -gd))
+        dz = project_np(ctx["Qs"][row["sk"]], uh @ (V @ (gd - gd)))
         rel_max = max(rel_max, float(np.linalg.norm(d - t)
                                      / (1e-30 + np.linalg.norm(t))))
         anti_max = max(anti_max, float(np.max(np.abs(d + db))))
