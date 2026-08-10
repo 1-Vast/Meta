@@ -1,28 +1,18 @@
-# Model Package
+# Model package
 
-This package contains two verified production boundaries:
+This package retains only verified production primitives:
 
-- `bands.py`, `mathematical.py`, `meta_operator.py`, `config.py`, and
-  `runtime.py` implement and test the frozen mathematical operator contract;
-- `encoders.py` and `mechanism.py` implement the local sequence/graph geometry
-  bridge that passed P1B.
+- `bands.py`, `mathematical.py`, `meta_operator.py`, `config.py` and
+  `runtime.py` implement the frozen probability-law operator;
+- `encoders.py` and `mechanism.py` implement the passed sequence/graph geometry
+  bridge.
 
-The unadmitted F6I component algebra was removed after consolidation and remains
-recoverable from Git commit `24a9ae0`.
+The final model task is unseen-target few-shot affinity prediction, but no
+assembled DTA pipeline is admitted here yet. The active research design will
+meta-learn one low-dimensional biological task basis from source targets and
+use a closed-form support-identifiable ridge section for adaptation. It will be
+migrated only after partner, affinity, transfer and k-shot Gates pass.
 
-There is no assembled production DTA pipeline. The previous support encoder,
-QPMA, arbitrary 28-dimensional biological state, and end-to-end assembly failed
-to establish protein-specific incremental affinity information and were removed.
-Their conclusions are preserved in `history.md` and the root evidence-triage
-document.
-
-The current integration level is therefore **interface-compatible, not deeply
-bio-mechanistically integrated**. The theory accepts an observable bounded
-statistic `z(S,Q,gamma)`, but no biological statistic has yet passed the gate
-required to enter that coordinate system. Terminal research evidence has been
-consolidated into `history.md`; exact deleted sources remain in Git history.
-
-The runtime boundary fails closed for statistics outside the declared `[0,1]`
-domain, zero-atom ligands, zero-residue bridge inputs, and incomplete deployment
-semantic hashes. `build_band_operator` uses the package-local frozen context
-map; it no longer depends on the removed biological frontend.
+Removed support encoders, arbitrary biological latents and terminal-negative
+frontends remain recoverable from Git. Adding another PLM, attention branch or
+adapter without a falsified information Gate is outside the model contract.

@@ -1,472 +1,63 @@
 {
-  "active_stage": {
-    "affinity_reads_allowed": false,
-    "name": "E-AFF-CQ-R2_BINDINGDB_TBASIS_LINEAR_WITNESS",
-    "status": "COMPLETE_NEGATIVE",
-    "training_allowed": false
+  "schema_version": "5.0",
+  "updated": "2026-08-10",
+  "core_task": {
+    "name": "unseen-target few-shot drug-target affinity prediction",
+    "target_is_meta_task": true,
+    "support_sizes": [1, 2, 3, 5],
+    "query_labels_forbidden": true
   },
-  "canonical_evidence": {
-    "c0_c1_consolidation": "report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md",
-    "c0_census": "report/correspondence_router/C0_CORPUS_AND_CENSUS.json",
-    "c1_gate": "report/correspondence_router/C1_INFORMATION_AUDIT.json",
-    "current_status": "report/CURRENT_RESEARCH_STATUS.md",
-    "history": "history.md",
-    "ledger": "report/EXPERIMENTAL_EVIDENCE_LEDGER.md",
-    "s2r_verdict": "report/s7_l2b_r0r/PHASE2B_S2R_VERDICT.json",
-    "s3r_consolidation": "report/s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md",
-    "s3r_gate": "report/s7_l2b_r0r/PHASE2B_S3R_GATE.json",
-    "s4r_audit": "report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.json",
-    "s4r_consolidation": "report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md",
-    "s4r_gate": "report/s7_l2b_r0r/PHASE2B_S4R_GATE.json",
-    "s5d_consolidation": "report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md",
-    "s5d_gate": "report/s7_l2b_r0r/PHASE2B_S5D_GATE.json",
-    "x1a_consolidation": "report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md",
-    "x1a_gate": "report/crossed_interaction/X1A_ICC_AUDIT.json",
-    "x1a_repair": "report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md",
-    "x1a_repair_status": "report/crossed_interaction/X1A_REPAIR_STATUS.json",
-    "x1a_r_deep_consolidation": "report/crossed_interaction/X1A_R_DEEP_CONSOLIDATION_AND_NEXT_PLAN.md",
-    "x1a_r_final": "report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md",
-    "x1a_r_gate": "report/crossed_interaction/x1ar_direct_dd/gate.json",
-    "cycle_quotient_census": "report/crossed_interaction/cycle_quotient_feasibility/census.json",
-    "cycle_quotient_route": "report/crossed_interaction/CYCLE_QUOTIENT_RESEARCH_AND_TRAINING_ROUTE.md"
+  "current_stage": {
+    "name": "TARGET_COEFFICIENT_META_LEARNING_DESIGN",
+    "status": "PLANNED_NOT_PREREGISTERED_NOT_IMPLEMENTED",
+    "training_authorized": false,
+    "confirmation_labels_open": false
   },
-  "closed_routes": [
-    "pose-free ligand representation repair of the direct-W residue-differential estimand",
-    "re-running S4R at a larger ligand vocabulary or radius",
-    "symmetric-difference conditional estimand repair",
-    "any fourth estimand variant on heldout-A",
-    "geometry-gated coarse-to-exact correspondence routing at the 6.0 A / 128-slot contract",
-    "widening the correspondence corpus or relaxing the contact threshold to chase the C1a margin"
-  ],
-  "correspondence_c0_c1": {
-    "C0_gates": {
-      "G0a_components": {
-        "observed": 496,
-        "pass": true,
-        "required_at_least": 60
-      },
-      "G0b_largest_fraction": {
-        "observed": 0.08109559613319012,
-        "pass": true,
-        "required_at_most": 0.25
-      },
-      "G0c_mde_80pct": {
-        "null_sigma": 0.040529730266824875,
-        "observed": 0.004525938626574682,
-        "pass": true,
-        "required_at_most": 0.05
-      }
-    },
-    "C1_gates": {
-      "C1a_empirical_minus_fixed_degree_rewire": {
-        "delta": 0.03165208145912884,
-        "lcb95_one_sided": 0.029690203052794812,
-        "margin": 0.05,
-        "pass": false
-      },
-      "C1b_unit_sufficiency": {
-        "pass": true
-      },
-      "C1c_replicate_ceiling_defined": {
-        "mean_contacted_residue_jaccard": 0.8302969117749035,
-        "pass": true,
-        "replicate_pairs": 17
-      }
-    },
-    "C2_router": "NOT_PREREGISTERED_AND_NOT_TRAINED",
-    "affinity_value_reads": 0,
-    "amendment_01_sha256": "8c2dff42fe553581548f541a96b3e6e512a722975cf540b58e948375c241a32a",
-    "census": {
-      "median_residues_per_candidate_slot": 3.0,
-      "multi_contact_rate": 0.2569999022132403,
-      "positive_units_scored_panel": 162276,
-      "units": 4702002,
-      "valid_checkerboards": 100563
-    },
-    "closure": {
-      "components": 496,
-      "distinct_scaffolds": 90,
-      "largest_component_fraction": 0.08109559613319012,
-      "prefilter_recall": 1.0,
-      "primary_union_components": 89,
-      "primary_union_failed_giant_component_cap": true,
-      "protein_clusters": 265,
-      "used": "datasail_2d_fallback"
-    },
-    "corpus": {
-      "admissible_systems": 2039,
-      "biolip_relevant_untouched_entries": 2509,
-      "distinct_ligand_comp_ids": 340,
-      "distinct_pdb_entries": 669,
-      "distinct_sequences": 982,
-      "exclusions": 5289,
-      "local_mmcif_entries": 14169,
-      "scored_systems_after_S8": 1862,
-      "untouched_entries": 2836
-    },
-    "exposure_registry_union_pdb_ids": 24874,
-    "empirical_residual_to_perfect": 0.0143892638451978,
-    "maximum_possible_gain_over_fixed_degree_null": 0.0460413453043266,
-    "heldoutA_referenced": false,
-    "heldoutB_created": false,
-    "interpretation": "within-slot deconvolution is nearly saturated by additive residue contact degree: the maximum possible gain over the fixed-degree null is 1-0.953959=0.046041, so the registered +0.05 margin is unreachable; 1-0.985611=0.014389 is only the empirical residual to perfection",
-    "macro_ap_complete_edge_additive_marginal": 0.7534489828012547,
-    "macro_ap_within_slot": {
-      "atom_shuffle": 0.9856107361548022,
-      "empirical": 0.9856107361548022,
-      "fixed_degree_rewire_null": 0.9539586546956734,
-      "geometry_shuffle": 0.9939480394708449
-    },
-    "mapping_equivalence": {
-      "note": "the parent rule M4 failed its own fail-closed check at 23/40 and was corrected by amendment before any statistic was read",
-      "pass": true,
-      "rule": "amendment 01 M3'/M4': BioLiP receptor sequence + parasail",
-      "slot_assignment_agreement": 60,
-      "structures_checked": 60
-    },
-    "plinder_used": false,
-    "preregistration_sha256": "007f8439609078649cf7751b588716492f59c93bc27e2dad997b11afd7172c1e",
-    "terminal_verdict": "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
-    "trainable_parameters_introduced": 0,
-    "trains_nothing": true
-  },
-  "crossed_interaction_x1a": {
-    "amendment_01_sha256": "d0faff29914332e474d90ce7698d5a7dcd7d77daaacb415db63426ae3648bb3f",
-    "caveats": [
-      "rho is biased toward zero by additive over-parameterization (42%/32% of cells consumed by parameters; 12.2%/14.5% singleton ligands), and that bias favours passing",
-      "var(panel) truncated to zero for both endpoints and var(cell) for Ki, so the nested decomposition is only partly identified",
-      "replicate noise is 99.99998% (Ki) and 99.93% (Kd) of adjusted variance; detectable interaction RMS is 0.309 and 0.930 log units at the frozen 0.5 ratio"
-    ],
-    "endpoints": {
-      "Kd": {
-        "cells_with_values": 4995,
-        "clusters": 12,
-        "detectable_interaction_rms_at_ratio_0p5": 0.929880412643574,
-        "effective_n": 604.2990762932185,
-        "endpoint_pass": true,
-        "largest_cluster_share_capped": 0.2066115702479339,
-        "measurements": 6370,
-        "replicate_noise_sd_log_units": 1.859760825287148,
-        "replicate_supported_cells": 1363,
-        "rho_point": 2.3471744622271726e-05,
-        "rho_star": 0.0164,
-        "rho_ucb95": 0.001336038987703271
-      },
-      "Ki": {
-        "cells_with_values": 53673,
-        "clusters": 36,
-        "detectable_interaction_rms_at_ratio_0p5": 0.3089900918650602,
-        "effective_n": 826.9959610044842,
-        "endpoint_pass": true,
-        "largest_cluster_share_capped": 0.03869407496977025,
-        "measurements": 57489,
-        "replicate_noise_sd_log_units": 0.6179801837301204,
-        "replicate_supported_cells": 2968,
-        "rho_point": 2.2227775397718435e-07,
-        "rho_star": 0.0915,
-        "rho_ucb95": 3.880818207293537e-07
-      }
-    },
-    "label_reads": {
-      "bindingdb": 0,
-      "chembl37_activity_rows_returned": 63859,
-      "chembl37_usable_pchembl_equals": 63859,
-      "davis": 0,
-      "fields_read": [
-        "activity_id",
-        "standard_relation",
-        "standard_type",
-        "pchembl_value"
-      ],
-      "kiba": 0,
-      "pdbbind": 0,
-      "recipient": 0
-    },
-    "parent_estimator_void": "the registered within-panel fit forced var(cluster) to zero for any data; its passing result is void and superseded by amendment 01",
-    "preregistration_sha256": "67e3c651de8d3f932934d76fb955f4554ded668551200ca439253d0548549bbc",
-    "recovered_x0_hashes": {
-      "cells": "898df88235401a2be2341ae1ab222e6c5903202796c8312d8e9091cf76741562",
-      "dependency_components": "8970d059bcbf4dd1ca0f3b7ec9e5ab3f594740ec37bcb5c173fdb66ffb8a7779",
-      "panels": "f378cdd610205fc02850e84e5530830d2255fcf539f4ecca81518eb19bf036bc"
-    },
-    "terminal_verdict": "X1_ICC_PRECONDITION_PASSED",
-    "trainable_parameters_introduced": 0,
-    "trains_nothing": true,
-    "x1b": "HISTORICAL_AUTHORIZATION_WITHDRAWN_BY_X1A_R_REPAIR",
-    "x2": "NOT_AUTHORIZED_NOT_TRAINED"
-  },
-  "crossed_interaction_x1ar": {
-    "terminal_verdict": "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
-    "training_performed": false,
-    "gpu_used": false,
-    "label_reads": {
-      "chembl37_preselected_pchembl_rows": 5986,
-      "bindingdb": 0,
-      "davis": 0,
-      "kiba": 0,
-      "pdbbind": 0,
-      "recipient": 0
-    },
-    "endpoints": {
-      "Ki": {
-        "rectangles": 827,
-        "components": 36,
-        "rho_ucb95": 0.12040605988312737,
-        "effective_n": 200.4270407870321,
-        "pass": false
-      },
-      "Kd": {
-        "rectangles": 590,
-        "components": 12,
-        "rho_ucb95": 0.10107822398503777,
-        "effective_n": 61.05383243172888,
-        "pass": false
-      }
-    },
-    "x1b": "NOT_RUN_PRECONDITION_FAILED",
-    "x2": "NOT_AUTHORIZED_NOT_TRAINED"
-  },
-  "bindingdb_quotient_training": {
-    "corpus": {
-      "cells": 12457,
-      "panels": 320,
-      "dependency_components": 31,
-      "largest_component_share": 0.8586336999277515,
-      "train_retained_rank": 6608,
-      "development_retained_rank": 220
-    },
-    "feature_generator": {
-      "dimensions": 288,
-      "arms": ["correct", "foreign_ligand", "deranged_protein"],
-      "cells_per_second_cuda": 106.34587975421192,
-      "feature_sha256": "0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c"
-    },
-    "linear_witness": {
-      "terminal_verdict": "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
-      "explained_fraction_vs_zero": 0.0007093321251866458,
-      "correct_rmse": 0.5803142948021307,
-      "zero_rmse": 0.5805202221477742,
-      "development_components": 12
-    },
-    "claim_ready": false,
-    "fewshot_ready": false
-  },
-  "current_phase": "OPEN_DATA_LINEAR_WITNESS_COMPLETE_TARGET_SUBSPACE_UNREGISTERED",
-  "current_scientific_state": [
+  "established": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
-    "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
-    "EXACT_RESIDUE_LOCALISATION_IDENTIFIED_IN_DEVELOPMENT",
-    "TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED",
-    "S2R_BINARY_ORDINAL_TRAINABILITY_PASS",
-    "S3R_REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
-    "S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED",
-    "S4R_GRAPH_AWARE_LIGAND_INCREMENT_IDENTIFIED_BUT_NOT_LIGAND_SPECIFIC",
-    "POSE_FREE_LIGAND_REPRESENTATION_REPAIR_ROUTE_CLOSED",
-    "S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED",
-    "CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED",
-    "UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE",
-    "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
-    "WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS",
-    "GEOMETRY_ROUTED_CORRESPONDENCE_ROUTE_CLOSED_BEFORE_TRAINING",
-    "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
-    "K_SHOT_SECTION_NOT_IDENTIFIED",
-    "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
-    "NO_VALIDATED_END_TO_END_DTA_MODEL",
-    "X1A_AMENDED_AUDIT_HISTORICALLY_PASSED_BUT_SUPERSEDED",
-    "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
-    "X1B_NOT_RUN_PRECONDITION_FAILED",
-    "CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED",
-    "CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED"
-    ,"BINDINGDB_QUOTIENT_DEVELOPMENT_TRAINING_EXECUTABLE"
-    ,"CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED"
-    ,"TARGET_COEFFICIENT_HETEROGENEITY_NOT_YET_TESTED"
+    "P1B_GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
+    "TBASIS_288D_STRUCTURAL_STATISTIC_IDENTIFIED",
+    "OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE",
+    "CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED"
   ],
-  "eligible_unregistered_proposal": null,
-  "registered_next_action": null,
-  "frozen": [
-    "heldout-B structural panel",
-    "R6 amplitude and B5 integration",
-    "additional ChEMBL affinity training and BindingDB confirmation claims",
-    "DAVIS, KIBA and recipient labels",
-    "few-shot section adaptation",
-    "production biological z",
-    "larger PLM, second protein encoder, attention stack, parallel branch",
-    "3D pose, geometry branch and typed interaction channels",
-    "knowledge graphs, PU learning and affinity supervision",
-    "CSMO, Band, positive ridge, simplex, fixed mesh and K(B(z)F(z))"
+  "negative_evidence": [
+    "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
+    "POPULATION_SHARED_288D_AFFINITY_DIRECTION_NOT_IDENTIFIED"
   ],
-  "frozen_math": true,
-  "label_firewall": "X1A_SCOPED_LABEL_ACCESS_COMPLIANT",
-  "label_reads": {
-    "bindingdb_affinity": 0,
-    "chembl37_x1a_pchembl_rows_read": 63859,
-    "chembl37_x1ar_preselected_pchembl_rows_read": 5986,
-    "chembl_affinity_training_reads": 0,
-    "davis": 0,
-    "kiba": 0,
-    "recipient": 0
+  "unresolved": [
+    "TARGET_COEFFICIENT_HETEROGENEITY",
+    "SOURCE_LEARNED_D_LE_5_MECHANISM_SUBSPACE",
+    "K_SHOT_SUPPORT_SECTION",
+    "PARTNER_SPECIFIC_AFFINITY_INCREMENT",
+    "BIOLOGICAL_STATISTIC_ADMISSION_TO_Z",
+    "END_TO_END_FEWSHOT_DTA"
+  ],
+  "minimal_model": {
+    "biological_candidate": "frozen 288D T-BASIS",
+    "meta_trainable_object": "U in R^(288xd), w0, d<=5",
+    "adaptation": "positive-ridge section restricted to support row space",
+    "operator": "A(F,z)=K(B(z)F(z))",
+    "operator_frozen": true,
+    "parallel_modules_allowed": false
   },
-  "last_full_regression": "224_PASSED",
-  "phase2b_s2r": {
-    "scope": "synthetic trainability only",
-    "sealed_heldout_ap_bidir": 0.662021078439136,
-    "terminal_verdict": "BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED"
+  "bindingdb_development": {
+    "cells": 12457,
+    "panels": 320,
+    "dependency_components": 31,
+    "largest_component_share": 0.8586336999277515,
+    "train_quotient_rank": 6608,
+    "development_quotient_rank": 220,
+    "linear_explained_fraction": 0.0007093321251866458,
+    "claim_ready": false
   },
-  "phase2b_s3r": {
-    "R6": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
-    "affinity_value_reads": 0,
-    "amendment_01_sha256": "8f93cdca8f4ea4b0818d911c40bca771e3bd77851b4056ab15d80a2f59107c3e",
-    "amendment_02_sha256": "27d1cb7ff86f6ef2f9e92f7a352dc773a8ba832bea868aefefac7af19a96ca08",
-    "deterministic_repeat": "PASS",
-    "execution_commit": "27c49df66ffedf5c42a22e01284b099ca6ee5d35",
-    "gates_passed": [],
-    "heldoutB": "NOT_OPENED_PRIMARY_DID_NOT_PASS",
-    "macro_ap_bidir": {
-      "candidate": 0.03588006089257408,
-      "chance": 0.0254715980086286,
-      "context_corruption": 0.0323363569852716,
-      "foreign_pair": 0.03573486371900468,
-      "frozen_b5_differential": 0.03158249300878146,
-      "trained_permuted": 0.03712533740724314
-    },
-    "module_participation": "PASS",
-    "preregistration_sha256": "16cef1a477dfe74cc4bc8194065accdccf5936983f918730e6a312196a2fc7ad",
-    "primary_panel": {
-      "components": 112,
-      "pairs": 46818
-    },
-    "terminal_verdict": "REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED"
+  "canonical_documents": {
+    "task": "task.md",
+    "status": "report/CURRENT_RESEARCH_STATUS.md",
+    "ledger": "report/EXPERIMENTAL_EVIDENCE_LEDGER.md",
+    "route": "report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md",
+    "history": "history.md",
+    "archive_index": "archive/FAILED_RESEARCH_ARCHIVE_20260810.md"
   },
-  "phase2b_s4r": {
-    "R6": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
-    "affinity_value_reads": 0,
-    "changed_axis": "ligand statistic only",
-    "deterministic_repeat": "PASS",
-    "earliest_failed_gate": "R1_vs_chance",
-    "gates_passed": [],
-    "heldoutB": "NOT_CREATED_AND_NOT_READ_BY_REGISTRATION",
-    "interpretation": "the graph-aware statistic doubled the above-chance gain and beat the capacity-matched permuted-label learner, but the residual signal survives a foreign ligand pair intact, so it is a construct-level residue-change prior rather than ligand-conditioned residue selection",
-    "macro_ap_bidir": {
-      "baseline41": 0.03588006089257408,
-      "candidate": 0.046855876024740284,
-      "chance": 0.0254715980086286,
-      "chemistry_shuffle": 0.05132152386671702,
-      "context_corruption": 0.02735746798484608,
-      "foreign_pair": 0.04621182389433942,
-      "frozen_b5_differential": 0.03158249300878146,
-      "ligand_only": 0.0254715980086286,
-      "trained_permuted": 0.03629280935907859
-    },
-    "module_participation": "PASS",
-    "non_gating_contrasts": {
-      "baseline41_minus_chance": {
-        "delta": 0.010408462883945492,
-        "lcb95_one_sided": 0.006920077426490188
-      },
-      "candidate_minus_baseline41": {
-        "delta": 0.010975815132166186,
-        "lcb95_one_sided": 0.004939310632375022
-      }
-    },
-    "preparation_commit": "5cdebaf4faee6c4f4edd05b8c8ef8abc8ae8ddf2",
-    "preregistration_sha256": "b0630cc34beeba874de78f25fc269b9c2a45b62bb5286e9c7b294c346b670ac3",
-    "primary_panel": {
-      "common_mask_sha256": "98ddcb111d3f76c73d47f521069fab5412a5c5c75f0dc3035920443da2cec614",
-      "components": 112,
-      "pairs": 46818
-    },
-    "real_structural_edge_label_reads": 103116,
-    "s3r_baseline_replication_abs_delta": 0.0,
-    "s3r_stream_semantic_sha256_matched": true,
-    "terminal_verdict": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED"
-  },
-  "phase2b_s4r_audit": {
-    "amendment_01_sha256": "5210197fee00d7b15288f89925d8f282791305bd35b082f17bb5bd38b96745f4",
-    "baseline_41d": {
-      "effective_rank_embedding": 5.336110036478139,
-      "effective_rank_pair_difference": 6.183034377365143,
-      "identical_vector_graphs": 687,
-      "r2_difference_norm_on_atom_count": 0.851693817411358
-    },
-    "execution_commit": "14a7a88",
-    "label_blind": true,
-    "preregistration_sha256": "8c3be16973957c6d1e7e735a7c3214d1d7e4f3b5d59f791e3f72271894130138",
-    "residue_label_reads": 0,
-    "selected": {
-      "W_parameters": 163840,
-      "baseline_retention_loss": 0.07802376079601747,
-      "coverage": 0.999974641815646,
-      "dimension": 128,
-      "effective_rank_pair_difference": 20.926621255752703,
-      "encoder": "frozen RDKit Morgan radius 1, unfolded 32-bit identifiers",
-      "incremental_beyond_baseline": 0.35522468793987644,
-      "statistic": "per-heavy-atom environment counts over a frozen train vocabulary",
-      "vocabulary_sha256": "a200a4b986af1850fdb1d244f2e002c9b5ae707a114d8a3635053edb215ed877"
-    },
-    "selection_rule": "smallest (vocabulary_size, radius) among the six admissible candidates",
-    "terminal_verdict": "GRAPH_LIGAND_REPRESENTATION_AVAILABLE_AND_INFORMATIVE"
-  },
-  "phase2b_s5d": {
-    "D1_ligand_steering_collapse": {
-      "collapse_confirmed": false,
-      "constructs_with_at_least_3_pairs": 131,
-      "median_rho_baseline41": 0.5757852225096949,
-      "median_rho_dg_data_side_bound": 0.4549937440491838,
-      "median_rho_excess_over_data": 0.013759617400224244,
-      "median_rho_graph": 0.4793458860222661,
-      "median_true_vs_foreign_field_cosine": 0.4486950725267182,
-      "rule": "median rho_graph >= 0.80 and >= median rho_dg + 0.10"
-    },
-    "D2_conditional_panel": {
-      "common_mask_sha256": "390bfb92d9f7dadab112f3e0eaf0ee9b1de344e3cfdb136a9c9e29df18197414",
-      "components": 107,
-      "median_changed_residues": 7.0,
-      "median_gain_fraction": 0.5,
-      "pairs": 40157
-    },
-    "D2_macro_ap_conditional": {
-      "baseline41": 0.6388303644211601,
-      "candidate": 0.6550297582136492,
-      "chance": 0.6437443688129131,
-      "foreign": 0.6554702195459037,
-      "permuted": 0.6285860241986148
-    },
-    "affinity_value_reads": 0,
-    "execution_commit": "26accf2",
-    "gates": {
-      "E1_vs_conditional_chance": {
-        "delta": 0.01128538940073598,
-        "lcb95_one_sided": -0.007748855342133554,
-        "margin": 0.05
-      },
-      "E2_vs_foreign_ligand_pair": {
-        "delta": -0.00044046133225454214,
-        "lcb95_one_sided": -0.021814251404474485,
-        "margin": 0.03
-      },
-      "E3_vs_trained_permuted_learner": {
-        "delta": 0.026443734015034342,
-        "lcb95_one_sided": -0.002976745618979885,
-        "margin": 0.03
-      }
-    },
-    "gates_passed": [],
-    "heldoutA_status": "CONSUMED_THREE_TIMES_S3R_S4R_S5D_DEVELOPMENT_EVIDENCE_ONLY",
-    "heldoutB": "NOT_CREATED_AND_NOT_READ",
-    "interpretation": "the estimator does steer on the ligand (true-vs-foreign field cosine 0.449) but the ligand-determined direction carries no label information under either the bidirectional or the pocket-cancelling conditional estimand",
-    "preregistration_sha256": "1ea639e09a43c93e80e9969e09a45ca1bc7bb517fc040438e43b14db8d5386bb",
-    "registered_mechanism_falsified": true,
-    "terminal_verdict": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED",
-    "trainable_parameters_introduced": 0,
-    "trains_nothing": true
-  },
-  "prior_stage_verdicts": {
-    "c0_c1": "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
-    "s4r": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
-    "s5d": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED"
-  },
-  "production_model_changed": false,
-  "schema": "MetaSieve.ProjectState.v4",
-  "terminal_verdict": "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
-  "updated": "2026-08-10"
+  "closed_labels": ["DAVIS", "KIBA", "recipient", "external confirmation"],
+  "recovery_commit_before_cleanup": "c05d3f95fe59f1f0b1e1cc34163ba473f16ea008"
 }

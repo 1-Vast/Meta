@@ -5037,3 +5037,30 @@ The next scientifically distinct test is a `d<=5` source-learned target
 coefficient subspace using dense profiling panels, followed by target-held-out
 `k=1/2/3/5` support sections. No production statistic was admitted.
 Full repository regression after consolidation: **224 passed** in `drug`.
+
+## F-116: repository converged on few-shot DTA and archived terminal routes (2026-08-10)
+
+The project objective was made explicit in `README.md` and `task.md`: predict
+affinity for unseen targets from `k=1/2/3/5` support measurements. Targets are
+meta-learning tasks. The minimal planned learner uses the frozen biological
+candidate `phi`, one source-learned `d<=5` target subspace and a positive-ridge
+support section restricted to observable directions. This follows the
+target-as-task support/query principle of Wan et al. (Nature Communications,
+2026) without copying its complete MAML/task-LSTM/noise stack.
+
+The failed shared 288D witness remains terminal-negative. The next experiment
+may change only coefficient sharing; it may not add another encoder, attention
+stack or support network. Biology and mathematics remain equal admission
+requirements: correct-partner affinity information and support
+identifiability must both pass before any statistic enters `z`.
+
+Verbose terminal S7/L2B, SSL, correspondence and ChEMBL X1A implementations,
+reports and route-specific tests were removed from the active tree after their
+durable conclusions were consolidated. The exact pre-cleanup files remain
+recoverable from commit `c05d3f95fe59f1f0b1e1cc34163ba473f16ea008`; the
+directory-level deletion index is `archive/FAILED_RESEARCH_ARCHIVE_20260810.md`.
+Production `model/`, current BindingDB quotient code and T-BASIS assets were
+retained.
+The consolidated active suite contains **92 passing tests** in the `drug`
+environment after deletion of route-specific tests whose implementations were
+archived.

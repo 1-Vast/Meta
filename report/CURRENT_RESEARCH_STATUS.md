@@ -2,58 +2,61 @@
 
 Updated: 2026-08-10.
 
+## Objective
+
+The sole final task is unseen-target few-shot DTA at `k=1/2/3/5`. Structural
+localisation and open-data quotient learning are upstream evidence, not the
+product objective.
+
 ## Current verdict
 
 ```text
 OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE
-CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED
 CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED
-TARGET_COEFFICIENT_HETEROGENEITY_NOT_YET_TESTED
+TARGET_COEFFICIENT_META_LEARNING_NOT_YET_TESTED
 K_SHOT_SECTION_NOT_IDENTIFIED
-BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
-NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
+NO_BIOLOGICAL_Z_ADMISSION
 ```
 
-BindingDB Articles 202608 now supports governed development training: 12,457
-Ki cells, 320 cycle-positive panels, 31 strict conflict components, train
-quotient rank 6,608 and development quotient rank 220. The largest component
-share is 0.8586, so this is optimization data, not independent population
-evidence.
+BindingDB Articles 202608 yields 12,457 governed Ki cells, 320 panels, train
+quotient rank 6,608 and development quotient rank 220. Strict closure has only
+31 conflict components and its largest component holds 85.86% of cells, so the
+corpus supports source optimization but not a population-wide claim.
 
-The first real training run fitted one shared 288D T-BASIS linear response. It
-explained 0.000709 of development quotient variance; every correct-versus-null
-or partner control interval includes zero, and deranged protein is slightly
-better at the point estimate. The shared radial direction is therefore not
-identified.
+The first real training run fitted one shared linear response on the frozen
+288D T-BASIS. It explained `0.000709` of development quotient variance, and no
+correct-versus-zero/foreign/deranged confidence interval excluded zero. The
+population-shared radial direction failed. Target-specific coefficient
+heterogeneity remains untested.
 
-## Next scientific question
+## Active route
 
-The only high-value minimal route is target-coefficient heterogeneity on the
-same frozen basis, learned from dense open profiling panels and evaluated as
-target-held-out `k=1/2/3/5` episodes. Use Kinobeads/PKIS/PKIS2 for ordinal
-pretraining, BindingDB/Klaeger for endpoint-specific quantitative constraints,
-and PDSP for a non-kinase development stratum. Do not mix modalities or add a
-larger representation before this test.
+Use target-wise episodes over governed open datasets to learn a single
+`d<=5` mechanism subspace on the frozen biological basis. Adapt a new target
+only by a positive-ridge section in the support-observable row space. This is
+the one trainable meta-learning hypothesis; no parallel adapter or additional
+representation branch is authorized.
 
-Any few-shot correction must be restricted to the support row space and report
-rank, conditioning, query coverage and abstention. Raw pair maps and arbitrary
-latents cannot enter `z`. The frozen operator `A(F,z)=K(B(z)F(z))` is unchanged.
+Evaluation must be target-family, scaffold and document held out. Correct
+support must beat zero, foreign and permuted support while reporting rank,
+conditioning, query coverage and abstention. Only a partner-specific,
+affinity-incremental and independently replicated statistic can later enter
+the unchanged law operator.
 
-## Current boundaries
+## Boundaries
 
-- BindingDB training evidence is development-only; strict closure is dominated
-  by one component.
-- The 288D feature generator is structurally validated, not affinity-admitted.
-- Davis, KIBA, recipient labels, heldout-B and external confirmation remain
-  closed.
-- No production `model/` or `scripts/` interface was changed.
-- Historical S3R/S4R/S5D/C0/C1/X1A results remain in the evidence ledger,
-  `history.md` and Git; they are not current execution authority.
+- The 288D basis is structurally validated but not affinity-admitted.
+- The target subspace and few-shot section are planned, not implemented.
+- Davis, KIBA, recipient and external confirmation labels remain closed.
+- `model/`, production `z`, CSMO, Band and `A(F,z)=K(B(z)F(z))` are unchanged.
+- Terminated S7/SSL/correspondence/X1A details were removed from the active tree;
+  their verdicts remain in `history.md`, the evidence ledger and Git commit
+  `c05d3f95fe59f1f0b1e1cc34163ba473f16ea008`.
 
-## Read first
+## Current evidence
 
 1. `report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md`
 2. `report/crossed_interaction/cq_r2_tbasis_linear/weights.report.json`
-3. `dataset/processed/crossed_interaction/bindingdb_202608/cq_ki_corpus/manifest.json`
-4. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+3. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+4. `task.md`
 5. `history.md`

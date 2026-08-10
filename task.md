@@ -1,37 +1,74 @@
 # Current task
 
-## Goal
+## Non-negotiable objective
 
-Build a trainable few-shot drug-target affinity model that uses large open
-datasets without confusing dataset size with biological identifiability.
+Build and validate a **trainable few-shot drug-target affinity predictor for
+unseen targets**. Targets are meta-learning tasks. The model must use large
+open datasets to learn transferable biological knowledge, then adapt from
+`k=1/2/3/5` support affinities without reading query labels.
 
-## Established
+Success requires all three layers:
+
+1. **Biology:** a partner-specific protein-ligand measurement that adds
+   affinity information beyond ligand-only and wrong-protein controls.
+2. **Meta-learning:** source target episodes learn a shared low-dimensional
+   mechanism basis; support labels estimate only the new target's identifiable
+   section.
+3. **Mathematics:** the admitted bounded statistic enters the unchanged
+   `A(F,z)=K(B(z)F(z))` operator with explicit rank, conditioning, query
+   coverage and abstention.
+
+## Minimal model contract
 
 ```text
-BINDINGDB_QUOTIENT_TRAINING_READY
-REAL_OPEN_DATA_LINEAR_WITNESS_EXECUTED
-POPULATION_SHARED_288D_AFFINITY_DIRECTION_NOT_IDENTIFIED
-FEWSHOT_TARGET_SECTION_NOT_YET_TESTED
+phi(P,L) in R^288                 frozen audited biology candidate
+U in R^(288 x d), d <= 5          source/meta-learned task subspace
+m(P,L) = U^T phi(P,L)
+f0 = f_L(L, endpoint) + w0^T m(P,L)
+a_t = positive-ridge support section in row(M_support)
+y_hat(P_t,L_q) = f0 + a_t^T m(P_t,L_q)
 ```
 
-## Next registered design target
+`U` and `w0` are learned through target-wise support/query episodes. This is
+the trainable meta-learning core. The closed-form section replaces a free
+MAML inner network; it is smaller, deterministic and aligned with the support
+identifiability requirement. The Wan et al. AdaMBind paper is a methodological
+reference for target-as-task episodic learning and task adaptivity, not a
+requirement to reproduce all of its modules.
 
-Prepare a separate preregistration for a single low-dimensional
-target-coefficient model on frozen T-BASIS coordinates:
+## Open-data roles
+
+- BindingDB curated Ki/Kd and Klaeger Kdapp: endpoint-specific quantitative
+  constraints; never merge endpoint scales.
+- Kinobeads, PKIS and PKIS2: within-panel ordinal/profile pretraining, not
+  absolute Ki/Kd calibration.
+- PDSP: non-kinase development stratum after panel/provenance census.
+- Davis, KIBA, recipient and future time-split data: closed confirmation only.
+
+Training data may be large and dependent. Population claims still require
+document, assay, protein-homology, ligand-scaffold and publication-time
+controls. Optimization authorization and scientific-admission authorization
+are separate Gates.
+
+## Immediate next stage
+
+Preregister one experiment that changes only the failed sharing assumption:
 
 ```text
-q_t(P,L) = w0^T phi(P,L) + a_t^T U^T phi(P,L),  d <= 5
+shared w FAIL
+  -> source-learn U, w0 across target episodes
+  -> evaluate unseen-target k=1/2/3/5 sections
 ```
 
-Use dense profiling panels for ordinal source pretraining and endpoint-specific
-BindingDB/Klaeger data for quantitative constraints. Evaluate unseen targets at
-`k=1/2/3/5`; adaptation must stay in the support-observable row space and must
-abstain off coverage.
+The experiment must compare support-free, zero-section, correct support,
+foreign support and permuted-support controls. It must report target-macro
+CI/Spearman/RMSE increments, support rank, conditioning, query coverage and
+abstentions. It may not lower the failed shared-linear Gate or use confirmation
+labels for model selection.
 
-## Do not do
+## Complexity boundary
 
-- do not rescue the failed shared linear witness by lowering a Gate;
-- do not pool Ki, Kd, Kdapp, inhibition and displacement as one label;
-- do not add PLMs, GNN branches, cross-attention, KG, pose or typed energy heads;
-- do not open Davis/recipient confirmation labels;
-- do not modify `A(F,z)=K(B(z)F(z))`, CSMO, Band or production `z`.
+Do not add a new PLM, GNN branch, cross-attention stack, knowledge graph, pose
+module, typed energy head or learned support encoder. A new component is
+allowed only after a registered ablation proves the current minimal model lacks
+the required information. No high-dimensional pair tensor enters `z`.

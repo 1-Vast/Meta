@@ -1,75 +1,91 @@
 # MetaSieve-DTA
 
-Mechanism-first few-shot drug-target affinity research with a frozen
-probability-law operator.
+MetaSieve is a trainable bioinformatics model for **few-shot drug-target
+affinity prediction on unseen targets**. Its central learning problem is not
+generic pocket detection: it must learn transferable target-ligand knowledge
+from large open source datasets and adapt that knowledge from `k` measured
+support ligands for a new target.
 
-## Current status
+## Core task
+
+Each protein target is a meta-learning task. Source training uses target-wise
+support/query episodes; evaluation holds out the target family, ligand
+scaffold and source document. The primary support sizes are `k=1/2/3/5`.
+
+The minimal intended predictor is
 
 ```text
-MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED
-GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED
-OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE
-CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED
-CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED
-TARGET_COEFFICIENT_HETEROGENEITY_NOT_YET_TESTED
-K_SHOT_SECTION_NOT_IDENTIFIED
-BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
-NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
+m(P,L) = U^T phi(P,L),                         d <= 5
+y_hat  = f_L(L, endpoint) + w0^T m(P,L) + a_t^T m(P,L)
 ```
 
-MetaSieve remains a trainable deep-learning bioinformatics research system.
-Frozen ESM2 and ligand encoders supply biological states; trainable interaction
-statistics are admitted only after partner, nuisance, affinity and transfer
-controls. The mathematical core remains the frozen constrained probability-law
-operator:
+where `phi` is a frozen, audited biological interaction measurement and `U`,
+`w0` are learned across source targets. The target section `a_t` is estimated
+from the support set with a strictly positive ridge penalty and is restricted
+to support-observable directions. This makes the meta-learner trainable while
+keeping continuous task freedom no larger than the support rank.
+
+The design is informed by Wan et al., [A meta learning and task adaptive
+approach for drug target affinity prediction](https://www.nature.com/articles/s41467-026-70554-5)
+(Nature Communications, 2026): targets define tasks and source knowledge is
+learned through support/query episodes. MetaSieve does not copy its full MAML,
+task-LSTM and label-noise stack. It replaces free inner-loop adaptation with a
+small identifiable section so biology and the repository's mathematics remain
+equally load-bearing.
+
+## Biology and mathematics
+
+- Frozen ESM2, ligand graph states and P1B geometry provide biological inputs.
+- The currently auditable candidate is the 288D radial chemistry T-BASIS. It
+  passed structural reconstruction and partner controls, but has not passed an
+  affinity-admission Gate.
+- Open datasets are used according to measurement semantics: Ki/Kd/Kdapp are
+  not pooled, and inhibition/displacement panels provide ordinal rather than
+  absolute-affinity supervision.
+- No raw pair map or arbitrary neural latent may enter the mathematical state
+  `z`. A biological statistic must first beat ligand-only and wrong-partner
+  controls, replicate independently, and remain identifiable from support.
+- The authoritative downstream operator remains unchanged:
 
 ```text
 A(F,z) = K(B(z)F(z))
 ```
 
-The open-data path now runs end to end in development. BindingDB Articles 202608
-produced 12,457 governed Ki cells in 320 quotient-positive panels. Strict
-document, protein-homology and ligand-scaffold closure leaves 31 conflict
-components, but the largest contains 85.86% of cells. This is enough for source
-optimization and not enough for a population claim.
+The rank bound is a linear-algebra property of the section design; it is not
+retroactively claimed as a theorem of `FINAL_FROZEN_THEORY`.
 
-The first real open-affinity training run fitted one panel-balanced linear
-response on the structurally validated 288D radial T-BASIS. It explained only
-`0.000709` of development quotient variance. Correct-pair performance did not
-beat zero interaction, foreign ligand or deranged protein with a positive 95%
-lower bound. Therefore one population-shared radial affinity direction is not
-identified.
+## Current evidence
 
-The intended endpoint is still unseen-target few-shot DTA. The next distinct
-hypothesis is a source-learned target-coefficient subspace with `d<=5`, using
-dense open profiling panels for ordinal training and BindingDB/Klaeger for
-endpoint-specific quantitative constraints. Evaluation must be target-held-out
-and scaffold-held-out at `k=1/2/3/5`; adaptation is restricted to the support
-row space and must report rank, conditioning, query coverage and abstention.
-This stage is not yet preregistered.
+```text
+OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE
+CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED
+CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED
+TARGET_COEFFICIENT_META_LEARNING_NOT_YET_TESTED
+K_SHOT_SECTION_NOT_IDENTIFIED
+BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
+NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
+```
+
+BindingDB Articles 202608 produced 12,457 governed Ki cells in 320 panels.
+The first real training run tested one population-shared linear direction on
+the 288D basis and explained only `0.000709` of development quotient variance;
+correct-pair performance did not beat zero, foreign-ligand or deranged-protein
+controls with a positive confidence bound. This rejects the shared direction,
+not target-conditioned meta-learning. The next experiment must change only the
+coefficient-sharing assumption and test a `d<=5` source-learned task subspace.
 
 ## Repository boundaries
 
-- `theory/FINAL_FROZEN_THEORY/`: authoritative mathematics.
-- `model/`: passed mathematical, encoder and geometry primitives; no validated
-  assembled few-shot DTA pipeline.
-- `scripts/`: passed data, sealing, structure, geometry and governance tools.
-- `research/`: preregistered or executed research stages.
-- `report/`: machine Gates, current status and evidence summaries.
-- `history.md`: chronological failure and decision ledger.
+- `theory/FINAL_FROZEN_THEORY/`: authoritative probability-law mathematics.
+- `model/`: verified operator, encoder and geometry primitives; no assembled
+  validated few-shot DTA model yet.
+- `scripts/`: governed data, sealing, structure and training utilities.
+- `research/crossed_interaction/`: current open-data training programme.
+- `report/`: current status and compact evidence; terminated detail is archived.
+- `history.md`: chronological decisions and failure lessons.
 
-Production `model/`, biological `z`, CSMO, Band and the law operator were not
-changed by the BindingDB experiment. Davis, KIBA, recipient labels and external
-confirmation remain closed.
-
-## Read first
-
-1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md`
-3. `report/crossed_interaction/cq_r2_tbasis_linear/weights.report.json`
-4. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-5. `task.md`
-6. `history.md`
+Read [task.md](task.md), [current status](report/CURRENT_RESEARCH_STATUS.md) and
+the [evidence ledger](report/EXPERIMENTAL_EVIDENCE_LEDGER.md) first.
 
 ## Verification
 
@@ -78,4 +94,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **224 passed**.
+see `DATA_AVAILABILITY.md`.
