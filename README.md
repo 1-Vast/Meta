@@ -18,6 +18,8 @@ S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 X1A_R_DEPENDENCE_PRECONDITION_FAILED
 X1B_NOT_RUN_PRECONDITION_FAILED
+CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
+CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -63,6 +65,12 @@ endpoints: conservative `rho_U=0.1204` and effective `n=200.4` for Ki;
 `rho_U=0.1011` and `n=61.1` for Kd. X1B was therefore not run. This is a
 crossed-data independence/information stop, not a model-training failure.
 
+A label-blind cycle-space census then found large algebraic quotient spaces in
+ChEMBL panels, but exact assays have zero crossed dimension and panel
+coordinates remain concentrated in the same 36/12 dependency components. The
+next action is a registered BindingDB curated-article metadata census, not
+training.
+
 ## Repository boundaries
 
 - `theory/FINAL_FROZEN_THEORY/`: authoritative mathematics.
@@ -81,7 +89,7 @@ adaptation, biological `z`, CSMO/Band and the frozen operator remain untouched.
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
+2. `report/crossed_interaction/CYCLE_QUOTIENT_RESEARCH_AND_TRAINING_ROUTE.md`
 3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
 5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
@@ -97,4 +105,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **203 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **207 passed**.

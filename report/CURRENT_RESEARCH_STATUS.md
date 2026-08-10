@@ -21,6 +21,8 @@ WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
 X1A_R_DEPENDENCE_PRECONDITION_FAILED
 X1B_NOT_RUN_PRECONDITION_FAILED
+CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
+CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -179,7 +181,10 @@ effective `n=200.43`; Kd `rho_U=0.101078`, effective `n=61.05`.
 ## Current boundary
 
 X1B was conditionally preregistered but not run because X1A-R failed. No
-trainable component is authorized. Three routes
+trainable component is authorized. A label-blind cycle census found raw panel
+dimensions 29,677/3,279 but zero exact-assay crossed dimension and largest
+dependency shares 0.4888/0.4608. The next registered action is a BindingDB
+curated-article metadata census; numeric values remain closed. Three routes
 remain closed by preregistered Gates: representation (S4R), estimand (S5D) and
 geometry-gated correspondence (C1). Nothing authorizes widening the correspondence corpus,
 relaxing its `6.0 A` contact contract, changing its closure, or adding
@@ -193,7 +198,7 @@ unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
 
 ## Canonical evidence
 
-1. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
+1. `report/crossed_interaction/CYCLE_QUOTIENT_RESEARCH_AND_TRAINING_ROUTE.md`
 2. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
 3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 4. `report/correspondence_router/C1_INFORMATION_AUDIT.json`

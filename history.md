@@ -4973,3 +4973,27 @@ preregistered X1B test was not run; X2 was not preregistered and no GPU training
 was authorized. A new route requires a separately governed crossed source with
 more independent components, not relaxed thresholds or a larger network. Full
 repository regression after consolidation: **203 passed** in `drug`.
+
+## F-113: cycle quotient recovers algebraic information but not independent components (2026-08-10)
+
+The proposed interaction quotient was tested label-blind on the frozen X0
+cells. Its algebra is valid: the document/context panel graphs contain raw
+cycle dimensions 29,677 (Ki) and 3,279 (Kd), far more than the cell-disjoint
+rectangle packing. But no exact assay spans multiple targets, so exact-assay
+cycle dimension is zero. At panel level, the largest frozen dependency
+component contains 48.9% of Ki and 46.1% of Kd cycle dimension; the independent
+component counts remain 36 and 12.
+
+```text
+CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
+```
+
+Thus cycle projection is retained as the preferred future affinity estimand,
+but it does not reverse X1A-R or authorize training on ChEMBL. A BindingDB
+curated-article metadata census is preregistered before acquisition. The future
+model is deliberately minimal: frozen ESM2/P1B plus one four-coordinate
+mechanism response, followed only after confirmation by a closed-form
+row-space few-shot section. No parallel attention/GNN/adapter stack is added.
+Repository regression after this audit: **207 passed** in `drug` using an
+explicit workspace-local pytest base directory because the system temp root
+was ACL-inaccessible.

@@ -8,6 +8,13 @@ rectangles and returned `X1A_R_DEPENDENCE_PRECONDITION_FAILED` for both Ki and
 Kd. X1B was not run. X2, GPU training, support adaptation and z remain
 unauthorized; no active trainable research stage exists.
 
+A label-blind cycle-space feasibility audit is also complete. ChEMBL has large
+raw panel quotient dimension but zero exact-assay crossed dimension, and nearly
+half of each endpoint's quotient coordinates remain in one dependency
+component. It does not reopen training. The only registered research action is
+the audit-only BindingDB curated-article source census in
+`PREREG_CQ_R0_BINDINGDB_CENSUS.md`.
+
 ## Completed structural path
 
 `s7_l2b_r0r/` contains the completed MONN provenance/mapping workflow, frozen

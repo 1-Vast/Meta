@@ -17,6 +17,8 @@ X1A amended ICC audit ............. HISTORICAL PASS, AUTHORIZATION WITHDRAWN
 X1A-R direct-DD dependence ........ COMPLETE, PRECONDITION FAILED
 X1B crossed interaction existence . NOT RUN, PRECONDITION FAILED
 X2 minimal q_theta model .......... NOT AUTHORIZED, NOT TRAINED
+cycle quotient ChEMBL census ...... COMPLETE, ALGEBRAIC ONLY
+BindingDB CQ-R0 metadata census ... REGISTERED, NOT EXECUTED
 heldout-B / R6 .................... NOT OPENED
 ChEMBL37 X1A-R pChEMBL access ..... 5,986 PRESELECTED ROWS; TRAINING READS ZERO
 active training stage ............. NONE

@@ -18,7 +18,7 @@ When records disagree, use this order:
    commits, manifests, predictions and label-access audit are recovered.
 
 Historical test counts and status statements describe the repository at the
-time of each experiment. The current consolidated regression count is 203.
+time of each experiment. The current consolidated regression count is 207.
 
 ## Current conclusion
 
@@ -36,6 +36,8 @@ EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED
 LABEL_SEMANTICS_NOT_AMBIGUOUS
 X1A_R_DEPENDENCE_PRECONDITION_FAILED
 X1B_NOT_RUN_PRECONDITION_FAILED
+CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
+CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -74,6 +76,15 @@ statistic `Z=(DD/2)^2-v_D,U`, with no target/ligand nuisance fit. Ki returned
 leave-one-component `rho_U=0.101078` and effective `n=61.05`. Both exceed their
 rho limits and fall below the frozen 245 effective-unit requirement. This is a
 source-design dependence/information failure, not a training failure.
+
+### Cycle-quotient feasibility (2026-08-10)
+
+The proposed quotient is algebraically available: raw panel cycle dimensions
+are 29,677 Ki and 3,279 Kd. It does not repair independence. Exact-assay cycle
+dimension is zero because no assay spans multiple targets, and the largest
+dependency component holds 48.9%/46.1% of panel quotient dimension. This
+authorizes only the registered BindingDB curated-article metadata census, not
+numeric affinity reads or training.
 
 ### S7/L2B Phase 2B-S3R — real structural direction not identified (2026-08-10)
 

@@ -17,6 +17,8 @@ WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
 X1A_R_DEPENDENCE_PRECONDITION_FAILED
 X1B_NOT_RUN_PRECONDITION_FAILED
+CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
+CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED
 AFFINITY_DIRECTION_NOT_TESTED
 K_SHOT_SECTION_NOT_TESTED
 BIOLOGICAL_Z_NOT_ADMITTED
@@ -143,6 +145,12 @@ Kd. Conservative effective counts are `200.43` and `61.05`, below the frozen
 unauthorized. Continuing requires a separately governed crossed source with
 more independent components, not a relaxed threshold.
 
+The cycle-quotient census is complete: raw ChEMBL panel dimensions are 29,677
+(Ki) and 3,279 (Kd), but exact-assay dimension is zero and largest dependency
+shares are 0.4888/0.4608. The only registered next action is the metadata-only
+BindingDB curated-article source census. Numeric BindingDB values and GPU
+training remain unauthorized.
+
 Three routes also remain closed by preregistered Gates:
 representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
@@ -162,7 +170,7 @@ representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Read first
 
-1. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
+1. `report/crossed_interaction/CYCLE_QUOTIENT_RESEARCH_AND_TRAINING_ROUTE.md`
 2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 3. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
 4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
