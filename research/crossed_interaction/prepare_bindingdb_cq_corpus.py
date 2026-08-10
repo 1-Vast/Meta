@@ -132,29 +132,26 @@ def build_corpus(projection: Path, labels: Path, output: Path, workers: int = 8)
         if row["panel_id"] in eligible_panels:
             cell_values[(row["panel_id"], row["target_id"], row["ligand_id"])].append(row)
 
-    ligand_smiles = {}
-    sequences = {}
-    cells = []
+    candidates = []
+    smiles_by_ligand: dict[str, set[str]] = defaultdict(set)
+    sequences_by_target: dict[str, set[str]] = defaultdict(set)
+    conflicting_cells = 0
     for (panel_id, target_id, ligand_id), values in sorted(cell_values.items()):
         records = [metadata[value["source_row_id"]] for value in values]
         smiles_values = {canonical_smiles(record["ligand_smiles"]) for record in records}
         sequence_values = {record["target_sequence"] for record in records}
         if "" in smiles_values or len(smiles_values) != 1 or len(sequence_values) != 1:
-            raise ValueError("one cell maps to conflicting ligand or target identities")
+            conflicting_cells += 1
+            continue
         smiles = smiles_values.pop()
         sequence = sequence_values.pop()
-        ligand_smiles.setdefault(ligand_id, smiles)
-        if ligand_smiles[ligand_id] != smiles:
-            raise ValueError("one ligand key maps to conflicting SMILES")
-        sequences.setdefault(target_id, sequence)
-        if sequences[target_id] != sequence:
-            raise ValueError("one target hash maps to conflicting sequences")
-        document = values[0]["document_id"]
-        cells.append(
+        smiles_by_ligand[ligand_id].add(smiles)
+        sequences_by_target[target_id].add(sequence)
+        candidates.append(
             {
                 "cell_id": stable_hash(f"{panel_id}|{target_id}|{ligand_id}"),
                 "panel_id": panel_id,
-                "document_id": document,
+                "document_id": values[0]["document_id"],
                 "target_id": target_id,
                 "ligand_id": ligand_id,
                 "pK": float(np.mean([value["pK"] for value in values])),
@@ -162,6 +159,29 @@ def build_corpus(projection: Path, labels: Path, output: Path, workers: int = 8)
                 "source_row_ids": sorted(value["source_row_id"] for value in values),
             }
         )
+
+    conflicting_ligands = {
+        key for key, values in smiles_by_ligand.items() if len(values) != 1
+    }
+    conflicting_targets = {
+        key for key, values in sequences_by_target.items() if len(values) != 1
+    }
+    cells = [
+        cell
+        for cell in candidates
+        if cell["ligand_id"] not in conflicting_ligands
+        and cell["target_id"] not in conflicting_targets
+    ]
+    ligand_smiles = {
+        key: next(iter(values))
+        for key, values in smiles_by_ligand.items()
+        if key not in conflicting_ligands
+    }
+    sequences = {
+        key: next(iter(values))
+        for key, values in sequences_by_target.items()
+        if key not in conflicting_targets
+    }
 
     scaffolds = {key: murcko_scaffold(smiles) for key, smiles in ligand_smiles.items()}
     invalid_ligands = {key for key, value in scaffolds.items() if not value}
@@ -289,6 +309,9 @@ def build_corpus(projection: Path, labels: Path, output: Path, workers: int = 8)
         "protein_groups_40": len(set(protein_groups.values())),
         "dependency_components": len(component_items),
         "largest_component_share": largest_share,
+        "identity_conflicting_cells_excluded": conflicting_cells,
+        "identity_conflicting_ligands_excluded": len(conflicting_ligands),
+        "identity_conflicting_targets_excluded": len(conflicting_targets),
         "invalid_or_scaffoldless_ligands_excluded": len(invalid_ligands),
         "splits": split_summary,
         "development_training_ready": ready,
