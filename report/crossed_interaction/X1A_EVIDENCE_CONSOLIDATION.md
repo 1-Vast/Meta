@@ -10,11 +10,18 @@ G2 Kd  UCB95(rho) < 0.0164 ............... PASS  (1.33e-03)
 G3 no cluster dominates (capped) ......... PASS  (Ki 0.0387, Kd 0.2066)
 G4 effective n >= 245 .................... PASS  (Ki 827.0, Kd 604.3)
 terminal verdict ......................... X1_ICC_PRECONDITION_PASSED
-X1B ...................................... AUTHORIZED, NOT RUN IN THIS RUN
+X1B ...................................... HISTORICAL AUTHORIZATION WITHDRAWN
 X2 ....................................... NOT AUTHORIZED, NOT TRAINED
 ```
 
 X1A trains nothing and introduced zero parameters.
+
+> **Authorization correction (2026-08-10):** the values above remain the
+> historical amended-audit result. They no longer authorize X1B because the
+> residual ICC is structurally attenuated and does not estimate dependence of
+> X1B's statistic `q = DD^2 - v_noise`. The current verdict is
+> `X1A_ICC_PRECONDITION_NOT_ESTABLISHED`; see
+> `X1A_REPAIR_AND_CURRENT_BOUNDARY.md`.
 
 ## 1. Recovery and firewall
 

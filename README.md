@@ -16,6 +16,9 @@ S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
+X1A_ICC_PRECONDITION_NOT_ESTABLISHED
+X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
+CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -46,13 +49,21 @@ cancels pocket membership exactly then found nothing either. Ligand information
 arrives at full strength and points somewhere biologically wrong; the
 conditional estimand route is closed too.
 
-C0/C1 then tested the last standing hypothesis — correspondence — audit-only on
+C0/C1 then tested the frozen 6 A binary within-slot correspondence hypothesis on
 1,862 systems from raw RCSB coordinates that no stage had touched, excluding
 24,874 exposed PDB ids. Every C0 admissibility Gate passed. C1 did not: exact
-within-slot AP is `0.9856` against a `0.9540` degree-preserving null, leaving
-only `0.0144` of headroom above a pure contact-degree predictor. Exact
-atom-residue correspondence is very nearly a function of residue contact
-degree, so the geometry-gated router was closed before any training.
+within-slot AP is `0.9856` against a `0.9540` degree-preserving null. The maximum
+possible gain over that null is `1 - 0.953959 = 0.046041`, so the registered
+`+0.05` margin is unreachable. The `0.014389` quantity is only the empirical
+residual to perfect AP. This exact route was closed before training; C1 did not
+test every possible correspondence definition.
+
+X1A then attempted to qualify a crossed ChEMBL interaction test. Its amended
+development audit historically passed, but review found that target/ligand
+fixed effects absorb dependency clusters and that its signed-residual ICC does
+not match `DD^2-v_noise`. X1B execution is therefore not authorized. The X0-B
+rectangle packing is now materialized and hashed label-blind; X1A-R direct-DD
+dependence is the sole registered next stage.
 
 ## Repository boundaries
 
@@ -64,21 +75,21 @@ degree, so the geometry-gated router was closed before any training.
 - `report/`: machine Gates, current status and evidence summaries.
 - `history.md`: chronological failure and decision ledger.
 
-No active training stage is authorized. Affinity values, heldout-B, R6,
-few-shot adaptation, biological `z`, CSMO/Band and the frozen operator remain
-untouched.
+No active training stage is authorized. X1A read 63,859 scoped ChEMBL37
+pChEMBL rows; affinity training reads remain zero. Heldout-B, R6, few-shot
+adaptation, biological `z`, CSMO/Band and the frozen operator remain untouched.
 
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
-3. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-3. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-4. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.md`
-5. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-6. `task.md`
-7. `experiment.md`
-8. `history.md`
+2. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
+6. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+7. `task.md`
+8. `experiment.md`
+9. `history.md`
 
 ## Verification
 
@@ -87,4 +98,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **193 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **196 passed**.

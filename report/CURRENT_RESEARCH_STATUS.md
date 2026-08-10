@@ -18,7 +18,9 @@ CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
 UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
-X1A_CROSSED_ICC_PRECONDITION_PASSED_KI_AND_KD
+X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
+X1A_ICC_PRECONDITION_NOT_ESTABLISHED
+X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
 CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
@@ -124,9 +126,10 @@ C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05  FAIL
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 ```
 
-The ceiling matters more than the Gate. An empirical AP of `0.9856` leaves only
-`0.0144` of headroom above a predictor that ranks a slot's residues by contact
-degree alone, so the `+0.05` margin is unreachable in principle — and the panel
+The ceiling matters more than the Gate. The maximum possible gain above the
+fixed-degree null is `1 - 0.953959 = 0.046041`, so the `+0.05` margin is
+unreachable in principle. The value `1 - 0.985611 = 0.014389` is the empirical
+residual to perfect AP, not the full gain over the null. The panel
 was powered to `0.00453`, so this is an effect-size result, not a detection
 failure. At the frozen `6.0 A` threshold a slot holds about three
 sequence-adjacent, hence spatially adjacent, residues; if one contacts a ligand
@@ -162,29 +165,39 @@ Two defects in this stage's own instruments were found and corrected before the
 verdict: the registered ICC estimator was degenerate (a per-panel intercept
 forces `var(cluster)` to zero for any data, and its void first run was a pass),
 and G3/G4 initially used measurement counts rather than the registered X0-B
-cell-disjoint DD unit.
+cell-disjoint DD unit. Independent review subsequently found a deeper mismatch:
+the global fixed effects absorb cluster-exclusive targets and the signed
+residual ICC is not the dependence of X1B's `q=DD^2-v_noise`. The final artifact
+also used 2,000 rather than the registered 10,000 bootstrap draws. The old PASS
+is retained historically, but its authorization effect is withdrawn.
+
+The original X0-B packing has now been materialized label-blind, reproducing Ki
+`11,168/36` and Kd `1,041/12`; frozen caps select 827 and 605 rectangles.
+X1A-R direct-DD dependence is registered and not executed.
 
 ## Current boundary
 
-X1B is authorized for Ki and Kd and was not run. No trainable component is
-authorized: X2 requires X1B to pass and its own preregistration. Three routes
+X1B is not authorized. No trainable component is authorized: X2 requires a
+valid X1A-R and X1B PASS under separate preregistrations. Three routes
 remain closed by preregistered Gates: representation (S4R), estimand (S5D) and
 geometry-gated correspondence (C1). Nothing authorizes widening the correspondence corpus,
 relaxing its `6.0 A` contact contract, changing its closure, or adding
 attention, a new PLM, a parallel GNN, typed energy heads, orientation channels,
 affinity supervision, KG features or adapters.
 
-Heldout-A is permanently consumed. Heldout-B, R6, affinity values, few-shot
-sectioning, biological `z`, CSMO/Band and the frozen law operator remain
+Heldout-A is permanently consumed. X1A read 63,859 scoped ChEMBL37 pChEMBL
+rows; affinity training reads remain zero. Heldout-B, R6, few-shot sectioning,
+biological `z`, CSMO/Band and the frozen law operator remain
 unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
 
 ## Canonical evidence
 
-1. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
-2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
-2. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
-3. `report/correspondence_router/C0_CORPUS_AND_CENSUS.json`
-4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-6. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-7. `history.md`
+1. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+2. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
+3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+4. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
+5. `report/correspondence_router/C0_CORPUS_AND_CENSUS.json`
+6. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+7. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
+8. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+9. `history.md`

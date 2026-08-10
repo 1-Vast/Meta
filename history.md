@@ -4907,3 +4907,46 @@ Nothing beyond X1B is authorized. No trainable component was added, no `q_theta`
 was preregistered, the 3D route stays closed, support adaptation was not
 implemented, and `model/`, production `scripts/`, `theory/`, CSMO, Band, the
 mesh, production `z` and `A(F,z)=K(B(z)F(z))` are unmodified.
+
+## F-111: X1A authorization is withdrawn; direct-DD dependence repair is registered (2026-08-10)
+
+**CORRECTION WITHOUT HISTORICAL REWRITE.** Independent review found that F-110's
+amended ICC cannot establish the dependence precondition for X1B. All 310
+targets in the label-blind census are confined to one dependency cluster, so
+the global target dummies absorb cluster membership. Singleton ligand dummies
+also fit their cell means exactly. The remaining nonzero cluster variance is
+created after changing weights through cell/panel/cluster averaging and is not
+the intended random cluster effect.
+
+The estimand is also mismatched: F-110 measured dependence of signed fitted
+residuals, whereas X1B would test `q=DD^2-v_noise`. Positive and negative
+interactions may cancel in the former while remaining dependent in the latter.
+The final machine artifact used 2,000 bootstrap draws rather than the registered
+10,000. Therefore:
+
+```text
+historical amended verdict ........ X1_ICC_PRECONDITION_PASSED (retained)
+current authorization verdict ..... X1A_ICC_PRECONDITION_NOT_ESTABLISHED
+X1B execution ...................... NOT_AUTHORIZED
+X2 / GPU training .................. NOT_AUTHORIZED
+```
+
+**COMPLETED LABEL-BLIND REPAIR.** The original X0-B deterministic greedy packing
+was restored and materialized as individual rectangles. It exactly reproduces
+Ki 11,168 rectangles / 36 clusters and Kd 1,041 / 12; frozen caps select 827 and
+605. `rectangles.jsonl` SHA-256 is
+`22f3e738f4dbc7b53ca9ef23e995e2a398cbca280a9cdde12c546be21500d0a5`.
+No affinity value was selected during materialization.
+
+**REGISTERED NEXT ACTION.** `E-AFF-X1A-R_DIRECT_DD_DEPENDENCE` computes DD
+directly from four cell means, fits no target/ligand nuisance model, and
+estimates dependence of the same `q` statistic used by the interaction test.
+Only its PASS may authorize preregistration of X1B. ChEMBL37 X1A scoped label
+access is recorded as 63,859 pChEMBL rows; affinity training reads, BindingDB,
+DAVIS, KIBA, PDBbind and recipient reads remain zero.
+
+**C1 NUMERICAL CORRECTION.** The previously quoted `0.014389` is
+`1-AP_empirical`, the empirical residual to perfection. Maximum possible gain
+over the fixed-degree null is `1-0.953959=0.046041`; this is the correct reason
+the registered `+0.05` Gate is unreachable. F-109 remains historical and is not
+rewritten.

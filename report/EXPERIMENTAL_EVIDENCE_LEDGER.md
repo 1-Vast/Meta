@@ -18,7 +18,7 @@ When records disagree, use this order:
    commits, manifests, predictions and label-access audit are recovered.
 
 Historical test counts and status statements describe the repository at the
-time of each experiment. The current consolidated regression count is 134.
+time of each experiment. The current consolidated regression count is 196.
 
 ## Current conclusion
 
@@ -34,6 +34,9 @@ B5_LIGAND_DEPENDENCE_CONFINED_TO_THE_COUPLING_TERM
 TEACHER_EDGE_COUPLING_NOT_IDENTIFIED
 EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED
 LABEL_SEMANTICS_NOT_AMBIGUOUS
+X1A_ICC_PRECONDITION_NOT_ESTABLISHED
+X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
+CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -45,8 +48,23 @@ a bounded, gauge-free binary ordinal estimator on fresh synthetic components.
 S3R transferred that estimator to real MONN residue-differential labels and
 returned `REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED`. The labels are
 ligand-conditioned, but the current frozen ESM2 plus mean-pooled 41-D ligand
-basis did not recover the registered direction beyond the controls. Affinity
-remains untestable.
+basis did not recover the registered direction beyond the controls. A crossed
+affinity existence test is now being repaired at its dependence precondition;
+no trainable affinity model is authorized.
+
+### X1A authorization correction — direct-DD dependence required (2026-08-10)
+
+The amended X1A Gate historically reported `X1_ICC_PRECONDITION_PASSED`, but
+its target/ligand fixed effects absorb cluster-exclusive targets and singleton
+ligands, and its signed-residual ICC does not estimate dependence of X1B's
+`q=DD^2-v_noise`. The final artifact also used 2,000 rather than the registered
+10,000 bootstrap draws. Its historical numbers remain evidence of that amended
+development run, but its X1B authorization is withdrawn.
+
+The exact X0-B packing is now materialized label-blind: Ki 11,168 rectangles in
+36 clusters and Kd 1,041 in 12; caps select 827 and 605. Current verdict is
+`X1A_ICC_PRECONDITION_NOT_ESTABLISHED`. X1A-R direct-DD dependence is registered
+and not executed; X1B and X2 are not authorized.
 
 ### S7/L2B Phase 2B-S3R — real structural direction not identified (2026-08-10)
 
@@ -116,7 +134,7 @@ correct protein adds transferable affinity-ranking information
 | Stage | Status | Meaning |
 |---|---|---|
 | F0R | Historical failure closed | Live ChEMBL API rehydration could not reproduce legacy JSONL bytes. This does not invalidate ChEMBL37; D0 replaced the live API with a release-pinned dump. |
-| E-AFF-X0 | `STOP_SOURCE_INTERACTION_UNDERDETERMINED` | The frozen crossed-rectangle independence requirement was unattainable in the available source design. This is a data/estimand limitation, not a model failure. |
+| E-AFF-X0 | `STOP_SOURCE_INTERACTION_UNDERDETERMINED` | The original component-as-unit independence requirement was unattainable. X0-B later registered cell-disjoint DD rectangles plus capped cluster dependence; X1A/X1A-R evaluate only that replacement design and do not retroactively convert X0 to PASS. |
 | E-AFF-L0/L0R | NOT RUN scientifically | The positive control failed. The 195-task/78-component audit therefore did not test protein-specific affinity location. |
 | XP1/XP2 | Development evidence only | Consumed kinase panels contained interaction signal, but did not meet the `k<=5`, double-held-out and fresh external-admission requirements. |
 | XP3/XP4/XP5 | Public-data boundary | Low-noise panels had too few independent protein groups; broader BindingDB panels had estimated assay noise (0.7774) above interaction SD (0.4058), and the tested radial basis did not generalize. |

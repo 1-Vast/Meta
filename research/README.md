@@ -1,6 +1,15 @@
 # Research boundary
 
-## Current executable path
+## Current registered stage
+
+`crossed_interaction/` now contains the sole current path. The amended X1A ICC
+PASS is historical and no longer authorizes X1B because its fitted residual ICC
+does not match dependence of `q=DD^2-v_noise`. The original X0-B rectangle
+packing has been materialized label-blind and hashed. X1A-R direct-DD dependence
+is registered, not executed. X1B, X2, GPU training, support adaptation and z
+remain unauthorized.
+
+## Completed structural path
 
 `s7_l2b_r0r/` contains the completed MONN provenance/mapping workflow, frozen
 ESM2 B5 exact-residue localizer, Phase 2A attribution audit, synthetic S2R
@@ -16,7 +25,7 @@ S4R       REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 S5D       LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED
 ```
 
-S4R is the current stopping point. It changed exactly one axis of S3R — the
+S4R is the structural stopping point. It changed exactly one axis of S3R — the
 ligand statistic — replacing the mean-pooled 41-D atom marginal with a frozen
 radius-1 Morgan per-heavy-atom statistic over a train-only 128-entry
 vocabulary. The protein branch, gauge, estimator, loss, sampler, split, seeds,
@@ -38,7 +47,7 @@ steer on the ligand. Its symmetric-difference conditional estimand, which
 cancels pocket membership exactly, then found nothing —
 `E1 = +0.011285 [LCB -0.007749]`, `E2 = -0.000440`.
 
-## No eligible repair
+## No eligible structural repair
 
 The registered S4R stopping rule closes the pose-free ligand representation
 route. Re-running the stage at `d = 256` or `d = 512`, at radius 2, at another

@@ -13,10 +13,12 @@ S5D estimand/collapse diagnostic .. COMPLETE, MECHANISM FALSIFIED, E1-E3 FAIL
 C0 untouched corpus and closure ... COMPLETE, ALL GATES PASS
 C1 exact-coupling information ..... COMPLETE, FAIL AT C1a
 C2 correspondence router .......... NOT PREREGISTERED, NOT TRAINED
-X1A crossed ICC precondition ...... COMPLETE, ALL GATES PASS
-X1B crossed interaction existence . AUTHORIZED, NOT RUN
+X1A amended ICC audit ............. HISTORICAL PASS, AUTHORIZATION WITHDRAWN
+X1A-R direct-DD dependence ........ REGISTERED, NOT EXECUTED
+X1B crossed interaction existence . NOT AUTHORIZED
 X2 minimal q_theta model .......... NOT AUTHORIZED, NOT TRAINED
-heldout-B / R6 / affinity ......... NOT OPENED
+heldout-B / R6 .................... NOT OPENED
+ChEMBL37 X1A pChEMBL access ....... 63,859 ROWS; TRAINING READS ZERO
 active training stage ............. NONE
 ```
 
@@ -158,9 +160,10 @@ C1b 162,276 positive units / 100,563 checkerboards               PASS
 C1c replicate jaccard 0.830 over 17 cross-entry pairs            PASS
 ```
 
-Terminal verdict: `EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER`. The empirical
-AP of `0.9856` leaves only `0.0144` of headroom above a pure contact-degree
-predictor, so the `+0.05` margin is unreachable in principle on this statistic.
+Terminal verdict: `EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER`. The maximum
+possible gain over the fixed-degree null is `1 - 0.953959 = 0.046041`, so the
+`+0.05` margin is unreachable. The `0.014389` value is the empirical residual
+to perfect AP, not the full headroom over the null.
 At `6.0 A` a slot holds about three sequence-adjacent and therefore spatially
 adjacent residues, and there is almost nothing left to deconvolve. The C2
 router was not preregistered and not trained.
@@ -198,5 +201,15 @@ direction: the additive fit consumes 42%/32% of cells as parameters with
 12.2%/14.5% singleton ligands, shrinking every structural component toward
 zero, and a "rho must be small" Gate is easier to pass under that bias.
 Replicate noise is 99.99998% (Ki) and 99.93% (Kd) of adjusted variance, so
-detectability — not dependence — is the binding constraint, and that is X1B's
-question.
+detectability appeared to be the next question at that point.
+
+Independent review then found the deeper authorization defect: all targets are
+dependency-cluster-exclusive, so the global target effects absorb cluster
+membership; the fitted signed-residual ICC also does not estimate dependence of
+X1B's `q=DD^2-v_noise`. The final JSON used 2,000 rather than 10,000 registered
+bootstrap draws. The historical PASS is preserved, but current verdict is
+`X1A_ICC_PRECONDITION_NOT_ESTABLISHED` and X1B is not authorized.
+
+The label-blind X0-B packing has now been materialized and hashed, reproducing
+Ki `11,168/36` and Kd `1,041/12`; frozen caps select 827 and 605 rectangles.
+X1A-R direct-DD dependence is the only registered next experiment.

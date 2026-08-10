@@ -14,7 +14,9 @@ CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
 UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
-X1A_CROSSED_ICC_PRECONDITION_PASSED_KI_AND_KD
+X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
+X1A_ICC_PRECONDITION_NOT_ESTABLISHED
+X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
 CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_DIRECTION_NOT_TESTED
 K_SHOT_SECTION_NOT_TESTED
@@ -97,11 +99,10 @@ C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05  FAIL
 
 Terminal verdict: `EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER`.
 
-The decisive number is not the Gate but the ceiling. Empirical within-slot AP
-is `0.9856`, so **only `0.0144` of headroom exists above a predictor that ranks
-a slot's residues by nothing but their contact degree**. The `+0.05` margin is
-unreachable in principle here, and a geometry-gated router would be competing
-for one and a half AP points that additive degree has already taken. At the
+The decisive number is not the Gate but the ceiling. The maximum possible gain
+above the fixed-degree null is `1 - 0.953959 = 0.046041`, so the `+0.05` margin
+is unreachable in principle. The value `1 - 0.985611 = 0.014389` is only the
+empirical residual to perfect AP. At the
 frozen `6.0 A` threshold a slot holds about three sequence-adjacent — hence
 spatially adjacent — residues, so there is very little left to deconvolve.
 
@@ -125,27 +126,32 @@ the verdict: the registered ICC estimator was degenerate (a per-panel intercept
 forces `var(cluster)` to zero for any data; its void first run was a pass), and
 G3/G4 used measurement counts instead of the registered X0-B DD unit.
 
-Three caveats travel with the pass. `rho` is biased toward zero by additive
+Three caveats travel with the historical pass. `rho` is biased toward zero by additive
 over-parameterization and that bias favours passing; `var(panel)` truncated to
 zero so the decomposition is only partly identified; and replicate noise is
 over 99.9% of adjusted variance, giving detectable interaction RMS of `0.309`
-(Ki) and `0.930` (Kd) log units at the frozen 0.5 ratio.
+(Ki) and `0.930` (Kd) log units at the frozen 0.5 ratio. Subsequent independent
+review found that the global fit absorbs cluster-exclusive targets and that its
+signed residual ICC does not identify dependence of `q=DD^2-v_noise`; the final
+artifact also used 2,000 rather than 10,000 registered bootstrap draws.
 
 ## Next research decision
 
-**X1B for Ki and Kd, and nothing else.** It must test interaction *variance*
-against replicate and assay noise via `I_real^2 = max(0, E[DD^2] - E[v_noise])`,
-never whether `mean(DD)` differs from zero, since opposing selectivity effects
-cancel. Kd's noise floor makes a negative result there entirely plausible.
+**X1A-R direct-DD dependence, and nothing else.** The label-blind rectangle
+manifest now reproduces Ki `11,168/36` and Kd `1,041/12`, with frozen caps
+selecting 827 and 605 units. X1A-R must estimate dependence of the same statistic
+that X1B would test, `q=DD^2-v_noise`, without target/ligand nuisance fitting.
+Current verdict is `X1A_ICC_PRECONDITION_NOT_ESTABLISHED`; X1B is not authorized.
 
-X2 and every trainable component stay unauthorized until X1B passes under its
-own preregistration. Three routes remain closed by preregistered Gates:
+X2 and every trainable component stay unauthorized until X1A-R and X1B pass
+under separate preregistrations. Three routes remain closed by preregistered Gates:
 representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Frozen
 
 - heldout-B and R6 amplitude/B5 integration;
-- ChEMBL/BindingDB affinity, DAVIS, KIBA and recipient labels;
+- additional ChEMBL fields, BindingDB affinity, DAVIS, KIBA and recipient
+  labels; X1A's scoped 63,859 pChEMBL reads are recorded, with zero training reads;
 - larger PLM, second protein encoder, attention stack, parallel branch,
   geometry/pose branch, typed interaction branch, KG, PU loss or affinity head;
 - larger ligand vocabulary or radius as a rescue of S4R;
@@ -157,9 +163,10 @@ representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Read first
 
-1. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
-2. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
-3. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-4. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-5. `report/CURRENT_RESEARCH_STATUS.md`
-6. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+1. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+3. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
+4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
+6. `report/CURRENT_RESEARCH_STATUS.md`
+7. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`

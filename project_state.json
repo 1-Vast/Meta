@@ -21,7 +21,10 @@
     "s5d_consolidation": "report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md",
     "s5d_gate": "report/s7_l2b_r0r/PHASE2B_S5D_GATE.json",
     "x1a_consolidation": "report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md",
-    "x1a_gate": "report/crossed_interaction/X1A_ICC_AUDIT.json"
+    "x1a_gate": "report/crossed_interaction/X1A_ICC_AUDIT.json",
+    "x1a_repair": "report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md",
+    "x1a_repair_status": "report/crossed_interaction/X1A_REPAIR_STATUS.json",
+    "x1a_r_deep_consolidation": "report/crossed_interaction/X1A_R_DEEP_CONSOLIDATION_AND_NEXT_PLAN.md"
   },
   "closed_routes": [
     "pose-free ligand representation repair of the direct-W residue-differential estimand",
@@ -98,10 +101,11 @@
       "untouched_entries": 2836
     },
     "exposure_registry_union_pdb_ids": 24874,
-    "headroom_above_marginal_predictor": 0.0143892638451978,
+    "empirical_residual_to_perfect": 0.0143892638451978,
+    "maximum_possible_gain_over_fixed_degree_null": 0.0460413453043266,
     "heldoutA_referenced": false,
     "heldoutB_created": false,
-    "interpretation": "within-slot deconvolution is nearly saturated by additive residue contact degree: empirical AP 0.9856 leaves only 0.0144 of headroom for any predictor, so the registered +0.05 margin is unreachable in principle on this statistic; at a 6.0 A threshold with 128 linear sequence slots, exact correspondence is very nearly a function of residue contact degree",
+    "interpretation": "within-slot deconvolution is nearly saturated by additive residue contact degree: the maximum possible gain over the fixed-degree null is 1-0.953959=0.046041, so the registered +0.05 margin is unreachable; 1-0.985611=0.014389 is only the empirical residual to perfection",
     "macro_ap_complete_edge_additive_marginal": 0.7534489828012547,
     "macro_ap_within_slot": {
       "atom_shuffle": 0.9856107361548022,
@@ -184,10 +188,10 @@
     "terminal_verdict": "X1_ICC_PRECONDITION_PASSED",
     "trainable_parameters_introduced": 0,
     "trains_nothing": true,
-    "x1b": "AUTHORIZED_FOR_KI_AND_KD_NOT_RUN",
+    "x1b": "HISTORICAL_AUTHORIZATION_WITHDRAWN_BY_X1A_R_REPAIR",
     "x2": "NOT_AUTHORIZED_NOT_TRAINED"
   },
-  "current_phase": "CROSSED_INTERACTION_X1A_COMPLETE",
+  "current_phase": "CROSSED_INTERACTION_X1A_REPAIR_REGISTERED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -208,10 +212,12 @@
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
     "NO_VALIDATED_END_TO_END_DTA_MODEL",
-    "X1A_CROSSED_ICC_PRECONDITION_PASSED_KI_AND_KD",
+    "X1A_AMENDED_AUDIT_HISTORICALLY_PASSED_BUT_DEPENDENCE_PRECONDITION_NOT_ESTABLISHED",
+    "X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED",
     "CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED"
   ],
   "eligible_unregistered_proposal": null,
+  "registered_next_action": "EXECUTE_X1A_R_DIRECT_DD_DEPENDENCE_ONLY",
   "frozen": [
     "heldout-B structural panel",
     "R6 amplitude and B5 integration",
@@ -225,15 +231,16 @@
     "CSMO, Band, positive ridge, simplex, fixed mesh and K(B(z)F(z))"
   ],
   "frozen_math": true,
-  "label_firewall": "INTACT",
+  "label_firewall": "X1A_SCOPED_LABEL_ACCESS_COMPLIANT",
   "label_reads": {
     "bindingdb_affinity": 0,
-    "chembl_affinity": 0,
+    "chembl37_x1a_pchembl_rows_read": 63859,
+    "chembl_affinity_training_reads": 0,
     "davis": 0,
     "kiba": 0,
     "recipient": 0
   },
-  "last_full_regression": "193_PASSED",
+  "last_full_regression": "196_PASSED",
   "phase2b_s2r": {
     "scope": "synthetic trainability only",
     "sealed_heldout_ap_bidir": 0.662021078439136,
