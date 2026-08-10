@@ -19,8 +19,9 @@ HERE = ROOT / "research" / "correspondence_router"
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT))
 
-from c0_corpus import (ATOM_TAGS, OUT, PREREG, PREREG_SHA, RAW, SLOTS,  # noqa: E402
-                       C0ContractError, _canonical_rows, git_head, read_jsonl,
+from c0_corpus import (AMENDMENT, AMENDMENT_SHA, ATOM_TAGS, OUT,  # noqa: E402
+                       PREREG, PREREG_SHA, RAW, SLOTS, C0ContractError,
+                       _canonical_rows, git_head, read_jsonl, sequence_mapping,
                        sha_file, write_json)
 
 GOVERNED = (ROOT / "dataset" / "processed" / "open_structures" /
@@ -56,8 +57,8 @@ def parasail_mapping(rows, sequence):
 
 def run(sample: int = 40) -> dict:
     import gemmi
-    if sha_file(PREREG) != PREREG_SHA:
-        raise C0ContractError("C0/C1 preregistration hash mismatch")
+    if sha_file(PREREG) != PREREG_SHA or sha_file(AMENDMENT) != AMENDMENT_SHA:
+        raise C0ContractError("C0/C1 preregistration or amendment hash mismatch")
     checked = agree = slot_agree = 0
     disagreements, skipped = [], 0
     for record in read_jsonl(GOVERNED):
@@ -84,16 +85,18 @@ def run(sample: int = 40) -> dict:
         length = len(sequence)
         reference = parasail_mapping(rows, sequence)
         checked += 1
-        m4 = {label: int(label) - 1 for label in reference}
-        if m4 == reference:
+        labels, indices, _coverage = sequence_mapping(rows, sequence)
+        candidate = dict(zip(labels, indices))
+        if candidate == reference:
             agree += 1
         else:
             disagreements.append({"pdb_id": pdb_id, "differing": sum(
-                1 for k in reference if reference[k] != m4[k])})
+                1 for k in reference if reference[k] != candidate.get(k))})
         reference_slots = {k: min(SLOTS - 1, v * SLOTS // length)
                            for k, v in reference.items()}
-        m4_slots = {k: min(SLOTS - 1, v * SLOTS // length) for k, v in m4.items()}
-        if reference_slots == m4_slots:
+        candidate_slots = {k: min(SLOTS - 1, v * SLOTS // length)
+                           for k, v in candidate.items()}
+        if reference_slots == candidate_slots:
             slot_agree += 1
 
     result = {

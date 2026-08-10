@@ -28,7 +28,9 @@ HERE = ROOT / "research" / "correspondence_router"
 sys.path.insert(0, str(HERE))
 
 PREREG = HERE / "PREREG_C0_C1_CORRESPONDENCE_INFORMATION_AUDIT.md"
+AMENDMENT = HERE / "PREREG_C0_C1_AMENDMENT_01.md"
 PREREG_SHA = "007f8439609078649cf7751b588716492f59c93bc27e2dad997b11afd7172c1e"
+AMENDMENT_SHA = "8c2dff42fe553581548f541a96b3e6e512a722975cf540b58e948375c241a32a"
 
 OUT = ROOT / "report" / "correspondence_router"
 EXEC = ROOT / "dataset" / "processed" / "correspondence_router"
@@ -54,7 +56,8 @@ XYL IOD BR NO3 CO3 FMT OXL TLA CIT MES CAC SCN AZI UNL UNX""".split())
 
 ATOM_TAGS = ("group_PDB", "label_asym_id", "label_seq_id", "label_comp_id",
              "label_atom_id", "type_symbol", "Cartn_x", "Cartn_y", "Cartn_z",
-             "label_alt_id", "occupancy", "pdbx_PDB_model_num")
+             "label_alt_id", "occupancy", "pdbx_PDB_model_num",
+             "auth_asym_id", "auth_seq_id")
 
 
 class C0ContractError(RuntimeError):
@@ -133,22 +136,64 @@ def exposure_registry() -> dict:
             "union_count": len(union), "union": union}
 
 
-def biolip_ligands(candidate_ids: set[str]) -> dict[str, set[str]]:
-    """PDB id -> set of biologically relevant ligand comp ids. Annotation only:
-    no numeric BioLiP2 field, and no affinity column, is read."""
-    out: dict[str, set[str]] = defaultdict(set)
+def biolip_rows(candidate_ids: set[str]) -> dict[str, list]:
+    """PDB id -> BioLiP rows, the P1B system key (amendment 01, S0'-S2').
+
+    Column 20 is the receptor sequence string, which is the sequence P1B feeds
+    to its parasail mapping. Annotation only: no numeric BioLiP2 field and no
+    affinity column is read.
+    """
+    out: dict[str, list] = defaultdict(list)
     with gzip.open(BIOLIP, "rt", encoding="utf-8", errors="replace") as handle:
         for line in handle:
-            parts = line.split("\t")
-            if len(parts) < 5:
+            parts = line.rstrip("\r\n").split("\t")
+            if len(parts) != 21:
                 continue
             pdb_id = parts[0].strip().lower()
             if pdb_id not in candidate_ids:
                 continue
             comp = parts[4].strip().upper()
-            if comp and comp not in ADDITIVE_BLACKLIST:
-                out[pdb_id].add(comp)
+            sequence = "".join(parts[20].upper().split())
+            if not comp or comp in ADDITIVE_BLACKLIST or not sequence:
+                continue
+            out[pdb_id].append({
+                "pdb_id": pdb_id,
+                "receptor_auth_asym_id": parts[1].strip(),
+                "ligand_comp_id": comp,
+                "ligand_auth_asym_id": parts[5].strip(),
+                "ligand_auth_seq_id": parts[19].strip(),
+                "binding_site_id": parts[3].strip(),
+                "sequence": sequence,
+            })
     return dict(out)
+
+
+def sequence_mapping(rows, sequence):
+    """Amendment 01 rule M4': the exact P1B parasail alignment coordinate."""
+    import gemmi
+    import parasail
+    names = {}
+    for row in rows:
+        names.setdefault(row["label_seq_id"], row["label_comp_id"])
+    label_seq_ids = sorted(names, key=int)
+    structure_sequence = ""
+    for label in label_seq_ids:
+        code = gemmi.find_tabulated_residue(names[label]).one_letter_code
+        structure_sequence += code if code and code != " " else "X"
+    alignment = parasail.nw_trace_striped_16(
+        structure_sequence, sequence, 10, 1, parasail.blosum62).traceback
+    structure_index = sequence_index = 0
+    mapped_labels, mapped_indices = [], []
+    for structure_code, sequence_code in zip(alignment.query, alignment.ref):
+        if structure_code != "-" and sequence_code != "-":
+            mapped_labels.append(label_seq_ids[structure_index])
+            mapped_indices.append(sequence_index)
+        if structure_code != "-":
+            structure_index += 1
+        if sequence_code != "-":
+            sequence_index += 1
+    coverage = len(mapped_labels) / max(len(label_seq_ids), len(sequence))
+    return mapped_labels, mapped_indices, coverage
 
 
 # --------------------------------------------------------------- parsing
@@ -168,8 +213,9 @@ def _canonical_rows(rows, key_fields):
     return selected
 
 
-def parse_entry(pdb_id: str, allowed_comps: set[str]) -> tuple[list, list]:
-    """Return (systems, exclusions) for one raw mmCIF entry. Deterministic."""
+def parse_entry(pdb_id: str, rows_for_entry: list) -> tuple[list, list]:
+    """Return (systems, exclusions) for one raw mmCIF entry, enumerating BioLiP
+    rows exactly as P1B does (amendment 01, S0'-S2', M3', M4'). Deterministic."""
     import gemmi
     path = MMCIF / f"{pdb_id}.cif.gz"
     exclusions = []
@@ -203,15 +249,6 @@ def parse_entry(pdb_id: str, allowed_comps: set[str]) -> tuple[list, list]:
         deposited = gemmi.cif.as_string(value)
         break
 
-    entity_sequence = {}
-    for eid, seq in zip(block.find_values("_entity_poly.entity_id"),
-                        block.find_values("_entity_poly.pdbx_seq_one_letter_code_can")):
-        entity_sequence[gemmi.cif.as_string(eid).strip()] = "".join(
-            gemmi.cif.as_string(seq).split())
-    asym_entity = {gemmi.cif.as_string(a).strip(): gemmi.cif.as_string(e).strip()
-                   for a, e in zip(block.find_values("_struct_asym.id"),
-                                   block.find_values("_struct_asym.entity_id"))}
-
     covalent = set()
     tags = ["_struct_conn.conn_type_id", "_struct_conn.ptnr1_label_asym_id",
             "_struct_conn.ptnr2_label_asym_id"]
@@ -228,89 +265,90 @@ def parse_entry(pdb_id: str, allowed_comps: set[str]) -> tuple[list, list]:
     if not atoms:
         return [], [{"pdb_id": pdb_id, "reason": "no_atom_site"}]
 
-    protein_atoms = [a for a in atoms if a["group_PDB"] == "ATOM"
-                     and a["label_seq_id"] not in {"", ".", "?"}
-                     and a["type_symbol"].upper() != "H"]
-    hetatms = [a for a in atoms if a["group_PDB"] == "HETATM"
-               and a["type_symbol"].upper() != "H"
-               and a["label_comp_id"].upper() in allowed_comps]
-    if not protein_atoms or not hetatms:
-        return [], [{"pdb_id": pdb_id, "reason": "no_protein_or_relevant_ligand"}]
-
-    protein_by_asym = defaultdict(list)
-    for atom in _canonical_rows(protein_atoms,
-                                ("label_asym_id", "label_seq_id", "label_atom_id")):
-        protein_by_asym[atom["label_asym_id"]].append(atom)
-    ligand_by_key = defaultdict(list)
-    for atom in _canonical_rows(hetatms, ("label_asym_id", "label_seq_id",
-                                          "label_atom_id")):
-        ligand_by_key[(atom["label_asym_id"], atom["label_seq_id"],
-                       atom["label_comp_id"].upper())].append(atom)
-
+    heavy = [a for a in atoms if a["type_symbol"].upper() != "H"]
     systems = []
-    for (lig_asym, lig_seq, comp), lig_atoms in sorted(ligand_by_key.items()):
-        if not (MIN_LIGAND_ATOMS <= len(lig_atoms) <= MAX_LIGAND_ATOMS):
-            exclusions.append({"pdb_id": pdb_id, "ligand": comp,
-                               "reason": "ligand_atom_count",
-                               "detail": len(lig_atoms)})
+    for row in rows_for_entry:
+        sequence = row["sequence"]
+        length = len(sequence)
+        if not (MIN_SEQUENCE <= length <= MAX_SEQUENCE):
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
+                               "reason": "sequence_length", "detail": length})
             continue
-        if lig_asym in covalent:
-            exclusions.append({"pdb_id": pdb_id, "ligand": comp,
+        protein_rows = _canonical_rows(
+            [a for a in heavy if a["group_PDB"] == "ATOM"
+             and a["auth_asym_id"] == row["receptor_auth_asym_id"]
+             and a["label_seq_id"] not in {"", ".", "?"}],
+            ("label_asym_id", "label_seq_id", "label_atom_id"))
+        asym_ids = {a["label_asym_id"] for a in protein_rows}
+        if len(asym_ids) != 1:
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
+                               "reason": "receptor_asym_not_unique",
+                               "detail": len(asym_ids)})
+            continue
+        protein_asym = next(iter(asym_ids))
+        ligand_rows = _canonical_rows(
+            [a for a in heavy if a["group_PDB"] == "HETATM"
+             and a["auth_asym_id"] == row["ligand_auth_asym_id"]
+             and a["auth_seq_id"] == row["ligand_auth_seq_id"]
+             and a["label_comp_id"].upper() == row["ligand_comp_id"]],
+            ("label_asym_id", "label_seq_id", "label_atom_id"))
+        if not (MIN_LIGAND_ATOMS <= len(ligand_rows) <= MAX_LIGAND_ATOMS):
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
+                               "reason": "ligand_atom_count",
+                               "detail": len(ligand_rows)})
+            continue
+        ligand_asym = ligand_rows[0]["label_asym_id"]
+        if ligand_asym in covalent:
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
                                "reason": "covalent_link"})
             continue
+
+        mapped_labels, mapped_indices, coverage = sequence_mapping(
+            protein_rows, sequence)
+        if coverage < MIN_MAPPING_COVERAGE:
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
+                               "reason": "mapping_coverage", "detail": coverage})
+            continue
+        by_label = defaultdict(list)
+        for atom in protein_rows:
+            by_label[atom["label_seq_id"]].append(
+                [float(atom["Cartn_x"]), float(atom["Cartn_y"]),
+                 float(atom["Cartn_z"])])
         lig_xyz = np.asarray([[float(a["Cartn_x"]), float(a["Cartn_y"]),
-                               float(a["Cartn_z"])] for a in lig_atoms],
+                               float(a["Cartn_z"])] for a in ligand_rows],
                              dtype=np.float64)
-        for prot_asym in sorted(protein_by_asym):
-            sequence = entity_sequence.get(asym_entity.get(prot_asym, ""), "")
-            length = len(sequence)
-            if not (MIN_SEQUENCE <= length <= MAX_SEQUENCE):
-                continue
-            residues = defaultdict(list)
-            for atom in protein_by_asym[prot_asym]:
-                try:
-                    index = int(atom["label_seq_id"]) - 1
-                except ValueError:
-                    continue
-                if 0 <= index < length:
-                    residues[index].append([float(atom["Cartn_x"]),
-                                            float(atom["Cartn_y"]),
-                                            float(atom["Cartn_z"])])
-            if not residues:
-                continue
-            coverage = len(residues) / float(length)
-            if coverage < MIN_MAPPING_COVERAGE:
-                exclusions.append({"pdb_id": pdb_id, "ligand": comp,
-                                   "protein_asym": prot_asym,
-                                   "reason": "mapping_coverage", "detail": coverage})
-                continue
-            indices = sorted(residues)
-            distances = np.full((len(lig_xyz), len(indices)), np.inf)
-            for column, index in enumerate(indices):
-                block_xyz = np.asarray(residues[index], dtype=np.float64)
-                distances[:, column] = np.sqrt(
-                    ((lig_xyz[:, None, :] - block_xyz[None, :, :]) ** 2).sum(-1)).min(-1)
-            if not (distances <= CONTACT_THRESHOLD).any():
-                continue
-            systems.append({
-                "pdb_id": pdb_id, "protein_asym_id": prot_asym,
-                "ligand_asym_id": lig_asym, "ligand_label_seq_id": lig_seq,
-                "ligand_comp_id": comp, "sequence": sequence,
-                "sequence_length": length, "resolution_angstrom": resolution,
-                "deposition_date": deposited,
-                "ligand_heavy_atoms": int(len(lig_xyz)),
-                "resolved_residues": len(indices),
-                "mapping_coverage": coverage,
-                "residue_indices": indices,
-                "distances": distances.astype(np.float32),
-            })
+        distances = np.full((len(lig_xyz), len(mapped_labels)), np.inf)
+        for column, label in enumerate(mapped_labels):
+            block_xyz = np.asarray(by_label[label], dtype=np.float64)
+            distances[:, column] = np.sqrt(
+                ((lig_xyz[:, None, :] - block_xyz[None, :, :]) ** 2).sum(-1)).min(-1)
+        if not (distances <= CONTACT_THRESHOLD).any():
+            exclusions.append({"pdb_id": pdb_id, "ligand": row["ligand_comp_id"],
+                               "reason": "no_contact_within_threshold"})
+            continue
+        systems.append({
+            "pdb_id": pdb_id, "protein_asym_id": protein_asym,
+            "protein_auth_asym_id": row["receptor_auth_asym_id"],
+            "ligand_asym_id": ligand_asym,
+            "ligand_auth_asym_id": row["ligand_auth_asym_id"],
+            "ligand_auth_seq_id": row["ligand_auth_seq_id"],
+            "binding_site_id": row["binding_site_id"],
+            "ligand_comp_id": row["ligand_comp_id"], "sequence": sequence,
+            "sequence_length": length, "resolution_angstrom": resolution,
+            "deposition_date": deposited,
+            "ligand_heavy_atoms": int(len(lig_xyz)),
+            "resolved_residues": len(mapped_labels),
+            "mapping_coverage": coverage,
+            "residue_indices": [int(i) for i in mapped_indices],
+            "distances": distances.astype(np.float32),
+        })
     return systems, exclusions
 
 
 def _worker(payload):
-    pdb_id, comps = payload
+    pdb_id, rows_for_entry = payload
     try:
-        return parse_entry(pdb_id, comps)
+        return parse_entry(pdb_id, rows_for_entry)
     except Exception as exc:                    # fail-closed, never silent
         return [], [{"pdb_id": pdb_id, "reason": "worker_exception",
                      "detail": f"{type(exc).__name__}: {exc}"[:200]}]
@@ -357,13 +395,13 @@ def census_system(system) -> dict:
 
 
 def run(limit: int = 0, workers: int = 8) -> dict:
-    if sha_file(PREREG) != PREREG_SHA:
-        raise C0ContractError("C0/C1 preregistration hash mismatch")
+    if sha_file(PREREG) != PREREG_SHA or sha_file(AMENDMENT) != AMENDMENT_SHA:
+        raise C0ContractError("C0/C1 preregistration or amendment hash mismatch")
     started = time.time()
     registry = exposure_registry()
     local = sorted({p.name.split(".")[0].lower() for p in MMCIF.glob("*.cif.gz")})
     untouched = sorted(set(local) - registry["union"])
-    relevant = biolip_ligands(set(untouched))
+    relevant = biolip_rows(set(untouched))
     candidates = sorted(pid for pid in untouched if relevant.get(pid))
     if limit:
         candidates = candidates[:limit]
@@ -386,12 +424,14 @@ def run(limit: int = 0, workers: int = 8) -> dict:
 
     for system in systems:
         system["census"] = census_system(system)
-    systems.sort(key=lambda s: (s["pdb_id"], s["protein_asym_id"],
-                                s["ligand_asym_id"], s["ligand_label_seq_id"]))
+    systems.sort(key=lambda s: (s["pdb_id"], s["protein_auth_asym_id"],
+                                s["ligand_comp_id"], s["ligand_auth_asym_id"],
+                                s["ligand_auth_seq_id"], s["binding_site_id"]))
     for index, system in enumerate(systems):
-        system["system_id"] = (f"{system['pdb_id']}_{system['protein_asym_id']}"
-                               f"_{system['ligand_asym_id']}"
-                               f"_{system['ligand_label_seq_id']}")
+        system["system_id"] = (
+            f"{system['pdb_id']}:{system['protein_auth_asym_id']}"
+            f":{system['ligand_comp_id']}:{system['ligand_auth_asym_id']}"
+            f":{system['ligand_auth_seq_id']}:{system['binding_site_id']}")
         system["row"] = index
 
     EXEC.mkdir(parents=True, exist_ok=True)
@@ -415,6 +455,9 @@ def run(limit: int = 0, workers: int = 8) -> dict:
         "schema": "MetaSieve.Correspondence.C0.Census.v1",
         "created_utc": "2026-08-10", "execution_commit": git_head(),
         "preregistration_sha256": PREREG_SHA,
+        "amendment_01_sha256": AMENDMENT_SHA,
+        "mapping_rule": "amendment 01 M3'/M4': BioLiP receptor sequence + parasail, "
+                        "the exact P1B path",
         "exposure_registry": {
             "per_source_counts": registry["per_source_counts"],
             "union_exposed_pdb_ids": registry["union_count"],
