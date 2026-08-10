@@ -54,6 +54,22 @@ closure governance is clean; the constraint is held-out target depth. No model
 was preregistered or trained, so target-coefficient heterogeneity is untested
 rather than refuted.
 
+A label-blind follow-up rejected the data-absent explanation:
+
+```text
+verdict            EVALUATION_PANEL_LIMITED_BY_ESTIMAND_MISMATCHED_CORPUS
+same projection, few-shot rules only:
+  single-chain Ki rows                         25,072   (corpus kept 12,457)
+  distinct Ki targets                             910   (corpus kept    510)
+  targets usable at k=5                           394   (corpus had     236)
+  >=8 ligands and >=2 documents                   218
+MDE_d: 16 -> 0.622, 30 -> 0.454, 50 -> 0.352, 100 -> 0.249
+```
+
+The cycle-positive quotient filter belongs to the crossed-rectangle estimand,
+not the few-shot one. Independent component depth after closure is still
+unmeasured.
+
 ## Historical lessons retained
 
 - More attention or a larger pair head did not establish affinity direction.
@@ -64,6 +80,8 @@ rather than refuted.
 - A failed numerical or synthetic control is not a biological failure.
 - Optimization authorization on a large open corpus is distinct from admission
   of a population claim.
+- A filter inherited from a previous estimand can masquerade as a data limit;
+  check that the corpus was built for the question being asked.
 - Clean leakage governance does not imply an evaluable panel: a corpus can be
   well-governed, leakage-free and large enough to train on while still being too
   shallow on the held-out side to evaluate the estimand it was built for.

@@ -5112,3 +5112,55 @@ Lesson retained: a corpus can be well-governed, leakage-free and large enough to
 train on while still being too shallow on the held-out side to evaluate the
 estimand it was built for. Optimization feasibility and evaluation feasibility
 are separate Gates.
+
+## F-118: the few-shot panel was thin because the corpus was built for a different estimand (2026-08-10)
+
+F-117 stopped at `FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE` on evaluation depth.
+Obstacle O1 forbids answering a power failure by moving thresholds or re-cutting
+dependent data, and requires label-blind expansion of independent target panels.
+Three explanations were posed and the cheapest discriminator was run first:
+
+```text
+H1  the data genuinely lack independent target depth
+H2  depth exists but was filtered out by a corpus built for another estimand
+H3  depth requires a new source (PDSP non-kinase stratum)
+```
+
+The discriminator recounted the **same** governed BindingDB projection under
+few-shot admission rules only — single chain, Ki, at least `k+3` ligands per
+target — dropping the cycle-positive quotient requirement. No affinity value was
+read.
+
+| quantity | quotient-shaped corpus | few-shot rules only |
+|---|---:|---:|
+| single-chain Ki rows | 12,457 cells | 25,072 |
+| distinct Ki targets | 510 | 910 |
+| targets usable at k=5 | 236 | 394 |
+| >=8 ligands and >=2 documents | — | 218 |
+
+`MDE_d` falls from `0.622` at 16 held-out targets to `0.454` at 30, `0.352` at
+50 and `0.249` at 100. H2 is confirmed and H1 rejected; H3 is not needed yet.
+
+```text
+EVALUATION_PANEL_LIMITED_BY_ESTIMAND_MISMATCHED_CORPUS
+```
+
+Root cause: the CQ corpus required cycle-positive panels because the
+crossed-rectangle quotient estimand needs closed rectangles. The few-shot
+estimand needs only per-target ligand depth. Inheriting that filter discarded
+about half the usable material and preferentially discarded the targets that
+make good independent evaluation tasks — those appearing in few panels without
+completing rectangles.
+
+Stated limits: the 394 targets have not passed protein-40 homology, scaffold and
+document conflict closure, so independent *component* depth is demonstrated
+nowhere yet and the 85.86% giant-component pathology may persist. Target depth
+is established; component depth is not.
+
+Nothing was trained, no model was preregistered, and no threshold was touched.
+O2 through O6 remain untested; target-coefficient heterogeneity is still neither
+supported nor refuted.
+
+Lesson retained: a filter inherited from a previous estimand can masquerade as a
+data limit. Before concluding that a corpus is too small for a question, check
+that the corpus was actually built for that question.

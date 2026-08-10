@@ -69,13 +69,41 @@ No model was preregistered, none was trained, and no threshold was moved. The
 hypothesis of target-specific coefficient heterogeneity is **untested**, not
 refuted.
 
-Registered remedy for this verdict: acquire or govern a better open
-target-panel corpus. Re-cutting the present corpus is bounded by its largest
-dependency component holding 85.86% of cells, so a component-respecting
-re-split redistributes rather than removes the constraint and would in any case
-need its own preregistration.
+A label-blind follow-up localized the cause and **rejected the data-absent
+explanation**. Recounting the same governed projection under few-shot rules
+only — single chain, Ki, `>= k+3` ligands — and dropping the cycle-positive
+quotient requirement yields 25,072 rows and 910 targets, of which
+584/499/459/**394** support `k=1/2/3/5` and 218 have `>=8` ligands across `>=2`
+documents. The quotient-shaped corpus kept 12,457 cells and 236 `k=5` targets.
 
-## Immediate next stage
+```text
+EVALUATION_PANEL_LIMITED_BY_ESTIMAND_MISMATCHED_CORPUS
+```
+
+The cycle-positive filter belongs to the crossed-rectangle estimand, which needs
+closed rectangles; few-shot needs only per-target ligand depth. `MDE_d` falls
+from `0.622` at 16 targets to `0.249` at 100.
+
+Not yet established: independent **component** depth after protein-40, scaffold
+and document closure. Target depth is demonstrated; component depth is not, and
+the 85.86% giant-component pathology may persist.
+
+## Immediate next stage (revised)
+
+Preregister a **few-shot-shaped corpus rebuild**, then re-run the unchanged
+Phase 0 gate:
+
+1. rebuild from the same governed projection under few-shot admission rules;
+2. apply the *same* strict conflict closure — document, protein-40 homology and
+   Murcko scaffold union — with no relaxation;
+3. report component counts and giant-component share **before** freezing a
+   split, failing closed if component depth is still insufficient;
+4. re-run Phase 0 with thresholds unchanged (`>=30` evaluation targets at
+   `k=5`, `MDE_d <= 0.600`).
+
+No model is authorized until that gate passes.
+
+## Stage after the corpus rebuild passes
 
 Preregister one experiment that changes only the failed sharing assumption:
 

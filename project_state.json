@@ -13,8 +13,8 @@
     "query_labels_forbidden": true
   },
   "current_stage": {
-    "name": "META_FEWSHOT_PHASE0_EPISODE_FEASIBILITY",
-    "status": "COMPLETE_FAILED_CLOSED",
+    "name": "META_FEWSHOT_O1_LOCALIZED_CORPUS_REBUILD_REQUIRED",
+    "status": "DIAGNOSED_NOT_PREREGISTERED",
     "training_authorized": false,
     "confirmation_labels_open": false
   },
@@ -31,6 +31,7 @@
     "FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE"
   ],
   "unresolved": [
+    "FEWSHOT_EVALUATION_COMPONENT_DEPTH_AFTER_CLOSURE",
     "TARGET_COEFFICIENT_HETEROGENEITY",
     "SOURCE_LEARNED_D_LE_5_MECHANISM_SUBSPACE",
     "K_SHOT_SUPPORT_SECTION",
@@ -63,7 +64,8 @@
     "route": "report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md",
     "history": "history.md",
     "archive_index": "archive/FAILED_RESEARCH_ARCHIVE_20260810.md",
-    "meta_fewshot_phase0": "report/meta_fewshot/PHASE0_EVIDENCE.md"
+    "meta_fewshot_phase0": "report/meta_fewshot/PHASE0_EVIDENCE.md",
+    "meta_fewshot_memo": "research/meta_fewshot/OBSTACLE_LEDGER_AND_MEMO.md"
   },
   "closed_labels": [
     "DAVIS",
@@ -122,6 +124,44 @@
       "ligand-only shortcut",
       "target coefficient heterogeneity"
     ],
-    "corpus_status": "DEVELOPMENT_ONLY_CLOSED_COMPONENT_CORPUS"
+    "corpus_status": "DEVELOPMENT_ONLY_CLOSED_COMPONENT_CORPUS",
+    "o1_followup": {
+      "verdict": "EVALUATION_PANEL_LIMITED_BY_ESTIMAND_MISMATCHED_CORPUS",
+      "label_blind": true,
+      "affinity_label_reads": 0,
+      "discriminator": "recount the same governed projection under few-shot rules only, dropping the cycle-positive quotient requirement",
+      "single_chain_ki_rows_available": 25072,
+      "distinct_ki_targets_available": 910,
+      "targets_usable_at_k": {
+        "1": 584,
+        "2": 499,
+        "3": 459,
+        "5": 394
+      },
+      "targets_ge8_ligands_and_ge2_documents": 218,
+      "quotient_corpus_comparison": {
+        "cells": 12457,
+        "proteins": 510,
+        "targets_usable_at_k5": 236,
+        "eval_targets_usable_at_k5": 16
+      },
+      "mde_d_by_panel_size": {
+        "16": 0.622,
+        "30": 0.454,
+        "50": 0.352,
+        "100": 0.249,
+        "150": 0.203
+      },
+      "root_cause": "the CQ corpus required cycle-positive quotient panels, a constraint of the crossed-rectangle estimand; the few-shot estimand needs only per-target ligand depth",
+      "not_yet_established": [
+        "independent dependency-component depth after protein-40/scaffold/document closure",
+        "whether the 85.86% giant-component pathology persists"
+      ],
+      "hypotheses": {
+        "H1_data_absent": "rejected",
+        "H2_estimand_mismatched_corpus": "confirmed",
+        "H3_new_source_pdsp": "not needed yet"
+      }
+    }
   }
 }

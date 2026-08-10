@@ -49,9 +49,25 @@ FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
 
 No model was preregistered and none was trained. The scientific hypothesis —
 target-specific coefficient heterogeneity — was **not** tested and is neither
-supported nor refuted by this run. The remedy registered for this verdict is to
-acquire or govern a better open target-panel corpus; re-cutting the present one
-is bounded by its largest dependency component holding 85.86% of cells.
+supported nor refuted by this run.
+
+A label-blind follow-up localized the cause and **rejected the data-absent
+explanation**. Recounting the same governed projection under few-shot rules
+only, dropping the cycle-positive quotient requirement, yields 25,072
+single-chain Ki rows and 910 targets, of which 584/499/459/**394** support
+`k=1/2/3/5` and 218 have `>=8` ligands across `>=2` documents. The
+quotient-shaped corpus retained 12,457 cells and 236 `k=5` targets.
+
+```text
+EVALUATION_PANEL_LIMITED_BY_ESTIMAND_MISMATCHED_CORPUS
+```
+
+The CQ corpus required cycle-positive panels because the crossed-rectangle
+quotient estimand needs closed rectangles; the few-shot estimand needs only
+per-target ligand depth. Independent *component* depth after protein-40,
+scaffold and document closure is still unmeasured, so the giant-component
+pathology may persist. The next stage is a preregistered few-shot-shaped corpus
+rebuild under unchanged closure and unchanged Phase 0 thresholds.
 
 ## Active route
 
