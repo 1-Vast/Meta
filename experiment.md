@@ -10,6 +10,9 @@ S3R real structural direct-W ...... COMPLETE, FAIL AT R1
 S4R-A ligand representation audit . COMPLETE, INFORMATIVE
 S4R graph-aware ligand repair ..... COMPLETE, FAIL AT R1
 S5D estimand/collapse diagnostic .. COMPLETE, MECHANISM FALSIFIED, E1-E3 FAIL
+C0 untouched corpus and closure ... COMPLETE, ALL GATES PASS
+C1 exact-coupling information ..... COMPLETE, FAIL AT C1a
+C2 correspondence router .......... NOT PREREGISTERED, NOT TRAINED
 heldout-B / R6 / affinity ......... NOT OPENED
 active training stage ............. NONE
 ```
@@ -116,3 +119,45 @@ Terminal verdict: `LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED`; the D2 Gates fail
 independently. Ligand information arrives at the residue field intact and
 points somewhere biologically wrong under both estimands. Heldout-A has now
 been consumed three times and no fourth estimand variant on it is permitted.
+
+## C0/C1
+
+Audit only, zero parameters, on a corpus no stage had touched: 24,874 exposed
+PDB ids excluded, 2,836 untouched local mmCIF entries, 2,039 admissible systems
+and 1,862 scored after the CCD-scaffold rule. P1B semantics are respected —
+`contact_prob(i,s)` is "any residue in slot `s` contacts atom `i`", never
+additive mass, and multiple residues in a slot may contact one atom.
+
+The registered `M4` mapping rule failed its own fail-closed check at `23/40`.
+P1B's sequence comes from BioLiP column 20, not the mmCIF entity sequence.
+Amendment 01 corrected the rule to the true P1B path before any statistic was
+read; the check then passed `60/60`. The C1 run started under the rejected
+mapping was stopped and discarded unread.
+
+```text
+G0a components                 496      >= 60     PASS
+G0b largest fraction        0.0811     <= 0.25    PASS
+G0c minimum detectable eff 0.00453     <= 0.05    PASS   (null sigma 0.04053)
+```
+
+The union closure gave 89 components but exceeded the giant-component cap, so
+the registered DataSAIL-style two-dimensional fallback was used. The 3-mer
+prefilter was measured, not trusted: 3,037 true identity edges, 0 missed.
+
+```text
+within-slot AP empirical               0.985611
+within-slot AP fixed-degree rewire     0.953959
+within-slot AP atom shuffle            0.985611   exact no-op, degenerate
+within-slot AP geometry shuffle        0.993948   shuffling makes it EASIER
+complete-edge AP, additive marginal    0.753449
+C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05   FAIL
+C1b 162,276 positive units / 100,563 checkerboards               PASS
+C1c replicate jaccard 0.830 over 17 cross-entry pairs            PASS
+```
+
+Terminal verdict: `EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER`. The empirical
+AP of `0.9856` leaves only `0.0144` of headroom above a pure contact-degree
+predictor, so the `+0.05` margin is unreachable in principle on this statistic.
+At `6.0 A` a slot holds about three sequence-adjacent and therefore spatially
+adjacent residues, and there is almost nothing left to deconvolve. The C2
+router was not preregistered and not trained.

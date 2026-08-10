@@ -11,6 +11,9 @@ S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 POSE_FREE_LIGAND_REPRESENTATION_REPAIR_ROUTE_CLOSED
 S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
+UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
+EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
+WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 AFFINITY_DIRECTION_NOT_TESTED
 K_SHOT_SECTION_NOT_TESTED
 BIOLOGICAL_Z_NOT_ADMITTED
@@ -70,20 +73,49 @@ E3 candidate - permuted  +0.026444 [LCB -0.002977]  needs +0.03  FAIL
 Terminal verdict: `LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED`. The S4R verdict is
 unchanged.
 
+## C0/C1 — the correspondence question, answered on an untouched corpus
+
+S5D pointed at **correspondence** as the missing ingredient. C0/C1 tested it
+directly, audit-only, on 1,862 systems built from raw RCSB mmCIF coordinates
+that no MetaSieve stage had ever touched — 24,874 exposed PDB ids excluded.
+
+C0 passed every admissibility Gate: 496 independent inference components,
+largest fraction `0.0811`, minimum detectable effect `0.00453` against a `0.05`
+requirement. The union closure produced only 89 components and blew the giant-
+component cap, so the registered DataSAIL-style fallback was used, exactly as
+the instruction anticipated.
+
+C1 then failed:
+
+```text
+within-slot AP, empirical              0.985611
+within-slot AP, fixed-degree rewire    0.953959
+C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05  FAIL
+```
+
+Terminal verdict: `EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER`.
+
+The decisive number is not the Gate but the ceiling. Empirical within-slot AP
+is `0.9856`, so **only `0.0144` of headroom exists above a predictor that ranks
+a slot's residues by nothing but their contact degree**. The `+0.05` margin is
+unreachable in principle here, and a geometry-gated router would be competing
+for one and a half AP points that additive degree has already taken. At the
+frozen `6.0 A` threshold a slot holds about three sequence-adjacent — hence
+spatially adjacent — residues, so there is very little left to deconvolve.
+
+The C2 router was **not preregistered and not trained**, as the stopping rule
+requires.
+
 ## Next research decision
 
-No experiment is authorized, and no repair of this estimand is eligible. S4R's
-stopping rule closed the representation route; S5D closed the conditional
-estimand route and forbids a fourth estimand variant on heldout-A, which has
-now been consumed three times.
+No experiment is authorized. Three routes are now closed by preregistered
+Gates: representation (S4R), estimand (S5D) and geometry-gated correspondence
+(C1). Nothing authorizes widening the corpus, relaxing the `6.0 A` contact
+contract or re-running with a different closure to chase the C1a margin.
 
-The question has changed shape. Ligand information is not lost upstream and is
-not diluted by the metric — it reaches the residue field at roughly half the
-field direction and points somewhere biologically wrong. The natural reading is
-that the missing ingredient is **correspondence**, which ligand substructure
-sits against which residue, and that a pose-free sequence-plus-2D estimand has
-no channel to supply it. Testing that is a separately governed information
-stage about geometry, with its own preregistration. It is not authorized here.
+Any future work must first name a target whose ceiling is not already saturated
+by additive marginals. The C0 corpus itself remains a clean, never-scored asset:
+496 components, its exposure registry and closure frozen and hashed.
 
 ## Frozen
 
@@ -93,14 +125,16 @@ stage about geometry, with its own preregistration. It is not authorized here.
   geometry/pose branch, typed interaction branch, KG, PU loss or affinity head;
 - larger ligand vocabulary or radius as a rescue of S4R;
 - a fourth estimand variant on heldout-A;
+- the C2 geometry-gated correspondence router at the `6.0 A` / 128-slot contract;
+- widening the correspondence corpus or relaxing its threshold to chase C1a;
 - few-shot sectioning and biological `z` admission;
 - CSMO, Band, mesh and `A(F,z)=K(B(z)F(z))`.
 
 ## Read first
 
-1. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-2. `report/s7_l2b_r0r/PHASE2B_S5D_GATE.json`
-3. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-4. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.md`
+1. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+2. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
+3. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+4. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
 5. `report/CURRENT_RESEARCH_STATUS.md`
 6. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`

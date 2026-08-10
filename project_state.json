@@ -1,9 +1,12 @@
 {
   "schema": "MetaSieve.ProjectState.v4",
   "updated": "2026-08-10",
-  "current_phase": "S7_L2B_PHASE2B_S5D_COMPLETE",
-  "terminal_verdict": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
-  "latest_diagnostic_verdict": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED",
+  "current_phase": "CORRESPONDENCE_C0_C1_COMPLETE",
+  "terminal_verdict": "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
+  "prior_stage_verdicts": {
+    "s4r": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
+    "s5d": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED"
+  },
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -16,6 +19,10 @@
     "POSE_FREE_LIGAND_REPRESENTATION_REPAIR_ROUTE_CLOSED",
     "S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED",
     "CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED",
+    "UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE",
+    "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
+    "WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS",
+    "GEOMETRY_ROUTED_CORRESPONDENCE_ROUTE_CLOSED_BEFORE_TRAINING",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
@@ -180,6 +187,79 @@
     "affinity_value_reads": 0,
     "interpretation": "the estimator does steer on the ligand (true-vs-foreign field cosine 0.449) but the ligand-determined direction carries no label information under either the bidirectional or the pocket-cancelling conditional estimand"
   },
+  "correspondence_c0_c1": {
+    "preregistration_sha256": "007f8439609078649cf7751b588716492f59c93bc27e2dad997b11afd7172c1e",
+    "amendment_01_sha256": "8c2dff42fe553581548f541a96b3e6e512a722975cf540b58e948375c241a32a",
+    "terminal_verdict": "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
+    "trains_nothing": true,
+    "trainable_parameters_introduced": 0,
+    "exposure_registry_union_pdb_ids": 24874,
+    "corpus": {
+      "local_mmcif_entries": 14169,
+      "untouched_entries": 2836,
+      "biolip_relevant_untouched_entries": 2509,
+      "admissible_systems": 2039,
+      "scored_systems_after_S8": 1862,
+      "distinct_pdb_entries": 669,
+      "distinct_sequences": 982,
+      "distinct_ligand_comp_ids": 340,
+      "exclusions": 5289
+    },
+    "mapping_equivalence": {
+      "rule": "amendment 01 M3'/M4': BioLiP receptor sequence + parasail",
+      "structures_checked": 60,
+      "slot_assignment_agreement": 60,
+      "pass": true,
+      "note": "the parent rule M4 failed its own fail-closed check at 23/40 and was corrected by amendment before any statistic was read"
+    },
+    "closure": {
+      "primary_union_components": 89,
+      "primary_union_failed_giant_component_cap": true,
+      "used": "datasail_2d_fallback",
+      "components": 496,
+      "largest_component_fraction": 0.08109559613319012,
+      "protein_clusters": 265,
+      "distinct_scaffolds": 90,
+      "prefilter_recall": 1.0
+    },
+    "C0_gates": {
+      "G0a_components": {"observed": 496, "required_at_least": 60, "pass": true},
+      "G0b_largest_fraction": {"observed": 0.08109559613319012, "required_at_most": 0.25, "pass": true},
+      "G0c_mde_80pct": {"observed": 0.004525938626574682, "null_sigma": 0.040529730266824875, "required_at_most": 0.05, "pass": true}
+    },
+    "census": {
+      "units": 4702002,
+      "positive_units_scored_panel": 162276,
+      "valid_checkerboards": 100563,
+      "multi_contact_rate": 0.2569999022132403,
+      "median_residues_per_candidate_slot": 3.0
+    },
+    "macro_ap_within_slot": {
+      "empirical": 0.9856107361548022,
+      "fixed_degree_rewire_null": 0.9539586546956734,
+      "atom_shuffle": 0.9856107361548022,
+      "geometry_shuffle": 0.9939480394708449
+    },
+    "macro_ap_complete_edge_additive_marginal": 0.7534489828012547,
+    "headroom_above_marginal_predictor": 0.0143892638451978,
+    "C1_gates": {
+      "C1a_empirical_minus_fixed_degree_rewire": {
+        "delta": 0.03165208145912884,
+        "lcb95_one_sided": 0.029690203052794812,
+        "margin": 0.05,
+        "pass": false
+      },
+      "C1b_unit_sufficiency": {"pass": true},
+      "C1c_replicate_ceiling_defined": {"pass": true, "replicate_pairs": 17,
+                                        "mean_contacted_residue_jaccard": 0.8302969117749035}
+    },
+    "C2_router": "NOT_PREREGISTERED_AND_NOT_TRAINED",
+    "affinity_value_reads": 0,
+    "plinder_used": false,
+    "heldoutA_referenced": false,
+    "heldoutB_created": false,
+    "interpretation": "within-slot deconvolution is nearly saturated by additive residue contact degree: empirical AP 0.9856 leaves only 0.0144 of headroom for any predictor, so the registered +0.05 margin is unreachable in principle on this statistic; at a 6.0 A threshold with 128 linear sequence slots, exact correspondence is very nearly a function of residue contact degree"
+  },
   "label_reads": {
     "recipient": 0,
     "davis": 0,
@@ -204,10 +284,15 @@
     "pose-free ligand representation repair of the direct-W residue-differential estimand",
     "re-running S4R at a larger ligand vocabulary or radius",
     "symmetric-difference conditional estimand repair",
-    "any fourth estimand variant on heldout-A"
+    "any fourth estimand variant on heldout-A",
+    "geometry-gated coarse-to-exact correspondence routing at the 6.0 A / 128-slot contract",
+    "widening the correspondence corpus or relaxing the contact threshold to chase the C1a margin"
   ],
   "canonical_evidence": {
     "current_status": "report/CURRENT_RESEARCH_STATUS.md",
+    "c0_c1_consolidation": "report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md",
+    "c1_gate": "report/correspondence_router/C1_INFORMATION_AUDIT.json",
+    "c0_census": "report/correspondence_router/C0_CORPUS_AND_CENSUS.json",
     "s5d_gate": "report/s7_l2b_r0r/PHASE2B_S5D_GATE.json",
     "s5d_consolidation": "report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md",
     "s4r_gate": "report/s7_l2b_r0r/PHASE2B_S4R_GATE.json",
@@ -222,5 +307,5 @@
   "label_firewall": "INTACT",
   "frozen_math": true,
   "production_model_changed": false,
-  "last_full_regression": "174_PASSED"
+  "last_full_regression": "193_PASSED"
 }

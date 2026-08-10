@@ -1,0 +1,222 @@
+WARNING: overwriting environment variables set in the machine
+
+overwriting variable {'PYTHONPATH', 'CUDA_PATH', 'CUDA_HOME'}
+
+
+systems=1862 components=496 largest_fraction=0.0811 fallback=True
+
+null sigma=0.0405 MDE=0.0045 G0c=True
+
+{
+
+  "schema": "MetaSieve.Correspondence.C1.Gate.v1",
+
+  "created_utc": "2026-08-10",
+
+  "execution_commit": "4280e5f5e3a8423e356c74d26a8e5bcecfe706f2",
+
+  "preregistration_sha256": "007f8439609078649cf7751b588716492f59c93bc27e2dad997b11afd7172c1e",
+
+  "s8_dropped_systems": 177,
+
+  "panel": {
+
+    "systems": 1862,
+
+    "components": 496,
+
+    "largest_component_fraction": 0.08109559613319012,
+
+    "closure": "datasail_2d_fallback",
+
+    "union_components": 89,
+
+    "protein_clusters": 265,
+
+    "distinct_scaffolds": 90,
+
+    "common_mask_sha256": "9182ab39ae5f75ef3b7c31543d4de847d29930ea4d1c5755292c746bfbf06d74"
+
+  },
+
+  "prefilter_validation": {
+
+    "true_identity_edges": 3037,
+
+    "prefilter_candidate_pairs": 393609,
+
+    "prefilter_missed_true_edges": 0,
+
+    "prefilter_recall": 1.0,
+
+    "method": "exact brute-force all-vs-all; the registered 3-mer prefilter was measured against it rather than relied on"
+
+  },
+
+  "datasail_fallback": {
+
+    "blocks": 496,
+
+    "largest_block_fraction": 0.08109559613319012,
+
+    "note": "two-dimensional (protein cluster x ligand scaffold) blocks; conflicting systems would be discarded at split assignment"
+
+  },
+
+  "C0_gates": {
+
+    "G0a_components": {
+
+      "observed": 496,
+
+      "required_at_least": 60,
+
+      "pass": true
+
+    },
+
+    "G0b_largest_fraction": {
+
+      "observed": 0.08109559613319012,
+
+      "required_at_most": 0.25,
+
+      "pass": true
+
+    },
+
+    "G0c_power": {
+
+      "null_sigma": 0.040529730266824875,
+
+      "mde_80pct": 0.004525938626574682,
+
+      "required_at_most": 0.05,
+
+      "pass": true,
+
+      "note": "sigma estimated from the degree-preserving null arm only, never from the tested contrast"
+
+    }
+
+  },
+
+  "macro_ap_within_slot": {
+
+    "empirical": 0.9856107361548022,
+
+    "fixed_degree_rewire_null": 0.9539586546956734,
+
+    "atom_shuffle": 0.9856107361548022,
+
+    "geometry_shuffle": 0.9939480394708449,
+
+    "empirical_informative_units_only": 0.9834869176828691,
+
+    "rewire_informative_units_only": 0.9502759426060275
+
+  },
+
+  "macro_ap_complete_edge_additive_marginal": 0.7534489828012547,
+
+  "C1_gates": {
+
+    "C1a_empirical_minus_fixed_degree_rewire": {
+
+      "delta": 0.03165208145912884,
+
+      "lcb95_one_sided": 0.029690203052794812,
+
+      "ci95": [
+
+        0.02931747333879924,
+
+        0.034019467160198325
+
+      ],
+
+      "units": 496,
+
+      "margin": 0.05,
+
+      "pass": false
+
+    },
+
+    "C1b_unit_sufficiency": {
+
+      "positive_units": 162276,
+
+      "required_at_least": 10000,
+
+      "valid_checkerboards": 100563,
+
+      "checkerboards_required_at_least": 1000,
+
+      "pass": true
+
+    },
+
+    "C1c_replicate_ceiling_defined": {
+
+      "pass": true,
+
+      "replicate_systems": 1148,
+
+      "replicate_pairs": 17,
+
+      "mean_contacted_residue_jaccard": 0.8302969117749035,
+
+      "components_with_replicates": 5
+
+    }
+
+  },
+
+  "non_gating": {
+
+    "C1a_informative_units_only": {
+
+      "delta": 0.033210975076841634,
+
+      "lcb95_one_sided": 0.03125657596144033,
+
+      "ci95": [
+
+        0.03086391296322013,
+
+        0.03556525200192095
+
+      ],
+
+      "units": 496
+
+    },
+
+    "informative_units": 142124,
+
+    "rewire_replicates": 10,
+
+    "swaps_per_edge": 100,
+
+    "sensitivity_threshold_angstrom": 4.5
+
+  },
+
+  "rewire_is_an_evaluation_null_not_a_biological_nonbinder": true,
+
+  "affinity_value_reads": 0,
+
+  "heldoutA_referenced": false,
+
+  "trainable_parameters_introduced": 0,
+
+  "TERMINAL_VERDICT": "EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER",
+
+  "authorized_next_action": "none; stop at the earliest failed boundary"
+
+}
+
+elapsed 1147.1s
+
+

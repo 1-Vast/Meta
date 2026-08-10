@@ -15,6 +15,7 @@ S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED
 S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
+EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -45,6 +46,14 @@ cancels pocket membership exactly then found nothing either. Ligand information
 arrives at full strength and points somewhere biologically wrong; the
 conditional estimand route is closed too.
 
+C0/C1 then tested the last standing hypothesis — correspondence — audit-only on
+1,862 systems from raw RCSB coordinates that no stage had touched, excluding
+24,874 exposed PDB ids. Every C0 admissibility Gate passed. C1 did not: exact
+within-slot AP is `0.9856` against a `0.9540` degree-preserving null, leaving
+only `0.0144` of headroom above a pure contact-degree predictor. Exact
+atom-residue correspondence is very nearly a function of residue contact
+degree, so the geometry-gated router was closed before any training.
+
 ## Repository boundaries
 
 - `theory/FINAL_FROZEN_THEORY/`: authoritative mathematics.
@@ -62,7 +71,8 @@ untouched.
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+3. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
 3. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
 4. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.md`
 5. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
@@ -77,4 +87,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **174 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **193 passed**.

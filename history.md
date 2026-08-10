@@ -4767,3 +4767,82 @@ that a pose-free sequence-plus-2D estimand has no channel to supply it. Testing
 that is a separately governed information stage about geometry with its own
 preregistration, and nothing here authorizes it. Full repository regression:
 **174 passed** in the `drug` environment.
+
+## F-109: exact atom-residue correspondence is nearly a function of contact degree (2026-08-10)
+
+S5D had localized the remaining hypothesis to **correspondence** — which ligand
+substructure sits against which residue. F-109 tested it audit-only, on a
+corpus no MetaSieve stage had ever touched, and closed the route before any
+model was trained.
+
+```text
+C0 untouched corpus and closure ...... ALL GATES PASS
+C1 exact-coupling information ........ FAIL AT C1a
+terminal verdict ..................... EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
+C2 geometry-gated router ............. NOT PREREGISTERED, NOT TRAINED
+```
+
+An exposure registry unioned every PDB id consumed by P1B, the preflight QC
+corpora, MONN/B5/S7/S3R/S4R/S5D and the ssl_b2 independent set: **24,874** ids.
+Of 14,169 local raw mmCIF entries, 2,836 were untouched, 2,509 carried a
+BioLiP2-relevant ligand, 2,039 systems were admissible and 1,862 survived the
+CCD-scaffold rule, over 669 entries, 982 receptor sequences and 340 ligands.
+BioLiP2 was annotation-only, PLINDER was not used under its standing licence
+audit, affinity reads were zero, and heldout-A was never referenced.
+
+The stage recorded and respected the P1B correction: `contact_prob(i,s)` is a
+Bernoulli-like "any residue in slot `s` contacts atom `i`", never additive
+contact mass, and multiple residues in one slot may contact the same atom. It
+also recorded a structural consequence — P1B is constant across residues within
+a slot, so it can gate channels but cannot by itself discriminate inside a slot.
+
+The registered mapping rule `M4` then failed its **own** fail-closed check at
+`23/40`. The premise was factually wrong: P1B's sequence comes from BioLiP
+column 20, systematically shorter than the mmCIF entity sequence and sometimes
+not a prefix. Amendment 01 replaced the rule with the true P1B path — BioLiP
+receptor sequence plus parasail alignment, keyed on BioLiP rows — before any
+statistic was read, and the check then passed `60/60` on slot assignment. The
+C1 execution already running under the rejected mapping was stopped and its
+output discarded unread. No Gate, threshold, margin or seed changed.
+
+C0 passed everything: 496 inference components, largest fraction `0.0811`, and
+a minimum detectable effect of `0.00453` against a `0.05` requirement, with the
+null dispersion estimated from the degree-preserving arm only. The union
+closure produced 89 components but exceeded the `0.25` giant-component cap, so
+the registered DataSAIL-style two-dimensional fallback was used — the union
+giant component was tested, not assumed. The 3-mer prefilter was measured
+against exact brute-force alignment: 3,037 true identity edges, 0 missed.
+
+| arm | component-macro within-slot AP |
+|---|---:|
+| empirical | 0.985611 |
+| fixed-degree rewire null | 0.953959 |
+| atom shuffle | 0.985611 |
+| geometry shuffle | 0.993948 |
+
+`C1a = +0.031652 [LCB +0.029690]` against a `+0.05` margin: FAIL. `C1b` passed
+with 162,276 positive units and 100,563 valid 2x2 checkerboards read entirely
+from raw coordinates. `C1c` passed but on only 17 cross-entry replicate pairs.
+
+The decisive fact is the ceiling, not the Gate. Empirical within-slot AP is
+`0.9856`, so **only `0.0144` of headroom exists above a predictor that ranks a
+slot's candidate residues by their contact degree alone**. The `+0.05` margin is
+unreachable in principle on this statistic even by an oracle, and the panel was
+powered to `0.00453`, so this is an effect-size result and not a detection
+failure. The mechanism is chemistry: at the frozen `6.0 A` P1B threshold a slot
+holds about three sequence-adjacent, hence spatially adjacent, residues, and if
+one is in contact its neighbours usually are too.
+
+Two controls are recorded as degenerate rather than as evidence. Atom shuffle
+is an **exact** no-op, `0.985611` to every digit, because the statistic ranks by
+a residue-side column sum that row permutation cannot change. Geometry shuffle
+scores *higher* than the empirical arm, because breaking sequence adjacency
+makes degree-ranking easier — so the real slot partition is the hard case and
+"beating the shuffle" would have been the wrong direction of test.
+
+Three routes are now closed by preregistered Gates: representation (S4R),
+estimand (S5D) and geometry-gated correspondence (C1). Nothing authorizes
+widening the corpus, relaxing the `6.0 A` contract, changing the closure, or
+any of the excluded modules. The C0 corpus remains a clean, never-scored asset
+with its exposure registry and closure frozen and hashed. Full repository
+regression: **193 passed** in the `drug` environment.

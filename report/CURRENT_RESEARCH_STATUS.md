@@ -15,6 +15,9 @@ GRAPH_AWARE_LIGAND_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
+UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
+EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
+WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -90,29 +93,63 @@ Ligand information is neither lost upstream nor diluted by the metric. It
 reaches the residue field, rotates it by a large angle, and the direction it
 chooses is unrelated to which residues gained or lost contact.
 
+## The correspondence hypothesis, tested and closed
+
+S5D left one hypothesis standing: the missing ingredient is **correspondence**,
+which ligand substructure sits against which residue. C0/C1 tested it
+audit-only, with zero trainable parameters, on a corpus no stage had touched.
+
+An exposure registry excluded all **24,874** PDB ids consumed by P1B, the QC
+corpora, MONN/B5/S7/S3R/S4R/S5D and the ssl_b2 set, leaving 2,836 untouched raw
+mmCIF entries and 1,862 scored systems. C0 passed every Gate: 496 inference
+components, largest fraction `0.0811`, minimum detectable effect `0.00453`. The
+union closure gave only 89 components and exceeded the giant-component cap, so
+the registered DataSAIL-style fallback was used — the giant component was
+tested, not assumed.
+
+The registered mapping rule failed its own fail-closed check at `23/40`, because
+P1B's sequence comes from BioLiP column 20 rather than the mmCIF entity
+sequence. An amendment corrected the rule to P1B's true path before any
+statistic was read, after which it reproduced P1B slot assignment `60/60`.
+
+```text
+within-slot AP empirical             0.985611
+within-slot AP fixed-degree rewire   0.953959
+C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05  FAIL
+```
+
+```text
+EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
+```
+
+The ceiling matters more than the Gate. An empirical AP of `0.9856` leaves only
+`0.0144` of headroom above a predictor that ranks a slot's residues by contact
+degree alone, so the `+0.05` margin is unreachable in principle — and the panel
+was powered to `0.00453`, so this is an effect-size result, not a detection
+failure. At the frozen `6.0 A` threshold a slot holds about three
+sequence-adjacent, hence spatially adjacent, residues; if one contacts a ligand
+atom its neighbours usually do too. The C2 router was never preregistered and
+never trained.
+
 ## Current boundary
 
-No active training stage is authorized. Both pose-free repair routes are closed:
-the representation route by S4R, including re-running at a larger vocabulary or
-radius, and the estimand route by S5D, which also forbids a fourth estimand
-variant on heldout-A. Heldout-A has now been consumed three times and every
-number from it is development evidence.
+No active training stage is authorized. Three routes are closed by
+preregistered Gates: representation (S4R), estimand (S5D) and geometry-gated
+correspondence (C1). Nothing authorizes widening the correspondence corpus,
+relaxing its `6.0 A` contact contract, changing its closure, or adding
+attention, a new PLM, a parallel GNN, typed energy heads, orientation channels,
+affinity supervision, KG features or adapters.
 
-The remaining hypothesis is that the missing ingredient is correspondence —
-which ligand substructure sits against which residue — and that a pose-free
-sequence-plus-2D estimand has no channel to supply it. Testing that needs a
-separately governed information stage about geometry, not another repair.
-
-Heldout-B, R6, affinity values, few-shot sectioning, biological `z`, CSMO/Band
-and the frozen law operator remain unopened and unchanged. Heldout-B was not
-even created by S4R or S5D.
+Heldout-A is permanently consumed. Heldout-B, R6, affinity values, few-shot
+sectioning, biological `z`, CSMO/Band and the frozen law operator remain
+unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
 
 ## Canonical evidence
 
-1. `report/s7_l2b_r0r/PHASE2B_S5D_GATE.json`
-2. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-3. `report/s7_l2b_r0r/PHASE2B_S4R_GATE.json`
-4. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-5. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.json`
+1. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+2. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
+3. `report/correspondence_router/C0_CORPUS_AND_CENSUS.json`
+4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
 6. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
 7. `history.md`

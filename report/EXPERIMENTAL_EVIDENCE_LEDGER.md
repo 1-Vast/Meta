@@ -433,14 +433,20 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 | F-108 | S5D ligand-steering collapse and conditional-estimand diagnostics | The registered mechanism was falsified by its own diagnostic: the estimator *does* steer on the ligand, and an estimand that cancels the pocket confound exactly still finds nothing — a control failing is not by itself evidence that the model ignored the input. |
 
+| F-109 | C0/C1 untouched-corpus exact-correspondence audit | On 1,862 never-scored systems, within-slot AP is 0.9856 against a 0.9540 degree-preserving null — exact atom-residue correspondence is nearly a function of residue contact degree, so the geometry-gated router was closed before training. A registered rule can be wrong about provenance, and a fail-closed check is what catches it. |
+
 ## Active authorization
 
 None. S2R completed the synthetic repair, S3R completed the authorized real
 structural run, S4R completed the single authorized single-axis ligand
-representation repair, and S5D completed a no-training diagnostic of the
-estimand. S4R failed at R1 and S5D failed its own D1 rule and all three of its
-Gates, so heldout-B, R6 and all downstream stages remain closed. Heldout-B was
-created by neither stage.
+representation repair, S5D completed a no-training diagnostic of the estimand,
+and C0/C1 completed a no-training correspondence-information audit on an
+untouched corpus. S4R failed at R1, S5D failed its own D1 rule and all three of
+its Gates, and C1 failed C1a, so heldout-B, R6 and all downstream stages remain
+closed. Heldout-B was created by none of them.
+
+The C2 Geometry-Gated Coarse-to-Exact Correspondence Router was **not
+preregistered and not trained**. Its authorizing Gate did not pass.
 
 No repair of this estimand is eligible. The registered S4R stopping rule closes
 the pose-free ligand representation route, including re-running the stage at a
@@ -457,6 +463,8 @@ The following remain frozen:
   typed-interaction branch, affinity head, PU loss, knowledge graph or parallel
   module;
 - a larger ligand vocabulary or Morgan radius as a rescue of S4R;
+- the C2 correspondence router at the 6.0 A / 128-slot contract, and any
+  widening of the correspondence corpus or relaxation of its threshold;
 - typed-interaction production integration;
 - few-shot adaptation and any `k`-shot claim;
 - production biological `z`;
