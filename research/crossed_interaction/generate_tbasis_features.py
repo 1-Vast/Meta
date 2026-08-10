@@ -207,8 +207,7 @@ def generate(
     )
     wrong_protein = deterministic_control_map(
         list(sequences),
-        lambda left, right: groups[left] == groups[right]
-        or not 0.5 <= len(sequences[left]) / len(sequences[right]) <= 2.0,
+        lambda left, right: groups[left] == groups[right],
     )
     correct = _compute_arm(
         cells, lambda row: row["target_id"], lambda row: row["ligand_id"], model,
@@ -236,6 +235,7 @@ def generate(
         "cells": len(cells),
         "dimensions": int(correct.shape[1]),
         "arms": ["correct", "foreign_ligand", "deranged_protein"],
+        "deranged_protein_rule": "different global-identity-40-percent group; length unmatched",
         "seconds": elapsed,
         "cells_per_second": len(cells) / elapsed,
         "device": device,
