@@ -431,16 +431,22 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 | F-107 | S4R-A ligand representation audit, then the S4R single-axis graph-aware repair | The mean-pooled 41-D ligand basis was measurably collapsed and replacing it doubled the above-chance gain, but the recovered signal survives a foreign ligand pair intact — a real representation bottleneck can hide a construct-level prior rather than the ligand-conditioned mechanism you were looking for. |
 
+| F-108 | S5D ligand-steering collapse and conditional-estimand diagnostics | The registered mechanism was falsified by its own diagnostic: the estimator *does* steer on the ligand, and an estimand that cancels the pocket confound exactly still finds nothing — a control failing is not by itself evidence that the model ignored the input. |
+
 ## Active authorization
 
 None. S2R completed the synthetic repair, S3R completed the authorized real
-structural run, and S4R completed the single authorized single-axis ligand
-representation repair. S4R failed at R1, so heldout-B, R6 and all downstream
-stages remain closed. Heldout-B was not even created by S4R.
+structural run, S4R completed the single authorized single-axis ligand
+representation repair, and S5D completed a no-training diagnostic of the
+estimand. S4R failed at R1 and S5D failed its own D1 rule and all three of its
+Gates, so heldout-B, R6 and all downstream stages remain closed. Heldout-B was
+created by neither stage.
 
 No repair of this estimand is eligible. The registered S4R stopping rule closes
 the pose-free ligand representation route, including re-running the stage at a
-larger vocabulary or radius. Any further work on this question requires a
+larger vocabulary or radius; the S5D stopping rule closes the conditional
+estimand route and forbids a fourth estimand variant on heldout-A, which has now
+been consumed three times. Any further work on this question requires a
 separately governed information stage with its own preregistration.
 
 The following remain frozen:

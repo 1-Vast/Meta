@@ -9,6 +9,7 @@ S2R synthetic direct-W witness .... COMPLETE, PASS
 S3R real structural direct-W ...... COMPLETE, FAIL AT R1
 S4R-A ligand representation audit . COMPLETE, INFORMATIVE
 S4R graph-aware ligand repair ..... COMPLETE, FAIL AT R1
+S5D estimand/collapse diagnostic .. COMPLETE, MECHANISM FALSIFIED, E1-E3 FAIL
 heldout-B / R6 / affinity ......... NOT OPENED
 active training stage ............. NONE
 ```
@@ -81,3 +82,37 @@ argument that barely steers the residue direction.
 Module participation and deterministic replay passed. Heldout-B was neither
 created nor read. R6 was not opened. Affinity reads were zero. No production
 code or frozen mathematics was modified.
+
+## S5D
+
+No training, zero new parameters, frozen S4R checkpoints reused. Registered
+mechanism for R3: the estimator collapses ligand differences onto about one
+residue direction per protein. **Falsified.**
+
+```text
+rho_dg    data-side upper bound       0.4550
+rho_graph candidate residue fields    0.4793   excess over data  0.0138
+rho_base  baseline41 residue fields   0.5758
+true-vs-foreign field cosine          0.4487   over 46,817 pairs
+rule required median >= 0.80 and excess >= 0.10
+```
+
+The estimator steers on the ligand, and the graph statistic produces more
+diverse fields than the baseline. D2 then measured the symmetric-difference
+conditional estimand, which cancels pocket membership exactly: 40,157 eligible
+pairs, 107 components, median 7 changed residues, median gain fraction 0.50.
+
+```text
+candidate 0.655030   foreign 0.655470   chance 0.643744
+baseline41 0.638830  permuted 0.628586
+E1 candidate - chance    +0.011285  [LCB -0.007749]  FAIL (< +0.05)
+E2 candidate - foreign   -0.000440  [LCB -0.021814]  FAIL (< +0.03)
+E3 candidate - permuted  +0.026444  [LCB -0.002977]  FAIL (< +0.03)
+E4 candidate - baseline  +0.016199  [LCB -0.005947]  non-gating
+E5 baseline41 - chance   -0.004914  [LCB -0.023844]  non-gating
+```
+
+Terminal verdict: `LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED`; the D2 Gates fail
+independently. Ligand information arrives at the residue field intact and
+points somewhere biologically wrong under both estimands. Heldout-A has now
+been consumed three times and no fourth estimand variant on it is permitted.

@@ -14,6 +14,7 @@ S2R_SYNTHETIC_BINARY_ORDINAL_ESTIMATOR_PASS
 S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED
 S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
+S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -36,6 +37,14 @@ foreign ligand pair cost only `+0.000644`, so the recovered signal is a
 construct-level residue-change prior rather than ligand-conditioned residue
 selection. The pose-free ligand representation repair route is closed.
 
+S5D then trained nothing and asked why. It registered the obvious mechanism —
+that the estimator collapses ligand differences onto one residue direction per
+protein — and falsified it: the true-versus-foreign residue field cosine is
+`0.4487`, so the estimator plainly does steer on the ligand. An estimand that
+cancels pocket membership exactly then found nothing either. Ligand information
+arrives at full strength and points somewhere biologically wrong; the
+conditional estimand route is closed too.
+
 ## Repository boundaries
 
 - `theory/FINAL_FROZEN_THEORY/`: authoritative mathematics.
@@ -53,8 +62,8 @@ untouched.
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-3. `report/s7_l2b_r0r/PHASE2B_S4R_GATE.json`
+2. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
+3. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
 4. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.md`
 5. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
 6. `task.md`
@@ -68,4 +77,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **159 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **174 passed**.

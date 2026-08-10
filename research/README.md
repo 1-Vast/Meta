@@ -13,6 +13,7 @@ S2R       BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED
 S3R       REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED
 S4R-A     GRAPH_LIGAND_REPRESENTATION_AVAILABLE_AND_INFORMATIVE
 S4R       REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
+S5D       LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED
 ```
 
 S4R is the current stopping point. It changed exactly one axis of S3R — the
@@ -29,6 +30,14 @@ sufficient: R1 needs `+0.05`, and a foreign ligand pair costs only `+0.000644`,
 so the recovered signal is a construct-level residue-change prior rather than
 ligand-conditioned residue selection.
 
+S5D then trained nothing and reused those checkpoints to ask why R3 failed. It
+registered the collapse mechanism and falsified it: candidate residue fields
+have top principal energy fraction `0.4793` against a data-side bound of
+`0.4550`, and true-versus-foreign field cosine is `0.4487`. The estimator does
+steer on the ligand. Its symmetric-difference conditional estimand, which
+cancels pocket membership exactly, then found nothing —
+`E1 = +0.011285 [LCB -0.007749]`, `E2 = -0.000440`.
+
 ## No eligible repair
 
 The registered S4R stopping rule closes the pose-free ligand representation
@@ -36,12 +45,16 @@ route. Re-running the stage at `d = 256` or `d = 512`, at radius 2, at another
 seed or with another budget is explicitly excluded, as are attention, a larger
 PLM, a second protein encoder, a parallel branch, geometry, pose, typed
 channels, affinity supervision, knowledge graphs, PU learning and few-shot
-adaptation.
+adaptation. The S5D stopping rule closes the conditional estimand route and
+forbids a fourth estimand variant on heldout-A, consumed three times already.
 
-The remaining question is whether any pose-free sequence-plus-2D estimand can
-bind a ligand substructure to a residue context without geometric
-correspondence. That is an information question about the estimand, not a
-repair of this stage, and it requires its own preregistration.
+Ligand information is neither lost upstream nor diluted by the metric; it
+arrives, rotates the residue field substantially, and points somewhere
+biologically wrong. The remaining hypothesis is that the missing ingredient is
+correspondence — which ligand substructure sits against which residue — and
+that a pose-free sequence-plus-2D estimand has no channel to supply it. That is
+a separately governed information stage about geometry, not a repair of these
+stages, and it requires its own preregistration.
 
 ## Promotion rule
 

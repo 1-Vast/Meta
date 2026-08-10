@@ -1,8 +1,9 @@
 {
   "schema": "MetaSieve.ProjectState.v4",
   "updated": "2026-08-10",
-  "current_phase": "S7_L2B_PHASE2B_S4R_COMPLETE",
+  "current_phase": "S7_L2B_PHASE2B_S5D_COMPLETE",
   "terminal_verdict": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
+  "latest_diagnostic_verdict": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -13,6 +14,8 @@
     "S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED",
     "S4R_GRAPH_AWARE_LIGAND_INCREMENT_IDENTIFIED_BUT_NOT_LIGAND_SPECIFIC",
     "POSE_FREE_LIGAND_REPRESENTATION_REPAIR_ROUTE_CLOSED",
+    "S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED",
+    "CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
@@ -123,6 +126,60 @@
     "affinity_value_reads": 0,
     "interpretation": "the graph-aware statistic doubled the above-chance gain and beat the capacity-matched permuted-label learner, but the residual signal survives a foreign ligand pair intact, so it is a construct-level residue-change prior rather than ligand-conditioned residue selection"
   },
+  "phase2b_s5d": {
+    "preregistration_sha256": "1ea639e09a43c93e80e9969e09a45ca1bc7bb517fc040438e43b14db8d5386bb",
+    "execution_commit": "26accf2",
+    "terminal_verdict": "LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED",
+    "trains_nothing": true,
+    "trainable_parameters_introduced": 0,
+    "registered_mechanism_falsified": true,
+    "D1_ligand_steering_collapse": {
+      "constructs_with_at_least_3_pairs": 131,
+      "median_rho_dg_data_side_bound": 0.4549937440491838,
+      "median_rho_graph": 0.4793458860222661,
+      "median_rho_baseline41": 0.5757852225096949,
+      "median_rho_excess_over_data": 0.013759617400224244,
+      "median_true_vs_foreign_field_cosine": 0.4486950725267182,
+      "rule": "median rho_graph >= 0.80 and >= median rho_dg + 0.10",
+      "collapse_confirmed": false
+    },
+    "D2_conditional_panel": {
+      "pairs": 40157,
+      "components": 107,
+      "median_changed_residues": 7.0,
+      "median_gain_fraction": 0.5,
+      "common_mask_sha256": "390bfb92d9f7dadab112f3e0eaf0ee9b1de344e3cfdb136a9c9e29df18197414"
+    },
+    "D2_macro_ap_conditional": {
+      "baseline41": 0.6388303644211601,
+      "candidate": 0.6550297582136492,
+      "chance": 0.6437443688129131,
+      "foreign": 0.6554702195459037,
+      "permuted": 0.6285860241986148
+    },
+    "gates_passed": [],
+    "gates": {
+      "E1_vs_conditional_chance": {
+        "delta": 0.01128538940073598,
+        "lcb95_one_sided": -0.007748855342133554,
+        "margin": 0.05
+      },
+      "E2_vs_foreign_ligand_pair": {
+        "delta": -0.00044046133225454214,
+        "lcb95_one_sided": -0.021814251404474485,
+        "margin": 0.03
+      },
+      "E3_vs_trained_permuted_learner": {
+        "delta": 0.026443734015034342,
+        "lcb95_one_sided": -0.002976745618979885,
+        "margin": 0.03
+      }
+    },
+    "heldoutA_status": "CONSUMED_THREE_TIMES_S3R_S4R_S5D_DEVELOPMENT_EVIDENCE_ONLY",
+    "heldoutB": "NOT_CREATED_AND_NOT_READ",
+    "affinity_value_reads": 0,
+    "interpretation": "the estimator does steer on the ligand (true-vs-foreign field cosine 0.449) but the ligand-determined direction carries no label information under either the bidirectional or the pocket-cancelling conditional estimand"
+  },
   "label_reads": {
     "recipient": 0,
     "davis": 0,
@@ -145,10 +202,14 @@
   "eligible_unregistered_proposal": null,
   "closed_routes": [
     "pose-free ligand representation repair of the direct-W residue-differential estimand",
-    "re-running S4R at a larger ligand vocabulary or radius"
+    "re-running S4R at a larger ligand vocabulary or radius",
+    "symmetric-difference conditional estimand repair",
+    "any fourth estimand variant on heldout-A"
   ],
   "canonical_evidence": {
     "current_status": "report/CURRENT_RESEARCH_STATUS.md",
+    "s5d_gate": "report/s7_l2b_r0r/PHASE2B_S5D_GATE.json",
+    "s5d_consolidation": "report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md",
     "s4r_gate": "report/s7_l2b_r0r/PHASE2B_S4R_GATE.json",
     "s4r_consolidation": "report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md",
     "s4r_audit": "report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.json",
@@ -161,5 +222,5 @@
   "label_firewall": "INTACT",
   "frozen_math": true,
   "production_model_changed": false,
-  "last_full_regression": "159_PASSED"
+  "last_full_regression": "174_PASSED"
 }

@@ -4686,3 +4686,84 @@ richness but whether any pose-free sequence-plus-2D estimand can bind a ligand
 substructure to a residue context without geometric correspondence; that needs
 a separately governed information stage. Full repository regression:
 **159 passed** in the `drug` environment.
+
+## F-108: the estimator does steer on the ligand — it steers somewhere biologically wrong (2026-08-10)
+
+S4R had shown that a foreign ligand pair costs almost nothing. F-108 registered
+one mechanism for that and then falsified its own hypothesis.
+
+```text
+S5D D1 ligand-steering collapse ....... NOT CONFIRMED, registered mechanism falsified
+S5D D2 conditional estimand E1-E3 ..... ALL FAIL
+terminal verdict ...................... LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED
+```
+
+The stage trained nothing, introduced zero parameters, added no representation
+and reused the frozen S4R checkpoints byte-for-byte. It did not reopen the
+ligand representation route.
+
+The registered claim was that the estimator maps every ligand difference onto
+approximately one residue direction per protein, so a foreign ligand yields
+nearly the same field. On 131 heldout-A constructs with at least three pairs,
+the top principal energy fraction of the mean-centred unit fields was
+`rho_graph = 0.4793` against a data-side upper bound `rho_dg = 0.4550`, an
+excess of `0.0138` where the registered rule required a median of at least
+`0.80` and an excess of at least `0.10`. The median cosine between a pair's
+true field and its foreign field was `0.4487` over 46,817 pairs. The estimator
+plainly does steer on the ligand, and `rho_base = 0.5758 > rho_graph`
+independently confirms that the S4R representation change increased field
+diversity exactly as the S4R-A audit predicted.
+
+D2 then aggregated `ap_symdiff_conditional`, an estimator already implemented
+and registered in `p2b_residue_residual.pair_metrics` and already aggregated by
+the parent Phase 2B runner, which S3R and S4R computed per pair and never
+aggregated. Restricting each comparison to the residues that changed makes
+pocket membership constant across both classes, so it cancels exactly and
+non-parametrically, with no gauge and no tuning. On 40,157 eligible pairs
+across 107 closure components, median 7 changed residues and median gain
+fraction `0.50`:
+
+| arm | AP_cond |
+|---|---:|
+| candidate, graph-aware | 0.655030 |
+| foreign ligand pair | 0.655470 |
+| conditional chance | 0.643744 |
+| baseline41, mean-pooled | 0.638830 |
+| trained permuted-label learner | 0.628586 |
+
+`E1 = +0.011285 [LCB -0.007749]` against a `+0.05` margin, `E2 = -0.000440
+[LCB -0.021814]`, `E3 = +0.026444 [LCB -0.002977]`. Every Gate fails, E1 fails
+on its lower bound as well as its margin, and `baseline41` sits *below*
+conditional chance.
+
+The joint reading is sharper than S4R alone. Ligand information is not lost
+upstream: it reaches the residue field and rotates it by a large angle. It is
+not diluted by the metric either: two estimands, one bidirectional and one
+pocket-cancelling, agree that the foreign arm ties the candidate to within
+`0.0004`. What the ligand determines about the residue direction is simply
+unrelated to which residues gained or lost contact. That the whole above-chance
+effect vanishes once pocket membership is cancelled is consistent with the S4R
+`AP_bidir` gain having been sign-agnostic pocket structure surviving the
+two-dimensional `span{1, b^P}` gauge, but S5D registered no test of that and
+the observation is not claimed as a result.
+
+A numerical limitation is disclosed rather than hidden: `rho` normalizes before
+centring, so a totally collapsed construct floors near `0.87` instead of `1.0`.
+The bias is downward in the degenerate limit, it can understate collapse but
+cannot manufacture it, and the observed median `0.4793` is nowhere near that
+regime. Both properties are asserted as tests.
+
+Governance: heldout-B not created and not read, R6 closed, affinity value reads
+zero, one label view opened. **Heldout-A has now been consumed three times, by
+S3R, S4R and S5D**, so every number is development evidence and the panel is
+weaker as evidence with each look; the registered stopping rule forbids a
+fourth estimand variant on it. No threshold, seed, margin, arm or eligibility
+rule was changed after a statistic was read.
+
+Both pose-free repair routes are now closed: representation by S4R, estimand by
+S5D. The remaining hypothesis is that the missing ingredient is
+**correspondence** — which ligand substructure sits against which residue — and
+that a pose-free sequence-plus-2D estimand has no channel to supply it. Testing
+that is a separately governed information stage about geometry with its own
+preregistration, and nothing here authorizes it. Full repository regression:
+**174 passed** in the `drug` environment.
