@@ -70,26 +70,39 @@ def _zip_text(path: Path):
     return archive, text
 
 
-def read_assay_map(path: Path) -> dict[str, list[dict[str, str]]]:
+def read_assay_map(path: Path) -> dict[str, dict[str, str]]:
     archive, handle = _zip_text(path)
-    result: dict[str, list[dict[str, str]]] = defaultdict(list)
+    result: dict[str, dict[str, str]] = {}
     try:
         for row in csv.DictReader(handle, delimiter="\t"):
             entry = row["ENTRYID"].strip()
             assay_id = row["ASSAYID"].strip()
             name = row["ASSAY_NAME"].strip()
             description = row["DESCRIPTION"].strip()
-            result[entry].append(
-                {
-                    "assay_id": assay_id,
-                    "assay_name_norm": normalize_text(name),
-                    "protocol_sha256": protocol_signature(name, description),
-                }
-            )
+            result[f"{entry}_{assay_id}"] = {
+                "entry_id": entry,
+                "assay_id": assay_id,
+                "assay_name_norm": normalize_text(name),
+                "protocol_sha256": protocol_signature(name, description),
+            }
     finally:
         handle.close()
         archive.close()
     return dict(result)
+
+
+def read_rsid_map(path: Path, relevant_ids: set[str]) -> dict[str, str]:
+    archive, handle = _zip_text(path)
+    result: dict[str, str] = {}
+    try:
+        for row in csv.DictReader(handle, delimiter="\t"):
+            reaction_id = row["REACTANT_SET_ID"].strip()
+            if reaction_id in relevant_ids:
+                result[reaction_id] = row["ENTRYID_ASSAYID"].strip()
+    finally:
+        handle.close()
+        archive.close()
+    return result
 
 
 def _deterministic_gzip_text(path: Path):
@@ -98,15 +111,14 @@ def _deterministic_gzip_text(path: Path):
     return raw, io.TextIOWrapper(compressed, encoding="utf-8", newline="\n")
 
 
-def extract_projection(articles_zip: Path, assays_zip: Path, output: Path) -> dict:
+def extract_projection(
+    articles_zip: Path, assays_zip: Path, rsid_zip: Path, output: Path
+) -> dict:
     assay_map = read_assay_map(assays_zip)
     archive, handle = _zip_text(articles_zip)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    raw_output, writer = _deterministic_gzip_text(output)
     rows = 0
-    projected = 0
-    missing_assay_map = 0
     endpoint_rows = defaultdict(int)
+    pending = []
     try:
         reader = csv.DictReader(handle, delimiter="\t")
         missing = set(METADATA_COLUMNS + AFFINITY_COLUMNS) - set(reader.fieldnames or ())
@@ -118,8 +130,6 @@ def extract_projection(articles_zip: Path, assays_zip: Path, output: Path) -> di
             if not endpoints:
                 continue
             entry_id = row["BindingDB Reactant_set_id"].strip()
-            assays = assay_map.get(entry_id, [])
-            missing_assay_map += int(not assays)
             chain_count_text = row[
                 "Number of Protein Chains in Target (>1 implies a multichain complex)"
             ].strip()
@@ -143,22 +153,36 @@ def extract_projection(articles_zip: Path, assays_zip: Path, output: Path) -> di
                 "target_sequence_sha256": stable_hash(sequence) if sequence else "",
                 "ligand_inchikey": row["Ligand InChI Key"].strip(),
                 "ligand_smiles": row["Ligand SMILES"].strip(),
-                "assays": assays,
             }
-            writer.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
-            projected += 1
+            pending.append(record)
             for endpoint in endpoints:
                 endpoint_rows[endpoint] += 1
     finally:
-        writer.close()
-        raw_output.close()
         handle.close()
         archive.close()
+
+    rsid_map = read_rsid_map(rsid_zip, {record["source_row_id"] for record in pending})
+    missing_rsid_map = 0
+    missing_assay_map = 0
+    output.parent.mkdir(parents=True, exist_ok=True)
+    raw_output, writer = _deterministic_gzip_text(output)
+    try:
+        for record in pending:
+            entry_assay = rsid_map.get(record["source_row_id"], "")
+            missing_rsid_map += int(not entry_assay)
+            assay = assay_map.get(entry_assay)
+            missing_assay_map += int(assay is None)
+            record["assays"] = [assay] if assay is not None else []
+            writer.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
+    finally:
+        writer.close()
+        raw_output.close()
     return {
         "schema": "BindingDB.CQ-R0.MetadataProjection.v1",
         "article_rows_traversed": rows,
-        "projected_rows": projected,
+        "projected_rows": len(pending),
         "endpoint_rows": dict(sorted(endpoint_rows.items())),
+        "missing_reaction_set_mapping_rows": missing_rsid_map,
         "missing_assay_mapping_rows": missing_assay_map,
         "affinity_bytes_traversed_by_trusted_extractor": True,
         "numeric_affinity_values_parsed": 0,
@@ -166,6 +190,7 @@ def extract_projection(articles_zip: Path, assays_zip: Path, output: Path) -> di
         "numeric_affinity_values_used": 0,
         "articles_sha256": sha256_file(articles_zip),
         "assays_sha256": sha256_file(assays_zip),
+        "rsid_mapping_sha256": sha256_file(rsid_zip),
         "projection_sha256": sha256_file(output),
     }
 
@@ -321,6 +346,7 @@ def main() -> int:
     extract = sub.add_parser("extract")
     extract.add_argument("--articles", type=Path, required=True)
     extract.add_argument("--assays", type=Path, required=True)
+    extract.add_argument("--rsid-map", type=Path, required=True)
     extract.add_argument("--projection", type=Path, required=True)
     extract.add_argument("--manifest", type=Path, required=True)
     census = sub.add_parser("census")
@@ -328,7 +354,9 @@ def main() -> int:
     census.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "extract":
-        result = extract_projection(args.articles, args.assays, args.projection)
+        result = extract_projection(
+            args.articles, args.assays, args.rsid_map, args.projection
+        )
         args.manifest.parent.mkdir(parents=True, exist_ok=True)
         args.manifest.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     else:

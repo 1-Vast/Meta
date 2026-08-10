@@ -61,6 +61,7 @@ def write_zip(path: Path, name: str, rows):
 def test_projection_does_not_expose_affinity(tmp_path):
     articles = tmp_path / "articles.zip"
     assays = tmp_path / "assays.zip"
+    rsid = tmp_path / "rsid.zip"
     projection = tmp_path / "projection.jsonl.gz"
     row = [""] * len(HEADER)
     values = {
@@ -82,9 +83,14 @@ def test_projection_does_not_expose_affinity(tmp_path):
     write_zip(
         assays,
         "assays.tsv",
-        [["ENTRYID", "ASSAYID", "ASSAY_NAME", "DESCRIPTION"], ["1", "7", "binding", "same protocol"]],
+        [["ENTRYID", "ASSAYID", "ASSAY_NAME", "DESCRIPTION"], ["10", "7", "binding", "same protocol"]],
     )
-    manifest = extract_projection(articles, assays, projection)
+    write_zip(
+        rsid,
+        "rsid.tsv",
+        [["REACTANT_SET_ID", "ENTRYID_ASSAYID"], ["1", "10_7"]],
+    )
+    manifest = extract_projection(articles, assays, rsid, projection)
     payload = gzip.open(projection, "rt", encoding="utf-8").read()
     assert "SECRET_12.5" not in payload
     assert manifest["numeric_affinity_values_parsed"] == 0
