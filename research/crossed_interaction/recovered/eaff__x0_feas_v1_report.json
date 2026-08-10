@@ -1,0 +1,160 @@
+{
+  "affinity_value_fields_selected": 0,
+  "affinity_values_read": false,
+  "closure_component_definition": "union of 40pct-identity homology groups and shared-document target groups",
+  "closure_component_universe": 245,
+  "created_utc": "2026-08-07T23:45:08.047879+00:00",
+  "davis_label_reads": 0,
+  "endpoints": {
+    "Kd": {
+      "attainable_ceiling_under_frozen_unit": 72,
+      "closure_components_rectangle_capable_panel_free": 12,
+      "closure_components_with_endpoint_data": 72,
+      "design_disjoint_components": 12,
+      "design_disjoint_largest_component_fraction": 0.3548387096774194,
+      "design_disjoint_rectangles_greedy": 62,
+      "requirement": 245,
+      "requirement_exceeds_ceiling": true,
+      "shortfall_against_ceiling": 173,
+      "x0_effective_components": 12
+    },
+    "Ki": {
+      "attainable_ceiling_under_frozen_unit": 202,
+      "closure_components_rectangle_capable_panel_free": 57,
+      "closure_components_with_endpoint_data": 202,
+      "design_disjoint_components": 36,
+      "design_disjoint_largest_component_fraction": 0.44397163120567373,
+      "design_disjoint_rectangles_greedy": 705,
+      "requirement": 245,
+      "requirement_exceeds_ceiling": true,
+      "shortfall_against_ceiling": 43,
+      "x0_effective_components": 36
+    }
+  },
+  "governed_corpus_population_sweep": {
+    "best_ceiling_over_all_populations": {
+      "Kd": 56,
+      "Ki": 97
+    },
+    "ceiling_falls_when_corpus_grows": {
+      "Kd": false,
+      "Ki": true
+    },
+    "note": "components_with_two_or_more_proteins is a hard upper bound on effective components: a component holding one protein for an endpoint cannot host a rectangle for it",
+    "populations": [
+      {
+        "closure_components": 253,
+        "endpoints": {
+          "Kd": {
+            "components_with_endpoint_data": 78,
+            "components_with_two_or_more_proteins": 14,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          },
+          "Ki": {
+            "components_with_endpoint_data": 206,
+            "components_with_two_or_more_proteins": 75,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          }
+        },
+        "population": "e0_core_eligible",
+        "proteins": 697,
+        "tasks": 3817
+      },
+      {
+        "closure_components": 459,
+        "endpoints": {
+          "Kd": {
+            "components_with_endpoint_data": 257,
+            "components_with_two_or_more_proteins": 56,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          },
+          "Ki": {
+            "components_with_endpoint_data": 288,
+            "components_with_two_or_more_proteins": 72,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          }
+        },
+        "population": "full_d0_governed",
+        "proteins": 4787,
+        "tasks": 37783
+      },
+      {
+        "closure_components": 434,
+        "endpoints": {
+          "Kd": {
+            "components_with_endpoint_data": 210,
+            "components_with_two_or_more_proteins": 51,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          },
+          "Ki": {
+            "components_with_endpoint_data": 305,
+            "components_with_two_or_more_proteins": 92,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          }
+        },
+        "population": "min_5_compounds_per_task",
+        "proteins": 1492,
+        "tasks": 14589
+      },
+      {
+        "closure_components": 494,
+        "endpoints": {
+          "Kd": {
+            "components_with_endpoint_data": 254,
+            "components_with_two_or_more_proteins": 54,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          },
+          "Ki": {
+            "components_with_endpoint_data": 323,
+            "components_with_two_or_more_proteins": 97,
+            "requirement": 245,
+            "requirement_exceeds_ceiling": true
+          }
+        },
+        "population": "min_2_compounds_per_task",
+        "proteins": 3006,
+        "tasks": 23961
+      }
+    ],
+    "requirement_exceeds_best_ceiling": {
+      "Kd": true,
+      "Ki": true
+    }
+  },
+  "input_rows": 152737,
+  "interpretation_limits": [
+    "X0-FEAS audits the estimand and its unit, not the biology",
+    "it does not weaken, replace or re-register the frozen X0 requirement",
+    "design-disjoint rectangle counts remove target/ligand repetition only; they still share an assay run and are not certified IID units",
+    "an unattainable requirement is not evidence that interaction exists"
+  ],
+  "label_blind": true,
+  "power_design": {
+    "alpha_one_sided": 0.05,
+    "assumed_sampling_model": "independent_identically_distributed_units",
+    "derivation_reproduced": true,
+    "frozen_required_n": 245,
+    "independently_derived_required_n": 245,
+    "interaction_rms_over_assay_noise": 0.5,
+    "power": 0.8,
+    "variance_ratio": 1.25
+  },
+  "recipient_label_reads": 0,
+  "schema": "MetaSieve.EAffX0Feas.v1",
+  "stage": "P1R2B-E-AFF-X0-FEAS_UNIT_FEASIBILITY_AUDIT",
+  "structural_claim": {
+    "claim_holds_on_x0_artifacts": true,
+    "consequence": "crossing can never create an X0 unit; effective components are bounded above by the closure-component universe",
+    "panels_touching_more_than_one_closure_component": 0,
+    "statement": "every rectangle joins two proteins inside one document-keyed panel, and D1 closure unions all proteins sharing a document, so both proteins of every rectangle always lie in one closure component"
+  },
+  "training_performed": false,
+  "verdict": "X0_UNIT_REQUIREMENT_UNATTAINABLE_BY_CONSTRUCTION"
+}
