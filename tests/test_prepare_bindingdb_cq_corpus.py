@@ -1,6 +1,7 @@
 from research.crossed_interaction.prepare_bindingdb_cq_corpus import (
     UnionFind,
     canonical_smiles,
+    heavy_atom_only,
     sequence_identity,
 )
 
@@ -20,3 +21,5 @@ def test_sequence_identity_contract():
 def test_smiles_identity_is_canonicalized():
     assert canonical_smiles("C(C)O") == canonical_smiles("OCC")
     assert canonical_smiles("[H]OC") == canonical_smiles("CO")
+    assert heavy_atom_only("CCO")
+    assert not heavy_atom_only("[H]/N=C(/N)c1ccccc1")

@@ -102,6 +102,13 @@ def canonical_smiles(smiles: str) -> str:
     return Chem.MolToSmiles(molecule, canonical=True, isomericSmiles=True)
 
 
+def heavy_atom_only(smiles: str) -> bool:
+    from rdkit import Chem
+
+    molecule = Chem.MolFromSmiles(smiles)
+    return molecule is not None and all(atom.GetAtomicNum() > 1 for atom in molecule.GetAtoms())
+
+
 def _gzip_writer(path: Path):
     raw = path.open("wb")
     compressed = gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0)
@@ -185,7 +192,10 @@ def build_corpus(projection: Path, labels: Path, output: Path, workers: int = 8)
     }
 
     scaffolds = {key: murcko_scaffold(smiles) for key, smiles in ligand_smiles.items()}
-    invalid_ligands = {key for key, value in scaffolds.items() if not value}
+    invalid_ligands = {
+        key for key, value in scaffolds.items()
+        if not value or not heavy_atom_only(ligand_smiles[key])
+    }
     if invalid_ligands:
         cells = [cell for cell in cells if cell["ligand_id"] not in invalid_ligands]
         ligand_smiles = {
