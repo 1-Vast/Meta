@@ -212,7 +212,16 @@ def main() -> int:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--pair-batch-size", type=int, default=64)
     args = parser.parse_args()
-    print(json.dumps(generate(**vars(args)), indent=2))
+    print(json.dumps(generate(
+        corpus=args.corpus,
+        protein_bank=args.protein_bank,
+        ligand_bank=args.ligand_bank,
+        checkpoint=args.checkpoint,
+        calibration_path=args.calibration,
+        output=args.output,
+        device=args.device,
+        pair_batch_size=args.pair_batch_size,
+    ), indent=2))
     return 0
 
 
