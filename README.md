@@ -6,6 +6,21 @@ generic pocket detection: it must learn transferable target-ligand knowledge
 from large open source datasets and adapt that knowledge from `k` measured
 support ligands for a new target.
 
+## Current status
+
+The episodic few-shot stage reached its first precondition and stopped:
+
+```text
+FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
+```
+
+The governed BindingDB Ki corpus supports episodic *training* (442 source
+targets, 220 usable at `k=5`) but not unseen-target *evaluation*: only 16
+held-out targets can carry `k=5`, below the declared minimum of 30, and the
+resulting `MDE_d = 0.622` exceeds the declared `0.600` ceiling. Leakage is zero
+on target, ligand, scaffold, document and protein-homology axes. No model has
+been trained and target-coefficient heterogeneity remains untested.
+
 ## Core task
 
 Each protein target is a meta-learning task. Source training uses target-wise

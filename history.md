@@ -5064,3 +5064,51 @@ retained.
 The consolidated active suite contains **92 passing tests** in the `drug`
 environment after deletion of route-specific tests whose implementations were
 archived.
+
+## F-117: few-shot episode feasibility fails on evaluation depth, not on governance (2026-08-10)
+
+The authorized next stage after `CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED`
+was to change only the coefficient-sharing assumption: source-learn `U` and
+`w0` across target episodes and evaluate unseen-target `k=1/2/3/5` sections.
+Phase 0 of that stage ran a label-blind episode census first and stopped there.
+
+```text
+FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
+```
+
+Thresholds were declared inside the census script and committed (`f25e57b`)
+before it ran. The `pK` field was stripped on read, so affinity label reads were
+zero, and Ki was the only endpoint touched.
+
+The governance is clean. Train and development share **zero** targets, ligands,
+scaffolds, documents and protein-homology-40 groups. The source side is ample:
+442 targets, of which 336/281/257/220 can carry `k=1/2/3/5` and 182 can do so
+with a scaffold-disjoint support set.
+
+The evaluation side is not. The frozen split places only 535 cells (4.3% of the
+corpus) and 68 targets in development. Of those, 24/19/18/16 can carry
+`k=1/2/3/5`, and only 24/18/9/8 with scaffold-disjoint support. Sixteen held-out
+targets at `k=5` gives `MDE_d = 0.622` on the decisive
+`correct support > zero adaptation` contrast, against a declared ceiling of
+`0.600`; the component-macro unit is worse at `0.718` over 12 components. Two
+checks failed, both close to their thresholds, which is exactly why neither was
+moved.
+
+No model preregistration was written and nothing was trained. Phase 1 and
+Phase 2 were not entered. The scientific hypothesis — target-specific
+coefficient heterogeneity on the frozen 288D basis — is **untested**, and this
+run is not evidence against it. Also untested and unclaimable: basis adequacy,
+support rank, conditioning, query coverage, optimizer behaviour and any
+ligand-only shortcut.
+
+The obvious remedy, component-wise cross-validation over all 31 dependency
+components, was deliberately not applied: it changes the frozen split contract
+and needs its own preregistration, and it is bounded anyway because the largest
+component holds 85.86% of cells, so any component-respecting partition either
+starves training or starves evaluation. The registered remedy for this verdict
+is therefore to acquire or govern a better open target-panel corpus.
+
+Lesson retained: a corpus can be well-governed, leakage-free and large enough to
+train on while still being too shallow on the held-out side to evaluate the
+estimand it was built for. Optimization feasibility and evaluation feasibility
+are separate Gates.

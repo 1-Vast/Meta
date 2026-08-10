@@ -4,12 +4,17 @@
   "core_task": {
     "name": "unseen-target few-shot drug-target affinity prediction",
     "target_is_meta_task": true,
-    "support_sizes": [1, 2, 3, 5],
+    "support_sizes": [
+      1,
+      2,
+      3,
+      5
+    ],
     "query_labels_forbidden": true
   },
   "current_stage": {
-    "name": "TARGET_COEFFICIENT_META_LEARNING_DESIGN",
-    "status": "PLANNED_NOT_PREREGISTERED_NOT_IMPLEMENTED",
+    "name": "META_FEWSHOT_PHASE0_EPISODE_FEASIBILITY",
+    "status": "COMPLETE_FAILED_CLOSED",
     "training_authorized": false,
     "confirmation_labels_open": false
   },
@@ -22,7 +27,8 @@
   ],
   "negative_evidence": [
     "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
-    "POPULATION_SHARED_288D_AFFINITY_DIRECTION_NOT_IDENTIFIED"
+    "POPULATION_SHARED_288D_AFFINITY_DIRECTION_NOT_IDENTIFIED",
+    "FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE"
   ],
   "unresolved": [
     "TARGET_COEFFICIENT_HETEROGENEITY",
@@ -56,8 +62,66 @@
     "ledger": "report/EXPERIMENTAL_EVIDENCE_LEDGER.md",
     "route": "report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md",
     "history": "history.md",
-    "archive_index": "archive/FAILED_RESEARCH_ARCHIVE_20260810.md"
+    "archive_index": "archive/FAILED_RESEARCH_ARCHIVE_20260810.md",
+    "meta_fewshot_phase0": "report/meta_fewshot/PHASE0_EVIDENCE.md"
   },
-  "closed_labels": ["DAVIS", "KIBA", "recipient", "external confirmation"],
-  "recovery_commit_before_cleanup": "c05d3f95fe59f1f0b1e1cc34163ba473f16ea008"
+  "closed_labels": [
+    "DAVIS",
+    "KIBA",
+    "recipient",
+    "external confirmation"
+  ],
+  "recovery_commit_before_cleanup": "c05d3f95fe59f1f0b1e1cc34163ba473f16ea008",
+  "meta_fewshot_phase0": {
+    "terminal_verdict": "FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE",
+    "label_blind": true,
+    "affinity_label_reads": 0,
+    "endpoint": "Ki only",
+    "trained": false,
+    "model_preregistered": false,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "features_sha256": "0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c",
+    "source_targets": 442,
+    "source_targets_usable_at_k": {
+      "1": 336,
+      "2": 281,
+      "3": 257,
+      "5": 220
+    },
+    "evaluation_targets": 68,
+    "evaluation_targets_usable_at_k": {
+      "1": 24,
+      "2": 19,
+      "3": 18,
+      "5": 16
+    },
+    "evaluation_targets_usable_at_k_scaffold_disjoint": {
+      "1": 24,
+      "2": 18,
+      "3": 9,
+      "5": 8
+    },
+    "evaluation_cells": 535,
+    "evaluation_components": 12,
+    "leakage_all_axes": 0,
+    "mde_d_targets_k5": 0.6216187151310966,
+    "mde_d_components": 0.7177834650284959,
+    "declared_max_mde_d": 0.6,
+    "declared_min_eval_targets": 30,
+    "failed_checks": [
+      "eval_targets_at_k5_sufficient",
+      "powered_at_primary_unit"
+    ],
+    "failure_localization": "insufficient independent held-out target episodes; NOT endpoint heterogeneity, NOT leakage (zero on all five axes), NOT source-side supply (220 targets at k=5)",
+    "untested": [
+      "frozen 288D basis adequacy",
+      "support rank",
+      "conditioning",
+      "query coverage",
+      "optimizer",
+      "ligand-only shortcut",
+      "target coefficient heterogeneity"
+    ],
+    "corpus_status": "DEVELOPMENT_ONLY_CLOSED_COMPONENT_CORPUS"
+  }
 }

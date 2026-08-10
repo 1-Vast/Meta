@@ -35,6 +35,25 @@ small transferable subspace. The next experiment must isolate that hypothesis
 through target-held-out episodes and must not modify the biological basis and
 optimizer architecture simultaneously.
 
+## Meta-fewshot Phase 0 (2026-08-10)
+
+```text
+verdict                        FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
+affinity label reads                                              0
+endpoint                                                    Ki only
+source targets / usable at k=5                          442 /  220
+evaluation targets / usable at k=5                       68 /   16
+evaluation usable at k=5, scaffold-disjoint                       8
+declared minimum evaluation targets                              30
+MDE_d at k=5 (targets) / declared ceiling             0.622 / 0.600
+leakage: target, ligand, scaffold, document, homology-40           0
+```
+
+The corpus trains but cannot evaluate. Episodic source supply is ample and the
+closure governance is clean; the constraint is held-out target depth. No model
+was preregistered or trained, so target-coefficient heterogeneity is untested
+rather than refuted.
+
 ## Historical lessons retained
 
 - More attention or a larger pair head did not establish affinity direction.
@@ -45,5 +64,8 @@ optimizer architecture simultaneously.
 - A failed numerical or synthetic control is not a biological failure.
 - Optimization authorization on a large open corpus is distinct from admission
   of a population claim.
+- Clean leakage governance does not imply an evaluable panel: a corpus can be
+  well-governed, leakage-free and large enough to train on while still being too
+  shallow on the held-out side to evaluate the estimand it was built for.
 
 Full chronology and exact historical verdicts are in `history.md`.

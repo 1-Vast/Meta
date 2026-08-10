@@ -50,6 +50,31 @@ document, assay, protein-homology, ligand-scaffold and publication-time
 controls. Optimization authorization and scientific-admission authorization
 are separate Gates.
 
+## Phase 0 outcome (2026-08-10)
+
+The episodic stage was attempted and stopped at its first precondition.
+
+```text
+FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
+```
+
+Label-blind census, zero affinity label reads, Ki only. Leakage is zero across
+target, ligand, scaffold, document and protein-homology-40. Source supply is
+ample (442 targets; 220 usable at `k=5`). The evaluation split is the binding
+constraint: 68 targets, `24/19/18/16` usable at `k=1/2/3/5` and `24/18/9/8`
+scaffold-disjoint, against a declared minimum of 30 and a declared power
+ceiling `MDE_d <= 0.600` versus the observed `0.622`.
+
+No model was preregistered, none was trained, and no threshold was moved. The
+hypothesis of target-specific coefficient heterogeneity is **untested**, not
+refuted.
+
+Registered remedy for this verdict: acquire or govern a better open
+target-panel corpus. Re-cutting the present corpus is bounded by its largest
+dependency component holding 85.86% of cells, so a component-respecting
+re-split redistributes rather than removes the constraint and would in any case
+need its own preregistration.
+
 ## Immediate next stage
 
 Preregister one experiment that changes only the failed sharing assumption:

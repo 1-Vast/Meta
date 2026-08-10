@@ -54,3 +54,20 @@ The episodic learner is upstream of `A(F,z)=K(B(z)F(z))`. No raw 288D vector,
 pair map or arbitrary neural latent enters `z`. Only a bounded, independently
 confirmed mechanism statistic plus support rank/coverage/certificate may be
 proposed for a later bridge contract.
+
+## Phase 0 execution record
+
+`research/meta_fewshot/phase0_episode_census.py`, commit `f25e57b`, thresholds
+declared in the script before the run.
+
+```text
+source      targets 442   usable at k=1/2/3/5   336 / 281 / 257 / 220
+evaluation  targets  68   usable at k=1/2/3/5    24 /  19 /  18 /  16
+                          scaffold-disjoint      24 /  18 /   9 /   8
+evaluation cells 535   components 12   leakage 0 on all five axes
+MDE_d  targets k=5 0.622   components 0.718   declared ceiling 0.600
+```
+
+Terminal verdict `FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE`. Phase 1 and Phase 2
+were not entered; no model preregistration exists and nothing was trained.
+Affinity label reads 0 (`pK` stripped on read). Endpoint Ki only.
