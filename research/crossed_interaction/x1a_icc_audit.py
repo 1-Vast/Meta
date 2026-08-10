@@ -29,7 +29,9 @@ RECOVERED = HERE / "recovered"
 OUT = ROOT / "report" / "crossed_interaction"
 
 PREREG = HERE / "PREREG_X1_ICC_AND_DATA_CONTRACT.md"
+AMENDMENT = HERE / "PREREG_X1_AMENDMENT_01.md"
 PREREG_SHA = "67e3c651de8d3f932934d76fb955f4554ded668551200ca439253d0548549bbc"
+AMENDMENT_SHA = "d0faff29914332e474d90ce7698d5a7dcd7d77daaacb415db63426ae3648bb3f"
 CHEMBL_DB = (ROOT / "dataset" / "raw" / "source_affinity" / "chembl37_sqlite_v1" /
              "extracted" / "chembl_37" / "chembl_37_sqlite" / "chembl_37.db")
 
@@ -43,6 +45,14 @@ RHO_STAR = {"Ki": 0.0915, "Kd": 0.0164}
 X0B_UNITS = {"Ki": 11168, "Kd": 1041}
 X0B_CLUSTERS = {"Ki": 36, "Kd": 12}
 X0B_CAP_AT_RHO_STAR = {"Ki": 32, "Kd": 125}
+# Frozen X0-B cell-disjoint DD units per dependency cluster. This is the
+# registered statistical unit and is not recomputed or replaced here.
+X0B_CLUSTER_SIZES = {
+    "Ki": [5381, 2501, 895, 770, 325, 211, 188, 109, 93, 89, 75, 50, 49, 41,
+           38, 37, 33, 27, 26, 25, 22, 22, 15, 14, 13, 12, 12, 12, 12, 11, 11,
+           11, 10, 10, 10, 8],
+    "Kd": [417, 202, 192, 46, 44, 37, 37, 25, 14, 11, 9, 7],
+}
 REQUIRED_EFFECTIVE_N = 245
 MAX_CLUSTER_SHARE = 0.25
 SEED_BOOT = 20260903
@@ -144,33 +154,46 @@ def nested_rho(records: list[dict]) -> dict:
             "replicate_supported_cells": len(replicate_groups)}
 
 
-def adjust_additive(cells: list[dict]) -> list[dict]:
-    """Remove additive target and ligand effects within each panel by one
-    least-squares two-way fit. DD cancels exactly these effects, so the residual
-    is the part of the measurement that DD inherits."""
+def adjust_additive(cells: list[dict], within_panel: bool) -> list[dict]:
+    """Remove additive target and ligand effects. DD cancels exactly these, so
+    the residual is the part of the measurement that DD inherits.
+
+    `within_panel=True` reproduces the parent registration and is retained only
+    to document its degeneracy: a per-panel intercept forces every panel's
+    residual mean to zero, so var(cluster) is identically zero for any data.
+    `within_panel=False` is amendment 01's global per-endpoint fit, which leaves
+    panel and cluster structure estimable.
+    """
+    from scipy.sparse import csr_matrix
+    from scipy.sparse.linalg import lsqr
+
     out = []
-    by_panel = defaultdict(list)
+    blocks = defaultdict(list)
     for cell in cells:
-        by_panel[cell["panel"]].append(cell)
-    for panel, rows in by_panel.items():
+        blocks[cell["panel"] if within_panel else "__global__"].append(cell)
+    for block, rows in blocks.items():
         targets = sorted({r["target"] for r in rows})
         ligands = sorted({r["ligand"] for r in rows})
         if len(targets) < 2 or len(ligands) < 2:
             continue
         t_index = {t: i for i, t in enumerate(targets)}
         l_index = {l: i for i, l in enumerate(ligands)}
-        design = np.zeros((len(rows), 1 + len(targets) + len(ligands)))
-        y = np.zeros(len(rows))
+        width = 1 + len(targets) + len(ligands)
+        indptr = np.arange(0, 3 * len(rows) + 1, 3)
+        indices = np.empty(3 * len(rows), dtype=np.int64)
+        y = np.empty(len(rows))
         for i, row in enumerate(rows):
-            design[i, 0] = 1.0
-            design[i, 1 + t_index[row["target"]]] = 1.0
-            design[i, 1 + len(targets) + l_index[row["ligand"]]] = 1.0
+            indices[3 * i] = 0
+            indices[3 * i + 1] = 1 + t_index[row["target"]]
+            indices[3 * i + 2] = 1 + len(targets) + l_index[row["ligand"]]
             y[i] = row["value_mean"]
-        coef, *_ = np.linalg.lstsq(design, y, rcond=None)
+        design = csr_matrix((np.ones(3 * len(rows)), indices, indptr),
+                            shape=(len(rows), width))
+        coef = lsqr(design, y, atol=1e-10, btol=1e-10, iter_lim=20000)[0]
         fitted = design @ coef
         for i, row in enumerate(rows):
             for value in row["values"]:
-                out.append({"cluster": row["cluster"], "panel": panel,
+                out.append({"cluster": row["cluster"], "panel": row["panel"],
                             "cell": row["cell"], "r": float(value - fitted[i])})
     return out
 
@@ -209,8 +232,8 @@ def cluster_bootstrap_ucb(records: list[dict], seed: int = SEED_BOOT,
 # --------------------------------------------------------------- run
 def run(n_boot: int = N_BOOT) -> dict:
     started = time.time()
-    if sha_file(PREREG) != PREREG_SHA:
-        raise X1ContractError("X1 preregistration hash mismatch")
+    if sha_file(PREREG) != PREREG_SHA or sha_file(AMENDMENT) != AMENDMENT_SHA:
+        raise X1ContractError("X1 preregistration or amendment hash mismatch")
     files = {
         "cells": (RECOVERED / "eaff__x0_v1_cells.jsonl", CELLS_SHA),
         "dependency_components": (RECOVERED / "eaff__x0_v1_dependency_components.jsonl",
@@ -292,7 +315,8 @@ def run(n_boot: int = N_BOOT) -> dict:
                                       "dropped": dict(dropped)}
             continue
 
-        adjusted = adjust_additive(usable)
+        adjusted = adjust_additive(usable, within_panel=False)
+        degenerate = nested_rho(adjust_additive(usable, within_panel=True))
         if not adjusted:
             per_endpoint[endpoint] = {"status": "NO_CROSSED_PANEL",
                                       "dropped": dict(dropped)}
@@ -303,14 +327,15 @@ def run(n_boot: int = N_BOOT) -> dict:
         rho_point = components["rho"]
         rho_star = RHO_STAR[endpoint]
         cap = X0B_CAP_AT_RHO_STAR[endpoint]
-        sizes = Counter(row["cluster"] for row in adjusted)
-        capped = {k: min(v, cap) for k, v in sizes.items()}
-        capped_total = sum(capped.values())
-        largest_capped_share = (max(capped.values()) / capped_total
-                                if capped_total else float("nan"))
-        largest_uncapped_share = (max(sizes.values()) / sum(sizes.values())
-                                  if sizes else float("nan"))
-        mean_influence = capped_total / max(len(capped), 1)
+        # G3/G4 are evaluated on the FROZEN X0-B cell-disjoint DD-unit counts,
+        # which are the registered statistical unit. Measurement counts are not
+        # a substitute and would inflate the effective sample size.
+        unit_sizes = X0B_CLUSTER_SIZES[endpoint]
+        capped_sizes = [min(s, cap) for s in unit_sizes]
+        capped_total = sum(capped_sizes)
+        largest_capped_share = max(capped_sizes) / capped_total
+        largest_uncapped_share = max(unit_sizes) / sum(unit_sizes)
+        mean_influence = capped_total / len(capped_sizes)
         design_effect = 1.0 + (mean_influence - 1.0) * rho_point
         n_eff = capped_total / design_effect if design_effect > 0 else 0.0
 
@@ -327,13 +352,23 @@ def run(n_boot: int = N_BOOT) -> dict:
             "adjusted_measurements": len(adjusted),
             "dropped": dict(dropped),
             "variance_components": components,
+            "parent_within_panel_rho_structurally_zero": {
+                "rho": degenerate["rho"], "var_cluster": degenerate["var_cluster"],
+                "note": "parent registration estimator; a per-panel intercept "
+                        "forces var(cluster) to zero for any data, so this Gate "
+                        "could not fail. Superseded by amendment 01."},
             "rho_point": rho_point,
             "rho_bootstrap": bootstrap,
             "rho_star": rho_star,
             "x0b_units": X0B_UNITS[endpoint],
             "x0b_clusters": X0B_CLUSTERS[endpoint],
             "cap": cap,
-            "clusters_present": len(sizes),
+            "clusters_present": components["clusters"],
+            "replicate_noise_sd_log_units": float(
+                np.sqrt(components["var_replicate"])),
+            "detectable_interaction_rms_at_ratio_0p5": float(
+                0.5 * np.sqrt(components["var_replicate"])),
+            "rho_biased_toward_zero_by_additive_overparameterization": True,
             "largest_cluster_share_uncapped": largest_uncapped_share,
             "largest_cluster_share_capped": largest_capped_share,
             "mean_capped_cluster_influence": mean_influence,
@@ -371,6 +406,10 @@ def run(n_boot: int = N_BOOT) -> dict:
         "schema": "MetaSieve.CrossedInteraction.X1A.Gate.v1",
         "created_utc": "2026-08-10", "execution_commit": git_head(),
         "preregistration_sha256": PREREG_SHA,
+        "amendment_01_sha256": AMENDMENT_SHA,
+        "icc_estimator": "amendment 01: additive target and ligand effects fitted "
+                         "globally per endpoint; the parent within-panel fit was "
+                         "degenerate and its result is void",
         "recovered_x0_hashes": recovered_hashes,
         "chembl37_sha256_pinned":
             "4be13df3b68e25dcd0bff44bf094033b5aebe98f415acdc8c1cdf380e0c15142",
