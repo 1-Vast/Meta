@@ -92,6 +92,15 @@ def murcko_scaffold(smiles: str) -> str:
     return Chem.MolToSmiles(scaffold, canonical=True, isomericSmiles=True)
 
 
+def canonical_smiles(smiles: str) -> str:
+    from rdkit import Chem
+
+    molecule = Chem.MolFromSmiles(smiles)
+    if molecule is None:
+        return ""
+    return Chem.MolToSmiles(molecule, canonical=True, isomericSmiles=True)
+
+
 def _gzip_writer(path: Path):
     raw = path.open("wb")
     compressed = gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0)
@@ -128,9 +137,9 @@ def build_corpus(projection: Path, labels: Path, output: Path, workers: int = 8)
     cells = []
     for (panel_id, target_id, ligand_id), values in sorted(cell_values.items()):
         records = [metadata[value["source_row_id"]] for value in values]
-        smiles_values = {record["ligand_smiles"] for record in records}
+        smiles_values = {canonical_smiles(record["ligand_smiles"]) for record in records}
         sequence_values = {record["target_sequence"] for record in records}
-        if len(smiles_values) != 1 or len(sequence_values) != 1:
+        if "" in smiles_values or len(smiles_values) != 1 or len(sequence_values) != 1:
             raise ValueError("one cell maps to conflicting ligand or target identities")
         smiles = smiles_values.pop()
         sequence = sequence_values.pop()
