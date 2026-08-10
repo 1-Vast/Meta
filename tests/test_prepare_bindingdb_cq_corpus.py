@@ -19,3 +19,4 @@ def test_sequence_identity_contract():
 
 def test_smiles_identity_is_canonicalized():
     assert canonical_smiles("C(C)O") == canonical_smiles("OCC")
+    assert canonical_smiles("[H]OC") == canonical_smiles("CO")

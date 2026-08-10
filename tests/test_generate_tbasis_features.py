@@ -2,6 +2,7 @@ import numpy as np
 
 from research.crossed_interaction.generate_tbasis_features import (
     apply_frozen_calibration,
+    deterministic_control_map,
     ligand_channels_smiles,
 )
 
@@ -22,3 +23,11 @@ def test_frozen_calibration_shape_and_order():
         "active": np.ones(12, dtype=bool),
     }
     assert np.array_equal(apply_frozen_calibration(raw, calibration), raw.reshape(-1))
+
+
+def test_control_map_is_deterministic_and_respects_exclusions():
+    groups = {"a": 0, "b": 0, "c": 1, "d": 2}
+    first = deterministic_control_map(list(groups), lambda left, right: groups[left] == groups[right])
+    second = deterministic_control_map(list(reversed(groups)), lambda left, right: groups[left] == groups[right])
+    assert first == second
+    assert all(groups[left] != groups[right] for left, right in first.items())

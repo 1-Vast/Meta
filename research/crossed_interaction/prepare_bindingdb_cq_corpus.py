@@ -98,6 +98,7 @@ def canonical_smiles(smiles: str) -> str:
     molecule = Chem.MolFromSmiles(smiles)
     if molecule is None:
         return ""
+    molecule = Chem.RemoveHs(molecule)
     return Chem.MolToSmiles(molecule, canonical=True, isomericSmiles=True)
 
 

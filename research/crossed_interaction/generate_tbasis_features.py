@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import time
 from pathlib import Path
@@ -72,6 +73,21 @@ def apply_frozen_calibration(raw: np.ndarray, calibration: dict[str, np.ndarray]
     return normalized[calibration["active"]]
 
 
+def deterministic_control_map(keys: list[str], incompatible) -> dict[str, str]:
+    ordered = sorted(keys)
+    result = {}
+    for key in ordered:
+        start = int(hashlib.sha256(f"CQ-control|{key}".encode()).hexdigest()[:8], 16)
+        for offset in range(1, len(ordered) + 1):
+            candidate = ordered[(start + offset) % len(ordered)]
+            if candidate != key and not incompatible(key, candidate):
+                result[key] = candidate
+                break
+        if key not in result:
+            raise ValueError(f"no eligible deterministic control for {key}")
+    return result
+
+
 def _protein_states(model, proteins: dict, device: str, batch_size: int = 64):
     result = {}
     keys = sorted(proteins)
@@ -111,6 +127,40 @@ def _ligand_states(model, graphs: dict, device: str, batch_size: int = 32):
     return result
 
 
+def _compute_arm(
+    cells: list[dict], protein_key, ligand_key, model, protein_states, ligand_states,
+    channels, sequences, calibration, device: str, pair_batch_size: int,
+) -> np.ndarray:
+    features = np.empty((len(cells), int(calibration["active"].sum())), dtype=np.float32)
+    with torch.inference_mode():
+        for start in range(0, len(cells), pair_batch_size):
+            batch = cells[start : start + pair_batch_size]
+            p_keys = [protein_key(row) for row in batch]
+            l_keys = [ligand_key(row) for row in batch]
+            atom_states = torch.stack([ligand_states[key]["states"] for key in l_keys]).to(device)
+            atom_mask = torch.stack([ligand_states[key]["mask"] for key in l_keys]).to(device)
+            residue_states = torch.stack([protein_states[key]["states"] for key in p_keys]).to(device)
+            residue_mask = torch.stack([protein_states[key]["mask"] for key in p_keys]).to(device)
+            prediction = model.bridge(atom_states, atom_mask, residue_states, residue_mask)
+            distance = torch.softmax(prediction.distance_logits, dim=-1).cpu().numpy()
+            for local, (p_key, l_key) in enumerate(zip(p_keys, l_keys)):
+                count = int(atom_mask[local].sum().item())
+                atom_channels = channels[l_key]
+                if len(atom_channels) != count:
+                    raise ValueError("ligand chemistry and graph atom order disagree")
+                radial = np.einsum(
+                    "isb,bk->isk", distance[local, :count], calibration["bin"], optimize=True
+                )
+                raw = aggregate_basis(
+                    atom_channels,
+                    slot_composition(sequences[p_key]),
+                    radial,
+                    residue_mask[local].cpu().numpy(),
+                )
+                features[start + local] = apply_frozen_calibration(raw, calibration)
+    return features
+
+
 def generate(
     corpus: Path,
     protein_bank: Path,
@@ -148,42 +198,44 @@ def generate(
             "active": stored["active"],
             "bin": stored["bin_rbf_expectation"],
         }
-    features = np.empty((len(cells), int(calibration["active"].sum())), dtype=np.float32)
-    with torch.inference_mode():
-        for start in range(0, len(cells), pair_batch_size):
-            batch = cells[start : start + pair_batch_size]
-            atom_states = torch.stack([ligand_states[row["ligand_id"]]["states"] for row in batch]).to(device)
-            atom_mask = torch.stack([ligand_states[row["ligand_id"]]["mask"] for row in batch]).to(device)
-            residue_states = torch.stack([protein_states[row["target_id"]]["states"] for row in batch]).to(device)
-            residue_mask = torch.stack([protein_states[row["target_id"]]["mask"] for row in batch]).to(device)
-            prediction = model.bridge(atom_states, atom_mask, residue_states, residue_mask)
-            distance = torch.softmax(prediction.distance_logits, dim=-1).cpu().numpy()
-            for local, row in enumerate(batch):
-                count = int(atom_mask[local].sum().item())
-                atom_channels = channels[row["ligand_id"]]
-                if len(atom_channels) != count:
-                    raise ValueError("ligand chemistry and graph atom order disagree")
-                radial = np.einsum(
-                    "isb,bk->isk", distance[local, :count], calibration["bin"], optimize=True
-                )
-                raw = aggregate_basis(
-                    atom_channels,
-                    slot_composition(sequences[row["target_id"]]),
-                    radial,
-                    residue_mask[local].cpu().numpy(),
-                )
-                features[start + local] = apply_frozen_calibration(raw, calibration)
+    scaffolds = {row["drug_key"]: row["scaffold"] for row in ligands_json}
+    groups = {}
+    for row in cells:
+        groups.setdefault(row["target_id"], row["protein_group_40"])
+    foreign_ligand = deterministic_control_map(
+        list(smiles), lambda left, right: scaffolds[left] == scaffolds[right]
+    )
+    wrong_protein = deterministic_control_map(
+        list(sequences),
+        lambda left, right: groups[left] == groups[right]
+        or not 0.5 <= len(sequences[left]) / len(sequences[right]) <= 2.0,
+    )
+    correct = _compute_arm(
+        cells, lambda row: row["target_id"], lambda row: row["ligand_id"], model,
+        protein_states, ligand_states, channels, sequences, calibration, device, pair_batch_size,
+    )
+    foreign = _compute_arm(
+        cells, lambda row: row["target_id"], lambda row: foreign_ligand[row["ligand_id"]], model,
+        protein_states, ligand_states, channels, sequences, calibration, device, pair_batch_size,
+    )
+    deranged = _compute_arm(
+        cells, lambda row: wrong_protein[row["target_id"]], lambda row: row["ligand_id"], model,
+        protein_states, ligand_states, channels, sequences, calibration, device, pair_batch_size,
+    )
     elapsed = time.perf_counter() - started
     output.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
         output,
         cell_id=np.asarray([row["cell_id"] for row in cells]),
-        features=features,
+        correct=correct,
+        foreign_ligand=foreign,
+        deranged_protein=deranged,
     )
     manifest = {
         "schema": "MetaSieve.BindingDB.TBasisFeatures.v1",
         "cells": len(cells),
-        "dimensions": int(features.shape[1]),
+        "dimensions": int(correct.shape[1]),
+        "arms": ["correct", "foreign_ligand", "deranged_protein"],
         "seconds": elapsed,
         "cells_per_second": len(cells) / elapsed,
         "device": device,
