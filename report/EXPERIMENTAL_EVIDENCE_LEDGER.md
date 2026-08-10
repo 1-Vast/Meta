@@ -435,9 +435,16 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 | F-109 | C0/C1 untouched-corpus exact-correspondence audit | On 1,862 never-scored systems, within-slot AP is 0.9856 against a 0.9540 degree-preserving null — exact atom-residue correspondence is nearly a function of residue contact degree, so the geometry-gated router was closed before training. A registered rule can be wrong about provenance, and a fail-closed check is what catches it. |
 
+| F-110 | X1A crossed-interaction ICC precondition | The ChEMBL37 crossed design clears every registered dependence Gate for Ki and Kd — but an audit must publish the direction of its own bias: the estimator shrinks `rho` toward zero, and that favours passing. Replicate noise, not dependence, is the binding constraint. |
+
 ## Active authorization
 
-None. S2R completed the synthetic repair, S3R completed the authorized real
+**X1B, for Ki and Kd separately, and nothing else.** X1A passed its dependence
+precondition; it did not test whether interaction exists. X2 and every
+trainable component remain unauthorized until X1B passes under its own
+preregistration.
+
+None of the following changes. S2R completed the synthetic repair, S3R completed the authorized real
 structural run, S4R completed the single authorized single-axis ligand
 representation repair, S5D completed a no-training diagnostic of the estimand,
 and C0/C1 completed a no-training correspondence-information audit on an

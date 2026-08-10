@@ -14,6 +14,8 @@ CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
 UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
+X1A_CROSSED_ICC_PRECONDITION_PASSED_KI_AND_KD
+CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_DIRECTION_NOT_TESTED
 K_SHOT_SECTION_NOT_TESTED
 BIOLOGICAL_Z_NOT_ADMITTED
@@ -106,16 +108,39 @@ spatially adjacent — residues, so there is very little left to deconvolve.
 The C2 router was **not preregistered and not trained**, as the stopping rule
 requires.
 
+## X1A — crossed affinity dependence precondition
+
+X1A tested whether the ChEMBL37 crossed design permits the estimand
+`DD = y(P1,La) - y(P1,Lb) - y(P2,La) + y(P2,Lb)` to be tested at all. It
+trained nothing and read ChEMBL37 only after its preregistration was committed.
+
+```text
+G1 Ki UCB95(rho) 3.88e-07 < 0.0915   G3 capped share Ki 0.0387 Kd 0.2066 <= 0.25
+G2 Kd UCB95(rho) 1.33e-03 < 0.0164   G4 effective n Ki 827.0 Kd 604.3 >= 245
+X1_ICC_PRECONDITION_PASSED
+```
+
+Two of this stage's own instruments were defective and were corrected before
+the verdict: the registered ICC estimator was degenerate (a per-panel intercept
+forces `var(cluster)` to zero for any data; its void first run was a pass), and
+G3/G4 used measurement counts instead of the registered X0-B DD unit.
+
+Three caveats travel with the pass. `rho` is biased toward zero by additive
+over-parameterization and that bias favours passing; `var(panel)` truncated to
+zero so the decomposition is only partly identified; and replicate noise is
+over 99.9% of adjusted variance, giving detectable interaction RMS of `0.309`
+(Ki) and `0.930` (Kd) log units at the frozen 0.5 ratio.
+
 ## Next research decision
 
-No experiment is authorized. Three routes are now closed by preregistered
-Gates: representation (S4R), estimand (S5D) and geometry-gated correspondence
-(C1). Nothing authorizes widening the corpus, relaxing the `6.0 A` contact
-contract or re-running with a different closure to chase the C1a margin.
+**X1B for Ki and Kd, and nothing else.** It must test interaction *variance*
+against replicate and assay noise via `I_real^2 = max(0, E[DD^2] - E[v_noise])`,
+never whether `mean(DD)` differs from zero, since opposing selectivity effects
+cancel. Kd's noise floor makes a negative result there entirely plausible.
 
-Any future work must first name a target whose ceiling is not already saturated
-by additive marginals. The C0 corpus itself remains a clean, never-scored asset:
-496 components, its exposure registry and closure frozen and hashed.
+X2 and every trainable component stay unauthorized until X1B passes under its
+own preregistration. Three routes remain closed by preregistered Gates:
+representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Frozen
 

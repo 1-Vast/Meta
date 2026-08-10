@@ -13,6 +13,9 @@ S5D estimand/collapse diagnostic .. COMPLETE, MECHANISM FALSIFIED, E1-E3 FAIL
 C0 untouched corpus and closure ... COMPLETE, ALL GATES PASS
 C1 exact-coupling information ..... COMPLETE, FAIL AT C1a
 C2 correspondence router .......... NOT PREREGISTERED, NOT TRAINED
+X1A crossed ICC precondition ...... COMPLETE, ALL GATES PASS
+X1B crossed interaction existence . AUTHORIZED, NOT RUN
+X2 minimal q_theta model .......... NOT AUTHORIZED, NOT TRAINED
 heldout-B / R6 / affinity ......... NOT OPENED
 active training stage ............. NONE
 ```
@@ -161,3 +164,39 @@ predictor, so the `+0.05` margin is unreachable in principle on this statistic.
 At `6.0 A` a slot holds about three sequence-adjacent and therefore spatially
 adjacent residues, and there is almost nothing left to deconvolve. The C2
 router was not preregistered and not trained.
+
+## X1A
+
+Audit only, zero parameters. X0/X0-B recovered from `24a9ae0^` with cells,
+dependency components and panels all byte-verified against the X0 manifest;
+`report.json` mismatches and is disclosed. ChEMBL37 opened only after the
+preregistration was committed: four fields, 63,859 activity ids already
+enumerated by the label-blind census, all with `standard_relation '='` and a
+pChEMBL value. BindingDB, DAVIS, KIBA, PDBbind, recipient reads zero.
+
+The registered ICC estimator was degenerate — a per-panel intercept forces
+`var(cluster)` to zero for any data, proven on synthetic panels with injected
+10/20/30 log-unit offsets. Its first run returned `rho = 0.0000` and would have
+passed; that result is void. Amendment 01 moved the additive fit to a global
+per-endpoint fit and changed no threshold. G3/G4 were then corrected to use the
+frozen X0-B cell-disjoint DD unit rather than measurement counts, reproducing
+X0-B's capped totals exactly.
+
+```text
+                        Ki            Kd
+rho point            2.22e-07      2.35e-05
+rho UCB95            3.88e-07      1.33e-03
+rho*                 0.0915        0.0164        PASS both
+capped share         0.0387        0.2066        PASS both (<= 0.25)
+effective n          827.0         604.3         PASS both (>= 245)
+replicate SD         0.618         1.860   log units
+detectable RMS       0.309         0.930   log units at the frozen 0.5 ratio
+```
+
+Terminal verdict `X1_ICC_PRECONDITION_PASSED`. The pass is biased in the unsafe
+direction: the additive fit consumes 42%/32% of cells as parameters with
+12.2%/14.5% singleton ligands, shrinking every structural component toward
+zero, and a "rho must be small" Gate is easier to pass under that bias.
+Replicate noise is 99.99998% (Ki) and 99.93% (Kd) of adjusted variance, so
+detectability — not dependence — is the binding constraint, and that is X1B's
+question.

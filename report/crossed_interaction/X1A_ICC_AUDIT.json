@@ -1,0 +1,179 @@
+{
+  "TERMINAL_VERDICT": "X1_ICC_PRECONDITION_PASSED",
+  "amendment_01_sha256": "d0faff29914332e474d90ce7698d5a7dcd7d77daaacb415db63426ae3648bb3f",
+  "authorized_next_action": "preregister X1B for ['Ki', 'Kd']",
+  "chembl37_sha256_pinned": "4be13df3b68e25dcd0bff44bf094033b5aebe98f415acdc8c1cdf380e0c15142",
+  "created_utc": "2026-08-10",
+  "elapsed_seconds": 1838.9,
+  "endpoints": {
+    "Kd": {
+      "adjusted_measurements": 6370,
+      "cap": 125,
+      "cells_with_values": 4995,
+      "clusters_present": 12,
+      "design_effect": 1.001159895380084,
+      "detectable_interaction_rms_at_ratio_0p5": 0.929880412643574,
+      "dropped": {},
+      "effective_n": 604.2990762932185,
+      "endpoint_pass": true,
+      "gates": {
+        "effective_power": {
+          "observed_effective_n": 604.2990762932185,
+          "pass": true,
+          "required_at_least": 245
+        },
+        "icc_upper_bound_below_rho_star": {
+          "observed_ucb95": 0.001336038987703271,
+          "pass": true,
+          "required_below": 0.0164
+        },
+        "no_cluster_dominates": {
+          "observed_capped_share": 0.2066115702479339,
+          "pass": true,
+          "required_at_most": 0.25
+        }
+      },
+      "largest_cluster_share_capped": 0.2066115702479339,
+      "largest_cluster_share_uncapped": 0.40057636887608067,
+      "mean_capped_cluster_influence": 50.416666666666664,
+      "measurements": 6370,
+      "parent_within_panel_rho_structurally_zero": {
+        "note": "parent registration estimator; a per-panel intercept forces var(cluster) to zero for any data, so this Gate could not fail. Superseded by amendment 01.",
+        "rho": 3.1700760074422164e-25,
+        "var_cluster": 1.096437462517991e-24
+      },
+      "replicate_noise_sd_log_units": 1.859760825287148,
+      "replicate_supported_cells": 1363,
+      "rho_biased_toward_zero_by_additive_overparameterization": true,
+      "rho_bootstrap": {
+        "clusters": 12,
+        "draws": 2000,
+        "lcb95": 8.758065581503236e-07,
+        "median": 2.4164159065239216e-05,
+        "ucb95": 0.001336038987703271
+      },
+      "rho_point": 2.3471744622271726e-05,
+      "rho_star": 0.0164,
+      "status": "EVALUATED",
+      "variance_components": {
+        "cells": 4995,
+        "clusters": 12,
+        "panels": 34,
+        "replicate_supported_cells": 1363,
+        "rho": 2.3471744622271726e-05,
+        "total": 3.4609850859324265,
+        "var_cell": 0.0021935233016136093,
+        "var_cluster": 8.123535807849707e-05,
+        "var_panel": 0.0,
+        "var_replicate": 3.458710327272734
+      },
+      "x0b_clusters": 12,
+      "x0b_units": 1041
+    },
+    "Ki": {
+      "adjusted_measurements": 57489,
+      "cap": 32,
+      "cells_with_values": 53673,
+      "clusters_present": 36,
+      "design_effect": 1.0000048839362055,
+      "detectable_interaction_rms_at_ratio_0p5": 0.3089900918650602,
+      "dropped": {},
+      "effective_n": 826.9959610044842,
+      "endpoint_pass": true,
+      "gates": {
+        "effective_power": {
+          "observed_effective_n": 826.9959610044842,
+          "pass": true,
+          "required_at_least": 245
+        },
+        "icc_upper_bound_below_rho_star": {
+          "observed_ucb95": 3.880818207293537e-07,
+          "pass": true,
+          "required_below": 0.0915
+        },
+        "no_cluster_dominates": {
+          "observed_capped_share": 0.03869407496977025,
+          "pass": true,
+          "required_at_most": 0.25
+        }
+      },
+      "largest_cluster_share_capped": 0.03869407496977025,
+      "largest_cluster_share_uncapped": 0.4818230659025788,
+      "mean_capped_cluster_influence": 22.97222222222222,
+      "measurements": 57489,
+      "parent_within_panel_rho_structurally_zero": {
+        "note": "parent registration estimator; a per-panel intercept forces var(cluster) to zero for any data, so this Gate could not fail. Superseded by amendment 01.",
+        "rho": 2.8209802683921387e-23,
+        "var_cluster": 1.077330975118539e-23
+      },
+      "replicate_noise_sd_log_units": 0.6179801837301204,
+      "replicate_supported_cells": 2968,
+      "rho_biased_toward_zero_by_additive_overparameterization": true,
+      "rho_bootstrap": {
+        "clusters": 36,
+        "draws": 2000,
+        "lcb95": 6.363762767935433e-08,
+        "median": 1.9949563493499237e-07,
+        "ucb95": 3.880818207293537e-07
+      },
+      "rho_point": 2.2227775397718435e-07,
+      "rho_star": 0.0915,
+      "status": "EVALUATED",
+      "variance_components": {
+        "cells": 53673,
+        "clusters": 36,
+        "panels": 597,
+        "replicate_supported_cells": 2968,
+        "rho": 2.2227775397718435e-07,
+        "total": 0.3818995923708971,
+        "var_cell": 0.0,
+        "var_cluster": 8.488778363700526e-08,
+        "var_panel": 0.0,
+        "var_replicate": 0.38189950748311347
+      },
+      "x0b_clusters": 36,
+      "x0b_units": 11168
+    }
+  },
+  "endpoints_passing": [
+    "Ki",
+    "Kd"
+  ],
+  "execution_commit": "1c3cc67023aef2d522043aa68d4fcb99be6fa984",
+  "icc_estimator": "amendment 01: additive target and ligand effects fitted globally per endpoint; the parent within-panel fit was degenerate and its result is void",
+  "label_reads": {
+    "bindingdb": 0,
+    "chembl37_activity_rows_returned": 63859,
+    "chembl37_usable_pchembl_equals": 63859,
+    "davis": 0,
+    "fields_read": [
+      "activity_id",
+      "standard_relation",
+      "standard_type",
+      "pchembl_value"
+    ],
+    "kiba": 0,
+    "pdbbind": 0,
+    "recipient": 0
+  },
+  "preregistration_sha256": "67e3c651de8d3f932934d76fb955f4554ded668551200ca439253d0548549bbc",
+  "recovered_x0_hashes": {
+    "cells": "898df88235401a2be2341ae1ab222e6c5903202796c8312d8e9091cf76741562",
+    "dependency_components": "8970d059bcbf4dd1ca0f3b7ec9e5ab3f594740ec37bcb5c173fdb66ffb8a7779",
+    "panels": "f378cdd610205fc02850e84e5530830d2255fcf539f4ecca81518eb19bf036bc"
+  },
+  "relation_census": {
+    "=": 63859
+  },
+  "schema": "MetaSieve.CrossedInteraction.X1A.Gate.v1",
+  "standard_type_census": {
+    "Kd": 6370,
+    "Ki": 57489
+  },
+  "trainable_parameters_introduced": 0,
+  "trains_nothing": true,
+  "x1b_authorized_for": [
+    "Ki",
+    "Kd"
+  ]
+}

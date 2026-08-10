@@ -4846,3 +4846,64 @@ widening the corpus, relaxing the `6.0 A` contract, changing the closure, or
 any of the excluded modules. The C0 corpus remains a clean, never-scored asset
 with its exposure registry and closure frozen and hashed. Full repository
 regression: **193 passed** in the `drug` environment.
+
+## F-110: the crossed ChEMBL37 dependence precondition passes, on a pass that must be read with its bias (2026-08-10)
+
+C1 closed the exact 6 A correspondence route. F-110 turned to the crossed
+affinity estimand `DD = y(P1,La) - y(P1,Lb) - y(P2,La) + y(P2,Lb)` and ran the
+X1A dependence precondition only. It trained nothing.
+
+```text
+X0/X0-B recovery and hashing ..... PASS, 3/3 data files byte-verified
+G1 Ki  UCB95(rho) < 0.0915 ....... PASS  3.88e-07
+G2 Kd  UCB95(rho) < 0.0164 ....... PASS  1.33e-03
+G3 no cluster dominates .......... PASS  Ki 0.0387, Kd 0.2066
+G4 effective n >= 245 ............ PASS  Ki 827.0, Kd 604.3
+terminal verdict ................. X1_ICC_PRECONDITION_PASSED
+X1B .............................. AUTHORIZED, NOT RUN
+X2 ............................... NOT AUTHORIZED, NOT TRAINED
+```
+
+X0 and X0-B were recovered from `24a9ae0^`; `cells.jsonl`,
+`dependency_components.jsonl` and `panels.jsonl` all match their manifest
+SHA-256 exactly, while `report.json` does not and is disclosed rather than
+repaired. The X0-B design and its statistical unit were not rebuilt. ChEMBL37
+was opened only after the preregistration was committed, reading four fields
+for 63,859 activity ids already enumerated by the label-blind census; all
+carried `standard_relation '='` and a pChEMBL value. BindingDB, DAVIS, KIBA,
+PDBbind and recipient reads were zero and no OOF residual was computed.
+
+Two defects were found in this stage's own instruments. First, the registered
+ICC estimator was **degenerate**: fitting additive target and ligand effects
+within panel forces every panel residual mean to zero, so `var(cluster)` is
+identically zero for any dataset — proven on synthetic panels with injected
+10/20/30 log-unit offsets. The first execution returned `rho = 0.0000` and
+would have PASSED; that result is void, and amendment 01 replaced the
+within-panel fit with a global per-endpoint fit while moving no threshold.
+Second, G3 and G4 were computed on measurement counts rather than the
+registered X0-B cell-disjoint DD unit; both now use the frozen X0-B per-cluster
+sizes and reproduce X0-B's capped totals exactly (`Ki sum(min(size,32)) = 827`).
+
+The pass is real against the registered Gates and must be read with three
+caveats, all recorded in the artifacts. The additive fit consumes 42% (Ki) and
+32% (Kd) of cells as parameters with 12.2% / 14.5% singleton ligands, so `rho`
+is credible as a lower bound and the bias direction **favours passing**.
+`var(panel)` truncated to zero for both endpoints and `var(cell)` for Ki, so
+the nested decomposition is only partly identified. And replicate noise is
+99.99998% (Ki) and 99.93% (Kd) of the adjusted variance:
+
+```text
+Ki  replicate SD 0.618 log units -> detectable interaction RMS 0.309
+Kd  replicate SD 1.860 log units -> detectable interaction RMS 0.930
+```
+
+at X0's frozen 0.5 interaction-to-noise ratio. Kd clears the dependence
+precondition while being close to unusable for anything smaller than a ten-fold
+selectivity swing as an RMS. That is a detectability question, which X1A did
+not test and X1B is built to adjudicate through
+`I_real^2 = max(0, E[DD^2] - E[v_noise])`.
+
+Nothing beyond X1B is authorized. No trainable component was added, no `q_theta`
+was preregistered, the 3D route stays closed, support adaptation was not
+implemented, and `model/`, production `scripts/`, `theory/`, CSMO, Band, the
+mesh, production `z` and `A(F,z)=K(B(z)F(z))` are unmodified.

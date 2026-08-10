@@ -18,6 +18,8 @@ CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
 UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
+X1A_CROSSED_ICC_PRECONDITION_PASSED_KI_AND_KD
+CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -131,11 +133,43 @@ sequence-adjacent, hence spatially adjacent, residues; if one contacts a ligand
 atom its neighbours usually do too. The C2 router was never preregistered and
 never trained.
 
+## X1A — the crossed affinity estimand, dependence precondition
+
+With correspondence closed, the programme turned to the crossed contrast
+`DD = y(P1,La) - y(P1,Lb) - y(P2,La) + y(P2,Lb)`. X1A tested only whether the
+source dependence structure permits `DD` to be tested at all. It trained
+nothing and read ChEMBL37 only after its preregistration was committed.
+
+```text
+G1 Ki UCB95(rho) 3.88e-07 < 0.0915   G3 capped share Ki 0.0387, Kd 0.2066 <= 0.25
+G2 Kd UCB95(rho) 1.33e-03 < 0.0164   G4 effective n Ki 827.0, Kd 604.3 >= 245
+```
+
+```text
+X1_ICC_PRECONDITION_PASSED
+```
+
+The pass carries three caveats that travel with it. The additive fit consumes
+42% (Ki) and 32% (Kd) of cells as parameters, so `rho` is a credible lower
+bound and the bias **favours passing**. `var(panel)` truncated to zero for both
+endpoints, so the decomposition is only partly identified. And replicate noise
+is over 99.9% of the adjusted variance — detectable interaction RMS is `0.309`
+(Ki) and `0.930` (Kd) log units at the frozen 0.5 ratio, so Kd clears
+dependence while being close to unusable for anything smaller than a ten-fold
+selectivity swing. Detectability is X1B's question, not X1A's.
+
+Two defects in this stage's own instruments were found and corrected before the
+verdict: the registered ICC estimator was degenerate (a per-panel intercept
+forces `var(cluster)` to zero for any data, and its void first run was a pass),
+and G3/G4 initially used measurement counts rather than the registered X0-B
+cell-disjoint DD unit.
+
 ## Current boundary
 
-No active training stage is authorized. Three routes are closed by
-preregistered Gates: representation (S4R), estimand (S5D) and geometry-gated
-correspondence (C1). Nothing authorizes widening the correspondence corpus,
+X1B is authorized for Ki and Kd and was not run. No trainable component is
+authorized: X2 requires X1B to pass and its own preregistration. Three routes
+remain closed by preregistered Gates: representation (S4R), estimand (S5D) and
+geometry-gated correspondence (C1). Nothing authorizes widening the correspondence corpus,
 relaxing its `6.0 A` contact contract, changing its closure, or adding
 attention, a new PLM, a parallel GNN, typed energy heads, orientation channels,
 affinity supervision, KG features or adapters.
@@ -146,7 +180,8 @@ unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
 
 ## Canonical evidence
 
-1. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
+1. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
+2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 2. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
 3. `report/correspondence_router/C0_CORPUS_AND_CENSUS.json`
 4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
