@@ -5,205 +5,55 @@ Updated: 2026-08-10.
 ## Current verdict
 
 ```text
-MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED
-GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED
-FROZEN_ESM2_EXACT_RESIDUE_LOCALISATION_PASS_IN_DEVELOPMENT
-TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED
-SYNTHETIC_BINARY_ORDINAL_ESTIMATOR_TRAINABLE
-LIGAND_MEAN_POOLING_COLLAPSE_MEASURED
-GRAPH_AWARE_LIGAND_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
-REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
-LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
-CONDITIONAL_ESTIMAND_REPAIR_ROUTE_CLOSED
-UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
-EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
-WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
-X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
-X1A_R_DEPENDENCE_PRECONDITION_FAILED
-X1B_NOT_RUN_PRECONDITION_FAILED
-CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED
-CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED
-AFFINITY_ENERGETICS_NOT_IDENTIFIED
+OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE
+CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED
+CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED
+TARGET_COEFFICIENT_HETEROGENEITY_NOT_YET_TESTED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
-NO_VALIDATED_END_TO_END_DTA_MODEL
+NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
 ```
 
-## Earliest failed boundary
+BindingDB Articles 202608 now supports governed development training: 12,457
+Ki cells, 320 cycle-positive panels, 31 strict conflict components, train
+quotient rank 6,608 and development quotient rank 220. The largest component
+share is 0.8586, so this is optimization data, not independent population
+evidence.
 
-Phase 2A proved that same-construct scaffold-distinct ligands change the MONN
-residue masks beyond the replicate noise floor. S2R repaired the synthetic
-optimization defect and passed a sealed synthetic seed (`AP_bidir = 0.6620`).
-S3R transferred that estimator to real labels and failed every Gate, scoring
-`0.03588` against chance `0.02547`, with participation and replay intact. The
-failure was therefore scoped to the measurement basis rather than the pipeline.
+The first real training run fitted one shared 288D T-BASIS linear response. It
+explained 0.000709 of development quotient variance; every correct-versus-null
+or partner control interval includes zero, and deranged protein is slightly
+better at the point estimate. The shared radial direction is therefore not
+identified.
 
-S4R tested that scoping directly. A label-blind audit first confirmed the
-mean-pooled 41-D ligand basis is collapsed: pair-difference effective rank
-`6.183`, 687 distinct ligand graphs sharing a bit-identical vector, and `85.2%`
-of the difference-norm variance explained by heavy-atom count alone. Two
-constitutional isomers with identical atom composition and different
-connectivity map to the *same* vector. A frozen radius-1 Morgan per-heavy-atom
-statistic at `d = 128` raises that effective rank to `20.93` and places `35.5%`
-of its difference energy beyond anything the baseline can linearly express.
+## Next scientific question
 
-S4R then swapped only that statistic into the S3R stage. On the same 46,818
-pairs and 112 components, with a bit-exact reproduction of the S3R baseline as
-an anchor:
+The only high-value minimal route is target-coefficient heterogeneity on the
+same frozen basis, learned from dense open profiling panels and evaluated as
+target-held-out `k=1/2/3/5` episodes. Use Kinobeads/PKIS/PKIS2 for ordinal
+pretraining, BindingDB/Klaeger for endpoint-specific quantitative constraints,
+and PDSP for a non-kinase development stratum. Do not mix modalities or add a
+larger representation before this test.
 
-```text
-candidate                0.046856     baseline41 (= S3R)   0.035880
-foreign ligand pair      0.046212     chance               0.025472
-R1 candidate - chance   +0.021384 [LCB +0.016064]  needs +0.05   FAIL
-R3 candidate - foreign  +0.000644 [LCB -0.009226]  needs +0.03   FAIL
-C1 candidate - baseline +0.010976 [LCB +0.004939]  non-gating
-```
+Any few-shot correction must be restricted to the support row space and report
+rank, conditioning, query coverage and abstention. Raw pair maps and arbitrary
+latents cannot enter `z`. The frozen operator `A(F,z)=K(B(z)F(z))` is unchanged.
 
-```text
-REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
-```
+## Current boundaries
 
-The representation was a real bottleneck and removing it doubled the
-above-chance gain; the candidate also beats the capacity-matched permuted-label
-learner, which S3R did not. But the surviving signal is invariant to which
-ligands are supplied, so it is a construct-level residue-change prior, not
-ligand-conditioned residue selection.
+- BindingDB training evidence is development-only; strict closure is dominated
+  by one component.
+- The 288D feature generator is structurally validated, not affinity-admitted.
+- Davis, KIBA, recipient labels, heldout-B and external confirmation remain
+  closed.
+- No production `model/` or `scripts/` interface was changed.
+- Historical S3R/S4R/S5D/C0/C1/X1A results remain in the evidence ledger,
+  `history.md` and Git; they are not current execution authority.
 
-## Why, and the falsified explanation
+## Read first
 
-S5D trained nothing and reused the frozen S4R checkpoints to ask why R3 failed.
-It registered the obvious mechanism — that the estimator collapses ligand
-differences onto one residue direction per protein — and **falsified it**. The
-top principal energy fraction of the candidate's residue fields is `0.4793`
-against a data-side upper bound of `0.4550`, an excess of `0.0138` where the
-rule needed `0.80` and `+0.10`, and the median cosine between a pair's true and
-foreign fields is `0.4487`. The estimator does steer on the ligand, and it
-steers more than the mean-pooled baseline does.
-
-S5D then measured the symmetric-difference conditional estimand, which cancels
-pocket membership exactly by restricting each comparison to residues that
-changed. On 40,157 pairs across 107 components it found nothing:
-
-```text
-candidate 0.655030   foreign 0.655470   chance 0.643744   baseline41 0.638830
-E1 candidate - chance   +0.011285 [LCB -0.007749]  needs +0.05  FAIL
-E2 candidate - foreign  -0.000440 [LCB -0.021814]  needs +0.03  FAIL
-```
-
-```text
-LIGAND_DIRECTION_COLLAPSE_NOT_CONFIRMED
-```
-
-Ligand information is neither lost upstream nor diluted by the metric. It
-reaches the residue field, rotates it by a large angle, and the direction it
-chooses is unrelated to which residues gained or lost contact.
-
-## The correspondence hypothesis, tested and closed
-
-S5D left one hypothesis standing: the missing ingredient is **correspondence**,
-which ligand substructure sits against which residue. C0/C1 tested it
-audit-only, with zero trainable parameters, on a corpus no stage had touched.
-
-An exposure registry excluded all **24,874** PDB ids consumed by P1B, the QC
-corpora, MONN/B5/S7/S3R/S4R/S5D and the ssl_b2 set, leaving 2,836 untouched raw
-mmCIF entries and 1,862 scored systems. C0 passed every Gate: 496 inference
-components, largest fraction `0.0811`, minimum detectable effect `0.00453`. The
-union closure gave only 89 components and exceeded the giant-component cap, so
-the registered DataSAIL-style fallback was used — the giant component was
-tested, not assumed.
-
-The registered mapping rule failed its own fail-closed check at `23/40`, because
-P1B's sequence comes from BioLiP column 20 rather than the mmCIF entity
-sequence. An amendment corrected the rule to P1B's true path before any
-statistic was read, after which it reproduced P1B slot assignment `60/60`.
-
-```text
-within-slot AP empirical             0.985611
-within-slot AP fixed-degree rewire   0.953959
-C1a empirical - rewire  +0.031652 [LCB +0.029690]  needs +0.05  FAIL
-```
-
-```text
-EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
-```
-
-The ceiling matters more than the Gate. The maximum possible gain above the
-fixed-degree null is `1 - 0.953959 = 0.046041`, so the `+0.05` margin is
-unreachable in principle. The value `1 - 0.985611 = 0.014389` is the empirical
-residual to perfect AP, not the full gain over the null. The panel
-was powered to `0.00453`, so this is an effect-size result, not a detection
-failure. At the frozen `6.0 A` threshold a slot holds about three
-sequence-adjacent, hence spatially adjacent, residues; if one contacts a ligand
-atom its neighbours usually do too. The C2 router was never preregistered and
-never trained.
-
-## X1A — the crossed affinity estimand, dependence precondition
-
-With correspondence closed, the programme turned to the crossed contrast
-`DD = y(P1,La) - y(P1,Lb) - y(P2,La) + y(P2,Lb)`. X1A tested only whether the
-source dependence structure permits `DD` to be tested at all. It trained
-nothing and read ChEMBL37 only after its preregistration was committed.
-
-```text
-G1 Ki UCB95(rho) 3.88e-07 < 0.0915   G3 capped share Ki 0.0387, Kd 0.2066 <= 0.25
-G2 Kd UCB95(rho) 1.33e-03 < 0.0164   G4 effective n Ki 827.0, Kd 604.3 >= 245
-```
-
-```text
-X1_ICC_PRECONDITION_PASSED
-```
-
-The pass carries three caveats that travel with it. The additive fit consumes
-42% (Ki) and 32% (Kd) of cells as parameters, so `rho` is a credible lower
-bound and the bias **favours passing**. `var(panel)` truncated to zero for both
-endpoints, so the decomposition is only partly identified. And replicate noise
-is over 99.9% of the adjusted variance — detectable interaction RMS is `0.309`
-(Ki) and `0.930` (Kd) log units at the frozen 0.5 ratio, so Kd clears
-dependence while being close to unusable for anything smaller than a ten-fold
-selectivity swing. Detectability is X1B's question, not X1A's.
-
-Two defects in this stage's own instruments were found and corrected before the
-verdict: the registered ICC estimator was degenerate (a per-panel intercept
-forces `var(cluster)` to zero for any data, and its void first run was a pass),
-and G3/G4 initially used measurement counts rather than the registered X0-B
-cell-disjoint DD unit. Independent review subsequently found a deeper mismatch:
-the global fixed effects absorb cluster-exclusive targets and the signed
-residual ICC is not the dependence of X1B's `q=DD^2-v_noise`. The final artifact
-also used 2,000 rather than the registered 10,000 bootstrap draws. The old PASS
-is retained historically, but its authorization effect is withdrawn.
-
-The original X0-B packing was materialized label-blind, reproducing Ki
-`11,168/36` and Kd `1,041/12`. Exact-assay alignment retained 827 Ki and 590 Kd
-rectangles. X1A-R then estimated dependence of the planned
-`Z=(DD/2)^2-v_D,U` statistic. Both endpoints failed: Ki `rho_U=0.120406`,
-effective `n=200.43`; Kd `rho_U=0.101078`, effective `n=61.05`.
-
-## Current boundary
-
-X1B was conditionally preregistered but not run because X1A-R failed. No
-trainable component is authorized. A label-blind cycle census found raw panel
-dimensions 29,677/3,279 but zero exact-assay crossed dimension and largest
-dependency shares 0.4888/0.4608. The next registered action is a BindingDB
-curated-article metadata census; numeric values remain closed. Three routes
-remain closed by preregistered Gates: representation (S4R), estimand (S5D) and
-geometry-gated correspondence (C1). Nothing authorizes widening the correspondence corpus,
-relaxing its `6.0 A` contact contract, changing its closure, or adding
-attention, a new PLM, a parallel GNN, typed energy heads, orientation channels,
-affinity supervision, KG features or adapters.
-
-Heldout-A is permanently consumed. X1A-R opened 5,986 preselected ChEMBL37
-pChEMBL rows; affinity training reads remain zero. Heldout-B, R6, few-shot sectioning,
-biological `z`, CSMO/Band and the frozen law operator remain
-unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
-
-## Canonical evidence
-
-1. `report/crossed_interaction/CYCLE_QUOTIENT_RESEARCH_AND_TRAINING_ROUTE.md`
-2. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
-3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
-4. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
-5. `report/correspondence_router/C0_CORPUS_AND_CENSUS.json`
-6. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
-7. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
-8. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-9. `history.md`
+1. `report/crossed_interaction/OPEN_DATA_TRAINING_AND_FEWSHOT_ROUTE.md`
+2. `report/crossed_interaction/cq_r2_tbasis_linear/weights.report.json`
+3. `dataset/processed/crossed_interaction/bindingdb_202608/cq_ki_corpus/manifest.json`
+4. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+5. `history.md`

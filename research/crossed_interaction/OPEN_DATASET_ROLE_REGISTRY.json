@@ -1,0 +1,62 @@
+{
+  "schema": "MetaSieve.OpenDatasetRoleRegistry.v1",
+  "updated": "2026-08-10",
+  "rules": [
+    "measurement modalities are never pooled as one absolute target",
+    "panel-level ranking and quantitative quotient losses share biological coordinates, not label scales",
+    "optimization data and population-confirmation evidence have separate gates",
+    "cross-source overlap is closed by publication or patent, target sequence, stereo ligand identity and endpoint",
+    "raw downloadable data are not redistributed until the exact artifact licence is verified"
+  ],
+  "sources": [
+    {
+      "name": "BindingDB curated Articles 202608",
+      "status": "LOCAL_AND_EXECUTED",
+      "role": "quantitative Ki development and Kd diagnostic",
+      "licence": "BindingDB-curated records: CC BY; version discrepancy between legacy 3.0 page and 2024 CC BY 4.0 paper is recorded",
+      "url": "https://www.bindingdb.org/rwd/bind/chemsearch/marvin/Download.jsp?all_download=yes"
+    },
+    {
+      "name": "Kinobeads 2024",
+      "status": "NOT_ACQUIRED",
+      "role": "dense kinase ordinal/selectivity source pretraining; two-dose Kdapp must not calibrate Ki/Kd",
+      "licence": "publisher supplementary artifact and MassIVE raw-data terms require separate audit",
+      "url": "https://www.nature.com/articles/s41589-023-01459-3"
+    },
+    {
+      "name": "PKIS and PKIS2",
+      "status": "NOT_ACQUIRED",
+      "role": "within-panel concentration-aware ordinal pretraining",
+      "licence": "verify exact downloadable artifact before acquisition",
+      "url": "https://www.nature.com/articles/nbt.3374"
+    },
+    {
+      "name": "Klaeger kinobeads 2017",
+      "status": "NOT_ACQUIRED",
+      "role": "full-dose Kdapp quantitative development and positive control",
+      "licence": "PRIDE artifact terms and overlap closure require audit",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6542668/"
+    },
+    {
+      "name": "PDSP Ki through BindingDB",
+      "status": "NOT_ACQUIRED",
+      "role": "non-kinase quantitative development stratum",
+      "licence": "audit BindingDB PDSP artifact and original panel provenance",
+      "url": "https://www.bindingdb.org/rwd/bind/chemsearch/marvin/Download.jsp?all_download=yes"
+    },
+    {
+      "name": "Davis kinase panel",
+      "status": "FROZEN_NOT_READ",
+      "role": "external target-held-out few-shot positive control only",
+      "licence": "no role change without a new preregistration",
+      "url": "https://www.nature.com/articles/nbt.1990"
+    }
+  ],
+  "next_model_constraint": {
+    "basis": "frozen 288D T-BASIS",
+    "source_task_subspace_dimension_max": 5,
+    "fewshot_k": [1, 2, 3, 5],
+    "support_rule": "adaptation restricted to the support row space; report rank, conditioning, coverage and abstention",
+    "production_admission": false
+  }
+}

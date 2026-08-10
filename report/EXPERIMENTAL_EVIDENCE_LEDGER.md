@@ -475,11 +475,16 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 | F-110 | X1A crossed-interaction ICC precondition | Historical amended PASS; later audit showed its fitted residual ICC did not identify dependence of the X1B statistic. Authorization withdrawn and superseded by X1A-R. |
 | F-112 | X1A-R direct-DD dependence | Exact-assay repair failed for Ki and Kd (`n_eff=200.43/61.05 <245`). X1B was not run; no training authorized. |
+| F-114 | BindingDB quotient corpus | Development optimization became executable on 12,457 Ki cells / 320 panels; strict closure has 31 components but largest share 0.8586, so population claims remain closed. |
+| F-115 | BindingDB T-BASIS linear witness | First real open-affinity training completed; explained fraction 0.000709 and no correct-over-zero/foreign/deranged confidence bound. Shared 288D linear direction not observed. |
 
 ## Active authorization
 
-No current experiment is authorized. X1A-R failed the dependence precondition,
-so X1B was not run. X2 and every trainable component remain unauthorized.
+The BindingDB development pipeline is executable, but its first shared linear
+witness failed. No production admission or external confirmation is authorized.
+The next stage must be separately preregistered and may change only the
+coefficient-sharing assumption to a `d<=5` target subspace; dense profiling
+modalities must remain separate from Ki/Kd calibration.
 
 None of the following changes. S2R completed the synthetic repair, S3R completed the authorized real
 structural run, S4R completed the single authorized single-axis ligand

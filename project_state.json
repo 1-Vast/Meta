@@ -1,8 +1,8 @@
 {
   "active_stage": {
     "affinity_reads_allowed": false,
-    "name": "E-AFF-CQ-R0_BINDINGDB_PANEL_IDENTIFIABILITY",
-    "status": "REGISTERED_NOT_EXECUTED_METADATA_ONLY",
+    "name": "E-AFF-CQ-R2_BINDINGDB_TBASIS_LINEAR_WITNESS",
+    "status": "COMPLETE_NEGATIVE",
     "training_allowed": false
   },
   "canonical_evidence": {
@@ -226,7 +226,32 @@
     "x1b": "NOT_RUN_PRECONDITION_FAILED",
     "x2": "NOT_AUTHORIZED_NOT_TRAINED"
   },
-  "current_phase": "CYCLE_QUOTIENT_BINDINGDB_R0_REGISTERED",
+  "bindingdb_quotient_training": {
+    "corpus": {
+      "cells": 12457,
+      "panels": 320,
+      "dependency_components": 31,
+      "largest_component_share": 0.8586336999277515,
+      "train_retained_rank": 6608,
+      "development_retained_rank": 220
+    },
+    "feature_generator": {
+      "dimensions": 288,
+      "arms": ["correct", "foreign_ligand", "deranged_protein"],
+      "cells_per_second_cuda": 106.34587975421192,
+      "feature_sha256": "0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c"
+    },
+    "linear_witness": {
+      "terminal_verdict": "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
+      "explained_fraction_vs_zero": 0.0007093321251866458,
+      "correct_rmse": 0.5803142948021307,
+      "zero_rmse": 0.5805202221477742,
+      "development_components": 12
+    },
+    "claim_ready": false,
+    "fewshot_ready": false
+  },
+  "current_phase": "OPEN_DATA_LINEAR_WITNESS_COMPLETE_TARGET_SUBSPACE_UNREGISTERED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -252,13 +277,16 @@
     "X1B_NOT_RUN_PRECONDITION_FAILED",
     "CYCLE_QUOTIENT_ALGEBRAICALLY_AVAILABLE_BUT_DEPENDENCY_NOT_REPAIRED",
     "CQ_R0_BINDINGDB_SOURCE_CENSUS_REGISTERED_NOT_EXECUTED"
+    ,"BINDINGDB_QUOTIENT_DEVELOPMENT_TRAINING_EXECUTABLE"
+    ,"CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED"
+    ,"TARGET_COEFFICIENT_HETEROGENEITY_NOT_YET_TESTED"
   ],
   "eligible_unregistered_proposal": null,
-  "registered_next_action": "ACQUIRE_AND_EXECUTE_BINDINGDB_CURATED_ARTICLE_METADATA_CENSUS_ONLY",
+  "registered_next_action": null,
   "frozen": [
     "heldout-B structural panel",
     "R6 amplitude and B5 integration",
-    "real ChEMBL/BindingDB affinity training",
+    "additional ChEMBL affinity training and BindingDB confirmation claims",
     "DAVIS, KIBA and recipient labels",
     "few-shot section adaptation",
     "production biological z",
@@ -278,7 +306,7 @@
     "kiba": 0,
     "recipient": 0
   },
-  "last_full_regression": "207_PASSED",
+  "last_full_regression": "224_PASSED",
   "phase2b_s2r": {
     "scope": "synthetic trainability only",
     "sealed_heldout_ap_bidir": 0.662021078439136,
@@ -439,6 +467,6 @@
   },
   "production_model_changed": false,
   "schema": "MetaSieve.ProjectState.v4",
-  "terminal_verdict": "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
+  "terminal_verdict": "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
   "updated": "2026-08-10"
 }

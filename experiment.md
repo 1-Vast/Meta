@@ -217,3 +217,24 @@ The label-blind X0-B packing was materialized and hashed, reproducing Ki
 rectangles. X1A-R then failed its repaired dependence precondition: Ki
 `rho_U=0.120406`, effective `n=200.43`; Kd `rho_U=0.101078`, effective
 `n=61.05`. X1B was not run and no training stage was opened.
+
+## BindingDB quotient development training
+
+The later BindingDB route separates optimization authorization from biological
+claim authorization. Articles 202608 provided 12,457 governed Ki cells in 320
+cycle-positive panels. Strict closure yields 31 components and one 85.86%
+giant component; therefore the data may train a development witness but cannot
+support a population claim.
+
+The first witness used the restored, structurally validated 288D T-BASIS and a
+single panel-balanced ridge response. Frozen CUDA preprocessing generated
+correct, foreign-ligand and deranged-protein arms on identical masks. The
+shared linear response returned explained fraction `0.000709`, with all paired
+control intervals spanning zero and the deranged-protein point estimate better
+than correct. Verdict:
+`CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED`.
+
+This result permits no affinity or `z` admission. It motivates exactly one
+distinct future hypothesis: target-specific coefficients constrained to a
+source-learned `d<=5` subspace, trained from dense profiling panels and tested
+as target-held-out few-shot episodes.

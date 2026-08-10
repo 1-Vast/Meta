@@ -4997,3 +4997,43 @@ row-space few-shot section. No parallel attention/GNN/adapter stack is added.
 Repository regression after this audit: **207 passed** in `drug` using an
 explicit workspace-local pytest base directory because the system temp root
 was ACL-inaccessible.
+
+## F-114: BindingDB quotient corpus opens governed development training (2026-08-10)
+
+BindingDB Articles 202608 was joined to the official reaction-set/assay map.
+The trusted extractor traversed the monolithic TSV but exposed no numeric value
+until the separately frozen endpoint audit. Exact uncensored extraction yielded
+24,157 Ki/Kd rows. Ki retained a noise-corrected quotient interaction RMS of
+`0.5668 [0.5293, 0.6043]`; Kd was too small for its registered development
+sample/rank requirements.
+
+After deterministic removal of inconsistent stereo identities, scaffoldless
+ligands and six explicit-H ligands outside the frozen heavy-atom contract, the
+Ki training corpus contained 12,457 cells and 320 panels. Strict document,
+protein-40%-identity and Murcko-scaffold union closure produced 31 components,
+with train/development quotient ranks 6,608/220. The largest component share is
+0.8586: optimization is authorized, population inference is not.
+
+## F-115: first open-data affinity training runs; shared radial direction fails (2026-08-10)
+
+The frozen ESM2/P1B/T-BASIS pipeline generated correct, foreign-ligand and
+deranged-protein 288D features for all 12,457 cells on CUDA in 117.14 seconds.
+One panel-balanced ridge linear response was fitted after train-component CV.
+
+```text
+correct RMSE        0.580314
+zero RMSE           0.580520
+explained fraction  0.000709
+correct-zero        +0.000239 [-0.000981, +0.001496] loss reduction
+correct-foreign     +0.000870 [-0.001045, +0.002847]
+correct-deranged    -0.000817 [-0.003419, +0.001498]
+```
+
+Terminal verdict: `CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED`.
+This is the first real open-affinity training run in the current programme. It
+rejects a single population-shared linear direction on the fixed 288D radial
+basis, not open-data training itself and not target-dependent coefficients.
+The next scientifically distinct test is a `d<=5` source-learned target
+coefficient subspace using dense profiling panels, followed by target-held-out
+`k=1/2/3/5` support sections. No production statistic was admitted.
+Full repository regression after consolidation: **224 passed** in `drug`.
