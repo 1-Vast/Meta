@@ -1,0 +1,394 @@
+WARNING: overwriting environment variables set in the machine
+
+overwriting variable {'CUDA_PATH', 'PYTHONPATH', 'CUDA_HOME'}
+
+
+{
+
+  "mode": "score",
+
+  "result": {
+
+    "schema": "MetaSieve.S7L2B.P2B.S4R.Gate.v1",
+
+    "created_utc": "2026-08-10",
+
+    "execution_commit": "5cdebaf4faee6c4f4edd05b8c8ef8abc8ae8ddf2",
+
+    "preregistration_sha256": "b0630cc34beeba874de78f25fc269b9c2a45b62bb5286e9c7b294c346b670ac3",
+
+    "audit_preregistration_sha256": "8c3be16973957c6d1e7e735a7c3214d1d7e4f3b5d59f791e3f72271894130138",
+
+    "audit_amendment_01_sha256": "5210197fee00d7b15288f89925d8f282791305bd35b082f17bb5bd38b96745f4",
+
+    "changed_axis": "ligand statistic only",
+
+    "ligand_candidate": {
+
+      "encoder": "frozen RDKit Morgan radius 1, unfolded",
+
+      "dimension": 128,
+
+      "vocabulary_sha256": "a200a4b986af1850fdb1d244f2e002c9b5ae707a114d8a3635053edb215ed877",
+
+      "W_parameters": 163840
+
+    },
+
+    "ligand_baseline": {
+
+      "encoder": "mean-pooled 41-D atom-local features",
+
+      "dimension": 41,
+
+      "W_parameters": 52480
+
+    },
+
+    "primary_panel": {
+
+      "pairs": 46818,
+
+      "components": 112,
+
+      "common_mask_sha256": "98ddcb111d3f76c73d47f521069fab5412a5c5c75f0dc3035920443da2cec614"
+
+    },
+
+    "macro_ap_bidir": {
+
+      "candidate": 0.046855876024740284,
+
+      "baseline41": 0.03588006089257408,
+
+      "b5diff": 0.03158249300878146,
+
+      "foreign": 0.04621182389433942,
+
+      "context": 0.02735746798484608,
+
+      "ligand_only": 0.0254715980086286,
+
+      "permuted": 0.03629280935907859,
+
+      "chem_shuffle": 0.05132152386671702,
+
+      "zero_W": 0.0254715980086286
+
+    },
+
+    "gates": {
+
+      "R1_vs_chance": {
+
+        "delta": 0.021384278016111678,
+
+        "lcb95_one_sided": 0.01606404778702471,
+
+        "ci95": [
+
+          0.015050934340675583,
+
+          0.02847099557986359
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.05,
+
+        "gating": true,
+
+        "pass": false
+
+      },
+
+      "R2_vs_frozen_B5_differential": {
+
+        "delta": 0.01527338301595882,
+
+        "lcb95_one_sided": 0.008172550482718479,
+
+        "ci95": [
+
+          0.006785621159744752,
+
+          0.023733744816682077
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.03,
+
+        "gating": true,
+
+        "pass": false
+
+      },
+
+      "R3_vs_two_ligand_foreign_pair": {
+
+        "delta": 0.0006440521304008554,
+
+        "lcb95_one_sided": -0.009225947034966781,
+
+        "ci95": [
+
+          -0.011459622929477317,
+
+          0.01074157186446768
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.03,
+
+        "gating": true,
+
+        "pass": false
+
+      },
+
+      "R3b_vs_ligand_only": {
+
+        "delta": 0.021384278016111678,
+
+        "lcb95_one_sided": 0.01606404778702471,
+
+        "ci95": [
+
+          0.015050934340675583,
+
+          0.02847099557986359
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.03,
+
+        "gating": true,
+
+        "pass": false
+
+      },
+
+      "R4_vs_residue_context_corruption": {
+
+        "delta": 0.019498408039894197,
+
+        "lcb95_one_sided": 0.013599402287927232,
+
+        "ci95": [
+
+          0.012569409337183531,
+
+          0.0270708896405248
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.03,
+
+        "gating": true,
+
+        "pass": false
+
+      },
+
+      "R5_vs_trained_permuted_label_learner": {
+
+        "delta": 0.010563066665661694,
+
+        "lcb95_one_sided": 0.0038795555751890767,
+
+        "ci95": [
+
+          0.002553028959788115,
+
+          0.018584116659923964
+
+        ],
+
+        "units": 112,
+
+        "margin": 0.05,
+
+        "gating": true,
+
+        "pass": false
+
+      }
+
+    },
+
+    "non_gating_contrasts": {
+
+      "C1_candidate_minus_baseline41": {
+
+        "delta": 0.010975815132166186,
+
+        "lcb95_one_sided": 0.004939310632375022,
+
+        "ci95": [
+
+          0.0038002468998228124,
+
+          0.0186960976568561
+
+        ],
+
+        "units": 112,
+
+        "gating": false
+
+      },
+
+      "C2_baseline41_minus_chance": {
+
+        "delta": 0.010408462883945492,
+
+        "lcb95_one_sided": 0.006920077426490188,
+
+        "ci95": [
+
+          0.006335863611146377,
+
+          0.014852224819879198
+
+        ],
+
+        "units": 112,
+
+        "gating": false
+
+      }
+
+    },
+
+    "module_participation": {
+
+      "min_grad_W": 3.261667490005493,
+
+      "grad_nonzero": true,
+
+      "relative_W_movement": 1.4139238595962524,
+
+      "movement_pass": true,
+
+      "W_norm": 1.0000000207265005,
+
+      "unit_norm_pass": true,
+
+      "raw_score_variance": 0.00011634824317655202,
+
+      "variance_pass": true,
+
+      "zero_W_ap": 0.0254715980086286,
+
+      "zero_W_chance": 0.0254715980086286,
+
+      "zero_W_chance_pass": true,
+
+      "ligand_only_ap": 0.0254715980086286,
+
+      "ligand_only_is_chance_pass": true,
+
+      "ligand_only_max_abs_preprojection_field": 0.03570541492811022,
+
+      "ligand_only_branch_alive": true,
+
+      "context_degrades": true,
+
+      "foreign_ligands_degrade": true,
+
+      "same_stream_hash": true,
+
+      "baseline_replication_abs_delta": 0.0,
+
+      "baseline_replication_pass": true,
+
+      "repeat_W_max_abs_diff": 0.0,
+
+      "repeat_prediction_max_abs_diff": 0.0,
+
+      "repeat_metric_max_abs_diff": 0.0,
+
+      "repeat_pass": true,
+
+      "candidate_prediction_sha256": "32b562a5e69ff8f0967f5c164c457ceae5a04090eca3af8bdcf771d516118c72",
+
+      "repeat_prediction_sha256": "32b562a5e69ff8f0967f5c164c457ceae5a04090eca3af8bdcf771d516118c72",
+
+      "common_mask_sha256": "98ddcb111d3f76c73d47f521069fab5412a5c5c75f0dc3035920443da2cec614",
+
+      "pass": true
+
+    },
+
+    "singular_spectrum_head": [
+
+      0.20908046784352705,
+
+      0.18872137031332617,
+
+      0.1865016613250354,
+
+      0.17710158258824632,
+
+      0.17019295873586954,
+
+      0.16274542014617288,
+
+      0.1595631223170759,
+
+      0.15762886808607618
+
+    ],
+
+    "near_zero_pairs_retained": 1,
+
+    "label_view_paths_opened": [
+
+      "D:\\MetaSieve\\dataset\\processed\\s7_l2b_r0r\\phase2b_s4r\\heldoutA_residue_masks.json.gz"
+
+    ],
+
+    "heldoutB_status": "NOT_CREATED_AND_NOT_READ_BY_REGISTRATION",
+
+    "R6_status": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
+
+    "TERMINAL_VERDICT": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
+
+    "affinity_value_reads": 0,
+
+    "claims_not_made": [
+
+      "exact residue-atom coupling",
+
+      "physical energy",
+
+      "affinity",
+
+      "selectivity",
+
+      "few-shot section",
+
+      "biological z",
+
+      "validated end-to-end DTA"
+
+    ],
+
+    "authorized_next_action": "none; stop at the earliest failed boundary"
+
+  },
+
+  "elapsed_seconds": 317.12
+
+}
+
+

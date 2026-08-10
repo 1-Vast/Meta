@@ -11,7 +11,9 @@ GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED
 EXACT_RESIDUE_LOCALISATION_IDENTIFIED_IN_DEVELOPMENT
 TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED
 S2R_SYNTHETIC_BINARY_ORDINAL_ESTIMATOR_PASS
-S3R_REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED
+S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED
+S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
+REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -25,10 +27,14 @@ main mathematical object remains the frozen constrained probability-law
 operator `A(F,z)=K(B(z)F(z))`.
 
 The latest real structural experiment did not admit a new biological statistic.
-The gauge-free direct-W learner scored `AP_bidir = 0.03588` against chance
-`0.02547`; the gain was positive but below the registered practical margin and
-did not replicate beyond B5 or shortcut controls. This result is scoped to
-frozen ESM2 residue states plus a mean-pooled 41-D ligand atom representation.
+S4R replaced only the mean-pooled 41-D ligand statistic with a frozen radius-1
+Morgan per-heavy-atom statistic and held every other surface byte-identical to
+S3R. The candidate scored `AP_bidir = 0.046856` against chance `0.025472`,
+doubling S3R's above-chance gain and beating its capacity-matched
+permuted-label learner. It still failed the registered `+0.05` R1 margin, and a
+foreign ligand pair cost only `+0.000644`, so the recovered signal is a
+construct-level residue-change prior rather than ligand-conditioned residue
+selection. The pose-free ligand representation repair route is closed.
 
 ## Repository boundaries
 
@@ -36,7 +42,7 @@ frozen ESM2 residue states plus a mean-pooled 41-D ligand atom representation.
 - `model/`: passed mathematical, encoder and geometry primitives; no validated
   assembled DTA pipeline.
 - `scripts/`: passed data, sealing, structure, geometry and governance tools.
-- `research/`: preregistered or executed research stages, including S2R/S3R.
+- `research/`: preregistered or executed research stages, including S2R/S3R/S4R.
 - `report/`: machine Gates, current status and evidence summaries.
 - `history.md`: chronological failure and decision ledger.
 
@@ -47,12 +53,13 @@ untouched.
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md`
-3. `report/s7_l2b_r0r/PHASE2B_S3R_GATE.json`
-4. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-5. `task.md`
-6. `experiment.md`
-7. `history.md`
+2. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
+3. `report/s7_l2b_r0r/PHASE2B_S4R_GATE.json`
+4. `report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.md`
+5. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
+6. `task.md`
+7. `experiment.md`
+8. `history.md`
 
 ## Verification
 
@@ -61,4 +68,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **134 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **159 passed**.

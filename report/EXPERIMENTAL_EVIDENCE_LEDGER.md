@@ -429,22 +429,28 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 | F-86--F-94 | Affinity estimand and public-data feasibility | Some questions are underdetermined by available independent panels; a blocked Gate is not permission to relax independence. |
 | F-95--F-96 | S5 blocking gate, then S5R-2 execution | A blocked stage is not a negative result. Once unblocked, the pair-local structural mechanism is observable with **zero parameters** — but a channel must be checked against the biological quantity, not only against its own representational proxy, and the proxy is where a PASS can hide a ligand shortcut. |
 
+| F-107 | S4R-A ligand representation audit, then the S4R single-axis graph-aware repair | The mean-pooled 41-D ligand basis was measurably collapsed and replacing it doubled the above-chance gain, but the recovered signal survives a foreign ligand pair intact — a real representation bottleneck can hide a construct-level prior rather than the ligand-conditioned mechanism you were looking for. |
+
 ## Active authorization
 
-None. S2R completed the synthetic repair and S3R completed the authorized real
-structural run. S3R failed at R1, so heldout-B, R6 and all downstream stages
-remain closed.
+None. S2R completed the synthetic repair, S3R completed the authorized real
+structural run, and S4R completed the single authorized single-axis ligand
+representation repair. S4R failed at R1, so heldout-B, R6 and all downstream
+stages remain closed. Heldout-B was not even created by S4R.
 
-A graph-aware 2D ligand representation is an eligible **proposal**, not an
-authorized experiment. It must change only the ligand information axis and hold
-the protein states, estimator, objective, split, stream and R1-R5 fixed.
+No repair of this estimand is eligible. The registered S4R stopping rule closes
+the pose-free ligand representation route, including re-running the stage at a
+larger vocabulary or radius. Any further work on this question requires a
+separately governed information stage with its own preregistration.
 
 The following remain frozen:
 
 - real ChEMBL/BindingDB affinity training;
 - DAVIS, KIBA and recipient labels;
-- new PLM, attention stack, geometry branch, typed-interaction branch, affinity
-  head, PU loss, knowledge graph or parallel module;
+- new PLM, second protein encoder, attention stack, geometry/pose branch,
+  typed-interaction branch, affinity head, PU loss, knowledge graph or parallel
+  module;
+- a larger ligand vocabulary or Morgan radius as a rescue of S4R;
 - typed-interaction production integration;
 - few-shot adaptation and any `k`-shot claim;
 - production biological `z`;

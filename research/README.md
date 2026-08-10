@@ -4,32 +4,44 @@
 
 `s7_l2b_r0r/` contains the completed MONN provenance/mapping workflow, frozen
 ESM2 B5 exact-residue localizer, Phase 2A attribution audit, synthetic S2R
-direct-W witness and real structural S3R transfer.
+direct-W witness, real structural S3R transfer, the S4R-A label-blind ligand
+representation audit and the S4R single-axis graph-aware repair.
 
 ```text
 Phase 2A  LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING
 S2R       BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED
 S3R       REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED
+S4R-A     GRAPH_LIGAND_REPRESENTATION_AVAILABLE_AND_INFORMATIVE
+S4R       REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 ```
 
-S3R is the current stopping point. It used one bounded direct matrix over frozen
-ESM2 residue states and the existing mean-pooled 41-D ligand atom features.
-Training and deterministic replay passed, but the candidate failed R1-R5. The
-result does not authorize another optimizer attempt or a larger parallel model.
+S4R is the current stopping point. It changed exactly one axis of S3R — the
+ligand statistic — replacing the mean-pooled 41-D atom marginal with a frozen
+radius-1 Morgan per-heavy-atom statistic over a train-only 128-entry
+vocabulary. The protein branch, gauge, estimator, loss, sampler, split, seeds,
+control maps and 210-update stream were byte-identical, proved by a stream
+SHA-256 match, a common-mask SHA-256 match and a bit-exact reproduction of the
+S3R candidate by the `baseline41` arm.
 
-## Eligible proposal, not authorized
+The change was real: the above-chance gain doubled to `+0.021384` and the
+candidate beat its capacity-matched permuted-label learner. It was not
+sufficient: R1 needs `+0.05`, and a foreign ligand pair costs only `+0.000644`,
+so the recovered signal is a construct-level residue-change prior rather than
+ligand-conditioned residue selection.
 
-The only evidence-aligned representation proposal is a single-axis ligand
-information audit: replace the global ligand mean by one frozen graph-aware 2D
-ligand statistic while preserving the protein states, direct-W estimator,
-ordinal objective, sampler, closure split and R1-R5. It must be separately
-preregistered and must include ligand-only, foreign-ligand, context and
-permuted-label controls.
+## No eligible repair
 
-Do not simultaneously add attention, a new PLM, geometry, pose, typed channels,
-affinity supervision or KG features. A failed single-axis audit would close that
-specific pose-free repair route and justify either a separately governed 3D
-information stage or stopping.
+The registered S4R stopping rule closes the pose-free ligand representation
+route. Re-running the stage at `d = 256` or `d = 512`, at radius 2, at another
+seed or with another budget is explicitly excluded, as are attention, a larger
+PLM, a second protein encoder, a parallel branch, geometry, pose, typed
+channels, affinity supervision, knowledge graphs, PU learning and few-shot
+adaptation.
+
+The remaining question is whether any pose-free sequence-plus-2D estimand can
+bind a ligand substructure to a residue context without geometric
+correspondence. That is an information question about the estimand, not a
+repair of this stage, and it requires its own preregistration.
 
 ## Promotion rule
 

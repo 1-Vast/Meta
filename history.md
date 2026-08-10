@@ -1,6 +1,6 @@
 # MetaSieve-DTA Experiment History
 
-Last updated: 2026-08-09.
+Last updated: 2026-08-10.
 
 > HISTORICAL EVIDENCE ONLY. This file is not an execution plan.
 >
@@ -4593,3 +4593,96 @@ global ligand mean with a frozen graph-aware 2D statistic while holding the
 protein states, direct-W estimator, loss, split, stream and R1-R5 fixed. Full
 repository regression after consolidation: **134 passed** in the `drug`
 environment.
+
+## F-107: the ligand mean was a real bottleneck, but graph information does not make the residue direction ligand-specific (2026-08-10)
+
+S3R had failed on the basis `frozen ESM2 residue states x mean-pooled 41-D
+ligand atom features` while passing every numerical, participation, firewall
+and replay check. The leading hypothesis was that mean pooling destroys the
+ligand topology needed for ligand-conditioned residue selection. F-107 tested
+that hypothesis on one axis and closed it.
+
+```text
+S4R-A label-blind representation audit .. GRAPH_LIGAND_REPRESENTATION_AVAILABLE_AND_INFORMATIVE
+S4R single-axis graph-aware transfer .... REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
+```
+
+The audit was registered and committed before any audit code existed, and an
+amendment replaced an unverified collision-free claim with unfolded 32-bit
+Morgan identifiers plus a measured folding-collision count. It read zero
+residue labels. It established that the mean-pooled 41-D basis is collapsed:
+pair-difference effective rank `6.183` over 39,435 label-blind heldout-A
+ligand-graph pairs, 687 distinct ligand graphs sharing a bit-identical vector,
+and `85.2%` of the difference-norm variance explained by heavy-atom-count
+difference alone. `m`-xylene and `p`-xylene, identical in atom composition and
+different in connectivity, map to the same vector; that case is now a test.
+
+All six audited Morgan candidates cleared every A-gate. The registered
+capacity-parsimony rule — smallest `(d, radius)` among the admissible — selected
+radius 1, `d = 128`, per-heavy-atom environment counts over a train-only
+vocabulary, raising the difference effective rank to `20.93` with `35.5%` of
+its energy beyond the baseline's linear span and `163,840` matrix parameters
+against the baseline's `52,480`.
+
+S4R then changed only that statistic. Three anchors prove nothing else moved:
+the training stream's semantic and file SHA-256 both equal S3R's, the
+common-mask SHA-256 equals S3R's, and the `baseline41` arm reproduced the S3R
+candidate exactly, `|delta| = 0.0`, with C2 reproducing the S3R R1 interval to
+every digit.
+
+| arm | AP_bidir |
+|---|---:|
+| candidate, graph-aware `d=128` | 0.046856 |
+| baseline41, mean-pooled `d=41` | 0.035880 |
+| trained permuted-label learner | 0.036293 |
+| frozen B5 differential | 0.031582 |
+| foreign ligand pair | 0.046212 |
+| residue-context corruption | 0.027357 |
+| ligand-only / zero-`W` chance | 0.025472 |
+| within-construct chemistry shuffle | 0.051322 |
+
+R1 observed `+0.021384 [LCB +0.016064]` against a `+0.05` margin. R2 `+0.015273`,
+R3 `+0.000644 [LCB -0.009226]`, R3b `+0.021384`, R4 `+0.019498`, R5 `+0.010563`,
+each below its registered margin. The earliest failed boundary is R1, so the
+terminal verdict is `REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED`.
+
+Two findings matter more than the verdict. First, the hypothesis was partly
+right: the above-chance gain doubled from `+0.010408` to `+0.021384`, the
+direct contrast `C1 = +0.010976 [LCB +0.004939]` is above zero, and the
+candidate now beats its capacity-matched permuted-label learner by
+`+0.010563 [LCB +0.003880]` where S3R had lost by `-0.001245`. The ligand
+representation was a genuine, measurable bottleneck and part of the signal it
+was hiding is real.
+
+Second, the recovered signal is not ligand-conditioned. Substituting a frozen
+foreign ligand pair costs `+0.000644` and the within-construct chemistry
+shuffle scores *above* the candidate; the leading singular values of `W` are
+nearly flat (`0.209, 0.189, 0.187, 0.177, 0.170`). The learned residue
+direction barely depends on which ligand difference is supplied, so what
+improved is a construct-level residue-change prior, not ligand-specific residue
+selection. The ligand-only arm is exactly chance by construction, since a
+residue-constant field lies in `span{1} subset span{Q_P}` and the gauge
+annihilates it; R3b is therefore a structural proof rather than an independent
+contrast.
+
+Module participation and deterministic replay passed in full: minimum
+`|grad W| = 3.2617`, relative movement `1.4139`, unit norm `1.0000000207`,
+score variance `1.16e-4`, zero-`W` equal to analytic chance, one shared stream,
+and bit-identical repeat predictions.
+
+Governance: heldout-B was neither created nor read, R6 was not opened, affinity
+value reads were zero, and `103,116` real structural residue-edge labels were
+read across the two created views. Heldout-A had already been consumed by S3R,
+so every S4R number is development evidence and none of it is confirmation. No
+threshold, seed, margin, budget, capacity or representation was changed after a
+metric was read.
+
+The registered stopping rule closes the pose-free ligand representation repair
+route, including re-running S4R at `d = 256` or `d = 512`. It authorizes no
+attention stack, larger PLM, second protein encoder, parallel branch, pose or
+geometry branch, typed channel, affinity supervision, knowledge graph, PU loss
+or few-shot adaptation. The open question is no longer representational
+richness but whether any pose-free sequence-plus-2D estimand can bind a ligand
+substructure to a residue context without geometric correspondence; that needs
+a separately governed information stage. Full repository regression:
+**159 passed** in the `drug` environment.

@@ -1,8 +1,8 @@
 {
   "schema": "MetaSieve.ProjectState.v4",
   "updated": "2026-08-10",
-  "current_phase": "S7_L2B_PHASE2B_S3R_COMPLETE",
-  "terminal_verdict": "REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
+  "current_phase": "S7_L2B_PHASE2B_S4R_COMPLETE",
+  "terminal_verdict": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -10,6 +10,9 @@
     "TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED",
     "S2R_BINARY_ORDINAL_TRAINABILITY_PASS",
     "S3R_REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
+    "S4R_A_LIGAND_MEAN_POOLING_COLLAPSE_MEASURED",
+    "S4R_GRAPH_AWARE_LIGAND_INCREMENT_IDENTIFIED_BUT_NOT_LIGAND_SPECIFIC",
+    "POSE_FREE_LIGAND_REPRESENTATION_REPAIR_ROUTE_CLOSED",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
@@ -31,6 +34,7 @@
     "amendment_01_sha256": "8f93cdca8f4ea4b0818d911c40bca771e3bd77851b4056ab15d80a2f59107c3e",
     "amendment_02_sha256": "27d1cb7ff86f6ef2f9e92f7a352dc773a8ba832bea868aefefac7af19a96ca08",
     "execution_commit": "27c49df66ffedf5c42a22e01284b099ca6ee5d35",
+    "terminal_verdict": "REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
     "primary_panel": {
       "pairs": 46818,
       "components": 112
@@ -50,6 +54,75 @@
     "R6": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
     "affinity_value_reads": 0
   },
+  "phase2b_s4r_audit": {
+    "preregistration_sha256": "8c3be16973957c6d1e7e735a7c3214d1d7e4f3b5d59f791e3f72271894130138",
+    "amendment_01_sha256": "5210197fee00d7b15288f89925d8f282791305bd35b082f17bb5bd38b96745f4",
+    "execution_commit": "14a7a88",
+    "terminal_verdict": "GRAPH_LIGAND_REPRESENTATION_AVAILABLE_AND_INFORMATIVE",
+    "label_blind": true,
+    "residue_label_reads": 0,
+    "baseline_41d": {
+      "effective_rank_embedding": 5.336110036478139,
+      "effective_rank_pair_difference": 6.183034377365143,
+      "identical_vector_graphs": 687,
+      "r2_difference_norm_on_atom_count": 0.851693817411358
+    },
+    "selected": {
+      "encoder": "frozen RDKit Morgan radius 1, unfolded 32-bit identifiers",
+      "statistic": "per-heavy-atom environment counts over a frozen train vocabulary",
+      "dimension": 128,
+      "vocabulary_sha256": "a200a4b986af1850fdb1d244f2e002c9b5ae707a114d8a3635053edb215ed877",
+      "W_parameters": 163840,
+      "effective_rank_pair_difference": 20.926621255752703,
+      "incremental_beyond_baseline": 0.35522468793987644,
+      "baseline_retention_loss": 0.07802376079601747,
+      "coverage": 0.999974641815646
+    },
+    "selection_rule": "smallest (vocabulary_size, radius) among the six admissible candidates"
+  },
+  "phase2b_s4r": {
+    "preregistration_sha256": "b0630cc34beeba874de78f25fc269b9c2a45b62bb5286e9c7b294c346b670ac3",
+    "preparation_commit": "5cdebaf4faee6c4f4edd05b8c8ef8abc8ae8ddf2",
+    "terminal_verdict": "REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED",
+    "changed_axis": "ligand statistic only",
+    "primary_panel": {
+      "pairs": 46818,
+      "components": 112,
+      "common_mask_sha256": "98ddcb111d3f76c73d47f521069fab5412a5c5c75f0dc3035920443da2cec614"
+    },
+    "macro_ap_bidir": {
+      "candidate": 0.046855876024740284,
+      "baseline41": 0.03588006089257408,
+      "chance": 0.0254715980086286,
+      "frozen_b5_differential": 0.03158249300878146,
+      "foreign_pair": 0.04621182389433942,
+      "context_corruption": 0.02735746798484608,
+      "ligand_only": 0.0254715980086286,
+      "trained_permuted": 0.03629280935907859,
+      "chemistry_shuffle": 0.05132152386671702
+    },
+    "gates_passed": [],
+    "earliest_failed_gate": "R1_vs_chance",
+    "non_gating_contrasts": {
+      "candidate_minus_baseline41": {
+        "delta": 0.010975815132166186,
+        "lcb95_one_sided": 0.004939310632375022
+      },
+      "baseline41_minus_chance": {
+        "delta": 0.010408462883945492,
+        "lcb95_one_sided": 0.006920077426490188
+      }
+    },
+    "module_participation": "PASS",
+    "deterministic_repeat": "PASS",
+    "s3r_baseline_replication_abs_delta": 0.0,
+    "s3r_stream_semantic_sha256_matched": true,
+    "heldoutB": "NOT_CREATED_AND_NOT_READ_BY_REGISTRATION",
+    "R6": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
+    "real_structural_edge_label_reads": 103116,
+    "affinity_value_reads": 0,
+    "interpretation": "the graph-aware statistic doubled the above-chance gain and beat the capacity-matched permuted-label learner, but the residual signal survives a foreign ligand pair intact, so it is a construct-level residue-change prior rather than ligand-conditioned residue selection"
+  },
   "label_reads": {
     "recipient": 0,
     "davis": 0,
@@ -64,11 +137,21 @@
     "DAVIS, KIBA and recipient labels",
     "few-shot section adaptation",
     "production biological z",
+    "larger PLM, second protein encoder, attention stack, parallel branch",
+    "3D pose, geometry branch and typed interaction channels",
+    "knowledge graphs, PU learning and affinity supervision",
     "CSMO, Band, positive ridge, simplex, fixed mesh and K(B(z)F(z))"
   ],
-  "eligible_unregistered_proposal": "replace only mean-pooled ligand features with a frozen graph-aware 2D ligand statistic while preserving the protein branch, direct-W estimator, objective, split and R1-R5",
+  "eligible_unregistered_proposal": null,
+  "closed_routes": [
+    "pose-free ligand representation repair of the direct-W residue-differential estimand",
+    "re-running S4R at a larger ligand vocabulary or radius"
+  ],
   "canonical_evidence": {
     "current_status": "report/CURRENT_RESEARCH_STATUS.md",
+    "s4r_gate": "report/s7_l2b_r0r/PHASE2B_S4R_GATE.json",
+    "s4r_consolidation": "report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md",
+    "s4r_audit": "report/s7_l2b_r0r/PHASE2B_S4R_REPRESENTATION_AUDIT.json",
     "s3r_gate": "report/s7_l2b_r0r/PHASE2B_S3R_GATE.json",
     "s3r_consolidation": "report/s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md",
     "s2r_verdict": "report/s7_l2b_r0r/PHASE2B_S2R_VERDICT.json",
@@ -78,5 +161,5 @@
   "label_firewall": "INTACT",
   "frozen_math": true,
   "production_model_changed": false,
-  "last_full_regression": "134_PASSED"
+  "last_full_regression": "159_PASSED"
 }
