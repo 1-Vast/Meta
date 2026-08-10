@@ -1,30 +1,20 @@
 # Verified evidence summary
 
-The complete numerical and decision-oriented summary is maintained in
-`EXPERIMENTAL_EVIDENCE_LEDGER.md`. This page is intentionally only a compact
-index of retained executable evidence.
-
-## Retained executable evidence
-
-| Stage | Status | Retained evidence |
+| Stage | Status | Durable result |
 |---|---|---|
-| P0 | PASS | contracts, sealing and regression tests |
-| P1A | PASS | open-structure acquisition/index/governance scripts |
-| P1B | PASS | checkpoint, training manifest and correct/deranged geometry Gate |
-| D0-C | PASS | ChEMBL37 release/corpus verification |
-| D1 | PASS | homology/document closure audit |
-| S5 | REGISTERED | pair-local P1B structural-mechanism preregistration |
-
-## Current boundary
+| Frozen law operator | PASS | contract-tested, unchanged |
+| P1B geometry | PASS | correct-protein contact/distance geometry |
+| S7/L2B Phase 1 B5 | DEVELOPMENT PASS 6/6 | exact-residue pocket localisation |
+| Phase 2A | PASS, audit-only | teacher residue masks are ligand-conditioned; edge coupling not identified |
+| S2R | PASS, synthetic | bounded direct-W ordinal estimator is trainable |
+| S3R | FAIL at R1, real structural | current ESM2 + pooled-41D ligand basis does not identify the registered residue direction |
 
 ```text
-GEOMETRY_IDENTIFIED
-PAIR_LOCAL_P1B_OBSERVABILITY_NOT_TESTED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
+K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 ```
 
-Historical negative code and duplicate reports were deleted after consolidation
-into `history.md`.  Recovery commits are `3281780`, `12a2765`, and `608decf`.
-See `EXPERIMENTAL_EVIDENCE_LEDGER.md` for consolidated results and
-`CURRENT_RESEARCH_STATUS.md` for the active interpretation.
+Primary current evidence is
+`s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md`. Historical failed stages
+remain in `history.md`; they are not current execution authority.

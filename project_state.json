@@ -1,143 +1,54 @@
 {
-  "schema": "MetaSieve.ProjectState.v3",
+  "schema": "MetaSieve.ProjectState.v4",
   "updated": "2026-08-10",
-  "current_phase": "S7_L2B_PHASE2B_NOT_RUN_SYNTHETIC_PRECONDITION_FAILED",
+  "current_phase": "S7_L2B_PHASE2B_S3R_COMPLETE",
+  "terminal_verdict": "REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
-    "GEOMETRY_IDENTIFIED",
-    "PAIR_COMPATIBILITY_IDENTIFIED",
-    "FROZEN_ESM2_B5_DEVELOPMENT_GATE_PASS_6_OF_6",
+    "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
     "EXACT_RESIDUE_LOCALISATION_IDENTIFIED_IN_DEVELOPMENT",
-    "TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED_IN_LABELS",
-    "B5_RESIDUE_MARGINAL_IS_GENERIC_POCKET",
-    "B5_LIGAND_DEPENDENCE_CONFINED_TO_THE_COUPLING_TERM",
-    "EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED",
-    "TEACHER_EDGE_COUPLING_NOT_IDENTIFIED",
-    "LABEL_SEMANTICS_NOT_AMBIGUOUS",
-    "PHASE2B_RESIDUE_RESIDUAL_NOT_RUN_ON_REAL_LABELS",
+    "TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED",
+    "S2R_BINARY_ORDINAL_TRAINABILITY_PASS",
+    "S3R_REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
     "AFFINITY_ENERGETICS_NOT_IDENTIFIED",
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
     "NO_VALIDATED_END_TO_END_DTA_MODEL"
   ],
-  "phase2a": {
-    "preregistration": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2A.md",
-    "preregistration_sha256": "4e01401d0468e3241bd05cde93b2a517919209d770f8f75ab471e42228f1b12e",
-    "committed": false,
-    "chronology_note": "anchored by hash only; commit authorization was not granted",
-    "amendments_sha256": {
-      "01_exact_tied_ap_and_rho_validity": "f418a5d6d6bda3d706e86336fdb6537a6c0c717423bb6171e4101224ddb69e91",
-      "02_closed_form_ap_and_rasch_budget": "041b86fc425c618354d9d7cf31029127f61fcd051b529752d427a5e85579b26d",
-      "03_dense_distance_comparator": "fc95546c56c0f608e27063b0c259d6abf1b92a8c1e146d2d918d3415e2f36214"
-    },
-    "terminal_verdict": "LIGAND_CONDITIONED_RESIDUE_SIGNAL_WITHOUT_EDGE_COUPLING",
-    "authorized_next_action": "preregister one ligand-conditioned residue residual head",
-    "contract_audit": {
-      "verdict": "PHASE2A_CONTRACT_PASS",
-      "artifacts_hashed": 26,
-      "offset_tables_identical": true,
-      "heldout_A_cells": 52062975,
-      "heldout_A_positives": 36237,
-      "positive_density": 0.000696,
-      "complexes": 2409,
-      "components": 196
-    },
-    "census": {
-      "verdict": "DATA_IDENTIFIABLE",
-      "exact_constructs": 2846,
-      "closure_components": 1994,
-      "largest_component_fraction": 0.0311,
-      "constructs_with_scaffold_distinct_pair": 1093,
-      "components_with_scaffold_distinct_pair": 779,
-      "components_with_both_pair_types": 292,
-      "scaffold_distinct_pairs": 323410,
-      "replicate_pairs": 2408
-    },
-    "teacher_conditionality": {
-      "replicate_jaccard": 0.636133,
-      "alternative_ligand_jaccard": 0.416457,
-      "dJ": 0.257962,
-      "dJ_lcb95": 0.234399,
-      "dJ_heldout_A_only": 0.191118,
-      "chemistry_association_rho": 0.322127,
-      "rho_lcb95": 0.298694,
-      "permutation_median_p": 0.03,
-      "fraction_pairs_meaningfully_changed": 0.804477,
-      "ligand_conditioned": true
-    },
-    "decomposition_component_macro_ap": {
-      "B5": {
-        "full": 0.069754,
-        "residue_marginal": 0.040447,
-        "atom_marginal": 0.005137,
-        "additive": 0.039833,
-        "coupling": 0.01133
-      },
-      "B4": {
-        "full": 0.023228,
-        "residue_marginal": 0.016186,
-        "atom_marginal": 0.005503,
-        "additive": 0.015099,
-        "coupling": 0.006368
-      },
-      "BX5_wrong_ligand": {
-        "full": 0.019694,
-        "residue_marginal": 0.035954,
-        "atom_marginal": 0.003264,
-        "additive": 0.027692,
-        "coupling": 0.00346
-      },
-      "BP5_wrong_protein": {
-        "full": 0.004639,
-        "coupling": 0.003546
-      },
-      "BL_ligand_only": {
-        "full": 0.00573,
-        "coupling": 0.00305
-      }
-    },
-    "oracle_ceilings_label_fitted": {
-      "least_squares_additive_projection_of_Y": 0.388892,
-      "true_residue_margin_only": 0.204347,
-      "true_atom_margin_only": 0.010601,
-      "rasch_logistic": "NOT_ESTIMABLE_COMPLETE_SEPARATION_NOT_A_CEILING",
-      "b5_fraction_of_additive_ceiling": 0.179367
-    },
-    "coupling_gates": {
-      "TC_teacher_edge_coupling": false,
-      "TC_median_z": 0.413057,
-      "TC_fraction_above_null": 0.634199,
-      "BC_b5_edge_coupling": false,
-      "BC_vs_rewiring_null_delta": 0.006005,
-      "BC_vs_rewiring_null_lcb95": 0.004608,
-      "BC_vs_wrong_ligand_delta": 0.00787,
-      "BC_vs_wrong_ligand_lcb95": 0.006197,
-      "registered_margin": 0.01,
-      "note": "both contrasts are clearly above zero but below the preregistered practical margin"
-    },
-    "label_semantics": {
-      "ambiguous": false,
-      "typed_edges": 212556,
-      "water_mediated_fraction": 0.081988,
-      "metal_mediated_fraction": 0.0,
-      "T1_with_water_removed_dJ": 0.278329,
-      "dense_distance_comparator_complexes": 1909,
-      "plip_within_5A_fraction": 0.881,
-      "plip_beyond_5A_fraction": 0.089798,
-      "second_interaction_tool": "ABSENT_UNRESOLVED"
-    },
-    "numerics": {
-      "max_orthogonality_ratio": 1.184e-09,
-      "orthogonality_tolerance": 1e-08,
-      "als_vs_double_centering_max_abs": 1.066e-14,
-      "rewiring_degree_violations": 0
-    }
-  },
   "active_stage": {
-    "name": "S7_L2B_PHASE2B_OPTIMIZATION_CONTRACT_REPAIR",
-    "status": "NOT_REGISTERED_NOT_AUTHORIZED",
+    "name": null,
+    "status": "NONE_AUTHORIZED",
     "training_allowed": false,
     "affinity_reads_allowed": false
+  },
+  "phase2b_s2r": {
+    "terminal_verdict": "BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED",
+    "sealed_heldout_ap_bidir": 0.662021078439136,
+    "scope": "synthetic trainability only"
+  },
+  "phase2b_s3r": {
+    "preregistration_sha256": "16cef1a477dfe74cc4bc8194065accdccf5936983f918730e6a312196a2fc7ad",
+    "amendment_01_sha256": "8f93cdca8f4ea4b0818d911c40bca771e3bd77851b4056ab15d80a2f59107c3e",
+    "amendment_02_sha256": "27d1cb7ff86f6ef2f9e92f7a352dc773a8ba832bea868aefefac7af19a96ca08",
+    "execution_commit": "27c49df66ffedf5c42a22e01284b099ca6ee5d35",
+    "primary_panel": {
+      "pairs": 46818,
+      "components": 112
+    },
+    "macro_ap_bidir": {
+      "candidate": 0.03588006089257408,
+      "chance": 0.0254715980086286,
+      "frozen_b5_differential": 0.03158249300878146,
+      "foreign_pair": 0.03573486371900468,
+      "context_corruption": 0.0323363569852716,
+      "trained_permuted": 0.03712533740724314
+    },
+    "gates_passed": [],
+    "module_participation": "PASS",
+    "deterministic_repeat": "PASS",
+    "heldoutB": "NOT_OPENED_PRIMARY_DID_NOT_PASS",
+    "R6": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
+    "affinity_value_reads": 0
   },
   "label_reads": {
     "recipient": 0,
@@ -147,102 +58,25 @@
     "bindingdb_affinity": 0
   },
   "frozen": [
+    "heldout-B structural panel",
+    "R6 amplitude and B5 integration",
     "real ChEMBL/BindingDB affinity training",
     "DAVIS, KIBA and recipient labels",
-    "independent confirmation scoring",
-    "new PLM, attention stack, geometry branch, typed-interaction branch, affinity head, PU loss, knowledge graph or parallel module",
     "few-shot section adaptation",
-    "production z admission",
-    "CSMO, Band, positive ridge, simplex, fixed mesh, K(B(z)F(z))",
-    "P2-P4"
+    "production biological z",
+    "CSMO, Band, positive ridge, simplex, fixed mesh and K(B(z)F(z))"
   ],
+  "eligible_unregistered_proposal": "replace only mean-pooled ligand features with a frozen graph-aware 2D ligand statistic while preserving the protein branch, direct-W estimator, objective, split and R1-R5",
   "canonical_evidence": {
     "current_status": "report/CURRENT_RESEARCH_STATUS.md",
+    "s3r_gate": "report/s7_l2b_r0r/PHASE2B_S3R_GATE.json",
+    "s3r_consolidation": "report/s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md",
+    "s2r_verdict": "report/s7_l2b_r0r/PHASE2B_S2R_VERDICT.json",
     "ledger": "report/EXPERIMENTAL_EVIDENCE_LEDGER.md",
-    "phase2a_synthesis": "report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md",
-    "phase2a_verdict": "report/s7_l2b_r0r/PHASE2A_VERDICT.json",
-    "phase1_synthesis": "report/s7_l2b_r0r/PHASE1_EVIDENCE_CONSOLIDATION_AND_PHASE2A_TRIAGE.md",
-    "phase1_report": "report/s7_l2b_r0r/P1_B5_REPORT.md",
-    "history": "history.md",
-    "phase2b_report": "report/s7_l2b_r0r/PHASE2B_REPORT.md",
-    "phase2b_gate": "report/s7_l2b_r0r/PHASE2B_GATE.json",
-    "artifact_supersession": "report/s7_l2b_r0r/PHASE1_ARTIFACT_SUPERSESSION.json"
+    "history": "history.md"
   },
   "label_firewall": "INTACT",
   "frozen_math": true,
   "production_model_changed": false,
-  "last_full_regression": "100_PASSED",
-  "forbidden_claims": [
-    "EXACT_RESIDUE_ATOM_COUPLING_IDENTIFIED",
-    "LIGAND_CONDITIONED_POCKET_IDENTIFIED_IN_THE_MODEL",
-    "AFFINITY_ENERGETICS_IDENTIFIED",
-    "K_SHOT_SECTION_IDENTIFIED",
-    "BIOLOGICAL_STATISTIC_ADMITTED_TO_Z",
-    "VALIDATED_END_TO_END_DTA_MODEL",
-    "PHASE2B_RESIDUE_DIFFERENTIAL_IDENTIFIED"
-  ],
-  "phase2b": {
-    "superseded_preregistration": {
-      "file": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL.md",
-      "sha256": "ae6d1a0186bb37af86f3b6eb98c513bce7e67a8745aaf5a3811ce5c9b98ab477",
-      "status": "SUPERSEDED_BEFORE_EXECUTION_DESIGN_DEFECT",
-      "never_executed": true,
-      "kept_byte_identical": true,
-      "defects": "research/s7_l2b_r0r/PHASE2B_DESIGN_AUDIT.md"
-    },
-    "preregistration": {
-      "file": "research/s7_l2b_r0r/PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md",
-      "sha256": "5e6688f68bf214b6f44c96ef0a2b909eba99da31f1adf17cdde003addb242c96",
-      "commit": "b9753db",
-      "committed_before_implementation": true
-    },
-    "commits": {
-      "phase2a_evidence_closure": "0bd1702",
-      "preregistration_r1": "b9753db",
-      "code_and_tests": "0a8b62e"
-    },
-    "contract_audit": "PHASE2B_CONTRACT_PASS",
-    "numerics": {
-      "parameters": 10568,
-      "g_atom_permutation_max_abs_diff": 0.0,
-      "ligand_order_swap_max_abs_sign_error": 0.0,
-      "prior_cancellation_max_abs_error": 2.05e-15,
-      "projection_max_orthogonality_ratio": 6.19e-15,
-      "train_heldoutA_component_overlap": 0,
-      "heldoutA_ligand_graph_overlap_with_train": 0
-    },
-    "census": {
-      "train_constructs": 760,
-      "train_components": 554,
-      "train_eligible_pairs": 226765,
-      "heldoutA_constructs": 174,
-      "heldoutA_components": 112,
-      "heldoutA_eligible_pairs": 46818,
-      "heldoutB_eligible_pairs": 30661
-    },
-    "controls": {
-      "foreign_pair_coverage": 1.0,
-      "derangement_fixed_points": 0,
-      "derangement_records_mapped": 11123
-    },
-    "synthetic_precondition": {
-      "required_ap_bidir": 0.5,
-      "observed_ap_bidir": 0.357675,
-      "chance_bidir": 0.037558,
-      "pass": false,
-      "teacher_self_ap": 0.99971,
-      "in_sample_ap": 0.365433,
-      "field_correlation_median": 0.753817,
-      "parameter_movement": {
-        "U": 1.8084,
-        "V": 0.4256
-      }
-    },
-    "terminal_verdict": "PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED",
-    "real_label_training_executed": false,
-    "gates_R1_to_R6_scored": false,
-    "biological_conclusion_permitted": false,
-    "failure_localisation": "registered optimization budget (and possibly the a priori 0.50 threshold calibration); NOT the hypothesis class, NOT the evaluation code, NOT generalisation",
-    "authorized_next_action": "preregister one repair of the Phase 2B OPTIMIZATION contract, with the budget and the synthetic acceptance threshold derived from a measured synthetic scaling curve and a fresh teacher seed; architecture, projection, metric, controls and gates R1-R6 unchanged"
-  }
+  "last_full_regression": "134_PASSED"
 }

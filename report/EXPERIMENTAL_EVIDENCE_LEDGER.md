@@ -18,7 +18,7 @@ When records disagree, use this order:
    commits, manifests, predictions and label-access audit are recovered.
 
 Historical test counts and status statements describe the repository at the
-time of each experiment. The current consolidated regression count is 75.
+time of each experiment. The current consolidated regression count is 134.
 
 ## Current conclusion
 
@@ -40,12 +40,36 @@ BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_DTA_MODEL
 ```
 
-Phase 2A resolved the structural attribution question. The labels **are**
-ligand-conditioned at the residue level; B5's residue marginal is not; and
-edge-level coupling is not identifiable in either. The earliest unresolved
-boundary is therefore whether a residue-differential residual head can recover
-the ligand-conditioned residue selection that Phase 2A proved is present in the
-labels. Affinity value remains untestable until that structural stage passes.
+Phase 2A resolved the label-side structural attribution question. S2R validated
+a bounded, gauge-free binary ordinal estimator on fresh synthetic components.
+S3R transferred that estimator to real MONN residue-differential labels and
+returned `REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED`. The labels are
+ligand-conditioned, but the current frozen ESM2 plus mean-pooled 41-D ligand
+basis did not recover the registered direction beyond the controls. Affinity
+remains untestable.
+
+### S7/L2B Phase 2B-S3R — real structural direction not identified (2026-08-10)
+
+S2R first returned `BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED`: the sealed
+synthetic seed reached held-out component-macro `AP_bidir = 0.662021`. S3R then
+used the same gauge-free direct-W estimator on the real structural labels.
+
+The primary panel comprised 46,818 ligand pairs and 112 closure components.
+Candidate AP was `0.035880`, chance `0.025472`, frozen B5 differential
+`0.031582`, foreign-pair `0.035735`, context-corrupted `0.032336`, and the
+trained permuted-label learner `0.037125`.
+
+The candidate exceeded chance by `+0.010408 [LCB +0.006920]`, below the
+registered `+0.05` margin. It failed R2-R5 as well. Module participation,
+train-only label access, unit norm, stream equality and exact prediction replay
+passed, so this is not a numerical-training verdict. It is scoped to frozen
+ESM2 residue states, the global mean of 41-D ligand atom features and this
+ordinal estimator. Heldout-B and R6 were not opened; affinity reads were zero.
+
+The parent R6 was superseded before execution because pairwise differences do
+not identify absolute amplitude, feature origin or difference-null directions.
+No raw residual was added to B5. See `PHASE2B_S3R_GATE.json` and
+`PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md`.
 
 ## Retained PASS evidence
 
@@ -234,6 +258,55 @@ being fitted. What failed is the registered optimization budget — and possibly
 the a priori `0.50` threshold, set without a calibration curve. Neither may be
 adjusted now, because both were frozen and the synthetic holdout has been seen.
 
+### S7/L2B Phase 2B-S0 — the synthetic control was itself invalid (2026-08-10)
+
+Registered by `PREREG_PHASE2B_S0_SYNTHETIC_FAILURE_LOCALIZATION.md`
+(`81675578…`), frozen before any S0 measurement.
+
+```text
+TERMINAL VERDICT  SYNTHETIC_CONTROL_LOSS_MISALIGNED
+```
+
+S0-A and S0-B passed, establishing that the contract and the implementation are
+sound: the 48-epoch nested stream was hashed with 1,680 updates / 166,300
+presentations / 30,552 unique pairs counted separately; antisymmetry error 0.0;
+identical-ligand differential 0.0; projection orthogonality `5.7e-15`; same-seed
+replay bit-identical; and the teacher parameters copied into the production head
+reproduced the teacher to `4.06e-07` relative field error, `2.2e-16` AP agreement
+and `3.46e-08` on `W = UᵀV`.
+
+S0-C then rejected the **control**. Initialising the student exactly at the
+teacher, where `AP_bidir = 1.0000`, the registered loss and optimizer reduce BCE
+monotonically while AP collapses — `1.0000 → 0.9732 → 0.5797 → 0.3899 → 0.4963`
+at 0/1/10/100/210 updates against BCE `0.6364 → 0.3845`. The preregistered rule
+fired on both conditions. A control whose own answer is destroyed by its own
+training procedure cannot adjudicate a student, so the failed Phase 2B
+precondition carries **no information about the candidate**.
+
+Mechanisms, separated and ranked by an addendum diagnostic that could not change
+the verdict: **scale** (BCE `0.6364` at the teacher's own scale versus `0.3408`
+at the ray optimum `a* = 20.2`; AdamW moves about 4.5% of the parameter scale per
+update, so a 20× scale change rewrites the direction first); **residual
+misalignment** (from the ray optimum BCE still falls `0.34075 → 0.33669` while AP
+degrades `1.000 → 0.891`); and **knife-edge labels** (rank-8/rank-9 gap median
+`0.00222`).
+
+**The Phase 2B report's budget attribution is downgraded to not uniquely
+established.** The budget was never tested — the earlier-applicable objective
+cause fired first — and it cannot explain a pipeline that discards the answer
+when handed it. Sampled-pair coverage, optimizer updates and low-rank
+factorization remain untested; implementation and synthetic generalization are
+excluded. The original result
+`PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED` is preserved
+unchanged as historical evidence.
+
+The sole next action is a separate preregistration for a repaired synthetic
+control, `PREREG_PHASE2B_S1_REPAIRED_SYNTHETIC_CONTROL.md` (`4850c7d5…`),
+written and hashed but **not executed**. Its methodological core is a mandatory
+**alignment certificate**: a synthetic control must first prove that its own
+answer survives its own training procedure before its verdict on a student means
+anything.
+
 Also recorded: `P1_B5_REPORT.md` no longer matches the hash in the Phase 1 triage
 (`19c9c205…` → `dbfe8b92…`). The change is wording only, in section 3(b); no
 number moved. See `PHASE1_ARTIFACT_SUPERSESSION.json`.
@@ -358,16 +431,13 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 ## Active authorization
 
-None. Phase 1 B5, the Phase 2A audit and the Phase 2B contract stage are
-complete. Phase 2B's real-label run was **not** executed because its registered
-synthetic precondition failed.
+None. S2R completed the synthetic repair and S3R completed the authorized real
+structural run. S3R failed at R1, so heldout-B, R6 and all downstream stages
+remain closed.
 
-The sole next action is to preregister **one** repair of the Phase 2B
-**optimization contract**, with the budget and the synthetic acceptance
-threshold derived from a measured synthetic scaling curve and a fresh teacher
-seed, leaving the architecture, projection, metric, controls and gates `R1`–`R6`
-byte-identical. It is **not registered and not authorized**, and nothing has been
-implemented for it.
+A graph-aware 2D ligand representation is an eligible **proposal**, not an
+authorized experiment. It must change only the ligand information axis and hold
+the protein states, estimator, objective, split, stream and R1-R5 fixed.
 
 The following remain frozen:
 

@@ -1,0 +1,128 @@
+{
+  "R6_status": "NOT_RUN_ABSOLUTE_SCALE_ORIGIN_AND_DIFFERENCE_NULLSPACE_NOT_IDENTIFIED",
+  "TERMINAL_VERDICT": "REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED",
+  "affinity_value_reads": 0,
+  "amendment_02_sha256": "27d1cb7ff86f6ef2f9e92f7a352dc773a8ba832bea868aefefac7af19a96ca08",
+  "amendment_sha256": "8f93cdca8f4ea4b0818d911c40bca771e3bd77851b4056ab15d80a2f59107c3e",
+  "authorized_next_action": "none; stop at the earliest failed boundary or heldout-B escalation block",
+  "claims_not_made": [
+    "exact residue-atom coupling",
+    "physical energy",
+    "affinity",
+    "selectivity",
+    "few-shot section",
+    "biological z",
+    "validated end-to-end DTA"
+  ],
+  "created_utc": "2026-08-10",
+  "execution_commit": "27c49df66ffedf5c42a22e01284b099ca6ee5d35",
+  "gates": {
+    "R1_vs_chance": {
+      "ci95": [
+        0.006335863611146377,
+        0.014852224819879198
+      ],
+      "delta": 0.010408462883945492,
+      "lcb95_one_sided": 0.006920077426490188,
+      "margin": 0.05,
+      "pass": false,
+      "units": 112
+    },
+    "R2_vs_frozen_B5_differential": {
+      "ci95": [
+        -0.0030541632255640942,
+        0.010749368319907714
+      ],
+      "delta": 0.004297567883792634,
+      "lcb95_one_sided": -0.001629969358460627,
+      "margin": 0.03,
+      "pass": false,
+      "units": 112
+    },
+    "R3_vs_two_ligand_foreign_pair": {
+      "ci95": [
+        -0.003244737695765147,
+        0.00365433771143325
+      ],
+      "delta": 0.00014519717356940902,
+      "lcb95_one_sided": -0.0026509500134078118,
+      "margin": 0.03,
+      "pass": false,
+      "units": 112
+    },
+    "R4_vs_residue_context_corruption": {
+      "ci95": [
+        -0.004572842238127778,
+        0.01052729038914454
+      ],
+      "delta": 0.003543703907302492,
+      "lcb95_one_sided": -0.003155876832840554,
+      "margin": 0.03,
+      "pass": false,
+      "units": 112
+    },
+    "R5_vs_trained_permuted_label_learner": {
+      "ci95": [
+        -0.007664693618090968,
+        0.005284609659076411
+      ],
+      "delta": -0.001245276514669051,
+      "lcb95_one_sided": -0.006595014433574526,
+      "margin": 0.05,
+      "pass": false,
+      "units": 112
+    }
+  },
+  "heldoutB_secondary": {
+    "non_gating": true,
+    "status": "NOT_OPENED_PRIMARY_DID_NOT_PASS"
+  },
+  "label_view_paths_opened": [
+    "D:\\MetaSieve\\dataset\\processed\\s7_l2b_r0r\\phase2b_s3r\\heldoutA_residue_masks.json.gz"
+  ],
+  "macro_ap_bidir": {
+    "b5diff": 0.03158249300878146,
+    "candidate": 0.03588006089257408,
+    "chemistry_shuffle": 0.04365191781635017,
+    "context": 0.0323363569852716,
+    "foreign": 0.03573486371900468,
+    "permuted": 0.03712533740724314,
+    "zero_W": 0.0254715980086286
+  },
+  "module_participation": {
+    "W_norm": 1.000000011612202,
+    "candidate_prediction_sha256": "a26dcb82b05e2bb6ed05bdc7f3a57cf235fafad2745c6cc0c5c9ec46993307a0",
+    "context_degrades": true,
+    "foreign_ligands_degrade": true,
+    "grad_nonzero": true,
+    "min_grad_W": 1.6825430393218994,
+    "movement_pass": true,
+    "pass": true,
+    "raw_score_variance": 0.0006124146005062065,
+    "relative_W_movement": 1.4077180624008179,
+    "repeat_W_max_abs_diff": 0.0,
+    "repeat_metric_max_abs_diff": 0.0,
+    "repeat_pass": true,
+    "repeat_prediction_max_abs_diff": 0.0,
+    "repeat_prediction_sha256": "a26dcb82b05e2bb6ed05bdc7f3a57cf235fafad2745c6cc0c5c9ec46993307a0",
+    "same_stream_hash": true,
+    "unit_norm_pass": "True",
+    "variance_pass": true,
+    "zero_W_ap": 0.0254715980086286,
+    "zero_W_chance": 0.0254715980086286,
+    "zero_W_chance_pass": true
+  },
+  "near_zero_pairs_retained": 14,
+  "preregistration_sha256": "16cef1a477dfe74cc4bc8194065accdccf5936983f918730e6a312196a2fc7ad",
+  "primary_panel": {
+    "common_mask_sha256": "98ddcb111d3f76c73d47f521069fab5412a5c5c75f0dc3035920443da2cec614",
+    "components": 112,
+    "pairs": 46818
+  },
+  "rank8_secondary": {
+    "ap_bidir": 0.03595524197266905,
+    "energy_fraction": 0.4851446005104608,
+    "non_gating": true
+  },
+  "schema": "MetaSieve.S7L2B.P2B.S3R.Gate.v1"
+}

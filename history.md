@@ -4382,3 +4382,214 @@ frozen. CUDA 12.4 was available and deliberately unused.
 Regression **100 passed** (75 pre-existing, verified). Commits `0bd1702`,
 `b9753db`, `0a8b62e`. No affinity, DAVIS, KIBA or recipient read. Sealed
 confirmation cohort not opened. Frozen surfaces unmodified. Nothing pushed.
+
+## F-105: the Phase 2B synthetic control was itself invalid — SYNTHETIC_CONTROL_LOSS_MISALIGNED (2026-08-10)
+
+```text
+Prereg S0 ................... 81675578..., frozen before any S0 measurement
+S0-A contract ............... PASS
+S0-B candidate path ......... PASS
+S0-C objective .............. REJECTED
+S0-D / S0-E ................. NOT RUN (stage stops at the earliest cause)
+Terminal verdict ............ SYNTHETIC_CONTROL_LOSS_MISALIGNED
+```
+
+**ONE MEASUREMENT SETTLES IT.** Initialise the student **exactly at the teacher**,
+where `AP_bidir = 1.0000` by construction, and run the registered loss, optimizer
+and sampler:
+
+| updates | held-out AP | held-out BCE | train AP | train BCE |
+|---:|---:|---:|---:|---:|
+| 0 | **1.0000** | 0.63637 | 0.99975 | 0.64644 |
+| 1 | 0.9732 | 0.63179 | 0.96065 | 0.64233 |
+| 10 | 0.5797 | 0.59075 | 0.56338 | 0.60726 |
+| 100 | **0.3899** | 0.42286 | 0.38189 | 0.45125 |
+| 210 | 0.4963 | 0.38452 | 0.48662 | 0.40955 |
+
+BCE falls monotonically while AP collapses from 1.0 to 0.39. The preregistered
+rule — misaligned iff BCE(100) < BCE(0) and AP(100) < AP(0) - 0.05 — fires on
+both conditions. **A control whose own answer is destroyed by its own training
+procedure cannot adjudicate a student.** The failed Phase 2B precondition
+(AP 0.3577 against >= 0.50) therefore carries no information about the candidate:
+the quantity being optimised was not the quantity being scored.
+
+**WHY THE RAY AUDIT COULD NOT HAVE SHOWN THIS.** AP is exactly scale-invariant
+along the teacher ray, registered in advance as an expectation and confirmed to
+machine precision: AP(a=1e-3) = AP(a=1e3) = 0.99999999999999978. Every BCE change
+along the ray is metric-free by construction, so the decisive test had to be
+**directional**. The ray audit nevertheless produced the number that explains the
+mechanism: BCE at the teacher's own scale is **0.63637**, while the minimum along
+the ray is **0.34075 at a\* = 20.20**.
+
+**THREE MECHANISMS, SEPARATED AND RANKED.** An addendum diagnostic, run after the
+registered rule had already fired and incapable of changing the verdict,
+initialised at the ray optimum to remove the radial pressure:
+
+| updates | AP from teacher (a=1) | AP from ray optimum (a\*=20.2) |
+|---:|---:|---:|
+| 0 | 1.0000 | 1.0000 |
+| 10 | 0.5797 | 0.9755 |
+| 100 | 0.3899 | 0.9121 |
+| 210 | 0.4963 | **0.8913** |
+
+*Primary, SCALE.* AdamW moves each coordinate by roughly the learning rate
+irrespective of gradient magnitude: lr 1e-3 against a mean |U\*| entry of 0.0223
+is **4.5% of the parameter's own scale per update**. Chasing a 20x scale change
+rewrites the direction coordinate-by-coordinate long before the scale is reached.
+Remove the radial pressure and the collapse largely disappears.
+*Secondary, RESIDUAL MISALIGNMENT.* Even at the ray optimum, BCE still falls
+(0.34075 -> 0.33669) while AP degrades (1.000 -> 0.891). The BCE optimum inside
+the rank-8 class genuinely is not the teacher — real, but an order of magnitude
+smaller.
+*Tertiary, KNIFE-EDGE LABELS.* The rank-8/rank-9 gap has median **0.00222**
+(quartiles 0.00081 / 0.00222 / 0.00495), so the synthetic top-8 boundary is an
+essentially arbitrary tie-break on a continuous field.
+
+One further fact worth stating plainly: the trajectory's endpoint, BCE 0.3845 at
+AP 0.4963, is **worse in BCE** than simply rescaling the teacher (0.3408 at
+AP 1.0). The registered pipeline was not even minimising its own surrogate well.
+
+**THE PREVIOUS REPORT'S ATTRIBUTION IS DOWNGRADED.** `PHASE2B_REPORT.md` section
+5 named "the registered OPTIMIZATION BUDGET" as at fault. That is **not uniquely
+established** and the S0 evidence does not support it. The budget was never
+tested, because an earlier-applicable cause fired first; and the budget
+hypothesis alone cannot explain a pipeline that *discards the answer when handed
+it*. The original result
+`PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED` is preserved
+unchanged as historical evidence in `PHASE2B_GATE.json`, `PHASE2B_REPORT.md` and
+F-104. It is not rewritten as a PASS, and seed 20260905 was not rerun to rescue
+it.
+
+**CONTRACT AND IMPLEMENTATION ARE SOUND.** S0-A materialised and hashed the
+complete 48-epoch nested stream (`5d695beb...`): **1,680** optimizer updates,
+**166,300** pair presentations, **30,552** unique pairs — three quantities
+counted separately, giving 13.5% unique coverage of the 226,765 eligible training
+pairs at maximum budget. Antisymmetry error **0.0**; identical-ligand
+differential **0.0**; projection orthogonality 5.7e-15; same-seed replay
+reproduced the checkpoint hash and predictions bit-identically. Panels frozen
+before any metric: train 14,202 by the hash-stratified rule, held-out 46,818
+complete. S0-B copied the teacher's U\*, V\* into the production head and
+reproduced the teacher to **4.06e-07** relative field error (tolerance 1e-4), AP
+agreement **2.2e-16** (tolerance 1e-3) and W = U^T V to **3.46e-08** (tolerance
+1e-4), with the tolerances justified in advance from float32 accumulation over
+1,280 terms.
+
+**CAUSE LEDGER.** (1) objective/metric misalignment **ESTABLISHED**;
+(2) sampled-pair coverage **NOT TESTED**; (3) optimizer updates **NOT TESTED**;
+(4) low-rank factorization **NOT TESTED**; (5) implementation/reproducibility
+**EXCLUDED**; (6) synthetic generalization **EXCLUDED** — train and held-out AP
+track at every checkpoint. Causes 2-4 are neither established nor excluded,
+because the preregistration requires stopping at the earliest applicable cause.
+
+**TAIL DIAGNOSTICS at the registered budget from random init**: AP 0.3797,
+chance 0.0106, oracle-normalised AP gain 0.3731, Spearman 0.700/0.730, Kendall
+tau-b 0.518/0.534, top-8 recall 0.379, top-16 0.522, top-32 0.640, AUPRG 0.0386,
+Pearson 0.725/0.752 (one diagnostic among several, never used alone). Spearman
+0.73 with top-8 recall 0.38 is the knife-edge label effect in metric form.
+
+**SOLE AUTHORIZED NEXT ACTION.** A separate preregistration for a repaired
+synthetic control, written and hashed but **not executed**:
+`research/s7_l2b_r0r/PREREG_PHASE2B_S1_REPAIRED_SYNTHETIC_CONTROL.md`
+(`4850c7d5ce23db35...`). It repairs the **control only** — the Phase 2B candidate
+contract is carried over byte-identical — with R-1 emit the teacher at the
+loss-preferred scale; R-2 require the top-8/bottom-8 boundary gap to exceed
+0.25 x IQR, excluding and counting knife-edge pairs; and R-3 a mandatory
+**alignment certificate**: starting at the emitted teacher, the registered budget
+must not cost more than 0.05 AP on every calibration seed, or the control is
+still invalid and no student number may be reported as evidence about the
+candidate. R-3 is the methodological point S0 forces: a synthetic control must
+first prove it is a valid control. The previous one never had to, and that is why
+a meaningless number was nearly read as a biological result.
+
+The registered Phase 2B **real-label** loss is deliberately not repaired: S0
+raises a genuine concern that the same scale pathology would affect real
+training, but combining a control repair with a loss repair is forbidden and must
+be its own stage.
+
+**NOTHING BIOLOGICAL IS ESTABLISHED OR EXCLUDED.** No real Phase 2B label decided
+anything, no affinity value was read, the sealed verification seed 20260999 was
+never touched, and no U/V latent channel is given any biological interpretation.
+AP_bidir >= 0.50 was not lowered. Seeds 20260905 (development) and
+20260911/12/13 are burned; 20260999 remains sealed.
+
+**ARTIFACTS.** `report/s7_l2b_r0r/` — `PHASE2B_S0_FAILURE_LOCALIZATION_REPORT.md`,
+`PHASE2B_S0_VERDICT.json`, `SYNTHETIC_INPUT_AND_STREAM_MANIFEST.json`,
+`SYNTHETIC_REPLAY_AND_DETERMINISM_AUDIT.json`,
+`SYNTHETIC_CANDIDATE_PATH_WITNESS.json`,
+`SYNTHETIC_OBJECTIVE_COMPATIBILITY_AUDIT.json`,
+`SYNTHETIC_SCALED_TEACHER_ADDENDUM.json`, plus explicit NOT_RUN records for
+`SYNTHETIC_CONTINUOUS_FIELD_WITNESS.json`, `SYNTHETIC_FULL_W_CONVEX_WITNESS.json`,
+`SYNTHETIC_EXPOSURE_SCALING_CURVE.json` and
+`SYNTHETIC_SEALED_VERIFICATION_GATE.json`. Code `research/s7_l2b_r0r/s0_synth.py`,
+`s0_run.py`, `s0_c2_scaled_teacher.py`. Console `s0_console.txt`. Device CPU,
+CUDA 12.4 available and deliberately unused. Regression **100 passed**. Nothing
+committed: no commit authorization exists for this stage, so the S0 and S1
+registrations are anchored by hash only, which is weaker than the guarantee
+behind `b9753db` and is recorded rather than claimed away.
+
+## F-106: S2R repaired synthetic trainability; S3R did not identify the real residue direction (2026-08-10)
+
+S0R replay established that the original S0 verdict had been computed on only
+2 of 112 components and therefore could not stand as a contract-level result.
+The subsequent sequence preserved every historical artifact and isolated the
+failure without lowering a Gate:
+
+```text
+S0R complete-panel replay ........ contract and panel repaired
+S1R factorized pairwise learner .. gauge/scale drift persisted
+S2R direct bounded W ............. BINARY_ORDINAL_IDENTIFIABILITY_REPAIRED
+S3R real structural transfer ..... REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED
+```
+
+S2R removed the non-identifiable U/V factor gauge and unbounded score scale by
+training one direct `1280 x 41` matrix on the unit Frobenius sphere. Three fresh
+calibration seeds and one sealed seed passed; sealed held-out component-macro
+`AP_bidir = 0.662021`. This established optimizer/estimator trainability only.
+
+S3R reused the estimator on real MONN residue-differential labels with frozen
+ESM2 residue states, frozen mean-pooled 41-D ligand atom features, 210 fixed
+updates and no hyperparameter selection. Primary census: 46,818 pairs and 112
+closure components.
+
+| arm | AP_bidir |
+|---|---:|
+| candidate | 0.035880 |
+| chance / zero W | 0.025472 |
+| frozen B5 differential | 0.031582 |
+| foreign ligand pair | 0.035735 |
+| context corruption | 0.032336 |
+| trained permuted-label learner | 0.037125 |
+
+R1 candidate-minus-chance was `+0.010408 [LCB +0.006920]`, below the frozen
+`+0.05` margin. R2-R5 also failed: `+0.004298`, `+0.000145`, `+0.003544` and
+`-0.001245`, respectively, with their registered margins unchanged. The
+earliest terminal verdict is `REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED`.
+
+This is not an optimization or participation failure. Gradient, movement,
+unit norm, score variance, zero-W chance, common masks, identical stream and
+bit-exact repeat predictions all passed. The correct scope is narrower: the
+current ESM2 residue representation plus a global mean of 41-D ligand atom
+features did not identify the real ligand-conditioned residue direction under
+closure shift. Phase 2A had already shown that the labels themselves contain
+ligand conditionality, so the result localizes the bottleneck to the current
+measurement basis/estimand rather than a flat corpus.
+
+Heldout-B was not opened. R6 was superseded before execution because ordinal
+ligand differences do not identify an absolute output scale, ligand-feature
+origin or directions outside the difference span. Affinity reads remained zero;
+`model/`, `scripts/`, `theory/`, CSMO, Band and biological `z` were untouched.
+
+One duplicate `prepare` invocation was correctly rejected by no-clobber after
+the valid invocation had already written its manifests. The raw fail-closed
+artifact is retained and its chronology is adjudicated in
+`PHASE2B_S3R_ORCHESTRATION_ADJUDICATION.json`; it did not control the scientific
+verdict. A string-typed `"True"` in the unit-norm subfield is also preserved;
+the raw norm is `1.0000000116` and the aggregate participation result is Boolean
+PASS.
+
+No active experiment is authorized. The only evidence-aligned future proposal
+is a separately registered single-axis ligand-information audit replacing the
+global ligand mean with a frozen graph-aware 2D statistic while holding the
+protein states, direct-W estimator, loss, split, stream and R1-R5 fixed. Full
+repository regression after consolidation: **134 passed** in the `drug`
+environment.

@@ -1,74 +1,51 @@
 # Evidence consolidation and failure triage
 
-## Earliest unresolved boundary
+## Identifiability chain
 
 ```text
-sequence + ligand graph
-    -> correct-protein contact/distance geometry       PASS
-    -> partner-sensitive structural compatibility     PASS
-    -> aggregate mechanism readout                     LIGAND-DOMINATED
-    -> actual pair-local P1B mechanism observability   NOT TESTED
-    -> correct-protein affinity increment              NOT IDENTIFIED
-    -> k<=5 identifiable support section               NOT IDENTIFIED
-    -> biological z admission                          NOT AUTHORIZED
+frozen probability-law operator                    PASS
+correct-protein geometry and compatibility         PASS
+exact-residue pocket localisation                  PASS (development)
+teacher ligand-conditioned residue variation       PASS
+gauge-free synthetic ordinal trainability          PASS
+real ligand-conditioned residue direction          NOT IDENTIFIED
+affinity direction                                 NOT TESTED
+k<=5 support section                               NOT TESTED
+biological z admission                             NOT AUTHORIZED
 ```
 
-## What is not broken
+## Current failure
 
-- frozen mathematical operator contracts;
-- canonical data and label firewall;
-- open holo acquisition/governance;
-- P1B correct-protein contact/distance geometry;
-- ChEMBL37 release provenance and closure-safe folds.
+S3R passed every numerical and participation check but failed the first
+biological Gate. Candidate gain over chance was `+0.01041`, below `+0.05`, and
+the candidate did not separate from B5, foreign ligands, context corruption or
+a trained permuted-label learner.
 
-## What failed historically
+The failure is neither “no biological signal exists” nor “deep learning cannot
+solve it.” Phase 2A showed signal in the labels, while S2R showed the estimator
+can train. The unresolved bottleneck is the deployed representation tested in
+S3R: a global mean of 41-D ligand atom features cannot preserve scaffold
+topology or atom-local correspondence. That interpretation is a testable
+hypothesis, not a proven causal mechanism.
 
-- index-wise and compressed MIF readouts lacked stable affinity increment;
-- nonlinear global MIF probes did not rescue the signal;
-- task-local radial headroom was primarily ligand/series SAR;
-- consumed kinase panels did not identify a `k<=5` double-held-out section;
-- external replication failed;
-- broad public panels had assay noise exceeding the estimated interaction;
-- pose-free aggregate typed features and S4 aggregate pseudo-labels were not
-  protein-specific.
-
-The executable implementations were removed after their findings were recorded
-in `history.md`.  Their exact trees remain recoverable from commits `3281780`,
-`12a2765`, and `608decf`.
-
-## Correct interpretation of S4
-
-S4 tested mean-pooled ESM + ECFP with Ridge.  It did not test P1B's atom-local,
-residue-local and pair-local states and therefore cannot close the sequence+2D
-model class.  Its valid conclusion is limited to ligand-dominated aggregate
-features.
-
-## S5 decision tree
+## Triage
 
 ```text
-mapping/chain contract fails
-  -> repair data contract
+current basis fails R1/R2
+  -> stop optimizer retries and capacity scaling
+  -> optionally preregister one graph-aware ligand-information audit
 
-oracle teacher or slot ceiling fails
-  -> repair teacher/mapping/slot representation
+graph-aware single-axis audit fails
+  -> pose-free sequence+2D residue-direction route lacks evidence
+  -> consider a separately governed 3D/pose information route or stop
 
-synthetic head fails
-  -> repair objective/optimization
+structural statistic passes independent confirmation
+  -> only then register source-affinity correct>ligand and correct>wrong-protein
 
-oracle passes, actual frozen P1B fails
-  -> pose-free P1B inputs insufficient for named channel
-  -> separately register pose-aware stage
-
-actual frozen P1B passes structural controls
-  -> freeze channels
-  -> separately register real source-affinity Gate
+affinity Gate passes
+  -> only then test support-rank sectioning and z admission
 ```
 
-## Production admission
-
-No structural statistic enters `model/` or `z` merely because it reconstructs a
-3D pseudo-label.  It must also show source closure-OOF affinity increment over
-ligand-only and wrong protein, then sealed transfer.  Few-shot adaptation must
-be restricted to the support design row space, with rank, conditioning, query
-coverage and abstention reported.  The frozen theory does not automatically
-certify pairwise ranking claims.
+No raw pair map or variable-length residue score may enter `z`. The frozen
+operator `A(F,z)=K(B(z)F(z))` is unchanged and does not certify the upstream
+pairwise/AP experiments.

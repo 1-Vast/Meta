@@ -3,90 +3,47 @@
 ## Current state
 
 ```text
-PHASE2A_AUDIT_COMPLETE
-TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED_IN_LABELS
-B5_RESIDUE_MARGINAL_IS_GENERIC_POCKET
-B5_LIGAND_DEPENDENCE_CONFINED_TO_THE_COUPLING_TERM
-TEACHER_EDGE_COUPLING_NOT_IDENTIFIED
-EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED
-LABEL_SEMANTICS_NOT_AMBIGUOUS
-PHASE2B_RESIDUE_RESIDUAL_NOT_RUN_ON_REAL_LABELS
+PHASE2A_TEACHER_LIGAND_CONDITIONALITY_IDENTIFIED
+S2R_BINARY_ORDINAL_TRAINABILITY_PASS
+S3R_REAL_BINARY_RESIDUE_DIRECTION_NOT_IDENTIFIED
+CURRENT_ESM2_PLUS_POOLED_41D_LIGAND_BASIS_NOT_ADMITTED
 AFFINITY_DIRECTION_NOT_TESTED
-BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
+K_SHOT_SECTION_NOT_TESTED
+BIOLOGICAL_Z_NOT_ADMITTED
 ```
 
-## Phase 2B — stopped at a fail-closed precondition
+S3R completed the authorized real structural transfer in the `drug` environment.
+The candidate scored `AP_bidir = 0.03588` versus chance `0.02547`; its gain
+`+0.01041 [LCB +0.00692]` failed the registered `+0.05` margin. It also failed
+to beat B5, foreign-ligand, context-corrupted and trained permuted-label controls
+by their registered margins.
 
-```text
-TERMINAL VERDICT   PHASE2B_NOT_RUN_SYNTHETIC_OR_NUMERICAL_PRECONDITION_FAILED
-REAL TRAINING      NOT EXECUTED
-GATES R1-R6        NOT SCORED
-```
+The model trained and replayed correctly. The current failure is therefore the
+real structural identifiability of the **specific** frozen ESM2 plus mean-pooled
+41-D ligand basis, not an optimizer failure and not proof that all sequence+2D
+representations are insufficient.
 
-The registered synthetic trainability control returned `AP_bidir = 0.3577`
-against a preregistered requirement of `>= 0.50`. The threshold was not lowered,
-nothing was tuned against the synthetic holdout, and no second seed was tried.
+## Next research decision
 
-The contract itself passed everything else. `PHASE2B_CONTRACT_PASS` on all 14
-preflight items: 10,568 parameters exactly, `g(L)` atom-permutation invariant to
-0.0, ligand-order swap sign-exact to 0.0, prior cancellation `2.05e-15`,
-projection orthogonality `6.19e-15`, zero train/held-out component overlap, zero
-held-out ligand-graph overlap. Census matched the registration: 226,765 training
-and 46,818 held-out A eligible pairs; foreign-pair control coverage 1.000;
-derangement with 0 fixed points.
-
-Failure localisation, from gauge-invariant diagnostics:
-
-| diagnostic | value | reading |
-|---|---:|---|
-| teacher on its own labels | 0.99971 | evaluation code sound |
-| in-sample vs held-out AP | 0.3654 / 0.3577 | no generalisation gap |
-| field correlation with the teacher | 0.754 median | class is being fitted |
-| parameter movement `U` / `V` | 1.808 / 0.426 | the head trained |
-
-So the shortfall is the registered **optimization budget** — and possibly the a
-priori `0.50` threshold, which was set without a calibration curve. Neither can
-be adjusted now: both were frozen and the synthetic holdout has been seen.
-
-**No biological conclusion is permitted from this run.** It does not show that
-the frozen sequence + 2-D representation lacks a ligand-conditioned residue
-correction.
-
-## Next eligible work — requires separate authorization
-
-Preregister **one** repair of the Phase 2B **optimization contract**. Before any
-real label is read it must:
-
-1. fix the budget and sampler caps from a **measured synthetic scaling curve**;
-2. derive the synthetic acceptance threshold from that curve, with the
-   derivation stated;
-3. use a **fresh synthetic teacher seed** (`20260905` has been observed);
-4. leave the architecture, projection, metric, controls and gates `R1`–`R6`
-   byte-identical to `PREREG_S7_L2B_PHASE2B_RESIDUE_RESIDUAL_R1.md`.
-
-Adding capacity, another PLM, attention, a GNN, a geometry branch or a
-typed-interaction branch is **not** an admissible response and is not proposed.
+No experiment is automatically authorized. The highest-value eligible proposal
+is a separately preregistered, single-axis representation audit that replaces
+only the ligand mean with a frozen graph-aware 2D ligand statistic while keeping
+the protein states, direct-W ordinal estimator, split, loss, stream and R1-R5
+unchanged. It must not be executed until its teacher ceiling, information gain,
+parameter budget and controls are frozen.
 
 ## Frozen
 
-- ChEMBL/BindingDB affinity training; DAVIS, KIBA and recipient labels;
-- the sealed independent structural confirmation;
-- any new PLM, GNN, attention stack, geometry branch, typed-interaction branch,
-  affinity head, PU loss, knowledge graph or parallel SSL module;
-- ESM2 fine-tuning, hyperparameter search, seed selection;
-- few-shot section adaptation and any `k`-shot claim;
-- biological `z` admission;
-- CSMO, Band, mesh, and frozen theory;
-- P2-P4; pushing to GitHub.
+- heldout-B and R6 amplitude/B5 integration;
+- ChEMBL/BindingDB affinity, DAVIS, KIBA and recipient labels;
+- larger PLM, new protein encoder, attention stack, geometry/pose branch, typed
+  interaction branch, KG, PU loss, affinity head or parallel module;
+- few-shot sectioning and biological `z` admission;
+- CSMO, Band, mesh and `A(F,z)=K(B(z)F(z))`.
 
-## Evidence
+## Read first
 
-- `report/s7_l2b_r0r/PHASE2B_REPORT.md`
-- `report/s7_l2b_r0r/PHASE2B_GATE.json`
-- `report/s7_l2b_r0r/PHASE2B_SYNTHETIC_AUDIT.json`
-- `report/s7_l2b_r0r/PHASE2B_INPUT_MANIFEST.json`
-- `report/s7_l2b_r0r/PHASE2B_CONTROL_MANIFEST.json`
-- `research/s7_l2b_r0r/PHASE2B_DESIGN_AUDIT.md`
-- `report/s7_l2b_r0r/PHASE2A_SYNTHESIS.md`
-- `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`
-- `history.md`
+1. `report/s7_l2b_r0r/PHASE2B_S3R_EVIDENCE_CONSOLIDATION.md`
+2. `report/s7_l2b_r0r/PHASE2B_S3R_GATE.json`
+3. `report/CURRENT_RESEARCH_STATUS.md`
+4. `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`

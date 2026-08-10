@@ -1,0 +1,66 @@
+{
+  "affinity_value_reads": 0,
+  "created_utc": "2026-08-10",
+  "device": "cpu",
+  "execution_commit": "d2d67ac31dfebe461b7391400823b3fe042d9291",
+  "explicitly_not_opened": [
+    "MONN interaction edge corpus",
+    "Phase2A residue masks",
+    "ChEMBL",
+    "BindingDB",
+    "DAVIS",
+    "KIBA",
+    "recipient labels"
+  ],
+  "forbidden_fields_present": 0,
+  "input_hashes": {
+    "heldoutA_pairs.jsonl": "29925ed5139b1d054aa3b2a26d5a0b281336e717fc801dcfae553b5e6cc340ae",
+    "metadata_only_records.jsonl": "dcc2a0cd0cd958640f6548ed7cd3e5076e6c0ae9f6e455e35ad3e82f534dc856",
+    "train_pairs.jsonl": "847a0770856e7e26903e56bc40d7249bb4bc21082392aa7edf1e3166014c1195"
+  },
+  "panels": {
+    "heldout": {
+      "components": 81,
+      "constructs": 141,
+      "pairs": 44746,
+      "synthetic_panel_sha256": "446ffa42c794bcd8ebd3dfb00c1f053d4319fcaa5e5a5ce68301d81e743fe82e"
+    },
+    "train": {
+      "components": 298,
+      "constructs": 367,
+      "pairs": 14333,
+      "synthetic_panel_sha256": "a6816433217467e20c1da2d9108ceef012b67e86891ccd604ba30c56c476cdbe"
+    }
+  },
+  "preregistration_sha256": "6e30ead522a1217cf8442eb7185a459ffdc65690cad5ea1c73f85705cfd20400",
+  "real_structural_edge_label_reads": 0,
+  "software": {
+    "cuda_available_but_unused": true,
+    "numpy": "1.26.4",
+    "python": "3.11.15",
+    "torch": "2.6.0+cu124"
+  },
+  "sources_opened": [
+    "metadata_only_records.jsonl",
+    "train_pairs.jsonl",
+    "heldoutA_pairs.jsonl",
+    "frozen ESM2 residue cache",
+    "frozen B5 protein-only prior",
+    "MONN ligand mol_dict files"
+  ],
+  "stage": "P1R2B-PHASE2B-S0R_COMPLETE_PANEL_REPLAY",
+  "synthetic_only": true,
+  "whitelisted_runner_fields": [
+    "source_key",
+    "pdb_id",
+    "uniprot_id",
+    "uniprot_sequence",
+    "ligand_ccd",
+    "seq_key",
+    "graph_key",
+    "scaffold",
+    "n_atoms",
+    "n_res",
+    "component"
+  ]
+}
