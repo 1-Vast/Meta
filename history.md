@@ -4950,3 +4950,26 @@ DAVIS, KIBA, PDBbind and recipient reads remain zero.
 over the fixed-degree null is `1-0.953959=0.046041`; this is the correct reason
 the registered `+0.05` Gate is unreachable. F-109 remains historical and is not
 rewritten.
+
+## F-112: X1A-R direct-DD dependence fails; X1B and training stay closed (2026-08-10)
+
+The repair was frozen in commit `4ce54c1` before any direct-DD value was
+computed. Exact-assay alignment retained 827 Ki rectangles in 36 dependency
+components and 590 Kd rectangles in 12. X1A-R evaluated the intended
+cell-interaction-scale statistic `Z=(DD/2)^2-v_D,U` directly, fitting no target
+or ligand nuisance model.
+
+```text
+Ki  rho_U95 0.120406 > 0.0915; n_eff 200.43 < 245
+Kd  rho_U95 0.101078 > 0.0164; n_eff  61.05 < 245
+terminal verdict: X1A_R_DEPENDENCE_PRECONDITION_FAILED
+```
+
+Cluster dominance itself passed, so the stop is caused by dependence and
+effective information, not one oversized component. The run opened 5,986
+preselected ChEMBL37 pChEMBL rows, trained no model and used no GPU. BindingDB,
+DAVIS, KIBA, PDBbind and recipient reads were zero. The conditionally
+preregistered X1B test was not run; X2 was not preregistered and no GPU training
+was authorized. A new route requires a separately governed crossed source with
+more independent components, not relaxed thresholds or a larger network. Full
+repository regression after consolidation: **203 passed** in `drug`.

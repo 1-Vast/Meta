@@ -2,12 +2,11 @@
 
 ## Current registered stage
 
-`crossed_interaction/` now contains the sole current path. The amended X1A ICC
-PASS is historical and no longer authorizes X1B because its fitted residual ICC
-does not match dependence of `q=DD^2-v_noise`. The original X0-B rectangle
-packing has been materialized label-blind and hashed. X1A-R direct-DD dependence
-is registered, not executed. X1B, X2, GPU training, support adaptation and z
-remain unauthorized.
+`crossed_interaction/` contains the completed X1A-R path. The amended X1A ICC
+PASS is historical. The repaired direct-DD audit used exact-assay-aligned
+rectangles and returned `X1A_R_DEPENDENCE_PRECONDITION_FAILED` for both Ki and
+Kd. X1B was not run. X2, GPU training, support adaptation and z remain
+unauthorized; no active trainable research stage exists.
 
 ## Completed structural path
 

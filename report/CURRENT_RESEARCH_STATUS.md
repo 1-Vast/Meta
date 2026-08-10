@@ -19,9 +19,8 @@ UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
-X1A_ICC_PRECONDITION_NOT_ESTABLISHED
-X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+X1A_R_DEPENDENCE_PRECONDITION_FAILED
+X1B_NOT_RUN_PRECONDITION_FAILED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -171,28 +170,30 @@ residual ICC is not the dependence of X1B's `q=DD^2-v_noise`. The final artifact
 also used 2,000 rather than the registered 10,000 bootstrap draws. The old PASS
 is retained historically, but its authorization effect is withdrawn.
 
-The original X0-B packing has now been materialized label-blind, reproducing Ki
-`11,168/36` and Kd `1,041/12`; frozen caps select 827 and 605 rectangles.
-X1A-R direct-DD dependence is registered and not executed.
+The original X0-B packing was materialized label-blind, reproducing Ki
+`11,168/36` and Kd `1,041/12`. Exact-assay alignment retained 827 Ki and 590 Kd
+rectangles. X1A-R then estimated dependence of the planned
+`Z=(DD/2)^2-v_D,U` statistic. Both endpoints failed: Ki `rho_U=0.120406`,
+effective `n=200.43`; Kd `rho_U=0.101078`, effective `n=61.05`.
 
 ## Current boundary
 
-X1B is not authorized. No trainable component is authorized: X2 requires a
-valid X1A-R and X1B PASS under separate preregistrations. Three routes
+X1B was conditionally preregistered but not run because X1A-R failed. No
+trainable component is authorized. Three routes
 remain closed by preregistered Gates: representation (S4R), estimand (S5D) and
 geometry-gated correspondence (C1). Nothing authorizes widening the correspondence corpus,
 relaxing its `6.0 A` contact contract, changing its closure, or adding
 attention, a new PLM, a parallel GNN, typed energy heads, orientation channels,
 affinity supervision, KG features or adapters.
 
-Heldout-A is permanently consumed. X1A read 63,859 scoped ChEMBL37 pChEMBL
-rows; affinity training reads remain zero. Heldout-B, R6, few-shot sectioning,
+Heldout-A is permanently consumed. X1A-R opened 5,986 preselected ChEMBL37
+pChEMBL rows; affinity training reads remain zero. Heldout-B, R6, few-shot sectioning,
 biological `z`, CSMO/Band and the frozen law operator remain
 unopened and unchanged; heldout-B was created by none of S4R, S5D or C0/C1.
 
 ## Canonical evidence
 
-1. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+1. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
 2. `report/crossed_interaction/X1A_EVIDENCE_CONSOLIDATION.md`
 3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 4. `report/correspondence_router/C1_INFORMATION_AUDIT.json`

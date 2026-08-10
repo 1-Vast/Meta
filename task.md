@@ -15,9 +15,8 @@ UNTOUCHED_CORRESPONDENCE_CORPUS_IDENTIFIABLE
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
 WITHIN_SLOT_DECONVOLUTION_SATURATED_BY_ADDITIVE_MARGINALS
 X1A_AMENDED_AUDIT_HISTORICALLY_PASSED
-X1A_ICC_PRECONDITION_NOT_ESTABLISHED
-X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+X1A_R_DEPENDENCE_PRECONDITION_FAILED
+X1B_NOT_RUN_PRECONDITION_FAILED
 AFFINITY_DIRECTION_NOT_TESTED
 K_SHOT_SECTION_NOT_TESTED
 BIOLOGICAL_Z_NOT_ADMITTED
@@ -135,16 +134,16 @@ review found that the global fit absorbs cluster-exclusive targets and that its
 signed residual ICC does not identify dependence of `q=DD^2-v_noise`; the final
 artifact also used 2,000 rather than 10,000 registered bootstrap draws.
 
-## Next research decision
+## Current research decision
 
-**X1A-R direct-DD dependence, and nothing else.** The label-blind rectangle
-manifest now reproduces Ki `11,168/36` and Kd `1,041/12`, with frozen caps
-selecting 827 and 605 units. X1A-R must estimate dependence of the same statistic
-that X1B would test, `q=DD^2-v_noise`, without target/ligand nuisance fitting.
-Current verdict is `X1A_ICC_PRECONDITION_NOT_ESTABLISHED`; X1B is not authorized.
+X1A-R executed the repaired direct-DD dependence test on exact-assay-aligned
+rectangles and returned `X1A_R_DEPENDENCE_PRECONDITION_FAILED` for both Ki and
+Kd. Conservative effective counts are `200.43` and `61.05`, below the frozen
+245 requirement. X1B was not run; X2 and every trainable component remain
+unauthorized. Continuing requires a separately governed crossed source with
+more independent components, not a relaxed threshold.
 
-X2 and every trainable component stay unauthorized until X1A-R and X1B pass
-under separate preregistrations. Three routes remain closed by preregistered Gates:
+Three routes also remain closed by preregistered Gates:
 representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Frozen
@@ -163,7 +162,7 @@ representation (S4R), estimand (S5D) and geometry-gated correspondence (C1).
 
 ## Read first
 
-1. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+1. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
 2. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 3. `report/correspondence_router/C1_INFORMATION_AUDIT.json`
 4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`

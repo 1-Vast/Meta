@@ -16,9 +16,8 @@ S4R_GRAPH_AWARE_INCREMENT_REAL_BUT_NOT_LIGAND_SPECIFIC
 REAL_RESIDUE_DIRECTION_STILL_NOT_IDENTIFIED
 S5D_LIGAND_STEERING_PRESENT_BUT_BIOLOGICALLY_MISDIRECTED
 EXACT_EDGE_COUPLING_NOT_SUPPORTED_BY_TEACHER
-X1A_ICC_PRECONDITION_NOT_ESTABLISHED
-X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+X1A_R_DEPENDENCE_PRECONDITION_FAILED
+X1B_NOT_RUN_PRECONDITION_FAILED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -58,12 +57,11 @@ possible gain over that null is `1 - 0.953959 = 0.046041`, so the registered
 residual to perfect AP. This exact route was closed before training; C1 did not
 test every possible correspondence definition.
 
-X1A then attempted to qualify a crossed ChEMBL interaction test. Its amended
-development audit historically passed, but review found that target/ligand
-fixed effects absorb dependency clusters and that its signed-residual ICC does
-not match `DD^2-v_noise`. X1B execution is therefore not authorized. The X0-B
-rectangle packing is now materialized and hashed label-blind; X1A-R direct-DD
-dependence is the sole registered next stage.
+X1A-R then repaired the crossed ChEMBL dependence audit using the actual planned
+statistic, exact-assay rectangles and no nuisance fit. It failed for both
+endpoints: conservative `rho_U=0.1204` and effective `n=200.4` for Ki;
+`rho_U=0.1011` and `n=61.1` for Kd. X1B was therefore not run. This is a
+crossed-data independence/information stop, not a model-training failure.
 
 ## Repository boundaries
 
@@ -75,14 +73,15 @@ dependence is the sole registered next stage.
 - `report/`: machine Gates, current status and evidence summaries.
 - `history.md`: chronological failure and decision ledger.
 
-No active training stage is authorized. X1A read 63,859 scoped ChEMBL37
-pChEMBL rows; affinity training reads remain zero. Heldout-B, R6, few-shot
+No active training stage is authorized. X1A-R opened 5,986 preselected
+ChEMBL37 pChEMBL rows in addition to the historical X1A audit; affinity
+training reads remain zero. Heldout-B, R6, few-shot
 adaptation, biological `z`, CSMO/Band and the frozen operator remain untouched.
 
 ## Read first
 
 1. `report/CURRENT_RESEARCH_STATUS.md`
-2. `report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md`
+2. `report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md`
 3. `report/correspondence_router/C0_C1_EVIDENCE_CONSOLIDATION.md`
 4. `report/s7_l2b_r0r/PHASE2B_S5D_EVIDENCE_CONSOLIDATION.md`
 5. `report/s7_l2b_r0r/PHASE2B_S4R_EVIDENCE_CONSOLIDATION.md`
@@ -98,4 +97,4 @@ conda run -n drug python -m pytest -q
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;
-see `DATA_AVAILABILITY.md`. Current consolidated regression: **196 passed**.
+see `DATA_AVAILABILITY.md`. Current consolidated regression: **203 passed**.

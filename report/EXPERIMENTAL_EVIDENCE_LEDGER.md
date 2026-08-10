@@ -18,7 +18,7 @@ When records disagree, use this order:
    commits, manifests, predictions and label-access audit are recovered.
 
 Historical test counts and status statements describe the repository at the
-time of each experiment. The current consolidated regression count is 196.
+time of each experiment. The current consolidated regression count is 203.
 
 ## Current conclusion
 
@@ -34,9 +34,8 @@ B5_LIGAND_DEPENDENCE_CONFINED_TO_THE_COUPLING_TERM
 TEACHER_EDGE_COUPLING_NOT_IDENTIFIED
 EXACT_RESIDUE_ATOM_COUPLING_NOT_IDENTIFIED
 LABEL_SEMANTICS_NOT_AMBIGUOUS
-X1A_ICC_PRECONDITION_NOT_ESTABLISHED
-X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED
-CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED
+X1A_R_DEPENDENCE_PRECONDITION_FAILED
+X1B_NOT_RUN_PRECONDITION_FAILED
 AFFINITY_ENERGETICS_NOT_IDENTIFIED
 K_SHOT_SECTION_NOT_IDENTIFIED
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
@@ -63,8 +62,18 @@ development run, but its X1B authorization is withdrawn.
 
 The exact X0-B packing is now materialized label-blind: Ki 11,168 rectangles in
 36 clusters and Kd 1,041 in 12; caps select 827 and 605. Current verdict is
-`X1A_ICC_PRECONDITION_NOT_ESTABLISHED`. X1A-R direct-DD dependence is registered
-and not executed; X1B and X2 are not authorized.
+`X1A_ICC_PRECONDITION_NOT_ESTABLISHED`. X1A-R subsequently executed the repaired
+direct-DD dependence audit and failed for both endpoints. X1B was not run and
+X2 is not authorized.
+
+### X1A-R repaired dependence result (2026-08-10)
+
+The repaired audit used exact-assay-aligned rectangles and the planned
+statistic `Z=(DD/2)^2-v_D,U`, with no target/ligand nuisance fit. Ki returned
+`rho_U=0.120406` and effective `n=200.43`; Kd returned conservative
+leave-one-component `rho_U=0.101078` and effective `n=61.05`. Both exceed their
+rho limits and fall below the frozen 245 effective-unit requirement. This is a
+source-design dependence/information failure, not a training failure.
 
 ### S7/L2B Phase 2B-S3R — real structural direction not identified (2026-08-10)
 
@@ -453,14 +462,13 @@ The 94 historical failure entries in `history.md` are grouped as follows:
 
 | F-109 | C0/C1 untouched-corpus exact-correspondence audit | On 1,862 never-scored systems, within-slot AP is 0.9856 against a 0.9540 degree-preserving null — exact atom-residue correspondence is nearly a function of residue contact degree, so the geometry-gated router was closed before training. A registered rule can be wrong about provenance, and a fail-closed check is what catches it. |
 
-| F-110 | X1A crossed-interaction ICC precondition | The ChEMBL37 crossed design clears every registered dependence Gate for Ki and Kd — but an audit must publish the direction of its own bias: the estimator shrinks `rho` toward zero, and that favours passing. Replicate noise, not dependence, is the binding constraint. |
+| F-110 | X1A crossed-interaction ICC precondition | Historical amended PASS; later audit showed its fitted residual ICC did not identify dependence of the X1B statistic. Authorization withdrawn and superseded by X1A-R. |
+| F-112 | X1A-R direct-DD dependence | Exact-assay repair failed for Ki and Kd (`n_eff=200.43/61.05 <245`). X1B was not run; no training authorized. |
 
 ## Active authorization
 
-**X1B, for Ki and Kd separately, and nothing else.** X1A passed its dependence
-precondition; it did not test whether interaction exists. X2 and every
-trainable component remain unauthorized until X1B passes under its own
-preregistration.
+No current experiment is authorized. X1A-R failed the dependence precondition,
+so X1B was not run. X2 and every trainable component remain unauthorized.
 
 None of the following changes. S2R completed the synthetic repair, S3R completed the authorized real
 structural run, S4R completed the single authorized single-axis ligand

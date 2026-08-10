@@ -1,5 +1,9 @@
 # X1A-R deep consolidation and next plan
 
+> **SUPERSEDED PLAN.** X1A-R has executed and failed for both endpoints. X1B
+> was not run. Current evidence is in `X1A_R_FINAL_SYNTHESIS.md`; the planning
+> record below is retained for chronology.
+
 Updated: 2026-08-10.
 
 ## Executive state

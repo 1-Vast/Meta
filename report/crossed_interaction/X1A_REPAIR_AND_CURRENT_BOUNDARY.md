@@ -1,5 +1,10 @@
 # X1A repair and current boundary
 
+> **SUPERSEDED CURRENT ENTRY.** The repair described here has now executed and
+> returned `X1A_R_DEPENDENCE_PRECONDITION_FAILED`. Use
+> `X1A_R_FINAL_SYNTHESIS.md` for current status. The text below preserves the
+> pre-execution rationale.
+
 ## Current verdict
 
 ```text

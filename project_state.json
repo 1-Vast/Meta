@@ -24,7 +24,9 @@
     "x1a_gate": "report/crossed_interaction/X1A_ICC_AUDIT.json",
     "x1a_repair": "report/crossed_interaction/X1A_REPAIR_AND_CURRENT_BOUNDARY.md",
     "x1a_repair_status": "report/crossed_interaction/X1A_REPAIR_STATUS.json",
-    "x1a_r_deep_consolidation": "report/crossed_interaction/X1A_R_DEEP_CONSOLIDATION_AND_NEXT_PLAN.md"
+    "x1a_r_deep_consolidation": "report/crossed_interaction/X1A_R_DEEP_CONSOLIDATION_AND_NEXT_PLAN.md",
+    "x1a_r_final": "report/crossed_interaction/X1A_R_FINAL_SYNTHESIS.md",
+    "x1a_r_gate": "report/crossed_interaction/x1ar_direct_dd/gate.json"
   },
   "closed_routes": [
     "pose-free ligand representation repair of the direct-W residue-differential estimand",
@@ -191,7 +193,38 @@
     "x1b": "HISTORICAL_AUTHORIZATION_WITHDRAWN_BY_X1A_R_REPAIR",
     "x2": "NOT_AUTHORIZED_NOT_TRAINED"
   },
-  "current_phase": "CROSSED_INTERACTION_X1A_REPAIR_REGISTERED",
+  "crossed_interaction_x1ar": {
+    "terminal_verdict": "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
+    "training_performed": false,
+    "gpu_used": false,
+    "label_reads": {
+      "chembl37_preselected_pchembl_rows": 5986,
+      "bindingdb": 0,
+      "davis": 0,
+      "kiba": 0,
+      "pdbbind": 0,
+      "recipient": 0
+    },
+    "endpoints": {
+      "Ki": {
+        "rectangles": 827,
+        "components": 36,
+        "rho_ucb95": 0.12040605988312737,
+        "effective_n": 200.4270407870321,
+        "pass": false
+      },
+      "Kd": {
+        "rectangles": 590,
+        "components": 12,
+        "rho_ucb95": 0.10107822398503777,
+        "effective_n": 61.05383243172888,
+        "pass": false
+      }
+    },
+    "x1b": "NOT_RUN_PRECONDITION_FAILED",
+    "x2": "NOT_AUTHORIZED_NOT_TRAINED"
+  },
+  "current_phase": "CROSSED_INTERACTION_X1A_R_STOPPED",
   "current_scientific_state": [
     "MATHEMATICAL_OPERATOR_IMPLEMENTED_AND_CONTRACT_TESTED",
     "GEOMETRY_AND_PAIR_COMPATIBILITY_IDENTIFIED",
@@ -212,12 +245,12 @@
     "K_SHOT_SECTION_NOT_IDENTIFIED",
     "BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z",
     "NO_VALIDATED_END_TO_END_DTA_MODEL",
-    "X1A_AMENDED_AUDIT_HISTORICALLY_PASSED_BUT_DEPENDENCE_PRECONDITION_NOT_ESTABLISHED",
-    "X1A_R_DIRECT_DD_RECTANGLE_MANIFEST_MATERIALIZED",
-    "CROSSED_INTERACTION_EXISTENCE_NOT_YET_TESTED"
+    "X1A_AMENDED_AUDIT_HISTORICALLY_PASSED_BUT_SUPERSEDED",
+    "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
+    "X1B_NOT_RUN_PRECONDITION_FAILED"
   ],
   "eligible_unregistered_proposal": null,
-  "registered_next_action": "EXECUTE_X1A_R_DIRECT_DD_DEPENDENCE_ONLY",
+  "registered_next_action": null,
   "frozen": [
     "heldout-B structural panel",
     "R6 amplitude and B5 integration",
@@ -235,12 +268,13 @@
   "label_reads": {
     "bindingdb_affinity": 0,
     "chembl37_x1a_pchembl_rows_read": 63859,
+    "chembl37_x1ar_preselected_pchembl_rows_read": 5986,
     "chembl_affinity_training_reads": 0,
     "davis": 0,
     "kiba": 0,
     "recipient": 0
   },
-  "last_full_regression": "196_PASSED",
+  "last_full_regression": "203_PASSED",
   "phase2b_s2r": {
     "scope": "synthetic trainability only",
     "sealed_heldout_ap_bidir": 0.662021078439136,
@@ -401,6 +435,6 @@
   },
   "production_model_changed": false,
   "schema": "MetaSieve.ProjectState.v4",
-  "terminal_verdict": "X1_ICC_PRECONDITION_PASSED",
+  "terminal_verdict": "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
   "updated": "2026-08-10"
 }

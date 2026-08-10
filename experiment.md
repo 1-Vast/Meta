@@ -14,11 +14,11 @@ C0 untouched corpus and closure ... COMPLETE, ALL GATES PASS
 C1 exact-coupling information ..... COMPLETE, FAIL AT C1a
 C2 correspondence router .......... NOT PREREGISTERED, NOT TRAINED
 X1A amended ICC audit ............. HISTORICAL PASS, AUTHORIZATION WITHDRAWN
-X1A-R direct-DD dependence ........ REGISTERED, NOT EXECUTED
-X1B crossed interaction existence . NOT AUTHORIZED
+X1A-R direct-DD dependence ........ COMPLETE, PRECONDITION FAILED
+X1B crossed interaction existence . NOT RUN, PRECONDITION FAILED
 X2 minimal q_theta model .......... NOT AUTHORIZED, NOT TRAINED
 heldout-B / R6 .................... NOT OPENED
-ChEMBL37 X1A pChEMBL access ....... 63,859 ROWS; TRAINING READS ZERO
+ChEMBL37 X1A-R pChEMBL access ..... 5,986 PRESELECTED ROWS; TRAINING READS ZERO
 active training stage ............. NONE
 ```
 
@@ -210,6 +210,8 @@ X1B's `q=DD^2-v_noise`. The final JSON used 2,000 rather than 10,000 registered
 bootstrap draws. The historical PASS is preserved, but current verdict is
 `X1A_ICC_PRECONDITION_NOT_ESTABLISHED` and X1B is not authorized.
 
-The label-blind X0-B packing has now been materialized and hashed, reproducing
-Ki `11,168/36` and Kd `1,041/12`; frozen caps select 827 and 605 rectangles.
-X1A-R direct-DD dependence is the only registered next experiment.
+The label-blind X0-B packing was materialized and hashed, reproducing Ki
+`11,168/36` and Kd `1,041/12`; exact-assay alignment retained 827 Ki and 590 Kd
+rectangles. X1A-R then failed its repaired dependence precondition: Ki
+`rho_U=0.120406`, effective `n=200.43`; Kd `rho_U=0.101078`, effective
+`n=61.05`. X1B was not run and no training stage was opened.

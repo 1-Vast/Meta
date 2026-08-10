@@ -1,6 +1,6 @@
 {
   "stage": "E-AFF-X1A-R_DIRECT_DD_DEPENDENCE",
-  "current_verdict": "X1A_ICC_PRECONDITION_NOT_ESTABLISHED",
+  "current_verdict": "X1A_R_DEPENDENCE_PRECONDITION_FAILED",
   "historical_verdict_retained": "X1_ICC_PRECONDITION_PASSED",
   "historical_verdict_scope": "amended development audit; no longer authorizes X1B because its ICC estimand and estimator do not match q = DD^2 - v_noise",
   "rectangle_manifest": {
@@ -9,12 +9,17 @@
     "Kd": {"rectangles": 1041, "clusters": 12, "cap": 125, "selected": 605},
     "affinity_value_fields_selected": 0
   },
-  "registered_next_action": "execute X1A-R direct-DD dependence after freezing code and runtime hashes",
-  "x1b": "NOT_AUTHORIZED",
+  "x1ar_result": {
+    "Ki": {"rho_ucb95": 0.12040605988312737, "effective_n": 200.4270407870321, "pass": false},
+    "Kd": {"rho_ucb95": 0.10107822398503777, "effective_n": 61.05383243172888, "pass": false}
+  },
+  "registered_next_action": null,
+  "x1b": "NOT_RUN_PRECONDITION_FAILED",
   "x2": "NOT_AUTHORIZED_NOT_TRAINED",
   "gpu_training": "NOT_AUTHORIZED",
   "label_reads": {
     "chembl37_x1a_pchembl_rows_read": 63859,
+    "chembl37_x1ar_preselected_pchembl_rows_read": 5986,
     "chembl_affinity_training_reads": 0,
     "bindingdb": 0,
     "davis": 0,
