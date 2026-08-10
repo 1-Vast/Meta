@@ -1,0 +1,109 @@
+{
+  "active_dimensions": 288,
+  "affinity_label_reads": 0,
+  "basis_dimensions": 288,
+  "calibrator": {
+    "alpha": 0.001,
+    "coefficient_shape": [
+      6,
+      6
+    ],
+    "type": "shared_radial_ridge"
+  },
+  "completed": 320,
+  "davis_label_reads": 0,
+  "gate_conditions": {
+    "test_partner_gain_ge_0_10": true,
+    "test_partner_lcb_positive": true,
+    "test_reconstruction_gain_ge_0_10": true,
+    "test_reconstruction_lcb_positive": true,
+    "val_partner_gain_positive": true,
+    "val_reconstruction_gain_positive": true
+  },
+  "recipient_label_reads": 0,
+  "selected": 320,
+  "splits": {
+    "test": {
+      "complexes": 64,
+      "mse": {
+        "correct": 0.5157427843116822,
+        "deranged": 0.6875250977044535,
+        "mean": 1.1001345487406822,
+        "raw_correct": 26.65332745454353
+      },
+      "partner_gain": 0.1561466400536276,
+      "partner_gain_ci95": [
+        0.10695301376827354,
+        0.2007031489836968
+      ],
+      "reconstruction_gain": 0.5312002655474735,
+      "reconstruction_gain_ci95": [
+        0.44328004317891373,
+        0.5962144172243206
+      ]
+    },
+    "train": {
+      "complexes": 192,
+      "mse": {
+        "correct": 0.5096699116988685,
+        "deranged": 0.7461973877013635,
+        "mean": 1.0,
+        "raw_correct": 26.677713342189477
+      },
+      "partner_gain": 0.236527476002495,
+      "partner_gain_ci95": [
+        0.17069810316586895,
+        0.31800007527088064
+      ],
+      "reconstruction_gain": 0.49033008830113145,
+      "reconstruction_gain_ci95": [
+        0.4385696927938595,
+        0.531758710763644
+      ]
+    },
+    "val": {
+      "complexes": 64,
+      "mse": {
+        "correct": 0.5528892003102882,
+        "deranged": 0.7249208046571065,
+        "mean": 1.1823345847551276,
+        "raw_correct": 28.218669487066034
+      },
+      "partner_gain": 0.14550162582146553,
+      "partner_gain_ci95": [
+        0.08883392184974624,
+        0.21608817430563845
+      ],
+      "reconstruction_gain": 0.532375008361278,
+      "reconstruction_gain_ci95": [
+        0.47785093798031975,
+        0.5826407883184597
+      ]
+    }
+  },
+  "stage": "P1R2B-T-BASIS-R0_FIXED_RADIAL_BASIS_RECOVERABILITY",
+  "teacher": {
+    "atom_channels": [
+      "hydrophobe",
+      "aromatic",
+      "donor",
+      "acceptor",
+      "positive",
+      "negative",
+      "halogen",
+      "other"
+    ],
+    "cutoff": 10.0,
+    "radial_centers": [
+      2.0,
+      3.5,
+      5.0,
+      6.5,
+      8.0,
+      9.5
+    ],
+    "residue_channels": 6,
+    "sigma": 1.0
+  },
+  "verdict": "RADIAL_BASIS_PARTNER_RECOVERABILITY_IDENTIFIED"
+}
