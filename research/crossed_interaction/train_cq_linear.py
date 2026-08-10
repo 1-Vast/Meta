@@ -129,11 +129,20 @@ def run(corpus: Path, features_path: Path, output: Path) -> dict:
             for panel in development}
     correct_metrics = macro_metrics(development, correct)
     zero_metrics = macro_metrics(development, zero)
+    contrasts = {
+        "correct_vs_zero": paired_bootstrap(development, correct, zero),
+        "correct_vs_foreign_ligand": paired_bootstrap(development, correct, foreign),
+        "correct_vs_deranged_protein": paired_bootstrap(development, correct, deranged),
+    }
+    positive = all(value["ci95"][0] > 0.0 for value in contrasts.values())
     output.parent.mkdir(parents=True, exist_ok=True)
     np.savez(output, weights=weights, ridge=np.asarray(selected))
     result = {
         "schema": "MetaSieve.BindingDB.CQLinearWitness.v1",
-        "verdict": "CQ_LINEAR_DEVELOPMENT_WITNESS_EVALUATED",
+        "verdict": (
+            "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_OBSERVED_IN_DEVELOPMENT"
+            if positive else "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED"
+        ),
         "selected_ridge": selected,
         "train_component_cv": cv,
         "development": {
@@ -142,9 +151,7 @@ def run(corpus: Path, features_path: Path, output: Path) -> dict:
             "foreign_ligand": macro_metrics(development, foreign),
             "deranged_protein": macro_metrics(development, deranged),
             "explained_fraction_vs_zero": 1.0 - correct_metrics["loss"] / zero_metrics["loss"],
-            "correct_vs_zero": paired_bootstrap(development, correct, zero),
-            "correct_vs_foreign_ligand": paired_bootstrap(development, correct, foreign),
-            "correct_vs_deranged_protein": paired_bootstrap(development, correct, deranged),
+            **contrasts,
         },
         "weights_norm": float(np.linalg.norm(weights)),
         "nonzero_coefficients": int(np.count_nonzero(np.abs(weights) > 1e-12)),
