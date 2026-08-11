@@ -1,5 +1,9 @@
 # Experimental contract
 
+Current execution status and the retained/failed result ladder are in
+`PROJECT_SUMMARY.md`. The Phase 0 record below is historical context, not the
+current model result.
+
 ## Final estimand
 
 Predict quantitative affinity for query ligands of a previously unseen target

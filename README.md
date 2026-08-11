@@ -1,5 +1,9 @@
 # MetaSieve-DTA
 
+The canonical current-state overview is
+[`PROJECT_SUMMARY.md`](PROJECT_SUMMARY.md). This README describes the project;
+the summary records the binding result ladder and active/archive boundary.
+
 MetaSieve is a trainable bioinformatics model for **few-shot drug-target
 affinity prediction on unseen targets**. Its central learning problem is not
 generic pocket detection: it must learn transferable target-ligand knowledge
@@ -8,18 +12,22 @@ support ligands for a new target.
 
 ## Current status
 
-The episodic few-shot stage reached its first precondition and stopped:
+MetaSieve-main v0 established useful support adaptation, but its biological
+specificity failed the cluster-level wrong-protein audit.  K1 then tested the
+proposed calibration repair across BindingDB, Davis and KIBA:
 
 ```text
-FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE
+KEEP_UNCENTERED_POSITIVE_RIDGE
+CENTERED_SECTION_CROSS_DATASET_FAIL
+BIOLOGICAL_PAIR_REPRESENTATION_IS_THE_NEXT_REPLACEABLE_MODULE
 ```
 
-The governed BindingDB Ki corpus supports episodic *training* (442 source
-targets, 220 usable at `k=5`) but not unseen-target *evaluation*: only 16
-held-out targets can carry `k=5`, below the declared minimum of 30, and the
-resulting `MDE_d = 0.622` exceeds the declared `0.600` ceiling. Leakage is zero
-on target, ligand, scaffold, document and protein-homology axes. No model has
-been trained and target-coefficient heterogeneity remains untested.
+The production candidate therefore remains the original uncentered,
+strictly-positive ridge section. A fresh 219-component R0-C confirmation found
+that the exact residue--atom residual strongly improves the frozen distance
+prior but is worse than a capacity-matched additive atom/residue null. Its
+terminal verdict is `MARGINAL_OR_SLOT_RECALIBRATION_ONLY`; R1 affinity training
+and migration into V1, `model/` or `z` are not authorized.
 
 ## Core task
 
@@ -40,20 +48,110 @@ from the support set with a strictly positive ridge penalty and is restricted
 to support-observable directions. This makes the meta-learner trainable while
 keeping continuous task freedom no larger than the support rank.
 
-The design is informed by Wan et al., [A meta learning and task adaptive
-approach for drug target affinity prediction](https://www.nature.com/articles/s41467-026-70554-5)
-(Nature Communications, 2026): targets define tasks and source knowledge is
-learned through support/query episodes. MetaSieve does not copy its full MAML,
-task-LSTM and label-noise stack. It replaces free inner-loop adaptation with a
-small identifiable section so biology and the repository's mathematics remain
-equally load-bearing.
+The core methodological reference is Wan et al., [A meta learning and task
+adaptive approach for drug target affinity prediction](https://www.nature.com/articles/s41467-026-70554-5)
+(Nature Communications, 2026; [official AdaMBind
+code](https://github.com/Moohyun-w/AdaMBind)). It establishes three useful
+principles: targets are tasks, transfer is trained through support/query
+episodes, and source-task scheduling and training-label perturbation can be
+studied as explicit robustness interventions. MetaSieve retains its stricter
+closed-form identifiable section in place of full MAML adaptation.
+
+AdaMBind is a core reference, not an unchecked dependency. The completed
+mechanism/code audit found that its transferable principles are task-adaptive
+training, explicit target-as-task support/query episodes and robust-label
+hypothesis testing, not its full MAML architecture or public split. MetaSieve's
+protein-family, ligand-scaffold, source-document, assay, support/query and
+recipient isolation remain stricter. The existing MetaSieve ATS and fixed
+support-noise arms failed their matched controls and are retained as negative
+baselines, not production components.
+
+The screened methodological references also include [adaptive task
+scheduling](https://proceedings.neurips.cc/paper/2021/hash/3dc4876f3f08201c7c76cb71fa1da439-Abstract.html),
+[differentiable closed-form solvers](https://openreview.net/forum?id=HyxnZh0ct7),
+[support-set sensitivity](https://proceedings.neurips.cc/paper/2021/hash/ab73f542b6d60c4de151800b8abc0a6c-Abstract.html)
+and [trusted-data reweighting in biological
+engineering](https://doi.org/10.1016/j.cels.2023.12.003). Their accepted roles
+are scheduler falsification, representation/solver separation,
+support-stability diagnostics and assay-aware uncertainty. None is an admitted
+production component. The completed audit and its decisions are consolidated
+in [`PROJECT_SUMMARY.md`](PROJECT_SUMMARY.md); the full report is archived.
+
+Candidate A's formal follow-up is now complete. A hash-bound, three-seed CUDA
+audit fitted a two-input difficulty/alignment scorer out of whole CD-HIT40
+components and compared it with an equal-capacity stratified-permutation null.
+Nuisance covariates never entered the scorer; empty scaffolds were treated as
+missing. Clean score-to-transfer-utility Spearman was
+`-0.060/-0.163/0.010/-0.089` at `k=1/2/3/5`, and matched-null, correct-protein,
+wrong-support and shortcut criteria did not pass all k. The scheduler lane is
+therefore `REJECT_TASK_SCHEDULER_GATE1_FAIL_CLOSED`; `train_main_v1.py` was not
+changed and no short training Gate was authorized. The full report and failed
+implementation are archived; the binding verdict is in `PROJECT_SUMMARY.md`.
+
+The executable Cold Target V1 development runner is exposed through
+`python main.py v1 train-evaluate --output report/meta_fewshot/<new-run>` and
+is CUDA-only. It uses a
+paired factorial design (uniform/ATS task selection x clean/support-noisy
+source episodes), an equal-capacity permuted-statistics scheduler null, and
+fixed `k=1/2/3/5` evaluation episodes. The current BindingDB development
+corpus has complete CD-HIT-40 target-cluster separation, but not ligand-
+scaffold or source-document closure; its result is therefore development
+evidence only, not a fresh confirmation result.
+
+The 2026-08-11 formal CUDA development run used three seeds, produced 24
+hash-bound checkpoints and 1,251,600 label-free prediction rows, and selected
+`uniform_clean` on meta-validation. On the shared 33-target Cold Target cohort,
+target-macro RMSE/CI were `1.582/0.529`, `1.429/0.534`, `1.363/0.538`, and
+`1.313/0.536` for `k=1/2/3/5`. ATS did not beat its matched null across all k,
+support-noise did not beat clean training across all k, and the support-
+specificity and wrong-protein Gates failed. The governed verdict is therefore
+`COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD`; V1 is trainable and connected, but its
+current representation is not admitted as a good Cold Target predictor.
+
+The subsequent CUDA vectorization batches candidate episodes, dual ridge
+solves, per-task ATS gradients, validation and inference without changing the
+Meta-Section equation. A full three-seed reproduction completed in 388 seconds
+instead of 2,066 seconds (`5.32x` faster); same-config per-model speedups were
+`11.52x` for uniform training and `5.09x` for ATS. Frozen-checkpoint predictions
+matched within `5.25e-6`. Float32 optimization was not trajectory-bitwise—the
+selected arm changed to `ats_clean`—so the vectorized implementation owns new
+checkpoints. The terminal scientific verdict and failed biological Gates did
+not improve.
+
+Targeted V1 repairs then changed one axis at a time. A support-only
+Meta-Section removed the pair-dependent zero-shot anchor, a 64-wide ligand
+population MLP improved global calibration, and meta-validation selected
+`d=4, ridge=1`. The resulting CUDA run reached RMSE
+`1.495/1.357/1.290/1.230` and CI `0.549/0.553/0.558/0.567` at `k=1/2/3/5`, a
+consistent `7.6-8.9%` RMSE reduction over vectorized V1. A nonlinear pair
+encoder regressed, wider population networks were not selected, and source
+population pretraining selected zero steps. Absolute quality,
+support-specificity and partner-identity Gates still fail, so this is a
+retained development improvement, not a good or admitted model.
+
+R0-B exact geometry is complete for 2,845 governed complexes with zero mapping
+exclusions and 26,044,068 exact atom-residue cells. Its pre-fit audit found
+structural headroom (`S_prior=0.12322`, `S_add*=0.02296`), but 53 heldout
+protein components give `MDE80=0.00746`, above the frozen
+`delta*=0.00616`. R0-B therefore stopped before training with
+`R0B_NOT_RUN_FAIL_CLOSED`; no Gate was relaxed.
+
+R0-C then supplied a genuinely new, geometry-blind and chemistry/protein-closed
+confirmation lane. Its 219 independent systems passed pre-fit power
+(`MDE80=0.00568 < delta*=0.00637`) and enabled the registered three-seed CUDA
+run. Full RPS improved from the frozen prior's `0.12749` to `0.04052`, but the
+capacity-matched additive null reached `0.03930`; the paired Full advantage was
+negative (`-0.00122`). The field therefore learned useful marginal distance
+recalibration, not an admitted exact pair interaction.
 
 ## Biology and mathematics
 
 - Frozen ESM2, ligand graph states and P1B geometry provide biological inputs.
-- The currently auditable candidate is the 288D radial chemistry T-BASIS. It
-  passed structural reconstruction and partner controls, but has not passed an
-  affinity-admission Gate.
+- The 288D radial chemistry T-BASIS passed its structural Gate but failed
+  affinity/selectivity admission; it is retained as a legacy baseline.
+- The replacement candidate keeps exact residue and ligand-atom identities,
+  uses P1B only as a distance prior, and exposes six typed local interaction
+  channels. It remains research-only until real correct-partner Gates pass.
 - Open datasets are used according to measurement semantics: Ki/Kd/Kdapp are
   not pooled, and inhibition/displacement panels provide ordinal rather than
   absolute-affinity supervision.
@@ -72,22 +170,18 @@ retroactively claimed as a theorem of `FINAL_FROZEN_THEORY`.
 ## Current evidence
 
 ```text
-OPEN_BINDINGDB_QUOTIENT_TRAINING_PIPELINE_EXECUTABLE
-CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED
-CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED
-TARGET_COEFFICIENT_META_LEARNING_NOT_YET_TESTED
-K_SHOT_SECTION_NOT_IDENTIFIED
+REAL_META_SECTION_META_EFFECT_IDENTIFIED
+WRONG_PROTEIN_SPECIFICITY_NOT_IDENTIFIED_ACROSS_CDHIT_CLUSTERS
+TBASIS_SELECTIVITY_SIGNAL_NOT_IDENTIFIED
+KEEP_UNCENTERED_POSITIVE_RIDGE
+CENTERED_SECTION_CROSS_DATASET_FAIL
+R0_R1_EXACT_PAIR_SOFTWARE_AND_SYNTHETIC_CONTRACT_PASS
+R0C_PREFIT_ADMISSION_PASS
+R0C_EXACT_PAIR_INCREMENTAL_FAIL
+MARGINAL_OR_SLOT_RECALIBRATION_ONLY
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
 ```
-
-BindingDB Articles 202608 produced 12,457 governed Ki cells in 320 panels.
-The first real training run tested one population-shared linear direction on
-the 288D basis and explained only `0.000709` of development quotient variance;
-correct-pair performance did not beat zero, foreign-ligand or deranged-protein
-controls with a positive confidence bound. This rejects the shared direction,
-not target-conditioned meta-learning. The next experiment must change only the
-coefficient-sharing assumption and test a `d<=5` source-learned task subspace.
 
 ## Repository boundaries
 
@@ -96,16 +190,16 @@ coefficient-sharing assumption and test a `d<=5` source-learned task subspace.
   validated few-shot DTA model yet.
 - `scripts/`: governed data, sealing, structure and training utilities.
 - `research/crossed_interaction/`: current open-data training programme.
-- `report/`: current status and compact evidence; terminated detail is archived.
+- `report/`: active experiment outputs only; historical evidence is archived.
 - `history.md`: chronological decisions and failure lessons.
 
-Read [task.md](task.md), [current status](report/CURRENT_RESEARCH_STATUS.md) and
-the [evidence ledger](report/EXPERIMENTAL_EVIDENCE_LEDGER.md) first.
+Read [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md), then [task.md](task.md) and
+[history.md](history.md).
 
 ## Verification
 
 ```powershell
-conda run -n drug python -m pytest -q
+conda run -n drug python main.py verify tests
 ```
 
 Large third-party releases, embedding banks and caches are not redistributed;

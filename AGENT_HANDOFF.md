@@ -4,24 +4,25 @@
 
 Read, in order:
 
-1. `report/CURRENT_RESEARCH_STATUS.md`
+1. `PROJECT_SUMMARY.md`
 2. `task.md`
-3. `experiment.md`
-4. `research/ssl_b2_structural_observability/PREREG_S5_LOCAL_MECHANISM_OBSERVABILITY.md`
-5. `history.md`
+3. `history.md`
+4. `experiment.md`
 
 ## Active work only
 
-Implement S5-A/S5-B in `research/` first.  Do not edit `model/`, production
-`scripts/`, frozen theory, CSMO/Band or the probability-law operator.  Do not
-read affinity values, DAVIS or recipient labels.
-
-Before training, prove atom/residue mapping, chain compatibility, pseudo-teacher
-invariances, exact-residue-to-slot retention and synthetic trainability.  The
-1,118 S4 complexes are development-exposed; seal a new RCSB confirmation block
-before final scoring.
+Use `history.md` as the sole active research chronology. Historical reports,
+failed audits, and preregistrations live under
+`archive/retired_research_20260811/` and are not active entry points.
 
 Use `conda run -n drug` and report progress approximately every 15 minutes for
 long-running work.  Keep failed implementations out of production directories;
 record terminal results in `history.md` and remove duplicate artifacts after
 consolidation.
+
+Current terminal state: R0-C pre-fit passed on 219 fresh components, but the
+three-seed CUDA Full residual lost to the capacity-matched additive N2 arm.
+`MARGINAL_OR_SLOT_RECALIBRATION_ONLY` is binding. Do not run R1 affinity
+training or connect the exact field to V1. The subsequent AdaMBind task-
+reliability scheduler Gate also failed all k and is archived evidence. Start
+from `PROJECT_SUMMARY.md`, then F-132 and F-133 in `history.md`.

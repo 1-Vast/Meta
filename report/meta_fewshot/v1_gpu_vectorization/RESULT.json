@@ -1,0 +1,77 @@
+{
+  "schema": "MetaSieve.V1GpuVectorizationResult.v1",
+  "date": "2026-08-11",
+  "environment": {
+    "conda_environment": "drug",
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch": "2.6.0+cu124"
+  },
+  "frozen_scientific_contract": {
+    "target_as_task": true,
+    "meta_section": "uncentered positive dual ridge",
+    "section_dimension": 2,
+    "ridge": 1.0,
+    "support_query_isolation": true,
+    "source_episode_rng_preserved": true,
+    "support_noise_rng_tensor_and_state_exact_cpu_cuda": true,
+    "scientific_axis_changed": false
+  },
+  "implementation": {
+    "candidate_episode_batch": "[B,K,288] support and [B,Q,288] masked query",
+    "ridge": "batched dual Gram solve with one shared differentiable QR basis",
+    "ats_gradients": "is_grads_batched per-task support/query gradients",
+    "validation": "one batch per k",
+    "prediction": "one batch per seed/k/arm with one host transfer",
+    "inner_loop_host_scalar_sync_removed": true
+  },
+  "same_config_cuda_benchmark": {
+    "legacy_scalar_seconds_per_1000_step_model": {
+      "uniform_clean": 57.3,
+      "ats_clean": 106.1
+    },
+    "batched_seconds_per_1000_step_model": {
+      "uniform_clean": 4.972473400001036,
+      "ats_clean": 20.85982629999853
+    },
+    "speedup": {
+      "uniform_clean": 11.523440225942297,
+      "ats_clean": 5.086331902965437
+    },
+    "peak_reserved_mib": {
+      "uniform_clean": 148.0,
+      "ats_clean": 150.0
+    },
+    "benchmark_artifact": "report/meta_fewshot/v1_gpu_vectorization/BENCHMARK_CURRENT.json"
+  },
+  "frozen_checkpoint_inference_equivalence": {
+    "rows": 20860,
+    "episode_metadata_exact": true,
+    "maximum_absolute_prediction_difference": 5.245208740234375e-06,
+    "tolerance": 2e-05,
+    "pass": true,
+    "artifact": "report/meta_fewshot/v1_gpu_vectorization/EQUIVALENCE.json"
+  },
+  "full_three_seed_reproduction": {
+    "legacy_elapsed_seconds": 2066.0366612,
+    "batched_elapsed_seconds": 388.107945100001,
+    "end_to_end_speedup": 5.323355750080455,
+    "legacy_selected_variant": "uniform_clean",
+    "batched_selected_variant": "ats_clean",
+    "variant_selection_numerically_invariant": false,
+    "legacy_terminal_verdict": "COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD",
+    "batched_terminal_verdict": "COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD",
+    "terminal_admission_decision_unchanged": true,
+    "batched_cold_target_performance_good": false,
+    "batched_support_specificity_all_k": false,
+    "batched_partner_identity_difference_all_k": false,
+    "batched_selected_training_mechanism_identified": false,
+    "artifact": "report/meta_fewshot/main_v1_vectorized_reproduction/MAIN_V1_COLD_TARGET_RESULT.json"
+  },
+  "interpretation": {
+    "throughput_bottleneck_materially_reduced": true,
+    "single_small_model_gpu_utilization_fully_saturated": false,
+    "reason": "the retained d<=5 model has too little arithmetic to saturate a modern GPU after launch overhead is removed",
+    "larger_machine_strategy": "parallelize independent seed/arm jobs across devices or concurrent workers; do not enlarge the scientific model solely to raise utilization"
+  },
+  "TERMINAL_VERDICT": "V1_GPU_VECTORIZATION_ENGINEERING_PASS_SCIENTIFIC_FAIL_UNCHANGED"
+}

@@ -42,6 +42,9 @@ def _governance_splits(path: str | Path) -> tuple[dict[str, str], str]:
 
 def compile_dataset(spec_path: str | Path, output_dir: str | Path,
                     governance_path: str | Path | None = None) -> dict:
+    destination = Path(output_dir)
+    if destination.exists():
+        raise FileExistsError(f"compiled dataset output already exists: {destination}")
     spec = load_spec(spec_path)
     columns = spec["input"]["columns"]
     allowed = set(spec["label"].get("allowed_relations", ["="]))
@@ -92,7 +95,6 @@ def compile_dataset(spec_path: str | Path, output_dir: str | Path,
     canonical = [{key: value for key, value in row.items() if key != "label_value"} |
                  {"y": normalize(row["label_value"], fitted)}
                  for row in governed]
-    destination = Path(output_dir)
     write_jsonl(destination / "rows.jsonl", canonical)
     manifest = {"schema": "MetaSieve.CanonicalDTA.v2", "dataset": spec["name"],
                 "spec_sha256": sha256(Path(spec_path).read_bytes()).hexdigest(),
@@ -152,6 +154,18 @@ def main() -> int:
     parser.add_argument("--governance", help="label-free target split TSV")
     parser.add_argument("--sealed-dir", help="optional source/metaval runtime seal output")
     args = parser.parse_args()
+    allowed_output = (Path(__file__).resolve().parents[1] / "dataset/processed").resolve()
+    outputs = [Path(args.output)]
+    if args.sealed_dir is not None:
+        outputs.append(Path(args.sealed_dir))
+    for raw_output in outputs:
+        output = raw_output if raw_output.is_absolute() else Path.cwd() / raw_output
+        output = output.resolve()
+        if output == allowed_output or not output.is_relative_to(allowed_output):
+            raise ValueError(
+                f"data output must be a new child of {allowed_output}: {output}")
+        if output.exists():
+            raise FileExistsError(f"data output already exists: {output}")
     print(json.dumps(build_dataset(args.spec, args.output, governance_path=args.governance,
                                    sealed_dir=args.sealed_dir), indent=2))
     return 0

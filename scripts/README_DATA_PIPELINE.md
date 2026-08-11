@@ -1,5 +1,9 @@
 # Verified Script Surface
 
+Use the root `main.py` for public orchestration. It exposes data preparation
+and verification while keeping failed research runners out of the command
+surface.
+
 `scripts/` contains workflows whose data or geometry contracts passed their
 registered gates.
 
@@ -19,6 +23,13 @@ registered gates.
 These implement P1A/P1B. They establish partner-specific contact/distance
 geometry, not affinity energetics.
 
+The research-only R0-C confirmation path is implemented by
+`acquire_r0c_structures.py`, `build_r0c_holo_index.py`,
+`build_r0c_ligand_bank.py`, `cache_exact_structure_proteins.py` and
+`cache_r0b_exact_geometry.py --contract r0c`. It produced a verified fresh
+geometry panel, but its downstream exact-pair residual failed admission and is
+not a production data path.
+
 ## Release-pinned affinity data
 
 - `acquire_source_release.py`, `source_affinity/`
@@ -29,14 +40,11 @@ geometry, not affinity energetics.
 
 These implement D0-C/D1 data governance. They do not authorize model training.
 
-## Removed unadmitted interface
+## Archived unadmitted interfaces
 
-The F6I component-statistic wrapper was removed after consolidation because it
-did not complete external biological admission.  It remains recoverable from
-Git commit `24a9ae0`.
+The F6I component-statistic wrapper was archived after consolidation because
+it did not complete external biological admission.
 
-Failed P1C/P1R*/F0R implementations were removed after their evidence was
-consolidated in `history.md` and
-`EVIDENCE_CONSOLIDATION_AND_FAILURE_TRIAGE.md`. Terminal synthetic, structural
-and source-affinity research implementations were removed from the active tree
-and remain recoverable from Git history.
+Failed P1C/P1R*/F0R implementations and terminal research branches are retained
+under `archive/retired_research_20260811/`; `history.md` records their binding
+decisions.

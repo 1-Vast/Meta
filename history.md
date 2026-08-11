@@ -1,6 +1,6 @@
 # MetaSieve-DTA Experiment History
 
-Last updated: 2026-08-10.
+Last updated: 2026-08-11.
 
 > HISTORICAL EVIDENCE ONLY. This file is not an execution plan.
 >
@@ -5113,6 +5113,155 @@ train on while still being too shallow on the held-out side to evaluate the
 estimand it was built for. Optimization feasibility and evaluation feasibility
 are separate Gates.
 
+## F-123: exact gauge and frozen-T-BASIS selectivity hypotheses fail their audits (2026-08-11)
+
+A0 confirmed exact ridge invariance under synthetic orthogonal rotations, then
+rejected a single exact global orthogonal explanation for the real wrong/wrong
+recovery. Real support Procrustes, held-out query transfer, Gram and kernel
+residuals are far from zero. The narrower interpretation retains partial local
+kernel alignment and population/section cancellation as possible contributors.
+
+A1 closed 1,820 measured same-ligand cross-protein groups into 21 dependency
+components and passed its pre-probe MDE Gate. The component-held-out T-BASIS
+ridge probe was worse than zero, ESM-additive and rewired-coupling controls.
+Both preregistered bootstrap lower bounds were negative, a 999-draw
+fixed-hyperparameter diagnostic gave uncalibrated `p=1.0`, and the planted
+positive control passed.
+
+Independent review downgraded that `p=1.0` to an uncalibrated diagnostic: the
+single rewiring leaves 39.6% of rows unchanged, groupwise permutations do not
+preserve repeated-family incidence, and ridge hyperparameters were selected on
+observed labels. This prevents a coupling-specific causal claim but does not
+change the fail-closed decision; 15/21 components and all group-weighted
+sensitivities disfavor T-BASIS.
+
+```text
+NO_SINGLE_EXACT_ORTHOGONAL_GAUGE_IDENTIFIED
+TBASIS_SELECTIVITY_SIGNAL_NOT_IDENTIFIED
+A2_NOT_RUN_GATE_CLOSED
+```
+
+This freezes a negative result for the current calibrated 288D statistic. It
+does not localize information loss or prove all nonlinear/local signal absent.
+The next admissible input is a fresh assay-matched dense crossed-selectivity
+cohort with independent dependency components. Architecture search, partner
+anchor training, A2, Q-PMA, CSMO and production migration remain closed.
+
+## F-122: V1 measured-contrast repair improves permutation sensitivity but fails partner identity (2026-08-11)
+
+V1 development physically excluded all main-v0 test labels and targets. A
+source census established 1,820 measured same-panel/same-ligand partner groups
+crossing 146 CD-HIT40 families and 1,002 within-panel ligand groups. These were
+used as measured pKi-difference supervision; random unmeasured pairs were not
+treated as negatives.
+
+The five-seed, cluster-balanced comparison tested v0, V1-A full-rank pair prior
+and residual adapter, and V1-B with measured within-panel and partner losses.
+V1-B made the permuted-support contrast cluster-robust but remained worse than
+both v0 and ligand d0. Pair d0 was itself worse than ligand d0.
+
+The 2x2 protein factorial supplied the causal localization: replacing only the
+support or query protein damages predictions, but replacing both with the same
+wrong protein restores correct-arm MSE. The model requires support/query
+coordinate consistency, not correct partner identity.
+
+```text
+V1_DEVELOPMENT_REPAIR_NOT_SELECTED
+END_TO_END_FRONTEND_NOT_AUTHORIZED
+PRODUCTION_MIGRATION_AUTHORIZED=false
+```
+
+## F-121: MetaSieve-main v0 identifies support adaptation but not cluster-robust protein specificity (2026-08-11)
+
+The separate method-level protocol was frozen before outcome inspection and
+then executed on the open BindingDB Articles 202608 exact-Ki corpus. CARA-style
+measurement filters were referenced without copying CARA's assay-task
+estimand; one protein sequence defines one MetaSieve task. The pinned CD-HIT
+4.8.1 binary clustered proteins at 40% identity, and complete clusters were
+assigned 8:1:1 with seed 20260811. This lane did not open O1 strict or external
+confirmation labels.
+
+The final corpus contains 17,717 protein-ligand observations and 499 tasks,
+with 285/37/33 k=5 train/validation/test tasks. A complete frozen 288D T-BASIS
+bank was generated. Meta-validation selected `d=2`, ridge `1.0`; five seeds and
+five paired test support draws were run. Query predictions were persisted
+without labels before the evaluator joined outcomes.
+
+All preregistered target-bootstrap contrasts passed. Full-correct MSE was
+1.916 versus 8.711 for d=0 and 3.426 for ligand-only. Correct support also beat
+zero, foreign and permuted support. This identifies a real support-conditioned
+low-dimensional section on the main-v0 benchmark.
+
+The biological claim failed the dependence audit. Only six CD-HIT clusters
+contribute k=5 test tasks, one of which contains 21/33 targets. Correct versus
+wrong protein has target-level MSE reduction +0.197 (LCB +0.020), but
+cluster-macro reduction -0.081 (LCB -0.227); all five smaller cluster means
+favor wrong protein. Absolute full-correct performance is also weak
+(`R2=-1.244`, Pearson 0.097).
+
+```text
+REGISTERED_TARGET_LEVEL_VERDICT=REAL_BIOLOGICAL_META_SECTION_V0_PASS
+TERMINAL_VERDICT=BIOLOGICAL_SPECIFICITY_NOT_IDENTIFIED_CLUSTER_SENSITIVITY
+PRODUCTION_MIGRATION_AUTHORIZED=false
+```
+
+The consumed test targets cannot become confirmatory again after an amendment.
+Future work must train partner specificity on source/meta-validation and use
+fresh held-out protein clusters. Q-PMA, the production 28D z bridge and CSMO
+remain closed.
+
+## F-120: numeric availability and proposed Q-PMA architecture audit (2026-08-10)
+
+The O1 structural split was reconstructed from the governed projection and its
+66 dependency roots were required to equal the frozen root set. An identity-only
+join to the hash-locked exact-label artifact found 18,509/21,473 numeric Ki
+pairs, giving 313/29 source/evaluation targets at `k=5`; intersection with the
+legacy quotient-shaped 288D bank gave 224/12. The 29-target MDE is 0.4617, but
+the unchanged minimum target count is 30. The audit used no affinity value and
+performed no replicate aggregation; 1,389 admitted pairs have replicates.
+
+```text
+NUMERIC_FEWSHOT_CORPUS_GATE_REQUIRED
+REAL_META_SECTION_TRAINING_NOT_AUTHORIZED
+```
+
+An independent architecture review also rejected the proposed
+Theory-Projected Q-PMA objective. With a nonzero attention penalty its solution
+can retain attention components in `null(M_S^T)` and use them against support
+residuals, violating the support-identifiable family. A repaired row-space
+attention coordinate still changes `m(P,L)` into a support-feature-conditioned
+family and therefore requires a new preregistration and fresh evaluation set.
+No production model or experiment runner was refactored.
+
+The subsequent benchmark amendment established a reference-not-copy policy.
+Published conventions may be inherited where they improve comparability or
+data quality, but MetaSieve owns its estimand and core mechanism. AdaMBind's
+protein-task benchmark and CARA's assay-aware cleaning are not mechanically
+merged: the assay-to-protein-task label contract remains open and must be
+frozen without using target counts or model scores. The dependency-closed O1
+split is retained as strict confirmation rather than the only training route.
+
+## F-119: strict few-shot closure preserves a powered frozen split (2026-08-10)
+
+The preregistered O1 rebuild used only the BindingDB metadata projection. It
+admitted exact single-chain Ki rows, excluded 1,087 rows without a valid Murcko
+scaffold, canonicalized to 21,473 target-ligand cells, and never read affinity
+values. Document, scaffold and protein-40 local-identity closure produced 66
+components. The largest component was frozen as source and all other whole
+components as evaluation, yielding `336/33` source/evaluation `k=5` targets
+and target-unit `MDE_d=0.433`.
+
+```text
+FEWSHOT_CORPUS_STRUCTURALLY_AND_POWER_FEASIBLE_FROZEN_SPLIT
+```
+
+This resolves O1 without lowering a threshold, but it does not test the
+meta-section, affinity information, support association or biology. The source
+giant component contains 94.54% of cells, so future inference must include
+component-level sensitivity rather than treating the result as a broad
+component-replicated claim. Training remains unauthorized pending core
+experiment preregistration.
+
 ## F-118: the few-shot panel was thin because the corpus was built for a different estimand (2026-08-10)
 
 F-117 stopped at `FEWSHOT_EPISODE_DATA_NOT_IDENTIFIABLE` on evaluation depth.
@@ -5164,3 +5313,424 @@ supported nor refuted.
 Lesson retained: a filter inherited from a previous estimand can masquerade as a
 data limit. Before concluding that a corpus is too small for a question, check
 that the corpus was actually built for that question.
+
+## F-123: R2 Cowork regime headline falsified; calibration diagnosis retained (2026-08-11)
+
+Three independent agents audited the Cowork R2 theory, implementation/data and
+adjacent literature. The report's main headline is rejected by its own
+preregistration. E1 produced target-macro gauge ratios `1.0306` on meta-val and
+`1.0987` on meta-test, both above the registered `>1` H0 falsifier; registered
+calibration shares `0.694/0.779` also missed the `>=0.9` support threshold.
+Positive ridge preserves only orthogonal, not general GL, invariance, and the
+complete v0 predictor includes a learned population-coordinate term whose
+residual changes under a wrong-protein substitution. The old F20/CI-A3 handoff
+is not the authoritative frozen CSMO theory, and `k>=d` does not imply auxiliary
+biology is useless in noisy, regularized or misspecified episodes.
+
+The narrower E0 finding is retained. A matched pair-intercept scores MSE
+`1.4408` versus full `1.5780` on meta-val target macro and `1.8965` versus
+`1.9162` on meta-test target macro. At meta-test cluster macro, full's
+ligand-specific gain beyond the intercept is only `0.0453`, about 2.1% of the
+pair-support gain, but the sign is not uniform across clusters. The current
+section is therefore predominantly calibration on average, not proven devoid
+of every biological increment.
+
+E2 was repaired to use a physically label-redacted structural index, verify
+cell alignment, report convergence and operate on the bipartite 2-core. It
+finds additive explained fraction `0.9807` and fixed-ligand partner dispersion
+`0.0513`; this is an observed-design description, not a capacity theorem. The
+Cowork claim that protein enters only through six composition classes is
+withdrawn: ESM residue states condition bridge distance logits before the final
+coarse radial aggregation.
+
+E3 now handles dense matrix and long-form panels without reading outcomes. Metz
+and PDSP provide historical development interaction df (`31,775` and `8,313`)
+but each closes to one dependency component. BindingDB panels have `3,188` df,
+eight components and largest share `0.912`. Exact protein/ligand overlap with
+main-v0 is substantial, so no local package is a fresh confirmation supply.
+
+RFMS training is blocked. Its correct wrong/wrong exposure is
+`Xi=b-a(A^T A+lambda I)^-1 A^T C`; nonconstant `c0` does not prevent recovery
+when `Xi` annihilates the partner difference. Ridge max residual is also only an
+upper bound on the required L-infinity fiber feasibility residual. A synthetic
+counterexample and ridge invariance boundaries are now unit-tested.
+
+```text
+R2_H0_REGIME_FALSIFIED_BY_ITS_OWN_PREREGISTRATION
+META_SECTION_PREDOMINANTLY_CALIBRATION_DESCRIPTIVELY
+TBASIS_OBSERVED_DESIGN_NEAR_ADDITIVE_WITH_LOW_PARTNER_DISPERSION
+LOCAL_CROSSED_TRAINING_SUPPLY_EXISTS_NO_FRESH_CONFIRMATION
+RFMS_TRAINING_NOT_AUTHORIZED
+```
+
+The sole retained future candidate is an explicit pair support-intercept plus
+centered residual/coordinate section, to be preregistered on new source-side
+development components with the intercept as a standing baseline. No production
+model, CSMO bridge, Q-PMA or confirmation labels were changed. Full report:
+`report/meta_fewshot/R2_MULTI_AGENT_RESOLUTION.md`.
+
+## F-124: K1 cross-dataset centered section fails and research branches are retired (2026-08-11)
+
+The preregistered K1 comparison was executed on frozen public AdaMBind snapshots as
+an engineering cross-dataset Gate. It used target-level units, five-shot support,
+ten support draws, Morgan radius-2/256-bit ligand features, ridge=1.0, and fixed
+split/hash artifacts. Population, intercept, uncentered ridge, and centered ridge
+were evaluated on BindingDB, Davis, and KIBA.
+
+| Dataset | population | intercept | uncentered | centered |
+|---|---:|---:|---:|---:|
+| BindingDB (94 targets) | 1.7621 | 1.2219 | 1.0746 | 1.1449 |
+| Davis (75 targets) | 0.6095 | 0.7008 | 0.5998 | 0.6881 |
+| KIBA (42 targets) | 0.8218 | 0.8246 | 0.7285 | 0.7999 |
+
+Centered residual correction improved over a pure intercept, but was worse than the
+existing uncentered ridge on every dataset. The pooled centered-minus-uncentered
+loss reduction was negative (LCB -0.1063); numerical failure rate was 0%. The
+verdict is `CENTERED_SECTION_CROSS_DATASET_FAIL`, with production migration denied.
+
+This closes the calibration-repair branch. The K1 runner and tests, together with
+unrun speculative v2 ablations, were deleted. The preregistration, result JSON,
+written report, and prior audit scripts remain so the failure is reproducible and
+auditable. No `model/` or `scripts/` production code was changed. The active model
+baseline is the original uncentered positive ridge; the next permitted change is a
+new source-only biological representation audit, not another section variant.
+
+## F-125: research/report tree consolidation and failure archive (2026-08-11)
+
+`history.md` is now the sole active research chronology. Report Markdown,
+preregistrations, retired result artifacts, failed A0/A1/R2/V1/V2 implementations,
+their dedicated tests, and generated caches were moved under
+`archive/retired_research_20260811/`. The archive is indexed by
+`ARCHIVE_MANIFEST.json`; archived material is audit evidence, not an active entry
+point.
+
+The active `report/` tree was emptied. The active `research/meta_fewshot` tree now
+retains only main-v0 corpus construction, numeric corpus audit, the validated
+Meta-Section implementation, synthetic control, and main-v0 training. V1 sealing,
+V1 training, R2/RFMS, gauge/selectivity probes, and speculative v2 branches were
+retired together with their tests. `crossed_interaction` and `e0_identifiability`
+were restored after dependency testing showed they remain required by the active
+main-v0 corpus/T-BASIS generation path. This dependency-driven restoration prevents
+a cosmetic cleanup from breaking reproducibility.
+
+`project_state.json`, `AGENT_HANDOFF.md`, `README.md`, and `task.md` now route active
+research decisions to `history.md` instead of removed report files. Production
+`model/` and `scripts/` were not changed. The remaining active test suite passes:
+`112 passed`.
+
+A second directory-level pass then deleted the empty `report/` tree, empty research
+namespace shells, Python/pytest caches, and the obsolete standalone evidence-triage
+Markdown. Generated E0 result artifacts were archived, while the E0 source and
+crossed-interaction source were retained because import and full-suite tests proved
+they remain transitive dependencies of main-v0 corpus/T-BASIS generation. Data,
+weights, external binaries, production code, and frozen theory were left intact.
+
+The final dependency pass also retired the unreferenced crossed-interaction linear
+witness (`quotient_operator.py`, `train_cq_linear.py`) and deleted the unrun v2
+transfer ladder. `bindingdb_cq_r1.py` was retained because main-v0 corpus building
+and preparation import its exact-label iterator. After this narrower closure the
+active suite contains 107 tests, all passing.
+
+## F-126: exact-pair R0/R1 software witness added without reopening the solver (2026-08-11)
+
+K1 remains binding: the uncentered positive-ridge section is retained and no
+centered solver code was restored.  A regression test now equates the active
+`MetaSectionRegressor.episode` result with the explicit raw-coordinate dual ridge
+solution, preventing a later silent centering change.
+
+The next biological candidate was implemented research-only (now archived at
+`archive/retired_research_20260811/research_scripts/meta_fewshot/affinity_pair_field.py`). It keeps explicit atom and
+sequence-residue indices, rejects duplicate or untracked identities, lifts P1B
+slot geometry only as a prior, and uses exact residue and atom states to produce
+six auditable typed pair channels.  Its distance posterior is
+`softmax(log q_P1B + exact-pair residual)` and is trained by full-bin NLL plus a
+discrete ordered-distance CRPS term. The old contact output is retained only as
+a weak separate gate input; it does not repeat the degree-saturated 6 A
+binary-contact estimand rejected by F-109.
+
+Affinity supervision is restricted to explicitly supplied measured
+within-target, same-ligand cross-protein and complete 2x2 rectangle differences.
+Absolute affinity is disabled by default.  The rectangle implementation cancels
+additive protein and ligand effects exactly, refuses incomplete/duplicated cells,
+and the Partner Identity Necessity evaluator reports
+`MSE_wrong - MSE_correct` with a dependency-cluster bootstrap lower bound. Wrong
+proteins are feature substitutions evaluated by the same field/probe, never
+manufactured non-binders or separately fitted controls.
+
+The design borrows only narrow mechanisms from the literature: exact pairwise
+distance distributions from Interformer, typed local energy ledgers from
+PIGNet2, symmetric relative-affinity supervision from PBCNet2.0, ordered radial
+continuity from CORDIAL, assay-matched relative pairs from MISATO and
+two-dimensional leakage control from DataSAIL. Their pose-dependent or pooled
+end-to-end architectures were not imported.
+
+Software and synthetic Gates pass: exact-pair traceability, mask safety,
+residue-permutation equivariance, same-slot exact-residue separation, frozen-prior
+recovery, ordered-distance gradients, measured-difference sign symmetry,
+additive-null cancellation, cluster-level correct-versus-wrong direction and a
+trainable 3x3 rectangle positive control are covered. The complete active suite
+passes **117 tests** in the `drug` environment.
+
+This is not a real biological PASS.  No consumed confirmation labels were read,
+no real R0/R1 cohort was scored, and nothing entered `model/`, the uncentered
+meta-section, CSMO or `z`.  A real run requires a preregistered fresh
+component-held-out structural cohort with unpooled ESM residue states, followed
+by a frozen-field measured-affinity Gate. Until both pass:
+
+```text
+R0_R1_EXACT_PAIR_SOFTWARE_AND_SYNTHETIC_CONTRACT_PASS
+REAL_EXACT_RESIDUE_ATOM_ADMISSION_NOT_YET_TESTED
+PRODUCTION_MIGRATION_AUTHORIZED=false
+```
+
+## F-127: trainable Cold Target V1 is connected but not good (2026-08-11)
+
+A complete V1 retained the frozen target-as-task contract, uncentered positive
+dual ridge, support/query isolation and the admitted `d=2, ridge=1` section. It
+tested a paired uniform/ATS x clean/support-noise design, an equal-capacity
+permuted-statistics ATS null, and population, ligand-only, zero-support,
+label-control, family-foreign and full 2x2 wrong-protein controls. Meta-test used
+one shared 33-target CD-HIT40-cold cohort, nested `k=1/2/3/5` support prefixes
+and fixed queries.
+
+The formal three-seed CUDA run produced 24 hash-bound checkpoints and 1,251,600
+prediction rows. Meta-validation selected `uniform_clean`. Target-macro RMSE was
+`1.582/1.429/1.363/1.313` and CI was `0.529/0.534/0.538/0.536` for
+`k=1/2/3/5`. ATS did not beat its matched null across all k, support noise did
+not beat clean training, support-specificity failed, and support-wrong,
+query-wrong and wrong/wrong controls did not establish partner identity. The
+result is development-only because the test was already consumed and ligand
+scaffold/document closure is absent.
+
+```text
+COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD
+PRODUCTION_MIGRATION_AUTHORIZED=false
+```
+
+## F-128: V1 CUDA vectorization removes the throughput bottleneck (2026-08-11)
+
+The scientific equation and random episode contracts were held fixed while
+candidate support/query tensors, differentiable dual Gram solves and per-task
+ATS gradients were batched. Validation now executes one batch per k and each
+prediction arm transfers one batched result to the host. CUDA support-noise is
+still generated episode-by-episode so its Philox tensor and generator state are
+bitwise identical to the scalar runner.
+
+On the exact formal 1000-step configuration, uniform training decreased from
+57.3 to 4.97 seconds per model (`11.52x`) and ATS from 106.1 to 20.86 seconds
+(`5.09x`). The complete three-seed reproduction decreased from 2,066 to 388
+seconds (`5.32x`) with less than 150 MiB reserved. Against the frozen scalar
+checkpoint, 20,860 predictions retained exact episode metadata and had maximum
+absolute difference `5.25e-6`.
+
+Float32 training was mathematically equivalent but not trajectory-bitwise: the
+reproduction selected `ats_clean` rather than `uniform_clean`. It therefore
+uses separate checkpoints and cannot overwrite the scalar evidence. All
+scientific admission decisions remained negative—quality, support specificity,
+partner identity and ATS-vs-null all-k Gates failed—so acceleration did not
+launder V1 into a biological PASS. Full evidence is in
+`report/meta_fewshot/v1_gpu_vectorization/RESULT.json`.
+
+## F-129: governed R0-B exact geometry stops at the power Gate (2026-08-11)
+
+The amended v3 panel closes later-split chemistry against every frozen-P1B
+exposure and contains 2,516 train, 185 validation and 144 heldout-A complexes.
+Exact frozen ESM/P1B residue states were cached for all 2,845 unique sequences
+on CUDA. Exact CCD-canonical ligand atom to sequence-residue geometry then
+built 26,044,068 cells with zero exclusions; all five ordered bins are
+supported and 91.62% of residues are movable inside their P1B slot. A
+post-write verifier checks every shard hash, ragged offset, entry identity,
+array shape, exact bin and frozen input hash.
+
+The heldout-A pre-fit audit used the frozen P1B distance posterior,
+system-first then homology-component-macro RPS, and no affinity labels or
+trainable parameters. It found `S_prior=0.123215`, `S_add*=0.022965` and
+`delta*=0.006161`; exact-pair structural headroom is available. However, 53
+heldout components yield registered `MDE80=0.007455`, above `delta*`. The run
+stopped before any distance residual fit:
+
+```text
+R0B_NOT_RUN_FAIL_CLOSED
+```
+
+The failure is statistical power, not missing geometry or GPU capacity. It
+cannot be repaired by relaxing the effect threshold; a powered retry needs
+additional fresh dependency-closed protein components. Aggregate evidence is
+`archive/retired_research_20260811/report_files/correspondence_router/r0b_prefit_v4.json`, with independently
+recomputable system/component rows in its two companion JSONL files.
+
+## F-130: targeted V1 repairs improve accuracy but do not pass admission (2026-08-11)
+
+V1 failures were addressed one scientific axis at a time on the same paired
+Cold Target development protocol. First, a support-only section removed the
+pair-coordinate zero-shot anchor, forcing every target/pair correction through
+the retained uncentered positive dual-ridge support solve. Second, a 64-wide
+ligand population MLP replaced underfit linear calibration. Third, a
+meta-validation-only 15-cell `d x ridge` selection chose `d=4, ridge=1`.
+
+The final three-seed CUDA candidate selected `uniform_clean`. Target-macro RMSE
+at `k=1/2/3/5` is `1.495/1.357/1.290/1.230`, a `7.6-8.9%` reduction from the
+vectorized V1 baseline. CI increased from `0.524/0.524/0.528/0.530` to
+`0.549/0.553/0.558/0.567`, with a clearer benefit from additional support.
+The nonlinear pair encoder was rejected after k=2 RMSE regressed to `1.948`;
+meta-validation retained population width 64 and selected zero population
+pretraining steps. These failures remain reproducible but default-disabled.
+
+The repair is material, not sufficient. RMSE and CI remain outside the frozen
+quality thresholds, support-specificity is not identified across every k, and
+support-wrong/query-wrong/wrong-wrong partner necessity does not pass all-k.
+ATS and support noise also fail their matched controls. Thus:
+
+```text
+V1_TARGETED_REPAIRS_MATERIAL_IMPROVEMENT_NOT_YET_GOOD
+PRODUCTION_MIGRATION_AUTHORIZED=false
+```
+
+Detailed comparisons and artifact hashes are in
+`report/meta_fewshot/v1_targeted_repairs/RESULT.json`.
+
+The final active suite passes **154 tests** in the `drug` environment. The
+governed final candidate was rerun after the last runner change and owns 24
+checkpoints whose runner/model hashes agree with the delivered source.
+
+## F-131: fresh R0-C exact-geometry confirmation is powered (2026-08-11)
+
+A geometry-blind confirmation lane was built from the immutable local BioLiP2
+metadata snapshot. All 14,906 P1B exposures and 2,845 R0-B development entries
+were excluded by entry, PDB, exact sequence and ligand identity before any new
+coordinate was read. Protein closure used all-edge MMseqs candidates followed
+by exact parasail identity/coverage checks. From 3,000 coordinate-free
+candidates, 512 component representatives were frozen before acquisition.
+
+RCSB mmCIF and CCD files were then acquired for all 512 candidates. Strict
+X-ray, covalency, small-molecule, exact atom and exact residue mapping retained
+333 systems; ligand CCD/connectivity/nonempty-Murcko closure against all prior
+exposure retained **219 independent components**, each containing one system.
+The final panel SHA256 is
+`fb7232ae70c974fc5c4e6ff8ef5517cd5a982cebf10cbcb80e651e8e043b48b9`.
+Frozen P1B ligand and exact ESM residue states were regenerated under the
+original checkpoints, and the verified geometry bank contains 1,956,307 exact
+atom-residue cells with all five ordered bins and zero exclusions.
+
+The label-free pre-fit audit found `S_prior=0.127490`, `S_add*=0.020234`,
+`delta*=0.006374` and `MDE80=0.005678` over 219 components. Mapping, bin,
+headroom, movable-residue, component-share and power Gates all passed:
+
+```text
+R0C_PREFIT_ADMISSION_PASS
+```
+
+This authorized one frozen exact-distance residual experiment only. It did not
+authorize affinity supervision, V1 integration or admission to `z`.
+
+## F-132: R0-C residual is marginal recalibration, not exact pair coupling (2026-08-11)
+
+The preregistered CUDA run trained Full, slot-shared N1 and capacity-matched
+additive-exact N2 for 20 epochs and three fixed seeds. Full selected epoch 20
+on R0-B validation; R0-C was opened once for the final three-seed ensemble.
+RPS was `0.127490` for the frozen prior, `0.040522` for Full, `0.039426` for
+N1 and `0.039302` for N2. Thus Full removed substantial prior error
+(`delta=0.086968`, LCB95 `0.083422`) but was significantly worse than N2
+(`N2-Full=-0.001220`, LCB95 `-0.001510`). Full NLL was also worse than the
+free N2 arm by `0.009387`, failing the registered calibration guard.
+
+Frozen post-fit derangements did increase RPS for both residue and atom
+identity, but those diagnostics cannot rescue the failed primary comparison:
+the joint bilinear residual adds no incremental ordered-distance information
+beyond residue and atom marginals under equal parameter capacity.
+
+```text
+MARGINAL_OR_SLOT_RECALIBRATION_ONLY
+R1_AFFINITY_FIELD_TRAINING_AUTHORIZED=false
+V1_EXACT_PAIR_INTEGRATION_AUTHORIZED=false
+```
+
+The initial N1 implementation repeatedly launched slot-level GPU kernels and
+did not finish one seed after 17 minutes. Slot-shared states and compatibility
+are static, so they are now computed once per system and reused. The resumed
+N1/N2 run held the scientific contract fixed, kept GPU utilization near
+saturation during training, and completed in 1,856 seconds. The result is
+hash-bound at `archive/retired_research_20260811/report_files/correspondence_router/r0c_training_v1/RESULT.json`
+(`c6c85297bdc17fe326339357149fe1332d5a55f19cdbf2cdef529e8f7a203f35`).
+The report explicitly marks that elapsed time as the resumed phase; it does not
+misrepresent the earlier Full training wall time. The final active suite passes
+**166 tests** in the `drug` environment.
+
+## F-133: AdaMBind-inspired scheduler fails partner-aware Gate 1 (2026-08-11)
+
+The AdaMBind article, all 19 supplementary pages and official commit
+`01a169a6` were audited against MetaSieve V1. The paper's separate-validation
+bilevel narrative is not faithfully reproduced by the public code: train and
+validation tasks are sampled from one concatenated pool, selection defaults to
+replacement, the LSTMs receive sequence length one, the set-context reduction
+uses the feature axis rather than the task axis, `adaptive_tasks` is unused,
+the no-noise path leaves `y` undefined, and the trainer's meta-gradient
+accumulator persists across calls. The implementation is reference-only.
+
+A single-axis scheduler preregistration was frozen before scoring. Gate 0
+passed with 285 k5 source targets in 207 components and 37 meta-validation
+targets in nine components; largest component share was 0.243. A two-input
+ridge scorer (query difficulty and support/query gradient cosine) was nested-
+cross-fitted over whole CD-HIT40 components. Task size, label spread, nonempty
+Murcko overlap and provenance density were nuisance-audit columns only. Empty
+scaffolds were explicitly missing; empirical replicate disagreement and
+continuous protein familiarity were unavailable and not replaced by proxies.
+
+The three-seed CUDA Gate used 9,999 whole-component bootstrap draws. Clean
+score-to-transfer-utility Spearman at k1/2/3/5 was
+`-0.0597/-0.1635/0.0102/-0.0885`; every 95% LCB was non-positive. Correct minus
+equal-capacity permuted-null correlation was
+`0.0522/-0.0876/-0.0694/-0.2091`, also failing every registered LCB. The
+correct-minus-protein-shuffle utility LCB was negative at all k, and
+wrong-support/ligand-only/intercept-only controls were not all-k stable.
+
+```text
+GATE0_STATIC_AVAILABILITY_PASS
+GATE1_TASK_SCHEDULER_IDENTIFIABILITY_FAIL
+REJECT_TASK_SCHEDULER_GATE1_FAIL_CLOSED
+SHORT_CUDA_TRAINING_AUTHORIZED=false
+TRAIN_MAIN_V1_INTEGRATION_AUTHORIZED=false
+```
+
+No `meta_test` or fresh confirmation result entered fitting, scoring,
+selection or stopping. The final artifact binds preregistration, runner,
+scorer, model and checkpoint hashes at
+`archive/retired_research_20260811/report_files/meta_fewshot/task_reliability_scheduler_v1/RESULT.json`. Because Gate 1
+failed, `train_main_v1.py`, label noise, representation and the frozen
+uncentered positive ridge were not changed. Detailed interpretation is in
+`archive/retired_research_20260811/report_md/TASK_RELIABILITY_SCHEDULER_V1_REPORT.md`.
+The final pre-consolidation suite passed
+**171 tests** in the `drug` environment.
+
+## F-134: active surface consolidated behind one governed CLI (2026-08-11)
+
+The accumulated reports, failed research branches and superseded V1 runs were
+consolidated after F-133. `PROJECT_SUMMARY.md` is now the canonical current
+snapshot while this file remains the chronology. Formal negative evidence was
+not deleted: 229 files were moved byte-for-byte under
+`archive/retired_research_20260811/`, with source path, target path, size and
+SHA256 recorded in `CONSOLIDATION_20260811.json` and verified after each move.
+This includes the failed AdaMBind task-reliability implementation, the R0-C
+pair field/trainer and their tests, all correspondence-router formal reports,
+and superseded or regressed V1 runs. Passed mapping, geometry and pre-fit data
+infrastructure remains active for reuse by a new observable.
+
+Smoke, interrupted and pytest-cache directories were removed from the active
+tree. Because recursive deletion was unavailable in the execution environment,
+they were moved to the archive's `ephemeral_quarantine/` rather than destroyed.
+The pre-existing access-restricted `.pytest_cycle_20260810` directory was left
+untouched.
+
+A root `main.py` now provides a static, lazy command surface for status,
+archive status, maintained tests, V1 vectorization verification, CUDA-only V1
+train/evaluate, and governed data prepare/verify. Failed R0-C, scheduler,
+T-BASIS and crossed-interaction experiments are not executable through this
+entry point. V1 outputs must be explicit new children of
+`report/meta_fewshot/`; data outputs must be new children of
+`dataset/processed/`; existing evidence cannot be silently overwritten.
+
+Post-consolidation verification passed **159 active tests** in 12.52 seconds in
+the `drug` environment. The reduced count reflects tests archived with their
+failed or superseded implementations, not lost coverage of the retained
+surface. Root and leaf CLI help, status views, JSON parsing, reference audit,
+and all 229 archive hashes also passed.
