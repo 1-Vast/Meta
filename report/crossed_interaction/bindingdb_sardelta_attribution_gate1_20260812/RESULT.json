@@ -1,0 +1,158 @@
+{
+  "TERMINAL_VERDICT": "BINDINGDB_SARDELTA_ATTRIBUTION_GATE1_FAIL_CLOSED",
+  "antisymmetry_audit": {
+    "A": {
+      "max_abs_sum": 1.6549296711432162,
+      "mean_abs_sum": 1.1734991397553742
+    },
+    "I": {
+      "max_abs_sum": 0.0,
+      "mean_abs_sum": 0.0
+    },
+    "L": {
+      "max_abs_sum": 0.0,
+      "mean_abs_sum": 0.0
+    },
+    "P": {
+      "max_abs_sum": 1.8121774476624304,
+      "mean_abs_sum": 1.1973659071650056
+    }
+  },
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "max_pairs_per_group": 100,
+    "pair_similarity_threshold": 0.5,
+    "ridge": 100.0,
+    "seed": 20260812
+  },
+  "corpus": {
+    "development_pairs": {
+      "cells": 535,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 1033,
+      "skipped_similarity": 194,
+      "split": "development",
+      "target_scaffold_groups": 244
+    },
+    "manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "train_pairs": {
+      "cells": 11922,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 20423,
+      "skipped_similarity": 40671,
+      "split": "train",
+      "target_scaffold_groups": 5133
+    }
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": -1.3308693686106456,
+      "components": 8,
+      "control": "L",
+      "correct": "I",
+      "one_sided_95_lcb": -1.9126016376753225,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.10222485354028699,
+      "components": 8,
+      "control": "IW",
+      "correct": "I",
+      "one_sided_95_lcb": -0.9020765862320954,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.2615376849681348,
+      "components": 8,
+      "control": "IS",
+      "correct": "I",
+      "one_sided_95_lcb": -0.9500550340017369,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.35967687564650797,
+      "components": 8,
+      "control": "L",
+      "correct": "A",
+      "one_sided_95_lcb": 0.26221875127475913,
+      "pass": true
+    },
+    {
+      "component_macro_reduction": 0.37679445233249803,
+      "components": 8,
+      "control": "Z",
+      "correct": "A",
+      "one_sided_95_lcb": 0.2677735104307924,
+      "pass": true
+    },
+    {
+      "component_macro_reduction": 0.017117576685990118,
+      "components": 8,
+      "control": "Z",
+      "correct": "L",
+      "one_sided_95_lcb": -0.07553844135243867,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "A": {
+      "mse": 0.23369493271474728,
+      "pairs": 1033
+    },
+    "I": {
+      "mse": 1.2413516208729907,
+      "pairs": 1033
+    },
+    "IS": {
+      "mse": 1.6695602589181973,
+      "pairs": 1033
+    },
+    "IW": {
+      "mse": 1.6633263381551766,
+      "pairs": 1033
+    },
+    "L": {
+      "mse": 0.6003985582771266,
+      "pairs": 1033
+    },
+    "P": {
+      "mse": 0.22611907537023035,
+      "pairs": 1033
+    },
+    "Z": {
+      "mse": 0.5800715132288407,
+      "pairs": 1033
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "development_components_ge_5": true,
+    "interaction_antisymmetry": true,
+    "interaction_beats_ligand_delta": false,
+    "interaction_beats_shuffled_target": false,
+    "interaction_beats_wrong_target": false,
+    "ligand_delta_antisymmetry": true
+  },
+  "hypothesis": "A true bilinear target x ligand-delta model explains BindingDB SAR-delta transfer beyond ligand-delta and wrong-target controls.",
+  "schema": "MetaSieve.BindingDBSARDeltaAttributionGate1.v1",
+  "train_summary": {
+    "A": {
+      "feature_dim": 131,
+      "train_mse": 0.4168960477508116
+    },
+    "I": {
+      "feature_dim": 2808,
+      "train_mse": 0.36485886255882316
+    },
+    "L": {
+      "feature_dim": 104,
+      "train_mse": 0.7955957981259907
+    },
+    "P": {
+      "feature_dim": 27,
+      "train_mse": 0.44903854697998763
+    }
+  },
+  "v1_integration_authorized": false
+}

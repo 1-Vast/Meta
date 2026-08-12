@@ -66,6 +66,40 @@ recipient isolation remain stricter. The existing MetaSieve ATS and fixed
 support-noise arms failed their matched controls and are retained as negative
 baselines, not production components.
 
+The current biological-bridge reference also includes Li et al.,
+[UniPert-G2CP bridges genetic and chemical screens from molecular
+representation to phenotype modeling](https://doi.org/10.1016/j.cell.2026.06.005)
+(Cell, 2026). MetaSieve does not import UniPert-G2CP as a target-ligand
+similarity model. The borrowed architecture is narrower: a two-stage bridge in
+which external cross-modal supervision first makes a perturbagen or interaction
+coordinate identifiable, then downstream transfer predicts the task-specific
+effect. In MetaSieve terms this is implemented as a target-conditioned
+ligand-pair SAR-delta bridge before any few-shot section update:
+
+```text
+UniPert-G2CP:
+genetic / chemical perturbagen representation -> genetic-to-chemical phenotype transfer
+
+MetaSieve translation:
+source target ligand-pair SAR-delta supervision -> cold-target affinity/ranking transfer
+```
+
+The registered BindingDB retest is
+`report/crossed_interaction/unipert_g2cp_sardelta_bridge_gate1_20260812`.
+It passed its local bridge Gate: 20,423 train pairs, 1,033 development pairs,
+8 development dependency components, correct MSE `0.233714` versus zero-delta
+MSE `0.580072`, component reduction `+0.376740`, and LCB95 `+0.270172`.
+The stricter attribution Gate
+`report/crossed_interaction/bindingdb_sardelta_attribution_gate1_20260812`
+then showed that this PASS must not be attributed to a true UniPert-style
+target x chemical-transformation bridge yet. The additive concat arm
+`[protein; ligand_delta]` beat zero, but it violated SAR-delta antisymmetry
+(`max |f(i,j)+f(j,i)| = 1.654930`). The bilinear target x ligand-delta arm was
+antisymmetric, but failed against ligand-delta, wrong-target and shuffled-target
+controls. The correct current conclusion is therefore: SAR-delta transfer
+signal is identified; target-specific conditioning and end-to-end Cold Target
+utility remain open; scalar and unordered panel-edge lifts are rejected.
+
 The screened methodological references also include [adaptive task
 scheduling](https://proceedings.neurips.cc/paper/2021/hash/3dc4876f3f08201c7c76cb71fa1da439-Abstract.html),
 [differentiable closed-form solvers](https://openreview.net/forum?id=HyxnZh0ct7),
@@ -179,6 +213,11 @@ R0_R1_EXACT_PAIR_SOFTWARE_AND_SYNTHETIC_CONTRACT_PASS
 R0C_PREFIT_ADMISSION_PASS
 R0C_EXACT_PAIR_INCREMENTAL_FAIL
 MARGINAL_OR_SLOT_RECALIBRATION_ONLY
+SAR_DELTA_TRANSFER_SIGNAL_IDENTIFIED
+TARGET_CONDITIONING_NOT_YET_IDENTIFIED
+UNIPERT_STYLE_INTERACTION_BRIDGE_NOT_YET_PROPERLY_TESTED
+SCALAR_AND_UNORDERED_EDGE_LIFTS_REJECTED
+END_TO_END_COLD_TARGET_UTILITY_OPEN
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
 ```

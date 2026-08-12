@@ -8330,3 +8330,59 @@ unless they are first archived or superseded by a signed summary. Candidate
 cleanup is therefore limited to future archival of duplicate smoke directories,
 large intermediate checkpoints and pre-F-152 dead-end artifacts after a
 separate path-level review.
+
+## 2026-08-12 UniPert-G2CP architecture-reference retest
+
+Question: test whether the architecture idea from Li et al., UniPert-G2CP
+bridges genetic and chemical screens from molecular representation to phenotype
+modeling, is useful for MetaSieve. The transferable idea is not a raw
+protein-ligand similarity encoder. It is the two-stage bridge: first use
+external cross-modal supervision to define an identifiable mechanism coordinate,
+then transfer that coordinate into downstream phenotype or affinity prediction.
+
+MetaSieve translation:
+
+```text
+UniPert-G2CP:
+genetic / chemical perturbagen representation -> genetic-to-chemical phenotype transfer
+
+MetaSieve:
+source-target same-scaffold ligand-pair SAR-delta supervision
+-> governed BindingDB target-conditioned delta transfer
+-> only then attempt cold-target / panel CQ admission
+```
+
+Retest command:
+
+```text
+conda run -n drug python research/crossed_interaction/train_bindingdb_sardelta_cq_bridge.py \
+  --output report/crossed_interaction/unipert_g2cp_sardelta_bridge_gate1_20260812 \
+  --ridge 100 --feature-mode delta_target --max-pairs-per-group 100 \
+  --bootstrap-draws 999
+```
+
+Result:
+
+```text
+train pairs                    20423
+development pairs               1033
+development components             8
+correct MSE                 0.233714
+zero-delta MSE              0.580072
+component reduction        +0.376740
+LCB95                      +0.270172
+terminal verdict BINDINGDB_SARDELTA_CQ_BRIDGE_GATE1_PASS
+```
+
+Conclusion: the UniPert-G2CP-style bridge is effective at the local
+target-conditioned pair-delta transfer level and is now named as a current
+architecture reference in README.md. It remains insufficient for end-to-end
+Cold Target DTA: F-154 and F-155 show that naive scalar or unordered panel-edge
+lifts do not pass the original panel CQ wrong-partner/additive controls.
+
+```text
+UNIPERT_G2CP_ARCHITECTURE_REFERENCE_ADDED
+PAIR_DELTA_BRIDGE_EFFECTIVE=true
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+```
