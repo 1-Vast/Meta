@@ -1,63 +1,22 @@
-# Data Availability and Repository Scope
+# Data availability
 
-This Git repository contains the MetaSieve source code, frozen mathematical
-theory, contracts, tests, registered research protocols, terminal research
-artifacts, compact PASS evidence, and provenance manifests.
+This repository tracks source code, tests, frozen theory, compact reports and
+dataset manifests. It does not redistribute large third-party releases,
+feature banks, tensors, checkpoints, prediction dumps or local caches.
 
-Large upstream and generated datasets are intentionally not stored in Git.
-The local workspace contains more than 50 GiB of third-party releases,
-embeddings, caches, and compiled data. Those files include individual objects
-larger than GitHub's 100 MiB limit and must be obtained from their original
-sources or regenerated from the tracked workflows.
+Tracked data is limited to:
 
-## Tracked data
+- provenance, license, checksum and manifest files;
+- compact `RESULT.json` evidence;
+- governance warnings such as `DO_NOT_USE_FOR_STRICT_EVALUATION.txt`.
 
-- release, acquisition, corpus, split, governance, and cache manifests;
-- upstream checksum and license records;
-- compact P1B PASS evidence and checkpoint;
-- consolidated research metrics and provenance in `history.md`;
-- reports required to reproduce the current evidence ledger.
+Not redistributed:
 
-Research artifacts are evidence for the registered experiments only. They do
-not constitute a general-purpose affinity dataset or a validated end-to-end DTA
-model.
-
-## Data not redistributed
-
-- ChEMBL 37 SQLite archive and extracted database;
-- raw DAVIS and KIBA benchmark labels;
-- BioLiP2/RCSB structure downloads and compiled structure corpora;
+- ChEMBL, DAVIS, KIBA, BindingDB and structure payloads;
+- BioLiP2/RCSB/mmCIF/CCD downloads;
 - ESM and ligand feature banks;
-- OntoProtein, KeAP, ProteinKG25, PLINDER, and other third-party archives;
-- downloaded MMseqs2 binaries and model caches.
-- Informer/PKIS matrices, KLIFS kinase records, KiSSim distance tables and the
-  Anastassiadis workbook used by the imported component pilots.
+- model checkpoints, `.pt`, `.npz`, `.jsonl.gz` and row-level experiment dumps;
+- local credentials, SSH keys and machine-specific remote configs.
 
-## Primary upstream sources
-
-- ChEMBL 37 static release: tracked in
-  `dataset/raw/source_affinity/chembl37_sqlite_v1/release_manifest.json`.
-  The manifest records the official archive SHA-256, schema hash, source URL,
-  and CC BY-SA 3.0 license URL.
-- Protein structures and chemical components: RCSB PDB/mmCIF and CCD, acquired
-  by `scripts/acquire_open_structures.py`.
-- BioLiP2 annotations: acquired and parsed through
-  `scripts/structure_sources/biolip.py`.
-
-## Reproduction boundary
-
-The tracked manifests bind the expected release and generated artifacts, but
-they do not grant authorization to run frozen downstream stages. Scientific
-authorization is defined by `project_state.json`, `AGENT_HANDOFF.md`, and the
-registered Gate documents. DAVIS and recipient-label access remains governed
-by those contracts.
-
-No private key, access token, local credential, or machine-specific SSH target
-is included in this repository.
-
-The removed component-pilot manifests recorded upstream hashes, but the source
-files themselves are not included. One historical F0 manifest bound an earlier
-`ceiling_probe.py` hash that was not present in the supplied package; that F0
-artifact remains historical evidence rather than a byte-for-byte rerun claim.
-The full intake and deletion record is preserved in `history.md` and Git commit
-`8b7789e`.
+Primary status and scientific authorization are in `PROJECT_SUMMARY.md`,
+`project_state.json`, `task.md` and `history.md`.
