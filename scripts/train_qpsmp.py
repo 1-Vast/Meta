@@ -47,6 +47,10 @@ class TrainConfig:
     eval_targets_per_component: int = 1
     grad_clip: float = 5.0
     zero_shot_loss_weight: float = 0.25
+    section_mode: str = "support_span"
+    interaction_mode: str = "atom_residue"
+    zero_support_only: bool = False
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 @dataclass(frozen=True)
@@ -58,6 +62,7 @@ class LabelScale:
         return (values - self.mean) / self.scale
 
     def squared_error_pk(self, prediction: torch.Tensor, truth: torch.Tensor) -> torch.Tensor:
+        truth = truth.to(device=prediction.device, dtype=prediction.dtype)
         return ((prediction - truth) * self.scale).square()
 
 
@@ -123,6 +128,14 @@ def donor_state(model: QPSMPBioModel, data: QPSMPData, episode: EpisodeBatch,
     return forward(model, donor_episode).task_state
 
 
+def wrong_protein_zero_shot(model: QPSMPBioModel, data: QPSMPData,
+                            episode: EpisodeBatch, donor_target: str) -> torch.Tensor:
+    pooled, tokens, mask = data.protein_for_target(donor_target)
+    wrong_episode = replace(
+        episode, protein_pooled=pooled, protein_tokens=tokens, protein_mask=mask)
+    return forward(model, wrong_episode, adapt=False).zero_shot
+
+
 def evaluate(model: QPSMPBioModel, data: QPSMPData,
              bank: tuple[EpisodeSpec, ...], controls: bool,
              label_scale: LabelScale) -> dict:
@@ -144,6 +157,7 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                 "sar_cut_mse_pk": mse_pk(sar_cut),
                 "level_only_mse_pk": mse_pk(level_only),
                 "no_interaction_mse_pk": mse_pk(full.additive),
+                "ligand_only_mse_pk": mse_pk(full.ligand_only),
                 "level_adjustment_abs_mean_pk": float(
                     full.level_adjustment.abs().mean() * label_scale.scale),
                 "sar_adaptation_abs_mean_pk": float(
@@ -168,6 +182,9 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                     "permuted_mse_pk": mse_pk(replay_state(full, permuted_output.task_state)),
                     "foreign_state_mse_pk": mse_pk(replay_state(full, foreign)),
                     "wrong_protein_state_mse_pk": mse_pk(replay_state(full, wrong)),
+                    "wrong_protein_zero_shot_mse_pk": mse_pk(
+                        wrong_protein_zero_shot(
+                            model, data, episode, spec.donor_target)),
                 })
             rows.append({"component": spec.component, "target": spec.target, **values})
     metrics = {field: component_target_mean(rows, field)
@@ -178,6 +195,8 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
         metrics["binding_did_mse_pk"] = metrics["permuted_mse_pk"] - metrics["full_mse_pk"]
         metrics["foreign_state_gap_mse_pk"] = metrics["foreign_state_mse_pk"] - metrics["full_mse_pk"]
         metrics["wrong_protein_gap_mse_pk"] = metrics["wrong_protein_state_mse_pk"] - metrics["full_mse_pk"]
+        metrics["wrong_protein_zero_shot_gap_mse_pk"] = (
+            metrics["wrong_protein_zero_shot_mse_pk"] - metrics["zero_shot_mse_pk"])
     metrics["weighting"] = "equal_component_then_equal_target_then_equal_draw"
     metrics["episodes"] = len(rows)
     return metrics
@@ -190,7 +209,10 @@ def train(data: QPSMPData, config: TrainConfig,
     model = QPSMPBioModel(
         protein_dim=int(data.protein_bank.manifest["hidden_dim"]),
         hidden_dim=config.hidden_dim, task_dim=config.task_dim,
-        ligand_layers=config.ligand_layers, dtype=torch.float32)
+        ligand_layers=config.ligand_layers,
+        section_mode=config.section_mode,
+        interaction_mode=config.interaction_mode, dtype=torch.float32)
+    model.to(config.device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate,
                                   weight_decay=config.weight_decay)
     label_scale = training_label_scale(data)
@@ -218,10 +240,13 @@ def train(data: QPSMPData, config: TrainConfig,
             spec = data.draw_episode(
                 "meta_train", support_size, config.query_size, rng)
             episode = normalized_episode(data.materialize(spec), label_scale)
-            full = forward(model, episode)
-            endpoint_loss = (full.prediction - episode.query_y).square().mean()
+            full = forward(model, episode, adapt=not config.zero_support_only)
+            endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
+            query_y = episode.query_y.to(
+                device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
+            endpoint_loss = (endpoint_prediction - query_y).square().mean()
             if episode.query_y.numel() > 1:
-                query_residual = full.zero_shot - episode.query_y
+                query_residual = full.zero_shot - query_y
                 zero_shot_loss = (
                     query_residual - query_residual.mean()
                 ).square().mean()
@@ -234,11 +259,10 @@ def train(data: QPSMPData, config: TrainConfig,
         optimizer.step()
         trace.append(float(loss.detach()))
         if step % config.val_interval == 0 or step == config.steps:
-            values = [
-                evaluate(model, data, bank, controls=False,
-                         label_scale=label_scale)["full_mse_pk"]
-                for bank in val_banks.values()
-            ]
+            selection_field = "zero_shot_mse_pk" if config.zero_support_only else "full_mse_pk"
+            values = [evaluate(
+                model, data, bank, controls=False,
+                label_scale=label_scale)[selection_field] for bank in val_banks.values()]
             value = float(np.mean(values))
             if value < best_value:
                 best_state, best_value, best_step = copy.deepcopy(model.state_dict()), value, step
@@ -269,6 +293,12 @@ def main() -> None:
                         default=TrainConfig.eval_targets_per_component)
     parser.add_argument("--zero-shot-loss-weight", type=float,
                         default=TrainConfig.zero_shot_loss_weight)
+    parser.add_argument("--section-mode", choices=("support_span", "ridge", "neural"),
+                        default=TrainConfig.section_mode)
+    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue"),
+                        default=TrainConfig.interaction_mode)
+    parser.add_argument("--zero-support-only", action="store_true")
+    parser.add_argument("--device", default=TrainConfig.device)
     parser.add_argument("--output", type=Path, default=OUT)
     args = parser.parse_args()
     if args.output.exists():
@@ -280,7 +310,11 @@ def main() -> None:
         val_draws_per_target=args.val_draws_per_target,
         test_draws_per_target=args.test_draws_per_target,
         eval_targets_per_component=args.eval_targets_per_component,
-        zero_shot_loss_weight=args.zero_shot_loss_weight)
+        zero_shot_loss_weight=args.zero_shot_loss_weight,
+        section_mode=args.section_mode,
+        interaction_mode=args.interaction_mode,
+        zero_support_only=args.zero_support_only,
+        device=args.device)
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK)
     model, training, label_scale = train(data, config)
     test_bank = data.fixed_episode_bank(

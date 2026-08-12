@@ -63,7 +63,7 @@ def test_quotient_null_forces_exact_zero_neural_update():
     query = torch.randn(3, 6, dtype=DTYPE)
     with torch.no_grad():
         interaction = model.interaction_features(protein, tokens, mask, support)
-        add, zero, _ = model.scalar_components(protein, support, interaction)
+        add, _, zero, _ = model.scalar_components(protein, support, interaction)
         labels = add + zero + 2.5
 
     output = model(protein, tokens, mask, support, labels, query)
@@ -212,7 +212,7 @@ def test_quotient_null_also_forces_zero_sar_adaptation():
     query = torch.randn(2, 6, dtype=DTYPE)
     with torch.no_grad():
         interaction = model.interaction_features(protein, tokens, mask, support)
-        add, zero, _ = model.scalar_components(protein, support, interaction)
+        add, _, zero, _ = model.scalar_components(protein, support, interaction)
         labels = add + zero + 1.25
 
     output = model(protein, tokens, mask, support, labels, query)
@@ -278,8 +278,76 @@ def test_bio_model_query_loss_reaches_both_encoders_and_meta_operator():
     parameters = (
         model.protein_encoder.bank_proj.weight,
         model.ligand_encoder.inp.weight,
-        model.meta.localizer.key.weight,
-        model.meta.adapter.value.weight,
+        model.atom_residue_field.atom.weight,
+        model.meta.meta_posterior.weight[0].weight,
     )
     assert all(parameter.grad is not None for parameter in parameters)
     assert all(torch.isfinite(parameter.grad).all() for parameter in parameters)
+
+
+def test_support_span_state_is_in_centered_support_row_space():
+    from model.qpsmp_meta import SupportSpanRidge
+
+    solver = SupportSpanRidge(dtype=DTYPE)
+    support = torch.randn(4, 7, dtype=DTYPE)
+    query = torch.randn(3, 7, dtype=DTYPE)
+    residual = torch.randn(4, dtype=DTYPE)
+    residual = residual - residual.mean()
+
+    state, centered_query, prediction = solver(support, query, residual)
+    centered_support = support - support.mean(0, keepdim=True)
+    projection = torch.linalg.pinv(centered_support) @ centered_support
+
+    assert torch.allclose(state, projection @ state, atol=1e-9, rtol=1e-7)
+    assert torch.allclose(prediction, centered_query @ state)
+
+
+def test_support_span_single_shot_has_exact_zero_sar():
+    from model.qpsmp_meta import SupportSpanRidge
+
+    solver = SupportSpanRidge(dtype=DTYPE)
+    state, _, prediction = solver(
+        torch.randn(1, 5, dtype=DTYPE),
+        torch.randn(3, 5, dtype=DTYPE),
+        torch.zeros(1, dtype=DTYPE),
+    )
+
+    assert torch.count_nonzero(state) == 0
+    assert torch.count_nonzero(prediction) == 0
+
+
+def test_learned_support_span_posterior_is_identifiable_and_trainable():
+    from model.qpsmp_meta import LearnedSupportSpanPosterior
+
+    posterior = LearnedSupportSpanPosterior(dtype=DTYPE)
+    support = torch.randn(5, 9, dtype=DTYPE)
+    query = torch.randn(3, 9, dtype=DTYPE)
+    residual = torch.randn(5, dtype=DTYPE)
+    residual = residual - residual.mean()
+
+    state, _, prediction = posterior(support, query, residual)
+    centered_support = support - support.mean(0, keepdim=True)
+    projection = torch.linalg.pinv(centered_support) @ centered_support
+    prediction.square().mean().backward()
+
+    assert torch.allclose(state, projection @ state, atol=1e-9, rtol=1e-7)
+    assert posterior.weight[0].weight.grad is not None
+
+
+def test_learned_support_span_has_exact_evidence_null_and_permutation_invariance():
+    from model.qpsmp_meta import LearnedSupportSpanPosterior
+
+    posterior = LearnedSupportSpanPosterior(dtype=DTYPE)
+    support = torch.randn(4, 6, dtype=DTYPE)
+    query = torch.randn(3, 6, dtype=DTYPE)
+    zero = torch.zeros(4, dtype=DTYPE)
+    state, _, prediction = posterior(support, query, zero)
+    assert torch.count_nonzero(state) == 0
+    assert torch.count_nonzero(prediction) == 0
+
+    residual = torch.randn(4, dtype=DTYPE)
+    residual = residual - residual.mean()
+    order = torch.tensor([2, 0, 3, 1])
+    original = posterior(support, query, residual)[2]
+    permuted = posterior(support[order], query, residual[order])[2]
+    assert torch.allclose(original, permuted, atol=1e-10, rtol=1e-8)

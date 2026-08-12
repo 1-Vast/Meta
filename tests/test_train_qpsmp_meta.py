@@ -26,3 +26,14 @@ def test_label_scale_reports_squared_error_in_raw_pk_units():
     truth = torch.tensor([1.0, 0.0])
 
     assert torch.equal(scale.squared_error_pk(prediction, truth), torch.tensor([4.0, 4.0]))
+
+
+def test_label_scale_aligns_truth_dtype_to_prediction():
+    scale = LabelScale(mean=6.0, scale=2.0)
+    prediction = torch.tensor([1.0], dtype=torch.float64)
+    truth = torch.tensor([0.0], dtype=torch.float32)
+
+    error = scale.squared_error_pk(prediction, truth)
+
+    assert error.dtype == prediction.dtype
+    assert torch.allclose(error, torch.tensor([4.0], dtype=torch.float64))

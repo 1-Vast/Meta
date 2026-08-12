@@ -226,6 +226,11 @@ def main() -> None:
     parser.add_argument("--val-draws-per-target", type=int,
                         default=TrainConfig.val_draws_per_target)
     parser.add_argument("--bootstrap-draws", type=int, default=9999)
+    parser.add_argument("--section-mode", choices=("support_span", "ridge", "neural"),
+                        default=TrainConfig.section_mode)
+    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue"),
+                        default=TrainConfig.interaction_mode)
+    parser.add_argument("--device", default=TrainConfig.device)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"output already exists: {args.output}")
@@ -252,6 +257,9 @@ def main() -> None:
             val_interval=args.val_interval,
             val_draws_per_target=args.val_draws_per_target,
             eval_targets_per_component=999999,
+            section_mode=args.section_mode,
+            interaction_mode=args.interaction_mode,
+            device=args.device,
         )
         model, diagnostics, label_scale = train(
             data, config, support_sizes=SUPPORT_SIZES)
