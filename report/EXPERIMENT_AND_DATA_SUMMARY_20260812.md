@@ -10,7 +10,7 @@ research/    Active research runners and reproducibility scripts.
 tests/       Pytest coverage for model, data, research and CLI contracts.
 dataset/     Manifest-only provenance in Git; bulk data remains local.
 report/      Active experiment JSON reports and concise result evidence.
-archive/     Historical reports, failed lines and retired research evidence.
+archive/     Historical report summaries, manifests and retained evidence.
 theory/      Frozen theory and development archive.
 ```
 
@@ -77,9 +77,9 @@ TERMINAL_VERDICT = COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD
 pair_feature_mode = ligand_residual
 ```
 
-Large checkpoints and label-free prediction payloads are local reproducibility
-artifacts and are excluded from Git by `.gitignore`; their checksums remain in
-the retained JSON reports.
+Large checkpoints, draw-metric traces and label-free prediction payloads are
+local reproducibility artifacts and are excluded from Git by `.gitignore`;
+their checksums and terminal verdicts remain in the retained JSON reports.
 
 ## Dataset evidence
 
@@ -105,16 +105,20 @@ Removed from the Git boundary:
 Python bytecode caches
 pytest cache/cycle outputs
 active report checkpoint directories
+active report draw_metrics traces
 compressed label-free prediction dumps
+retired archive report_files/result_json payloads
+retired archive research scripts/tests
+local nested raw MONN source checkout
 ```
 
 Retained:
 
 ```text
-failed experiment scripts and tests
+active failed experiment scripts and tests
 Gate RESULT.json files
 dataset manifest/provenance files
-archive manifests and historical negative evidence
+archive manifests, report_md summaries and historical negative evidence
 ```
 
 No admitted end-to-end few-shot DTA model exists yet. The current positive
