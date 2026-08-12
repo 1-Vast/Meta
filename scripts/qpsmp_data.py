@@ -46,15 +46,15 @@ def stable_seed(*parts: object) -> int:
 
 
 class _ShardedBank:
-    def __init__(self, directory: Path, fields: tuple[str, ...], cache_size: int = 2):
+    def __init__(self, directory: Path, fields: tuple[str, ...], cache_size: int | None = None):
         self.directory = directory
         self.fields = fields
-        self.cache_size = cache_size
         self.index: dict[str, tuple[Path, int]] = {}
         self.cache: OrderedDict[Path, dict[str, np.ndarray]] = OrderedDict()
         manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
         self.manifest = manifest
         shards = manifest.get("shards", [])
+        self.cache_size = len(shards) if cache_size is None else cache_size
         for item in shards:
             name = item["path"] if isinstance(item, dict) else item
             path = directory / name
@@ -83,10 +83,45 @@ class _ShardedBank:
         return tuple(self.cache[path][field][local] for field in self.fields)
 
 
+class _CompactLigandBank:
+    def __init__(self, directory: Path):
+        manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
+        if manifest.get("schema") != "MetaSieve.QPSMPCompactLigandBank.v1":
+            raise ValueError("unsupported compact ligand-bank schema")
+        self.manifest = manifest
+        self.index: dict[str, tuple[Path, int]] = {}
+        self.cache: OrderedDict[Path, dict[str, np.ndarray]] = OrderedDict()
+        for item in manifest["shards"]:
+            path = directory / item["path"]
+            with np.load(path, allow_pickle=False) as stored:
+                for local, key in enumerate(stored["keys"].astype(str)):
+                    self.index[key] = path, local
+
+    def __len__(self) -> int:
+        return len(self.index)
+
+    def get(self, key: str) -> tuple[np.ndarray, ...]:
+        path, local = self.index[key]
+        if path not in self.cache:
+            with np.load(path, allow_pickle=False) as stored:
+                self.cache[path] = {name: stored[name] for name in (
+                    "sizes", "atom_offsets", "bond_offsets", "X", "A")}
+            while len(self.cache) > 1:
+                self.cache.popitem(last=False)
+        values = self.cache[path]
+        size = int(values["sizes"][local])
+        atom_start, atom_stop = values["atom_offsets"][local:local + 2]
+        bond_start, bond_stop = values["bond_offsets"][local:local + 2]
+        atoms = values["X"][atom_start:atom_stop]
+        bonds = values["A"][bond_start:bond_stop].reshape(size, size, -1)
+        return atoms, bonds, np.ones(size, dtype=np.float32)
+
+
 class QPSMPData:
     """Read-only main-v0 corpus with lazy, schema-checked biological banks."""
 
-    def __init__(self, corpus: Path, protein_bank: Path, ligand_bank: Path):
+    def __init__(self, corpus: Path, protein_bank: Path, ligand_bank: Path,
+                 compact_ligand_bank: Path | None = None):
         self.corpus = corpus
         manifest = json.loads((corpus / "manifest.json").read_text(encoding="utf-8"))
         if manifest.get("schema") != "MetaSieve.MetaFewshot.MainV0Corpus.v1":
@@ -98,8 +133,15 @@ class QPSMPData:
         proteins = self._read_jsonl(corpus / "proteins.jsonl")
         ligands = self._read_jsonl(corpus / "ligands.jsonl")
         protein_keys = {row["sequence_sha256"] for row in proteins}
-        self.protein_bank = _ShardedBank(protein_bank, ("pooled", "residues", "mask"))
-        self.ligand_bank = _ShardedBank(ligand_bank, ("X", "A", "mask"))
+        self.protein_bank = _ShardedBank(
+            protein_bank, ("pooled", "residues", "mask"), cache_size=4)
+        self.ligand_bank = (
+            _CompactLigandBank(compact_ligand_bank)
+            if compact_ligand_bank is not None and compact_ligand_bank.exists()
+            else _ShardedBank(ligand_bank, ("X", "A", "mask"), cache_size=1))
+        self._protein_tensors: dict[str, tuple[torch.Tensor, ...]] = {}
+        self._ligand_tensors: OrderedDict[str, tuple[torch.Tensor, ...]] = OrderedDict()
+        self._ligand_tensor_cache_size = 128
         self._validate_manifests(proteins, ligands)
         self.tasks, self.components = self._build_tasks()
         target_keys = {cell["target_id"] for cell in self.cells}
@@ -120,10 +162,11 @@ class QPSMPData:
         pm, lm = self.protein_bank.manifest, self.ligand_bank.manifest
         if pm.get("schema") != "MetaSieve.StructureProteinBank.v1":
             raise ValueError("unsupported protein-bank schema")
-        if lm.get("schema") != GRAPH_SCHEMA:
+        compact = lm.get("schema") == "MetaSieve.QPSMPCompactLigandBank.v1"
+        if not compact and lm.get("schema") != GRAPH_SCHEMA:
             raise ValueError("unsupported ligand-bank schema")
-        expected_graph = (ATOM_FEAT_DIM, BOND_FEAT_DIM, MAX_ATOMS)
-        actual_graph = (lm.get("atom_feature_dim"), lm.get("bond_feature_dim"), lm.get("max_atoms"))
+        expected_graph = (ATOM_FEAT_DIM, BOND_FEAT_DIM)
+        actual_graph = (lm.get("atom_feature_dim"), lm.get("bond_feature_dim"))
         if actual_graph != expected_graph:
             raise ValueError(f"ligand graph contract mismatch: {actual_graph}")
         protein_keys = {row["sequence_sha256"] for row in proteins}
@@ -228,25 +271,43 @@ class QPSMPData:
         rows = [self.cells[index] for index in (*spec.support, *spec.query)]
         if any(row["target_id"] != spec.target or row["split"] != spec.split for row in rows):
             raise ValueError("episode cells do not match the declared task")
-        pooled, residues, protein_mask = self.protein_bank.get(spec.target)
+        if spec.target not in self._protein_tensors:
+            self._protein_tensors[spec.target] = tuple(
+                torch.from_numpy(value.copy()) for value in self.protein_bank.get(spec.target))
+        pooled, residues, protein_mask = self._protein_tensors[spec.target]
 
         def graphs(indices: tuple[int, ...]):
             values = []
             for index in indices:
                 ligand = self.cells[index]["ligand_id"]
-                values.append(self.ligand_bank.get(ligand))
-            return tuple(torch.from_numpy(np.stack(field).copy()) for field in zip(*values))
+                if ligand not in self._ligand_tensors:
+                    self._ligand_tensors[ligand] = tuple(
+                        torch.from_numpy(value.copy()) for value in self.ligand_bank.get(ligand))
+                    while len(self._ligand_tensors) > self._ligand_tensor_cache_size:
+                        self._ligand_tensors.popitem(last=False)
+                self._ligand_tensors.move_to_end(ligand)
+                values.append(self._ligand_tensors[ligand])
+            max_atoms = max(value[0].shape[0] for value in values)
+            atoms, bonds, masks = [], [], []
+            for atom, bond, mask in values:
+                missing = max_atoms - atom.shape[0]
+                atoms.append(torch.nn.functional.pad(atom, (0, 0, 0, missing)))
+                bonds.append(torch.nn.functional.pad(
+                    bond, (0, 0, 0, missing, 0, missing)))
+                masks.append(torch.nn.functional.pad(mask, (0, missing)))
+            return torch.stack(atoms), torch.stack(bonds), torch.stack(masks)
 
         support_atoms, support_bonds, support_mask = graphs(spec.support)
         query_atoms, query_bonds, query_mask = graphs(spec.query)
         return EpisodeBatch(
-            spec, torch.from_numpy(pooled.copy()), torch.from_numpy(residues.copy()),
-            torch.from_numpy(protein_mask.copy()), support_atoms, support_bonds, support_mask,
+            spec, pooled, residues, protein_mask, support_atoms, support_bonds, support_mask,
             torch.tensor([self.cells[i]["pK"] for i in spec.support], dtype=torch.float32),
             query_atoms, query_bonds, query_mask,
             torch.tensor([self.cells[i]["pK"] for i in spec.query], dtype=torch.float32))
 
     def protein_for_target(self, target: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         index = int(self.tasks[next(split for split in self.tasks if target in self.tasks[split])][target][0])
-        values = self.protein_bank.get(target)
-        return tuple(torch.from_numpy(value.copy()) for value in values)
+        if target not in self._protein_tensors:
+            self._protein_tensors[target] = tuple(
+                torch.from_numpy(value.copy()) for value in self.protein_bank.get(target))
+        return self._protein_tensors[target]

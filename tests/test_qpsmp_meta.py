@@ -286,6 +286,48 @@ def test_bio_model_query_loss_reaches_both_encoders_and_meta_operator():
     assert all(torch.isfinite(parameter.grad).all() for parameter in parameters)
 
 
+def test_bio_model_batched_forward_matches_episode_loop():
+    for interaction_mode in ("pooled", "atom_residue"):
+        torch.manual_seed(47)
+        model = QPSMPBioModel(
+            8, 6, 2, ligand_layers=1,
+            interaction_mode=interaction_mode, dtype=DTYPE)
+        batch_size, support_size, query_size, atoms = 2, 3, 2, 4
+        protein = torch.randn(batch_size, 8, dtype=DTYPE)
+        tokens = torch.randn(batch_size, 5, 8, dtype=DTYPE)
+        protein_mask = torch.ones(batch_size, 5, dtype=torch.bool)
+        support_atoms = torch.randn(
+            batch_size, support_size, atoms, ATOM_FEAT_DIM, dtype=DTYPE)
+        query_atoms = torch.randn(
+            batch_size, query_size, atoms, ATOM_FEAT_DIM, dtype=DTYPE)
+        support_bonds = torch.zeros(
+            batch_size, support_size, atoms, atoms, BOND_FEAT_DIM, dtype=DTYPE)
+        query_bonds = torch.zeros(
+            batch_size, query_size, atoms, atoms, BOND_FEAT_DIM, dtype=DTYPE)
+        support_mask = torch.ones(batch_size, support_size, atoms, dtype=DTYPE)
+        query_mask = torch.ones(batch_size, query_size, atoms, dtype=DTYPE)
+        support_y = torch.randn(batch_size, support_size, dtype=DTYPE)
+
+        batched = model(
+            protein, tokens, protein_mask,
+            support_atoms, support_bonds, support_mask, support_y,
+            query_atoms, query_bonds, query_mask)
+        loop = [model(
+            protein[index], tokens[index], protein_mask[index],
+            support_atoms[index], support_bonds[index], support_mask[index],
+            support_y[index], query_atoms[index], query_bonds[index],
+            query_mask[index]) for index in range(batch_size)]
+
+        assert torch.allclose(
+            batched.prediction,
+            torch.stack([output.prediction for output in loop]),
+            atol=1e-10, rtol=1e-8)
+        assert torch.allclose(
+            batched.task_state,
+            torch.stack([output.task_state for output in loop]),
+            atol=1e-10, rtol=1e-8)
+
+
 def test_support_span_state_is_in_centered_support_row_space():
     from model.qpsmp_meta import SupportSpanRidge
 

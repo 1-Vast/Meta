@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, replace
 import json
 from pathlib import Path
 import sys
+import time
 
 import numpy as np
 import torch
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "dataset/processed/meta_fewshot/bindingdb_ki_main_v0"
 PROTEIN_BANK = ROOT / "dataset/processed/meta_fewshot/bindingdb_ki_main_v0_protein_bank"
 LIGAND_BANK = ROOT / "dataset/processed/meta_fewshot/bindingdb_ki_main_v0_ligand_bank"
+COMPACT_LIGAND_BANK = ROOT / "dataset/processed/meta_fewshot/bindingdb_ki_main_v0_ligand_bank_compact"
 OUT = ROOT / "report/meta_fewshot/qpsmp_meta_smoke"
 
 
@@ -39,6 +41,8 @@ class TrainConfig:
     ligand_layers: int = 1
     steps: int = 20
     episodes_per_step: int = 2
+    train_cache_size: int = 64
+    eval_batch_size: int = 16
     learning_rate: float = 1e-3
     weight_decay: float = 1e-5
     val_interval: int = 10
@@ -80,17 +84,88 @@ def normalized_episode(episode: EpisodeBatch, scale: LabelScale) -> EpisodeBatch
                    query_y=scale.normalize(episode.query_y))
 
 
-def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True):
+def compact_episode(episode: EpisodeBatch) -> EpisodeBatch:
     active = max(int(episode.support_mask.sum(1).max()),
                  int(episode.query_mask.sum(1).max()))
+    def atoms(values: torch.Tensor) -> torch.Tensor:
+        values = values[:, :active]
+        return torch.nn.functional.pad(values, (0, 0, 0, active - values.shape[1])).clone()
+    def bonds(values: torch.Tensor) -> torch.Tensor:
+        values = values[:, :active, :active]
+        missing = active - values.shape[1]
+        return torch.nn.functional.pad(values, (0, 0, 0, missing, 0, missing)).clone()
+    def mask(values: torch.Tensor) -> torch.Tensor:
+        values = values[:, :active]
+        return torch.nn.functional.pad(values, (0, active - values.shape[1])).clone()
+    return replace(
+        episode,
+        support_atoms=atoms(episode.support_atoms),
+        support_bonds=bonds(episode.support_bonds),
+        support_mask=mask(episode.support_mask),
+        query_atoms=atoms(episode.query_atoms),
+        query_bonds=bonds(episode.query_bonds),
+        query_mask=mask(episode.query_mask))
+
+
+def stack_episodes(episodes: list[EpisodeBatch]) -> EpisodeBatch:
+    if not episodes:
+        raise ValueError("cannot stack an empty episode list")
+    support_size = episodes[0].support_y.numel()
+    query_size = episodes[0].query_y.numel()
+    if any(item.support_y.numel() != support_size or item.query_y.numel() != query_size
+           for item in episodes):
+        raise ValueError("batched episodes must have equal support and query sizes")
+    atom_count = max(item.support_atoms.shape[1] for item in episodes)
+
+    def pad_graphs(values: torch.Tensor, *, bonds: bool = False,
+                   mask: bool = False) -> torch.Tensor:
+        missing = atom_count - values.shape[1]
+        if missing == 0:
+            return values
+        if bonds:
+            return torch.nn.functional.pad(values, (0, 0, 0, missing, 0, missing))
+        if mask:
+            return torch.nn.functional.pad(values, (0, missing))
+        return torch.nn.functional.pad(values, (0, 0, 0, missing))
+
+    return EpisodeBatch(
+        tuple(item.spec for item in episodes),
+        torch.stack([item.protein_pooled for item in episodes]),
+        torch.stack([item.protein_tokens for item in episodes]),
+        torch.stack([item.protein_mask for item in episodes]),
+        torch.stack([pad_graphs(item.support_atoms) for item in episodes]),
+        torch.stack([pad_graphs(item.support_bonds, bonds=True) for item in episodes]),
+        torch.stack([pad_graphs(item.support_mask, mask=True) for item in episodes]),
+        torch.stack([item.support_y for item in episodes]),
+        torch.stack([pad_graphs(item.query_atoms) for item in episodes]),
+        torch.stack([pad_graphs(item.query_bonds, bonds=True) for item in episodes]),
+        torch.stack([pad_graphs(item.query_mask, mask=True) for item in episodes]),
+        torch.stack([item.query_y for item in episodes]))
+
+
+def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True):
+    if episode.support_atoms.ndim == 3:
+        episode = compact_episode(episode)
+    active = max(int(episode.support_mask.sum(-1).max()),
+                 int(episode.query_mask.sum(-1).max()))
+    if episode.support_atoms.ndim == 4:
+        support_atoms = episode.support_atoms[:, :, :active]
+        support_bonds = episode.support_bonds[:, :, :active, :active]
+        support_mask = episode.support_mask[:, :, :active]
+        query_atoms = episode.query_atoms[:, :, :active]
+        query_bonds = episode.query_bonds[:, :, :active, :active]
+        query_mask = episode.query_mask[:, :, :active]
+    else:
+        support_atoms = episode.support_atoms[:, :active]
+        support_bonds = episode.support_bonds[:, :active, :active]
+        support_mask = episode.support_mask[:, :active]
+        query_atoms = episode.query_atoms[:, :active]
+        query_bonds = episode.query_bonds[:, :active, :active]
+        query_mask = episode.query_mask[:, :active]
     return model(
         episode.protein_pooled, episode.protein_tokens, episode.protein_mask,
-        episode.support_atoms[:, :active],
-        episode.support_bonds[:, :active, :active],
-        episode.support_mask[:, :active], episode.support_y,
-        episode.query_atoms[:, :active],
-        episode.query_bonds[:, :active, :active],
-        episode.query_mask[:, :active], adapt=adapt)
+        support_atoms, support_bonds, support_mask, episode.support_y,
+        query_atoms, query_bonds, query_mask, adapt=adapt)
 
 
 def replay_state(target_output, state: torch.Tensor) -> torch.Tensor:
@@ -137,13 +212,18 @@ def wrong_protein_zero_shot(model: QPSMPBioModel, data: QPSMPData,
 
 
 def evaluate(model: QPSMPBioModel, data: QPSMPData,
-             bank: tuple[EpisodeSpec, ...], controls: bool,
+             bank: tuple[EpisodeSpec | EpisodeBatch, ...], controls: bool,
              label_scale: LabelScale) -> dict:
     rows = []
     model.eval()
     with torch.no_grad():
-        for spec in bank:
-            episode = normalized_episode(data.materialize(spec), label_scale)
+        for item in bank:
+            if isinstance(item, EpisodeSpec):
+                spec = item
+                episode = normalized_episode(data.materialize(spec), label_scale)
+            else:
+                episode = item
+                spec = episode.spec
             full = forward(model, episode)
             frozen = forward(model, episode, adapt=False)
             evidence_null = replay_state(full, torch.zeros_like(full.task_state))
@@ -203,7 +283,8 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
 
 
 def train(data: QPSMPData, config: TrainConfig,
-          support_sizes: tuple[int, ...] | None = None):
+          support_sizes: tuple[int, ...] | None = None,
+          progress_path: Path | None = None):
     torch.manual_seed(config.seed)
     rng = np.random.default_rng(config.seed)
     model = QPSMPBioModel(
@@ -219,41 +300,50 @@ def train(data: QPSMPData, config: TrainConfig,
     train_support_sizes = support_sizes or (config.support_size,)
     if not train_support_sizes or any(k < 1 for k in train_support_sizes):
         raise ValueError("support sizes must be positive")
-    val_banks = {
+    val_specs = {
         k: data.fixed_episode_bank(
             "meta_val", k, config.query_size,
             config.val_draws_per_target, config.seed,
             config.eval_targets_per_component)
         for k in train_support_sizes
     }
+    val_banks = {
+        k: tuple(compact_episode(normalized_episode(data.materialize(spec), label_scale))
+                 for spec in specs)
+        for k, specs in val_specs.items()
+    }
+    train_cache: dict[int, tuple[EpisodeBatch, ...]] = {}
+    for k in train_support_sizes:
+        episodes = []
+        while len(episodes) < config.train_cache_size:
+            spec = data.draw_episode("meta_train", k, config.query_size, rng)
+            if len(spec.query) != config.query_size:
+                continue
+            episodes.append(compact_episode(
+                normalized_episode(data.materialize(spec), label_scale)))
+        train_cache[k] = tuple(episodes)
     best_state, best_value, best_step = None, float("inf"), 0
     trace = []
+    started = time.monotonic()
     for step in range(1, config.steps + 1):
         model.train()
         optimizer.zero_grad()
-        losses = []
-        for episode_index in range(config.episodes_per_step):
-            support_size = train_support_sizes[
-                ((step - 1) * config.episodes_per_step + episode_index)
-                % len(train_support_sizes)
-            ]
-            spec = data.draw_episode(
-                "meta_train", support_size, config.query_size, rng)
-            episode = normalized_episode(data.materialize(spec), label_scale)
-            full = forward(model, episode, adapt=not config.zero_support_only)
-            endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
-            query_y = episode.query_y.to(
-                device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
-            endpoint_loss = (endpoint_prediction - query_y).square().mean()
-            if episode.query_y.numel() > 1:
-                query_residual = full.zero_shot - query_y
-                zero_shot_loss = (
-                    query_residual - query_residual.mean()
-                ).square().mean()
-            else:
-                zero_shot_loss = endpoint_loss.new_zeros(())
-            losses.append(endpoint_loss + config.zero_shot_loss_weight * zero_shot_loss)
-        loss = torch.stack(losses).mean()
+        support_size = train_support_sizes[(step - 1) % len(train_support_sizes)]
+        cache = train_cache[support_size]
+        offset = ((step - 1) * config.episodes_per_step) % len(cache)
+        selected = [cache[(offset + index) % len(cache)]
+                    for index in range(config.episodes_per_step)]
+        episode = stack_episodes(selected)
+        full = forward(model, episode, adapt=not config.zero_support_only)
+        endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
+        query_y = episode.query_y.to(
+            device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
+        endpoint_loss = (endpoint_prediction - query_y).square().mean()
+        query_residual = full.zero_shot - query_y
+        zero_shot_loss = (
+            query_residual - query_residual.mean(dim=-1, keepdim=True)
+        ).square().mean()
+        loss = endpoint_loss + config.zero_shot_loss_weight * zero_shot_loss
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
         optimizer.step()
@@ -264,6 +354,17 @@ def train(data: QPSMPData, config: TrainConfig,
                 model, data, bank, controls=False,
                 label_scale=label_scale)[selection_field] for bank in val_banks.values()]
             value = float(np.mean(values))
+            progress = {
+                "step": step, "validation_mse_pk": value,
+                "best_validation_mse_pk": min(best_value, value),
+                "elapsed_seconds": time.monotonic() - started,
+                "device": config.device,
+            }
+            line = json.dumps(progress)
+            print(line, flush=True)
+            if progress_path is not None:
+                with progress_path.open("a", encoding="utf-8") as handle:
+                    handle.write(line + "\n")
             if value < best_value:
                 best_state, best_value, best_step = copy.deepcopy(model.state_dict()), value, step
     if best_state is None:
@@ -276,6 +377,9 @@ def train(data: QPSMPData, config: TrainConfig,
                    "support_sizes": list(train_support_sizes),
                    "validation_episode_bank_sizes": {
                        str(k): len(bank) for k, bank in val_banks.items()
+                   },
+                   "train_episode_cache_sizes": {
+                       str(k): len(bank) for k, bank in train_cache.items()
                    }}, label_scale
 
 
@@ -286,6 +390,7 @@ def main() -> None:
     parser.add_argument("--query-size", type=int, default=TrainConfig.query_size)
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--episodes-per-step", type=int, default=TrainConfig.episodes_per_step)
+    parser.add_argument("--train-cache-size", type=int, default=TrainConfig.train_cache_size)
     parser.add_argument("--val-interval", type=int, default=TrainConfig.val_interval)
     parser.add_argument("--val-draws-per-target", type=int, default=TrainConfig.val_draws_per_target)
     parser.add_argument("--test-draws-per-target", type=int, default=TrainConfig.test_draws_per_target)
@@ -303,9 +408,11 @@ def main() -> None:
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"output already exists: {args.output}")
+    args.output.mkdir(parents=True, exist_ok=False)
     config = TrainConfig(
         seed=args.seed, support_size=args.support_size, query_size=args.query_size,
         steps=args.steps, episodes_per_step=args.episodes_per_step,
+        train_cache_size=args.train_cache_size,
         val_interval=args.val_interval,
         val_draws_per_target=args.val_draws_per_target,
         test_draws_per_target=args.test_draws_per_target,
@@ -315,13 +422,13 @@ def main() -> None:
         interaction_mode=args.interaction_mode,
         zero_support_only=args.zero_support_only,
         device=args.device)
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK)
-    model, training, label_scale = train(data, config)
+    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
+    model, training, label_scale = train(
+        data, config, progress_path=args.output / "progress.jsonl")
     test_bank = data.fixed_episode_bank(
         "meta_test", config.support_size, config.query_size,
         config.test_draws_per_target, config.seed, config.eval_targets_per_component)
     metrics = evaluate(model, data, test_bank, controls=True, label_scale=label_scale)
-    args.output.mkdir(parents=True, exist_ok=False)
     checkpoint = args.output / "checkpoint.pt"
     torch.save({"model_state": model.state_dict(), "config": asdict(config)}, checkpoint)
     result = {
