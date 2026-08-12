@@ -366,7 +366,7 @@ class QPSMPBioModel(nn.Module):
             ligand_layers: int = 2, adapter_hidden_dim: int | None = None,
             state_bound: float = 1.0,
             section_mode: str = "support_span",
-            interaction_mode: str = "atom_residue",
+            interaction_mode: str = "pooled",
             dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
         if interaction_mode not in {"pooled", "atom_residue"}:

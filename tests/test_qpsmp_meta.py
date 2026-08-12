@@ -257,7 +257,8 @@ def test_neural_state_stays_inside_declared_euclidean_ball():
 
 def test_bio_model_query_loss_reaches_both_encoders_and_meta_operator():
     torch.manual_seed(38)
-    model = QPSMPBioModel(8, 6, 2, ligand_layers=1, dtype=DTYPE)
+    model = QPSMPBioModel(
+        8, 6, 2, ligand_layers=1, interaction_mode="atom_residue", dtype=DTYPE)
     protein = torch.randn(8, dtype=torch.float16)
     tokens = torch.randn(5, 8, dtype=torch.float16)
     protein_mask = torch.ones(5, dtype=torch.uint8)

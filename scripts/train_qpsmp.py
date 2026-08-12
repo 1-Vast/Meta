@@ -48,7 +48,7 @@ class TrainConfig:
     grad_clip: float = 5.0
     zero_shot_loss_weight: float = 0.25
     section_mode: str = "support_span"
-    interaction_mode: str = "atom_residue"
+    interaction_mode: str = "pooled"
     zero_support_only: bool = False
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
