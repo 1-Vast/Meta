@@ -9,7 +9,6 @@ from .config import DEFAULT, MetaSieveConfig, profile
 from .encoders import LigandEncoder, ProteinEncoder
 from .mechanism import MechanisticInteractionBridge
 from .meta_operator import BandOperator, CSMO, build_band_operator
-from .qpsmp import QPSMPCore, QPSMPOutput
 from .qpsmp_meta import QPSMPBioModel, QPSMPMetaLearner, QPSMPMetaOutput
 from .runtime import configure_cuda, require_cuda
 
@@ -21,11 +20,9 @@ __all__ = [
     "MechanisticInteractionBridge",
     "MetaSieveConfig",
     "ProteinEncoder",
-    "QPSMPCore",
     "QPSMPBioModel",
     "QPSMPMetaLearner",
     "QPSMPMetaOutput",
-    "QPSMPOutput",
     "configure_cuda",
     "build_band_operator",
     "profile",

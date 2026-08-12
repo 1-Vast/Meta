@@ -17,7 +17,7 @@ The candidate core is the **Quotient-Preserving Section Meta-Potential (QPSMP)**
 `model/qpsmp_meta.py`. It is a trainable neural scalar potential with ligand-conditioned protein
 localization and a permutation-invariant, centered, zero-preserving support adapter. Query loss
 trains the localizer, crossed interaction map, scalar head, section basis, and adapter. The analytic
-centered ridge in `model/qpsmp.py` is a comparator and section diagnostic, not the innovation.
+section remains a mathematical diagnostic and is not a second model implementation.
 
 ## Current Status
 
@@ -35,13 +35,11 @@ development promotion. No G2, G3, biological, confirmation, performance-guarante
 claim is authorized. The governed manifest records only six independent homology components, and
 the repository currently has no authorized untouched confirmation cohort.
 
-## Authority Order
+## Core Repository Surface
 
-1. `theory/CURRENT_THEORY/` for current mathematics and model contract.
-2. `task.md` for the active falsifiable work contract.
-3. `report/**/RESULT.json` plus manifests for numerical evidence.
-4. `report/EVIDENCE_LEDGER.md` for navigational summaries.
-5. `history.md` and `archive/` for provenance only.
-
-`theory/FINAL_FROZEN_THEORY/`, `PROJECT_HANDOFFS/`, and `archive/FORT/` are preserved historical
-material and cannot override the current theory.
+1. `model/qpsmp_meta.py`: current neural model.
+2. `scripts/qpsmp_data.py`, `scripts/train_qpsmp.py`, and `scripts/evaluate_qpsmp.py`: current data,
+   training, and governed evaluation entry points.
+3. `theory/CURRENT_THEORY/`: current mathematics and model contract.
+4. `docs/MODEL_IMPLEMENTATION_CONTRACT.md`: code-to-theory mapping.
+5. `report/meta_fewshot/qpsmp_nested_k1235_development_20260812/RESULT.json`: core development report.

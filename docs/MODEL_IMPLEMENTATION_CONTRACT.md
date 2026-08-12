@@ -32,13 +32,6 @@ protein, and design-nuisance controls. Full prediction utility is a separate est
 - Delta and rectangle predictions are differences of retained scalar endpoint predictions.
 - A foreign-support control may replace only the transient neural task state.
 
-## Analytic Helper
-
-`model.qpsmp.QPSMPCore` is a legacy analytic centered-ridge diagnostic over precomputed features. Its
-row-space radius is a geometric diagnostic, not a calibrated conditional coverage certificate.
-It has independent heads, is not an identical-family comparator for `QPSMPBioModel`, and cannot
-authorize G2, G3, or neural-prediction coverage.
-
 ## Evidence Boundary
 
 The implementation is trainable and its declared tensor interface is covered by focused tests. In a
