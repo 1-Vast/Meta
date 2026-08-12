@@ -7,12 +7,40 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "project_state.json"
 ARCHIVE = ROOT / "archive/retired_research_20260811/ARCHIVE_MANIFEST.json"
+
+STATE = {
+    "schema_version": "5.0",
+    "updated": "2026-08-11",
+    "core_task": {
+        "name": "unseen-target few-shot drug-target affinity prediction",
+        "target_is_meta_task": True,
+        "support_sizes": [1, 2, 3, 5],
+        "query_labels_forbidden": True,
+    },
+    "current_stage": {
+        "name": "R0C_EXACT_DISTANCE_CONFIRMATION_COMPLETE",
+        "status": "MARGINAL_OR_SLOT_RECALIBRATION_ONLY",
+        "training_authorized": False,
+        "confirmation_labels_open": False,
+    },
+    "unresolved": [
+        "FRESH_CLUSTER_CONFIRMATION_FOR_PROTEIN_SPECIFICITY",
+        "INDEPENDENT_ASSAY_MATCHED_DENSE_CROSSED_SELECTIVITY_COHORT",
+        "PREAGGREGATION_AND_LOCAL_INFORMATION_AUDIT_CONDITIONAL_ON_FRESH_A1_PASS",
+        "END_TO_END_BIOLOGICAL_COORDINATE_TRAINING",
+        "NEW_OBSERVABLE_TO_BREAK_ADDITIVE_ATOM_RESIDUE_SHORTCUT",
+        "REAL_ASSAY_REPLICATE_UNCERTAINTY_FOR_ROBUST_META_OBJECTIVE",
+        "PARTNER_SPECIFIC_AFFINITY_INCREMENT",
+        "BIOLOGICAL_STATISTIC_ADMISSION_TO_Z",
+        "END_TO_END_FEWSHOT_DTA",
+        "CSMO_BIOLOGICAL_Z_BRIDGE",
+    ],
+    "archive_manifest": "archive/retired_research_20260811/ARCHIVE_MANIFEST.json",
+}
 
 
 def load_status(*, archive_only: bool = False) -> dict:
-    state = json.loads(STATE.read_text(encoding="utf-8"))
     archive = json.loads(ARCHIVE.read_text(encoding="utf-8"))
     if archive_only:
         return {
@@ -23,12 +51,12 @@ def load_status(*, archive_only: bool = False) -> dict:
             "production_impact": archive["production_impact"],
         }
     return {
-        "schema_version": state["schema_version"],
-        "updated": state["updated"],
-        "core_task": state["core_task"],
-        "current_stage": state["current_stage"],
-        "unresolved": state["unresolved"],
-        "archive_manifest": state["canonical_documents"]["archive_manifest"],
+        "schema_version": STATE["schema_version"],
+        "updated": STATE["updated"],
+        "core_task": STATE["core_task"],
+        "current_stage": STATE["current_stage"],
+        "unresolved": STATE["unresolved"],
+        "archive_manifest": STATE["archive_manifest"],
     }
 
 

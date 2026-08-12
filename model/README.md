@@ -13,7 +13,7 @@ model implementation:
 The final task is unseen-target few-shot affinity prediction. V1 is assembled,
 trainable and CUDA-verified, but is not biologically admitted or production
 ready. Its best development result and failed Gates are summarized in
-`PROJECT_SUMMARY.md`. Migration remains conditional on partner, affinity,
+`PROJECT_CONTEXT.md`, `README.md` and `history.md`. Migration remains conditional on partner, affinity,
 transfer and k-shot Gates.
 
 Removed support encoders, arbitrary biological latents and terminal-negative
