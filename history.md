@@ -8489,3 +8489,157 @@ END_TO_END_COLD_TARGET_UTILITY_OPEN
 V1_INTEGRATION_AUTHORIZED=false
 BIOLOGICAL_CLAIM_AUTHORIZED=false
 ```
+
+## 2026-08-12 F-157 SAR-delta symmetry Gate 0
+
+Question: before any richer UniPert-inspired representation, remove the
+pair-order shortcut exposed by F-156. Every matched pair is augmented with its
+reverse:
+
+```text
+(t, l_i, l_j, delta) and (t, l_j, l_i, -delta)
+```
+
+This makes a target-main predictor incapable of exploiting ordered-pair
+construction if the protocol is clean.
+
+Implementation:
+
+```text
+research/crossed_interaction/audit_bindingdb_sardelta_symmetry.py
+tests/test_audit_bindingdb_sardelta_symmetry.py
+```
+
+Command:
+
+```text
+conda run -n drug python research/crossed_interaction/audit_bindingdb_sardelta_symmetry.py \
+  --output report/crossed_interaction/bindingdb_sardelta_symmetry_gate0_20260812 \
+  --ridge 100 --max-pairs-per-group 100 --bootstrap-draws 999
+```
+
+Result:
+
+```text
+train forward / augmented pairs        20423 / 40846
+development forward / augmented pairs   1033 / 2066
+
+Z MSE 0.580072
+P MSE 0.580072
+L MSE 0.601045
+A MSE 0.601045
+
+P vs Z delta +0.000000, LCB95 +0.000000, pass false
+A vs Z delta +0.016699, LCB95 -0.076832, pass false
+A vs L delta -0.000000, LCB95 -0.000000, pass false
+L vs Z delta +0.016699, LCB95 -0.076981, pass false
+```
+
+Antisymmetry audit:
+
+```text
+L max |f(i,j)+f(j,i)| 1.11e-16
+A max |f(i,j)+f(j,i)| 1.11e-16
+P max |f(i,j)+f(j,i)| 1.24e-18
+```
+
+Gate:
+
+```text
+BINDINGDB_SARDELTA_SYMMETRY_GATE0_PASS
+```
+
+Interpretation: Gate 0 passes and explains the F-156 anomaly. The strong
+target-main arm was produced by ordered-pair construction, not by a valid
+target-conditioned SAR mechanism. Once the empirical pair distribution is made
+antisymmetric, target-main collapses to zero and additive concat collapses to
+ligand-delta.
+
+```text
+SYMMETRIC_PAIR_GATE0_REMOVES_TARGET_MAIN_SHORTCUT
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+```
+
+## 2026-08-12 F-158 UniPert-inspired pair-score difference Gate U1
+
+Question: after Gate 0 removes target-main shortcut, test one final
+UniPert-inspired relation arm without increasing model complexity indefinitely.
+The arm learns a closed-form score difference:
+
+```text
+R = s(P, L_i) - s(P, L_j)
+s(P,L) uses [ligand_descriptor(L); protein_descriptor(P) x ligand_descriptor(L)]
+```
+
+Controls:
+
+```text
+L   ligand-delta ridge
+B   bilinear protein x ligand-delta ridge
+R   pair-score difference
+RW  R with wrong target
+RS  R with shuffled target
+```
+
+Implementation:
+
+```text
+research/crossed_interaction/train_bindingdb_pair_score_difference.py
+tests/test_train_bindingdb_pair_score_difference.py
+```
+
+Command:
+
+```text
+conda run -n drug python research/crossed_interaction/train_bindingdb_pair_score_difference.py \
+  --output report/crossed_interaction/bindingdb_pair_score_difference_gate_u1_20260812 \
+  --ridge 100 --max-pairs-per-group 100 --bootstrap-draws 999
+```
+
+Development MSE:
+
+```text
+Z   0.580072
+L   0.601045
+B   1.428743
+BW  1.999605
+BS  2.129895
+R   1.428732
+RW  1.999607
+RS  2.130083
+```
+
+Contrasts:
+
+```text
+R vs L   delta -1.651196, LCB95 -2.437710, pass false
+R vs RW  delta +0.043048, LCB95 -1.100254, pass false
+R vs RS  delta -0.151049, LCB95 -1.109046, pass false
+B vs L   delta -1.651167, LCB95 -2.444891, pass false
+B vs BW  delta +0.042969, LCB95 -0.992616, pass false
+B vs BS  delta -0.151171, LCB95 -1.163035, pass false
+```
+
+Gate:
+
+```text
+BINDINGDB_PAIR_SCORE_DIFFERENCE_GATE_U1_FAIL_CLOSED
+```
+
+Interpretation: U1 fails decisively. After pair symmetry is enforced, the
+low-capacity UniPert-inspired score-difference arm overfits training
+(`train_mse=0.352511`) but is far worse than zero and ligand-delta on
+development. It also does not pass wrong-target or shuffled-target controls.
+Per the registered stop tree, do not continue by adding Transformer layers or
+larger pair encoders on this same supervision. UniPert-G2CP remains a useful
+representation-transfer reference, but not an active MetaSieve architecture
+lane under the current BindingDB SAR-delta evidence.
+
+```text
+PAIR_SCORE_DIFFERENCE_GATE_U1_FAIL_CLOSED
+STOP_UNIPERT_INSPIRED_REPRESENTATION_LANE
+TARGET_CONDITIONING_NOT_IDENTIFIED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+```

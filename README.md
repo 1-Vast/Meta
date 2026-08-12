@@ -100,6 +100,16 @@ controls. The correct current conclusion is therefore: SAR-delta transfer
 signal is identified; target-specific conditioning and end-to-end Cold Target
 utility remain open; scalar and unordered panel-edge lifts are rejected.
 
+A final controlled UniPert-inspired retest then enforced forward+reverse
+SAR-delta symmetry before trying a score-difference arm
+`s(P,L_i)-s(P,L_j)`. Symmetry Gate 0 passed: target-main collapsed to zero
+(`P` MSE `0.580072`, identical to zero), confirming that the earlier target-main
+win came from pair-ordering structure. The U1 score-difference arm failed
+closed: `R` MSE `1.428732` versus ligand-delta `0.601045`, with negative LCB95
+for `R>L`, and it did not beat wrong-target or shuffled-target controls. Under
+the registered stop tree, UniPert-G2CP remains a representation and transfer
+reference, not an active MetaSieve architecture lane.
+
 The screened methodological references also include [adaptive task
 scheduling](https://proceedings.neurips.cc/paper/2021/hash/3dc4876f3f08201c7c76cb71fa1da439-Abstract.html),
 [differentiable closed-form solvers](https://openreview.net/forum?id=HyxnZh0ct7),
@@ -217,6 +227,9 @@ SAR_DELTA_TRANSFER_SIGNAL_IDENTIFIED
 TARGET_CONDITIONING_NOT_YET_IDENTIFIED
 UNIPERT_STYLE_INTERACTION_BRIDGE_NOT_YET_PROPERLY_TESTED
 SCALAR_AND_UNORDERED_EDGE_LIFTS_REJECTED
+SYMMETRIC_PAIR_GATE0_REMOVES_TARGET_MAIN_SHORTCUT
+PAIR_SCORE_DIFFERENCE_GATE_U1_FAIL_CLOSED
+STOP_UNIPERT_INSPIRED_REPRESENTATION_LANE
 END_TO_END_COLD_TARGET_UTILITY_OPEN
 BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
 NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL

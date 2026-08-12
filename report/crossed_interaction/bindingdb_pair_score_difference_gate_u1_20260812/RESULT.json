@@ -1,0 +1,140 @@
+{
+  "TERMINAL_VERDICT": "BINDINGDB_PAIR_SCORE_DIFFERENCE_GATE_U1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "max_pairs_per_group": 100,
+    "pair_similarity_threshold": 0.5,
+    "ridge": 100.0,
+    "seed": 20260812
+  },
+  "corpus": {
+    "development_augmented_pairs": 2066,
+    "development_forward_pairs": {
+      "cells": 535,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 1033,
+      "skipped_similarity": 194,
+      "split": "development",
+      "target_scaffold_groups": 244
+    },
+    "manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "train_augmented_pairs": 40846,
+    "train_forward_pairs": {
+      "cells": 11922,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 20423,
+      "skipped_similarity": 40671,
+      "split": "train",
+      "target_scaffold_groups": 5133
+    }
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": -1.6511962099433262,
+      "components": 8,
+      "control": "L",
+      "correct": "R",
+      "one_sided_95_lcb": -2.4377104202887376,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.04304849901286234,
+      "components": 8,
+      "control": "RW",
+      "correct": "R",
+      "one_sided_95_lcb": -1.1002536800299612,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.15104886829935282,
+      "components": 8,
+      "control": "RS",
+      "correct": "R",
+      "one_sided_95_lcb": -1.1090455190813875,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -1.651167488904234,
+      "components": 8,
+      "control": "L",
+      "correct": "B",
+      "one_sided_95_lcb": -2.4448910739390755,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.042968635933386734,
+      "components": 8,
+      "control": "BW",
+      "correct": "B",
+      "one_sided_95_lcb": -0.9926158079223333,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.15117051128269932,
+      "components": 8,
+      "control": "BS",
+      "correct": "B",
+      "one_sided_95_lcb": -1.163035155200106,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "B": {
+      "mse": 1.4287433253922304,
+      "pairs": 2066
+    },
+    "BS": {
+      "mse": 2.1298950516513258,
+      "pairs": 2066
+    },
+    "BW": {
+      "mse": 1.9996049029263157,
+      "pairs": 2066
+    },
+    "L": {
+      "mse": 0.6010448726915824,
+      "pairs": 2066
+    },
+    "R": {
+      "mse": 1.4287324916491275,
+      "pairs": 2066
+    },
+    "RS": {
+      "mse": 2.130082627404099,
+      "pairs": 2066
+    },
+    "RW": {
+      "mse": 1.9996070273942381,
+      "pairs": 2066
+    },
+    "Z": {
+      "mse": 0.5800715132288407,
+      "pairs": 2066
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "development_components_ge_5": true,
+    "score_difference_beats_ligand_delta": false,
+    "score_difference_beats_shuffled_target": false,
+    "score_difference_beats_wrong_target": false
+  },
+  "hypothesis": "A UniPert-inspired score difference s(P,L_i)-s(P,L_j) identifies target-specific SAR-delta signal beyond ligand and wrong-target controls.",
+  "schema": "MetaSieve.BindingDBPairScoreDifferenceGateU1.v1",
+  "train_summary": {
+    "B": {
+      "feature_dim": 2808,
+      "train_mse": 0.3525197209661343
+    },
+    "L": {
+      "feature_dim": 104,
+      "train_mse": 0.7955847869453009
+    },
+    "R": {
+      "feature_dim": 2912,
+      "train_mse": 0.3525110986439593
+    }
+  },
+  "v1_integration_authorized": false
+}

@@ -25,6 +25,7 @@ F-149/F-150  ChEMBL affinity teachers failed closed
 F-154        scalar SAR-delta neighbor potential failed closed
 F-155        panel edge-distribution SAR-delta observable failed closed
 F-156        bilinear target x ligand-delta attribution failed closed
+F-158        UniPert-inspired pair-score difference failed closed
 ```
 
 F-154 and F-155 are especially important negative controls. They show that a
@@ -32,6 +33,9 @@ successful pair-delta model is not enough for the original panel CQ Gate unless
 the observable remains target-partner specific after the additive quotient.
 F-156 is the attribution correction: the F-153 predictive signal is real, but
 not yet attributable to target-conditioned chemical-transformation response.
+F-157 symmetry Gate 0 passed and removed the target-main ordering shortcut.
+F-158 then failed the registered U1 stop tree, so this UniPert-inspired
+representation lane should stop rather than scale model capacity.
 
 ## Reproducibility assets to keep
 
@@ -42,11 +46,15 @@ research/crossed_interaction/train_bindingdb_sardelta_cq_bridge.py
 research/crossed_interaction/train_sardelta_potential_cq_observable.py
 research/crossed_interaction/train_sardelta_edge_cq_observable.py
 research/crossed_interaction/train_bindingdb_sardelta_attribution.py
+research/crossed_interaction/audit_bindingdb_sardelta_symmetry.py
+research/crossed_interaction/train_bindingdb_pair_score_difference.py
 tests/test_train_chembl_assay_sardelta.py
 tests/test_train_bindingdb_sardelta_cq_bridge.py
 tests/test_train_sardelta_potential_cq_observable.py
 tests/test_train_sardelta_edge_cq_observable.py
 tests/test_train_bindingdb_sardelta_attribution.py
+tests/test_audit_bindingdb_sardelta_symmetry.py
+tests/test_train_bindingdb_pair_score_difference.py
 report/source_affinity/
 report/crossed_interaction/
 ```
@@ -69,16 +77,19 @@ until a separate archive commit or path-level deletion review is done.
 ## Next scientific constraint
 
 Do not continue with another scalar potential, unordered distribution summary,
-or additive concat `[protein; ligand_delta]` model. If the research resumes,
-the next falsifiable axis should first repair the attribution failure with a
-true pair-indexed protein x chemical-transformation model. The admission
-criterion must include:
+additive concat `[protein; ligand_delta]` model, or larger UniPert-inspired
+pair-score-difference encoder on the same SAR-delta supervision. F-157 passed
+the data symmetry audit; F-158 failed U1 and triggers the stop tree. If the
+research resumes, the next falsifiable axis should change the supervision
+estimand, for example a governed 2x2 rectangle interaction target, rather than
+only changing representation capacity. The admission criterion must include:
 
 ```text
 interaction beats ligand-delta
 interaction beats wrong-target
 interaction beats shuffled-target
 antisymmetry holds for pair deltas
+rectangle/additive main effects are explicitly controlled if rectangles are used
 component bootstrap LCB95 > 0
 support/query isolation preserved
 ```
