@@ -1,0 +1,141 @@
+{
+  "TERMINAL_VERDICT": "BINDINGDB_RECTANGLE_DESCRIPTOR_G2_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "development_training_authorized": false,
+    "labels_used_for_training": true,
+    "latent_nonadditivity_claim_authorized": false,
+    "ridge": 1000000.0,
+    "seed": 20260812,
+    "support_query_isolation": "train_split_fit_development_split_score"
+  },
+  "contrasts": [
+    {
+      "component_macro_reduction": 0.02823881333712196,
+      "components": 12,
+      "control": "zero",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.030536281443782617,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.03868281641648671,
+      "components": 12,
+      "control": "ligand_only",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.019947263319953102,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.06865601890740305,
+      "components": 12,
+      "control": "wrong_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.2796828917130181,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.06475260332408704,
+      "components": 12,
+      "control": "shuffled_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.22000568644952745,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "component_macro_mse": 1.4301053691058065,
+      "mse": 0.779820992336171,
+      "rows": 2900
+    },
+    "ligand_only": {
+      "component_macro_mse": 1.4687881855222933,
+      "mse": 0.8038574750596519,
+      "rows": 2900
+    },
+    "shuffled_protein": {
+      "component_macro_mse": 1.3653527657817195,
+      "mse": 0.8116748439294861,
+      "rows": 2900
+    },
+    "wrong_protein": {
+      "component_macro_mse": 1.3614493501984033,
+      "mse": 0.8435850182438348,
+      "rows": 2900
+    },
+    "zero": {
+      "component_macro_mse": 1.4583441824429286,
+      "mse": 0.8038245045900994,
+      "rows": 2900
+    }
+  },
+  "g3a_authorized": false,
+  "gates": {
+    "correct_beats_ligand_only": false,
+    "correct_beats_shuffled_protein": false,
+    "correct_beats_wrong_protein": false,
+    "correct_beats_zero": false,
+    "development_components_ge_5": true,
+    "development_rectangles_ge_1000": true,
+    "train_rectangles_ge_10000": true
+  },
+  "hypothesis": "A deployment-computable crossed descriptor, (protein_a-protein_b) x (ligand_b-ligand_a), transfers a cold protein-conditioned quotient signal across BindingDB components.",
+  "literature_mechanism": {
+    "activity_cliffs": "near-neighbor potency changes are a stringent SAR generalization test",
+    "double_mutant_cycle": "2x2 cycles algebraically remove main effects before interaction testing",
+    "matched_molecular_pair_analysis": "chemical transformations provide interpretable SAR perturbation units",
+    "unipert_g2cp_boundary": "retains cross-modal relation supervision only; no full UniPert model is imported"
+  },
+  "metadata": {
+    "descriptors": {
+      "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+      "crossed_descriptor_dim": 2808,
+      "ligand_descriptor": "morgan_radius2_96_bits_plus_physchem",
+      "ligand_descriptor_dim": 104,
+      "ligands": 4392,
+      "protein_descriptor": "amino_acid_composition_grouped_length",
+      "protein_descriptor_dim": 27,
+      "proteins": 510
+    },
+    "examples": 164151,
+    "rectangle_corpus": {
+      "cells": 12457,
+      "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+      "panels": 320,
+      "rectangle_positive_panels": 320,
+      "rectangles": 164151
+    }
+  },
+  "models": {
+    "correct_train_mse": 0.8720540052988255,
+    "ligand_only_train_mse": 1.4869409848914603,
+    "shuffled_protein": {
+      "fixed_points": 0,
+      "seed": 20260829
+    },
+    "wrong_protein": {
+      "dependency_components": 12,
+      "self_donors": 0
+    }
+  },
+  "schema": "MetaSieve.BindingDBRectangleDescriptorG2.v1",
+  "split_summary": {
+    "development": {
+      "dependency_components": 12,
+      "ligand_pairs": 2227,
+      "panels": 21,
+      "rectangles": 2900,
+      "target_pairs": 57
+    },
+    "train": {
+      "dependency_components": 19,
+      "ligand_pairs": 34339,
+      "panels": 299,
+      "rectangles": 161251,
+      "target_pairs": 1496
+    }
+  },
+  "v1_integration_authorized": false
+}

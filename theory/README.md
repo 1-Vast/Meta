@@ -1,16 +1,31 @@
-# Few-Shot Identifiability Theory Archive
+# MetaSieve Theory
 
-## Authoritative theory
+This directory has one current theory entry point and three preserved legacy areas.
 
-The frozen mathematical theory is in `FINAL_FROZEN_THEORY/`.
+## Current theory
 
-- `FINAL_FROZEN_THEORY/00_CORE_THEORY/FINAL_THEORY_COMPLETE.md`: complete theory in one document.
-- `FINAL_FROZEN_THEORY/FINAL_THEORY_STATUS.md`: frozen status, scope, and implementation handoff boundary.
-- `FINAL_FROZEN_THEORY/chapters/`: exact frozen chapters organized by subject.
+Read these two documents for current work:
 
-## Supporting material
+1. [`CURRENT_THEORY/PURE_MATHEMATICAL_THEORY.md`](CURRENT_THEORY/PURE_MATHEMATICAL_THEORY.md)
+   contains the architecture-independent mathematics: information limits, additive quotients,
+   integrability, finite-support sections, certificates, component generalization, and transport.
+2. [`CURRENT_THEORY/QPSMP_COLD_TARGET_MODEL_THEORY.md`](CURRENT_THEORY/QPSMP_COLD_TARGET_MODEL_THEORY.md)
+   instantiates that mathematics as a trainable deep meta-learning model for cold-target few-shot
+   drug-target affinity prediction.
 
-- `PROJECT_HANDOFFS/`: research and theory-to-model handoff documents.
-- `DEVELOPMENT_ARCHIVE/`: preserved multi-phase derivations, repairs, and audits. These folders provide provenance and are not authoritative over the frozen theory.
+The pure theory controls mathematical claims. The model theory may specialize its objects but may
+not strengthen its theorems. The learnable QPSMP meta-potential is the candidate innovation; the
+analytic centered ridge is only a comparator and certificate helper.
 
-The `.claude/` directory remains project configuration.
+## Preserved legacy material
+
+- `FINAL_FROZEN_THEORY/` is the previous frozen operator theory. It remains immutable provenance;
+  it is not the current QPSMP theory and does not establish QPSMP cold-target claims.
+- `PROJECT_HANDOFFS/` contains historical implementation handoffs. Handoffs are not theorem sources.
+- `DEVELOPMENT_ARCHIVE/` contains derivations, repairs, and audits. It is retained for traceability
+  and must not be used to override either current document.
+
+## Reading rule
+
+For a current mathematical question, read the pure theory first. For a model, training, input, or
+deployment question, read the model theory second. Consult legacy material only for provenance.
