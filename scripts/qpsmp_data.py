@@ -12,7 +12,6 @@ import numpy as np
 import torch
 
 from contracts.ligand_graph import ATOM_FEAT_DIM, BOND_FEAT_DIM, GRAPH_SCHEMA, MAX_ATOMS
-from scripts.build_ligand_bank import featurize_smiles
 
 
 @dataclass(frozen=True)
@@ -98,8 +97,6 @@ class QPSMPData:
         self.cells = self._read_cells(corpus / "cells.jsonl.gz")
         proteins = self._read_jsonl(corpus / "proteins.jsonl")
         ligands = self._read_jsonl(corpus / "ligands.jsonl")
-        self.ligand_smiles = {row["drug_key"]: row["smiles"] for row in ligands}
-        self.graph_cache: dict[str, tuple[np.ndarray, np.ndarray, np.ndarray]] = {}
         protein_keys = {row["sequence_sha256"] for row in proteins}
         self.protein_bank = _ShardedBank(protein_bank, ("pooled", "residues", "mask"))
         self.ligand_bank = _ShardedBank(ligand_bank, ("X", "A", "mask"))
@@ -237,10 +234,7 @@ class QPSMPData:
             values = []
             for index in indices:
                 ligand = self.cells[index]["ligand_id"]
-                if ligand not in self.graph_cache:
-                    graph = featurize_smiles(self.ligand_smiles[ligand])
-                    self.graph_cache[ligand] = graph["X"], graph["A"], graph["mask"]
-                values.append(self.graph_cache[ligand])
+                values.append(self.ligand_bank.get(ligand))
             return tuple(torch.from_numpy(np.stack(field).copy()) for field in zip(*values))
 
         support_atoms, support_bonds, support_mask = graphs(spec.support)

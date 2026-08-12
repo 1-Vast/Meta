@@ -55,7 +55,11 @@ def test_materialized_episode_uses_raw_biological_banks_and_pki_labels():
     assert torch.equal(
         episode.support_y,
         torch.tensor([data.cells[index]["pK"] for index in spec.support], dtype=torch.float32))
-    assert len(data.graph_cache) <= 4
+    ligand = data.cells[spec.support[0]]["ligand_id"]
+    atoms, bonds, mask = data.ligand_bank.get(ligand)
+    assert torch.equal(episode.support_atoms[0], torch.from_numpy(atoms))
+    assert torch.equal(episode.support_bonds[0], torch.from_numpy(bonds))
+    assert torch.equal(episode.support_mask[0], torch.from_numpy(mask).bool())
 
 
 def test_materialize_rejects_support_query_overlap():
