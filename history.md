@@ -8110,7 +8110,8 @@ development Gate with dependency-component bootstrap.
 ```text
 V1_INTEGRATION_AUTHORIZED=false
 BIOLOGICAL_CLAIM_AUTHORIZED=false
-TARGET_CONDITIONED_SAR_DELTA_TRANSFERRED_TO_BINDINGDB_PAIR_BRIDGE
+SAR_DELTA_TRANSFER_SIGNAL_IDENTIFIED
+TARGET_CONDITIONING_NOT_YET_IDENTIFIED
 ```
 
 Next repair direction: lift the pair-delta representation into the original
@@ -8294,11 +8295,11 @@ cannot leave the observable invariant.
 
 ## 2026-08-12 pause audit: cleanup and summary map
 
-Current admitted mechanisms:
+Current identified signals:
 
 ```text
-F-152  ChEMBL same-assay same-scaffold target-conditioned SAR-delta source Gate PASS
-F-153  BindingDB target-conditioned SAR-delta pair bridge Gate PASS
+F-152  ChEMBL same-assay same-scaffold SAR-delta source signal passed its local Gate
+F-153  BindingDB SAR-delta pair bridge beat zero-delta on development components
 ```
 
 Current rejected mechanisms preserved as evidence:
@@ -8308,6 +8309,10 @@ F-149/F-150  absolute-affinity and task-ligand residual teachers failed closed
 F-154        scalar SAR-delta neighbor potential failed closed
 F-155        panel edge-distribution SAR-delta observable failed closed
 ```
+
+Attribution caveat added after the UniPert-G2CP retest: F-152/F-153 do not yet
+identify target-specific conditioning. The `delta_target` arm is a linear concat
+model `[protein; ligand_delta]`, not a target x ligand-delta interaction.
 
 Files to keep for reproducibility:
 
@@ -8374,15 +8379,113 @@ LCB95                      +0.270172
 terminal verdict BINDINGDB_SARDELTA_CQ_BRIDGE_GATE1_PASS
 ```
 
-Conclusion: the UniPert-G2CP-style bridge is effective at the local
-target-conditioned pair-delta transfer level and is now named as a current
-architecture reference in README.md. It remains insufficient for end-to-end
-Cold Target DTA: F-154 and F-155 show that naive scalar or unordered panel-edge
-lifts do not pass the original panel CQ wrong-partner/additive controls.
+Superseded conclusion: this retest shows a real SAR-delta transfer signal, but
+does not identify a UniPert-G2CP-style target x chemical-transformation bridge.
+The original `delta_target` feature is a linear concat model
+`[protein; ligand_delta]`, so it cannot prove that the chemical-transformation
+response slope depends on the target. F-154 and F-155 reject scalar and
+unordered-distribution lifts only; they do not close the end-to-end value of a
+proper UniPert-style interaction bridge.
 
 ```text
 UNIPERT_G2CP_ARCHITECTURE_REFERENCE_ADDED
-PAIR_DELTA_BRIDGE_EFFECTIVE=true
+SAR_DELTA_TRANSFER_SIGNAL_IDENTIFIED
+TARGET_CONDITIONING_NOT_YET_IDENTIFIED
+UNIPERT_STYLE_INTERACTION_BRIDGE_NOT_YET_PROPERLY_TESTED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+```
+
+## 2026-08-12 F-156 BindingDB SAR-delta attribution Gate
+
+Question: determine whether the F-153 PASS is ligand-delta transfer, target
+main-effect leakage, additive concat behavior, or a true target-conditioned
+chemical-transformation interaction. F-156 reuses the same F-153 train and
+development pair protocol: same split, same Morgan threshold 0.50, same
+max-pairs-per-group 100, same ridge 100 and same dependency-component
+bootstrap.
+
+Arms:
+
+```text
+Z   zero delta
+L   ligand-delta ridge
+P   target-main ridge
+A   additive concat ridge [protein; ligand_delta]
+I   bilinear target x ligand-delta ridge
+IW  I with wrong protein descriptor at development time
+IS  I with shuffled protein descriptor at development time
+```
+
+Implementation:
+
+```text
+research/crossed_interaction/train_bindingdb_sardelta_attribution.py
+tests/test_train_bindingdb_sardelta_attribution.py
+```
+
+Retest command:
+
+```text
+conda run -n drug python research/crossed_interaction/train_bindingdb_sardelta_attribution.py \
+  --output report/crossed_interaction/bindingdb_sardelta_attribution_gate1_20260812 \
+  --ridge 100 --max-pairs-per-group 100 --bootstrap-draws 999
+```
+
+Development MSE:
+
+```text
+Z   0.580072
+L   0.600399
+P   0.226119
+A   0.233695
+I   1.241352
+IW  1.663326
+IS  1.669560
+```
+
+Contrasts:
+
+```text
+I vs L   delta -1.330869, LCB95 -1.912602, pass false
+I vs IW  delta -0.102225, LCB95 -0.902077, pass false
+I vs IS  delta -0.261538, LCB95 -0.950055, pass false
+A vs L   delta +0.359677, LCB95 +0.262219, pass true
+A vs Z   delta +0.376794, LCB95 +0.267774, pass true
+L vs Z   delta +0.017118, LCB95 -0.075538, pass false
+```
+
+Antisymmetry audit:
+
+```text
+L max |f(i,j)+f(j,i)| 0.000000
+I max |f(i,j)+f(j,i)| 0.000000
+A max |f(i,j)+f(j,i)| 1.654930
+P max |f(i,j)+f(j,i)| 1.812177
+```
+
+Gate:
+
+```text
+BINDINGDB_SARDELTA_ATTRIBUTION_GATE1_FAIL_CLOSED
+```
+
+Interpretation: F-156 confirms the user's attribution concern. F-153's strong
+PASS is real predictive signal, but it is not currently identified as a
+target-conditioned SAR transformation. The additive concat arm reproduces the
+F-153 zero-delta win while violating the antisymmetry required by a true
+SAR-delta field. The bilinear interaction arm has the right antisymmetry but
+does not beat ligand-delta, wrong-target or shuffled-target controls. The
+surprisingly strong target-main arm indicates that the ordered-pair construction
+contains target/scaffold/pair-order structure that can predict delta magnitudes
+without a validated protein x transformation mechanism.
+
+```text
+SAR_DELTA_TRANSFER_SIGNAL_IDENTIFIED
+TARGET_CONDITIONING_NOT_YET_IDENTIFIED
+UNIPERT_STYLE_INTERACTION_BRIDGE_NOT_YET_PROPERLY_TESTED
+SCALAR_AND_UNORDERED_EDGE_LIFTS_REJECTED
+END_TO_END_COLD_TARGET_UTILITY_OPEN
 V1_INTEGRATION_AUTHORIZED=false
 BIOLOGICAL_CLAIM_AUTHORIZED=false
 ```
