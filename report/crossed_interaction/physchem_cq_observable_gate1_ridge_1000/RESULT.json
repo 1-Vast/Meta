@@ -1,0 +1,122 @@
+{
+  "TERMINAL_VERDICT": "PHYSCHEM_CQ_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "arms": [
+      "correct",
+      "deranged_protein",
+      "foreign_ligand"
+    ],
+    "bootstrap_draws": 1999,
+    "evaluation_split": "development",
+    "ridge": 1000.0,
+    "seed": 20260812,
+    "train_split": "train"
+  },
+  "corpus": {
+    "blocks": 320,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "feature_dim": 640,
+    "feature_source": "protein_physchem_autocorrelation_x_ligand_pharmacophore",
+    "ligand_descriptor_dim": 16,
+    "ligands": 4392,
+    "max_lag": 8,
+    "max_projection_orthogonality": 1.731059739995544e-12,
+    "protein_descriptor_dim": 40,
+    "protein_property_channels": [
+      "hydropathy",
+      "volume",
+      "polarity",
+      "charge",
+      "aromatic"
+    ],
+    "proteins": 510
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": -0.003996645977470508,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.020184919696680115,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.013169774911513353,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.07306575000047252,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.0899863729800615,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.00607035169017337,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.3101804917864384,
+      "panels": 21,
+      "rank_weighted_mse": 0.2528032164314214
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3013688654194045,
+      "panels": 21,
+      "rank_weighted_mse": 0.2823119618650016
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.35801293748004476,
+      "panels": 21,
+      "rank_weighted_mse": 0.28454080617159194
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "correct_beats_deranged_protein": false,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "Short-lag protein physicochemical autocorrelations crossed with ligand pharmacophore descriptors carry dependency-transferable quotient interaction signal.",
+  "literature_mechanism": {
+    "adambind_boundary": "few-shot target-as-task V1 remains downstream and unchanged",
+    "classical_qsar_dti": "sequence autocorrelation and ligand pharmacophore/E-state descriptors encode typed biochemical neighborhoods",
+    "hodge_cycle_space": "quotient scoring removes target and ligand main effects"
+  },
+  "schema": "MetaSieve.PhyschemCQObservableGate1.v1",
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.27450283221616695,
+      "panels": 299,
+      "rank_weighted_mse": 0.2538889807252276
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.2791735489565682,
+      "panels": 299,
+      "rank_weighted_mse": 0.27117868338792855
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.29593634638474275,
+      "panels": 299,
+      "rank_weighted_mse": 0.3026362839492919
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}

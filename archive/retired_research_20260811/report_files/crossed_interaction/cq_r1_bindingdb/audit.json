@@ -1,0 +1,54 @@
+{
+  "schema": "BindingDB.CQ-R1.InteractionAudit.v1",
+  "labels_sha256": "6a44a1516b0feb7f8fe9b3f034b7c1e1be40eb8c214f4c417205e9632c823dcc",
+  "endpoint_summaries": {
+    "Ki": {
+      "cycle_positive_panels": 332,
+      "document_units": 326,
+      "total_retained_rank": 7411,
+      "quotient_rms": 0.5668268366579216,
+      "quotient_rms_ci95": [
+        0.529275961578697,
+        0.6042901757933671
+      ],
+      "max_orthogonality_error": 2.148503597254603e-12,
+      "replicate_cells": 467,
+      "replicate_mean_variance_sum": 129.64899203346798,
+      "conditions": {
+        "cycle_positive_panels_ge_50": true,
+        "total_retained_rank_ge_1000": true,
+        "document_units_ge_30": true,
+        "quotient_rms_ge_0_25": true,
+        "bootstrap_lcb_positive": true,
+        "orthogonality_le_1e_7": true
+      },
+      "development_trainable": true
+    },
+    "Kd": {
+      "cycle_positive_panels": 48,
+      "document_units": 47,
+      "total_retained_rank": 541,
+      "quotient_rms": 0.61012850841839,
+      "quotient_rms_ci95": [
+        0.4615732371657067,
+        0.7532273845848119
+      ],
+      "max_orthogonality_error": 7.887024366937112e-13,
+      "replicate_cells": 27,
+      "replicate_mean_variance_sum": 3.186006361429814,
+      "conditions": {
+        "cycle_positive_panels_ge_50": false,
+        "total_retained_rank_ge_1000": false,
+        "document_units_ge_30": true,
+        "quotient_rms_ge_0_25": true,
+        "bootstrap_lcb_positive": true,
+        "orthogonality_le_1e_7": true
+      },
+      "development_trainable": false
+    }
+  },
+  "primary_endpoint": "Ki",
+  "verdict": "CQ_R1_DEVELOPMENT_INTERACTION_OBSERVED",
+  "development_training_authorized": true,
+  "biological_claim_authorized": false
+}

@@ -1,0 +1,142 @@
+{
+  "TERMINAL_VERDICT": "ATTENTION_LOCALIZER_CQ_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "arms": [
+      "correct",
+      "deranged_protein",
+      "foreign_ligand"
+    ],
+    "bootstrap_draws": 1999,
+    "device": "cuda",
+    "evaluation_split": "development",
+    "localizer_mode": "uniform",
+    "localizer_split": "train",
+    "ridge": 10000.0,
+    "seed": 20260812,
+    "train_split": "train"
+  },
+  "corpus": {
+    "blocks": 320,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "feature_dim": 320,
+    "feature_source": "train_only_ligand_conditioned_esm2_slot_attention_x_ligand_estate",
+    "hidden_blocks": 8,
+    "ligand_descriptor_dim": 40,
+    "ligands": 4392,
+    "max_projection_orthogonality": 1.731059739995544e-12,
+    "panels": 320,
+    "protein_bank_manifest_sha256": "636fb453acf657a1d05c6260904feb8fd9ab502da4cfabf8ac0ec1ae150b5405",
+    "protein_bank_model_id": "facebook/esm2_t30_150M_UR50D",
+    "protein_bank_model_revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+    "protein_bank_slot_policy": "compact_resolved_sequence_index_linear_bins",
+    "protein_descriptor_dim": 8,
+    "proteins": 510
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": 0.0078019570813433956,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.012099818256679743,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.026543652570123043,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": 0.0014976165509133271,
+      "pass": true
+    },
+    {
+      "component_macro_reduction": 0.011748562843680756,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.009164485678866961,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.2999175737689437,
+      "panels": 21,
+      "rank_weighted_mse": 0.2558911046350514
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3120975379495259,
+      "panels": 21,
+      "rank_weighted_mse": 0.24556080195052205
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.29459646728469313,
+      "panels": 21,
+      "rank_weighted_mse": 0.23804720812368094
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "correct_beats_deranged_protein": true,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "localizer_projection_orthogonality": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "A ligand-conditioned differentiable localizer over frozen ESM2 residue slots carries dependency-transferable quotient interaction signal when frozen and scored by positive ridge.",
+  "literature_mechanism": {
+    "attention_cpi": "compound-conditioned target-region weighting can be an interaction mechanism",
+    "hodge_cycle_space": "localizer training and final ridge scoring use additive target+ligand quotient residuals",
+    "plm_dta": "protein language model residue states support DTA representations"
+  },
+  "localizer": {
+    "attention_dim": 0,
+    "attention_entropy": {
+      "development_mean": 4.852030263919617,
+      "normalized_by_log_slots": 1.0,
+      "train_mean": 4.852030263919617
+    },
+    "epochs": 0,
+    "learning_rate": 0.0,
+    "loss_history": [],
+    "max_localizer_projection_orthogonality": 1.731059739995544e-12,
+    "mode": "uniform",
+    "neural_readout_used_for_admission": false,
+    "slot_weight_inputs": "none_uniform",
+    "train_blocks": 0,
+    "train_split": "train",
+    "weight_decay": 0.0
+  },
+  "schema": "MetaSieve.AttentionLocalizerCQObservableGate1.v1",
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.3011627192824357,
+      "panels": 299,
+      "rank_weighted_mse": 0.2899452559233654
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.30415842619315503,
+      "panels": 299,
+      "rank_weighted_mse": 0.2984852168946951
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.31455432725122834,
+      "panels": 299,
+      "rank_weighted_mse": 0.32002834058601215
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}

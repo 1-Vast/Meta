@@ -1,0 +1,106 @@
+{
+  "admission": {
+    "conflicting_ligands": 333,
+    "conflicting_targets": 0,
+    "cross_panel_pairs": 618,
+    "exact_ki_rows": 21695,
+    "invalid_required_input": 326,
+    "pair_observations": 18331
+  },
+  "affinity_used_for_split": false,
+  "cdhit_binary_sha256": "79c598045c645674f07a9295014ff18e906d80f5c942c644e64f656f300b7239",
+  "cdhit_command": [
+    "D:\\MetaSieve\\tools\\cdhit\\4.8.1\\cd-hit.exe",
+    "-i",
+    "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0\\proteins.fasta",
+    "-o",
+    "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0\\cdhit40",
+    "-c",
+    "0.40",
+    "-n",
+    "2",
+    "-d",
+    "0",
+    "-T",
+    "1",
+    "-M",
+    "0"
+  ],
+  "cdhit_stdout_tail": [
+    "",
+    "",
+    "comparing sequences from          0  to        499",
+    "",
+    "      499  finished        296  clusters",
+    "",
+    "Approximated maximum memory consumption: 12M",
+    "writing new database",
+    "writing clustering information",
+    "program completed !",
+    "",
+    "Total CPU time 2.13"
+  ],
+  "cells": 17717,
+  "cleaning": {
+    "cross_panel_pair_aggregation": "equal-panel median",
+    "endpoint": "exact positive uncensored Ki",
+    "max_atoms": 128,
+    "max_molecular_weight": 1000.0,
+    "panel_id_role": "BindingDB assay proxy",
+    "transform": "pKi=9-log10(Ki[nM])",
+    "within_panel_aggregation": "median"
+  },
+  "clusters": 296,
+  "files": {
+    "cdhit40": "96228e084ba19a474805b9f8b6102a92db1d424cbed0e96fcec971b833cfc1f0",
+    "cdhit40.clstr": "e29bf9d3a7810bf1b67e621067fe9e38b78b01111ba55c7cc4e034a152c3ebaa",
+    "cells.jsonl.gz": "256196665297aab267cf26832daba3f5d83263190312ce3666d4e18af5b5826d",
+    "ligands.jsonl": "c3e2ca9fc8f5d1bb6d53a9f8b840c7f74d59e12902e1b262247afd396dbc9f83",
+    "proteins.fasta": "36529c74e2fe8d61cdae68e362de3d48489daf26533e0c1454f483203503cb0b",
+    "proteins.jsonl": "4e9fb78927718e7c91cde175ecd95da051214249348a1ea9fdd04d947232b480"
+  },
+  "labels_sha256": "6a44a1516b0feb7f8fe9b3f034b7c1e1be40eb8c214f4c417205e9632c823dcc",
+  "ligands": 9880,
+  "projection_sha256": "8ac11beb8e058f373b03e7f392c8e993b49d64010012d887aaa43d312ef2ce00",
+  "schema": "MetaSieve.MetaFewshot.MainV0Corpus.v1",
+  "split_rule": "complete_cdhit40_clusters_target_count_balanced_8_1_1",
+  "split_seed": 20260811,
+  "splits": {
+    "meta_test": {
+      "cells": 1934,
+      "clusters": 7,
+      "targets": 50,
+      "targets_usable_at_k": {
+        "1": 50,
+        "2": 43,
+        "3": 42,
+        "5": 33
+      }
+    },
+    "meta_train": {
+      "cells": 12633,
+      "clusters": 278,
+      "targets": 399,
+      "targets_usable_at_k": {
+        "1": 399,
+        "2": 363,
+        "3": 329,
+        "5": 285
+      }
+    },
+    "meta_val": {
+      "cells": 3150,
+      "clusters": 11,
+      "targets": 50,
+      "targets_usable_at_k": {
+        "1": 50,
+        "2": 47,
+        "3": 44,
+        "5": 37
+      }
+    }
+  },
+  "strict_confirmation_open": false,
+  "targets": 499,
+  "training_authorized": true
+}

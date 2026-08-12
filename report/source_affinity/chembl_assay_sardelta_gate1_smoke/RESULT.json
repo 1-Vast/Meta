@@ -1,0 +1,54 @@
+{
+  "TERMINAL_VERDICT": "CHEMBL_ASSAY_SARDELTA_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "feature_mode": "delta",
+    "max_pairs_per_scaffold": 200,
+    "ridge": 100.0,
+    "seed": 20260812
+  },
+  "development_contrast": {
+    "component_macro_reduction": 0.17505528561249356,
+    "control": "zero_delta",
+    "one_sided_95_lcb": -0.16414716476517782,
+    "pass": false
+  },
+  "development_summary": {
+    "correct": {
+      "mse": 0.33639331611070616,
+      "pairs": 233
+    },
+    "zero": {
+      "mse": 0.5905422871786983,
+      "pairs": 233
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "assays_ge_3": true,
+    "correct_beats_zero_delta": false
+  },
+  "hypothesis": "Within-assay same-scaffold matched-pair delta supervision can learn a transferable SAR residual better than zero delta.",
+  "literature_mechanism": {
+    "activity_cliff": "small structural changes can induce large potency deltas",
+    "fsmol_boundary": "each assay is a target-as-task split unit",
+    "mmpa": "matched molecular pairs expose local ligand transformations"
+  },
+  "schema": "MetaSieve.ChEMBLAssaySARDeltaGate1.v1",
+  "source": {
+    "assay_ids": [
+      "CHEMBL1000139",
+      "CHEMBL1000140",
+      "CHEMBL1000360",
+      "CHEMBL1000453",
+      "CHEMBL1000455"
+    ],
+    "assays": 5,
+    "feature_mode": "delta",
+    "pair_similarity_threshold": 0.7,
+    "ridge": 100.0,
+    "source_manifest_sha256": "ae17280b7e191c14782b800df230366bd43ec947aeef7d64d21d78a3e23cab24"
+  },
+  "v1_integration_authorized": false
+}

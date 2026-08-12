@@ -1,0 +1,60 @@
+{
+  "TERMINAL_VERDICT": "BINDINGDB_SARDELTA_CQ_BRIDGE_GATE1_PASS",
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "feature_mode": "delta_target",
+    "max_pairs_per_group": 100,
+    "ridge": 100.0,
+    "seed": 20260812
+  },
+  "corpus": {
+    "development_pairs": {
+      "cells": 535,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 1033,
+      "skipped_similarity": 194,
+      "split": "development",
+      "target_scaffold_groups": 244
+    },
+    "manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "train_pairs": {
+      "cells": 11922,
+      "pair_similarity_threshold": 0.5,
+      "pairs": 20423,
+      "skipped_similarity": 40671,
+      "split": "train",
+      "target_scaffold_groups": 5133
+    }
+  },
+  "development_contrast": {
+    "component_macro_reduction": 0.3767396232892215,
+    "components": 8,
+    "control": "zero_delta",
+    "one_sided_95_lcb": 0.27017239997568654,
+    "pass": true
+  },
+  "development_summary": {
+    "correct": {
+      "mse": 0.2337137884759225,
+      "pairs": 1033
+    },
+    "zero": {
+      "mse": 0.5800715132288407,
+      "pairs": 1033
+    }
+  },
+  "development_training_authorized": true,
+  "gates": {
+    "correct_beats_zero_delta": true,
+    "development_components_ge_5": true
+  },
+  "hypothesis": "The target-conditioned SAR-delta mechanism admitted on ChEMBL transfers to governed BindingDB same-target same-scaffold deltas.",
+  "schema": "MetaSieve.BindingDBSARDeltaCQBridgeGate1.v1",
+  "train_summary": {
+    "feature_dim": 131,
+    "pairs": 20423,
+    "ridge_train_mse": 0.4168956626241157
+  },
+  "v1_integration_authorized": false
+}

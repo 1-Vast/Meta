@@ -16,6 +16,7 @@ from research.meta_fewshot.train_main_v1 import (
     gradient_cosine_rows,
     pack_episode_indices,
     pretrain_population,
+    residualize_pair_against_ligand,
     sample_cluster_balanced,
     V1TrainConfig,
 )
@@ -44,6 +45,21 @@ def test_population_pretraining_is_source_only_and_reduces_source_loss():
         model.population(ligand[:32]).squeeze(-1), target[:32])
     assert detail["steps"] == 100
     assert after < before
+
+
+def test_pair_residualization_fits_source_ligand_projection_only():
+    ligand = torch.tensor([
+        [1.0, 0.0],
+        [0.0, 1.0],
+        [1.0, 1.0],
+        [2.0, -1.0],
+    ])
+    weights = torch.tensor([[2.0, -1.0], [0.5, 3.0]])
+    pair = ligand @ weights
+    residual = residualize_pair_against_ligand(
+        pair, ligand, torch.tensor([0, 1, 2]), ridge=1e-6)
+    assert torch.allclose(residual[:3], torch.zeros(3, 2), atol=5e-6)
+    assert torch.isfinite(residual).all()
 
 
 def test_v1_task_builder_supports_all_cold_target_shots():

@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.pytest_cycle_*/
 .pytest_tmp*/
 .coverage
 htmlcov/
@@ -42,3 +43,13 @@ dataset/**
 *.bak
 Thumbs.db
 .DS_Store
+
+# Experiment payloads can be regenerated from JSON manifests/checksums.
+report/**/checkpoints/
+report/**/*.pt
+report/**/*.jsonl.gz
+archive/**/ephemeral_quarantine/
+**/checkpoints/
+*.pt
+*.npz
+*.jsonl.gz

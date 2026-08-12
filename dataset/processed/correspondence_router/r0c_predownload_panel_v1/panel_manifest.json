@@ -1,0 +1,78 @@
+{
+  "affinity_value_reads": 0,
+  "candidate_identity_threshold": 0.3,
+  "candidate_records": 3000,
+  "confirmed_exposure_edges": 36865,
+  "confirmed_internal_edges": 7551,
+  "coordinate_value_reads": 0,
+  "coverage_rule": "parasail local-alignment length divided by both full lengths",
+  "coverage_threshold": 0.8,
+  "created_utc": "2026-08-11T10:49:34.684956+00:00",
+  "download_panel_sha256": "754c4a9980e535d447a9da541d79b7aac4b8109af8c8b3e40bdbb3fc0d5757ee",
+  "exposure_contaminated_components": 600,
+  "exposure_hit_sequences": 1734,
+  "fresh_components": 820,
+  "identity_threshold": 0.4,
+  "inputs": {
+    "annotation": {
+      "path": "D:\\MetaSieve\\dataset\\raw\\open_structures\\pilot20k\\biolip2\\BioLiP.txt.gz",
+      "sha256": "c92229bbc8c55c3bd84a9813c3e278ba62f4cfa44e6315cc98d9bf63ed64b6ec"
+    },
+    "candidates": {
+      "path": "D:\\MetaSieve\\dataset\\processed\\correspondence_router\\r0c_candidate_pool_v1\\candidates.jsonl",
+      "sha256": "41e85726746a134c47e40724ef3bede0345e098eaa1852fec15f99634b9e333e"
+    },
+    "ligand_summary": {
+      "path": "D:\\MetaSieve\\dataset\\raw\\open_structures\\pilot20k\\biolip2\\ligand.tsv.gz",
+      "sha256": "7d107cfaf0cc873d393e9dcee7bbe16fc7dc024a9748495a92adf6e7658f61ec"
+    }
+  },
+  "internal_components": 1420,
+  "largest_selected_component_share": 0.001953125,
+  "minimum_scorable_components_after_quarantine": 120,
+  "mmseqs": {
+    "exposure_command": [
+      "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "easy-search",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\candidates.fasta",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\p1b_exposure.fasta",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\exposure_hits.tsv",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\tmp_exposure",
+      "--min-seq-id",
+      "0.3",
+      "-c",
+      "0.8",
+      "--cov-mode",
+      "0",
+      "--format-output",
+      "query,target,fident,qcov,tcov,evalue",
+      "--threads",
+      "4"
+    ],
+    "internal_command": [
+      "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+      "easy-search",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\candidates.fasta",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\candidates.fasta",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\internal_hits.tsv",
+      "dataset\\processed\\correspondence_router\\r0c_predownload_panel_v1\\work\\tmp_internal",
+      "--min-seq-id",
+      "0.3",
+      "-c",
+      "0.8",
+      "--cov-mode",
+      "0",
+      "--format-output",
+      "query,target,fident,qcov,tcov,evalue",
+      "--threads",
+      "4"
+    ],
+    "path": "D:\\MetaSieve\\tools\\mmseqs2\\mmseqs\\bin\\mmseqs.exe",
+    "sha256": "ad319fc9fc67500ca2da9b9247d9611d2113e66cb800c15b603949f5652e2a0b",
+    "version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f"
+  },
+  "representative_namespace": "R0C-DOWNLOAD-REP-v1",
+  "schema": "MetaSieve.R0C.PredownloadPanel.v1",
+  "selected_components": 512,
+  "selected_records": 512
+}

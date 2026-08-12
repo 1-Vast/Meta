@@ -1,0 +1,61 @@
+{
+  "claim_boundary": "development witness only; not affinity or few-shot admission",
+  "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+  "development": {
+    "correct": {
+      "components": 12,
+      "loss": 0.33676468075169425,
+      "rmse": 0.5803142948021307
+    },
+    "correct_vs_deranged_protein": {
+      "ci95": [
+        -0.003418731689434608,
+        0.0014982433971853653
+      ],
+      "point_loss_reduction": -0.0008168304609944614
+    },
+    "correct_vs_foreign_ligand": {
+      "ci95": [
+        -0.0010448133535703539,
+        0.0028467089621528286
+      ],
+      "point_loss_reduction": 0.0008697692876311443
+    },
+    "correct_vs_zero": {
+      "ci95": [
+        -0.0009810310598127028,
+        0.0014963711578116258
+      ],
+      "point_loss_reduction": 0.000239047570806872
+    },
+    "deranged_protein": {
+      "components": 12,
+      "loss": 0.3359478502906998,
+      "rmse": 0.579610084704105
+    },
+    "explained_fraction_vs_zero": 0.0007093321251866458,
+    "foreign_ligand": {
+      "components": 12,
+      "loss": 0.33763445003932535,
+      "rmse": 0.5810632065785316
+    },
+    "zero_interaction": {
+      "components": 12,
+      "loss": 0.3370037283225011,
+      "rmse": 0.5805202221477742
+    }
+  },
+  "features_sha256": "0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c",
+  "nonzero_coefficients": 288,
+  "schema": "MetaSieve.BindingDB.CQLinearWitness.v1",
+  "selected_ridge": 1.0,
+  "train_component_cv": {
+    "0.0001": 0.3791545261707554,
+    "0.01": 0.26809789502868026,
+    "1.0": 0.25338342882187376,
+    "1e-06": 0.9311373900008413
+  },
+  "verdict": "CQ_TBASIS_LINEAR_AFFINITY_WITNESS_NOT_OBSERVED",
+  "weights_norm": 0.020602549328846153,
+  "weights_sha256": "6b90bc9de419cac8f4a0ed427bd93df4b83bb0aa0d5f6dc62b86f887692c3ce9"
+}

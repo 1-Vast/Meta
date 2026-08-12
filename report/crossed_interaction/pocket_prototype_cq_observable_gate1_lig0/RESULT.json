@@ -1,0 +1,157 @@
+{
+  "TERMINAL_VERDICT": "POCKET_PROTOTYPE_CQ_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "arms": [
+      "correct",
+      "deranged_protein",
+      "foreign_ligand"
+    ],
+    "bootstrap_draws": 9999,
+    "evaluation_split": "development",
+    "hidden_blocks": 8,
+    "ligand_weight": 0.0,
+    "max_structure_records": 4096,
+    "prototype_count": 64,
+    "ridge": 10000.0,
+    "seed": 20260812,
+    "train_split": "train"
+  },
+  "corpus": {
+    "bindingdb_protein_bank_manifest_sha256": "636fb453acf657a1d05c6260904feb8fd9ab502da4cfabf8ac0ec1ae150b5405",
+    "bindingdb_protein_bank_model_id": "facebook/esm2_t30_150M_UR50D",
+    "bindingdb_protein_bank_model_revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+    "bindingdb_protein_bank_slot_policy": "compact_resolved_sequence_index_linear_bins",
+    "blocks": 320,
+    "candidate_pockets": 4096,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "feature_dim": 64,
+    "feature_source": "external_holo_pocket_prototype_dictionary",
+    "hidden_blocks": 8,
+    "ligand_descriptor_dim": 64,
+    "ligand_weight": 0.0,
+    "ligands": 4392,
+    "max_projection_orthogonality": 1.731059739995544e-12,
+    "max_structure_records": 4096,
+    "mean_contact_slots_per_candidate": 16.9169921875,
+    "protein_descriptor_dim": 64,
+    "proteins": 510,
+    "prototype_count": 64,
+    "prototype_count_requested": 64,
+    "structure_pairs_scanned": 4096,
+    "structure_pairs_skipped": 0,
+    "structure_pairs_used": 4096,
+    "structure_protein_bank_manifest_sha256": "dc087bda9679951a4593776a598f006621a686e6cf6204e5c6645851eff72f43",
+    "structure_protein_bank_model_id": "facebook/esm2_t30_150M_UR50D",
+    "structure_protein_bank_model_revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+    "structure_protein_bank_slot_policy": "compact_resolved_sequence_index_linear_bins",
+    "structure_records_sha256": "29d95d8ecc65286f90023a323757bea02ee3a54ed2e2a4a477ad53988920b3fd",
+    "structure_sequences_with_pockets": 4096,
+    "structure_supervision_manifest_sha256": "ad0e4803165cc8be0eacff1a833df4a67861ba231ac1048e42a066d280588fea"
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": -0.007176907881192147,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.01783676323468193,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.006477321780890613,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.018902589860624035,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.007292823552961159,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.023479253198994902,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.29719112926864294,
+      "panels": 21,
+      "rank_weighted_mse": 0.23313987932574853
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.30592280218905865,
+      "panels": 21,
+      "rank_weighted_mse": 0.23839906045918918
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.2956245095095532,
+      "panels": 21,
+      "rank_weighted_mse": 0.23744735443536377
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "correct_beats_deranged_protein": false,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "A frozen external holo pocket-family dictionary can convert ESM2 target slots and ligand descriptors into transferable quotient interaction coordinates.",
+  "literature_mechanism": {
+    "pocket_similarity": "protein-ligand binding pockets can be compared as reusable local biological contexts rather than whole-protein summaries",
+    "prototype_learning": "few-shot prototype mechanisms motivate support-free dictionary coordinates that are later admitted by support/query-isolated Gates",
+    "quotient_gate": "target and ligand main effects are removed before positive-ridge interaction scoring and wrong-partner controls"
+  },
+  "prototype_examples": [
+    "1f9u:A:ADP:A:999:BS01",
+    "1ffv:A:PCD:B:1920:BS03",
+    "2h0t:A:TEM:A:501:BS01",
+    "2jj1:B:PIT:G:1273:BS03",
+    "1rft:A:PXM:A:402:BS02",
+    "1utj:A:ABN:A:246:BS01",
+    "1dl7:H:NCH:L:999:BS01",
+    "1af7:A:SAH:A:287:BS01",
+    "1blu:A:SF4:A:101:BS01",
+    "1ecb:D:5GP:C:506:BS01",
+    "2ggx:A:NPJ:A:700:BS04",
+    "2a2c:A:NG1:A:459:BS01",
+    "1r3n:A:BIB:A:2502:BS03",
+    "2fvm:A:URP:A:604:BS03",
+    "1w25:A:C2E:A:501:BS02",
+    "1he1:C:GDP:C:200:BS01"
+  ],
+  "schema": "MetaSieve.PocketPrototypeCQObservableGate1.v1",
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.30904796864509054,
+      "panels": 299,
+      "rank_weighted_mse": 0.3121027736091182
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3118582284591799,
+      "panels": 299,
+      "rank_weighted_mse": 0.31857786124361726
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.3149180397117608,
+      "panels": 299,
+      "rank_weighted_mse": 0.3263824537858104
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}

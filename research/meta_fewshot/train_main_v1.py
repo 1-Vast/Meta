@@ -56,6 +56,8 @@ class V1TrainConfig:
     support_only_section: bool = False
     population_hidden_dim: int = 0
     pair_hidden_dim: int = 0
+    pair_feature_mode: str = "raw"
+    pair_residual_ridge: float = 1.0
     population_pretrain_steps: int = 0
     population_pretrain_batch_size: int = 1024
     population_pretrain_learning_rate: float = 0.001
@@ -271,6 +273,49 @@ def validation_metrics(model: MetaSieveV1, cells: list[dict], tensors: dict,
 
 def _mean_validation_score(clean: dict[int, float], noisy: dict[int, float]) -> float:
     return float(np.mean([clean[k] + noisy[k] for k in sorted(clean)]))
+
+
+def residualize_pair_against_ligand(
+        pair: torch.Tensor, ligand: torch.Tensor, train_indices: torch.Tensor,
+        ridge: float) -> torch.Tensor:
+    """Remove the source-fit ligand-linear component from pair features."""
+    if pair.ndim != 2 or ligand.ndim != 2 or pair.shape != ligand.shape:
+        raise ValueError("pair and ligand features need the same [N,D] shape")
+    if train_indices.ndim != 1 or len(train_indices) < 1:
+        raise ValueError("pair residualization needs nonempty train indices")
+    if ridge <= 0:
+        raise ValueError("pair residual ridge must be strictly positive")
+    source_ligand = ligand[train_indices]
+    source_pair = pair[train_indices]
+    identity = torch.eye(
+        source_ligand.shape[1], device=ligand.device, dtype=ligand.dtype)
+    weights = torch.linalg.solve(
+        source_ligand.T @ source_ligand + ridge * identity,
+        source_ligand.T @ source_pair)
+    return pair - ligand @ weights
+
+
+def apply_pair_feature_mode(cells: list[dict], tensors: dict,
+                            config: V1TrainConfig) -> dict:
+    if config.pair_feature_mode == "raw":
+        return {}
+    if config.pair_feature_mode != "ligand_residual":
+        raise ValueError(f"unknown pair feature mode: {config.pair_feature_mode}")
+    train_indices = torch.tensor(
+        [index for index, row in enumerate(cells) if row["split"] == "meta_train"],
+        dtype=torch.long, device=tensors["y"].device)
+    for family in ("correct", "wrong"):
+        tensors[family] = residualize_pair_against_ligand(
+            tensors[family], tensors["ligand"], train_indices,
+            config.pair_residual_ridge)
+    return {
+        "mode": config.pair_feature_mode,
+        "ridge": config.pair_residual_ridge,
+        "fit_split": "meta_train",
+        "labels_used": False,
+        "families": ["correct", "wrong"],
+        "control_ligand_only_unchanged": True,
+    }
 
 
 def train_one(model: MetaSieveV1, cells: list[dict], tensors: dict, *,
@@ -663,6 +708,7 @@ def run(config: V1TrainConfig = V1TrainConfig(), *, device: str = "cuda",
     device = str(require_cuda(device))
     output.mkdir(parents=True, exist_ok=True)
     cells, tensors, _, normalization = load_data(device)
+    pair_feature_transform = apply_pair_feature_mode(cells, tensors, config)
     y_scale = normalization["y_scale"]
     runner_sha256 = sha256(Path(__file__))
     model_sha256 = sha256(ROOT / "model/metasieve_v1.py")
@@ -930,6 +976,7 @@ def run(config: V1TrainConfig = V1TrainConfig(), *, device: str = "cuda",
             "query_label_noise": False,
             "scheduler_loaded_at_test": False,
         },
+        "pair_feature_transform": pair_feature_transform,
         "variant_meta_validation_score": variant_scores,
         "ats_meta_validation_beats_matched_null": ats_meta_validation_gate,
         "eligible_variants_before_test_scoring": eligible_variants,
@@ -983,18 +1030,26 @@ def main() -> int:
     parser.add_argument("--support-only-section", action="store_true")
     parser.add_argument("--population-hidden-dim", type=int, default=0)
     parser.add_argument("--pair-hidden-dim", type=int, default=0)
+    parser.add_argument(
+        "--pair-feature-mode", choices=("raw", "ligand_residual"),
+        default="raw")
+    parser.add_argument("--pair-residual-ridge", type=float, default=1.0)
     parser.add_argument("--section-dim", type=int)
     parser.add_argument("--ridge", type=float)
     parser.add_argument("--population-pretrain-steps", type=int, default=0)
     args = parser.parse_args()
     config = V1TrainConfig()
     if (args.support_only_section or args.population_hidden_dim
-            or args.pair_hidden_dim or args.section_dim is not None
-            or args.ridge is not None or args.population_pretrain_steps):
+            or args.pair_hidden_dim or args.pair_feature_mode != "raw"
+            or args.pair_residual_ridge != 1.0
+            or args.section_dim is not None or args.ridge is not None
+            or args.population_pretrain_steps):
         config = replace(
             config, support_only_section=args.support_only_section,
             population_hidden_dim=args.population_hidden_dim,
             pair_hidden_dim=args.pair_hidden_dim,
+            pair_feature_mode=args.pair_feature_mode,
+            pair_residual_ridge=args.pair_residual_ridge,
             section_dim=(args.section_dim if args.section_dim is not None
                          else config.section_dim),
             ridge=(args.ridge if args.ridge is not None else config.ridge))

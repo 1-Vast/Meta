@@ -1,0 +1,130 @@
+{
+  "TERMINAL_VERDICT": "FAMILY_CONTEXT_CQ_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "arms": [
+      "correct",
+      "deranged_protein",
+      "foreign_ligand"
+    ],
+    "bootstrap_draws": 1999,
+    "evaluation_split": "development",
+    "ridge": 100000.0,
+    "seed": 20260812,
+    "train_split": "train"
+  },
+  "corpus": {
+    "blocks": 320,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "feature_dim": 640,
+    "feature_source": "train_only_family_context_esm2_x_ligand_estate",
+    "hidden_blocks": 8,
+    "ligand_descriptor_dim": 40,
+    "ligands": 4392,
+    "max_projection_orthogonality": 1.731059739995544e-12,
+    "panels": 320,
+    "protein_bank_manifest_sha256": "636fb453acf657a1d05c6260904feb8fd9ab502da4cfabf8ac0ec1ae150b5405",
+    "protein_bank_model_id": "facebook/esm2_t30_150M_UR50D",
+    "protein_bank_model_revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+    "protein_bank_slot_policy": "compact_resolved_sequence_index_linear_bins",
+    "protein_descriptor_dim": 16,
+    "proteins": 510
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": 0.005904784648548176,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.0009133217912936235,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.023777880012415802,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": 0.003215338513444562,
+      "pass": true
+    },
+    {
+      "component_macro_reduction": 0.008320304445614908,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.000702150244729322,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.292129729012751,
+      "panels": 21,
+      "rank_weighted_mse": 0.23760864773770168
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3064590091954205,
+      "panels": 21,
+      "rank_weighted_mse": 0.2399606922703196
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.29536673661869317,
+      "panels": 21,
+      "rank_weighted_mse": 0.23712863777771429
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "family_context": {
+    "centroid_train_split": "train",
+    "groups_with_train_centroid": 68,
+    "min_train_family_size": 2,
+    "mode": "family_contrast",
+    "target_groups": 179,
+    "targets_using_global_centroid": 154,
+    "targets_with_family_centroid": 356,
+    "train_targets": 442
+  },
+  "gates": {
+    "correct_beats_deranged_protein": true,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "Train-only sequence-family ESM2 centroids provide a transferable family/domain context for quotient interaction residuals.",
+  "literature_mechanism": {
+    "hodge_cycle_space": "final scoring removes target and ligand main effects with the same additive quotient Gate",
+    "homology_domain_surrogate": "sequence-family grouping is a governed surrogate for domain context when pocket structures are unavailable",
+    "proteochemometrics": "target-family context and compound descriptors can improve cross-target affinity modelling"
+  },
+  "schema": "MetaSieve.FamilyContextCQObservableGate1.v1",
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.3091259724891157,
+      "panels": 299,
+      "rank_weighted_mse": 0.30134392185483844
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3065325833809661,
+      "panels": 299,
+      "rank_weighted_mse": 0.30976557723917253
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.31338913775931854,
+      "panels": 299,
+      "rank_weighted_mse": 0.3226939656266342
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}

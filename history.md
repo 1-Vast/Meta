@@ -5734,3 +5734,2599 @@ the `drug` environment. The reduced count reflects tests archived with their
 failed or superseded implementations, not lost coverage of the retained
 surface. Root and leaf CLI help, status views, JSON parsing, reference audit,
 and all 229 archive hashes also passed.
+
+## F-135: ligand-residual pair feature axis fails V1 partner Gates (2026-08-12)
+
+Three attached reports and a two-agent read-only audit converged on the same
+constraint: the next replaceable module is the biological pair coordinate, not
+the frozen theory, target-as-task episode protocol, uncentered positive ridge,
+support/query isolation, Meta-Section, scheduler or synthetic support noise.
+The tested hypothesis was deliberately narrow:
+
+```text
+If the current pair feature mostly carries ligand-marginal shortcut signal,
+then removing the meta-train-fitted ligand-linear projection before the
+support-only section should improve partner identity without changing the
+ridge solver, population branch, sampling, controls or Gate code.
+```
+
+The only production-surface code change was a default-disabled V1 option:
+`pair_feature_mode="ligand_residual"`. It fits a strictly positive-ridge linear
+map from standardized ligand Morgan features to the current pair feature on
+`meta_train` rows only, uses no affinity labels, then applies the residualized
+pair feature to both correct and wrong-protein arms. The ligand-only control is
+left unchanged. Default `raw` behavior is unchanged.
+
+Verification before the formal run:
+
+```text
+conda run -n drug python -m pytest tests/test_train_main_v1.py tests/test_metasieve_v1.py
+18 passed; one pytest-cache permission warning
+
+conda run -n drug python main.py v1 train-evaluate \
+  --output report/meta_fewshot/main_v1_ligand_residual_smoke \
+  --support-only-section --population-hidden-dim 64 --section-dim 4 --ridge 1 \
+  --pair-feature-mode ligand_residual --pair-residual-ridge 1 --smoke
+COLD_TARGET_FEWSHOT_V1_NOT_YET_GOOD
+```
+
+The formal three-seed CUDA run used the retained best V1 development settings
+except for this one pair-feature transform:
+
+```text
+conda run -n drug python main.py v1 train-evaluate \
+  --output report/meta_fewshot/main_v1_ligand_residual_mlp64_d4 \
+  --support-only-section --population-hidden-dim 64 --section-dim 4 --ridge 1 \
+  --pair-feature-mode ligand_residual --pair-residual-ridge 1
+```
+
+It completed in 268.49 seconds on `cuda:0`, wrote 24 checkpoints and
+1,251,600 query-label-redacted prediction rows, selected `ats_support_noise`
+before test scoring, and produced runner hash
+`9217aaef2c4cb7c22fb1f5b0acff388731e17e0f191c7d92179e3591aedc768d`.
+
+Point metrics for the selected arm versus the retained best baseline:
+
+```text
+baseline support-only MLP64 d4, selected uniform_clean
+k=1/2/3/5 RMSE 1.495241 / 1.356582 / 1.290485 / 1.229883
+k=1/2/3/5 CI   0.549412 / 0.553123 / 0.558191 / 0.567381
+
+ligand-residual pair feature, selected ats_support_noise
+k=1/2/3/5 RMSE 1.458140 / 1.356881 / 1.310512 / 1.271487
+k=1/2/3/5 CI   0.547137 / 0.551574 / 0.557093 / 0.554699
+```
+
+The small k1 RMSE improvement is not admissible because every primary Gate
+remained false:
+
+```text
+cold_target_performance_good=false
+support_specificity_all_k=false
+partner_identity_difference_all_k=false
+selected_training_mechanism_identified=false
+```
+
+The decisive Gate failures were all-k failures against ligand-only and
+wrong-partner controls. Ligand-only component-bootstrap LCBs remained negative
+at every k:
+
+```text
+k1 delta=+0.162493 LCB=-0.456348
+k2 delta=-0.135888 LCB=-0.936504
+k3 delta=+0.146196 LCB=-0.393211
+k5 delta=+0.227752 LCB=-0.206557
+```
+
+Partner identity also failed every k under the difference-MSE controls. For
+`selected_support_wrong`, LCBs were:
+
+```text
+k1 -0.599713
+k2 -0.734448
+k3 -0.727035
+k5 -1.039020
+```
+
+For `selected_query_wrong`, LCBs were:
+
+```text
+k1 -0.119844
+k2 -0.248494
+k3 -0.077416
+k5 -0.501596
+```
+
+For `selected_both_wrong`, LCBs were:
+
+```text
+k1 -0.448630
+k2 -0.712337
+k3 -0.482379
+k5 -0.983125
+```
+
+Interpretation: a blind source-fit ligand-linear residual is too coarse. It
+removes some ligand-correlated nuisance directions but does not create an
+affinity-directed partner-specific observable, and it degrades the stronger
+k5 development result. The selected arm's dependence on `ats_support_noise`
+does not rescue the experiment because scheduler/noise mechanisms remain
+failed under their matched all-k Gates.
+
+```text
+LIGAND_LINEAR_PAIR_RESIDUAL_AXIS_FAIL_CLOSED
+KEEP_RAW_PAIR_FEATURE_AS_BASELINE
+DO_NOT_PROMOTE_LIGAND_RESIDUAL_TO_DEFAULT
+NEXT_AXIS_REQUIRES_AFFINITY_DIRECTED_NON_ADDITIVE_OBSERVABLE
+```
+
+The next admissible repair should not be another blind feature transform. It
+should first test a source-only, dependency-closed affinity residual or
+cycle-space quotient objective that explicitly removes protein-only and
+ligand-only output nuisance, then connect to V1 only if correct partner beats
+ligand-only, additive and wrong-partner controls before test scoring.
+
+## F-136: source-only cycle-quotient observable Gate fails current pair features (2026-08-12)
+
+Following F-135, the next scientific axis moved upstream of V1 and tested the
+information object directly. The mechanism was taken from high-level ranking
+and DTA literature rather than from a larger neural architecture:
+
+```text
+Hodge/cycle-space view:
+  remove target-only and ligand-only node potentials, then test the cyclic
+  residual that cannot be represented by additive main effects.
+
+BindingDB panel provenance:
+  document/protocol panels are source units; rows are not IID measurements.
+
+AdaMBind boundary:
+  retain target-as-task/support-query meta-learning downstream, but do not
+  import MAML, scheduler or support-noise mechanisms into this Gate.
+```
+
+The tested hypothesis was:
+
+```text
+The current 288D pair features contain an affinity-directed non-additive
+partner signal after exact Ki panels are projected to the quotient space.
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_cq_observable.py`. It loads the governed
+BindingDB Ki crossed-quotient corpus and current T-BASIS feature artifact,
+projects both labels and features within each panel against the additive
+target+ligand design, trains equal-capacity positive-ridge linear observables
+on the source `train` split, and scores only the dependency-held-out
+`development` split. It does not call V1, read query labels, alter frozen
+theory, alter the Meta-Section ridge, or authorize biological claims.
+
+The test suite for the new Gate verifies that additive target/ligand panels
+project to zero, a 2x2 crossed interaction survives quotient projection, the
+component bootstrap only passes when the correct arm beats its control, and
+the zero-additive control is scored in quotient space.
+
+```text
+conda run -n drug python -m pytest tests/test_train_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+The primary run was:
+
+```text
+conda run -n drug python research/crossed_interaction/train_cq_observable.py \
+  --output report/crossed_interaction/cq_observable_gate1_nocenter \
+  --ridge 10 --bootstrap-draws 9999
+```
+
+The Gate used 12,457 cells, 320 panels, 299 train panels, 21 development
+panels and 12 development dependency components. Projection orthogonality was
+`3.22e-12`, so the quotient calculation itself passed its numerical contract.
+The current feature artifact was
+`0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c`.
+
+Train split showed apparent learnability:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.288203
+deranged_protein  0.297672
+foreign_ligand    0.312880
+```
+
+But the dependency-held-out development split reversed the result:
+
+```text
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.260057
+deranged_protein  0.269196
+foreign_ligand    0.262700
+```
+
+The registered component bootstrap contrasts all failed:
+
+```text
+correct vs zero_additive:
+  delta=-0.059050, LCB95=-0.108912, pass=false
+
+correct vs deranged_protein:
+  delta=-0.037462, LCB95=-0.106501, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.003149, LCB95=-0.046110, pass=false
+```
+
+A same-axis ridge sensitivity did not rescue the result:
+
+```text
+ridge  correct_dev  zero_dev  zero_LCB   deranged_LCB  foreign_LCB
+0.1    0.264964     0.236361  -0.124929  -0.121878     -0.047507
+1      0.264417     0.236361  -0.122847  -0.120240     -0.047221
+100    0.248716     0.236361  -0.060488  -0.066105     -0.040775
+1000   0.238222     0.236361  -0.022655  -0.039304     -0.023529
+```
+
+Interpretation: the current 288D T-BASIS/current pair feature can fit source
+quotient residuals weakly, but the learned residual does not transfer across
+dependency components and is not correct-partner-specific. At high ridge it
+collapses toward the zero-additive baseline rather than revealing a stable
+interaction signal. This independently supports the earlier R0-C and A1
+failures: the active pair features are not an admissible affinity-directed
+non-additive biological observable.
+
+```text
+CQ_OBSERVABLE_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+CURRENT_TBASIS_PAIR_FEATURE_NOT_ADMITTED
+```
+
+The next repair must replace the observable itself, not only its readout. A
+valid next axis is a new interaction feature trained directly from
+source-only out-of-fold additive residuals or physically typed local channels,
+with the same quotient Gate kept as the admission test before any V1
+connection.
+
+## F-137: sequence-chemistry product quotient observable overfits and fails Gate (2026-08-12)
+
+After F-136 rejected the current T-BASIS/pair feature under the quotient Gate,
+the next single scientific axis replaced the observable itself with a simple
+sequence-chemistry product feature. This axis did not touch V1, frozen
+mathematics, target-as-task episodes, support/query isolation, Meta-Section,
+positive ridge, scheduler or support noise.
+
+The transferred literature mechanism was deliberately conservative:
+
+```text
+DeepDTA/GraphDTA-style input boundary:
+  protein sequence and ligand graph/SMILES descriptors are valid DTA inputs.
+
+Cycle-space quotient:
+  target-only and ligand-only effects are removed before scoring, so any gain
+  must come from interaction/product information.
+
+AdaMBind boundary:
+  target-as-task few-shot learning remains downstream and unchanged; no MAML,
+  scheduler, test-time adapter or support-noise mechanism is imported.
+```
+
+The tested hypothesis was:
+
+```text
+A positive-ridge linear readout on amino-acid-composition x ligand-chemistry
+product features carries dependency-transferable quotient interaction signal.
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_seqchem_cq_observable.py`. It constructs
+27 protein descriptors from amino-acid composition, coarse residue chemistry
+groups and sequence length; 104 ligand descriptors from Morgan bits plus RDKit
+chemistry descriptors; and their 2,808-dimensional outer product. The same
+features are constructed for the correct pair, a different protein-group
+control and a different-scaffold foreign-ligand control. Labels and all arm
+features are projected within each panel against the additive target+ligand
+design before training or scoring.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_seqchem_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+The primary run was:
+
+```text
+conda run -n drug python research/crossed_interaction/train_seqchem_cq_observable.py \
+  --output report/crossed_interaction/seqchem_cq_observable_gate1 \
+  --ridge 100 --bootstrap-draws 9999
+```
+
+The Gate used the same governed CQ corpus as F-136: 12,457 cells, 320 panels,
+299 train panels, 21 development panels and 12 development dependency
+components. Projection orthogonality was `1.73e-12`, so the quotient
+calculation itself passed.
+
+The result showed strong source fitting but failed transfer:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.148198
+deranged_protein  0.155136
+foreign_ligand    0.211747
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.791304
+deranged_protein  1.004211
+foreign_ligand    0.482881
+```
+
+All registered development contrasts failed:
+
+```text
+correct vs zero_additive:
+  delta=-0.429783, LCB95=-0.816164, pass=false
+
+correct vs deranged_protein:
+  delta=-0.031414, LCB95=-0.326920, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.076157, LCB95=-0.576447, pass=false
+```
+
+A same-axis ridge sensitivity showed the failure is not merely under-
+regularization. Increasing ridge collapses toward the zero-additive baseline
+but does not give positive all-control LCBs:
+
+```text
+ridge   correct_train  correct_dev  zero_dev  zero_LCB   deranged_LCB  foreign_LCB
+1000    0.160924       0.444025     0.236361  -0.400843  -0.035236     -0.303202
+10000   0.203793       0.259613     0.236361  -0.065313  +0.055264     -0.080952
+100000  0.266828       0.233749     0.236361  -0.000201  +0.011032     -0.001518
+```
+
+Interpretation: generic sequence-composition times ligand-chemistry products
+are expressive enough to fit source quotient residuals, but they do not provide
+a stable dependency-transferable partner observable. At very high ridge the
+model becomes effectively additive/null; the tiny point improvement over
+zero-additive at ridge 100000 is not statistically positive and does not beat
+foreign-ligand with a positive LCB.
+
+```text
+SEQUENCE_CHEM_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+GENERIC_SEQCHEM_PRODUCT_NOT_ADMITTED
+```
+
+This failure narrows the next viable repair. The model needs a more local and
+biophysically typed observable than global amino-acid composition x ligand
+fingerprint products, but that observable must still be trained and admitted
+through the same source-only quotient and wrong-partner Gates before V1 is
+reopened.
+
+## F-138: local k-mer motif x ligand chemistry quotient observable fails Gate (2026-08-12)
+
+Following F-137, the next single scientific axis kept the same source-only
+cycle-quotient Gate but replaced global amino-acid composition with local
+protein sequence motif statistics. Frozen theory, V1 target-as-task episodes,
+support/query isolation, Meta-Section, positive ridge, the support-only V1
+baseline and all counterfactual controls remained untouched.
+
+The literature transfer was deliberately limited:
+
+```text
+DeepDTA:
+  protein sequence and ligand sequence/SMILES are valid DTA inputs.
+
+WideDTA:
+  protein domains or motifs and ligand substructure words are plausible
+  binding-affinity coordinates.
+
+GraphDTA:
+  molecule graph/substructure representations are a stronger ligand-side
+  boundary than pure SMILES strings, but this Gate only imported the ligand
+  chemistry input principle.
+
+Cycle-space quotient:
+  target-only and ligand-only effects are projected away before training and
+  scoring, so a pass requires transferable non-additive interaction residual.
+```
+
+The tested hypothesis was:
+
+```text
+Local 3-mer protein motif frequencies crossed with ligand Morgan/chemistry
+descriptors carry dependency-transferable quotient interaction signal.
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_kmer_cq_observable.py`, with tests in
+`tests/test_train_kmer_cq_observable.py`. The descriptor hashes protein
+3-mers into motif-frequency bins without using target id, protein group,
+panel, split or labels. Ligands use Morgan bits plus RDKit descriptors. The
+feature is the protein-motif x ligand-chemistry outer product and is evaluated
+for the correct pair, a different-protein-group deranged control and a
+different-scaffold foreign-ligand control. Labels and all arm features are
+projected within panel against the additive target+ligand design before any
+ridge fit or score.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_kmer_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+The formal primary run followed the multi-agent review recommendation of
+64 k-mer bins and ridge 10000:
+
+```text
+conda run -n drug python research/crossed_interaction/train_kmer_cq_observable.py \
+  --output report/crossed_interaction/kmer_cq_observable_gate1_k64_ridge10000 \
+  --ridge 10000 --kmer-bins 64 --bootstrap-draws 9999
+```
+
+The Gate used the same governed CQ corpus as F-136 and F-137: 12,457 cells,
+320 retained quotient blocks, 299 train panels, 21 development panels and 12
+development dependency components. Projection orthogonality was `1.73e-12`,
+so the quotient calculation itself passed. The primary feature dimensions
+were 64 protein motif bins, 72 ligand dimensions and a 4,608-dimensional
+outer product.
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.156704
+deranged_protein  0.169509
+foreign_ligand    0.220792
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.248244
+deranged_protein  0.261805
+foreign_ligand    0.279157
+```
+
+All registered development contrasts failed:
+
+```text
+correct vs zero_additive:
+  delta=-0.010853, LCB95=-0.046539, pass=false
+
+correct vs deranged_protein:
+  delta=-0.016700, LCB95=-0.101944, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.016929, LCB95=-0.052829, pass=false
+```
+
+A same-axis ridge sensitivity was run without changing the observable:
+
+```text
+ridge    correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+1000     0.096646       0.451427     0.236361  0.502734      0.551408     -0.492394  -0.331752     -0.316102
+10000    0.156704       0.248244     0.236361  0.261805      0.279157     -0.046539  -0.101944     -0.052829
+100000   0.243753       0.232608     0.236361  0.237768      0.235805     -0.003812  -0.064952     -0.017229
+1000000  0.307659       0.235135     0.236361  0.235810      0.236065     +0.000028  -0.018806     -0.001993
+```
+
+Interpretation: local k-mer products can fit source quotient residuals, but
+the signal is not a stable correct-partner interaction observable. Weak ridge
+overfits development badly. Strong ridge collapses toward the zero-additive
+baseline and produces only a tiny zero-baseline point gain that still fails
+both wrong-partner controls. Therefore this axis is not admitted and must not
+be connected to V1.
+
+```text
+KMER_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+LOCAL_KMER_SEQCHEM_PRODUCT_NOT_ADMITTED
+```
+
+This failure further narrows the repair space. Simple sequence-text products,
+whether global composition or local k-mer motif hashes, are insufficient under
+the quotient and partner-specific Gates. The next scientific axis should add a
+more physically typed local observable, for example binding-site/protein-family
+conditioned residue chemistry channels or structure/pocket-derived contact
+surrogates, while preserving the same source-only quotient admission test
+before any V1 integration.
+
+## F-139: physicochemical autocorrelation x E-state ligand observable fails Gate (2026-08-12)
+
+F-139 kept the same governed CQ corpus and additive quotient Gate, but moved
+from sequence text features to fixed biochemical descriptors. The scientific
+axis was:
+
+```text
+protein:
+  fixed amino-acid physicochemical channels along sequence
+  short-lag normalized autocorrelation, lags 1..8
+
+ligand:
+  fixed RDKit E-state atom-type count/sum bins
+  plus small pharmacophore/QSAR scalar descriptors
+
+interaction:
+  protein autocorrelation x ligand E-state/pharmacophore outer product
+```
+
+This axis was motivated by proteochemometric modelling, PyDPI/PyBioMed-style
+protein and drug descriptors, and E-state QSAR descriptors. The imported
+mechanism was only descriptor design: target-as-task V1, Meta-Section, positive
+ridge, support/query isolation, support-only section and counterfactual
+controls remained unchanged and downstream.
+
+The tested hypothesis was:
+
+```text
+Short-lag protein physicochemical autocorrelations crossed with ligand
+pharmacophore/E-state descriptors carry dependency-transferable quotient
+interaction signal.
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_physchem_cq_observable.py`, with tests in
+`tests/test_train_physchem_cq_observable.py`. The final descriptor uses five
+fixed amino-acid property tables: hydropathy, volume, polarity, charge and
+aromaticity. These tables are constants, not learned from BindingDB. The ligand
+descriptor folds RDKit E-state atom-type counts and sums into 32 bins and adds
+8 whole-molecule scalar descriptors. It does not use scaffold, drug_key,
+target_id, protein_group_40, panel, split or labels as features.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_physchem_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+The formal primary run used the multi-agent review recommendation of
+ridge 10000 and lags 1..8:
+
+```text
+conda run -n drug python research/crossed_interaction/train_physchem_cq_observable.py \
+  --output report/crossed_interaction/physchem_estate_cq_observable_gate1 \
+  --ridge 10000 --max-lag 8 --bootstrap-draws 9999
+```
+
+The Gate again used 12,457 cells, 320 quotient blocks, 299 train panels, 21
+development panels and 12 development dependency components. Projection
+orthogonality was `1.73e-12`. The final feature dimensions were 40 protein
+descriptors, 40 ligand descriptors and a 1,600-dimensional outer product.
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.243805
+deranged_protein  0.257644
+foreign_ligand    0.293378
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.245862
+deranged_protein  0.248325
+foreign_ligand    0.288293
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=+0.006826, LCB95=-0.005693, pass=false
+
+correct vs deranged_protein:
+  delta=-0.005247, LCB95=-0.071158, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.088909, LCB95=+0.012600, pass=true
+```
+
+Same-axis ridge and lag sensitivity:
+
+```text
+max_lag  ridge    feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+8        1000     1600         0.208153       0.315299     0.236361  0.294088      0.405856     -0.048924  -0.034756     +0.064537
+8        10000    1600         0.243805       0.245862     0.236361  0.248325      0.288293     -0.005693  -0.071158     +0.012600
+8        100000   1600         0.282814       0.231518     0.236361  0.233628      0.244205     -0.001520  -0.046463     +0.000965
+8        1000000  1600         0.315780       0.234872     0.236361  0.235152      0.237198     -0.000805  -0.006362     +0.000414
+4        10000    800          0.270035       0.246468     0.236361  0.245115      0.263879     -0.007871  +0.014542     +0.003695
+4        100000   800          0.299838       0.237824     0.236361  0.234128      0.241176     -0.004520  -0.001965     -0.000096
+```
+
+Interpretation: typed protein physicochemical texture plus ligand E-state
+features improve the foreign-ligand specificity signal relative to the generic
+sequence-text products, but the residual is still not correct-protein-specific
+against deranged proteins and is not robustly better than the zero-additive
+baseline. Increasing ridge again collapses toward the null model rather than
+revealing a stable quotient interaction observable. Reducing the lag window to
+1..4 changes which control is easiest to beat but still fails all-control
+admission.
+
+```text
+PHYSCHEM_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+PHYSCHEM_AUTOCORR_ESTATE_PRODUCT_NOT_ADMITTED
+```
+
+This failure is informative rather than redundant. It shows that adding fixed
+biochemical typing is not enough when the protein side remains whole-sequence
+and unconditioned. The next repair should stop treating the full sequence as
+one bag or texture and should instead introduce a target-localizing biological
+coordinate, such as family-conditioned conserved windows, binding-site
+surrogate regions, or externally governed pocket/contact features, while
+retaining the same quotient and wrong-partner admission Gate.
+
+## F-140: frozen ESM2 slot-region x ligand E-state observable fails Gate (2026-08-12)
+
+F-140 tested a target-localizing input boundary without reopening the failed
+T-BASIS bridge. It used the existing governed ESM2 protein bank:
+
+```text
+dataset/processed/crossed_interaction/bindingdb_202608/cq_ki_protein_bank
+model: facebook/esm2_t30_150M_UR50D
+slot_policy: compact_resolved_sequence_index_linear_bins
+residue_slots: 128
+hidden_dim: 640
+```
+
+The scientific axis was:
+
+```text
+protein:
+  frozen ESM2 residue-slot states
+  deterministic sequence-region aggregation
+  no label-trained encoder and no all-corpus PCA
+
+ligand:
+  the F-139 fixed E-state/pharmacophore descriptor
+
+interaction:
+  PLM slot-region descriptor x ligand E-state/pharmacophore outer product
+```
+
+This axis was motivated by protein-language-model DTA and residue-level PLM
+binding-site literature, but the claim was intentionally narrower: these are
+sequence slot regions, not experimentally known pockets or holo contact maps.
+The failed T-BASIS bridge, frozen bridge calibration and radial contact
+surrogate were not used.
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_plm_slot_cq_observable.py`, with tests in
+`tests/test_train_plm_slot_cq_observable.py`. The primary descriptor uses four
+contiguous slot segments and eight deterministic hidden-dimension blocks,
+producing 32 protein dimensions. Crossed with the 40-dimensional ligand
+descriptor, the primary outer product has 1,280 dimensions.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_plm_slot_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_plm_slot_cq_observable.py \
+  --output report/crossed_interaction/plm_slot_cq_observable_gate1 \
+  --ridge 10000 --slot-segments 4 --hidden-blocks 8 --bootstrap-draws 9999
+```
+
+The Gate used the same 12,457 cells, 320 quotient blocks, 299 train panels, 21
+development panels and 12 development dependency components. Projection
+orthogonality was `1.73e-12`.
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.259179
+deranged_protein  0.266312
+foreign_ligand    0.302402
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.269209
+deranged_protein  0.245605
+foreign_ligand    0.245126
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.013831, LCB95=-0.031100, pass=false
+
+correct vs deranged_protein:
+  delta=+0.034438, LCB95=-0.017802, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.007961, LCB95=-0.037962, pass=false
+```
+
+Same-axis ridge and segmentation sensitivity:
+
+```text
+segments  ridge    feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+4         1000     1280         0.230533       0.313785     0.236361  0.282286      0.253444     -0.162821  -0.083227     -0.229295
+4         10000    1280         0.259179       0.269209     0.236361  0.245605      0.245126     -0.031100  -0.017802     -0.037962
+4         100000   1280         0.290583       0.244668     0.236361  0.239079      0.238983     -0.005325  +0.001814     -0.004270
+4         1000000  1280         0.317121       0.237323     0.236361  0.237465      0.236835     -0.001036  +0.000774     -0.001002
+8         10000    2560         0.235466       0.266313     0.236361  0.257394      0.270250     -0.027414  -0.006916     -0.022897
+```
+
+Interpretation: frozen ESM2 slot-region summaries are more biologically
+localized than whole-sequence composition or autocorrelation, but deterministic
+region/block aggregation does not produce a transferable partner-specific
+quotient observable. At moderate ridge the correct arm is worse than the null
+and wrong-partner controls on development. At strong ridge it collapses toward
+zero-additive, with occasional tiny point improvements that are not jointly
+positive against all controls. Increasing slot segmentation to eight regions
+increases feature dimension but does not rescue the Gate.
+
+```text
+PLM_SLOT_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+FROZEN_ESM_SLOT_REGION_PRODUCT_NOT_ADMITTED
+```
+
+The next repair should not be another deterministic whole-protein summary.
+The repeated pattern from F-137 through F-140 is that generic protein-side
+summaries can fit source residuals but do not survive dependency-component
+transfer with correct-partner specificity. A more plausible next axis is a
+source-trained but strictly train-only target-localizer: learn ligand-conditioned
+or family-conditioned slot weights on train quotient blocks, freeze that
+localizer, and then require it to pass the same development wrong-partner
+Gate before any V1 integration.
+
+## F-141: train-only supervised ESM2 slot localizer fails Gate (2026-08-12)
+
+F-141 implemented the next repair suggested by the F-140 failure: do not use a
+deterministic whole-protein summary; instead learn a slot-localizing mechanism
+from source train quotient blocks and freeze it before development scoring.
+
+The scientific axis was deliberately minimal:
+
+```text
+protein input:
+  frozen ESM2 residue slots from the governed protein bank
+
+ligand input:
+  F-139 RDKit E-state/pharmacophore descriptor
+
+localizer:
+  train-only supervised slot scoring
+  score each slot by standardized quotient-residual correlation of
+  slot-block x ligand-E-state features with the correct-pair train label
+  select top-k slots, then freeze the selected slots
+
+observable:
+  selected slot hidden-blocks x ligand descriptor outer product
+  positive-ridge readout fit on train quotient blocks
+```
+
+This is not a neural attention model and does not claim pocket detection. It
+is the smallest falsifiable version of a supervised PLM slot localizer. The
+localizer uses only train split panels. Development is used only for transform
+and scoring. No target id, protein_group_40, scaffold, panel id, split or label
+statistics are used as raw features. All arm features are projected within
+panel against the additive target+ligand design before ridge fitting or Gate
+scoring.
+
+The literature mechanism was transferred from PLM-DTA and CPI attention
+models: protein language model residue states can be useful structure-free
+protein representations, and interaction models often need target-region
+selection rather than whole-sequence averaging. TransformerCPI-style label
+reversal/counterfactual thinking also reinforces retaining wrong-partner
+controls.
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_slot_localizer_cq_observable.py`, with
+tests in `tests/test_train_slot_localizer_cq_observable.py`. The script records
+the selected slots, all slot scores, protein-bank manifest hash, localizer
+mode, train-only localizer split and both quotient orthogonality checks.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_slot_localizer_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+Formal primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_slot_localizer_cq_observable.py \
+  --output report/crossed_interaction/slot_localizer_cq_observable_gate1_supervised \
+  --ridge 10000 --top-slots 8 --hidden-blocks 8 \
+  --localizer-mode supervised --bootstrap-draws 9999
+```
+
+The primary selected slots were:
+
+```text
+19, 27, 29, 40, 45, 46, 49, 104
+```
+
+The Gate used the same 12,457 cells, 320 quotient blocks, 299 train panels, 21
+development panels and 12 development dependency components. Projection
+orthogonality and localizer projection orthogonality were both `1.73e-12`.
+The primary feature had 8 selected slots, 8 hidden blocks, 40 ligand
+dimensions and 2,560 outer-product dimensions.
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.227796
+deranged_protein  0.235224
+foreign_ligand    0.280665
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.247692
+deranged_protein  0.255791
+foreign_ligand    0.246604
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.002866, LCB95=-0.022736, pass=false
+
+correct vs deranged_protein:
+  delta=+0.079540, LCB95=-0.005727, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.057282, LCB95=-0.120745, pass=false
+```
+
+Same-axis ridge, capacity and localizer-control sensitivity:
+
+```text
+mode             ridge   top_slots  feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+supervised       1000    8          2560         0.183718       0.306993     0.236361  0.337490      0.347761     -0.182410  -0.065632     -0.348953
+supervised       10000   8          2560         0.227796       0.247692     0.236361  0.255791      0.246604     -0.022736  -0.005727     -0.120745
+supervised       100000  8          2560         0.276055       0.234875     0.236361  0.234710      0.233327     -0.000668  -0.000255     -0.026285
+supervised       10000   4          1280         0.256693       0.253920     0.236361  0.251883      0.237901     -0.014127  -0.005256     -0.027751
+supervised       10000   16         5120         0.198903       0.267066     0.236361  0.268947      0.279838     -0.065748  -0.056648     -0.038666
+uniform          10000   8          2560         0.228551       0.269781     0.236361  0.282616      0.282883     -0.035253  -0.055404     +0.005693
+ligand_shuffled  10000   8          2560         0.228134       0.307762     0.236361  0.280738      0.259543     -0.030639  -0.004452     -0.067963
+protein_only     10000   8          2560         0.226952       0.248429     0.236361  0.257478      0.276531     -0.023297  -0.016107     +0.003772
+```
+
+Interpretation: the train-only supervised slot localizer materially improves
+source fitting over the zero-additive baseline and avoids any development
+leakage by construction, but its selected slots do not yield a transferable
+correct-partner residual. At lower ridge it overfits source residuals and
+collapses on development. At high ridge it approaches the null model, with
+tiny point gains that are not simultaneously positive against wrong-protein
+and foreign-ligand controls. The localizer controls show that static uniform
+slots, ligand-shuffled slot scoring and protein-only slot scoring all remain
+fail-closed; the supervised localizer is not sufficient evidence for V1
+integration.
+
+```text
+SLOT_LOCALIZER_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+TRAIN_ONLY_STATIC_SLOT_LOCALIZER_NOT_ADMITTED
+```
+
+This closes the simplest train-only localizer axis. The next repair should
+upgrade only one additional mechanism: from static slot selection to a
+ligand-conditioned differentiable slot scorer trained on train quotient blocks,
+with explicit uniform, ligand-shuffled and protein-only localizer controls
+kept in the Gate. That would test the subagent-recommended mechanism without
+changing the corpus, frozen theory, V1 meta-learning contract or the
+wrong-partner admission criteria.
+
+## F-142: ligand-conditioned differentiable ESM2 slot attention fails Gate (2026-08-12)
+
+F-142 upgraded exactly one mechanism from F-141: static train-only slot
+selection was replaced by a differentiable ligand-conditioned slot scorer. The
+corpus, frozen ESM2 protein bank, ligand E-state/pharmacophore descriptor,
+additive quotient, positive ridge readout and wrong-partner Gate were otherwise
+kept fixed.
+
+The train-only localizer was:
+
+```text
+score_s = v^T tanh(Wp slot_s + Wl ligand)
+weight_s = softmax(score_s over valid ESM2 slots)
+pooled_protein = sum_s weight_s slot_s
+feature = pooled_protein_hidden_blocks x ligand_Estate
+```
+
+A linear neural readout was used only as a training proxy on train panel
+quotient residuals. It was discarded before admission. The final Gate used
+the frozen attention feature map, then fit the same positive-ridge quotient
+observable on train blocks and scored development blocks. This separation is
+important: the neural head can fit source residuals, but only the frozen
+feature plus ridge Gate is allowed to authorize development training.
+
+The literature mechanism was transferred from sequence-based DTA/CPI work:
+DeepDTA established sequence-only drug-target affinity prediction as a viable
+input boundary; TransformerCPI and related cross-attention CPI models motivate
+compound-conditioned protein-region weighting; recent PLM-DTA work supports
+using protein language model residue states without holo structures. F-142 did
+not claim pocket detection or structural contact inference.
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_attention_localizer_cq_observable.py`,
+with tests in `tests/test_train_attention_localizer_cq_observable.py`. The
+script records train proxy loss, attention entropy, localizer mode,
+slot-weight inputs, protein-bank manifest hash, quotient orthogonality and the
+fact that the neural readout was not used for admission.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_attention_localizer_cq_observable.py
+3 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_attention_localizer_cq_observable.py \
+  --output report/crossed_interaction/attention_localizer_cq_observable_gate1 \
+  --ridge 10000 --hidden-blocks 8 --attention-dim 16 --epochs 80 \
+  --learning-rate 0.01 --weight-decay 0.001 \
+  --localizer-mode attention --bootstrap-draws 9999
+```
+
+The Gate used the same 12,457 cells, 320 quotient blocks, 299 train panels, 21
+development panels and 12 development dependency components. Projection
+orthogonality and localizer label-projection orthogonality were both
+`1.73e-12`. The final frozen attention feature had 8 protein hidden-block
+dimensions, 40 ligand dimensions and 320 outer-product dimensions.
+
+The attention localizer did learn a non-uniform train proxy:
+
+```text
+train proxy row MSE, epoch 1   0.182333
+train proxy row MSE, epoch 80  0.146942
+train attention entropy        2.931024
+development attention entropy  3.358496
+development entropy/log(128)   0.692184
+```
+
+Primary ridge/Gate result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.258603
+deranged_protein  0.305876
+foreign_ligand    0.319440
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.331697
+deranged_protein  0.242883
+foreign_ligand    0.241279
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.013144, LCB95=-0.074474, pass=false
+
+correct vs deranged_protein:
+  delta=+0.005404, LCB95=-0.060843, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.002065, LCB95=-0.069564, pass=false
+```
+
+Same-axis ridge and localizer controls:
+
+```text
+mode             ridge   proxy_loss  entropy/log_slots  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+attention        1000    0.146942    0.692184           0.247032       0.370828     0.236361  0.247998      0.247975     -0.101309  -0.085605     -0.088479
+attention        10000   0.146942    0.692184           0.258603       0.331697     0.236361  0.242883      0.241279     -0.074474  -0.060843     -0.069564
+attention        100000  0.146942    0.692184           0.279446       0.264686     0.236361  0.238861      0.236987     -0.026633  -0.021462     -0.025354
+uniform          10000   n/a         1.000000           0.289945       0.255891     0.236361  0.245561      0.238047     -0.012100  +0.001498     -0.009164
+ligand_shuffled  10000   0.165291    0.628503           0.284211       0.250748     0.236361  0.243127      0.239965     -0.025692  -0.017655     -0.024353
+protein_only     10000   0.170423    0.069126           0.290311       0.246116     0.236361  0.269239      0.243907     -0.005764  -0.011123     -0.011100
+```
+
+Interpretation: the differentiable localizer is powerful enough to reduce the
+train proxy loss and produce non-uniform attention, but that learned attention
+does not transfer across dependency components. In fact, the primary attention
+feature is worse on development than the uniform and shuffled controls. Ridge
+100000 collapses toward the null model but still fails every registered LCB.
+The correct arm is not partner-specific, and the frozen feature map is not an
+admissible biological interaction coordinate.
+
+```text
+ATTENTION_LOCALIZER_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+LIGAND_CONDITIONED_SLOT_ATTENTION_NOT_ADMITTED
+```
+
+This closes the train-only PLM slot-localizer line in its current form. The
+failure is stronger than F-141 because the localizer did learn and sharpen
+attention, yet the sharpened attention hurt development transfer. The next
+repair should change the biological information source rather than the slot
+aggregator alone: for example, introduce an externally governed family/domain
+or pocket-surrogate annotation, or return to V1 only with a pair observable
+that has first passed the same source-only quotient Gate.
+
+## F-143: train-only family-context ESM2 observable fails Gate (2026-08-12)
+
+F-143 changed the biological information source rather than the slot
+aggregator. After F-140 through F-142 showed that deterministic and trainable
+whole-protein slot aggregation did not transfer, this axis used the governed
+`protein_group_40` sequence-family clusters as a domain/family surrogate.
+
+The corpus audit showed that the CQ corpus contains 510 targets in 179
+sequence-family groups. The group-size distribution is sparse but usable:
+98 singleton groups, 35 two-target groups, and several larger groups including
+51, 31, 17, 16, 15, 14 and 12 targets. This supports a falsifiable
+family-context test, but not a broad pocket claim.
+
+The mechanism was taken from proteochemometric modelling (PCM) literature:
+PCM uses ligand descriptors, target descriptors and cross-term descriptors to
+model activity across multiple ligands and targets. Reviews of PCM emphasize
+target-family descriptors, binding-site or family-specific target descriptors,
+and ligand-target cross terms. F-143 imports only that descriptor mechanism.
+It does not use development labels, external pocket structures or categorical
+target IDs as features.
+
+The tested axis was:
+
+```text
+protein:
+  frozen ESM2 slot states pooled to hidden-block descriptors
+
+family context:
+  sequence-family centroids estimated only from train-panel targets
+  if a family has fewer than 2 train targets, use the global train centroid
+
+target descriptor:
+  [target_pooled - train_family_centroid, train_family_centroid]
+
+interaction:
+  family-context protein descriptor x ligand E-state/pharmacophore descriptor
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_family_context_cq_observable.py`, with
+tests in `tests/test_train_family_context_cq_observable.py`. The script records
+family centroid coverage, fallback target count, context mode, centroid train
+split, protein-bank manifest hash and all quotient Gate metrics.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_family_context_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_family_context_cq_observable.py \
+  --output report/crossed_interaction/family_context_cq_observable_gate1 \
+  --ridge 10000 --hidden-blocks 8 --min-train-family-size 2 \
+  --context-mode family_contrast --bootstrap-draws 9999
+```
+
+Primary metadata:
+
+```text
+train targets                         442
+target groups                         179
+groups with train family centroid      68
+targets with family centroid          356
+targets using global centroid         154
+feature_dim                           640
+projection orthogonality              1.73e-12
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.279277
+deranged_protein  0.283715
+foreign_ligand    0.310856
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.252003
+deranged_protein  0.242337
+foreign_ligand    0.239716
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=+0.008758, LCB95=-0.008679, pass=false
+
+correct vs deranged_protein:
+  delta=+0.015363, LCB95=-0.000777, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.013717, LCB95=-0.004449, pass=false
+```
+
+Same-axis ridge, context and family-size controls:
+
+```text
+mode             min_family  ridge   feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+family_contrast  2           1000    640          0.261665       0.292855     0.236361  0.247881      0.243721     -0.027085  -0.059305     -0.020396
+family_contrast  2           10000   640          0.279277       0.252003     0.236361  0.242337      0.239716     -0.008679  -0.000777     -0.004449
+family_contrast  2           100000  640          0.301344       0.237609     0.236361  0.239961      0.237129     -0.000913  +0.003215     -0.000702
+global_contrast  2           10000   640          0.289945       0.255891     0.236361  0.245561      0.238047     -0.012100  +0.001498     -0.009164
+raw_pooled       2           10000   320          0.289945       0.255891     0.236361  0.245561      0.238047     -0.012100  +0.001498     -0.009164
+family_contrast  3           10000   640          0.279079       0.254482     0.236361  0.250264      0.236953     -0.011668  +0.005399     -0.009456
+```
+
+Interpretation: train-only family context is more promising than the failed
+attention localizer in one narrow sense: all primary component-macro deltas are
+positive and the deranged-protein LCB is close to zero. But the Gate is still
+not passed. Rank-weighted development MSE remains worse than the zero-additive
+baseline, and no ridge or context control produces positive LCBs against all
+three controls. The signal is too weak and too dependent on sparse family
+coverage to authorize V1 integration.
+
+```text
+FAMILY_CONTEXT_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+TRAIN_ONLY_FAMILY_CONTEXT_NOT_ADMITTED
+```
+
+This failure is directionally useful: unlike F-142, family context did not
+catastrophically overfit development and moved all three primary contrast means
+positive. The next repair should keep the family/domain idea but make it more
+local and externally anchored, for example conserved-family windows or
+domain/motif annotations, before returning to V1. A purely global family
+centroid is not enough.
+
+## F-144: train-only family-conserved ESM2 windows fail Gate (2026-08-12)
+
+F-144 kept the family/domain direction from F-143 but made the target
+descriptor local. Instead of using a whole-protein family centroid, it selected
+stable ESM2 residue-slot windows within each train-only sequence family and
+then froze those windows for development scoring.
+
+The mechanism was inspired by proteochemometrics and domain/binding-region DTI
+models: target-family or domain descriptors can be more meaningful than
+whole-sequence summaries when crossed with ligand descriptors. F-144 still did
+not claim real pockets or structural contacts. The windows are a governed
+sequence-family surrogate derived from the existing ESM2 slot bank.
+
+The tested axis was:
+
+```text
+family window selection:
+  use only train-panel targets
+  within each protein_group_40 family, select slots with lowest ESM2
+  hidden-block variance
+  fallback to global train-stable slots when a family has too few train targets
+
+target descriptor:
+  [target_selected_windows - train_family_window_centroid,
+   train_family_window_centroid]
+
+interaction:
+  conserved-window descriptor x ligand E-state/pharmacophore descriptor
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_conserved_window_cq_observable.py`, with
+tests in `tests/test_train_conserved_window_cq_observable.py`. The script
+records global selected slots, family-window coverage, fallback target count,
+window train split, protein-bank manifest hash, quotient orthogonality and all
+development contrasts.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_conserved_window_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_conserved_window_cq_observable.py \
+  --output report/crossed_interaction/conserved_window_cq_observable_gate1 \
+  --ridge 10000 --hidden-blocks 8 --top-windows 4 \
+  --min-train-family-size 2 --context-mode family_conserved \
+  --bootstrap-draws 9999
+```
+
+Primary metadata:
+
+```text
+global selected slots                  0, 2, 5, 126
+groups with conserved windows          68
+targets with family windows            356
+targets using global windows           154
+feature_dim                            2560
+projection orthogonality               1.73e-12
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.235993
+deranged_protein  0.235147
+foreign_ligand    0.280278
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.245346
+deranged_protein  0.276194
+foreign_ligand    0.271636
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.054570, LCB95=-0.153000, pass=false
+
+correct vs deranged_protein:
+  delta=+0.274773, LCB95=-0.082789, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.035244, LCB95=-0.205228, pass=false
+```
+
+Same-axis ridge, window-count and context controls:
+
+```text
+mode              ridge   top_windows  feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+family_conserved  1000    4            2560         0.200700       0.354642     0.236361  0.373762      0.346478     -0.383773  -0.190469     -0.452727
+family_conserved  10000   4            2560         0.235993       0.245346     0.236361  0.276194      0.271636     -0.153000  -0.082789     -0.205228
+family_conserved  100000  4            2560         0.276530       0.232807     0.236361  0.237559      0.242661     -0.033532  -0.031662     -0.034606
+family_conserved  10000   2            1280         0.256983       0.249185     0.236361  0.275224      0.254155     -0.011843  -0.031525     -0.004561
+family_conserved  10000   8            5120         0.208732       0.259755     0.236361  0.345793      0.287056     -0.041267  -0.034547     -0.027761
+global_conserved  10000   4            2560         0.254684       0.247525     0.236361  0.255232      0.260287     -0.017586  +0.004056     -0.078846
+raw_windows       10000   4            1280         0.254684       0.247525     0.236361  0.255232      0.260287     -0.017586  +0.004056     -0.078846
+```
+
+Interpretation: conserved-window localization is not admitted. The primary
+run strongly separates the deranged-protein control in point estimate but does
+not provide a stable LCB, and it worsens zero-additive and foreign-ligand
+contrasts. Reducing windows to 2 reduces overfitting but still fails all
+controls. Increasing ridge collapses toward the null without producing
+positive LCBs. Global and raw-window controls show that the family-specific
+window contrast is not the missing ingredient.
+
+```text
+CONSERVED_WINDOW_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+TRAIN_ONLY_CONSERVED_WINDOWS_NOT_ADMITTED
+```
+
+F-143 remains the least bad family/domain surrogate because its primary
+component-macro deltas were all positive, but both global family centroids and
+local conserved windows are too weak under the governed Gate. The next repair
+should use a genuinely external biological annotation or structural surrogate,
+not another target-derived summary from the same ESM slot bank.
+
+## F-145: BindingDB curator target-function annotation fails Gate (2026-08-12)
+
+F-145 changed the information source from ESM-derived target summaries to
+external curator metadata already present in the governed BindingDB projection.
+The CQ corpus itself has no PDB or pocket mapping field, and the local
+open-structure/BioLiP assets are not directly mapped to BindingDB Ki targets.
+Therefore this axis used only label-blind `target_name` metadata rather than
+adding a new unresolved structure-mapping pipeline.
+
+The mechanism was taken from proteochemometrics and domain/function DTI
+literature: target annotations or family descriptors can be crossed with
+ligand descriptors to model activity across target and ligand space. F-145
+imports only that fixed annotation mechanism. It does not use target id
+one-hot features, assay text, scaffold as a feature, document id, panel id,
+split labels or numeric affinity values.
+
+The tested axis was:
+
+```text
+target annotation:
+  BindingDB curator target_name from metadata_projection.jsonl.gz
+  fixed keyword map into 18 functional classes
+  unknown_or_other class for unmatched names
+
+ligand:
+  F-139 RDKit E-state/pharmacophore descriptor
+
+interaction:
+  target-function class descriptor x ligand E-state/pharmacophore descriptor
+```
+
+A new research-only Gate was added at
+`research/crossed_interaction/train_function_context_cq_observable.py`, with
+tests in `tests/test_train_function_context_cq_observable.py`. The script
+records metadata-projection hash, projection rows scanned/matched, target-name
+coverage, function-class counts, quotient orthogonality and all Gate metrics.
+
+Contract tests passed:
+
+```text
+conda run -n drug python -m pytest tests/test_train_function_context_cq_observable.py
+4 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_function_context_cq_observable.py \
+  --output report/crossed_interaction/function_context_cq_observable_gate1 \
+  --ridge 1000 --function-mode function_class --bootstrap-draws 9999
+```
+
+Primary metadata:
+
+```text
+targets with curator name              510 / 510
+projection rows scanned                28423
+projection rows matched                21892
+target descriptor dim                  18
+ligand descriptor dim                  40
+feature_dim                            720
+projection orthogonality               1.73e-12
+
+largest function-class counts:
+unknown_or_other 272
+protease          46
+kinase            33
+hydrolase         32
+metabolic_enzyme  30
+oxidoreductase    30
+gpcr_receptor     23
+epigenetic        19
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.311534
+deranged_protein  0.285045
+foreign_ligand    0.318375
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.241673
+deranged_protein  0.262363
+foreign_ligand    0.254658
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.007956, LCB95=-0.022983, pass=false
+
+correct vs deranged_protein:
+  delta=+0.011473, LCB95=-0.004719, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.055847, LCB95=-0.171682, pass=false
+```
+
+Same-axis ridge and unknown-only control:
+
+```text
+mode            ridge   feature_dim  correct_train  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+function_class  100     720          0.308670       0.256992     0.236361  0.302712      0.277344     -0.107528  -0.036353     -0.252557
+function_class  1000    720          0.311534       0.241673     0.236361  0.262363      0.254658     -0.022983  -0.004719     -0.171682
+function_class  10000   720          0.316248       0.238126     0.236361  0.246815      0.238832     -0.000459  -0.007181     -0.063625
+unknown_only    1000    720          0.328987       0.236361     0.236361  0.236361      0.236361      0.000000   0.000000      0.000000
+```
+
+Interpretation: curator target-function metadata is biologically cleaner than
+another ESM aggregation, but the fixed coarse function classes are too weak
+and too nonspecific. The unknown-only control exactly collapses to the
+zero-additive baseline, confirming the implementation behaves as expected.
+The real function-class arm gets small development point improvements against
+some wrong-partner settings, but it fails zero and foreign-ligand LCBs and is
+not correct-partner-specific enough. It must not be integrated into V1.
+
+```text
+FUNCTION_CONTEXT_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+BINDINGDB_TARGET_FUNCTION_CONTEXT_NOT_ADMITTED
+```
+
+This closes the simplest external annotation axis available inside the current
+BindingDB CQ assets. The next viable repair requires either a governed
+target-to-domain/pocket mapping or a new corpus whose biological annotations
+are natively aligned to the affinity cells. Coarse curator target names alone
+do not create an admissible non-additive pair observable.
+
+## 2026-08-12 F-146 external structure-supervised pocket prior
+
+Goal: replace the failed BindingDB-derived target summaries with an external,
+label-free structural supervision signal while preserving the frozen quotient
+math, target/ligand main-effect removal, positive ridge, support/query
+isolation and wrong-partner controls.
+
+Sidecar literature scan selected one low-coupling mechanism for this axis:
+use BioLiP2/RCSB holo protein-ligand contacts to train a residue/slot pocket
+prior, then freeze that prior before BindingDB affinity scoring. Related
+mechanisms reviewed but not integrated in this axis were P2Rank-style
+surface ligandability, LaMPSite/ESM2 binding-site scoring, ScanNet/PeSTo
+geometry teachers, EPoCS pocket embeddings, and support-only prototype/MAML
+adaptation. Sources: BioLiP2
+<https://academic.oup.com/nar/article/52/D1/D404/7233921>, P2Rank
+<https://link.springer.com/article/10.1186/s13321-018-0285-8>, LaMPSite
+<https://arxiv.org/abs/2312.03016>, ESMFold/ESM-2
+<https://www.science.org/doi/10.1126/science.ade2574>, ScanNet
+<https://www.nature.com/articles/s41592-022-01490-7>, PeSTo
+<https://www.nature.com/articles/s41467-023-37701-8>, EPoCS
+<https://academic.oup.com/bioinformatics/article/41/6/btaf284/8176567>,
+Prototypical Networks
+<https://papers.nips.cc/paper/6996-prototypical-networks-for-few-shot-learning>,
+MAML <https://arxiv.org/abs/1703.03400>, Leak Proof PDBBind
+<https://arxiv.org/html/2308.09639v3>.
+
+Local data audit:
+
+```text
+open_structures/pilot20k_structure_supervision_v2:
+  schema              MetaSieve.StructureSupervision.v1
+  pairs               14906
+  residue_slots       128
+  max_atoms           128
+  contact threshold   6A
+  source              BioLiP2 + RCSB_PDB, CC0 coordinates
+  governance          PASS, 40 percent benchmark identity exclusion
+
+open_structures/pilot20k_esm2_t30_slots128_v1:
+  schema              MetaSieve.StructureProteinBank.v1
+  records             14906
+  model               facebook/esm2_t30_150M_UR50D
+  slot policy         compact_resolved_sequence_index_linear_bins
+```
+
+Implemented a new research-only Gate at
+`research/crossed_interaction/train_structure_pocket_prior_cq_observable.py`
+with tests in
+`tests/test_train_structure_pocket_prior_cq_observable.py`.
+
+Model axis:
+
+```text
+external prior training:
+  input   open_structures BioLiP2/RCSB holo contact masks
+  labels  slot has any ligand atom contact within 6A
+  model   positive ridge contact prior over frozen ESM2 slot blocks
+  modes   protein_only and ligand_conditioned
+
+BindingDB CQ Gate:
+  protein descriptor  pocket-prior weighted ESM2 hidden-block pool
+  ligand descriptor   F-139 RDKit E-state/pharmacophore descriptor
+  feature             protein pocket descriptor x ligand descriptor
+  scorer              existing positive ridge on train quotient blocks
+  evaluation          development blocks only
+  controls            zero_additive, deranged_protein, foreign_ligand
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_structure_pocket_prior_cq_observable.py \
+  tests/test_train_plm_slot_cq_observable.py
+
+11 passed; one pytest-cache permission warning
+```
+
+Primary protein-only run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_structure_pocket_prior_cq_observable.py \
+  --output report/crossed_interaction/structure_pocket_prior_cq_observable_gate1 \
+  --max-structure-records 4096 --bootstrap-draws 9999 \
+  --ridge 10000 --pocket-ridge 10 --hidden-blocks 8
+```
+
+Primary metadata:
+
+```text
+external structure pairs used        4096
+external slot rows used              518244
+pocket prior positive contact rate   0.133705
+pocket prior train MSE               0.108329
+BindingDB cells                      12457
+BindingDB panels / blocks            320 / 320
+BindingDB proteins / ligands         510 / 4392
+feature_dim                          320
+projection orthogonality             1.73e-12
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.290035
+deranged_protein  0.298262
+foreign_ligand    0.320017
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.255777
+deranged_protein  0.245737
+foreign_ligand    0.237983
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=+0.007936, LCB95=-0.012096, pass=false
+
+correct vs deranged_protein:
+  delta=+0.027241, LCB95=+0.001693, pass=true
+
+correct vs foreign_ligand:
+  delta=+0.011699, LCB95=-0.009131, pass=false
+```
+
+Same-axis ablation:
+
+```text
+run               ridge   prior_feature      pocket_mode      correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+primary           10000   protein_only       structure_prior  0.255777     0.236361  0.245737      0.237983     -0.012096  +0.001693     -0.009131
+uniform           10000   protein_only       uniform          0.255891     0.236361  0.245561      0.238047     -0.012053  +0.001462     -0.008942
+shuffled          10000   protein_only       shuffled_prior   0.256108     0.236361  0.245859      0.237888     -0.012134  +0.001209     -0.009298
+ridge1000         1000    protein_only       structure_prior  0.293702     0.236361  0.261706      0.240365     -0.032905  -0.010841     -0.037077
+ridge100000       100000  protein_only       structure_prior  0.239336     0.236361  0.239602      0.237153     -0.002905  +0.001140     -0.003054
+ligand_condition  10000   ligand_conditioned structure_prior  0.255542     0.236361  0.246114      0.237944     -0.011952  +0.002790     -0.009117
+```
+
+Interpretation: external holo contact supervision is biologically much cleaner
+than BindingDB curator text and is properly isolated from BindingDB affinity
+labels, but the simple ridge pocket prior mostly supplies target-side locator
+signal. It consistently beats the deranged-protein arm, which means the prior
+is not random, but it does not beat the zero-additive baseline or the
+foreign-ligand arm with a positive 95 percent component-bootstrap LCB. Uniform
+and shuffled pocket controls are nearly identical to the learned prior, and
+the ligand-conditioned repair parses all 1024 tested external ligands but
+does not create a transferable ligand-specific quotient coordinate.
+
+```text
+STRUCTURE_POCKET_PRIOR_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+EXTERNAL_STRUCTURE_POCKET_PRIOR_NOT_ADMITTED
+```
+
+This closes the simple external structure-supervised slot-pooling axis. The
+next repair should not be another global ESM2 pooling/localizer. A plausible
+next axis is a governed pocket-family or domain-aligned representation where
+external pockets are clustered or annotated before affinity Gate scoring, with
+strict BindingDB target and ligand leakage controls.
+
+## 2026-08-12 F-147 external holo pocket-prototype dictionary
+
+Goal: follow F-146's failure analysis by replacing simple contact-prior
+slot pooling with a frozen external pocket-family dictionary. The axis still
+uses only BioLiP2/RCSB holo structures for feature construction and keeps the
+BindingDB CQ Gate, positive ridge, additive quotient projection, train-only
+fit, development-only Gate and wrong-partner controls unchanged.
+
+Sidecar literature scan recommended an EPoCS/ProBiS-style pocket dictionary:
+external pockets should be reusable local biological contexts rather than
+whole-protein summaries. P2Rank was judged more likely to repeat F-146's
+protein-locator failure, and LaMPSite-style ligand-conditioned localizers were
+kept out because F-142 already showed BindingDB-trained attention localization
+does not transfer. Sources: EPoCS
+<https://pmc.ncbi.nlm.nih.gov/articles/PMC12208174/>, ProBiS
+<https://pmc.ncbi.nlm.nih.gov/articles/PMC2859123/>, SiteEngine
+<https://academic.oup.com/nar/article/33/suppl_2/W337/2505700>, P2Rank
+<https://pmc.ncbi.nlm.nih.gov/articles/PMC6091426/>, PrankWeb/P2Rank
+<https://academic.oup.com/nar/article/47/W1/W345/5494740>, LaMPSite
+<https://arxiv.org/html/2312.03016v1>.
+
+Implemented a new research-only Gate at
+`research/crossed_interaction/train_pocket_prototype_cq_observable.py`, with
+tests in `tests/test_train_pocket_prototype_cq_observable.py`.
+
+Model axis:
+
+```text
+external dictionary:
+  input      BioLiP2/RCSB holo contact masks + external ESM2 slot bank
+  pocket     mean ESM2 hidden-block descriptor over contact slots
+  ligand     F-139 RDKit E-state/pharmacophore descriptor for holo ligand
+  selection  farthest-first prototype selection over normalized
+             [pocket, ligand_weight * ligand]
+
+BindingDB pair feature:
+  target side  max cosine similarity from each prototype pocket to any
+               active target slot
+  ligand side  cosine similarity from BindingDB ligand to prototype ligand
+  feature      elementwise product of target-prototype and ligand-prototype
+               similarity vectors
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_pocket_prototype_cq_observable.py \
+  tests/test_train_structure_pocket_prior_cq_observable.py
+
+12 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_pocket_prototype_cq_observable.py \
+  --output report/crossed_interaction/pocket_prototype_cq_observable_gate1 \
+  --max-structure-records 4096 --prototype-count 64 --ligand-weight 1 \
+  --ridge 10000 --bootstrap-draws 9999 --hidden-blocks 8
+```
+
+Primary metadata:
+
+```text
+external structure pairs used          4096
+candidate external pockets             4096
+prototype_count                        64
+mean contact slots per candidate       16.916992
+BindingDB cells                        12457
+BindingDB panels / blocks              320 / 320
+BindingDB proteins / ligands           510 / 4392
+feature_dim                            64
+projection orthogonality               1.73e-12
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.311067
+deranged_protein  0.316917
+foreign_ligand    0.326277
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.237658
+deranged_protein  0.240486
+foreign_ligand    0.236721
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=+0.009305, LCB95=-0.004755, pass=false
+
+correct vs deranged_protein:
+  delta=+0.012525, LCB95=-0.001448, pass=false
+
+correct vs foreign_ligand:
+  delta=+0.006298, LCB95=-0.006517, pass=false
+```
+
+Same-axis ablation:
+
+```text
+run          ridge   prototypes  ligand_weight  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+primary      10000   64          1              0.237658     0.236361  0.240486      0.236721     -0.004755  -0.001448     -0.006517
+p32          10000   32          1              0.238571     0.236361  0.235129      0.236369     -0.002703  -0.014344     -0.003355
+lig0         10000   64          0              0.233140     0.236361  0.238399      0.237447     -0.017837  -0.018903     -0.023479
+ridge100000  100000  64          1              0.236840     0.236361  0.237291      0.236296     -0.001192  -0.001565     -0.001717
+```
+
+Interpretation: the pocket-prototype dictionary is less overfit than F-146's
+contact-prior pooling and sits closer to the zero baseline, but it still does
+not provide an admissible interaction coordinate. The primary component-macro
+deltas are all positive, yet none has a positive 95 percent LCB. Removing
+ligand influence from prototype selection gives the best rank-weighted point
+MSE against zero, but its component bootstrap is strongly negative and it
+fails both wrong-partner controls. Raising ridge collapses toward null.
+
+```text
+POCKET_PROTOTYPE_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+EXTERNAL_HOLO_POCKET_PROTOTYPE_NOT_ADMITTED
+```
+
+This closes the simple EPoCS/ProBiS-style frozen prototype dictionary axis.
+The failure is informative: externally governed pocket context alone improves
+some point estimates but remains too coarse to recover BindingDB affinity
+quotient residuals. The next repair should add a supervised external
+pocket-family or ligand-class teacher with explicit leakage controls, or move
+to a natively structure/domain annotated affinity corpus before V1 integration
+is reconsidered.
+
+## 2026-08-12 F-148 ligand-conditioned contact compatibility statistics
+
+Goal: test whether F-146 failed because it used the external contact teacher
+only as a slot-pooling weight. F-148 keeps the BioLiP2/RCSB ligand-conditioned
+contact teacher, but uses its BindingDB score distribution directly as the
+pair observable. Frozen theory, CQ additive projection, positive ridge,
+support/query isolation by train/development split, and wrong-partner controls
+are unchanged.
+
+Literature mechanism: ligand-aware binding-site predictors such as LaMPSite
+and LABind condition residue/contact predictions on both protein residue
+states and ligand chemistry. F-148 imports only the safe, frozen-teacher part:
+external holo contacts train a ridge contact teacher; BindingDB affinity labels
+never train the teacher. References: LaMPSite
+<https://arxiv.org/html/2312.03016v1>, ESM-2/ESMFold
+<https://www.science.org/doi/10.1126/science.ade2574>, BioLiP2
+<https://academic.oup.com/nar/article/52/D1/D404/7233921>.
+
+Implemented a new research-only Gate at
+`research/crossed_interaction/train_contact_compatibility_cq_observable.py`,
+with tests in `tests/test_train_contact_compatibility_cq_observable.py`.
+
+The first unit test exposed a real design problem: sorted contact-score
+statistics lose slot identity, so two ligands that swap high score between
+different slots can look identical. The implementation was corrected to include
+score-weighted slot-position mean, slot-position standard deviation and top
+slot position. This keeps the observable simple but prevents a permutation-only
+collapse.
+
+Model axis:
+
+```text
+external teacher:
+  input    ESM2 slot hidden-blocks x holo ligand E-state/pharmacophore
+  label    slot has any ligand atom contact within 6A
+  model    positive ridge contact teacher
+
+BindingDB pair descriptor:
+  sigmoid contact score over active target slots for a given ligand
+  distribution stats: mean, std, min, max, top-k means, quantiles, entropy
+  spatial stats: score-weighted slot mean/std and top slot position
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_contact_compatibility_cq_observable.py \
+  tests/test_train_structure_pocket_prior_cq_observable.py
+
+10 passed; one pytest-cache permission warning
+```
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_contact_compatibility_cq_observable.py \
+  --output report/crossed_interaction/contact_compatibility_cq_observable_gate1 \
+  --max-structure-records 4096 --bootstrap-draws 9999 \
+  --ridge 10000 --pocket-ridge 10 --hidden-blocks 8
+```
+
+Primary metadata:
+
+```text
+external structure pairs used        4096
+external slot rows used              518244
+pocket prior positive contact rate   0.133705
+pocket prior train MSE               0.105916
+BindingDB cells                      12457
+BindingDB panels / blocks            320 / 320
+BindingDB proteins / ligands         510 / 4392
+feature_dim                          17
+projection orthogonality             1.73e-12
+```
+
+Primary result:
+
+```text
+rank-weighted MSE, train
+zero_additive     0.328987
+correct           0.326355
+deranged_protein  0.325858
+foreign_ligand    0.328802
+
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.238794
+deranged_protein  0.234112
+foreign_ligand    0.235290
+```
+
+Registered development contrasts:
+
+```text
+correct vs zero_additive:
+  delta=-0.004496, LCB95=-0.009683, pass=false
+
+correct vs deranged_protein:
+  delta=-0.025677, LCB95=-0.060802, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.005894, LCB95=-0.011213, pass=false
+```
+
+Same-axis ablation:
+
+```text
+run             ridge   pocket_ridge  structures  correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+primary         10000   10            4096        0.238794     0.236361  0.234112      0.235290     -0.009683  -0.060802     -0.011213
+ridge100000     100000  10            4096        0.237178     0.236361  0.236031      0.236183     -0.004630  -0.018759     -0.004984
+prior1024       10000   10            1024        0.236791     0.236361  0.234637      0.236013     -0.004296  -0.048181     -0.001440
+pocketridge100  10000   100           4096        0.238391     0.236361  0.234564      0.235355     -0.009497  -0.057164     -0.011068
+```
+
+Interpretation: direct ligand-conditioned contact compatibility statistics are
+not admitted. Unlike F-146, they do not even consistently give correct-target
+specificity; deranged-protein and foreign-ligand controls often have better
+development point MSE than the correct arm. This suggests the external contact
+teacher is learning generic ligandability/contact calibration, not an
+affinity-directed target-ligand compatibility coordinate. Increasing the
+BindingDB ridge only collapses toward zero; changing teacher ridge or reducing
+external structures does not restore partner specificity.
+
+```text
+CONTACT_COMPATIBILITY_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+LIGAND_CONDITIONED_CONTACT_COMPATIBILITY_NOT_ADMITTED
+```
+
+This closes the direct contact-compatibility-statistics axis. The next viable
+repair should stop recycling the same external contact teacher with different
+readouts. A better next axis is a natively affinity-aligned external corpus or
+a supervised external teacher that predicts ligand class / pocket family /
+activity class under explicit target and ligand leakage controls, then feeds a
+frozen representation into the same CQ Gate.
+
+## 2026-08-12 F-149 ChEMBL37 external affinity-teacher CQ observable
+
+Goal: replace the failed recycled structure/contact route with a natively
+affinity-aligned external teacher. F-149 keeps the frozen CQ mathematics,
+Meta-Section admission boundary, strictly positive ridge, train/development
+support-query isolation, exact wrong-partner controls, and no V1 integration
+unless Gate passes. The only scientific axis changed is the source of the
+frozen pair representation: ChEMBL37 EnergyPilot Ki/Kd rows train an external
+proteochemometric ridge teacher after exact BindingDB CQ target and ligand
+connectivity exclusion.
+
+Multi-agent literature synthesis: Bernoulli recommended affinity-aligned PCM
+teacher distillation and target-as-task ChEMBL/FS-Mol-style supervision, with
+explicit leakage controls. Relevant mechanisms: proteochemometrics transfers
+joint target-ligand descriptor structure across bioactivity assays; DeepDTA
+validates affinity-supervised sequence/ligand representations; activity-cliff
+work warns that ligand-only SAR can dominate if wrong-partner controls are not
+used; LP-PDBBind and recent data-bias work emphasize strict split governance.
+References: Proteochemometrics review
+<https://www.sciencedirect.com/science/article/pii/S1740674920300111>,
+DeepDTA <https://academic.oup.com/bioinformatics/article/34/17/i821/5093245>,
+FS-Mol <https://openreview.net/forum?id=701FtuyLlAd>, MoleculeACE
+<https://pubs.acs.org/doi/10.1021/acs.jcim.2c01073>, LP-PDBBind
+<https://arxiv.org/html/2308.09639v3>.
+
+Implemented research-only Gate:
+
+```text
+research/crossed_interaction/train_chembl_affinity_teacher_cq_observable.py
+tests/test_train_chembl_affinity_teacher_cq_observable.py
+```
+
+External teacher:
+
+```text
+source corpus       dataset/processed/source_affinity/energy_pilot_v1
+source schema       MetaSieve.AffinityEnergyCorpus.v1, ChEMBL37 static SQLite
+governance          energy_pilot_v1_governance/split_assignments.jsonl
+blocked targets     all BindingDB CQ protein sequence sha256 values
+blocked ligands     all BindingDB CQ ligand InChIKey connectivity blocks
+teacher input       protein composition descriptor x ligand E-state/pharmacophore
+teacher label       p_affinity
+teacher model       centered ridge, teacher_ridge=1000
+Gate model          existing positive-ridge CQ observable, ridge=10000
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_chembl_affinity_teacher_cq_observable.py \
+  tests/test_train_cq_observable.py -q
+
+9 passed; one pytest-cache permission warning
+```
+
+Smoke run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_chembl_affinity_teacher_cq_observable.py \
+  --output report/crossed_interaction/chembl_affinity_teacher_cq_observable_gate1_smoke \
+  --max-source-rows 5000 --bootstrap-draws 499 \
+  --ridge 10000 --teacher-ridge 1000 --feature-mode weighted_product
+```
+
+Smoke result: fail-closed. It beat deranged-protein
+(LCB95=+0.047279) but did not beat zero-additive
+(LCB95=-0.002852) or foreign-ligand (LCB95=-0.015747).
+
+Primary run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_chembl_affinity_teacher_cq_observable.py \
+  --output report/crossed_interaction/chembl_affinity_teacher_cq_observable_gate1 \
+  --max-source-rows 20000 --bootstrap-draws 9999 \
+  --ridge 10000 --teacher-ridge 1000 --feature-mode weighted_product
+```
+
+Primary metadata:
+
+```text
+source rows scanned / used                 129507 / 20000
+skipped ungoverned task                    75726
+skipped blocked BindingDB target           33305
+skipped blocked BindingDB ligand           476
+blocked BindingDB targets / ligands        510 / 4383
+teacher raw product dim                    1080
+teacher train MSE                          1.115308
+teacher p_affinity mean / std              7.068504 / 1.372800
+BindingDB cells                            12457
+BindingDB proteins / ligands               510 / 4392
+BindingDB blocks                           320
+projection orthogonality                   1.73e-12
+```
+
+Primary Gate:
+
+```text
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.238041
+deranged_protein  0.288320
+foreign_ligand    0.245800
+
+correct vs zero_additive:
+  delta=+0.012139, LCB95=-0.005165, pass=false
+
+correct vs deranged_protein:
+  delta=+0.090523, LCB95=+0.038279, pass=true
+
+correct vs foreign_ligand:
+  delta=+0.008886, LCB95=-0.011858, pass=false
+```
+
+Same-axis ablation:
+
+```text
+run              feature_mode      correct_dev  zero_dev  deranged_dev  foreign_dev  zero_LCB   deranged_LCB  foreign_LCB
+smoke5000        weighted_product  0.232831     0.236361  0.286490      0.242239     -0.002852  +0.047279     -0.015747
+primary20000     weighted_product  0.238041     0.236361  0.288320      0.245800     -0.005165  +0.038279     -0.011858
+prediction20000  prediction        0.236701     0.236361  0.235769      0.236325     +0.000063  -0.000986     -0.000692
+```
+
+Interpretation: F-149 contains real target-specific signal because correct
+beats deranged-protein in both weighted-product runs. It is still not admitted:
+the signal is not robust to zero-additive and foreign-ligand controls. The
+prediction-only scalar ablation collapses almost exactly onto the additive
+baseline and cannot beat wrong partners. The failure mode is therefore not a
+simple implementation issue; absolute external affinity supervision mostly
+learns assay/target/ligand main effects or broad target-family affinity, not
+the non-additive BindingDB quotient interaction required by the theory Gate.
+
+```text
+CHEMBL_AFFINITY_TEACHER_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+ABSOLUTE_EXTERNAL_AFFINITY_TEACHER_NOT_ADMITTED
+```
+
+## 2026-08-12 F-150 ChEMBL task-ligand residual teacher CQ observable
+
+Goal: repair F-149 without changing the CQ Gate by moving the external teacher
+label from absolute ChEMBL affinity to an external task-as-task residual label.
+For the same leakage-excluded ChEMBL rows, F-150 computes sparse two-way
+residual labels over ChEMBL task_id x ligand_connectivity_key, removing
+external task and ligand main effects before teacher fitting. This is closer
+to the frozen quotient/cycle-space theory and to target-as-task meta-learning:
+the teacher sees external task-conditioned deviations, not raw p_affinity.
+
+Additional implementation:
+
+```text
+--label-mode task_ligand_residual
+two_way_residual_labels(task_id, ligand_connectivity_key, p_affinity)
+```
+
+The same unit test suite verifies that the residual labels have near-zero task
+and ligand group means, and that the 1D prediction ablation is kept as a 2D
+feature matrix before entering the existing positive-ridge Gate.
+
+Primary residual run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_chembl_affinity_teacher_cq_observable.py \
+  --output report/crossed_interaction/chembl_task_ligand_residual_teacher_cq_observable_gate1 \
+  --max-source-rows 20000 --bootstrap-draws 9999 \
+  --ridge 10000 --teacher-ridge 1000 \
+  --feature-mode weighted_product --label-mode task_ligand_residual
+```
+
+Residual-teacher metadata:
+
+```text
+source rows scanned / used                 129507 / 20000
+teacher raw p_affinity std                 1.372800
+teacher residual-label std                 0.231333
+teacher train MSE                          0.052965
+teacher raw product dim                    1080
+projection orthogonality                   1.73e-12
+```
+
+Primary residual Gate:
+
+```text
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.242893
+deranged_protein  0.250831
+foreign_ligand    0.235519
+
+correct vs zero_additive:
+  delta=-0.005863, LCB95=-0.019784, pass=false
+
+correct vs deranged_protein:
+  delta=+0.023407, LCB95=-0.010893, pass=false
+
+correct vs foreign_ligand:
+  delta=-0.007901, LCB95=-0.025073, pass=false
+```
+
+Residual prediction-only ablation:
+
+```text
+rank-weighted MSE, development
+zero_additive     0.236361
+correct           0.236811
+deranged_protein  0.236197
+foreign_ligand    0.236362
+
+LCB95:
+correct vs zero_additive     -0.001104
+correct vs deranged_protein  -0.003287
+correct vs foreign_ligand    -0.001096
+```
+
+Interpretation: F-150 is a stronger negative result than F-149. Removing
+external task and ligand main effects produces the intended residual label,
+but the low-order protein composition x ligand E-state/pharmacophore teacher
+does not transfer this residual to BindingDB CQ. The weighted-product arm
+becomes worse than zero-additive and loses wrong-partner specificity; the
+prediction scalar collapses to null. This means the failure is not merely
+absolute-affinity main-effect leakage. The external residual target appears
+too sparse/noisy for the present PCM descriptor family, or the descriptor lacks
+the local binding mechanism needed to map ChEMBL task residuals to BindingDB
+non-additive affinity cycles.
+
+```text
+CHEMBL_TASK_LIGAND_RESIDUAL_TEACHER_CQ_GATE1_FAIL_CLOSED
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+EXTERNAL_TASK_LIGAND_RESIDUAL_TEACHER_NOT_ADMITTED
+```
+
+Conclusion after F-149/F-150: natively affinity-aligned external supervision is
+necessary but not sufficient in this low-order PCM form. The next repair should
+keep ChEMBL/BindingDB leakage governance but replace the teacher representation,
+not the Gate: a support-conditioned task encoder or activity-cliff/SAR-delta
+teacher with explicit matched-ligand neighborhoods is a better next axis than
+more ridge tuning of the current protein-composition x ligand-E-state product.
+
+## 2026-08-12 F-151 ChEMBL assay-level SAR-delta matched-pair observable
+
+Goal: test the next single scientific axis after the failed absolute-affinity
+and two-way residual teachers. F-151 keeps the same source-only discipline but
+moves to local medicinal-chemistry supervision: within one ChEMBL assay,
+same-scaffold ligand pairs define delta labels. The evaluation is
+leave-one-assay-out so no assay contributes to both pair construction and test
+scoring.
+
+This axis is closer to the matched molecular pair / activity-cliff literature
+than F-149/F-150. The implementation was intentionally minimal:
+
+```text
+research/source_affinity/train_chembl_assay_sardelta.py
+tests/test_train_chembl_assay_sardelta.py
+```
+
+Mechanism:
+
+```text
+rows          accepted_assays/*.jsonl
+identity      standard_inchi_key
+pair prior    same Murcko scaffold
+pair filter   Morgan Tanimoto >= 0.70
+label         delta p_value within pair
+feature       ligand descriptor delta or concatenation
+evaluation    leave-one-assay-out
+```
+
+Assay size audit:
+
+```text
+CHEMBL1000139 28 rows, 3 multi-ligand scaffolds, 65 same-scaffold pairs
+CHEMBL1000140 27 rows, 3 multi-ligand scaffolds, 65 same-scaffold pairs
+CHEMBL1000360 58 rows, 7 multi-ligand scaffolds, 579 same-scaffold pairs
+CHEMBL1000453 24 rows, 3 multi-ligand scaffolds, 39 same-scaffold pairs
+CHEMBL1000455 22 rows, 3 multi-ligand scaffolds, 28 same-scaffold pairs
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest tests/test_train_chembl_assay_sardelta.py -q
+
+4 passed; one pytest-cache permission warning
+```
+
+Smoke run:
+
+```text
+conda run -n drug python research/source_affinity/train_chembl_assay_sardelta.py \
+  --output report/source_affinity/chembl_assay_sardelta_gate1_smoke \
+  --ridge 100 --bootstrap-draws 999 --feature-mode delta \
+  --max-pairs-per-scaffold 200
+```
+
+Smoke result:
+
+```text
+assays                 5
+development pairs      233
+correct mse            0.336393
+zero mse               0.590542
+component_macro_delta   +0.175055
+one_sided_95_lcb       -0.164147
+```
+
+Gate:
+
+```text
+CHEMBL_ASSAY_SARDELTA_GATE1_FAIL_CLOSED
+```
+
+Interpretation: local same-scaffold delta supervision clearly contains signal:
+the model beats zero-delta on point MSE. But the assay-level leave-one-out
+bootstrap does not admit the axis because the gain is not statistically stable.
+This is a useful negative result. It says the current matched-pair delta
+representation is too weak by itself; it needs target context or a richer pair
+transformation model to become a transferable SAR residual.
+
+```text
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+LOCAL_SAR_DELTA_HAS_SIGNAL_BUT_IS_NOT_ADMITTED
+```
+
+Next repair direction: keep the same assay-level leakage rules, but upgrade from
+plain ligand-delta to a target-conditioned pair transformation / pair encoder
+that can absorb local chemistry change plus assay context.
+
+## 2026-08-12 F-152 ChEMBL assay-level target-conditioned SAR-delta observable
+
+Goal: repair F-151 by adding target context to the matched-pair axis while
+keeping the same assay-level leakage rules. F-152 still trains only on
+same-scaffold within-assay ligand pairs, but the pair feature is now
+`[target protein descriptor ; ligand_left - ligand_right]` instead of a pure
+ligand delta. This is the smallest step that combines local medicinal chemistry
+change with target context.
+
+Implementation:
+
+```text
+research/source_affinity/train_chembl_assay_sardelta.py
+tests/test_train_chembl_assay_sardelta.py
+```
+
+Key protocol:
+
+```text
+identity           standard_inchi_key
+pair prior          same Murcko scaffold
+pair filter         Morgan Tanimoto >= 0.50
+pair label          delta p_value within pair
+pair feature        target_descriptor + ligand_delta
+evaluation          leave-one-assay-out
+```
+
+The target descriptor is a fixed protein sequence descriptor derived from the
+assay target sequence. It is not an assay id or label lookup; it simply gives
+the local pair transformation the target context that F-151 lacked.
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest tests/test_train_chembl_assay_sardelta.py -q
+
+5 passed; one pytest-cache permission warning
+```
+
+Target-conditioned smoke:
+
+```text
+conda run -n drug python research/source_affinity/train_chembl_assay_sardelta.py \
+  --output report/source_affinity/chembl_assay_sardelta_gate1_target_smoke \
+  --ridge 100 --bootstrap-draws 999 --feature-mode delta_target \
+  --max-pairs-per-scaffold 200
+```
+
+Result:
+
+```text
+assays                 5
+development pairs      415
+correct mse            0.426781
+zero mse               0.786496
+component_macro_delta   +0.297213
+one_sided_95_lcb       +0.146371
+```
+
+Gate:
+
+```text
+CHEMBL_ASSAY_SARDELTA_GATE1_PASS
+```
+
+Interpretation: this is the first assay-level source-only axis in this chain
+that is actually admitted. The plain ligand-delta model had signal but failed
+the bootstrap. Adding target context makes the local SAR residual stable enough
+to clear the source-only Gate. The gain is not yet connected to BindingDB CQ or
+V1, but it shows the right qualitative direction: local chemistry change needs
+assay/target context to become a transferable residual.
+
+```text
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+TARGET_CONDITIONED_SAR_DELTA_ADMITTED_AT_SOURCE_ONLY_LEVEL
+```
+
+This does not finish the full MetaSieve objective. It does, however, replace one
+more failed module with a falsifiable, context-aware local delta mechanism that
+is now empirically better than zero-delta under the intended leave-one-assay-out
+test. The next question is whether the same target-conditioned pair idea can be
+lifted into the BindingDB CQ Gate without losing the support/query and
+counterfactual protections already validated elsewhere.
+
+## 2026-08-12 F-153 BindingDB target-conditioned SAR-delta bridge Gate
+
+Goal: test whether the F-152 source-only success transfers into the governed
+BindingDB universe before touching V1. F-153 does not modify the original
+panel CQ residual Gate. It builds a separate bridge Gate on BindingDB train /
+development splits: same-target, same-scaffold ligand pairs define `delta pK`,
+the feature is the same `target_descriptor + ligand_delta`, and the control is
+zero-delta.
+
+Implementation:
+
+```text
+research/crossed_interaction/train_bindingdb_sardelta_cq_bridge.py
+tests/test_train_bindingdb_sardelta_cq_bridge.py
+```
+
+Protocol:
+
+```text
+source corpus       BindingDB CQ Ki corpus
+train split         existing train cells only
+development split   existing development cells only
+pair condition      same target_id and same Murcko scaffold
+pair filter         Morgan Tanimoto >= 0.50
+feature             target protein descriptor + ligand descriptor delta
+model               positive ridge, ridge=100
+control             zero_delta
+bootstrap unit      dependency_component
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_bindingdb_sardelta_cq_bridge.py \
+  tests/test_train_chembl_assay_sardelta.py \
+  tests/test_train_cq_observable.py -q
+
+11 passed; one pytest-cache permission warning
+```
+
+Bridge smoke:
+
+```text
+conda run -n drug python research/crossed_interaction/train_bindingdb_sardelta_cq_bridge.py \
+  --output report/crossed_interaction/bindingdb_sardelta_cq_bridge_gate1_smoke \
+  --ridge 100 --feature-mode delta_target --max-pairs-per-group 100 \
+  --bootstrap-draws 999
+```
+
+Metadata:
+
+```text
+train cells / pairs                  11922 / 20423
+development cells / pairs              535 / 1033
+development dependency components        8
+feature_dim                            131
+ridge train MSE                       0.416896
+```
+
+Development result:
+
+```text
+correct MSE     0.233714
+zero MSE        0.580072
+component delta +0.376740
+LCB95           +0.270172
+```
+
+Gate:
+
+```text
+BINDINGDB_SARDELTA_CQ_BRIDGE_GATE1_PASS
+```
+
+Interpretation: F-153 is a genuine bridge success. The target-conditioned
+matched-pair delta mechanism that passed on ChEMBL assay leave-one-out also
+beats zero-delta on BindingDB development dependency components. This is still
+not the full panel CQ Gate and not a V1 few-shot result, so no biological claim
+or V1 integration is authorized. But it is the first mechanism in this chain to
+survive both an external source-only assay Gate and a governed BindingDB
+development Gate with dependency-component bootstrap.
+
+```text
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+TARGET_CONDITIONED_SAR_DELTA_TRANSFERRED_TO_BINDINGDB_PAIR_BRIDGE
+```
+
+Next repair direction: lift the pair-delta representation into the original
+panel CQ / few-shot machinery. The key risk is that a pairwise delta success may
+not automatically solve full target-ligand panel residual prediction; the next
+axis should test an admission path that converts local target-conditioned
+SAR-delta features into a pair-level observable while retaining wrong-target,
+wrong-ligand, support/query and additive controls.
+
+## 2026-08-12 F-154 SAR-delta neighbor potential CQ observable
+
+Goal: lift the F-153 pair-delta bridge into the original panel CQ Gate. F-154
+trains the same BindingDB train-split target-conditioned SAR-delta ridge, then
+maps every cell to a scalar SAR potential: the mean predicted delta from that
+cell's ligand to same-target same-scaffold train neighbors. The final admission
+test is the standard additive-residual CQ Gate with correct, deranged-protein,
+foreign-ligand and zero-additive arms.
+
+Implementation:
+
+```text
+research/crossed_interaction/train_sardelta_potential_cq_observable.py
+tests/test_train_sardelta_potential_cq_observable.py
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_sardelta_potential_cq_observable.py \
+  tests/test_train_bindingdb_sardelta_cq_bridge.py \
+  tests/test_train_cq_observable.py -q
+
+8 passed; one pytest-cache permission warning
+```
+
+Smoke run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_sardelta_potential_cq_observable.py \
+  --output report/crossed_interaction/sardelta_potential_cq_observable_gate1_smoke \
+  --ridge 10000 --delta-ridge 100 --feature-mode delta_target \
+  --max-pairs-per-group 100 --bootstrap-draws 999
+```
+
+Metadata:
+
+```text
+train SAR-delta pairs                 20423
+delta model train MSE                 0.416896
+cell feature_dim                      1
+train neighbor target-scaffold groups 5133
+projection orthogonality              1.73e-12
+```
+
+Development result:
+
+```text
+zero_additive     0.236361
+correct           0.236361
+deranged_protein  0.236361
+foreign_ligand    0.236361
+
+all component deltas 0.0
+all LCB95            0.0
+```
+
+Gate:
+
+```text
+SARDELTA_POTENTIAL_CQ_GATE1_FAIL_CLOSED
+```
+
+Interpretation: F-154 is an informative failure. The F-153 pairwise delta
+signal transfers to BindingDB pair-delta prediction, but a scalar neighbor-mean
+SAR potential is not a non-additive panel observable. The additive quotient
+projection removes it completely on development, leaving all arms identical to
+zero-additive. This confirms the risk identified after F-153: pairwise delta
+success does not automatically solve full target-ligand panel residual
+prediction.
+
+```text
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+NAIVE_SARDELTA_NEIGHBOR_POTENTIAL_NOT_ADMITTED
+```
+
+Next repair direction: preserve pairwise delta information as a cycle-level or
+edge-level object rather than compressing it to a scalar cell potential. A
+candidate next axis is to construct panel-internal SAR-delta edge residual
+features or an antisymmetric ligand-edge operator whose cycle projection cannot
+be absorbed by target-only or ligand-only additive terms.
+
+## 2026-08-12 F-155 panel-internal SAR-delta edge CQ observable
+
+Goal: repair the F-154 scalar-potential failure by preserving pairwise
+SAR-delta information as a panel-internal edge distribution. F-155 keeps the
+F-153 train-split target-conditioned SAR-delta ridge, but maps each
+target-ligand cell to distribution statistics of predicted deltas from that
+ligand to the other ligands in the same panel. The final test is still the
+original additive-residual CQ Gate with zero-additive, deranged-protein and
+foreign-ligand controls.
+
+Implementation:
+
+```text
+research/crossed_interaction/train_sardelta_edge_cq_observable.py
+tests/test_train_sardelta_edge_cq_observable.py
+```
+
+Narrow verification:
+
+```text
+conda run -n drug python -m pytest \
+  tests/test_train_sardelta_edge_cq_observable.py \
+  tests/test_train_sardelta_potential_cq_observable.py \
+  tests/test_train_bindingdb_sardelta_cq_bridge.py \
+  tests/test_train_cq_observable.py -q
+
+11 passed; one pytest-cache permission warning
+```
+
+Smoke run:
+
+```text
+conda run -n drug python research/crossed_interaction/train_sardelta_edge_cq_observable.py \
+  --output report/crossed_interaction/sardelta_edge_cq_observable_gate1_smoke \
+  --ridge 10000 --delta-ridge 100 --feature-mode delta_target \
+  --max-pairs-per-group 100 --bootstrap-draws 999
+```
+
+Metadata:
+
+```text
+train SAR-delta pairs                 20423
+delta model train MSE                 0.416896
+cell feature_dim                      8
+train cells / panels                  11922 / 299
+development panels                    21
+projection orthogonality              1.73e-12
+```
+
+Development result:
+
+```text
+zero_additive     rank-weighted MSE 0.236361
+correct           rank-weighted MSE 0.234537
+deranged_protein  rank-weighted MSE 0.234537
+foreign_ligand    rank-weighted MSE 0.236502
+
+correct vs zero_additive     delta +0.004332, LCB95 -0.001915
+correct vs deranged_protein  delta +0.000000, LCB95 -0.000000
+correct vs foreign_ligand    delta +0.004354, LCB95 -0.001590
+```
+
+Gate:
+
+```text
+SARDELTA_EDGE_CQ_GATE1_FAIL_CLOSED
+```
+
+Interpretation: F-155 is a useful but negative repair. Unlike F-154, the
+edge-distribution observable is not completely annihilated by the additive
+quotient and shows a small point-estimate improvement over zero-additive and
+foreign-ligand controls. However, correct and deranged-protein are numerically
+identical on development, so the observable is not target-partner specific
+after projection. It captures ligand-panel edge geometry more than a biological
+target-ligand interaction.
+
+```text
+V1_INTEGRATION_AUTHORIZED=false
+BIOLOGICAL_CLAIM_AUTHORIZED=false
+PANEL_EDGE_DISTRIBUTION_NOT_ADMITTED
+```
+
+Pause decision: stop scientific-axis iteration here per user instruction and
+perform a deep organization pass before any next repair. A future axis, if
+resumed, should not add another scalar or distribution summary. It should test
+a genuinely pair-indexed or cycle-indexed operator whose target permutation
+cannot leave the observable invariant.
+
+## 2026-08-12 pause audit: cleanup and summary map
+
+Current admitted mechanisms:
+
+```text
+F-152  ChEMBL same-assay same-scaffold target-conditioned SAR-delta source Gate PASS
+F-153  BindingDB target-conditioned SAR-delta pair bridge Gate PASS
+```
+
+Current rejected mechanisms preserved as evidence:
+
+```text
+F-149/F-150  absolute-affinity and task-ligand residual teachers failed closed
+F-154        scalar SAR-delta neighbor potential failed closed
+F-155        panel edge-distribution SAR-delta observable failed closed
+```
+
+Files to keep for reproducibility:
+
+```text
+research/source_affinity/train_chembl_assay_sardelta.py
+research/crossed_interaction/train_bindingdb_sardelta_cq_bridge.py
+research/crossed_interaction/train_sardelta_potential_cq_observable.py
+research/crossed_interaction/train_sardelta_edge_cq_observable.py
+tests/test_train_chembl_assay_sardelta.py
+tests/test_train_bindingdb_sardelta_cq_bridge.py
+tests/test_train_sardelta_potential_cq_observable.py
+tests/test_train_sardelta_edge_cq_observable.py
+report/source_affinity/
+report/crossed_interaction/
+```
+
+Deletion policy for this pause: no destructive deletion was performed. Failed
+Gate outputs are part of the falsification ledger and should not be deleted
+unless they are first archived or superseded by a signed summary. Candidate
+cleanup is therefore limited to future archival of duplicate smoke directories,
+large intermediate checkpoints and pre-F-152 dead-end artifacts after a
+separate path-level review.

@@ -1,0 +1,110 @@
+{
+  "TERMINAL_VERDICT": "CQ_OBSERVABLE_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "arms": [
+      "correct",
+      "deranged_protein",
+      "foreign_ligand"
+    ],
+    "bootstrap_draws": 1999,
+    "evaluation_split": "development",
+    "ridge": 0.1,
+    "seed": 20260812,
+    "train_split": "train"
+  },
+  "corpus": {
+    "blocks": 320,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "features_sha256": "0bc94a70c40780bfba0046b166ededa6eb7855361d55c11ed222a8328c48a03c",
+    "max_projection_orthogonality": 3.2178704145735537e-12,
+    "panels": 320
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": -0.06734333715175099,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.12492934379850465,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": -0.035742720710911946,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.12187788291568798,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.0010367044928177964,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": -0.04750702324088435,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.33988581191925554,
+      "panels": 21,
+      "rank_weighted_mse": 0.26496374793736394
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.34505036943806305,
+      "panels": 21,
+      "rank_weighted_mse": 0.2790961533974783
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.3330897089176236,
+      "panels": 21,
+      "rank_weighted_mse": 0.26434008022589944
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "correct_beats_deranged_protein": false,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "A source-trained quotient-space linear observable on the current pair features carries affinity-directed non-additive partner signal.",
+  "literature_mechanism": {
+    "adambind_boundary": "target-as-task meta-learning remains downstream; this Gate does not import MAML, scheduler, or support-noise mechanisms",
+    "bindingdb_panel_provenance": "document/protocol panels are treated as source units, not IID rows",
+    "hodge_cycle_space": "cycle residuals remove node/main-effect potentials before testing interaction signal"
+  },
+  "schema": "MetaSieve.CQObservableGate1.v1",
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.29917660162846815,
+      "panels": 299,
+      "rank_weighted_mse": 0.28793963260422034
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.3048917570319533,
+      "panels": 299,
+      "rank_weighted_mse": 0.2968594137640138
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.30276849093664937,
+      "panels": 299,
+      "rank_weighted_mse": 0.31277605135658687
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}

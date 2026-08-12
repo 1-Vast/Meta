@@ -1,0 +1,55 @@
+{
+  "declared_role": "LABEL_FREE_EXACT_OVERLAP_AND_ASSET_COVERAGE_AUDIT",
+  "fresh_confirmation_supply_identified": false,
+  "inputs": {
+    "dataset\\processed\\crossed_panels\\pdsp_sequences.json": "38286c88e2f455e51c1034e2bea612fce9c1b960b829a22674a1214799aad109",
+    "dataset\\processed\\crossed_panels_xp2\\blk_metz_xp2.npz": "beb97a0e125ccabf3f394072036443217c84d1bba468ff6de6963f2c8e241bc4",
+    "dataset\\processed\\crossed_panels_xp2\\uniprot_seq_xp2.json": "74d3e9452d3456cffb7d63ec997a3f41db6f69d29c2ab22df941ef627ba09807",
+    "dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0\\ligands.jsonl": "c3e2ca9fc8f5d1bb6d53a9f8b840c7f74d59e12902e1b262247afd396dbc9f83",
+    "dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0\\proteins.jsonl": "4e9fb78927718e7c91cde175ecd95da051214249348a1ea9fdd04d947232b480",
+    "dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0\\r2_structural_index.jsonl.gz": "9085d19ae3f0e840e773b78f2b59713d87f76a1ecefe477e23d59b70147b5813",
+    "dataset\\processed\\multipanel\\bdb_sequences.json": "0078c27a838dd66629b935e13aefc423c9402cfa12bf0b232825b89a09a2169b",
+    "dataset\\processed\\multipanel\\blk_bdb_panels.npz": "7f5cccdffe01c9b8d1c06f2bc9113882f15106003476dd43958179f57a5b849b"
+  },
+  "outcome_values_read": 0,
+  "panels": {
+    "BLK-BDB-PANELS": {
+      "direct_pmid_overlap": 1,
+      "exact_sequence_overlap": 117,
+      "exact_smiles_overlap": 825,
+      "main_split_memberships": {
+        "meta_test": 5,
+        "meta_train": 92,
+        "meta_val": 20
+      },
+      "panel_unique_ligands": 2845,
+      "panel_unique_pmids": 85,
+      "panel_unique_sequences": 129
+    },
+    "BLK-METZ-XP2": {
+      "exact_sequence_overlap": 25,
+      "exact_smiles_overlap": 0,
+      "existing_pocket_embedding_rows": 82,
+      "main_split_memberships": {
+        "meta_test": 2,
+        "meta_train": 23
+      },
+      "panel_unique_ligands": 913,
+      "panel_unique_sequences": 147,
+      "pocket_string_lengths": [
+        85
+      ],
+      "pocket_strings": 147
+    },
+    "PDSP-CORE": {
+      "exact_sequence_overlap": 30,
+      "main_split_memberships": {
+        "meta_train": 19,
+        "meta_val": 11
+      },
+      "panel_unique_sequences": 44
+    }
+  },
+  "schema": "MetaSieve.R2CrossedOverlapAudit.v1",
+  "verdict": "LOCAL_CROSSED_PANELS_OVERLAP_CONSUMED_MAIN_V0"
+}

@@ -1,0 +1,116 @@
+{
+  "TERMINAL_VERDICT": "SARDELTA_POTENTIAL_CQ_GATE1_FAIL_CLOSED",
+  "biological_claim_authorized": false,
+  "config": {
+    "bootstrap_draws": 999,
+    "delta_ridge": 100.0,
+    "feature_mode": "delta_target",
+    "max_pairs_per_group": 100,
+    "ridge": 10000.0,
+    "seed": 20260812
+  },
+  "corpus": {
+    "blocks": 320,
+    "cells": 12457,
+    "corpus_manifest_sha256": "89072e0a557d3d6f4b9c8189f0a38915d3db689cdb87bff0687416000125a7a9",
+    "feature_dim": 1,
+    "feature_mode": "delta_target",
+    "feature_source": "bindingdb_train_sardelta_neighbor_potential",
+    "ligands": 4392,
+    "max_projection_orthogonality": 1.731059739995544e-12,
+    "proteins": 510,
+    "train_target_scaffold_neighbor_groups": 5133
+  },
+  "development_contrasts": [
+    {
+      "component_macro_reduction": 0.0,
+      "components": 12,
+      "control": "zero_additive",
+      "correct": "correct",
+      "one_sided_95_lcb": 0.0,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.0,
+      "components": 12,
+      "control": "deranged_protein",
+      "correct": "correct",
+      "one_sided_95_lcb": 0.0,
+      "pass": false
+    },
+    {
+      "component_macro_reduction": 0.0,
+      "components": 12,
+      "control": "foreign_ligand",
+      "correct": "correct",
+      "one_sided_95_lcb": 0.0,
+      "pass": false
+    }
+  ],
+  "development_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.2942602110250507,
+      "panels": 21,
+      "rank_weighted_mse": 0.23636128177477492
+    }
+  },
+  "development_training_authorized": false,
+  "gates": {
+    "correct_beats_deranged_protein": false,
+    "correct_beats_foreign_ligand": false,
+    "correct_beats_zero_additive": false,
+    "development_components_ge_5": true,
+    "projection_orthogonality": true
+  },
+  "hypothesis": "A train-split target-conditioned SAR-delta field can be lifted to a pair-level potential that survives the original BindingDB CQ Gate.",
+  "schema": "MetaSieve.SARDeltaPotentialCQObservableGate1.v1",
+  "source_delta_model": {
+    "cells": 11922,
+    "delta_model_feature_dim": 131,
+    "delta_model_ridge": 100.0,
+    "delta_model_train_mse": 0.4168956626241157,
+    "pair_similarity_threshold": 0.5,
+    "pairs": 20423,
+    "skipped_similarity": 40671,
+    "split": "train",
+    "target_scaffold_groups": 5133
+  },
+  "train_summary": {
+    "correct": {
+      "panel_macro_rank_normalized_mse": 0.3171693937191422,
+      "panels": 299,
+      "rank_weighted_mse": 0.32883469869153215
+    },
+    "deranged_protein": {
+      "panel_macro_rank_normalized_mse": 0.31688127439352065,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289715299474403
+    },
+    "foreign_ligand": {
+      "panel_macro_rank_normalized_mse": 0.3171693937191422,
+      "panels": 299,
+      "rank_weighted_mse": 0.32883469869153215
+    },
+    "zero_additive": {
+      "panel_macro_rank_normalized_mse": 0.31683381167763863,
+      "panels": 299,
+      "rank_weighted_mse": 0.3289869474935581
+    }
+  },
+  "v1_integration_authorized": false
+}
