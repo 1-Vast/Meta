@@ -198,8 +198,8 @@ def test_level_calibration_is_a_learned_shrinkage_of_support_residual_mean():
 
     assert torch.allclose(output.level_adjustment, output.level_baseline - output.zero_shot)
     assert 0.0 < output.level_shrinkage < 1.0
-    assert torch.allclose(output.shape_scale, torch.tensor(0.1, dtype=DTYPE))
-    assert torch.allclose(output.sar_scale, torch.tensor(0.1, dtype=DTYPE))
+    assert torch.allclose(output.shape_scale, torch.ones((), dtype=DTYPE))
+    assert torch.allclose(output.sar_scale, torch.ones((), dtype=DTYPE))
 
 
 def test_quotient_null_also_forces_zero_sar_adaptation():
@@ -359,6 +359,22 @@ def test_support_span_single_shot_has_exact_zero_sar():
     assert torch.count_nonzero(prediction) == 0
 
 
+def test_ridge_mode_routes_sar_gradient_through_learned_section_geometry():
+    torch.manual_seed(48)
+    model = QPSMPMetaLearner(6, 3, section_mode="ridge", dtype=DTYPE)
+    output = episode(model)
+
+    output.sar_adaptation.square().mean().backward()
+
+    assert model.section_head.weight.grad is not None
+    assert torch.linalg.vector_norm(model.section_head.weight.grad) > 0
+    assert torch.allclose(output.shape_scale, torch.ones((), dtype=DTYPE))
+    assert torch.allclose(output.sar_scale, torch.ones((), dtype=DTYPE))
+    assert torch.allclose(
+        output.prediction,
+        output.zero_shot + output.level_adjustment + output.sar_adaptation)
+
+
 def test_learned_support_span_posterior_is_identifiable_and_trainable():
     from model.qpsmp_meta import LearnedSupportSpanPosterior
 
@@ -393,4 +409,31 @@ def test_learned_support_span_has_exact_evidence_null_and_permutation_invariance
     order = torch.tensor([2, 0, 3, 1])
     original = posterior(support, query, residual)[2]
     permuted = posterior(support[order], query, residual[order])[2]
+    assert torch.allclose(original, permuted, atol=1e-10, rtol=1e-8)
+
+
+def test_qp_ams_has_exact_null_support_span_and_permutation_invariance():
+    from model.qpsmp_meta import QuotientPreservingAmortizedMetaSection
+
+    module = QuotientPreservingAmortizedMetaSection(7, 5, dtype=DTYPE)
+    interaction = torch.randn(4, 7, dtype=DTYPE)
+    support = torch.randn(4, 5, dtype=DTYPE)
+    query = torch.randn(3, 5, dtype=DTYPE)
+    zero = torch.zeros(4, dtype=DTYPE)
+    state, _, prediction = module(interaction, support, query, zero)
+    assert torch.count_nonzero(state) == 0
+    assert torch.count_nonzero(prediction) == 0
+
+    residual = torch.randn(4, dtype=DTYPE)
+    residual = residual - residual.mean()
+    order = torch.tensor([2, 0, 3, 1])
+    original_state, _, original = module(
+        interaction, support, query, residual)
+    permuted_state, _, permuted = module(
+        interaction[order], support[order], query, residual[order])
+    centered_support = support - support.mean(0, keepdim=True)
+    projection = torch.linalg.pinv(centered_support) @ centered_support
+    assert torch.allclose(original_state, projection @ original_state,
+                          atol=1e-9, rtol=1e-7)
+    assert torch.allclose(original_state, permuted_state, atol=1e-10, rtol=1e-8)
     assert torch.allclose(original, permuted, atol=1e-10, rtol=1e-8)

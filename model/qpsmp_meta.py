@@ -14,6 +14,7 @@ import torch.nn as nn
 from torch import Tensor
 
 from .encoders import LigandEncoder, ProteinEncoder
+from .bpsf import BipartitePairSectionFormer, QuotientSupportSetOperator
 
 
 @dataclass(frozen=True)
@@ -216,6 +217,60 @@ class LearnedSupportSpanPosterior(nn.Module):
         return state, centered_query, raw_sar
 
 
+class QuotientPreservingAmortizedMetaSection(nn.Module):
+    """Pairwise learned support adaptation constrained to the observed span."""
+
+    def __init__(self, interaction_dim: int, section_dim: int,
+                 hidden_dim: int = 32, state_bound: float = 1.0,
+                 dtype: torch.dtype = torch.float32) -> None:
+        super().__init__()
+        self.state_bound = float(state_bound)
+        self.element = nn.Sequential(
+            nn.Linear(interaction_dim + section_dim + 2, hidden_dim, dtype=dtype),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, hidden_dim, dtype=dtype),
+        )
+        self.message = nn.Sequential(
+            nn.Linear(2 * hidden_dim, hidden_dim, bias=False, dtype=dtype),
+            nn.SiLU(),
+        )
+        self.gate = nn.Sequential(
+            nn.Linear(3 * hidden_dim, hidden_dim, bias=False, dtype=dtype),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype),
+            nn.Tanh(),
+        )
+
+    def forward(self, support_interaction: Tensor, support_basis: Tensor,
+                query_basis: Tensor, centered_residual: Tensor
+                ) -> tuple[Tensor, Tensor, Tensor]:
+        support_dim = support_basis.ndim - 2
+        center = support_basis.mean(dim=support_dim, keepdim=True)
+        centered_support = support_basis - center
+        centered_query = query_basis - center
+        element = self.element(torch.cat((
+            support_interaction, centered_support,
+            centered_residual.unsqueeze(-1), centered_residual.square().unsqueeze(-1)),
+            dim=-1))
+        left = element.unsqueeze(-2)
+        right = element.unsqueeze(-3)
+        pair_shape = torch.broadcast_shapes(left.shape[:-1], right.shape[:-1])
+        pairs = torch.cat((left.expand(*pair_shape, left.shape[-1]),
+                           right.expand(*pair_shape, right.shape[-1])), dim=-1)
+        message = self.message(pairs).mean(dim=-2)
+        global_summary = element.mean(dim=support_dim, keepdim=True).expand_as(element)
+        alpha = centered_residual * self.gate(torch.cat(
+            (element, message, global_summary), dim=-1)).squeeze(-1)
+        alpha = alpha - alpha.mean(dim=-1, keepdim=True)
+        raw_state = (
+            centered_support.transpose(-1, -2) @ alpha.unsqueeze(-1)
+        ).squeeze(-1) / max(support_basis.shape[support_dim], 1)
+        state = self.state_bound * raw_state / (
+            1.0 + torch.linalg.vector_norm(raw_state, dim=-1, keepdim=True))
+        raw_sar = (centered_query @ state.unsqueeze(-1)).squeeze(-1)
+        return state, centered_query, raw_sar
+
+
 class QPSMPMetaLearner(nn.Module):
     """Shared scalar potential plus a learned centered episodic update."""
 
@@ -229,8 +284,10 @@ class QPSMPMetaLearner(nn.Module):
         if hidden_dim < 1 or task_dim < 1:
             raise ValueError("hidden_dim and task_dim must be positive")
         adapter_hidden_dim = hidden_dim if adapter_hidden_dim is None else adapter_hidden_dim
-        if section_mode not in {"neural", "support_span", "ridge"}:
-            raise ValueError("section_mode must be neural, support_span, or ridge")
+        if section_mode not in {
+                "neural", "support_span", "ridge", "qp_ams", "section_former"}:
+            raise ValueError(
+                "section_mode must be neural, support_span, ridge, qp_ams, or section_former")
         self.section_mode = section_mode
         self.localizer = LigandConditionedProteinLocalizer(hidden_dim, dtype)
         self.interaction = nn.Sequential(
@@ -255,6 +312,13 @@ class QPSMPMetaLearner(nn.Module):
         self.support_span = SupportSpanRidge(dtype=dtype)
         self.meta_posterior = LearnedSupportSpanPosterior(
             adapter_hidden_dim, dtype)
+        self.qp_ams = QuotientPreservingAmortizedMetaSection(
+            hidden_dim, task_dim, adapter_hidden_dim, state_bound, dtype)
+        section_heads = next(
+            value for value in (4, 2, 1) if adapter_hidden_dim % value == 0)
+        self.section_former = QuotientSupportSetOperator(
+            task_dim, adapter_hidden_dim, heads=section_heads,
+            state_bound=state_bound, dtype=dtype)
 
     def interaction_features(
             self, protein_pooled: Tensor, protein_tokens: Tensor,
@@ -276,19 +340,22 @@ class QPSMPMetaLearner(nn.Module):
 
     def scalar_components(
             self, protein_pooled: Tensor, ligand_states: Tensor,
-            interaction: Tensor) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+            interaction: Tensor, section: Tensor | None = None
+            ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
         ligand = self.ligand_baseline(ligand_states).squeeze(-1)
         protein = self.protein_level(protein_pooled).squeeze(-1)
         if ligand.ndim > protein.ndim:
             protein = protein.unsqueeze(-1)
         zero_shot = self.zero_shot_head(interaction).squeeze(-1)
-        return ligand + protein, ligand, zero_shot, self.section_head(interaction)
+        basis = self.section_head(interaction) if section is None else section
+        return ligand + protein, ligand, zero_shot, basis
 
     def forward(
             self, protein_pooled: Tensor, protein_tokens: Tensor,
             protein_mask: Tensor, support_ligand: Tensor, support_y: Tensor,
             query_ligand: Tensor, *, adapt: bool = True,
             crossed_ligand: Tensor | None = None,
+            section_ligand: Tensor | None = None,
             ) -> QPSMPMetaOutput:
         parameter = next(self.parameters())
         device, dtype = parameter.device, parameter.dtype
@@ -313,10 +380,16 @@ class QPSMPMetaLearner(nn.Module):
         support_interaction, query_interaction = torch.split(
             all_interaction, (support_count, query_ligand.shape[sequence_dim]),
             dim=sequence_dim)
-        support_add, _, support_zero, _ = self.scalar_components(
-            protein_pooled, support_ligand, support_interaction)
+        support_section = query_section = None
+        if section_ligand is not None:
+            section_ligand = section_ligand.to(device=device, dtype=dtype)
+            support_section, query_section = torch.split(
+                section_ligand,
+                (support_count, query_ligand.shape[sequence_dim]), dim=sequence_dim)
+        support_add, _, support_zero, support_basis = self.scalar_components(
+            protein_pooled, support_ligand, support_interaction, support_section)
         query_add, query_ligand_only, query_zero, query_basis = self.scalar_components(
-            protein_pooled, query_ligand, query_interaction)
+            protein_pooled, query_ligand, query_interaction, query_section)
         support_scalar = support_add + support_zero
         additive = query_add
         cross_zero_shot = query_zero
@@ -347,10 +420,22 @@ class QPSMPMetaLearner(nn.Module):
                     support_interaction, query_interaction, centered_residual)
             elif self.section_mode == "ridge":
                 state, query_basis, raw_sar = self.support_span(
-                    support_interaction, query_interaction, centered_residual)
+                    support_basis, query_basis, centered_residual)
+            elif self.section_mode == "qp_ams":
+                state, query_basis, raw_sar = self.qp_ams(
+                    support_interaction, support_basis, query_basis,
+                    centered_residual)
+            elif self.section_mode == "section_former":
+                state, query_basis, raw_sar = self.section_former(
+                    support_basis, query_basis, centered_residual)
             else:
                 state = self.adapter(support_interaction, centered_residual)
-                raw_sar = (query_basis @ state.unsqueeze(-1)).squeeze(-1)
+                centered_query_basis = (
+                    query_basis - support_basis.mean(
+                        dim=1 if batched else 0, keepdim=True))
+                raw_sar = (
+                    centered_query_basis @ state.unsqueeze(-1)).squeeze(-1)
+                query_basis = centered_query_basis
             evidence_score = torch.tanh(torch.linalg.vector_norm(state, dim=-1))
             prior_variance = torch.nn.functional.softplus(self.level_prior_raw)
             noise_variance = torch.nn.functional.softplus(self.level_noise_raw)
@@ -360,14 +445,23 @@ class QPSMPMetaLearner(nn.Module):
             )
             shape_scale = torch.sigmoid(self.shape_logit)
             sar_scale = torch.sigmoid(self.sar_logit)
-            support_center = support_scalar.mean(dim=-1)
-            calibrated_level = support_center + level_shrinkage * level_shift
-            if batched:
-                support_center = support_center.unsqueeze(-1)
-                calibrated_level = calibrated_level.unsqueeze(-1)
-            level_baseline = calibrated_level + shape_scale * (zero_shot - support_center)
-            level_adjustment = level_baseline - zero_shot
-            sar_adaptation = sar_scale * raw_sar
+            if self.section_mode in {"ridge", "neural", "qp_ams", "section_former"}:
+                level_adjustment = level_shrinkage * level_shift
+                if batched:
+                    level_adjustment = level_adjustment.unsqueeze(-1)
+                level_baseline = zero_shot + level_adjustment
+                sar_adaptation = raw_sar
+                shape_scale = torch.ones_like(shape_scale)
+                sar_scale = torch.ones_like(sar_scale)
+            else:
+                support_center = support_scalar.mean(dim=-1)
+                calibrated_level = support_center + level_shrinkage * level_shift
+                if batched:
+                    support_center = support_center.unsqueeze(-1)
+                    calibrated_level = calibrated_level.unsqueeze(-1)
+                level_baseline = calibrated_level + shape_scale * (zero_shot - support_center)
+                level_adjustment = level_baseline - zero_shot
+                sar_adaptation = sar_scale * raw_sar
             prediction = level_baseline + sar_adaptation
             adaptation = prediction - zero_shot
         evidence = torch.linalg.vector_norm(
@@ -412,14 +506,21 @@ class QPSMPBioModel(nn.Module):
             state_bound: float = 1.0,
             section_mode: str = "support_span",
             interaction_mode: str = "pooled",
+            pair_blocks: int = 2, pair_latents: int = 8,
+            pair_heads: int = 4, pair_chunk_size: int = 64,
             dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        if interaction_mode not in {"pooled", "atom_residue"}:
-            raise ValueError("interaction_mode must be pooled or atom_residue")
+        if interaction_mode not in {"pooled", "atom_residue", "bpsf"}:
+            raise ValueError("interaction_mode must be pooled, atom_residue, or bpsf")
         self.interaction_mode = interaction_mode
         self.protein_encoder = ProteinEncoder(protein_dim, hidden_dim, dtype)
         self.ligand_encoder = LigandEncoder(hidden_dim, ligand_layers, dtype=dtype)
         self.atom_residue_field = AtomResidueInteractionField(hidden_dim, dtype)
+        pair_heads = next(value for value in (pair_heads, 2, 1)
+                          if hidden_dim % value == 0)
+        self.pair_section = BipartitePairSectionFormer(
+            hidden_dim, task_dim, pair_blocks, pair_latents, pair_heads,
+            pair_chunk_size, dtype)
         self.meta = QPSMPMetaLearner(
             hidden_dim, task_dim, adapter_hidden_dim, state_bound,
             section_mode, dtype)
@@ -452,11 +553,30 @@ class QPSMPBioModel(nn.Module):
             atom_states = atom_states.reshape(batch_size, ligand_count, atom_count, -1)
         else:
             ligand, atom_states = self.ligand_encoder(all_atoms, all_bonds, all_mask)
-        crossed = None
+        crossed = section = None
         if self.interaction_mode == "atom_residue":
             crossed = self.atom_residue_field(
                 tokens if batched else tokens.squeeze(0),
                 protein_mask.to(device=device), atom_states, all_mask)
+        elif self.interaction_mode == "bpsf":
+            if batched:
+                flat_residues = tokens[:, None].expand(
+                    -1, ligand_count, -1, -1).flatten(0, 1)
+                flat_residue_mask = protein_mask[:, None].expand(
+                    -1, ligand_count, -1).flatten(0, 1)
+                encoded = self.pair_section(
+                    atom_states.flatten(0, 1), flat_residues,
+                    all_mask.flatten(0, 1), flat_residue_mask.to(device=device))
+                crossed = encoded.endpoint.reshape(batch_size, ligand_count, -1)
+                section = encoded.section.reshape(batch_size, ligand_count, -1)
+            else:
+                ligand_count = atom_states.shape[0]
+                encoded = self.pair_section(
+                    atom_states,
+                    tokens.squeeze(0).unsqueeze(0).expand(ligand_count, -1, -1),
+                    all_mask,
+                    protein_mask.to(device=device).unsqueeze(0).expand(ligand_count, -1))
+                crossed, section = encoded.endpoint, encoded.section
         support_count = support_atoms.shape[sequence_dim]
         support_ligand, query_ligand = torch.split(
             ligand, (support_count, query_atoms.shape[sequence_dim]), dim=sequence_dim)
@@ -464,4 +584,4 @@ class QPSMPBioModel(nn.Module):
             pooled if batched else pooled.squeeze(0),
             tokens if batched else tokens.squeeze(0), protein_mask.to(device=device),
             support_ligand, support_y, query_ligand,
-            adapt=adapt, crossed_ligand=crossed)
+            adapt=adapt, crossed_ligand=crossed, section_ligand=section)

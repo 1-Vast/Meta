@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import copy
 from dataclasses import asdict, dataclass, replace
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -54,6 +55,15 @@ class TrainConfig:
     section_mode: str = "support_span"
     interaction_mode: str = "pooled"
     zero_support_only: bool = False
+    pretrained_checkpoint: str | None = None
+    geometry_checkpoint: str | None = None
+    section_only: bool = False
+    amp: bool = True
+    pair_blocks: int = 2
+    pair_latents: int = 8
+    pair_heads: int = 4
+    pair_chunk_size: int = 32
+    episode_cache: str | None = None
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -77,6 +87,100 @@ def training_label_scale(data: QPSMPData) -> LabelScale:
     if not np.isfinite(scale) or scale < 1e-6:
         raise ValueError("meta-train labels have invalid scale")
     return LabelScale(float(values.mean()), scale)
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def load_parent_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str | None:
+    if config.pretrained_checkpoint is None:
+        return None
+    path = Path(config.pretrained_checkpoint)
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    parent_config = payload.get("config", {})
+    for field in (
+            "hidden_dim", "task_dim", "ligand_layers", "interaction_mode",
+            "pair_blocks", "pair_latents", "pair_heads"):
+        if parent_config.get(field) != getattr(config, field):
+            raise ValueError(f"parent checkpoint has incompatible {field}")
+    incompatible = model.load_state_dict(payload["model_state"], strict=False)
+    allowed_missing = (
+        {key for key in incompatible.missing_keys if key.startswith("meta.qp_ams.")}
+        if config.section_mode == "qp_ams" else set())
+    if set(incompatible.missing_keys) != allowed_missing or incompatible.unexpected_keys:
+        raise ValueError(
+            "parent checkpoint state is incompatible: "
+            f"missing={incompatible.missing_keys}, unexpected={incompatible.unexpected_keys}")
+    return file_sha256(path)
+
+
+def load_geometry_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str | None:
+    if config.geometry_checkpoint is None:
+        return None
+    if config.interaction_mode != "bpsf":
+        raise ValueError("geometry checkpoint requires interaction_mode=bpsf")
+    path = Path(config.geometry_checkpoint)
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    teacher = payload.get("config", {})
+    required = {
+        "hidden_dim": config.hidden_dim,
+        "section_dim": config.task_dim,
+        "pair_blocks": config.pair_blocks,
+        "pair_latents": config.pair_latents,
+        "pair_heads": config.pair_heads,
+        "gine_layers": config.ligand_layers,
+    }
+    for field, expected in required.items():
+        if teacher.get(field) != expected:
+            raise ValueError(f"geometry checkpoint has incompatible {field}")
+    source = payload["model_state"]
+    mappings = (
+        ("protein.", "protein_encoder."),
+        ("ligand.", "ligand_encoder."),
+        ("bridge.trunk.", "pair_section."),
+    )
+    target = model.state_dict()
+    loaded = set()
+    with torch.no_grad():
+        for source_prefix, target_prefix in mappings:
+            for name, value in source.items():
+                if not name.startswith(source_prefix):
+                    continue
+                target_name = target_prefix + name[len(source_prefix):]
+                if target_name not in target or target[target_name].shape != value.shape:
+                    raise ValueError(f"geometry tensor is incompatible: {name}")
+                target[target_name].copy_(value)
+                loaded.add(target_name)
+    if not loaded or not any(name.startswith("pair_section.") for name in loaded):
+        raise ValueError("geometry checkpoint did not contain a pair trunk")
+    model.load_state_dict(target)
+    return file_sha256(path)
+
+
+def freeze_for_section_training(model: QPSMPBioModel) -> None:
+    for parameter in model.parameters():
+        parameter.requires_grad_(False)
+    for parameter in model.meta.section_head.parameters():
+        parameter.requires_grad_(True)
+    if model.meta.section_mode == "ridge":
+        model.meta.support_span.ridge_raw.requires_grad_(True)
+    elif model.meta.section_mode == "neural":
+        for parameter in model.meta.adapter.parameters():
+            parameter.requires_grad_(True)
+    elif model.meta.section_mode == "qp_ams":
+        for parameter in model.meta.qp_ams.parameters():
+            parameter.requires_grad_(True)
+    elif model.meta.section_mode == "section_former":
+        for name, parameter in model.pair_section.latent.named_parameters():
+            if not name.startswith("endpoint."):
+                parameter.requires_grad_(True)
+        for parameter in model.meta.section_former.parameters():
+            parameter.requires_grad_(True)
 
 
 def normalized_episode(episode: EpisodeBatch, scale: LabelScale) -> EpisodeBatch:
@@ -184,6 +288,14 @@ def component_target_mean(rows: list[dict], field: str) -> float:
     return float(np.mean([np.mean(values) for values in component_values.values()]))
 
 
+def centered_mse_pk(prediction: torch.Tensor, truth: torch.Tensor,
+                    label_scale: LabelScale) -> torch.Tensor:
+    truth = truth.to(device=prediction.device, dtype=prediction.dtype)
+    error = prediction - truth
+    error = error - error.mean(dim=-1, keepdim=error.ndim > 1)
+    return error.square().mean() * label_scale.scale ** 2
+
+
 def donor_state(model: QPSMPBioModel, data: QPSMPData, episode: EpisodeBatch,
                 donor_target: str, label_scale: LabelScale, *,
                 wrong_protein: bool) -> torch.Tensor:
@@ -238,6 +350,9 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                 "level_only_mse_pk": mse_pk(level_only),
                 "no_interaction_mse_pk": mse_pk(full.additive),
                 "ligand_only_mse_pk": mse_pk(full.ligand_only),
+                "sar_centered_mse_pk": float(centered_mse_pk(
+                    full.zero_shot + full.sar_adaptation,
+                    episode.query_y, label_scale)),
                 "level_adjustment_abs_mean_pk": float(
                     full.level_adjustment.abs().mean() * label_scale.scale),
                 "sar_adaptation_abs_mean_pk": float(
@@ -292,36 +407,72 @@ def train(data: QPSMPData, config: TrainConfig,
         hidden_dim=config.hidden_dim, task_dim=config.task_dim,
         ligand_layers=config.ligand_layers,
         section_mode=config.section_mode,
-        interaction_mode=config.interaction_mode, dtype=torch.float32)
+        interaction_mode=config.interaction_mode,
+        pair_blocks=config.pair_blocks, pair_latents=config.pair_latents,
+        pair_heads=config.pair_heads, pair_chunk_size=config.pair_chunk_size,
+        dtype=torch.float32)
     model.to(config.device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate,
+    geometry_sha256 = load_geometry_checkpoint(model, config)
+    parent_sha256 = load_parent_checkpoint(model, config)
+    if geometry_sha256 is not None and parent_sha256 is not None:
+        raise ValueError("geometry and parent checkpoints are mutually exclusive initializers")
+    if config.section_only:
+        if config.section_mode not in {
+                "ridge", "neural", "qp_ams", "section_former"} or parent_sha256 is None:
+            raise ValueError("section-only training requires a section mode and parent checkpoint")
+        freeze_for_section_training(model)
+    trainable_parameters = [parameter for parameter in model.parameters()
+                            if parameter.requires_grad]
+    optimizer = torch.optim.AdamW(trainable_parameters, lr=config.learning_rate,
                                   weight_decay=config.weight_decay)
+    amp_enabled = config.amp and config.device.startswith("cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
     label_scale = training_label_scale(data)
     train_support_sizes = support_sizes or (config.support_size,)
     if not train_support_sizes or any(k < 1 for k in train_support_sizes):
         raise ValueError("support sizes must be positive")
-    val_specs = {
-        k: data.fixed_episode_bank(
-            "meta_val", k, config.query_size,
-            config.val_draws_per_target, config.seed,
-            config.eval_targets_per_component)
-        for k in train_support_sizes
+    cache_contract = {
+        "seed": config.seed, "support_sizes": list(train_support_sizes),
+        "query_size": config.query_size, "train_cache_size": config.train_cache_size,
+        "val_draws_per_target": config.val_draws_per_target,
+        "eval_targets_per_component": config.eval_targets_per_component,
+        "label_scale": asdict(label_scale),
     }
-    val_banks = {
-        k: tuple(compact_episode(normalized_episode(data.materialize(spec), label_scale))
-                 for spec in specs)
-        for k, specs in val_specs.items()
-    }
-    train_cache: dict[int, tuple[EpisodeBatch, ...]] = {}
-    for k in train_support_sizes:
-        episodes = []
-        while len(episodes) < config.train_cache_size:
-            spec = data.draw_episode("meta_train", k, config.query_size, rng)
-            if len(spec.query) != config.query_size:
-                continue
-            episodes.append(compact_episode(
-                normalized_episode(data.materialize(spec), label_scale)))
-        train_cache[k] = tuple(episodes)
+    cache_path = Path(config.episode_cache) if config.episode_cache else None
+    if cache_path is not None and cache_path.exists():
+        cached = torch.load(cache_path, map_location="cpu", weights_only=False)
+        if cached.get("contract") != cache_contract:
+            raise ValueError("episode cache contract does not match training configuration")
+        train_cache = cached["train"]
+        val_banks = cached["val"]
+    else:
+        val_specs = {
+            k: data.fixed_episode_bank(
+                "meta_val", k, config.query_size,
+                config.val_draws_per_target, config.seed,
+                config.eval_targets_per_component)
+            for k in train_support_sizes
+        }
+        val_banks = {
+            k: tuple(compact_episode(normalized_episode(data.materialize(spec), label_scale))
+                     for spec in specs)
+            for k, specs in val_specs.items()
+        }
+        train_cache: dict[int, tuple[EpisodeBatch, ...]] = {}
+        for k in train_support_sizes:
+            episodes = []
+            while len(episodes) < config.train_cache_size:
+                spec = data.draw_episode("meta_train", k, config.query_size, rng)
+                if len(spec.query) != config.query_size:
+                    continue
+                episodes.append(compact_episode(
+                    normalized_episode(data.materialize(spec), label_scale)))
+            train_cache[k] = tuple(episodes)
+        if cache_path is not None:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            torch.save({"schema": "MetaSieve.QPSMPEpisodeCache.v1",
+                        "contract": cache_contract, "train": train_cache,
+                        "val": val_banks}, cache_path)
     best_state, best_value, best_step = None, float("inf"), 0
     trace = []
     started = time.monotonic()
@@ -334,22 +485,33 @@ def train(data: QPSMPData, config: TrainConfig,
         selected = [cache[(offset + index) % len(cache)]
                     for index in range(config.episodes_per_step)]
         episode = stack_episodes(selected)
-        full = forward(model, episode, adapt=not config.zero_support_only)
-        endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
-        query_y = episode.query_y.to(
-            device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
-        endpoint_loss = (endpoint_prediction - query_y).square().mean()
-        query_residual = full.zero_shot - query_y
-        zero_shot_loss = (
-            query_residual - query_residual.mean(dim=-1, keepdim=True)
-        ).square().mean()
-        loss = endpoint_loss + config.zero_shot_loss_weight * zero_shot_loss
-        loss.backward()
+        with torch.autocast(
+                device_type="cuda", dtype=torch.float16, enabled=amp_enabled):
+            full = forward(model, episode, adapt=not config.zero_support_only)
+            endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
+            query_y = episode.query_y.to(
+                device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
+            endpoint_loss = (endpoint_prediction - query_y).square().mean()
+            query_residual = full.zero_shot - query_y
+            zero_shot_loss = (
+                query_residual - query_residual.mean(dim=-1, keepdim=True)
+            ).square().mean()
+            if config.section_only:
+                sar_error = full.zero_shot + full.sar_adaptation - query_y
+                sar_error = sar_error - sar_error.mean(dim=-1, keepdim=True)
+                loss = sar_error.square().mean()
+            else:
+                loss = endpoint_loss + config.zero_shot_loss_weight * zero_shot_loss
+        scaler.scale(loss).backward()
+        scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
-        optimizer.step()
+        scaler.step(optimizer)
+        scaler.update()
         trace.append(float(loss.detach()))
         if step % config.val_interval == 0 or step == config.steps:
-            selection_field = "zero_shot_mse_pk" if config.zero_support_only else "full_mse_pk"
+            selection_field = (
+                "sar_centered_mse_pk" if config.section_only else
+                "zero_shot_mse_pk" if config.zero_support_only else "full_mse_pk")
             values = [evaluate(
                 model, data, bank, controls=False,
                 label_scale=label_scale)[selection_field] for bank in val_banks.values()]
@@ -380,7 +542,17 @@ def train(data: QPSMPData, config: TrainConfig,
                    },
                    "train_episode_cache_sizes": {
                        str(k): len(bank) for k, bank in train_cache.items()
-                   }}, label_scale
+                   },
+                   "parent_checkpoint_sha256": parent_sha256,
+                   "geometry_checkpoint_sha256": geometry_sha256,
+                   "amp_enabled": amp_enabled,
+                   "episode_cache": str(cache_path) if cache_path else None,
+                   "peak_cuda_memory_mb": (
+                       torch.cuda.max_memory_allocated() / 2 ** 20
+                       if config.device.startswith("cuda") else 0.0),
+                   "trainable_parameter_names": [name for name, parameter in
+                                                   model.named_parameters()
+                                                   if parameter.requires_grad]}, label_scale
 
 
 def main() -> None:
@@ -388,7 +560,10 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=TrainConfig.seed)
     parser.add_argument("--support-size", type=int, default=TrainConfig.support_size)
     parser.add_argument("--query-size", type=int, default=TrainConfig.query_size)
+    parser.add_argument("--hidden-dim", type=int, default=TrainConfig.hidden_dim)
+    parser.add_argument("--task-dim", type=int, default=TrainConfig.task_dim)
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
+    parser.add_argument("--learning-rate", type=float, default=TrainConfig.learning_rate)
     parser.add_argument("--episodes-per-step", type=int, default=TrainConfig.episodes_per_step)
     parser.add_argument("--train-cache-size", type=int, default=TrainConfig.train_cache_size)
     parser.add_argument("--val-interval", type=int, default=TrainConfig.val_interval)
@@ -398,11 +573,21 @@ def main() -> None:
                         default=TrainConfig.eval_targets_per_component)
     parser.add_argument("--zero-shot-loss-weight", type=float,
                         default=TrainConfig.zero_shot_loss_weight)
-    parser.add_argument("--section-mode", choices=("support_span", "ridge", "neural"),
+    parser.add_argument("--section-mode", choices=(
+        "support_span", "ridge", "neural", "qp_ams", "section_former"),
                         default=TrainConfig.section_mode)
-    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue"),
+    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue", "bpsf"),
                         default=TrainConfig.interaction_mode)
     parser.add_argument("--zero-support-only", action="store_true")
+    parser.add_argument("--pretrained-checkpoint", type=Path)
+    parser.add_argument("--geometry-checkpoint", type=Path)
+    parser.add_argument("--section-only", action="store_true")
+    parser.add_argument("--no-amp", action="store_true")
+    parser.add_argument("--pair-blocks", type=int, default=TrainConfig.pair_blocks)
+    parser.add_argument("--pair-latents", type=int, default=TrainConfig.pair_latents)
+    parser.add_argument("--pair-heads", type=int, default=TrainConfig.pair_heads)
+    parser.add_argument("--pair-chunk-size", type=int, default=TrainConfig.pair_chunk_size)
+    parser.add_argument("--episode-cache", type=Path)
     parser.add_argument("--device", default=TrainConfig.device)
     parser.add_argument("--output", type=Path, default=OUT)
     args = parser.parse_args()
@@ -411,7 +596,9 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=False)
     config = TrainConfig(
         seed=args.seed, support_size=args.support_size, query_size=args.query_size,
+        hidden_dim=args.hidden_dim, task_dim=args.task_dim,
         steps=args.steps, episodes_per_step=args.episodes_per_step,
+        learning_rate=args.learning_rate,
         train_cache_size=args.train_cache_size,
         val_interval=args.val_interval,
         val_draws_per_target=args.val_draws_per_target,
@@ -421,6 +608,15 @@ def main() -> None:
         section_mode=args.section_mode,
         interaction_mode=args.interaction_mode,
         zero_support_only=args.zero_support_only,
+        pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
+                               if args.pretrained_checkpoint else None),
+        geometry_checkpoint=(str(args.geometry_checkpoint.resolve())
+                             if args.geometry_checkpoint else None),
+        section_only=args.section_only,
+        amp=not args.no_amp,
+        pair_blocks=args.pair_blocks, pair_latents=args.pair_latents,
+        pair_heads=args.pair_heads, pair_chunk_size=args.pair_chunk_size,
+        episode_cache=(str(args.episode_cache.resolve()) if args.episode_cache else None),
         device=args.device)
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
     model, training, label_scale = train(
