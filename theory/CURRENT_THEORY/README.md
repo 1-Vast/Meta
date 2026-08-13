@@ -14,3 +14,6 @@ identifiability diagnostics, and scalar-output consistency checks.  They do not 
 specific neural realization.  In particular, row-span restrictions, centered-only support
 codes, and k=1 structural nullity are not requirements of the active model.  Closed-form
 section solves are diagnostics/comparators and do not constitute the core innovation.
+
+The active neural candidate is CIPF + TERM. This status does not promote its
+construction tests or development runs into admitted performance evidence.

@@ -48,6 +48,7 @@ class TrainConfig:
     steps: int = 20
     episodes_per_step: int = 2
     learning_rate: float = 3e-4
+    backbone_lr_scale: float = 0.25
     weight_decay: float = 1e-5
     val_interval: int = 10
     val_draws_per_target: int = 1
@@ -55,9 +56,9 @@ class TrainConfig:
     eval_targets_per_component: int = 1
     grad_clip: float = 1.0
     zero_shot_loss_weight: float = 0.25
-    ranking_loss_weight: float = 0.1
+    ranking_loss_weight: float = 0.5
     shape_loss_weight: float = 0.5
-    support_match_loss_weight: float = 0.25
+    support_match_loss_weight: float = 0.05
     dependency_loss_weight: float = 0.25
     dependency_margin: float = 0.05
     ranking_temperature: float = 1.0
@@ -307,12 +308,51 @@ def donor_state(model: QPSMPBioModel, data: QPSMPData, episode: EpisodeBatch,
     return forward(model, donor_episode).task_state
 
 
-def wrong_protein_zero_shot(model: QPSMPBioModel, data: QPSMPData,
-                            episode: EpisodeBatch, donor_target: str) -> torch.Tensor:
+def donor_episode(model: QPSMPBioModel, data: QPSMPData,
+                  episode: EpisodeBatch, donor_target: str,
+                  label_scale: LabelScale) -> EpisodeBatch:
+    """Materialize a complete cross-component foreign support episode."""
+    donor_indices = data.tasks[episode.spec.split][donor_target]
+    count = len(episode.spec.support)
+    order = np.random.default_rng(
+        sum(episode.spec.support) + len(donor_target)).permutation(donor_indices)
+    if len(order) < count + 1:
+        raise ValueError("foreign target cannot supply a complete support episode")
+    donor_spec = EpisodeSpec(
+        episode.spec.split, data.cells[int(order[0])]["protein_group_40"],
+        donor_target, tuple(map(int, order[:count])), (int(order[count]),),
+        episode.spec.target)
+    return normalized_episode(data.materialize(donor_spec), label_scale)
+
+
+def complete_foreign_prediction(model: QPSMPBioModel, data: QPSMPData,
+                                recipient: EpisodeBatch, donor_target: str,
+                                label_scale: LabelScale) -> torch.Tensor:
+    """Replace support ligand/label pairs under the recipient protein."""
+    donor = donor_episode(model, data, recipient, donor_target, label_scale)
+    hybrid = replace(
+        donor, protein_pooled=recipient.protein_pooled,
+        protein_tokens=recipient.protein_tokens,
+        protein_mask=recipient.protein_mask,
+        query_atoms=recipient.query_atoms, query_bonds=recipient.query_bonds,
+        query_mask=recipient.query_mask, query_y=recipient.query_y)
+    return forward(model, hybrid).prediction
+
+
+def wrong_protein_prediction(model: QPSMPBioModel, data: QPSMPData,
+                             episode: EpisodeBatch, donor_target: str,
+                             *, adapt: bool = True) -> torch.Tensor:
+    """Replace the protein throughout the full recipient episode."""
     pooled, tokens, mask = data.protein_for_target(donor_target)
     wrong_episode = replace(
         episode, protein_pooled=pooled, protein_tokens=tokens, protein_mask=mask)
-    return forward(model, wrong_episode, adapt=False).zero_shot
+    return forward(model, wrong_episode, adapt=adapt).prediction
+
+
+def wrong_protein_zero_shot(model: QPSMPBioModel, data: QPSMPData,
+                            episode: EpisodeBatch, donor_target: str) -> torch.Tensor:
+    return wrong_protein_prediction(
+        model, data, episode, donor_target, adapt=False)
 
 
 def evaluate(model: QPSMPBioModel, data: QPSMPData,
@@ -331,7 +371,7 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
             full = forward(model, episode)
             frozen = forward(model, episode, adapt=False)
             sar_cut = full.prediction - full.sar_adaptation
-            level_only = episode.support_y.mean().expand_as(episode.query_y)
+            level_only = full.level_baseline
             def mse_pk(prediction: torch.Tensor) -> float:
                 return float(label_scale.squared_error_pk(prediction, episode.query_y).mean())
             values = {
@@ -358,18 +398,15 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
             if controls:
                 permuted = replace(episode, support_y=episode.support_y.roll(1))
                 permuted_output = forward(model, permuted)
-                foreign = donor_state(
-                    model, data, episode, spec.donor_target, label_scale,
-                    wrong_protein=False)
-                wrong = donor_state(
-                    model, data, episode, spec.donor_target, label_scale,
-                    wrong_protein=True)
                 values.update({
                     "permuted_mse_pk": mse_pk(permuted_output.prediction),
-                    "foreign_code_state_mse_pk": mse_pk(forward(
-                        model, episode, task_state_override=foreign).prediction),
-                    "wrong_protein_state_mse_pk": mse_pk(forward(
-                        model, episode, task_state_override=wrong).prediction),
+                    "foreign_code_state_mse_pk": mse_pk(
+                        complete_foreign_prediction(
+                            model, data, episode, spec.donor_target,
+                            label_scale)),
+                    "wrong_protein_state_mse_pk": mse_pk(
+                        wrong_protein_prediction(
+                            model, data, episode, spec.donor_target)),
                     "wrong_protein_zero_shot_mse_pk": mse_pk(
                         wrong_protein_zero_shot(
                             model, data, episode, spec.donor_target)),
@@ -418,8 +455,16 @@ def train(data: QPSMPData, config: TrainConfig,
         raise ValueError("geometry and parent checkpoints are mutually exclusive initializers")
     trainable_parameters = [parameter for parameter in model.parameters()
                             if parameter.requires_grad]
-    optimizer = torch.optim.AdamW(trainable_parameters, lr=config.learning_rate,
-                                  weight_decay=config.weight_decay)
+    fast_parameters = [parameter for name, parameter in model.named_parameters()
+                       if parameter.requires_grad and name.startswith("meta.term.")]
+    fast_ids = {id(parameter) for parameter in fast_parameters}
+    slow_parameters = [parameter for parameter in trainable_parameters
+                       if id(parameter) not in fast_ids]
+    optimizer = torch.optim.AdamW([
+        {"params": slow_parameters,
+         "lr": config.learning_rate * config.backbone_lr_scale},
+        {"params": fast_parameters, "lr": config.learning_rate},
+    ], weight_decay=config.weight_decay)
     amp_enabled = config.amp and config.device.startswith("cuda")
     scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
     label_scale = training_label_scale(data)
@@ -507,12 +552,9 @@ def train(data: QPSMPData, config: TrainConfig,
                         model, replace(episode, support_y=episode.support_y.roll(1)))
                     permuted_error = centered_task_error(
                         permuted.prediction, query_y)
-                    foreign_state = donor_state(
+                    foreign_prediction = complete_foreign_prediction(
                         model, data, episode, episode.spec.donor_target,
-                        label_scale, wrong_protein=False)
-                    foreign_prediction = forward(
-                        model, episode,
-                        task_state_override=foreign_state.detach()).prediction
+                        label_scale)
                     foreign_error = centered_task_error(
                         foreign_prediction, query_y)
                     loss_dependency = (
@@ -604,6 +646,8 @@ def main() -> None:
     parser.add_argument("--ligand-layers", type=int, default=TrainConfig.ligand_layers)
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--learning-rate", type=float, default=TrainConfig.learning_rate)
+    parser.add_argument("--backbone-lr-scale", type=float,
+                        default=TrainConfig.backbone_lr_scale)
     parser.add_argument("--episodes-per-step", type=int, default=TrainConfig.episodes_per_step)
     parser.add_argument("--val-interval", type=int, default=TrainConfig.val_interval)
     parser.add_argument("--val-draws-per-target", type=int, default=TrainConfig.val_draws_per_target)
@@ -650,6 +694,7 @@ def main() -> None:
         ligand_layers=args.ligand_layers,
         steps=args.steps, episodes_per_step=args.episodes_per_step,
         learning_rate=args.learning_rate,
+        backbone_lr_scale=args.backbone_lr_scale,
         val_interval=args.val_interval,
         val_draws_per_target=args.val_draws_per_target,
         test_draws_per_target=args.test_draws_per_target,
@@ -683,15 +728,15 @@ def main() -> None:
     checkpoint = args.output / "checkpoint.pt"
     torch.save({"model_state": model.state_dict(), "config": asdict(config)}, checkpoint)
     result = {
-        "schema": "MetaSieve.DMEMTTrainingRun.v1",
+        "schema": "MetaSieve.CIPFTERMTrainingRun.v1",
         "scope": "implementation_smoke_only",
         "data": {"corpus": str(CORPUS), "protein_bank_records": len(data.protein_bank),
                  "ligand_bank_records": len(data.ligand_bank)},
         "config": asdict(config), "training": training, "test": metrics,
         "evaluation_population": "fixed hash-selected targets within every eligible component",
-        "controls": {"foreign_code": "only target-level mechanism prompts are replaced; recipient relative evidence, level, protein, and query stay fixed",
-                     "wrong_protein": "only mechanism prompts inferred under the donor protein are replaced",
-                     "sar_cut": "difference-constrained mechanism modulation alone is removed",
+        "controls": {"foreign_code": "donor support ligand/label pairs replace recipient support and are recomputed under the fixed recipient protein and query ligands",
+                     "wrong_protein": "TERM evidence inferred under a donor protein replaces recipient evidence",
+                     "sar_cut": "TERM primitive composition is removed while zero-shot and scalar level calibration remain",
                      "permuted": "support labels are cyclically permuted"},
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
         "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",

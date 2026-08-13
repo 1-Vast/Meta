@@ -13,6 +13,7 @@ class PairSectionEncoding:
     endpoint: Tensor
     section: Tensor
     mechanism_slots: Tensor
+    mechanism_response: Tensor
     pair: Tensor | None = None
     pair_mask: Tensor | None = None
 
@@ -102,9 +103,15 @@ class _LatentReadout(nn.Module):
     def __init__(self, pair_dim: int, output_dim: int, latent_count: int,
                  heads: int, dtype: torch.dtype) -> None:
         super().__init__()
+        # Each index is a globally shared interaction primitive, rather than
+        # an exchangeable episode-specific latent.
         self.latents = nn.Parameter(torch.empty(latent_count, pair_dim, dtype=dtype))
         nn.init.normal_(self.latents, std=pair_dim ** -0.5)
-        self.cross = nn.MultiheadAttention(pair_dim, heads, batch_first=True, dtype=dtype)
+        del heads
+        self.value = nn.Linear(pair_dim, pair_dim, bias=False, dtype=dtype)
+        self.response_weight = nn.Parameter(
+            torch.empty(latent_count, pair_dim, dtype=dtype))
+        nn.init.normal_(self.response_weight, std=pair_dim ** -0.5)
         self.blocks = nn.ModuleList([
             nn.Sequential(nn.LayerNorm(pair_dim, dtype=dtype),
                           nn.Linear(pair_dim, 4 * pair_dim, dtype=dtype), nn.GELU(),
@@ -113,18 +120,35 @@ class _LatentReadout(nn.Module):
         self.norm = nn.LayerNorm(pair_dim, dtype=dtype)
         self.output = nn.Linear(pair_dim, output_dim, bias=False, dtype=dtype)
 
-    def forward(self, pair: Tensor, pair_mask: Tensor) -> tuple[Tensor, Tensor]:
+    def primitive_response(self, slots: Tensor) -> Tensor:
+        if slots.shape[-2:] != self.latents.shape:
+            raise ValueError("mechanism slots do not match primitive dictionary")
+        return torch.einsum("...md,md->...m", slots, self.response_weight) \
+            / self.response_weight.shape[-1] ** 0.5
+
+    def forward(self, pair: Tensor, pair_mask: Tensor,
+                primitive_bias: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor]:
         batch, _, _, width = pair.shape
         values = pair.reshape(batch, -1, width)
         valid = pair_mask.reshape(batch, -1).bool()
+        score = torch.einsum("bnd,md->bmn", values, self.latents) / width ** 0.5
+        if primitive_bias is not None:
+            expected = (*pair.shape[:3], self.latents.shape[0])
+            if primitive_bias.shape != expected:
+                raise ValueError(f"primitive bias must have shape {expected}")
+            score = score + primitive_bias.flatten(1, 2).transpose(1, 2)
+        score = score.masked_fill(~valid[:, None], torch.finfo(score.dtype).min)
+        weight = torch.softmax(score, -1)
+        attended = torch.einsum("bmn,bnd->bmd", weight, self.value(values))
         latent = self.latents.unsqueeze(0).expand(batch, -1, -1)
-        attended, _ = self.cross(
-            latent, values, values, key_padding_mask=~valid, need_weights=False)
         latent = latent + attended
         for block in self.blocks:
             latent = latent + block(latent)
         slots = self.norm(latent)
-        return self.output(slots.mean(1)), slots
+        # Responses exclude the dictionary-only identity baseline, preventing
+        # pair-independent primitive constants from acting as level experts.
+        response = self.primitive_response(self.norm(attended))
+        return self.output(slots.mean(1)), slots, response
 
     def project_slots(self, slots: Tensor) -> Tensor:
         """Project retained aligned slots through the original pooled readout."""
@@ -152,10 +176,12 @@ class SectionLatentEncoder(nn.Module):
         shared = self.interaction.project_slots(slots)
         return self.endpoint(shared), self.section_norm(self.section(shared))
 
-    def forward(self, pair: Tensor, pair_mask: Tensor) -> tuple[Tensor, Tensor, Tensor]:
-        shared, slots = self.interaction(pair, pair_mask)
+    def forward(self, pair: Tensor, pair_mask: Tensor,
+                primitive_bias: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+        shared, slots, response = self.interaction(
+            pair, pair_mask, primitive_bias)
         return (self.endpoint(shared), self.section_norm(self.section(shared)),
-                slots)
+                slots, response)
 
 
 class BipartitePairSectionFormer(nn.Module):
@@ -176,6 +202,12 @@ class BipartitePairSectionFormer(nn.Module):
         self.pair_init = nn.Sequential(
             nn.Linear(3 * pair_dim, pair_dim, bias=False, dtype=dtype),
             nn.SiLU(), nn.LayerNorm(pair_dim, dtype=dtype))
+        # Sequence/2D-compatible physicochemical compatibility bias. Atom
+        # features are the governed RDKit vector; protein region types are
+        # inferred from residue embeddings without requiring coordinates.
+        self.atom_primitive = nn.Linear(32, latent_count, bias=False, dtype=dtype)
+        self.residue_primitive = nn.Linear(
+            token_dim, latent_count, bias=False, dtype=dtype)
         if adaptive_blocks < 0 or adaptive_blocks > blocks:
             raise ValueError("adaptive_blocks must be within the pair trunk")
         self.blocks = nn.ModuleList(
@@ -191,6 +223,7 @@ class BipartitePairSectionFormer(nn.Module):
     def _forward_chunk(self, atoms: Tensor, residues: Tensor, atom_mask: Tensor,
                        residue_mask: Tensor, adjacency: Tensor,
                        return_pair: bool,
+                       atom_features: Tensor | None = None,
                        task_code: Tensor | None = None) -> PairSectionEncoding:
         atoms = atoms * atom_mask.unsqueeze(-1)
         residues = residues * residue_mask.unsqueeze(-1)
@@ -207,13 +240,22 @@ class BipartitePairSectionFormer(nn.Module):
             pair, atoms, residues = block(
                 pair, atoms, residues, atom_mask, residue_mask, adjacency,
                 task_code)
-        endpoint, section, slots = self.latent(pair, mask)
-        return PairSectionEncoding(endpoint, section, slots,
+        primitive_bias = None
+        if atom_features is not None:
+            if atom_features.shape[:2] != atoms.shape[:2] or atom_features.shape[-1] != 32:
+                raise ValueError("raw atom features do not match the primitive field")
+            atom_bias = self.atom_primitive(atom_features)[:, :, None]
+            residue_bias = self.residue_primitive(residues)[:, None]
+            primitive_bias = torch.tanh(atom_bias + residue_bias)
+        endpoint, section, slots, response = self.latent(
+            pair, mask, primitive_bias)
+        return PairSectionEncoding(endpoint, section, slots, response,
                                    pair if return_pair else None,
                                    mask if return_pair else None)
 
     def forward(self, atoms: Tensor, residues: Tensor, atom_mask: Tensor,
                 residue_mask: Tensor, adjacency: Tensor | None = None, *,
+                atom_features: Tensor | None = None,
                 task_code: Tensor | None = None,
                 return_pair: bool = False) -> PairSectionEncoding:
         if atoms.ndim != 3 or residues.ndim != 3:
@@ -236,10 +278,12 @@ class BipartitePairSectionFormer(nn.Module):
             outputs.append(self._forward_chunk(
                 atoms[start:stop], residues[start:stop], atom_mask[start:stop],
                 residue_mask[start:stop], adjacency[start:stop], return_pair,
+                atom_features[start:stop] if atom_features is not None else None,
                 task_code[start:stop] if task_code is not None else None))
         return PairSectionEncoding(
             torch.cat([x.endpoint for x in outputs]),
             torch.cat([x.section for x in outputs]),
             torch.cat([x.mechanism_slots for x in outputs]),
+            torch.cat([x.mechanism_response for x in outputs]),
             torch.cat([x.pair for x in outputs]) if return_pair else None,
             torch.cat([x.pair_mask for x in outputs]) if return_pair else None)

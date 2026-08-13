@@ -19,6 +19,7 @@ def test_pair_section_shapes_masks_and_geometry_head():
     assert encoded.endpoint.shape == (3, 8)
     assert encoded.section.shape == (3, 6)
     assert encoded.mechanism_slots.shape == (3, 4, 48)
+    assert encoded.mechanism_response.shape == (3, 4)
     assert encoded.pair.shape == (3, 5, 7, 48)
     assert geometry.contact_logits.shape == (3, 5, 7)
     assert geometry.distance_logits.shape == (3, 5, 7, 5)

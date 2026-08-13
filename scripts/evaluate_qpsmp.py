@@ -22,7 +22,8 @@ if __package__ in {None, ""}:
 from scripts.qpsmp_data import EpisodeSpec, QPSMPData, stable_seed
 from scripts.train_qpsmp import (
     COMPACT_LIGAND_BANK, CORPUS, LIGAND_BANK, PROTEIN_BANK, LabelScale, TrainConfig,
-    donor_state, forward, normalized_episode, train,
+    complete_foreign_prediction, forward, normalized_episode, train,
+    wrong_protein_prediction,
 )
 
 
@@ -190,22 +191,17 @@ def evaluate_seed(model, data: QPSMPData, records: tuple[NestedEpisodeRecord, ..
                 full = forward(model, episode)
                 permuted = (forward(model, replace(
                     episode, support_y=episode.support_y.roll(1))) if k else full)
-                foreign = (donor_state(model, data, episode, record.donor_target,
-                                      label_scale, wrong_protein=False) if k else None)
-                wrong = (donor_state(model, data, episode, record.donor_target,
-                                    label_scale, wrong_protein=True) if k else None)
                 predictions = {
                     "full": full.prediction,
                     "sar_cut": full.prediction - full.sar_adaptation,
                     "zero_shot": forward(model, episode, adapt=False).prediction,
-                    "level_only": (episode.support_y.mean().expand_as(episode.query_y)
-                                   if k else full.zero_shot),
+                    "level_only": full.level_baseline,
                     "permuted_state": permuted.prediction,
-                    "foreign_code_state": (forward(
-                        model, episode, task_state_override=foreign).prediction
+                    "foreign_code_state": (complete_foreign_prediction(
+                        model, data, episode, record.donor_target, label_scale)
                         if k else full.prediction),
-                    "wrong_protein_state": (forward(
-                        model, episode, task_state_override=wrong).prediction
+                    "wrong_protein_state": (wrong_protein_prediction(
+                        model, data, episode, record.donor_target)
                         if k else full.prediction),
                 }
                 for arm, prediction in predictions.items():
@@ -415,7 +411,7 @@ def main() -> None:
         for row in all_rows:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
     result = {
-        "schema": "MetaSieve.DMEMTNestedEvaluation.v1",
+        "schema": "MetaSieve.CIPFTERMNestedEvaluation.v1",
         "model_seeds": list(MODEL_SEEDS), "support_sizes": list(SUPPORT_SIZES),
         "training_config": {
             "steps": args.steps,

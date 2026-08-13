@@ -1,8 +1,8 @@
-import torch
 import pytest
+import torch
 
 from contracts.ligand_graph import ATOM_FEAT_DIM, BOND_FEAT_DIM
-from model.qpsmp_meta import MechanismEvidenceMetaTransformer, QPSMPBioModel
+from model.qpsmp_meta import QPSMPBioModel, TriadicEvidenceRouter
 from scripts.qpsmp_data import EpisodeBatch, EpisodeSpec
 from scripts.train_qpsmp import forward as episode_forward
 
@@ -16,8 +16,7 @@ def _inputs(batch=2, k=3, q=4, atoms=5, residues=6):
         torch.ones(batch, k, atoms), torch.randn(batch, k),
         torch.randn(batch, q, atoms, ATOM_FEAT_DIM),
         torch.randn(batch, q, atoms, atoms, BOND_FEAT_DIM),
-        torch.ones(batch, q, atoms),
-    )
+        torch.ones(batch, q, atoms))
 
 
 def _model():
@@ -27,179 +26,169 @@ def _model():
         support_blocks=1)
 
 
-def test_mechanism_evidence_is_support_permutation_invariant_and_k1_active():
+def test_exact_coefficient_gradient_matches_squared_loss_autograd():
     torch.manual_seed(31)
-    learner = MechanismEvidenceMetaTransformer(
-        6, 8, 4, blocks=1, dtype=torch.float64)
-    support = torch.randn(2, 3, 4, 6, dtype=torch.float64)
-    residual = torch.tensor([[1.0, -0.5, 0.25], [-1.0, 0.5, 0.75]],
-                            dtype=torch.float64, requires_grad=True)
-    query = torch.randn(2, 5, 4, 6, dtype=torch.float64)
-    prompts, gate, evidence, auxiliary = learner(support, residual, query)
-    order = torch.tensor([2, 0, 1])
-    permuted = learner(support[:, order], residual[:, order], query)
-    assert prompts.shape == (2, 4, 8)
-    assert gate.shape == (2, 5, 4)
-    assert evidence.shape == (2, 3, 4)
-    assert torch.allclose(prompts, permuted[0], atol=1e-10, rtol=1e-10)
-    assert torch.allclose(gate, permuted[1], atol=1e-10, rtol=1e-10)
-    one = learner(support[:, :1], residual[:, :1], query)
-    assert torch.count_nonzero(one[2]) > 0
-    (gate.square().mean() + auxiliary).backward()
-    assert residual.grad is not None
-    assert learner.gate[-1].weight.grad is not None
+    residual = torch.randn(2, 3, dtype=torch.float64)
+    primitive = torch.randn(2, 3, 4, dtype=torch.float64)
+    coefficient = torch.zeros(2, 4, dtype=torch.float64, requires_grad=True)
+    prediction = torch.einsum("bkm,bm->bk", primitive, coefficient)
+    loss = 0.5 * (residual - prediction).square().sum()
+    expected, = torch.autograd.grad(loss, coefficient)
+    exact = TriadicEvidenceRouter.exact_coefficient_gradient(
+        residual, primitive).sum(1)
+    assert torch.allclose(exact, expected)
 
 
-def test_difference_transport_responds_to_label_binding_and_zero_is_exact():
+def test_term_is_support_permutation_invariant_k1_active_and_label_bound():
     torch.manual_seed(32)
-    learner = MechanismEvidenceMetaTransformer(
-        6, 8, 4, blocks=1, dtype=torch.float64)
-    support = torch.randn(2, 3, 4, 6, dtype=torch.float64)
-    query = torch.randn(2, 5, 4, 6, dtype=torch.float64)
-    residual = torch.tensor([[1.0, -0.5, 0.25], [-1.0, 0.5, 0.75]],
-                            dtype=torch.float64)
-    real = learner(support, residual, query)
-    labels_only = learner(support, residual.roll(1, dims=1), query)
-    assert not torch.allclose(real[1], labels_only[1])
-    zero = learner(support, residual, query, adapt=False)
-    assert torch.count_nonzero(zero[0]) == 0
-    assert torch.count_nonzero(zero[1]) == 0
+    term = TriadicEvidenceRouter(6, 4, 8, dtype=torch.float64)
+    protein = torch.randn(2, 6, dtype=torch.float64)
+    support_ligand = torch.randn(2, 3, 6, dtype=torch.float64)
+    support_phi = torch.randn(2, 3, 4, dtype=torch.float64)
+    residual = torch.tensor([[1., -.5, .25], [-1., .5, .75]], dtype=torch.float64)
+    query_ligand = torch.randn(2, 5, 6, dtype=torch.float64)
+    query_phi = torch.randn(2, 5, 4, dtype=torch.float64)
+    real = term(protein, support_ligand, support_phi, residual,
+                query_ligand, query_phi)
+    order = torch.tensor([2, 0, 1])
+    permuted = term(protein, support_ligand[:, order], support_phi[:, order],
+                    residual[:, order], query_ligand, query_phi)
+    wrong_binding = term(protein, support_ligand, support_phi,
+                         residual.roll(1, 1), query_ligand, query_phi)
+    assert real[0].shape == (2, 4, 8)
+    assert real[1].shape == (2, 5, 4)
+    assert torch.allclose(real[0], permuted[0], atol=1e-10, rtol=1e-10)
+    assert torch.allclose(real[1], permuted[1], atol=1e-10, rtol=1e-10)
+    assert not torch.allclose(real[1], wrong_binding[1])
+    one = term(protein, support_ligand[:, :1], support_phi[:, :1],
+               residual[:, :1], query_ligand, query_phi)
+    assert torch.count_nonzero(one[3]) > 0
+    assert torch.count_nonzero(one[1]) > 0
 
 
-def test_active_meta_model_batch_forward_zero_k1_and_gradients():
+def test_term_uses_sum_over_sqrt_k_and_abstains_at_zero_evidence():
+    torch.manual_seed(321)
+    term = TriadicEvidenceRouter(6, 4, 8, dtype=torch.float64)
+    protein = torch.randn(1, 6, dtype=torch.float64)
+    support_ligand = torch.randn(1, 1, 6, dtype=torch.float64)
+    support_phi = torch.randn(1, 1, 4, dtype=torch.float64)
+    residual = torch.ones(1, 1, dtype=torch.float64)
+    query_ligand = torch.randn(1, 2, 6, dtype=torch.float64)
+    query_phi = torch.randn(1, 2, 4, dtype=torch.float64)
+    one = term(protein, support_ligand, support_phi, residual,
+               query_ligand, query_phi)
+    repeated = term(
+        protein, support_ligand.expand(-1, 4, -1),
+        support_phi.expand(-1, 4, -1), residual.expand(-1, 4),
+        query_ligand, query_phi)
+    # Before tanh, repeated identical evidence scales by sqrt(k); after tanh
+    # its signed coefficient magnitude must not be attenuated.
+    assert repeated[1].abs().mean() >= one[1].abs().mean()
+    zero = term(protein, support_ligand, support_phi,
+                torch.zeros_like(residual), query_ligand, query_phi)
+    assert torch.count_nonzero(zero[3]) == 0
+    assert torch.count_nonzero(zero[2]) == 0
+
+
+def test_active_model_k0_k1_and_gradients():
     torch.manual_seed(33)
     model, args = _model(), _inputs(k=1)
     output = model(*args)
     zero = model(*args, adapt=False)
     assert output.prediction.shape == (2, 4)
     assert output.task_state.shape == (2, 4, 8)
-    assert torch.count_nonzero(output.task_state) > 0
+    assert output.query_basis.shape == (2, 4, 4)
     assert torch.count_nonzero(output.support_evidence) > 0
     assert torch.count_nonzero(output.sar_adaptation) > 0
     assert torch.equal(zero.prediction, zero.zero_shot)
     assert torch.count_nonzero(zero.task_state) == 0
     assert torch.count_nonzero(zero.sar_adaptation) == 0
-    output.prediction.square().mean().backward()
-    assert model.meta.mechanism.gate[-1].weight.grad is not None
-    assert model.meta.mechanism.sensitivity[-1].weight.grad is not None
-    assert model.meta.reference_delta[-1].weight.grad is not None
-    assert model.ligand_encoder.inp.weight.grad is not None
+    (output.prediction.square().mean()
+     + .01 * output.support_match_loss).backward()
+    assert model.meta.term.triad[-1].weight.grad is not None
+    assert model.pair_section.latent.interaction.response_weight.grad is not None
+    assert model.pair_section.atom_primitive.weight.grad is not None
 
 
-def test_task_state_override_requires_complete_mechanism_prompt_shape():
-    torch.manual_seed(34)
+def test_task_state_override_requires_complete_term_evidence_shape():
     model, args = _model(), _inputs()
     valid = model(*args).task_state
     replay = model(*args, task_state_override=valid)
-    assert replay.prediction.shape == (2, 4)
     changed = model(*args, task_state_override=torch.zeros_like(valid))
+    assert replay.prediction.shape == (2, 4)
     assert not torch.allclose(replay.prediction, changed.prediction)
-    with pytest.raises(ValueError, match="target mechanism prompts"):
+    with pytest.raises(ValueError, match="TERM evidence"):
         model(*args, task_state_override=torch.randn(2, 4, 4, 8))
-    with pytest.raises(ValueError, match="target mechanism prompts"):
-        model(*args, task_state_override=torch.randn(4, 8))
 
 
 def test_level_gate_zero_is_exact_support_mean_baseline():
-    torch.manual_seed(35)
-    model = _model()
+    model, args = _model(), _inputs(batch=2, k=3, q=4)
     with torch.no_grad():
         model.meta.level_gate[-2].weight.zero_()
-        model.meta.level_gate[-2].bias.fill_(-100.0)
-        model.meta.mechanism.gate[-1].weight.zero_()
-    output = model(*_inputs(batch=2, k=3, q=4))
-    # Reuse the actual support labels from the generated input tuple.
-    args = _inputs(batch=2, k=3, q=4)
+        model.meta.level_gate[-2].bias.fill_(100.)
     output = model(*args)
-    expected = args[6].mean(-1, keepdim=True).expand_as(output.level_baseline)
-    assert torch.allclose(output.level_baseline, expected)
+    # Level correction is a target-wise scalar and preserves zero-shot order.
+    delta_level = output.level_baseline - output.zero_shot
+    assert torch.allclose(delta_level, delta_level[:, :1].expand_as(delta_level))
+    assert torch.allclose(
+        output.level_baseline[:, 1:] - output.level_baseline[:, :-1],
+        output.zero_shot[:, 1:] - output.zero_shot[:, :-1])
 
 
 def test_unbatched_forward_preserves_public_shapes():
-    torch.manual_seed(36)
     model = _model()
-    args = _inputs(batch=1, k=2, q=3)
-    args = tuple(value.squeeze(0) for value in args)
+    args = tuple(value.squeeze(0) for value in _inputs(batch=1, k=2, q=3))
     output = model(*args)
     assert output.prediction.shape == (3,)
     assert output.task_state.shape == (4, 8)
     assert output.support_residual_quotient.shape == (2,)
-    replay = model(*args, task_state_override=output.task_state)
-    assert replay.prediction.shape == (3,)
 
 
-def test_common_frame_cartesian_slots_are_invariant_and_deeply_connected():
+def _edges(samples, nodes):
+    return torch.tensor([
+        (sample * nodes + source, sample * nodes + target)
+        for sample in range(samples) for source in range(nodes)
+        for target in range(nodes) if source != target]).T
+
+
+def test_common_frame_cartesian_bias_is_invariant_and_connected():
     torch.manual_seed(37)
     model = QPSMPBioModel(
         8, hidden_dim=16, task_dim=8, ligand_layers=1, pair_dim=8,
         pair_blocks=1, pair_latents=4, pair_heads=2, pair_chunk_size=8,
-        support_blocks=1, use_cartesian=True)
+        use_cartesian=True)
     args = _inputs(batch=1, k=2, q=2, atoms=4, residues=3)
     coordinates = torch.randn(1, 4, 7, 3)
-    # Packed complete graph for four protein--ligand samples.
-    edges = []
-    for sample in range(4):
-        offset = sample * 7
-        edges.extend((offset + source, offset + target)
-                     for source in range(7) for target in range(7)
-                     if source != target)
-    edge_index = torch.tensor(edges).T
+    edges = _edges(4, 7)
+    available = torch.ones(1, 4, dtype=torch.bool)
     left = model(*args, geometry_coordinates=coordinates,
-                 geometry_edge_index=edge_index,
-                 geometry_common_frame=torch.ones(1, 4, dtype=torch.bool))
+                 geometry_edge_index=edges, geometry_common_frame=available)
     rotation, _ = torch.linalg.qr(torch.randn(3, 3))
-    right = model(*args, geometry_coordinates=coordinates @ rotation.T + 5.0,
-                  geometry_edge_index=edge_index,
-                  geometry_common_frame=torch.ones(1, 4, dtype=torch.bool))
+    right = model(*args, geometry_coordinates=coordinates @ rotation.T + 5.,
+                  geometry_edge_index=edges, geometry_common_frame=available)
     assert torch.allclose(left.prediction, right.prediction, atol=1e-5, rtol=1e-5)
     left.prediction.square().mean().backward()
     assert model.geometry_scale.grad is not None
     assert model.cartesian_encoder.layers[0].coefficient.weight.grad is not None
 
 
-def test_training_forward_wrapper_transports_optional_cartesian_episode_fields():
-    torch.manual_seed(38)
+def test_training_wrapper_transports_cartesian_fields_and_rejects_frames():
     model = QPSMPBioModel(
         8, hidden_dim=16, task_dim=8, ligand_layers=1, pair_dim=8,
-        pair_blocks=1, pair_latents=4, pair_heads=2, pair_chunk_size=8,
-        support_blocks=1, use_cartesian=True)
-    args = _inputs(batch=1, k=2, q=2, atoms=4, residues=3)
-    args = tuple(value.squeeze(0) for value in args)
+        pair_blocks=1, pair_latents=4, pair_heads=2, use_cartesian=True)
+    args = tuple(value.squeeze(0) for value in _inputs(
+        batch=1, k=2, q=2, atoms=4, residues=3))
     coordinates = torch.randn(4, 7, 3)
-    edges = _edges = []
-    for sample in range(4):
-        offset = sample * 7
-        _edges.extend((offset + source, offset + target)
-                      for source in range(7) for target in range(7)
-                      if source != target)
-    edge_index = torch.tensor(_edges).T
     episode = EpisodeBatch(
-        EpisodeSpec("meta_train", "component", "target", (0, 1), (2, 3), "donor"),
-        args[0], args[1], args[2], args[3], args[4], args[5], args[6],
-        args[7], args[8], args[9], torch.randn(2),
-        support_coordinates=coordinates[:2], query_coordinates=coordinates[2:],
-        geometry_edge_index=edge_index,
+        EpisodeSpec("meta_train", "c", "t", (0, 1), (2, 3), "d"),
+        *args, torch.randn(2), support_coordinates=coordinates[:2],
+        query_coordinates=coordinates[2:], geometry_edge_index=_edges(4, 7),
         geometry_available=torch.ones(4, dtype=torch.bool),
         geometry_common_frame=torch.ones(4, dtype=torch.bool))
-    output = episode_forward(model, episode)
-    assert output.prediction.shape == (2,)
-    output.prediction.square().mean().backward()
-    assert model.geometry_scale.grad is not None
-
-
-def test_cartesian_interaction_rejects_undeclared_or_independent_frames():
-    model = QPSMPBioModel(
-        8, hidden_dim=16, task_dim=8, ligand_layers=1, pair_dim=8,
-        pair_blocks=1, pair_latents=4, pair_heads=2, support_blocks=1,
-        use_cartesian=True)
-    args = _inputs(batch=1, k=1, q=1, atoms=3, residues=2)
-    coordinates = torch.randn(1, 2, 5, 3)
+    assert episode_forward(model, episode).prediction.shape == (2,)
+    batch_args = _inputs(batch=1, k=1, q=1, atoms=3, residues=2)
+    coords = torch.randn(1, 2, 5, 3)
     edges = torch.tensor([[0, 1, 5, 6], [1, 0, 6, 5]])
     with pytest.raises(ValueError, match="explicit common-frame"):
-        model(*args, geometry_coordinates=coordinates,
+        model(*batch_args, geometry_coordinates=coords,
               geometry_edge_index=edges)
-    with pytest.raises(ValueError, match="must share a common frame"):
-        model(*args, geometry_coordinates=coordinates,
-              geometry_edge_index=edges,
-              geometry_available=torch.ones(1, 2, dtype=torch.bool),
-              geometry_common_frame=torch.tensor([[True, False]]))

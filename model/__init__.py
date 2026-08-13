@@ -4,8 +4,8 @@ from .encoders import LigandEncoder, ProteinEncoder
 from .bpsf import BipartitePairSectionFormer
 from .cartesian import (CartesianTensorState, GeometryMechanismEncoding,
                         SparseCartesianMechanismEncoder)
-from .qpsmp_meta import (MechanismEvidenceMetaTransformer, QPSMPBioModel,
-                         QPSMPMetaLearner, QPSMPMetaOutput)
+from .qpsmp_meta import (QPSMPBioModel, QPSMPMetaLearner, QPSMPMetaOutput,
+                         TERM, TriadicEvidenceRouter)
 
 __all__ = [
     "LigandEncoder",
@@ -17,5 +17,6 @@ __all__ = [
     "QPSMPBioModel",
     "QPSMPMetaLearner",
     "QPSMPMetaOutput",
-    "MechanismEvidenceMetaTransformer",
+    "TriadicEvidenceRouter",
+    "TERM",
 ]

@@ -1,9 +1,9 @@
-"""Mechanism-evidence meta-learning for cold-target affinity prediction.
+"""CIPF + TERM for cold-target zero/few-shot affinity prediction.
 
-The active path is solver-free and single stage.  It retains aligned
-protein--ligand interaction slots, binds support residuals to slot
-sensitivities, and transports that evidence to each query through a strict
-support--query difference path.
+CIPF exposes globally indexed protein--ligand interaction primitives from
+sequence/residue embeddings and a 2D ligand graph.  TERM uses the exact loss
+gradient with respect to virtual primitive coefficients; it performs no
+closed-form solve, inner-loop update, or support-label copying.
 """
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from dataclasses import dataclass
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch import Tensor
 
 from .bpsf import BipartitePairSectionFormer
@@ -42,140 +43,160 @@ class QPSMPMetaOutput:
 
 
 @dataclass(frozen=True)
-class MechanismMetaState:
+class TERMState:
     support_zero: Tensor
     query_add: Tensor
     query_ligand_value: Tensor
     query_cross: Tensor
     zero_shot: Tensor
-    task_prompts: Tensor
-    centered_residual: Tensor
+    task_evidence: Tensor
+    residual: Tensor
     level_shift: Tensor
     level_adjustment: Tensor
     level_gate: Tensor
-    support_evidence: Tensor
-    query_gate: Tensor
-    reference_correction: Tensor
-    support_auxiliary_loss: Tensor
+    exact_gradient: Tensor
+    coefficients: Tensor
+    reliability: Tensor
+    primitive_regularizer: Tensor
 
 
-class MechanismEvidenceMetaTransformer(nn.Module):
-    """Convert label-bound slot evidence into query-specific scalar gates.
+class TriadicEvidenceRouter(nn.Module):
+    """Route exact primitive-gradient evidence through P--Li--Lq triangles."""
 
-    Support order has no positional encoding.  Query transport scores receive
-    only aligned slot differences; absolute support slots are confined to the
-    task-evidence path.  The returned scalar gates can modulate scalar, vector,
-    or tensor channels without changing their O(3) transformation law.
-    """
-
-    def __init__(self, slot_dim: int, prompt_dim: int, slot_count: int,
-                 blocks: int = 2, dtype: torch.dtype = torch.float32) -> None:
+    def __init__(self, ligand_dim: int, primitive_count: int,
+                 hidden_dim: int = 32,
+                 dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        heads = next(h for h in (8, 4, 2, 1) if prompt_dim % h == 0)
-        self.slot_count = int(slot_count)
-        self.prompt_dim = int(prompt_dim)
-        self.sensitivity = nn.Sequential(
-            nn.LayerNorm(slot_dim, dtype=dtype),
-            nn.Linear(slot_dim, prompt_dim, dtype=dtype), nn.SiLU(),
-            nn.Linear(prompt_dim, 1, bias=False, dtype=dtype))
-        self.evidence = nn.Sequential(
-            nn.LayerNorm(slot_dim + 4, dtype=dtype),
-            nn.Linear(slot_dim + 4, prompt_dim, dtype=dtype), nn.GELU())
-        self.slot_identity = nn.Parameter(
-            torch.empty(slot_count, prompt_dim, dtype=dtype))
-        nn.init.normal_(self.slot_identity, std=prompt_dim ** -0.5)
-        self.attention = nn.ModuleList(
-            nn.MultiheadAttention(
-                prompt_dim, heads, batch_first=True, dtype=dtype)
-            for _ in range(blocks))
-        self.feedforward = nn.ModuleList(
-            nn.Sequential(
-                nn.LayerNorm(prompt_dim, dtype=dtype),
-                nn.Linear(prompt_dim, 4 * prompt_dim, dtype=dtype), nn.GELU(),
-                nn.Linear(4 * prompt_dim, prompt_dim, dtype=dtype))
-            for _ in range(blocks))
-        self.prompt_norm = nn.LayerNorm(prompt_dim, dtype=dtype)
-        self.difference = nn.Sequential(
-            nn.LayerNorm(slot_dim, dtype=dtype),
-            nn.Linear(slot_dim, prompt_dim, bias=False, dtype=dtype), nn.GELU(),
-            nn.Linear(prompt_dim, prompt_dim, bias=False, dtype=dtype))
-        self.difference_score = nn.Linear(
-            prompt_dim, 1, bias=False, dtype=dtype)
-        self.gate = nn.Sequential(
-            nn.LayerNorm(prompt_dim, dtype=dtype),
-            nn.Linear(prompt_dim, 1, bias=False, dtype=dtype))
-        nn.init.normal_(self.gate[-1].weight, std=0.02)
+        self.primitive_count = int(primitive_count)
+        self.hidden_dim = int(hidden_dim)
+        self.primitive_identity = nn.Parameter(
+            torch.empty(primitive_count, hidden_dim, dtype=dtype))
+        nn.init.normal_(self.primitive_identity, std=hidden_dim ** -0.5)
+        self.protein_prior = nn.Linear(
+            ligand_dim, primitive_count, dtype=dtype)
+        self.ligand_change = nn.Sequential(
+            nn.LayerNorm(4 * ligand_dim, dtype=dtype),
+            nn.Linear(4 * ligand_dim, hidden_dim, dtype=dtype), nn.GELU())
+        self.support_evidence = nn.Sequential(
+            nn.Linear(4, hidden_dim, dtype=dtype), nn.GELU(),
+            nn.Linear(hidden_dim, hidden_dim, dtype=dtype))
+        self.triad = nn.Sequential(
+            nn.LayerNorm(4 * hidden_dim + 2, dtype=dtype),
+            nn.Linear(4 * hidden_dim + 2, 2 * hidden_dim, dtype=dtype),
+            nn.GELU(), nn.Linear(2 * hidden_dim, 1, bias=False, dtype=dtype))
+        self.confidence = nn.Sequential(
+            nn.LayerNorm(2 * hidden_dim + 2, dtype=dtype),
+            nn.Linear(2 * hidden_dim + 2, hidden_dim, dtype=dtype), nn.GELU(),
+            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype))
+        self.log_temperature = nn.Parameter(torch.zeros((), dtype=dtype))
+        self.reliability_bias = nn.Parameter(torch.tensor(0.0, dtype=dtype))
+        self.reliability_entropy = nn.Parameter(torch.tensor(1.0, dtype=dtype))
+        self.reliability_count = nn.Parameter(torch.tensor(0.5, dtype=dtype))
 
-    def forward(self, support_slots: Tensor, support_residual: Tensor,
-                query_slots: Tensor, *,
-                task_state_override: Tensor | None = None,
-                adapt: bool = True) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        if support_slots.ndim != 4 or query_slots.ndim != 4:
-            raise ValueError("mechanism slot batches must have rank four")
-        batch, support_count, slot_count, slot_dim = support_slots.shape
-        if slot_count != self.slot_count or query_slots.shape[0] != batch \
-                or query_slots.shape[2:] != (slot_count, slot_dim):
-            raise ValueError("support/query mechanism slot contracts disagree")
-        if support_residual.shape != (batch, support_count):
-            raise ValueError("support residuals do not match mechanism slots")
-        query_count = query_slots.shape[1]
-        empty_state = query_slots.new_zeros(
-            batch, slot_count, self.prompt_dim)
-        empty_gate = query_slots.new_zeros(batch, query_count, slot_count)
+    @staticmethod
+    def exact_coefficient_gradient(residual: Tensor,
+                                   primitive: Tensor) -> Tensor:
+        """d[.5*(y-(level+a*phi))^2]/da at a=0."""
+        if residual.shape != primitive.shape[:-1]:
+            raise ValueError("residual and primitive responses disagree")
+        return -residual.unsqueeze(-1) * primitive
+
+    def forward(self, protein: Tensor, support_ligand: Tensor,
+                support_primitive: Tensor, support_residual: Tensor,
+                query_ligand: Tensor, query_primitive: Tensor, *,
+                adapt: bool = True,
+                task_state_override: Tensor | None = None
+                ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+        batch, support_count, primitive_count = support_primitive.shape
+        if primitive_count != self.primitive_count:
+            raise ValueError("primitive dictionary size changed across the episode")
+        if query_primitive.shape[:1] + query_primitive.shape[2:] != (
+                batch, primitive_count):
+            raise ValueError("support/query primitive dictionaries disagree")
+        query_count = query_primitive.shape[1]
+        zero_coeff = query_primitive.new_zeros(batch, query_count, primitive_count)
+        zero_state = query_primitive.new_zeros(
+            batch, primitive_count, self.hidden_dim)
+        zero_reliability = query_primitive.new_zeros(batch, query_count)
         if not adapt or support_count == 0:
             if task_state_override is not None:
-                raise ValueError("cannot override mechanism state without support")
-            return empty_state, empty_gate, empty_gate, query_slots.new_zeros(())
+                raise ValueError("cannot override TERM evidence without support")
+            return zero_state, zero_coeff, zero_reliability, \
+                query_primitive.new_zeros(batch, support_count, primitive_count)
 
+        gradient = self.exact_coefficient_gradient(
+            support_residual, support_primitive)
         centered = support_residual - support_residual.mean(-1, keepdim=True)
-        sensitivity = self.sensitivity(support_slots).squeeze(-1)
-        pseudo_gradient = -support_residual.unsqueeze(-1) * sensitivity
-        broadcast = lambda value: value[:, :, None, None].expand(
-            -1, -1, slot_count, 1)
-        evidence = self.evidence(torch.cat((
-            support_slots, pseudo_gradient.unsqueeze(-1),
-            broadcast(support_residual), broadcast(centered),
-            broadcast(support_residual.abs())), dim=-1))
-        evidence = evidence + self.slot_identity[None, None]
-        token = evidence.flatten(1, 2)
-        for attention, feedforward in zip(self.attention, self.feedforward):
-            update, _ = attention(token, token, token, need_weights=False)
-            token = token + update
-            token = token + feedforward(token)
-        token = self.prompt_norm(token).reshape(
-            batch, support_count, slot_count, self.prompt_dim)
-        task_prompts = token.mean(1)
+        evidence_input = torch.stack((
+            gradient, support_primitive,
+            support_residual.unsqueeze(-1).expand_as(gradient),
+            centered.unsqueeze(-1).expand_as(gradient)), -1)
+        evidence = self.support_evidence(evidence_input)
+        task_evidence = evidence.mean(1) + self.primitive_identity[None]
         if task_state_override is not None:
-            if task_state_override.shape != task_prompts.shape:
+            if task_state_override.shape != task_evidence.shape:
                 raise ValueError(
-                    "task_state_override must match target mechanism prompts "
-                    f"{tuple(task_prompts.shape)}, got "
+                    f"task_state_override must match TERM evidence "
+                    f"{tuple(task_evidence.shape)}, got "
                     f"{tuple(task_state_override.shape)}")
-            task_prompts = task_state_override.to(task_prompts)
+            task_evidence = task_state_override.to(task_evidence)
 
-        # Aligned slots permit a strict difference-only reference path.  No
-        # absolute support/query representation enters the transport scores.
-        difference = query_slots[:, :, None] - support_slots[:, None]
-        relative = self.difference(difference)
-        weights = torch.softmax(
-            self.difference_score(relative).squeeze(-1), dim=2)
-        evidence_context = torch.einsum("bqkm,bkmh->bqmh", weights, token)
-        relative_context = (weights.unsqueeze(-1) * relative).sum(2)
-        query_prompts = (task_prompts[:, None] + evidence_context
-                         + relative_context)
-        gate = torch.tanh(self.gate(query_prompts).squeeze(-1))
-        # Evidence magnitude is a diagnostic, not a minimization target: a
-        # direct penalty would teach the model to erase its own sensitivity.
-        auxiliary = pseudo_gradient.new_zeros(())
-        return task_prompts, gate, pseudo_gradient, auxiliary
+        support = support_ligand[:, None].expand(-1, query_count, -1, -1)
+        query = query_ligand[:, :, None].expand(-1, -1, support_count, -1)
+        change = self.ligand_change(torch.cat((
+            support, query, query - support, query * support), -1))
+        support_evidence = evidence[:, None].expand(-1, query_count, -1, -1, -1)
+        task = task_evidence[:, None, None].expand(
+            -1, query_count, support_count, -1, -1)
+        change = change[:, :, :, None].expand(-1, -1, -1, primitive_count, -1)
+        identity = self.primitive_identity[None, None, None].expand(
+            batch, query_count, support_count, -1, -1)
+        scalar = torch.stack((
+            support_primitive[:, None].expand(-1, query_count, -1, -1),
+            query_primitive[:, :, None].expand(-1, -1, support_count, -1)), -1)
+        routed = self.triad(torch.cat((
+            support_evidence, task, change, identity, scalar), -1)).squeeze(-1)
+        # Set aggregation with stable evidence scale: sum/sqrt(k), not
+        # mean/sqrt(k), which would attenuate repeated evidence as k grows.
+        coefficients = routed.sum(2) / support_count ** 0.5
+
+        prior = self.protein_prior(protein)
+        task_for_confidence = task_evidence[:, None].expand(
+            -1, query_count, -1, -1)
+        identity_for_confidence = self.primitive_identity[None, None].expand(
+            batch, query_count, -1, -1)
+        confidence_logits = self.confidence(torch.cat((
+            task_for_confidence, identity_for_confidence,
+            prior[:, None, :, None].expand(-1, query_count, -1, -1),
+            coefficients.unsqueeze(-1)), -1)).squeeze(-1)
+        temperature = self.log_temperature.exp().clamp(0.25, 4.0)
+        probability = torch.softmax(confidence_logits / temperature, -1)
+        entropy = -(probability * probability.clamp_min(1e-8).log()).sum(-1)
+        entropy = entropy / torch.tensor(
+            float(primitive_count), device=entropy.device,
+            dtype=entropy.dtype).log()
+        reliability = torch.sigmoid(
+            self.reliability_bias
+            - F.softplus(self.reliability_entropy) * entropy.detach()
+            + F.softplus(self.reliability_count)
+            * torch.full_like(entropy, float(support_count)).log1p())
+        # Identity and ligand-change paths may route evidence but may never
+        # create an adaptation when the label-bound coefficient score is zero.
+        evidence_norm = gradient.square().mean((1, 2)).sqrt()
+        evidence_gate = evidence_norm / (evidence_norm + 1.0)
+        reliability = reliability * evidence_gate[:, None]
+        return task_evidence, torch.tanh(coefficients), reliability, gradient
+
+
+# Explicit alias for downstream code and reports.
+TERM = TriadicEvidenceRouter
 
 
 class QPSMPMetaLearner(nn.Module):
-    """Shared scalar heads plus difference-constrained mechanism adaptation."""
+    """Scalar baseline, support level calibration, and TERM composition."""
 
-    def __init__(self, hidden_dim: int, slot_dim: int, slot_count: int,
-                 task_dim: int = 32, support_blocks: int = 2,
-                 mechanism_scale: float = 0.25,
+    def __init__(self, hidden_dim: int, primitive_count: int,
+                 task_dim: int = 32, mechanism_scale: float = 0.25,
                  dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
         self.mechanism_scale = float(mechanism_scale)
@@ -189,30 +210,31 @@ class QPSMPMetaLearner(nn.Module):
             nn.LayerNorm(hidden_dim, dtype=dtype),
             nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
             nn.Linear(2 * hidden_dim, 1, bias=False, dtype=dtype))
-        self.mechanism = MechanismEvidenceMetaTransformer(
-            slot_dim, task_dim, slot_count, support_blocks, dtype)
-        self.reference_delta = nn.Sequential(
-            nn.LayerNorm(slot_dim, dtype=dtype),
-            nn.Linear(slot_dim, task_dim, bias=False, dtype=dtype), nn.GELU(),
-            nn.Linear(task_dim, 1, bias=False, dtype=dtype))
-        nn.init.zeros_(self.reference_delta[-1].weight)
-        self.reference_score = nn.Sequential(
-            nn.LayerNorm(slot_dim, dtype=dtype),
-            nn.Linear(slot_dim, 1, bias=False, dtype=dtype))
-        self.reference_blend = nn.Sequential(
-            nn.Linear(3, 16, dtype=dtype), nn.GELU(),
-            nn.Linear(16, 1, dtype=dtype), nn.Sigmoid())
-        nn.init.constant_(self.reference_blend[-2].bias, -2.0)
         self.level_gate = nn.Sequential(
             nn.Linear(3, 16, dtype=dtype), nn.GELU(),
             nn.Linear(16, 1, dtype=dtype), nn.Sigmoid())
+        self.term = TriadicEvidenceRouter(
+            hidden_dim, primitive_count, task_dim, dtype)
+
+    @staticmethod
+    def primitive_regularizer(query_primitive: Tensor) -> Tensor:
+        centered = query_primitive - query_primitive.mean(1, keepdim=True)
+        mean_loss = query_primitive.mean(1).square().mean()
+        count = max(query_primitive.shape[1] - 1, 1)
+        covariance = torch.einsum("bqm,bqn->bmn", centered, centered) / count
+        scale = covariance.diagonal(dim1=-2, dim2=-1).clamp_min(1e-6).sqrt()
+        correlation = covariance / (scale[:, :, None] * scale[:, None, :])
+        identity = torch.eye(
+            correlation.shape[-1], device=correlation.device,
+            dtype=correlation.dtype)
+        return mean_loss + (correlation - identity).square().mean()
 
     def infer(self, protein: Tensor, support_ligand: Tensor,
-              support_endpoint: Tensor, support_slots: Tensor,
+              support_endpoint: Tensor, support_primitive: Tensor,
               support_y: Tensor, query_ligand: Tensor,
-              query_endpoint: Tensor, query_slots: Tensor, *,
+              query_endpoint: Tensor, query_primitive: Tensor, *,
               adapt: bool = True,
-              task_state_override: Tensor | None = None) -> MechanismMetaState:
+              task_state_override: Tensor | None = None) -> TERMState:
         support_count = support_ligand.shape[1]
         protein_level = self.protein_level(protein).squeeze(-1).unsqueeze(-1)
         support_ligand_value = self.ligand_baseline(support_ligand).squeeze(-1)
@@ -225,82 +247,30 @@ class QPSMPMetaLearner(nn.Module):
         zero_shot = query_add + query_cross
         if not adapt or support_count == 0:
             residual = support_y.new_zeros(support_y.shape)
-            centered = residual
             level_shift = zero_shot.new_zeros(zero_shot.shape[0])
             level_gate = level_shift
             level_adjustment = torch.zeros_like(zero_shot)
         else:
+            # Raw zero-shot residual preserves one-shot evidence. The separate
+            # primitive mean penalty discourages TERM from becoming a level head.
             residual = support_y - support_zero
             centered = residual - residual.mean(-1, keepdim=True)
             level_shift = residual.mean(-1)
-            mad = centered.abs().mean(-1)
             count = torch.full_like(level_shift, float(support_count)).log1p()
-            level_gate = self.level_gate(
-                torch.stack((level_shift, mad, count), -1)).squeeze(-1)
-            support_mean = support_y.mean(-1, keepdim=True)
-            support_zero_mean = support_zero.mean(-1, keepdim=True)
-            level_baseline = support_mean + level_gate.unsqueeze(-1) * (
-                zero_shot - support_zero_mean)
-            level_adjustment = level_baseline - zero_shot
-        task_prompts, query_gate, pseudo_gradient, auxiliary = self.mechanism(
-            support_slots, residual, query_slots,
-            task_state_override=task_state_override, adapt=adapt)
-        evidence = (pseudo_gradient.square().mean((-2, -1)).sqrt()
-                    if support_count else zero_shot.new_zeros(zero_shot.shape[0]))
-        if adapt and support_count:
-            difference = query_slots[:, :, None] - support_slots[:, None]
-            gated_difference = difference * (
-                1.0 + query_gate[:, :, None, :, None])
-            # With the query-conditioned gate held fixed, the odd construction
-            # makes an identity reference zero and reverses sign with the slot
-            # difference.  It does not claim global support/query exchange
-            # antisymmetry because the gate itself is directional.
-            delta = 0.5 * (
-                self.reference_delta(gated_difference)
-                - self.reference_delta(-gated_difference)).squeeze(-1).mean(-1)
-            reference_weight = torch.softmax(
-                self.reference_score(difference).squeeze(-1).mean(-1), dim=-1)
-            anchors = (support_y[:, None] + zero_shot[:, :, None]
-                       - support_zero[:, None] + delta)
-            reference_prediction = (reference_weight * anchors).sum(-1)
-            mean_distance = torch.linalg.vector_norm(
-                difference, dim=-1).mean((-2, -1))
-            blend = self.reference_blend(torch.stack((
-                evidence[:, None].expand_as(mean_distance), mean_distance,
-                torch.full_like(mean_distance, float(support_count)).log1p()),
-                -1)).squeeze(-1)
-            reference_correction = blend * (
-                reference_prediction - (zero_shot + level_adjustment))
-            if support_count >= 2:
-                support_difference = (
-                    support_slots[:, :, None] - support_slots[:, None])
-                task_gate = torch.tanh(
-                    self.mechanism.gate(task_prompts).squeeze(-1))
-                gated_support_difference = support_difference * (
-                    1.0 + task_gate[:, None, None, :, None])
-                support_delta = 0.5 * (
-                    self.reference_delta(gated_support_difference)
-                    - self.reference_delta(-gated_support_difference)
-                ).squeeze(-1).mean(-1)
-                support_score = self.reference_score(
-                    support_difference).squeeze(-1).mean(-1)
-                diagonal = torch.eye(
-                    support_count, dtype=torch.bool, device=support_score.device)
-                support_score = support_score.masked_fill(
-                    diagonal, torch.finfo(support_score.dtype).min)
-                support_weight = torch.softmax(support_score, -1)
-                support_anchor = (
-                    support_y[:, None] + support_zero[:, :, None]
-                    - support_zero[:, None] + support_delta)
-                reconstructed = (support_weight * support_anchor).sum(-1)
-                auxiliary = torch.nn.functional.smooth_l1_loss(
-                    reconstructed, support_y)
-        else:
-            reference_correction = torch.zeros_like(zero_shot)
-        return MechanismMetaState(
+            level_gate = self.level_gate(torch.stack((
+                level_shift, centered.abs().mean(-1), count), -1)).squeeze(-1)
+            # A scalar shift cannot alter within-target ligand ordering. A
+            # learned shrinkage leaves non-zero k=1 evidence for TERM.
+            level_adjustment = level_gate.unsqueeze(-1) * level_shift.unsqueeze(-1)
+        task, coefficients, reliability, gradient = self.term(
+            protein, support_ligand, support_primitive, residual.detach(),
+            query_ligand, query_primitive, adapt=adapt,
+            task_state_override=task_state_override)
+        return TERMState(
             support_zero, query_add, query_ligand_value, query_cross, zero_shot,
-            task_prompts, centered, level_shift, level_adjustment, level_gate,
-            evidence, query_gate, reference_correction, auxiliary)
+            task, residual, level_shift, level_adjustment, level_gate, gradient,
+            coefficients, reliability,
+            self.primitive_regularizer(query_primitive))
 
     @staticmethod
     def delta(predictions: Tensor, left: Tensor, right: Tensor) -> Tensor:
@@ -312,7 +282,7 @@ class QPSMPMetaLearner(nn.Module):
 
 
 class QPSMPBioModel(nn.Module):
-    """BPSF mechanism slots with single-stage episodic meta-adaptation."""
+    """Sequence/2D CIPF with solver-free TERM few-shot composition."""
 
     def __init__(self, protein_dim: int, hidden_dim: int = 128,
                  task_dim: int = 32, ligand_layers: int = 3,
@@ -324,7 +294,7 @@ class QPSMPBioModel(nn.Module):
                  use_cartesian: bool = False,
                  dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        del support_hidden_dim, adapter_rank, adaptive_blocks
+        del support_hidden_dim, support_blocks, adapter_rank, adaptive_blocks
         self.protein_encoder = ProteinEncoder(protein_dim, hidden_dim, dtype)
         self.ligand_encoder = LigandEncoder(hidden_dim, ligand_layers, dtype=dtype)
         self.pair_section = BipartitePairSectionFormer(
@@ -339,20 +309,20 @@ class QPSMPBioModel(nn.Module):
         self.geometry_scale = (nn.Parameter(torch.tensor(0.1, dtype=dtype))
                                if use_cartesian else None)
         self.meta = QPSMPMetaLearner(
-            hidden_dim, pair_dim, pair_latents, task_dim,
-            support_blocks, adapter_scale, dtype)
+            hidden_dim, pair_latents, task_dim, adapter_scale, dtype)
 
     def _pair_encode(self, atom_states: Tensor, residues: Tensor, mask: Tensor,
-                     protein_mask: Tensor, bonds: Tensor):
+                     protein_mask: Tensor, bonds: Tensor,
+                     atom_features: Tensor):
         adjacency = (bonds.abs().sum(-1) > 0).to(atom_states.dtype)
         return self.pair_section(
-            atom_states, residues, mask, protein_mask, adjacency)
+            atom_states, residues, mask, protein_mask, adjacency,
+            atom_features=atom_features)
 
     def forward(self, protein_pooled: Tensor, protein_tokens: Tensor,
                 protein_mask: Tensor, support_atoms: Tensor, support_bonds: Tensor,
                 support_mask: Tensor, support_y: Tensor, query_atoms: Tensor,
-                query_bonds: Tensor, query_mask: Tensor, *,
-                adapt: bool = True,
+                query_bonds: Tensor, query_mask: Tensor, *, adapt: bool = True,
                 task_state_override: Tensor | None = None,
                 geometry_coordinates: Tensor | None = None,
                 geometry_edge_index: Tensor | None = None,
@@ -382,12 +352,12 @@ class QPSMPBioModel(nn.Module):
                 geometry_common_frame = geometry_common_frame.unsqueeze(0)
         pooled, residues = self.protein_encoder(
             protein_pooled.to(device, dtype), protein_tokens.to(device, dtype))
-        atoms = torch.cat((support_atoms, query_atoms), 1).to(device, dtype)
+        raw_atoms = torch.cat((support_atoms, query_atoms), 1).to(device, dtype)
         bonds = torch.cat((support_bonds, query_bonds), 1).to(device, dtype)
         mask = torch.cat((support_mask, query_mask), 1).to(device, dtype)
-        batch, count, atom_count = atoms.shape[:3]
+        batch, count, atom_count = raw_atoms.shape[:3]
         ligand, atom_states = self.ligand_encoder(
-            atoms.flatten(0, 1), bonds.flatten(0, 1), mask.flatten(0, 1))
+            raw_atoms.flatten(0, 1), bonds.flatten(0, 1), mask.flatten(0, 1))
         ligand = ligand.reshape(batch, count, -1)
         atom_states = atom_states.reshape(batch, count, atom_count, -1)
         encoded = self._pair_encode(
@@ -395,10 +365,10 @@ class QPSMPBioModel(nn.Module):
             residues[:, None].expand(-1, count, -1, -1).flatten(0, 1),
             mask.flatten(0, 1),
             protein_mask[:, None].expand(-1, count, -1).flatten(0, 1).to(device),
-            bonds.flatten(0, 1))
+            bonds.flatten(0, 1), raw_atoms.flatten(0, 1))
         endpoint = encoded.endpoint.reshape(batch, count, -1)
         section = encoded.section.reshape(batch, count, -1)
-        slots = encoded.mechanism_slots.reshape(batch, count, *encoded.mechanism_slots.shape[1:])
+        primitive = encoded.mechanism_response.reshape(batch, count, -1)
         if geometry_coordinates is not None or geometry_edge_index is not None:
             if self.cartesian_encoder is None:
                 raise ValueError("Cartesian inputs require use_cartesian=True")
@@ -407,75 +377,67 @@ class QPSMPBioModel(nn.Module):
             residue_count = residues.shape[1]
             expected = (batch, count, atom_count + residue_count, 3)
             if geometry_coordinates.shape != expected:
-                raise ValueError(
-                    f"geometry coordinates must have shape {expected}")
+                raise ValueError(f"geometry coordinates must have shape {expected}")
             if geometry_available is None:
                 geometry_available = torch.ones(
                     batch, count, dtype=torch.bool, device=device)
             if geometry_available.shape != (batch, count):
                 raise ValueError("geometry availability mask has wrong shape")
-            if geometry_common_frame is None \
-                    or geometry_common_frame.shape != (batch, count):
-                raise ValueError(
-                    "Cartesian interaction requires an explicit common-frame mask")
-            if bool((geometry_available.bool()
-                     & ~geometry_common_frame.bool()).any()):
-                raise ValueError(
-                    "available Cartesian interaction coordinates must share a common frame")
+            if geometry_common_frame is None or geometry_common_frame.shape != (batch, count):
+                raise ValueError("Cartesian interaction requires an explicit common-frame mask")
+            if bool((geometry_available.bool() & ~geometry_common_frame.bool()).any()):
+                raise ValueError("available Cartesian interaction coordinates must share a common frame")
             geometry_nodes = torch.cat((
                 atom_states,
-                residues[:, None].expand(-1, count, -1, -1)), dim=2)
-            geometry_mask = torch.cat((mask, protein_mask[:, None].expand(
-                -1, count, -1).to(device)), dim=2).bool()
-            geometry_mask = geometry_mask & geometry_available.to(device).unsqueeze(-1)
+                residues[:, None].expand(-1, count, -1, -1)), 2)
+            geometry_mask = torch.cat((
+                mask, protein_mask[:, None].expand(-1, count, -1).to(device)), 2
+                ).bool() & geometry_available.to(device).unsqueeze(-1)
             geometry = self.cartesian_encoder(
                 geometry_nodes.flatten(0, 1), geometry_mask.flatten(0, 1),
                 geometry_coordinates.to(device, dtype).flatten(0, 1),
                 geometry_edge_index.to(device))
-            geometry_slots = geometry.mechanism_slots.reshape(
-                batch, count, *geometry.mechanism_slots.shape[1:])
-            slots = slots + torch.tanh(self.geometry_scale) * geometry_slots
+            geometry_response = self.pair_section.latent.interaction.primitive_response(
+                geometry.mechanism_slots).reshape(batch, count, -1)
+            primitive = primitive + torch.tanh(self.geometry_scale) * geometry_response
         elif self.cartesian_encoder is not None and geometry_available is not None \
                 and bool(geometry_available.any()):
             raise ValueError("available geometry requires coordinates and edges")
+
         support_count = support_atoms.shape[1]
         support_ligand, query_ligand = torch.split(
             ligand, (support_count, count - support_count), 1)
         support_endpoint, query_endpoint = torch.split(
             endpoint, (support_count, count - support_count), 1)
-        support_slots, query_slots = torch.split(
-            slots, (support_count, count - support_count), 1)
+        support_primitive, query_primitive = torch.split(
+            primitive, (support_count, count - support_count), 1)
         _, query_section = torch.split(
             section, (support_count, count - support_count), 1)
         state = self.meta.infer(
-            pooled, support_ligand, support_endpoint, support_slots,
+            pooled, support_ligand, support_endpoint, support_primitive,
             support_y.to(device, dtype), query_ligand, query_endpoint,
-            query_slots, adapt=adapt,
+            query_primitive, adapt=adapt,
             task_state_override=task_state_override)
         if adapt and support_count:
-            adapted_slots = query_slots * (
-                1.0 + self.meta.mechanism_scale * state.query_gate.unsqueeze(-1))
-            adapted_endpoint, query_section = self.pair_section.latent.project_slots(
-                adapted_slots)
-            adapted_cross = self.meta.cross_head(adapted_endpoint).squeeze(-1)
-            sar = adapted_cross - state.query_cross
+            sar = (state.reliability.unsqueeze(-1) * state.coefficients
+                   * query_primitive).sum(-1)
+            sar = self.meta.mechanism_scale * sar
         else:
-            sar = torch.zeros_like(state.query_cross)
+            sar = torch.zeros_like(state.zero_shot)
         level_baseline = state.zero_shot + state.level_adjustment
-        sar = sar + state.reference_correction
         prediction = level_baseline + sar
-        evidence_score = torch.tanh(state.support_evidence)
-        sar_scale = state.query_gate.abs().mean((-2, -1))
+        evidence = (state.exact_gradient.square().mean((-2, -1)).sqrt()
+                    if support_count else state.zero_shot.new_zeros(batch))
         one = torch.ones_like(state.level_gate)
         output = QPSMPMetaOutput(
             prediction, state.query_add, state.query_ligand_value,
             state.query_cross, level_baseline, state.level_adjustment, sar,
-            prediction - state.zero_shot, state.zero_shot, state.task_prompts,
-            state.level_shift, query_section, state.centered_residual,
-            state.support_evidence, evidence_score, state.level_gate, one,
-            sar_scale, state.support_auxiliary_loss)
+            prediction - state.zero_shot, state.zero_shot, state.task_evidence,
+            state.level_shift, query_primitive, state.residual,
+            state.exact_gradient, evidence, state.level_gate, one,
+            state.reliability.mean(-1), state.primitive_regularizer)
         if not unbatched:
             return output
-        return QPSMPMetaOutput(*(
-            value.squeeze(0) if isinstance(value, Tensor) and value.ndim else value
+        return QPSMPMetaOutput(*(value.squeeze(0)
+            if isinstance(value, Tensor) and value.ndim else value
             for value in output.__dict__.values()))

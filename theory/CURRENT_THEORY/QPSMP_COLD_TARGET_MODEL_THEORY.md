@@ -2,7 +2,7 @@
 
 > **2026-08-13 status amendment.** This document is mathematical inspiration,
 > a feasibility/identifiability diagnostic, and a scalar-output consistency
-> guide. It is not a frozen neural architecture contract. The active D-MEMT
+> guide. It is not a frozen neural architecture contract. The active CIPF+TERM
 > model may replace the HyperSAR realization, use non-centered label-bound
 > evidence at k=1, and adapt retained mechanism slots, provided support/query
 > isolation, permutation invariance, cold-component governance, and scalar
@@ -13,9 +13,9 @@
 ## 1. Objective
 
 The objective is to learn one shared deep model from historical protein tasks and adapt it to an
-unseen protein using only a small support set. The active core module is the
-**Difference-constrained Mechanism-Evidence Meta-Transformer (D-MEMT)**; the
-HyperSAR construction below is retained as historical comparator theory.
+unseen protein using only a small support set. The active core is
+**Complex-Inspired Interaction Primitive Field + Triadic Evidence-Routed
+Meta-Learner (CIPF+TERM)**. D-MEMT and HyperSAR are historical comparators.
 
 QPSMP is not an auxiliary diagnostic head. It is the retained scalar affinity path used for
 zero-shot prediction, interaction quotients, and few-shot adaptation.
