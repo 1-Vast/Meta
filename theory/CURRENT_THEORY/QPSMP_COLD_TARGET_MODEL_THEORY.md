@@ -3,11 +3,112 @@
 ## 1. Objective
 
 The objective is to learn one shared deep model from historical protein tasks and adapt it to an
-unseen protein using only a small support set. The core module is the **Quotient-Preserving Section
-Meta-Potential (QPSMP)**.
+unseen protein using only a small support set. The active core module is
+**QPSMP-HyperSAR**, an amortized conditional meta-potential.
 
 QPSMP is not an auxiliary diagnostic head. It is the retained scalar affinity path used for
-zero-shot prediction, interaction quotients, few-shot adaptation, and uncertainty certificates.
+zero-shot prediction, interaction quotients, and few-shot adaptation.
+
+### 1.1 Active HyperSAR amendment
+
+This amendment supersedes the affine-section/ridge adaptation claims in Sections 4.2, 6, 7, 8,
+G3, and the old minimal implementation sketch wherever they conflict with the active model. Those
+parts remain as historical comparator theory only.
+
+For support residuals $r_i=Y_i-f_{\theta,0}(p,l_i,a)$, define a support-anchored level and
+relative-shape channel
+
+$$
+f_{\mathrm{level}}(l\mid S)=\bar Y_S+g_\eta(\bar r,\operatorname{MAD}(r),\log(1+k))
+\left[f_{\theta,0}(p,l)-\overline{f_{\theta,0}}{}_S\right],
+\qquad 0\le g_\eta\le1.
+$$
+
+Thus $g_\eta=0$ is exactly the support-mean baseline, while $g_\eta=1$ transfers the zero-shot
+relative ligand shape after cancelling its target-level bias.
+
+The centered support evidence is encoded by a permutation-invariant neural map
+
+$$
+t_S=\mathcal H_\psi\left(
+\{h_\theta(p,l_i,a),e_\xi(l_i,a),r_i-\bar r,|r_i-\bar r|\}_{i=1}^k
+\right).
+$$
+
+The implementation includes an explicit residual-bound support moment
+
+$$
+m_S=\frac{\sum_i(r_i-\bar r)\,B_\psi[h_\theta(p,l_i),e_\xi(l_i)]}
+{\sum_i|r_i-\bar r|+\varepsilon},
+\qquad t_S=\tanh(\mathcal H_\psi(S)+C_\psi m_S).
+$$
+
+Consequently, a joint permutation of support triples preserves the code while a label-only
+permutation generally changes it. This makes label--ligand binding part of the architecture rather
+than an optional pattern that an unconstrained set encoder may ignore.
+
+$t_S$ is structurally multiplied by the centered-evidence norm, so constant residual evidence and
+$k=1$ give $t_S=0$ exactly. Unlike the retired affine section, $t_S$ is not constrained to the row
+span of current support embeddings; it is amortized prior-dependent inference learned across source
+targets.
+
+Following the relative-recognition principle of PBCNet2.0, the support code is a reference rather
+than the final adapter input. Each query obtains
+
+$$
+t_{S,l}=t_S\odot\left[1+\tanh R_\psi\left(
+q_\psi(h_\theta(p,l),e_\xi(l))-a_\psi(t_S),
+q_\psi(h_\theta(p,l),e_\xi(l))\odot a_\psi(t_S)
+\right)\right].
+$$
+
+This lightweight Siamese comparison connects the support reference to both the drug and
+protein--ligand interaction branches without assuming that every deployment pair has a resolved
+complex structure. Because $t_{S,l}$ is multiplicatively anchored by $t_S$, $k=1$ and constant
+centered evidence still give exact zero structural modulation.
+
+To avoid forcing every ligand-specific effect through one target bottleneck, the same module also
+uses a learned reference--query matching correction
+
+$$
+c_S(l)=\sum_i \operatorname{softmax}_i\left(
+\langle q_\psi(h(p,l),e(l)),s_\psi(h(p,l_i),e(l_i))\rangle/\sqrt d
+\right)(r_i-\bar r).
+$$
+
+This is an amortized neural attention operator, not a ridge or closed-form parameter solve. It is
+invariant to joint support permutation, changes under label-only permutation, and is exactly zero
+for $k=1$. The final SAR term is the sum of endpoint change induced by $t_{S,l}$ and $c_S(l)$.
+
+Both terms are multiplied by a support-only reliability gate. The gate compares leave-one-out
+matching error on centered support residuals with the zero-residual null and maps the normalized
+improvement through learned shared scalars. It never reads query labels. Thus the relative SAR
+hypothesis is attenuated when the observed support set does not internally validate it, while all
+gate parameters remain trained jointly by the ordinary episodic objective.
+The shared matching metric additionally receives a leave-one-support-out centered-residual
+reconstruction loss. This is an auxiliary loss inside the same training stage, not a separate
+pretraining or adaptation phase.
+
+Only the last declared interaction blocks are modulated. For block $m$,
+
+$$
+\Delta W_m(S)=\epsilon U_m\operatorname{diag}(\tanh(A_mt_S))V_m,
+\qquad W_m^{(S)}=W_m+\Delta W_m(S),
+$$
+
+with shared low-rank bases $U_m,V_m$, shared gate $A_m$, and fixed scale $\epsilon$. Deployment
+performs no target-specific gradient update, optimization, ridge regression, or linear solve. The
+transient code is discarded after the episode. The active scalar predictor is
+
+$$
+f_{\theta,\psi}(p,l,a\mid S)
+=f_{\theta,\Delta\Theta(t_S)}(p,l,a)+\alpha_\eta(S).
+$$
+
+Quotient preservation remains structural because every delta and rectangle is still computed from
+this single scalar endpoint. Task adaptation is now amortized conditional inference, not affine
+section identification. The bottom-layer strong-convexity regularizer in the separate law-valued
+operator theory is not a few-shot adaptation algorithm.
 
 This document specifies a candidate model class and the conditions under which mathematical
 generalization statements apply. It does not assert that protein-specific interaction transfer has
@@ -111,19 +212,15 @@ $$
 \alpha_\theta(S)=\omega_{\theta,k}\,\overline{Y-f_{\theta,0}}{}_S,
 \qquad
 \omega_{\theta,k}=\frac{k\tau_\theta^2}{\sigma_\theta^2+k\tau_\theta^2},
-\qquad \sigma_\theta^2>0,\quad\tau_\theta^2>0,
-\qquad 0<\rho_\theta<1.
+\qquad \sigma_\theta^2>0,\quad\tau_\theta^2>0.
 $$
 
-Let $0<\gamma_\theta<1$ be a second support-independent reliability learned from source query
-risk. It scales only the SAR state channel and never depends on centered support evidence.
-
-The current implementation learns the positive variance parameters and query-shape reliability
-$\rho_\theta$ in the meta-train
-standardized label space. This is the zero-prior-mean plug-in empirical-Bayes special case of the
+The current implementation learns the positive variance parameters in the meta-train standardized
+label space. This is the zero-prior-mean plug-in empirical-Bayes special case of the
 random-intercept model in the pure theory. The residual mean is invariant to a permutation of the
-support ligand-label binding, and $\alpha_\theta(S)$ does not depend on the query ligand. Raw labeled
-support is not an additional neural-network input.
+support ligand-label binding, and $\alpha_\theta(S)$ does not depend on the query ligand. Raw labels
+enter the learned support operator only through the centered residual quotient defined below; query
+labels never enter the support state or deployment input.
 
 Define the retained zero-shot scalar potential and section basis by
 
@@ -140,10 +237,9 @@ For a transient support state $c$, the complete scalar predictor is
 
 $$
 f_{\theta,c}(p,l,a\mid S)
-=\overline f_{\theta,0,S}
+=f_{\theta,0}(p,l,a)
 +\omega_{\theta,k}\overline{Y-f_{\theta,0}}{}_S
-+\rho_\theta\left[f_{\theta,0}(p,l,a)-\overline f_{\theta,0,S}\right]
-+\gamma_\theta\phi_\theta(p,l,a)^\top c.
++\left[\phi_\theta(p,l,a)-\overline\phi_{\theta,S}\right]^\top c.
 $$
 
 $c$ is the only support-derived SAR/interaction state. All neural parameters are shared across
@@ -151,7 +247,7 @@ tasks.
 
 For attribution, the implementation must expose mutually exclusive channels:
 `f_zero = additive + cross_zero_shot` and
-`f_few = calibrated_level + scaled_zero_shot_shape + scaled_SAR_adaptation`. The G2 interaction estimand is evaluated on
+`f_few = zero_shot + calibrated_level + centered_SAR_adaptation`. The G2 interaction estimand is evaluated on
 the crossed channel, while complete-scalar utility is reported separately. An
 additive protein-level arm is a nuisance control, not evidence of
 target-conditioned chemistry. The primary learned module must retain the
@@ -215,8 +311,7 @@ $$
 the residual vector $r_S=(Y_i-\widetilde b_i)_{i=1}^k$, and
 
 $$
-\Phi_S^{\mathrm{eff}}
-=(\gamma_\theta\phi_\theta(p,l_i,a)^\top)_{i=1}^k.
+\Phi_S=(\phi_\theta(p,l_i,a)^\top)_{i=1}^k.
 $$
 
 For $k\ge1$, let
@@ -227,41 +322,46 @@ $$
 
 ### 6.1 Primary learned meta-adapter
 
-The primary prediction path uses a shared neural support-set operator. Let
+The active primary path uses a learned row-span support-set operator. Let
 
 $$
 \widetilde r=H_k r_S,
+\qquad A=H_k\Phi_S,
+$$
+
+and let a shared permutation-equivariant neural map produce evidence-bound weights
+$w_\theta(A,\widetilde r)$. Define
+
+$$
+\eta=H_k\left[\widetilde r\odot\tanh w_\theta(A A^\top,\widetilde r)\right],
 \qquad
-e_{\theta}(S)=\frac1k\sum_{i=1}^k
-\widetilde r_i V_\theta(z_\theta(p,l_i,a)),
-$$
-
-and define
-
-$$
+\widetilde c=\frac1kA^\top\eta,
+\qquad
 c_\theta^{\mathrm{neural}}(S)
-=R\frac{G_\theta(e_\theta(S))}
-{1+\|G_\theta(e_\theta(S))\|_2}.
+=R\frac{\widetilde c}{R+\|\widetilde c\|_2}.
 $$
 
-$V_\theta$ and $G_\theta$ are shared bias-free neural maps. Consequently
+$w_\theta$ is implemented by a shared support self-attention network whose token statistics include
+the centered row $A_i$, centered residual, diagonal of $AA^\top$, and row mean of $AA^\top$.
+Consequently
 $c_\theta^{\mathrm{neural}}(S)=0$ whenever the centered support evidence is
-zero. The map is permutation invariant and query loss backpropagates through
-the adapter, crossed potential, localizer, and every declared trainable
-encoder. For $k=1$, centered SAR evidence is zero and only the separate level
-channel may adapt.
+zero, $c_\theta^{\mathrm{neural}}(S)\in\operatorname{row}(A)$, and the adaptive
+information dimension is at most $\operatorname{rank}(A)\le k-1$. The map is
+permutation invariant, invariant to a constant shift of the support residuals,
+bounded by $R$, and independent of query labels. Query loss backpropagates
+through every unfrozen declared trainable module. For $k=1$, centered SAR
+evidence is zero and only the separate level channel may adapt.
 
 The deployed few-shot scalar is
 
 $$
 f_{\mathrm{few}}(q\mid S)
-=\overline f_{\theta,0,S}+\alpha_\theta(S)
-+\rho_\theta[f_{\theta,0}(q)-\overline f_{\theta,0,S}]
-+\gamma_\theta\phi_\theta(q)^\top c_\theta^{\mathrm{neural}}(S).
+=f_{\theta,0}(q)+\alpha_\theta(S)
++\left[\phi_\theta(q)-\overline\phi_{\theta,S}\right]^\top
+c_\theta^{\mathrm{neural}}(S).
 $$
 
-The zero-shot query shape and SAR channel have separate shared reliabilities learned from source query risk; neither
-is never gated by support evidence. The structural identity
+The zero-shot query shape is retained without an evidence gate. The structural identity
 $c_\theta^{\mathrm{neural}}(S)=0$ is already the exact SAR no-op, so multiplying the SAR term by a
 second evidence gate is prohibited in the primary training path. A state-norm score may be reported
 as a diagnostic or calibrated later for selective prediction, but it does not alter this endpoint.
@@ -281,7 +381,7 @@ $$
 \qquad\lambda>0.
 $$
 
-Writing $A=H_k\Phi_S^{\mathrm{eff}}$ and $d=H_kr_S$ gives the differentiable solve
+Writing $A=H_k\Phi_S$ and $d=H_kr_S$ gives the differentiable solve
 
 $$
 \widehat c_\theta(S)
@@ -474,7 +574,7 @@ The independent unit for inference is never the rectangle row. Dependence must b
 complete preregistered closure of shared protein, measurement cell, document, transformation, and
 panel links, or by a preregistered dyadic/graph bootstrap with the corresponding nested blocks.
 
-### G3a: Few-shot interaction adaptation
+### G3a: Few-shot HyperSAR interaction adaptation
 
 For $k\ge2$, using the same frozen zero-shot potential, the centered support update must improve
 held-out delta risk, depend on the correct support-label binding, and outperform a matched
@@ -483,13 +583,12 @@ part of the interaction-adaptation admission condition.
 
 The few-shot endpoint always retains the source-learned query shape. Quotient-null evidence and
 the $k=1$ case set only the SAR term to zero; they return
-$\overline f_{\theta,0,S}+\alpha_\theta(S)
-+\rho_\theta(f_{\theta,0}-\overline f_{\theta,0,S})$ rather than a constant support mean. The zero-support crossed
+$f_{\theta,0}+\alpha_\theta(S)$ rather than a constant support mean. The zero-support crossed
 potential remains a separate G2 estimand.
-Wrong-protein corruption changes only the support information used to construct $\widehat c(S)$.
-The correct query protein, query basis $\phi_\theta(p,q,a)$, zero-shot potential, and
-$T_{\mathrm{level}}$ remain fixed. The protocol must retain a real-versus-permuted support-binding
-difference-in-differences contrast.
+Wrong-protein or foreign-support corruption changes only the transient code supplied to the
+recipient interaction trunk. The correct query protein, query ligand, zero-shot potential, and
+learned level statistic remain fixed. The protocol must retain real-versus-permuted and
+real-versus-foreign support-binding contrasts.
 
 ### G3b: Scalar DTA bridge
 
@@ -500,17 +599,15 @@ f_{\mathrm{no-int}}=b^{\mathrm{add}},
 \qquad
 f_{\mathrm{frozen}}=b^{\mathrm{add}}+s,
 \qquad
-f_{\mathrm{level}}=\overline f_{\mathrm{frozen},S}+\alpha_\theta(S)
-+\rho_\theta(f_{\mathrm{frozen}}-\overline f_{\mathrm{frozen},S}),
+f_{\mathrm{level}}=f_{\mathrm{frozen}}+\alpha_\theta(S),
 \qquad
-f_{\mathrm{full}}=f_{\mathrm{level}}
-+\gamma_\theta\phi^\top c^{\mathrm{neural}}.
+f_{\mathrm{full}}=f_{\theta,\Delta\Theta(t_S)}+\alpha_\eta(S).
 $$
 
 All arms share the same frozen nuisance parameterization. The level and full arms use the identical
-support-level statistic. The SAR estimand toggles only the final SAR term while retaining the same
-zero-shot endpoint and shrunken level correction. Therefore full-versus-level is the direct SAR
-utility contrast for this frozen scalar family.
+support-level statistic. The HyperSAR estimand toggles only support-conditioned interaction
+modulation while retaining the same zero-shot endpoint and learned level correction. Therefore
+full-versus-level is the direct interaction-adaptation utility contrast.
 
 ### G4: Certificate calibration
 
@@ -540,32 +637,21 @@ protein_tokens = ProteinEncoder(sequence, optional_legal_structure)
 query_embedding = DrugEncoder(query_molecular_graph, assay_context)
 support_embeddings = DrugEncoder(support_molecular_graphs, assay_context)
 
-level_stat = FixedPermutationInvariantLevelStatistic(support_observations)
-
-c_neural = CenteredNeuralSupportAdapter(
-    protein_tokens,
+level_adjustment = LearnedPermutationInvariantLevelChannel(support_residuals)
+task_code = AmortizedTargetConditioner(
+    support_interactions,
     support_embeddings,
-    support_observations,
+    centered_support_residuals,
 )
-
-y_meta, channel_decomposition, phi_q = QPSMPMetaLearner(
-    protein_tokens,
-    query_embedding,
-    assay_context,
-    level_stat,
-    c_neural,
-)
-
-c_ridge, section_midpoint, section_radius = AnalyticSectionDiagnostic(...)
+query_code = SiameseRelativeConditioner(
+    task_code, query_interaction, query_embedding)
+adaptive_interaction = HyperSARLowRankModulation(query_code)
+y_meta = ScalarPotential(protein_tokens, query_embedding, adaptive_interaction)
 
 delta = scalar(endpoint_plus) - scalar(endpoint_minus)
 rectangle = delta(task_a) - delta(task_b)
 
-total_radius = (
-    abs(y_meta - section_midpoint)
-    + section_radius
-    + valid_representation_transport_observation_bounds
-)
+transport_diagnostics = valid_representation_transport_observation_bounds
 ```
 
 Implementation tests must verify endpoint-difference identity, four-endpoint rectangle identity,

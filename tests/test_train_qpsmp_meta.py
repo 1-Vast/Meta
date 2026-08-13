@@ -3,8 +3,8 @@ from types import SimpleNamespace
 import numpy as np
 import torch
 
-from model.qpsmp_meta import QPSMPBioModel
-from scripts.train_qpsmp import LabelScale, freeze_for_section_training, training_label_scale
+from scripts.train_qpsmp import (LabelScale, centered_task_error,
+                                 pairwise_ranking_loss, training_label_scale)
 
 
 def test_label_scale_uses_meta_train_only():
@@ -25,16 +25,15 @@ def test_label_scale_reports_raw_pk_squared_error():
         torch.tensor([4.0, 4.0]))
 
 
-def test_section_stage_freezes_scalar_potential_and_trains_learned_operator():
-    model = QPSMPBioModel(
-        8, hidden_dim=16, task_dim=4, ligand_layers=1, pair_dim=8,
-        pair_blocks=1, pair_latents=4, pair_heads=2,
-        support_hidden_dim=16, support_blocks=1)
-    freeze_for_section_training(model)
-    trainable = {name for name, parameter in model.named_parameters()
-                 if parameter.requires_grad}
-    assert any(name.startswith("pair_section.latent.section.") for name in trainable)
-    assert any(name.startswith("meta.section_operator.") for name in trainable)
-    assert not any(name.startswith("pair_section.latent.endpoint.") for name in trainable)
-    assert all(name.startswith("pair_section.latent.section.") or
-               name.startswith("meta.section_operator.") for name in trainable)
+def test_pairwise_ranking_loss_rewards_correct_order():
+    truth = torch.tensor([1.0, 2.0, 4.0])
+    correct = pairwise_ranking_loss(truth, truth, 1.0)
+    reversed_order = pairwise_ranking_loss(truth.flip(0), truth, 1.0)
+    assert correct < reversed_order
+
+
+def test_centered_task_error_ignores_level_and_rewards_query_shape():
+    truth = torch.tensor([1.0, 2.0, 4.0])
+    assert torch.allclose(
+        centered_task_error(truth + 9.0, truth), torch.zeros(()))
+    assert centered_task_error(truth.flip(0), truth) > 0

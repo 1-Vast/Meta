@@ -50,7 +50,7 @@ class PairGeometryTeacher(nn.Module):
         super().__init__()
         self.trunk = BipartitePairSectionFormer(
             hidden_dim, section_dim, pair_dim, blocks, latents, heads,
-            chunk_size, dtype)
+            chunk_size, dtype=dtype)
         self.geometry = GeometrySupervisionHead(pair_dim, dtype=dtype)
 
     def forward(self, ligand_atoms: torch.Tensor, ligand_mask: torch.Tensor,

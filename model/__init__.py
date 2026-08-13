@@ -1,8 +1,10 @@
 """Active QPSMP model surface."""
 
 from .encoders import LigandEncoder, ProteinEncoder
-from .bpsf import BipartitePairSectionFormer, QuotientSupportSetOperator
-from .qpsmp_meta import QPSMPBioModel, QPSMPMetaLearner, QPSMPMetaOutput
+from .bpsf import BipartitePairSectionFormer
+from .qpsmp_meta import (AmortizedTargetConditioner, QPSMPBioModel,
+                         QPSMPMetaLearner, QPSMPMetaOutput,
+                         SiameseRelativeConditioner)
 
 __all__ = [
     "LigandEncoder",
@@ -11,5 +13,6 @@ __all__ = [
     "QPSMPBioModel",
     "QPSMPMetaLearner",
     "QPSMPMetaOutput",
-    "QuotientSupportSetOperator",
+    "AmortizedTargetConditioner",
+    "SiameseRelativeConditioner",
 ]

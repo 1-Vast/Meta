@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-from model.bpsf import BipartitePairSectionFormer, QuotientSupportSetOperator
+from model.bpsf import BipartitePairSectionFormer
 from model.geometry_supervision import GeometrySupervisionHead
 
 
@@ -27,39 +27,54 @@ def test_pair_section_shapes_masks_and_geometry_head():
     assert atoms.grad is not None and residues.grad is not None
 
 
-def test_quotient_support_operator_invariants_and_gradient():
-    torch.manual_seed(72)
-    operator = QuotientSupportSetOperator(7, hidden_dim=16, heads=2)
-    support = torch.randn(4, 7, requires_grad=True)
-    query = torch.randn(3, 7, requires_grad=True)
-    residual = torch.randn(4)
-    residual = residual - residual.mean()
+def test_protein_projection_and_pair_trunk_are_padding_invariant():
+    torch.manual_seed(73)
+    trunk = BipartitePairSectionFormer(
+        8, 5, pair_dim=16, blocks=1, latent_count=4, heads=2)
+    atoms = torch.randn(2, 5, 8)
+    residues = torch.randn(2, 7, 8)
+    atom_mask = torch.tensor([[1, 1, 1, 0, 0], [1, 1, 0, 0, 0]])
+    residue_mask = torch.tensor([[1, 1, 1, 1, 0, 0, 0], [1, 1, 1, 0, 0, 0, 0]])
+    adjacency = torch.randn(2, 5, 5)
+    left = trunk(atoms, residues, atom_mask, residue_mask, adjacency)
 
-    state, _, prediction = operator(support, query, residual)
-    centered = support - support.mean(0, keepdim=True)
-    projection = torch.linalg.pinv(centered) @ centered
-    assert torch.allclose(state, projection @ state, atol=1e-5, rtol=1e-5)
+    perturbed_atoms = atoms.clone()
+    perturbed_residues = residues.clone()
+    perturbed_adjacency = adjacency.clone()
+    perturbed_atoms[atom_mask == 0] = 1.0e4
+    perturbed_residues[residue_mask == 0] = -1.0e4
+    invalid_edges = ~(
+        atom_mask[:, :, None].bool() & atom_mask[:, None, :].bool())
+    perturbed_adjacency[invalid_edges] = 1.0e4
+    right = trunk(
+        perturbed_atoms, perturbed_residues, atom_mask, residue_mask,
+        perturbed_adjacency)
 
-    order = torch.tensor([2, 0, 3, 1])
-    permuted = operator(support[order], query, residual[order])[2]
-    shifted = operator(support, query, residual + 3.0)[2]
-    coordinate_shift = torch.randn(7)
-    shifted_coordinates = operator(
-        support + coordinate_shift, query + coordinate_shift, residual)[2]
-    assert torch.allclose(prediction, permuted, atol=1e-6)
-    assert torch.allclose(prediction, shifted, atol=1e-6)
-    assert torch.allclose(prediction, shifted_coordinates, atol=1e-6)
+    assert torch.allclose(left.endpoint, right.endpoint, atol=1e-6, rtol=1e-6)
+    assert torch.allclose(left.section, right.section, atol=1e-6, rtol=1e-6)
 
-    zero = operator(support, query, torch.zeros_like(residual))
-    one = operator(support[:1], query, torch.zeros(1))
-    assert torch.count_nonzero(zero[0]) == 0
-    assert torch.count_nonzero(zero[2]) == 0
-    assert torch.count_nonzero(one[0]) == 0
-    assert torch.count_nonzero(one[2]) == 0
 
-    prediction.square().mean().backward()
-    assert support.grad is not None and query.grad is not None
-    assert operator.weight.weight.grad is not None
+def test_hypersar_pair_adapter_changes_only_adaptive_path_and_has_gradients():
+    torch.manual_seed(75)
+    trunk = BipartitePairSectionFormer(
+        8, 6, pair_dim=16, blocks=2, latent_count=4, heads=2,
+        task_dim=5, adapter_rank=2, adaptive_blocks=1)
+    atoms = torch.randn(3, 5, 8, requires_grad=True)
+    residues = torch.randn(3, 7, 8, requires_grad=True)
+    atom_mask = torch.ones(3, 5)
+    residue_mask = torch.ones(3, 7)
+    code = torch.randn(3, 5, requires_grad=True)
+    base = trunk(atoms, residues, atom_mask, residue_mask)
+    adapted = trunk(
+        atoms, residues, atom_mask, residue_mask, task_code=code)
+    zero = trunk(
+        atoms, residues, atom_mask, residue_mask,
+        task_code=torch.zeros_like(code))
+    assert torch.allclose(base.endpoint, zero.endpoint, atol=1e-7, rtol=1e-7)
+    assert not torch.allclose(base.endpoint, adapted.endpoint)
+    adapted.endpoint.square().mean().backward()
+    assert code.grad is not None
+    assert trunk.blocks[-1].adapter_gate.weight.grad is not None
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA BPSF validation")

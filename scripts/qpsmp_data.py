@@ -204,11 +204,28 @@ class QPSMPData:
             components[split] = {key: tuple(sorted(value)) for key, value in by_component.items()}
         return dict(tasks), components
 
+    def _unique_ligand_order(self, indices: np.ndarray,
+                             rng: np.random.Generator) -> np.ndarray:
+        """Randomize cells, retaining at most one observation per ligand."""
+        ordered = []
+        seen = set()
+        for index in rng.permutation(indices):
+            ligand = self.cells[int(index)]["ligand_id"]
+            if ligand in seen:
+                continue
+            seen.add(ligand)
+            ordered.append(int(index))
+        return np.asarray(ordered, dtype=np.int64)
+
+    def _unique_ligand_count(self, indices: np.ndarray) -> int:
+        return len({self.cells[int(index)]["ligand_id"] for index in indices})
+
     def draw_episode(self, split: str, support_size: int, query_size: int,
                      rng: np.random.Generator) -> EpisodeSpec:
         eligible = {
             component: tuple(target for target in targets
-                             if len(self.tasks[split][target]) >= support_size + 1)
+                             if self._unique_ligand_count(
+                                 self.tasks[split][target]) >= support_size + 1)
             for component, targets in self.components[split].items()
         }
         eligible = {key: value for key, value in eligible.items() if value}
@@ -218,7 +235,7 @@ class QPSMPData:
         targets = eligible[component]
         target = targets[int(rng.integers(len(targets)))]
         indices = self.tasks[split][target]
-        order = rng.permutation(indices)
+        order = self._unique_ligand_order(indices, rng)
         support = order[:support_size]
         query = order[support_size:support_size + min(query_size, len(order) - support_size)]
         donor_components = sorted(set(eligible).difference({component}))
@@ -233,7 +250,7 @@ class QPSMPData:
                            max_targets_per_component: int | None = None) -> tuple[EpisodeSpec, ...]:
         episodes = []
         eligible = {target: indices for target, indices in self.tasks[split].items()
-                    if len(indices) >= support_size + 1}
+                    if self._unique_ligand_count(indices) >= support_size + 1}
         by_component = {
             component: tuple(target for target in targets if target in eligible)
             for component, targets in self.components[split].items()
@@ -255,7 +272,7 @@ class QPSMPData:
                 for draw in range(draws):
                     rng = np.random.default_rng(stable_seed("episode", seed, split, target, draw))
                     indices = eligible[target]
-                    order = rng.permutation(indices)
+                    order = self._unique_ligand_order(indices, rng)
                     support = order[:support_size]
                     query = order[support_size:support_size + min(query_size, len(order) - support_size)]
                     donor_targets = by_component[donor_component]
@@ -265,9 +282,61 @@ class QPSMPData:
                         tuple(map(int, query)), donor))
         return tuple(episodes)
 
+    def fixed_nested_episode_banks(
+            self, split: str, support_sizes: tuple[int, ...], query_size: int,
+            draws: int, seed: int,
+            max_targets_per_component: int | None = None,
+    ) -> dict[int, tuple[EpisodeSpec, ...]]:
+        """Build nested support prefixes with one common query per target/draw."""
+        sizes = tuple(sorted(set(map(int, support_sizes))))
+        if not sizes or sizes[0] < 1:
+            raise ValueError("support sizes must be positive")
+        max_support = sizes[-1]
+        eligible = {
+            target: indices for target, indices in self.tasks[split].items()
+            if self._unique_ligand_count(indices) >= max_support + 1
+        }
+        by_component = {
+            component: tuple(target for target in targets if target in eligible)
+            for component, targets in self.components[split].items()
+        }
+        by_component = {key: value for key, value in by_component.items() if value}
+        if len(by_component) < 2:
+            raise ValueError("nested controls require at least two eligible components")
+        banks: dict[int, list[EpisodeSpec]] = {size: [] for size in sizes}
+        component_order = sorted(by_component)
+        for component_index, component in enumerate(component_order):
+            donor_component = component_order[(component_index + 1) % len(component_order)]
+            targets = by_component[component]
+            if max_targets_per_component is not None:
+                if max_targets_per_component < 1:
+                    raise ValueError("max_targets_per_component must be positive")
+                target_order = np.random.default_rng(stable_seed(
+                    "nested-target-bank", seed, split, component)).permutation(len(targets))
+                targets = tuple(targets[int(index)] for index in
+                                target_order[:max_targets_per_component])
+            for target in targets:
+                for draw in range(draws):
+                    rng = np.random.default_rng(stable_seed(
+                        "nested-episode", seed, split, target, draw))
+                    order = self._unique_ligand_order(eligible[target], rng)
+                    query = tuple(map(int, order[
+                        max_support:max_support + min(query_size, len(order) - max_support)]))
+                    donor_targets = by_component[donor_component]
+                    donor = donor_targets[int(rng.integers(len(donor_targets)))]
+                    for size in sizes:
+                        banks[size].append(EpisodeSpec(
+                            split, component, target,
+                            tuple(map(int, order[:size])), query, donor))
+        return {size: tuple(episodes) for size, episodes in banks.items()}
+
     def materialize(self, spec: EpisodeSpec) -> EpisodeBatch:
         if set(spec.support) & set(spec.query):
             raise ValueError("support and query cells overlap")
+        support_ligands = {self.cells[index]["ligand_id"] for index in spec.support}
+        query_ligands = {self.cells[index]["ligand_id"] for index in spec.query}
+        if support_ligands & query_ligands:
+            raise ValueError("support and query ligand identities overlap")
         rows = [self.cells[index] for index in (*spec.support, *spec.query)]
         if any(row["target_id"] != spec.target or row["split"] != spec.split for row in rows):
             raise ValueError("episode cells do not match the declared task")

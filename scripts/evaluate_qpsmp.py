@@ -21,8 +21,8 @@ if __package__ in {None, ""}:
 
 from scripts.qpsmp_data import EpisodeSpec, QPSMPData, stable_seed
 from scripts.train_qpsmp import (
-    CORPUS, LIGAND_BANK, PROTEIN_BANK, LabelScale, TrainConfig,
-    donor_state, forward, normalized_episode, replay_state, train,
+    COMPACT_LIGAND_BANK, CORPUS, LIGAND_BANK, PROTEIN_BANK, LabelScale, TrainConfig,
+    donor_state, forward, normalized_episode, train,
 )
 
 
@@ -51,8 +51,20 @@ def build_nested_manifest(
     if support_sizes[0] < 1 or query_size < 1 or draws < 1:
         raise ValueError("episode sizes and draws must be positive")
     max_k = support_sizes[-1]
-    eligible = {target: indices for target, indices in data.tasks[split].items()
-                if len(indices) >= max_k + 1}
+    def ligand_unique_order(indices: np.ndarray,
+                            rng: np.random.Generator) -> np.ndarray:
+        seen, ordered = set(), []
+        for index in rng.permutation(indices):
+            ligand = data.cells[int(index)]["ligand_id"]
+            if ligand not in seen:
+                seen.add(ligand)
+                ordered.append(int(index))
+        return np.asarray(ordered, dtype=np.int64)
+
+    eligible = {
+        target: indices for target, indices in data.tasks[split].items()
+        if len({data.cells[int(index)]["ligand_id"] for index in indices}) >= max_k + 1
+    }
     by_component = {
         component: tuple(target for target in targets if target in eligible)
         for component, targets in data.components[split].items()
@@ -69,7 +81,7 @@ def build_nested_manifest(
             for draw in range(draws):
                 rng = np.random.default_rng(
                     stable_seed("qpsmp-nested", seed, split, target, draw))
-                order = rng.permutation(eligible[target])
+                order = ligand_unique_order(eligible[target], rng)
                 support = order[:max_k]
                 query = order[max_k:max_k + min(query_size, len(order) - max_k)]
                 donor = donor_targets[int(rng.integers(len(donor_targets)))]
@@ -120,13 +132,39 @@ def validate_manifest(data: QPSMPData, payload: dict,
     expected_hash = file_sha256(data.corpus / "manifest.json")
     if payload.get("corpus_manifest_sha256") != expected_hash:
         raise ValueError("nested manifest corpus hash mismatch")
-    cell_ids = {cell["cell_id"] for cell in data.cells}
+    cell_by_id = {cell["cell_id"]: cell for cell in data.cells}
     for record in records:
         support, query = set(record.support_cell_ids), set(record.query_cell_ids)
         if not support or not query or support & query:
             raise ValueError("nested manifest has invalid support/query sets")
-        if not support.union(query).issubset(cell_ids):
+        if not support.union(query).issubset(cell_by_id):
             raise ValueError("nested manifest references unknown cells")
+        if (record.split not in data.tasks
+                or record.target not in data.tasks[record.split]):
+            raise ValueError("nested manifest declares an unknown split/target")
+        rows = [cell_by_id[cell] for cell in support.union(query)]
+        if any(row["split"] != record.split
+               or row["target_id"] != record.target
+               or row["protein_group_40"] != record.component for row in rows):
+            raise ValueError(
+                "nested manifest cell split/target/component metadata "
+                "disagrees with the record")
+        split_components = data.components[record.split]
+        declared_targets = split_components.get(record.component, ())
+        if record.target not in declared_targets:
+            raise ValueError("nested manifest component disagrees with the target")
+        donor_component = next(
+            (component for component, targets in split_components.items()
+             if record.donor_target in targets), None)
+        if (record.donor_target not in data.tasks[record.split]
+                or record.donor_target == record.target
+                or donor_component is None
+                or donor_component == record.component):
+            raise ValueError("nested manifest donor must be a cross-component target")
+        support_ligands = {cell_by_id[cell]["ligand_id"] for cell in support}
+        query_ligands = {cell_by_id[cell]["ligand_id"] for cell in query}
+        if support_ligands & query_ligands:
+            raise ValueError("nested manifest overlaps support/query ligand identities")
 
 
 def episode_spec(data: QPSMPData, record: NestedEpisodeRecord, k: int) -> EpisodeSpec:
@@ -161,19 +199,62 @@ def evaluate_seed(model, data: QPSMPData, records: tuple[NestedEpisodeRecord, ..
                     "sar_cut": full.prediction - full.sar_adaptation,
                     "zero_shot": forward(model, episode, adapt=False).prediction,
                     "level_only": episode.support_y.mean().expand_as(episode.query_y),
-                    "permuted_state": replay_state(full, permuted.task_state),
-                    "foreign_state": replay_state(full, foreign),
-                    "wrong_protein_state": replay_state(full, wrong),
+                    "permuted_state": permuted.prediction,
+                    "foreign_code_state": forward(
+                        model, episode, task_state_override=foreign).prediction,
+                    "wrong_protein_state": forward(
+                        model, episode, task_state_override=wrong).prediction,
                 }
                 for arm, prediction in predictions.items():
+                    truth = episode.query_y.detach().cpu().numpy()
+                    predicted = prediction.detach().cpu().numpy()
                     mse = float(label_scale.squared_error_pk(
                         prediction, episode.query_y).mean())
+                    ci, comparable = concordance_index(predicted, truth)
                     rows.append({
                         "model_seed": model_seed, "component": record.component,
                         "target": record.target, "draw": record.draw, "k": k,
-                        "arm": arm, "mse_pk": mse,
+                        "arm": arm, "mse_pk": mse, "rmse_pk": mse ** 0.5,
+                        "ci": ci, "ci_comparable_pairs": comparable,
+                        "spearman": spearman(predicted, truth),
                     })
     return rows
+
+
+def concordance_index(prediction: np.ndarray,
+                      truth: np.ndarray) -> tuple[float, int]:
+    concordant, comparable = 0.0, 0
+    for left in range(len(truth)):
+        for right in range(left + 1, len(truth)):
+            true_delta = float(truth[left] - truth[right])
+            if true_delta == 0:
+                continue
+            pred_delta = float(prediction[left] - prediction[right])
+            comparable += 1
+            concordant += 0.5 if pred_delta == 0 else float(pred_delta * true_delta > 0)
+    return ((float(concordant / comparable) if comparable else float("nan")), comparable)
+
+
+def _average_ranks(values: np.ndarray) -> np.ndarray:
+    order = np.argsort(values, kind="mergesort")
+    ranks = np.empty(len(values), dtype=np.float64)
+    start = 0
+    while start < len(values):
+        stop = start + 1
+        while stop < len(values) and values[order[stop]] == values[order[start]]:
+            stop += 1
+        ranks[order[start:stop]] = 0.5 * (start + stop - 1)
+        start = stop
+    return ranks
+
+
+def spearman(prediction: np.ndarray, truth: np.ndarray) -> float:
+    if len(truth) < 2:
+        return float("nan")
+    left, right = _average_ranks(prediction), _average_ranks(truth)
+    left, right = left - left.mean(), right - right.mean()
+    denominator = float(np.linalg.norm(left) * np.linalg.norm(right))
+    return float(left @ right / denominator) if denominator > 0 else float("nan")
 
 
 def paired_component_effects(rows: list[dict], correct: str, control: str,
@@ -212,6 +293,34 @@ def paired_component_bootstrap(
     }
 
 
+def metric_summary(rows: list[dict]) -> list[dict]:
+    summaries = []
+    for k in sorted({row["k"] for row in rows}):
+        for arm in sorted({row["arm"] for row in rows}):
+            selected = [row for row in rows if row["k"] == k and row["arm"] == arm]
+            entry = {"k": k, "arm": arm}
+            for metric in ("mse_pk", "rmse_pk", "ci", "spearman"):
+                finite = [row for row in selected if np.isfinite(row[metric])]
+                entry[metric] = (component_target_metric(finite, metric)
+                                 if finite else None)
+                entry[f"{metric}_episodes"] = len(finite)
+            entry["ci_comparable_pairs"] = int(sum(
+                row["ci_comparable_pairs"] for row in selected))
+            summaries.append(entry)
+    return summaries
+
+
+def component_target_metric(rows: list[dict], metric: str) -> float:
+    target_values: dict[tuple[str, str], list[float]] = {}
+    for row in rows:
+        target_values.setdefault((row["component"], row["target"]), []).append(
+            float(row[metric]))
+    component_values: dict[str, list[float]] = {}
+    for (component, _), values in target_values.items():
+        component_values.setdefault(component, []).append(float(np.mean(values)))
+    return float(np.mean([np.mean(values) for values in component_values.values()]))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=OUT)
@@ -228,6 +337,11 @@ def main() -> None:
     parser.add_argument("--bootstrap-draws", type=int, default=9999)
     parser.add_argument("--hidden-dim", type=int, default=TrainConfig.hidden_dim)
     parser.add_argument("--task-dim", type=int, default=TrainConfig.task_dim)
+    parser.add_argument("--adapter-rank", type=int, default=TrainConfig.adapter_rank)
+    parser.add_argument("--adaptive-blocks", type=int,
+                        default=TrainConfig.adaptive_blocks)
+    parser.add_argument("--adapter-scale", type=float,
+                        default=TrainConfig.adapter_scale)
     parser.add_argument("--ligand-layers", type=int, default=TrainConfig.ligand_layers)
     parser.add_argument("--pair-dim", type=int, default=TrainConfig.pair_dim)
     parser.add_argument("--pair-blocks", type=int, default=TrainConfig.pair_blocks)
@@ -241,7 +355,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"output already exists: {args.output}")
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK)
+    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
     if args.manifest:
         payload, records = load_manifest(args.manifest)
         if tuple(payload["support_sizes"]) != SUPPORT_SIZES:
@@ -265,6 +379,9 @@ def main() -> None:
             val_draws_per_target=args.val_draws_per_target,
             eval_targets_per_component=999999,
             hidden_dim=args.hidden_dim, task_dim=args.task_dim,
+            adapter_rank=args.adapter_rank,
+            adaptive_blocks=args.adaptive_blocks,
+            adapter_scale=args.adapter_scale,
             ligand_layers=args.ligand_layers, pair_dim=args.pair_dim,
             pair_blocks=args.pair_blocks, pair_latents=args.pair_latents,
             pair_heads=args.pair_heads,
@@ -283,7 +400,7 @@ def main() -> None:
             stable_seed("bootstrap", args.manifest_seed, k, control))
         for k in SUPPORT_SIZES
         for control in ("level_only", "sar_cut", "permuted_state",
-                        "foreign_state", "wrong_protein_state")
+                        "foreign_code_state", "wrong_protein_state")
     ]
     args.output.mkdir(parents=True, exist_ok=False)
     (args.output / "EPISODES.json").write_text(
@@ -304,6 +421,7 @@ def main() -> None:
         "components": len({record.component for record in records}),
         "manifest_reused_across_model_seeds": True,
         "training": training, "contrasts": contrasts,
+        "metric_summary": metric_summary(all_rows),
         "test_used_for_tuning": False,
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
     }

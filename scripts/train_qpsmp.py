@@ -16,6 +16,7 @@ import time
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -36,26 +37,34 @@ OUT = ROOT / "report/meta_fewshot/qpsmp_meta_smoke"
 class TrainConfig:
     seed: int = 20260812
     support_size: int = 5
-    query_size: int = 8
+    query_size: int = 16
+    min_query_size: int = 4
     hidden_dim: int = 128
     task_dim: int = 32
+    adapter_rank: int = 4
+    adaptive_blocks: int = 2
+    adapter_scale: float = 0.25
     ligand_layers: int = 3
     steps: int = 20
     episodes_per_step: int = 2
-    train_cache_size: int = 64
-    eval_batch_size: int = 16
-    learning_rate: float = 1e-3
+    learning_rate: float = 3e-4
     weight_decay: float = 1e-5
     val_interval: int = 10
     val_draws_per_target: int = 1
     test_draws_per_target: int = 1
     eval_targets_per_component: int = 1
-    grad_clip: float = 5.0
+    grad_clip: float = 1.0
     zero_shot_loss_weight: float = 0.25
+    ranking_loss_weight: float = 0.1
+    shape_loss_weight: float = 0.5
+    support_match_loss_weight: float = 0.25
+    dependency_loss_weight: float = 0.25
+    dependency_margin: float = 0.05
+    ranking_temperature: float = 1.0
+    dependency_warmup_fraction: float = 0.1
     zero_support_only: bool = False
     pretrained_checkpoint: str | None = None
     geometry_checkpoint: str | None = None
-    section_only: bool = False
     amp: bool = True
     pair_dim: int = 64
     pair_blocks: int = 3
@@ -107,7 +116,8 @@ def load_parent_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str | N
     for field in (
             "hidden_dim", "task_dim", "ligand_layers", "pair_dim",
             "pair_blocks", "pair_latents", "pair_heads",
-            "support_hidden_dim", "support_blocks"):
+            "support_hidden_dim", "support_blocks", "adapter_rank",
+            "adaptive_blocks", "adapter_scale"):
         if parent_config.get(field) != getattr(config, field):
             raise ValueError(f"parent checkpoint has incompatible {field}")
     model.load_state_dict(payload["model_state"], strict=True)
@@ -156,15 +166,6 @@ def load_geometry_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str |
     return file_sha256(path)
 
 
-def freeze_for_section_training(model: QPSMPBioModel) -> None:
-    for parameter in model.parameters():
-        parameter.requires_grad_(False)
-    for parameter in model.pair_section.latent.section.parameters():
-        parameter.requires_grad_(True)
-    for parameter in model.meta.section_operator.parameters():
-        parameter.requires_grad_(True)
-
-
 def normalized_episode(episode: EpisodeBatch, scale: LabelScale) -> EpisodeBatch:
     return replace(episode, support_y=scale.normalize(episode.support_y),
                    query_y=scale.normalize(episode.query_y))
@@ -193,43 +194,8 @@ def compact_episode(episode: EpisodeBatch) -> EpisodeBatch:
         query_mask=mask(episode.query_mask))
 
 
-def stack_episodes(episodes: list[EpisodeBatch]) -> EpisodeBatch:
-    if not episodes:
-        raise ValueError("cannot stack an empty episode list")
-    support_size = episodes[0].support_y.numel()
-    query_size = episodes[0].query_y.numel()
-    if any(item.support_y.numel() != support_size or item.query_y.numel() != query_size
-           for item in episodes):
-        raise ValueError("batched episodes must have equal support and query sizes")
-    atom_count = max(item.support_atoms.shape[1] for item in episodes)
-
-    def pad_graphs(values: torch.Tensor, *, bonds: bool = False,
-                   mask: bool = False) -> torch.Tensor:
-        missing = atom_count - values.shape[1]
-        if missing == 0:
-            return values
-        if bonds:
-            return torch.nn.functional.pad(values, (0, 0, 0, missing, 0, missing))
-        if mask:
-            return torch.nn.functional.pad(values, (0, missing))
-        return torch.nn.functional.pad(values, (0, 0, 0, missing))
-
-    return EpisodeBatch(
-        tuple(item.spec for item in episodes),
-        torch.stack([item.protein_pooled for item in episodes]),
-        torch.stack([item.protein_tokens for item in episodes]),
-        torch.stack([item.protein_mask for item in episodes]),
-        torch.stack([pad_graphs(item.support_atoms) for item in episodes]),
-        torch.stack([pad_graphs(item.support_bonds, bonds=True) for item in episodes]),
-        torch.stack([pad_graphs(item.support_mask, mask=True) for item in episodes]),
-        torch.stack([item.support_y for item in episodes]),
-        torch.stack([pad_graphs(item.query_atoms) for item in episodes]),
-        torch.stack([pad_graphs(item.query_bonds, bonds=True) for item in episodes]),
-        torch.stack([pad_graphs(item.query_mask, mask=True) for item in episodes]),
-        torch.stack([item.query_y for item in episodes]))
-
-
-def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True):
+def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True,
+            task_state_override: torch.Tensor | None = None):
     if episode.support_atoms.ndim == 3:
         episode = compact_episode(episode)
     active = max(int(episode.support_mask.sum(-1).max()),
@@ -251,13 +217,26 @@ def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True):
     return model(
         episode.protein_pooled, episode.protein_tokens, episode.protein_mask,
         support_atoms, support_bonds, support_mask, episode.support_y,
-        query_atoms, query_bonds, query_mask, adapt=adapt)
+        query_atoms, query_bonds, query_mask, adapt=adapt,
+        task_state_override=task_state_override)
 
 
-def replay_state(target_output, state: torch.Tensor) -> torch.Tensor:
-    """Replace only the SAR state; retain target zero-shot, level, and basis."""
-    return (target_output.level_baseline
-            + target_output.sar_scale * (target_output.query_basis @ state))
+def centered_task_error(prediction: torch.Tensor,
+                        truth: torch.Tensor) -> torch.Tensor:
+    prediction = prediction - prediction.mean(-1, keepdim=True)
+    truth = truth - truth.mean(-1, keepdim=True)
+    return (prediction - truth).square().mean()
+
+
+def pairwise_ranking_loss(prediction: torch.Tensor, truth: torch.Tensor,
+                          temperature: float) -> torch.Tensor:
+    delta_y = truth.unsqueeze(-1) - truth.unsqueeze(-2)
+    delta_p = prediction.unsqueeze(-1) - prediction.unsqueeze(-2)
+    comparable = delta_y != 0
+    if not bool(comparable.any()):
+        return prediction.new_zeros(())
+    signed = delta_y.sign() * delta_p / temperature
+    return torch.nn.functional.softplus(-signed[comparable]).mean()
 
 
 def component_target_mean(rows: list[dict], field: str) -> float:
@@ -320,7 +299,6 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                 spec = episode.spec
             full = forward(model, episode)
             frozen = forward(model, episode, adapt=False)
-            evidence_null = replay_state(full, torch.zeros_like(full.task_state))
             sar_cut = full.prediction - full.sar_adaptation
             level_only = episode.support_y.mean().expand_as(episode.query_y)
             def mse_pk(prediction: torch.Tensor) -> float:
@@ -356,9 +334,11 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                     model, data, episode, spec.donor_target, label_scale,
                     wrong_protein=True)
                 values.update({
-                    "permuted_mse_pk": mse_pk(replay_state(full, permuted_output.task_state)),
-                    "foreign_state_mse_pk": mse_pk(replay_state(full, foreign)),
-                    "wrong_protein_state_mse_pk": mse_pk(replay_state(full, wrong)),
+                    "permuted_mse_pk": mse_pk(permuted_output.prediction),
+                    "foreign_code_state_mse_pk": mse_pk(forward(
+                        model, episode, task_state_override=foreign).prediction),
+                    "wrong_protein_state_mse_pk": mse_pk(forward(
+                        model, episode, task_state_override=wrong).prediction),
                     "wrong_protein_zero_shot_mse_pk": mse_pk(
                         wrong_protein_zero_shot(
                             model, data, episode, spec.donor_target)),
@@ -370,7 +350,8 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
     metrics["sar_gain_mse_pk"] = metrics["sar_cut_mse_pk"] - metrics["full_mse_pk"]
     if controls:
         metrics["binding_did_mse_pk"] = metrics["permuted_mse_pk"] - metrics["full_mse_pk"]
-        metrics["foreign_state_gap_mse_pk"] = metrics["foreign_state_mse_pk"] - metrics["full_mse_pk"]
+        metrics["foreign_code_state_gap_mse_pk"] = (
+            metrics["foreign_code_state_mse_pk"] - metrics["full_mse_pk"])
         metrics["wrong_protein_gap_mse_pk"] = metrics["wrong_protein_state_mse_pk"] - metrics["full_mse_pk"]
         metrics["wrong_protein_zero_shot_gap_mse_pk"] = (
             metrics["wrong_protein_zero_shot_mse_pk"] - metrics["zero_shot_mse_pk"])
@@ -381,10 +362,11 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
 
 def train(data: QPSMPData, config: TrainConfig,
           support_sizes: tuple[int, ...] | None = None,
-          progress_path: Path | None = None):
+          progress_path: Path | None = None,
+          model_factory=QPSMPBioModel):
     torch.manual_seed(config.seed)
     rng = np.random.default_rng(config.seed)
-    model = QPSMPBioModel(
+    model = model_factory(
         protein_dim=int(data.protein_bank.manifest["hidden_dim"]),
         hidden_dim=config.hidden_dim, task_dim=config.task_dim,
         ligand_layers=config.ligand_layers,
@@ -393,16 +375,15 @@ def train(data: QPSMPData, config: TrainConfig,
         pair_heads=config.pair_heads, pair_chunk_size=config.pair_chunk_size,
         support_hidden_dim=config.support_hidden_dim,
         support_blocks=config.support_blocks,
+        adapter_rank=config.adapter_rank,
+        adaptive_blocks=config.adaptive_blocks,
+        adapter_scale=config.adapter_scale,
         dtype=torch.float32)
     model.to(config.device)
     geometry_sha256 = load_geometry_checkpoint(model, config)
     parent_sha256 = load_parent_checkpoint(model, config)
     if geometry_sha256 is not None and parent_sha256 is not None:
         raise ValueError("geometry and parent checkpoints are mutually exclusive initializers")
-    if config.section_only:
-        if parent_sha256 is None:
-            raise ValueError("section-only training requires a parent checkpoint")
-        freeze_for_section_training(model)
     trainable_parameters = [parameter for parameter in model.parameters()
                             if parameter.requires_grad]
     optimizer = torch.optim.AdamW(trainable_parameters, lr=config.learning_rate,
@@ -410,12 +391,15 @@ def train(data: QPSMPData, config: TrainConfig,
     amp_enabled = config.amp and config.device.startswith("cuda")
     scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
     label_scale = training_label_scale(data)
-    train_support_sizes = support_sizes or (config.support_size,)
+    train_support_sizes = support_sizes or (1, 2, 3, 5)
     if not train_support_sizes or any(k < 1 for k in train_support_sizes):
         raise ValueError("support sizes must be positive")
+    if config.min_query_size < 1 or config.query_size < config.min_query_size:
+        raise ValueError("query-size range is invalid")
     cache_contract = {
+        "schema": "MetaSieve.QPSMPValidationCache.v2",
         "seed": config.seed, "support_sizes": list(train_support_sizes),
-        "query_size": config.query_size, "train_cache_size": config.train_cache_size,
+        "query_size": config.query_size,
         "val_draws_per_target": config.val_draws_per_target,
         "eval_targets_per_component": config.eval_targets_per_component,
         "label_scale": asdict(label_scale),
@@ -425,65 +409,98 @@ def train(data: QPSMPData, config: TrainConfig,
         cached = torch.load(cache_path, map_location="cpu", weights_only=False)
         if cached.get("contract") != cache_contract:
             raise ValueError("episode cache contract does not match training configuration")
-        train_cache = cached["train"]
         val_banks = cached["val"]
     else:
-        val_specs = {
-            k: data.fixed_episode_bank(
-                "meta_val", k, config.query_size,
-                config.val_draws_per_target, config.seed,
-                config.eval_targets_per_component)
-            for k in train_support_sizes
-        }
+        val_specs = data.fixed_nested_episode_banks(
+            "meta_val", tuple(train_support_sizes), config.query_size,
+            config.val_draws_per_target, config.seed,
+            config.eval_targets_per_component)
         val_banks = {
             k: tuple(compact_episode(normalized_episode(data.materialize(spec), label_scale))
                      for spec in specs)
             for k, specs in val_specs.items()
         }
-        train_cache: dict[int, tuple[EpisodeBatch, ...]] = {}
-        for k in train_support_sizes:
-            episodes = []
-            while len(episodes) < config.train_cache_size:
-                spec = data.draw_episode("meta_train", k, config.query_size, rng)
-                if len(spec.query) != config.query_size:
-                    continue
-                episodes.append(compact_episode(
-                    normalized_episode(data.materialize(spec), label_scale)))
-            train_cache[k] = tuple(episodes)
         if cache_path is not None:
             cache_path.parent.mkdir(parents=True, exist_ok=True)
-            torch.save({"schema": "MetaSieve.QPSMPEpisodeCache.v1",
-                        "contract": cache_contract, "train": train_cache,
-                        "val": val_banks}, cache_path)
+            torch.save({"schema": "MetaSieve.QPSMPValidationCache.v2",
+                        "contract": cache_contract, "val": val_banks}, cache_path)
+
+    diversity = {"components": set(), "targets": set(), "support_cells": set(),
+                 "query_cells": set(), "ligands": set(), "episodes": 0}
     best_state, best_value, best_step = None, float("inf"), 0
     trace = []
     started = time.monotonic()
     for step in range(1, config.steps + 1):
         model.train()
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
         support_size = train_support_sizes[(step - 1) % len(train_support_sizes)]
-        cache = train_cache[support_size]
-        offset = ((step - 1) * config.episodes_per_step) % len(cache)
-        selected = [cache[(offset + index) % len(cache)]
-                    for index in range(config.episodes_per_step)]
-        episode = stack_episodes(selected)
+        selected = []
+        for _ in range(config.episodes_per_step):
+            requested_query = int(rng.integers(
+                config.min_query_size, config.query_size + 1))
+            spec = data.draw_episode(
+                "meta_train", support_size, requested_query, rng)
+            selected.append(compact_episode(
+                normalized_episode(data.materialize(spec), label_scale)))
+        for item in selected:
+            spec = item.spec
+            diversity["episodes"] += 1
+            diversity["components"].add(spec.component)
+            diversity["targets"].add(spec.target)
+            diversity["support_cells"].update(spec.support)
+            diversity["query_cells"].update(spec.query)
+            diversity["ligands"].update(
+                data.cells[index]["ligand_id"]
+                for index in (*spec.support, *spec.query))
+        dependency_gate = min(
+            1.0, step / max(config.steps * config.dependency_warmup_fraction, 1.0))
+        losses = []
         with torch.autocast(
-                device_type="cuda", dtype=torch.float16, enabled=amp_enabled):
-            full = forward(model, episode, adapt=not config.zero_support_only)
-            endpoint_prediction = full.zero_shot if config.zero_support_only else full.prediction
-            query_y = episode.query_y.to(
-                device=endpoint_prediction.device, dtype=endpoint_prediction.dtype)
-            endpoint_loss = (endpoint_prediction - query_y).square().mean()
-            query_residual = full.zero_shot - query_y
-            zero_shot_loss = (
-                query_residual - query_residual.mean(dim=-1, keepdim=True)
-            ).square().mean()
-            if config.section_only:
-                sar_error = full.zero_shot + full.sar_adaptation - query_y
-                sar_error = sar_error - sar_error.mean(dim=-1, keepdim=True)
-                loss = sar_error.square().mean()
-            else:
-                loss = endpoint_loss + config.zero_shot_loss_weight * zero_shot_loss
+                device_type="cuda",
+                dtype=(torch.bfloat16 if torch.cuda.is_bf16_supported()
+                       else torch.float16), enabled=amp_enabled):
+            for episode in selected:
+                full = forward(model, episode, adapt=not config.zero_support_only)
+                query_y = episode.query_y.to(
+                    device=full.prediction.device, dtype=full.prediction.dtype)
+                endpoint_prediction = (
+                    full.zero_shot if config.zero_support_only else full.prediction)
+                loss_full = F.smooth_l1_loss(endpoint_prediction, query_y)
+                loss_zero = F.smooth_l1_loss(full.zero_shot, query_y)
+                loss_rank = pairwise_ranking_loss(
+                    full.prediction, query_y, config.ranking_temperature)
+                correct_error = centered_task_error(full.prediction, query_y)
+                if support_size >= 2:
+                    permuted = forward(
+                        model, replace(episode, support_y=episode.support_y.roll(1)))
+                    permuted_error = centered_task_error(
+                        permuted.prediction.detach(), query_y)
+                    foreign_state = donor_state(
+                        model, data, episode, episode.spec.donor_target,
+                        label_scale, wrong_protein=False)
+                    foreign_prediction = forward(
+                        model, episode,
+                        task_state_override=foreign_state.detach()).prediction
+                    foreign_error = centered_task_error(
+                        foreign_prediction.detach(), query_y)
+                    loss_dependency = (
+                        F.relu(config.dependency_margin + correct_error
+                               - permuted_error)
+                        + F.relu(config.dependency_margin + correct_error
+                                 - foreign_error))
+                else:
+                    loss_dependency = loss_full.new_zeros(())
+                episode_loss = (
+                    loss_full
+                    + config.zero_shot_loss_weight * loss_zero
+                    + config.ranking_loss_weight * loss_rank
+                    + config.shape_loss_weight * correct_error
+                    + (0.0 if config.zero_support_only else
+                       config.support_match_loss_weight * full.support_match_loss)
+                    + dependency_gate * config.dependency_loss_weight
+                    * loss_dependency)
+                losses.append(episode_loss)
+            loss = torch.stack(losses).mean()
         scaler.scale(loss).backward()
         scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
@@ -492,7 +509,6 @@ def train(data: QPSMPData, config: TrainConfig,
         trace.append(float(loss.detach()))
         if step % config.val_interval == 0 or step == config.steps:
             selection_field = (
-                "sar_centered_mse_pk" if config.section_only else
                 "zero_shot_mse_pk" if config.zero_support_only else "full_mse_pk")
             values = [evaluate(
                 model, data, bank, controls=False,
@@ -522,8 +538,12 @@ def train(data: QPSMPData, config: TrainConfig,
                    "validation_episode_bank_sizes": {
                        str(k): len(bank) for k, bank in val_banks.items()
                    },
-                   "train_episode_cache_sizes": {
-                       str(k): len(bank) for k, bank in train_cache.items()
+                   "training_sampler": "online_fresh_component_uniform",
+                   "training_query_size_range": [
+                       config.min_query_size, config.query_size],
+                   "training_diversity": {
+                       key: (len(value) if isinstance(value, set) else value)
+                       for key, value in diversity.items()
                    },
                    "parent_checkpoint_sha256": parent_sha256,
                    "geometry_checkpoint_sha256": geometry_sha256,
@@ -542,13 +562,17 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=TrainConfig.seed)
     parser.add_argument("--support-size", type=int, default=TrainConfig.support_size)
     parser.add_argument("--query-size", type=int, default=TrainConfig.query_size)
+    parser.add_argument("--min-query-size", type=int,
+                        default=TrainConfig.min_query_size)
     parser.add_argument("--hidden-dim", type=int, default=TrainConfig.hidden_dim)
     parser.add_argument("--task-dim", type=int, default=TrainConfig.task_dim)
+    parser.add_argument("--adapter-rank", type=int, default=TrainConfig.adapter_rank)
+    parser.add_argument("--adaptive-blocks", type=int, default=TrainConfig.adaptive_blocks)
+    parser.add_argument("--adapter-scale", type=float, default=TrainConfig.adapter_scale)
     parser.add_argument("--ligand-layers", type=int, default=TrainConfig.ligand_layers)
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--learning-rate", type=float, default=TrainConfig.learning_rate)
     parser.add_argument("--episodes-per-step", type=int, default=TrainConfig.episodes_per_step)
-    parser.add_argument("--train-cache-size", type=int, default=TrainConfig.train_cache_size)
     parser.add_argument("--val-interval", type=int, default=TrainConfig.val_interval)
     parser.add_argument("--val-draws-per-target", type=int, default=TrainConfig.val_draws_per_target)
     parser.add_argument("--test-draws-per-target", type=int, default=TrainConfig.test_draws_per_target)
@@ -556,10 +580,17 @@ def main() -> None:
                         default=TrainConfig.eval_targets_per_component)
     parser.add_argument("--zero-shot-loss-weight", type=float,
                         default=TrainConfig.zero_shot_loss_weight)
+    parser.add_argument("--ranking-loss-weight", type=float,
+                        default=TrainConfig.ranking_loss_weight)
+    parser.add_argument("--shape-loss-weight", type=float,
+                        default=TrainConfig.shape_loss_weight)
+    parser.add_argument("--support-match-loss-weight", type=float,
+                        default=TrainConfig.support_match_loss_weight)
+    parser.add_argument("--dependency-loss-weight", type=float,
+                        default=TrainConfig.dependency_loss_weight)
     parser.add_argument("--zero-support-only", action="store_true")
     parser.add_argument("--pretrained-checkpoint", type=Path)
     parser.add_argument("--geometry-checkpoint", type=Path)
-    parser.add_argument("--section-only", action="store_true")
     parser.add_argument("--no-amp", action="store_true")
     parser.add_argument("--pair-dim", type=int, default=TrainConfig.pair_dim)
     parser.add_argument("--pair-blocks", type=int, default=TrainConfig.pair_blocks)
@@ -578,22 +609,27 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=False)
     config = TrainConfig(
         seed=args.seed, support_size=args.support_size, query_size=args.query_size,
+        min_query_size=args.min_query_size,
         hidden_dim=args.hidden_dim, task_dim=args.task_dim,
+        adapter_rank=args.adapter_rank, adaptive_blocks=args.adaptive_blocks,
+        adapter_scale=args.adapter_scale,
         ligand_layers=args.ligand_layers,
         steps=args.steps, episodes_per_step=args.episodes_per_step,
         learning_rate=args.learning_rate,
-        train_cache_size=args.train_cache_size,
         val_interval=args.val_interval,
         val_draws_per_target=args.val_draws_per_target,
         test_draws_per_target=args.test_draws_per_target,
         eval_targets_per_component=args.eval_targets_per_component,
         zero_shot_loss_weight=args.zero_shot_loss_weight,
+        ranking_loss_weight=args.ranking_loss_weight,
+        shape_loss_weight=args.shape_loss_weight,
+        support_match_loss_weight=args.support_match_loss_weight,
+        dependency_loss_weight=args.dependency_loss_weight,
         zero_support_only=args.zero_support_only,
         pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
                                if args.pretrained_checkpoint else None),
         geometry_checkpoint=(str(args.geometry_checkpoint.resolve())
                              if args.geometry_checkpoint else None),
-        section_only=args.section_only,
         amp=not args.no_amp,
         pair_dim=args.pair_dim, pair_blocks=args.pair_blocks,
         pair_latents=args.pair_latents,
@@ -612,16 +648,15 @@ def main() -> None:
     checkpoint = args.output / "checkpoint.pt"
     torch.save({"model_state": model.state_dict(), "config": asdict(config)}, checkpoint)
     result = {
-        "schema": "MetaSieve.QPSMPMetaSmoke.v1",
+        "schema": "MetaSieve.QPSMPHyperSARSmoke.v1",
         "scope": "implementation_smoke_only",
         "data": {"corpus": str(CORPUS), "protein_bank_records": len(data.protein_bank),
                  "ligand_bank_records": len(data.ligand_bank)},
         "config": asdict(config), "training": training, "test": metrics,
         "evaluation_population": "fixed hash-selected targets within every eligible component",
-        "controls": {"foreign": "only task_state is replaced; target level and query channels stay fixed",
-                     "wrong_protein": "only task_state inferred under the donor protein is replaced",
-                     "evidence_null": "SAR state is zero; zero-shot and level calibration stay fixed",
-                     "sar_cut": "the SAR term alone is removed; zero-shot and level stay fixed",
+        "controls": {"foreign_code": "only the transient target code is replaced; recipient matching SAR, reliability, level, protein, and query stay fixed",
+                     "wrong_protein": "only transient code inferred under the donor protein is replaced",
+                     "sar_cut": "support-conditioned interaction modulation alone is removed",
                      "permuted": "support labels are cyclically permuted"},
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
         "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
