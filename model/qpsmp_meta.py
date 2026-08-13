@@ -1,20 +1,13 @@
-"""Learned quotient-preserving meta-potential for cold-target DTA.
-
-The analytic centered section in :mod:`model.qpsmp` is a diagnostic helper.
-This module is the trainable meta-learning path: source query losses train the
-protein localizer, scalar potential, section basis, and support-set adapter.
-"""
+"""Active trainable QPSMP-BPSF model for cold-target few-shot DTA."""
 from __future__ import annotations
 
 from dataclasses import dataclass
-import math
-
 import torch
 import torch.nn as nn
 from torch import Tensor
 
-from .encoders import LigandEncoder, ProteinEncoder
 from .bpsf import BipartitePairSectionFormer, QuotientSupportSetOperator
+from .encoders import LigandEncoder, ProteinEncoder
 
 
 @dataclass(frozen=True)
@@ -39,454 +32,83 @@ class QPSMPMetaOutput:
     sar_scale: Tensor
 
 
-class LigandConditionedProteinLocalizer(nn.Module):
-    """Pool residue tokens separately for each ligand representation."""
-
-    def __init__(self, hidden_dim: int, dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        if hidden_dim < 1:
-            raise ValueError("hidden_dim must be positive")
-        self.key = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.query = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.value = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.norm = nn.LayerNorm(hidden_dim, elementwise_affine=False, dtype=dtype)
-
-    def forward(
-            self, protein_tokens: Tensor, protein_mask: Tensor,
-            ligand_states: Tensor) -> Tensor:
-        if protein_tokens.ndim not in {2, 3} or ligand_states.ndim != protein_tokens.ndim:
-            raise ValueError("tokens and ligand states must have matching ranks")
-        if protein_mask.shape != protein_tokens.shape[:-1]:
-            raise ValueError("protein mask does not match protein tokens")
-        if protein_tokens.shape[-1] != ligand_states.shape[-1]:
-            raise ValueError("protein and ligand hidden dimensions differ")
-        if not bool(protein_mask.any(dim=-1).all().item()):
-            raise ValueError("protein mask contains no valid residue token")
-        if protein_tokens.ndim == 2:
-            logits = self.query(ligand_states) @ self.key(protein_tokens).T
-            logits = logits.masked_fill(~protein_mask.bool().unsqueeze(0), -torch.inf)
-            localized = torch.softmax(
-                logits / math.sqrt(protein_tokens.shape[-1]), dim=-1
-            ) @ self.value(protein_tokens)
-        else:
-            logits = torch.einsum(
-                "bnh,brh->bnr", self.query(ligand_states), self.key(protein_tokens)
-            ) / math.sqrt(protein_tokens.shape[-1])
-            logits = logits.masked_fill(~protein_mask.bool().unsqueeze(1), -torch.inf)
-            localized = torch.einsum(
-                "bnr,brh->bnh", torch.softmax(logits, dim=-1), self.value(protein_tokens)
-            )
-        return self.norm(localized)
-
-
-class CenteredNeuralAdapter(nn.Module):
-    """Permutation-invariant learned task update with an exact quotient null."""
-
-    def __init__(
-            self, interaction_dim: int, task_dim: int,
-            hidden_dim: int, state_bound: float = 1.0,
-            dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        if min(interaction_dim, task_dim, hidden_dim) < 1 or state_bound <= 0:
-            raise ValueError("adapter dimensions and state_bound must be positive")
-        self.state_bound = float(state_bound)
-        self.value = nn.Linear(interaction_dim, hidden_dim, bias=False, dtype=dtype)
-        # Bias-free maps make c(0)=0 an architectural identity.
-        self.update = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype),
-            nn.Tanh(),
-            nn.Linear(hidden_dim, task_dim, bias=False, dtype=dtype),
-        )
-
-    def forward(self, support_interaction: Tensor, centered_residual: Tensor) -> Tensor:
-        if support_interaction.ndim not in {2, 3} or centered_residual.ndim != support_interaction.ndim - 1:
-            raise ValueError("adapter inputs have invalid ranks")
-        if support_interaction.shape[:-1] != centered_residual.shape:
-            raise ValueError("adapter inputs have different support sizes")
-        support_dim = support_interaction.ndim - 2
-        evidence = (
-            centered_residual.unsqueeze(-1) * self.value(support_interaction)
-        ).mean(dim=support_dim)
-        raw = self.update(evidence)
-        return self.state_bound * raw / (
-            1.0 + torch.linalg.vector_norm(raw, dim=-1, keepdim=True)
-        )
-
-
-class AtomResidueInteractionField(nn.Module):
-    """Pool ligand atoms only after ligand-conditioned residue interaction."""
-
-    def __init__(self, hidden_dim: int, dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        self.atom = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.residue = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.value = nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype)
-        self.message = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim, bias=False, dtype=dtype),
-            nn.SiLU(),
-            nn.LayerNorm(hidden_dim, elementwise_affine=False, dtype=dtype),
-        )
-
-    def forward(self, protein_tokens: Tensor, protein_mask: Tensor,
-                atom_states: Tensor, atom_mask: Tensor) -> Tensor:
-        if protein_tokens.ndim not in {2, 3} or atom_states.ndim != protein_tokens.ndim + 1:
-            raise ValueError("atom-residue inputs have invalid ranks")
-        if protein_mask.shape != protein_tokens.shape[:-1] or atom_mask.shape != atom_states.shape[:-1]:
-            raise ValueError("atom-residue masks do not match their states")
-        if protein_tokens.ndim == 2:
-            logits = torch.einsum(
-                "mnh,rh->mnr", self.atom(atom_states), self.residue(protein_tokens)
-            ) / math.sqrt(protein_tokens.shape[-1])
-            logits = logits.masked_fill(~protein_mask.bool()[None, None, :], -torch.inf)
-            localized = torch.einsum(
-                "mnr,rh->mnh", torch.softmax(logits, dim=-1), self.value(protein_tokens)
-            )
-        else:
-            logits = torch.einsum(
-                "bmnh,brh->bmnr", self.atom(atom_states), self.residue(protein_tokens)
-            ) / math.sqrt(protein_tokens.shape[-1])
-            logits = logits.masked_fill(~protein_mask.bool()[:, None, None, :], -torch.inf)
-            localized = torch.einsum(
-                "bmnr,brh->bmnh", torch.softmax(logits, dim=-1), self.value(protein_tokens)
-            )
-        pair = self.message(torch.cat((atom_states, localized), dim=-1))
-        weights = atom_mask.to(pair.dtype).unsqueeze(-1)
-        atom_dim = pair.ndim - 2
-        return ((pair * weights).sum(dim=atom_dim)
-                / weights.sum(dim=atom_dim).clamp_min(1.0))
-
-
-class SupportSpanRidge(nn.Module):
-    """Differentiable positive ridge whose state lies in the support row span."""
-
-    def __init__(self, initial_ridge: float = 0.1,
-                 dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        if initial_ridge <= 0:
-            raise ValueError("initial_ridge must be positive")
-        raw = math.log(math.expm1(initial_ridge))
-        self.ridge_raw = nn.Parameter(torch.tensor(raw, dtype=dtype))
-
-    def forward(self, support_basis: Tensor, query_basis: Tensor,
-                centered_residual: Tensor) -> tuple[Tensor, Tensor, Tensor]:
-        support_dim = support_basis.ndim - 2
-        k = support_basis.shape[support_dim]
-        center = support_basis.mean(dim=support_dim, keepdim=True)
-        centered_support = support_basis - center
-        centered_query = query_basis - center
-        ridge = torch.nn.functional.softplus(self.ridge_raw).clamp_min(1e-6)
-        gram = centered_support @ centered_support.transpose(-1, -2)
-        system = gram + k * ridge * torch.eye(k, device=gram.device, dtype=gram.dtype)
-        alpha = torch.linalg.solve(system, centered_residual.unsqueeze(-1)).squeeze(-1)
-        state = (centered_support.transpose(-1, -2) @ alpha.unsqueeze(-1)).squeeze(-1)
-        raw_sar = (centered_query @ state.unsqueeze(-1)).squeeze(-1)
-        return state, centered_query, raw_sar
-
-
-class LearnedSupportSpanPosterior(nn.Module):
-    """Learn support weights while keeping the state in the observed row span."""
-
-    def __init__(self, hidden_dim: int = 32,
-                 dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        self.weight = nn.Sequential(
-            nn.Linear(4, hidden_dim, dtype=dtype),
-            nn.SiLU(),
-            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype),
-        )
-
-    def forward(self, support_basis: Tensor, query_basis: Tensor,
-                centered_residual: Tensor) -> tuple[Tensor, Tensor, Tensor]:
-        support_dim = support_basis.ndim - 2
-        center = support_basis.mean(dim=support_dim, keepdim=True)
-        centered_support = support_basis - center
-        centered_query = query_basis - center
-        gram = centered_support @ centered_support.transpose(-1, -2)
-        features = torch.stack((
-            centered_residual,
-            gram.diagonal(dim1=-2, dim2=-1),
-            gram.mean(dim=-1),
-            centered_residual * gram.diagonal(dim1=-2, dim2=-1).sqrt().clamp_min(1e-6),
-        ), dim=-1)
-        alpha = centered_residual * self.weight(features).squeeze(-1)
-        alpha = alpha - alpha.mean(dim=-1, keepdim=True)
-        state = (
-            centered_support.transpose(-1, -2) @ alpha.unsqueeze(-1)
-        ).squeeze(-1) / max(support_basis.shape[support_dim], 1)
-        raw_sar = (centered_query @ state.unsqueeze(-1)).squeeze(-1)
-        return state, centered_query, raw_sar
-
-
-class QuotientPreservingAmortizedMetaSection(nn.Module):
-    """Pairwise learned support adaptation constrained to the observed span."""
-
-    def __init__(self, interaction_dim: int, section_dim: int,
-                 hidden_dim: int = 32, state_bound: float = 1.0,
-                 dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        self.state_bound = float(state_bound)
-        self.element = nn.Sequential(
-            nn.Linear(interaction_dim + section_dim + 2, hidden_dim, dtype=dtype),
-            nn.SiLU(),
-            nn.Linear(hidden_dim, hidden_dim, dtype=dtype),
-        )
-        self.message = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim, bias=False, dtype=dtype),
-            nn.SiLU(),
-        )
-        self.gate = nn.Sequential(
-            nn.Linear(3 * hidden_dim, hidden_dim, bias=False, dtype=dtype),
-            nn.SiLU(),
-            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype),
-            nn.Tanh(),
-        )
-
-    def forward(self, support_interaction: Tensor, support_basis: Tensor,
-                query_basis: Tensor, centered_residual: Tensor
-                ) -> tuple[Tensor, Tensor, Tensor]:
-        support_dim = support_basis.ndim - 2
-        center = support_basis.mean(dim=support_dim, keepdim=True)
-        centered_support = support_basis - center
-        centered_query = query_basis - center
-        element = self.element(torch.cat((
-            support_interaction, centered_support,
-            centered_residual.unsqueeze(-1), centered_residual.square().unsqueeze(-1)),
-            dim=-1))
-        left = element.unsqueeze(-2)
-        right = element.unsqueeze(-3)
-        pair_shape = torch.broadcast_shapes(left.shape[:-1], right.shape[:-1])
-        pairs = torch.cat((left.expand(*pair_shape, left.shape[-1]),
-                           right.expand(*pair_shape, right.shape[-1])), dim=-1)
-        message = self.message(pairs).mean(dim=-2)
-        global_summary = element.mean(dim=support_dim, keepdim=True).expand_as(element)
-        alpha = centered_residual * self.gate(torch.cat(
-            (element, message, global_summary), dim=-1)).squeeze(-1)
-        alpha = alpha - alpha.mean(dim=-1, keepdim=True)
-        raw_state = (
-            centered_support.transpose(-1, -2) @ alpha.unsqueeze(-1)
-        ).squeeze(-1) / max(support_basis.shape[support_dim], 1)
-        state = self.state_bound * raw_state / (
-            1.0 + torch.linalg.vector_norm(raw_state, dim=-1, keepdim=True))
-        raw_sar = (centered_query @ state.unsqueeze(-1)).squeeze(-1)
-        return state, centered_query, raw_sar
-
-
 class QPSMPMetaLearner(nn.Module):
-    """Shared scalar potential plus a learned centered episodic update."""
+    """Learned scalar potential and quotient-preserving episodic operator."""
 
-    def __init__(
-            self, hidden_dim: int, task_dim: int,
-            adapter_hidden_dim: int | None = None,
-            state_bound: float = 1.0,
-            section_mode: str = "neural",
-            dtype: torch.dtype = torch.float32) -> None:
+    def __init__(self, hidden_dim: int, section_dim: int,
+                 support_hidden_dim: int = 96, support_blocks: int = 2,
+                 state_bound: float = 1.0,
+                 dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        if hidden_dim < 1 or task_dim < 1:
-            raise ValueError("hidden_dim and task_dim must be positive")
-        adapter_hidden_dim = hidden_dim if adapter_hidden_dim is None else adapter_hidden_dim
-        if section_mode not in {
-                "neural", "support_span", "ridge", "qp_ams", "section_former"}:
-            raise ValueError(
-                "section_mode must be neural, support_span, ridge, qp_ams, or section_former")
-        self.section_mode = section_mode
-        self.localizer = LigandConditionedProteinLocalizer(hidden_dim, dtype)
-        self.interaction = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim, bias=False, dtype=dtype),
-            nn.SiLU(),
-            nn.LayerNorm(hidden_dim, elementwise_affine=False, dtype=dtype),
-        )
-        self.ligand_baseline = nn.Linear(hidden_dim, 1, dtype=dtype)
-        self.protein_level = nn.Linear(hidden_dim, 1, dtype=dtype)
-        self.zero_shot_head = nn.Linear(hidden_dim, 1, bias=False, dtype=dtype)
-        self.section_head = nn.Linear(hidden_dim, task_dim, bias=False, dtype=dtype)
-        # Start near the strong support-level baseline while retaining a
-        # nonzero query-shape path and gradient.
-        # Positive random-intercept and observation variances induce a
-        # support-size-aware empirical-Bayes level shrinkage.
+        heads = next(h for h in (8, 4, 2, 1) if support_hidden_dim % h == 0)
+        self.ligand_baseline = nn.Sequential(
+            nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
+            nn.Linear(2 * hidden_dim, 1, dtype=dtype))
+        self.protein_level = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim, dtype=dtype), nn.GELU(),
+            nn.Linear(hidden_dim, 1, dtype=dtype))
+        self.cross_head = nn.Sequential(
+            nn.LayerNorm(hidden_dim, dtype=dtype),
+            nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
+            nn.Linear(2 * hidden_dim, 1, bias=False, dtype=dtype))
         self.level_prior_raw = nn.Parameter(torch.tensor(0.5413249, dtype=dtype))
         self.level_noise_raw = nn.Parameter(torch.tensor(-0.2981850, dtype=dtype))
-        self.shape_logit = nn.Parameter(torch.tensor(-2.1972246, dtype=dtype))
-        self.sar_logit = nn.Parameter(torch.tensor(-2.1972246, dtype=dtype))
-        self.adapter = CenteredNeuralAdapter(
-            hidden_dim, task_dim, adapter_hidden_dim, state_bound, dtype)
-        self.support_span = SupportSpanRidge(dtype=dtype)
-        self.meta_posterior = LearnedSupportSpanPosterior(
-            adapter_hidden_dim, dtype)
-        self.qp_ams = QuotientPreservingAmortizedMetaSection(
-            hidden_dim, task_dim, adapter_hidden_dim, state_bound, dtype)
-        section_heads = next(
-            value for value in (4, 2, 1) if adapter_hidden_dim % value == 0)
-        self.section_former = QuotientSupportSetOperator(
-            task_dim, adapter_hidden_dim, heads=section_heads,
-            state_bound=state_bound, dtype=dtype)
+        self.section_operator = QuotientSupportSetOperator(
+            section_dim, support_hidden_dim, heads, support_blocks,
+            state_bound, dtype)
 
-    def interaction_features(
-            self, protein_pooled: Tensor, protein_tokens: Tensor,
-            protein_mask: Tensor, ligand_states: Tensor) -> Tensor:
-        parameter = next(self.parameters())
-        target_device, target_dtype = parameter.device, parameter.dtype
-        protein_pooled = protein_pooled.to(device=target_device, dtype=target_dtype)
-        protein_tokens = protein_tokens.to(device=target_device, dtype=target_dtype)
-        protein_mask = protein_mask.to(device=target_device)
-        ligand_states = ligand_states.to(device=target_device, dtype=target_dtype)
-        if protein_pooled.ndim not in {1, 2} or ligand_states.ndim != protein_pooled.ndim + 1:
-            raise ValueError("pooled protein and ligand states have invalid ranks")
-        if protein_pooled.shape[-1] != ligand_states.shape[-1]:
-            raise ValueError("protein and ligand hidden dimensions differ")
-        localized = self.localizer(protein_tokens, protein_mask, ligand_states)
-        # Only a crossed term enters the interaction heads. Protein-only and
-        # ligand-only information have separate additive baseline channels.
-        return self.interaction(localized * ligand_states)
-
-    def scalar_components(
-            self, protein_pooled: Tensor, ligand_states: Tensor,
-            interaction: Tensor, section: Tensor | None = None
-            ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        ligand = self.ligand_baseline(ligand_states).squeeze(-1)
-        protein = self.protein_level(protein_pooled).squeeze(-1)
-        if ligand.ndim > protein.ndim:
-            protein = protein.unsqueeze(-1)
-        zero_shot = self.zero_shot_head(interaction).squeeze(-1)
-        basis = self.section_head(interaction) if section is None else section
-        return ligand + protein, ligand, zero_shot, basis
-
-    def forward(
-            self, protein_pooled: Tensor, protein_tokens: Tensor,
-            protein_mask: Tensor, support_ligand: Tensor, support_y: Tensor,
-            query_ligand: Tensor, *, adapt: bool = True,
-            crossed_ligand: Tensor | None = None,
-            section_ligand: Tensor | None = None,
-            ) -> QPSMPMetaOutput:
-        parameter = next(self.parameters())
-        device, dtype = parameter.device, parameter.dtype
-        protein_pooled = protein_pooled.to(device=device, dtype=dtype)
-        protein_tokens = protein_tokens.to(device=device, dtype=dtype)
-        protein_mask = protein_mask.to(device=device)
-        support_y = support_y.to(device=device, dtype=dtype)
-        support_ligand = support_ligand.to(device=device, dtype=dtype)
-        query_ligand = query_ligand.to(device=device, dtype=dtype)
-        if support_y.shape != support_ligand.shape[:-1]:
-            raise ValueError("support_y must have one value per support ligand")
+    def forward(self, protein: Tensor, support_ligand: Tensor,
+                support_endpoint: Tensor, support_section: Tensor,
+                support_y: Tensor, query_ligand: Tensor,
+                query_endpoint: Tensor, query_section: Tensor, *,
+                adapt: bool = True) -> QPSMPMetaOutput:
         batched = support_ligand.ndim == 3
-        sequence_dim = 1 if batched else 0
-        all_ligand = torch.cat((support_ligand, query_ligand), dim=sequence_dim)
-        all_interaction = (
-            self.interaction(crossed_ligand.to(device=device, dtype=dtype))
-            if crossed_ligand is not None else
-            self.interaction_features(
-                protein_pooled, protein_tokens, protein_mask, all_ligand)
-        )
-        support_count = support_ligand.shape[sequence_dim]
-        support_interaction, query_interaction = torch.split(
-            all_interaction, (support_count, query_ligand.shape[sequence_dim]),
-            dim=sequence_dim)
-        support_section = query_section = None
-        if section_ligand is not None:
-            section_ligand = section_ligand.to(device=device, dtype=dtype)
-            support_section, query_section = torch.split(
-                section_ligand,
-                (support_count, query_ligand.shape[sequence_dim]), dim=sequence_dim)
-        support_add, _, support_zero, support_basis = self.scalar_components(
-            protein_pooled, support_ligand, support_interaction, support_section)
-        query_add, query_ligand_only, query_zero, query_basis = self.scalar_components(
-            protein_pooled, query_ligand, query_interaction, query_section)
-        support_scalar = support_add + support_zero
-        additive = query_add
-        cross_zero_shot = query_zero
-        zero_shot = additive + cross_zero_shot
-
+        support_count = support_ligand.shape[1 if batched else 0]
+        protein_level = self.protein_level(protein).squeeze(-1)
+        support_ligand_value = self.ligand_baseline(support_ligand).squeeze(-1)
+        query_ligand_value = self.ligand_baseline(query_ligand).squeeze(-1)
+        if batched:
+            protein_level = protein_level.unsqueeze(-1)
+        support_add = support_ligand_value + protein_level
+        query_add = query_ligand_value + protein_level
+        support_cross = self.cross_head(support_endpoint).squeeze(-1)
+        query_cross = self.cross_head(query_endpoint).squeeze(-1)
+        support_zero = support_add + support_cross
+        zero_shot = query_add + query_cross
         if not adapt or support_count == 0:
-            state = torch.zeros(
-                query_basis.shape[:-2] + (query_basis.shape[-1],),
-                device=query_basis.device, dtype=query_basis.dtype)
-            level_shift = torch.zeros(
-                query_basis.shape[:-2], device=query_basis.device, dtype=query_basis.dtype)
-            centered_residual = support_y.new_zeros(support_y.shape)
-            prediction = zero_shot
-            level_baseline = zero_shot
-            level_adjustment = torch.zeros_like(prediction)
-            sar_adaptation = torch.zeros_like(prediction)
-            adaptation = torch.zeros_like(prediction)
-            evidence_score = torch.zeros_like(level_shift)
-            level_shrinkage = torch.zeros_like(level_shift)
-            shape_scale = torch.sigmoid(self.shape_logit)
-            sar_scale = torch.sigmoid(self.sar_logit)
+            state = torch.zeros(zero_shot.shape[:-1] + (query_section.shape[-1],),
+                                device=zero_shot.device, dtype=zero_shot.dtype)
+            centered = support_y.new_zeros(support_y.shape)
+            level_shift = torch.zeros(zero_shot.shape[:-1], device=zero_shot.device)
+            shrinkage = torch.zeros_like(level_shift)
+            level_adjustment = torch.zeros_like(zero_shot)
+            sar = torch.zeros_like(zero_shot)
         else:
-            residual = support_y - support_scalar
-            centered_residual = residual - residual.mean(dim=-1, keepdim=batched)
-            level_shift = residual.mean(dim=-1)
-            if self.section_mode == "support_span":
-                state, query_basis, raw_sar = self.meta_posterior(
-                    support_interaction, query_interaction, centered_residual)
-            elif self.section_mode == "ridge":
-                state, query_basis, raw_sar = self.support_span(
-                    support_basis, query_basis, centered_residual)
-            elif self.section_mode == "qp_ams":
-                state, query_basis, raw_sar = self.qp_ams(
-                    support_interaction, support_basis, query_basis,
-                    centered_residual)
-            elif self.section_mode == "section_former":
-                state, query_basis, raw_sar = self.section_former(
-                    support_basis, query_basis, centered_residual)
-            else:
-                state = self.adapter(support_interaction, centered_residual)
-                centered_query_basis = (
-                    query_basis - support_basis.mean(
-                        dim=1 if batched else 0, keepdim=True))
-                raw_sar = (
-                    centered_query_basis @ state.unsqueeze(-1)).squeeze(-1)
-                query_basis = centered_query_basis
-            evidence_score = torch.tanh(torch.linalg.vector_norm(state, dim=-1))
-            prior_variance = torch.nn.functional.softplus(self.level_prior_raw)
-            noise_variance = torch.nn.functional.softplus(self.level_noise_raw)
-            level_shrinkage = (
-                support_count * prior_variance
-                / (noise_variance + support_count * prior_variance)
-            )
-            shape_scale = torch.sigmoid(self.shape_logit)
-            sar_scale = torch.sigmoid(self.sar_logit)
-            if self.section_mode in {"ridge", "neural", "qp_ams", "section_former"}:
-                level_adjustment = level_shrinkage * level_shift
-                if batched:
-                    level_adjustment = level_adjustment.unsqueeze(-1)
-                level_baseline = zero_shot + level_adjustment
-                sar_adaptation = raw_sar
-                shape_scale = torch.ones_like(shape_scale)
-                sar_scale = torch.ones_like(sar_scale)
-            else:
-                support_center = support_scalar.mean(dim=-1)
-                calibrated_level = support_center + level_shrinkage * level_shift
-                if batched:
-                    support_center = support_center.unsqueeze(-1)
-                    calibrated_level = calibrated_level.unsqueeze(-1)
-                level_baseline = calibrated_level + shape_scale * (zero_shot - support_center)
-                level_adjustment = level_baseline - zero_shot
-                sar_adaptation = sar_scale * raw_sar
-            prediction = level_baseline + sar_adaptation
-            adaptation = prediction - zero_shot
-        evidence = torch.linalg.vector_norm(
-            centered_residual, dim=-1
-        ) / max(support_count, 1) ** 0.5
+            residual = support_y - support_zero
+            centered = residual - residual.mean(-1, keepdim=True)
+            tolerance = (32 * torch.finfo(centered.dtype).eps
+                         * residual.abs().amax(-1, keepdim=True).clamp_min(1))
+            centered = torch.where(centered.abs() <= tolerance,
+                                   torch.zeros_like(centered), centered)
+            level_shift = residual.mean(-1)
+            prior = torch.nn.functional.softplus(self.level_prior_raw)
+            noise = torch.nn.functional.softplus(self.level_noise_raw)
+            shrinkage = support_count * prior / (noise + support_count * prior)
+            level_adjustment = shrinkage * level_shift
+            if batched:
+                level_adjustment = level_adjustment.unsqueeze(-1)
+            state, query_section, sar = self.section_operator(
+                support_section, query_section, centered)
+        level_baseline = zero_shot + level_adjustment
+        prediction = level_baseline + sar
+        evidence = torch.linalg.vector_norm(centered, dim=-1) / max(support_count, 1) ** 0.5
+        evidence_score = torch.tanh(torch.linalg.vector_norm(state, dim=-1))
+        one = torch.ones((), device=prediction.device, dtype=prediction.dtype)
         return QPSMPMetaOutput(
-            prediction=prediction,
-            additive=additive,
-            ligand_only=query_ligand_only,
-            cross_zero_shot=cross_zero_shot,
-            level_baseline=level_baseline,
-            level_adjustment=level_adjustment,
-            sar_adaptation=sar_adaptation,
-            adaptation=adaptation,
-            zero_shot=zero_shot,
-            task_state=state,
-            level_shift=level_shift,
-            query_basis=query_basis,
-            support_residual_quotient=centered_residual,
-            support_evidence=evidence,
-            evidence_score=evidence_score,
-            level_shrinkage=level_shrinkage,
-            shape_scale=shape_scale,
-            sar_scale=sar_scale,
-        )
+            prediction, query_add, query_ligand_value, query_cross,
+            level_baseline, level_adjustment, sar, prediction - zero_shot,
+            zero_shot, state, level_shift, query_section, centered, evidence,
+            evidence_score, shrinkage, one, one)
 
     @staticmethod
     def delta(predictions: Tensor, left: Tensor, right: Tensor) -> Tensor:
@@ -498,90 +120,70 @@ class QPSMPMetaLearner(nn.Module):
 
 
 class QPSMPBioModel(nn.Module):
-    """End-to-end wrapper from cached biological tensors to QPSMP outputs."""
+    """Small-to-medium BPSF model; the only active QPSMP architecture."""
 
-    def __init__(
-            self, protein_dim: int, hidden_dim: int, task_dim: int,
-            ligand_layers: int = 2, adapter_hidden_dim: int | None = None,
-            state_bound: float = 1.0,
-            section_mode: str = "support_span",
-            interaction_mode: str = "pooled",
-            pair_blocks: int = 2, pair_latents: int = 8,
-            pair_heads: int = 4, pair_chunk_size: int = 64,
-            dtype: torch.dtype = torch.float32) -> None:
+    def __init__(self, protein_dim: int, hidden_dim: int = 128,
+                 task_dim: int = 32, ligand_layers: int = 3,
+                 pair_dim: int = 64, pair_blocks: int = 3,
+                 pair_latents: int = 16, pair_heads: int = 8,
+                 pair_chunk_size: int = 16, support_hidden_dim: int = 128,
+                 support_blocks: int = 2, state_bound: float = 1.0,
+                 dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        if interaction_mode not in {"pooled", "atom_residue", "bpsf"}:
-            raise ValueError("interaction_mode must be pooled, atom_residue, or bpsf")
-        self.interaction_mode = interaction_mode
         self.protein_encoder = ProteinEncoder(protein_dim, hidden_dim, dtype)
         self.ligand_encoder = LigandEncoder(hidden_dim, ligand_layers, dtype=dtype)
-        self.atom_residue_field = AtomResidueInteractionField(hidden_dim, dtype)
-        pair_heads = next(value for value in (pair_heads, 2, 1)
-                          if hidden_dim % value == 0)
         self.pair_section = BipartitePairSectionFormer(
-            hidden_dim, task_dim, pair_blocks, pair_latents, pair_heads,
-            pair_chunk_size, dtype)
+            hidden_dim, task_dim, pair_dim, pair_blocks, pair_latents,
+            pair_heads, pair_chunk_size, dtype)
         self.meta = QPSMPMetaLearner(
-            hidden_dim, task_dim, adapter_hidden_dim, state_bound,
-            section_mode, dtype)
+            hidden_dim, task_dim, support_hidden_dim, support_blocks,
+            state_bound, dtype)
 
-    def forward(
-            self, protein_pooled: Tensor, protein_tokens: Tensor,
-            protein_mask: Tensor, support_atoms: Tensor, support_bonds: Tensor,
-            support_mask: Tensor, support_y: Tensor, query_atoms: Tensor,
-            query_bonds: Tensor, query_mask: Tensor, *, adapt: bool = True) -> QPSMPMetaOutput:
+    def forward(self, protein_pooled: Tensor, protein_tokens: Tensor,
+                protein_mask: Tensor, support_atoms: Tensor, support_bonds: Tensor,
+                support_mask: Tensor, support_y: Tensor, query_atoms: Tensor,
+                query_bonds: Tensor, query_mask: Tensor, *,
+                adapt: bool = True) -> QPSMPMetaOutput:
         parameter = next(self.parameters())
         device, dtype = parameter.device, parameter.dtype
         batched = protein_pooled.ndim == 2
         sequence_dim = 1 if batched else 0
-        pooled_input = protein_pooled if batched else protein_pooled.unsqueeze(0)
-        token_input = protein_tokens if batched else protein_tokens.unsqueeze(0)
-        pooled, tokens = self.protein_encoder(
-            pooled_input.to(device=device, dtype=dtype),
-            token_input.to(device=device, dtype=dtype))
-        all_atoms = torch.cat((support_atoms, query_atoms), dim=sequence_dim).to(
-            device=device, dtype=dtype)
-        all_bonds = torch.cat((support_bonds, query_bonds), dim=sequence_dim).to(
-            device=device, dtype=dtype)
-        all_mask = torch.cat((support_mask, query_mask), dim=sequence_dim).to(
-            device=device, dtype=dtype)
+        pooled, residues = self.protein_encoder(
+            (protein_pooled if batched else protein_pooled.unsqueeze(0)).to(device, dtype),
+            (protein_tokens if batched else protein_tokens.unsqueeze(0)).to(device, dtype))
+        atoms = torch.cat((support_atoms, query_atoms), sequence_dim).to(device, dtype)
+        bonds = torch.cat((support_bonds, query_bonds), sequence_dim).to(device, dtype)
+        mask = torch.cat((support_mask, query_mask), sequence_dim).to(device, dtype)
         if batched:
-            batch_size, ligand_count, atom_count = all_atoms.shape[:3]
+            batch, count, atom_count = atoms.shape[:3]
             ligand, atom_states = self.ligand_encoder(
-                all_atoms.flatten(0, 1), all_bonds.flatten(0, 1), all_mask.flatten(0, 1))
-            ligand = ligand.reshape(batch_size, ligand_count, -1)
-            atom_states = atom_states.reshape(batch_size, ligand_count, atom_count, -1)
+                atoms.flatten(0, 1), bonds.flatten(0, 1), mask.flatten(0, 1))
+            ligand = ligand.reshape(batch, count, -1)
+            atom_states = atom_states.reshape(batch, count, atom_count, -1)
+            flat_residues = residues[:, None].expand(-1, count, -1, -1).flatten(0, 1)
+            flat_residue_mask = protein_mask[:, None].expand(-1, count, -1).flatten(0, 1)
+            adjacency = (bonds.abs().sum(-1) > 0).to(dtype).flatten(0, 1)
+            encoded = self.pair_section(
+                atom_states.flatten(0, 1), flat_residues, mask.flatten(0, 1),
+                flat_residue_mask.to(device), adjacency)
+            endpoint = encoded.endpoint.reshape(batch, count, -1)
+            section = encoded.section.reshape(batch, count, -1)
         else:
-            ligand, atom_states = self.ligand_encoder(all_atoms, all_bonds, all_mask)
-        crossed = section = None
-        if self.interaction_mode == "atom_residue":
-            crossed = self.atom_residue_field(
-                tokens if batched else tokens.squeeze(0),
-                protein_mask.to(device=device), atom_states, all_mask)
-        elif self.interaction_mode == "bpsf":
-            if batched:
-                flat_residues = tokens[:, None].expand(
-                    -1, ligand_count, -1, -1).flatten(0, 1)
-                flat_residue_mask = protein_mask[:, None].expand(
-                    -1, ligand_count, -1).flatten(0, 1)
-                encoded = self.pair_section(
-                    atom_states.flatten(0, 1), flat_residues,
-                    all_mask.flatten(0, 1), flat_residue_mask.to(device=device))
-                crossed = encoded.endpoint.reshape(batch_size, ligand_count, -1)
-                section = encoded.section.reshape(batch_size, ligand_count, -1)
-            else:
-                ligand_count = atom_states.shape[0]
-                encoded = self.pair_section(
-                    atom_states,
-                    tokens.squeeze(0).unsqueeze(0).expand(ligand_count, -1, -1),
-                    all_mask,
-                    protein_mask.to(device=device).unsqueeze(0).expand(ligand_count, -1))
-                crossed, section = encoded.endpoint, encoded.section
+            ligand, atom_states = self.ligand_encoder(atoms, bonds, mask)
+            count = atoms.shape[0]
+            adjacency = (bonds.abs().sum(-1) > 0).to(dtype)
+            encoded = self.pair_section(
+                atom_states, residues.squeeze(0).unsqueeze(0).expand(count, -1, -1),
+                mask, protein_mask.to(device).unsqueeze(0).expand(count, -1), adjacency)
+            endpoint, section = encoded.endpoint, encoded.section
         support_count = support_atoms.shape[sequence_dim]
         support_ligand, query_ligand = torch.split(
-            ligand, (support_count, query_atoms.shape[sequence_dim]), dim=sequence_dim)
+            ligand, (support_count, query_atoms.shape[sequence_dim]), sequence_dim)
+        support_endpoint, query_endpoint = torch.split(
+            endpoint, (support_count, query_atoms.shape[sequence_dim]), sequence_dim)
+        support_section, query_section = torch.split(
+            section, (support_count, query_atoms.shape[sequence_dim]), sequence_dim)
         return self.meta(
-            pooled if batched else pooled.squeeze(0),
-            tokens if batched else tokens.squeeze(0), protein_mask.to(device=device),
-            support_ligand, support_y, query_ligand,
-            adapt=adapt, crossed_ligand=crossed, section_ligand=section)
+            pooled if batched else pooled.squeeze(0), support_ligand,
+            support_endpoint, support_section, support_y.to(device, dtype),
+            query_ligand, query_endpoint, query_section, adapt=adapt)

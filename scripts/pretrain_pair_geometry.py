@@ -23,7 +23,7 @@ from contracts.ligand_graph import ATOM_FEAT_DIM, BOND_FEAT_DIM, MAX_ATOMS
 from contracts.mechanism import (CONTACT_THRESHOLD_ANGSTROM,
     DISTANCE_BINS_ANGSTROM, MECHANISM_RESIDUE_SLOTS, MECHANISM_SCHEMA)
 from model.encoders import LigandEncoder, ProteinEncoder
-from model.mechanism import MechanisticInteractionBridge, PairGeometryTeacher
+from model.geometry_supervision import PairGeometryTeacher
 
 
 def sha256_file(path: str | Path) -> str:
@@ -49,43 +49,36 @@ def write_jsonl(path: str | Path, rows: list[dict]) -> None:
 class TrainConfig:
     seed: int = 17
     hidden_dim: int = 128
-    bridge_rank: int = 32
     gine_layers: int = 3
     batch_size: int = 8
     epochs: int = 5
     learning_rate: float = 3e-4
     weight_decay: float = 1e-4
     distance_loss_weight: float = 1.0
-    architecture: str = "bpsf"
-    section_dim: int = 16
-    pair_blocks: int = 2
-    pair_latents: int = 8
-    pair_heads: int = 4
-    pair_chunk_size: int = 32
+    section_dim: int = 32
+    pair_blocks: int = 3
+    pair_dim: int = 64
+    pair_latents: int = 16
+    pair_heads: int = 8
+    pair_chunk_size: int = 16
 
 
-class MechanismPretrainer(nn.Module):
+class PairGeometryPretrainer(nn.Module):
     def __init__(self, protein_dim: int, config: TrainConfig):
         super().__init__()
         self.protein = ProteinEncoder(protein_dim, config.hidden_dim, dtype=torch.float32)
         self.ligand = LigandEncoder(config.hidden_dim, n_layers=config.gine_layers,
                                     dtype=torch.float32)
-        if config.architecture == "bpsf":
-            self.bridge = PairGeometryTeacher(
-                config.hidden_dim, config.section_dim, config.pair_blocks,
-                config.pair_latents, config.pair_heads, config.pair_chunk_size,
-                torch.float32)
-        elif config.architecture == "low_rank":
-            self.bridge = MechanisticInteractionBridge(
-                config.hidden_dim, config.hidden_dim, rank=config.bridge_rank,
-                dtype=torch.float32)
-        else:
-            raise ValueError("architecture must be bpsf or low_rank")
+        self.bridge = PairGeometryTeacher(
+            config.hidden_dim, config.section_dim, config.pair_dim,
+            config.pair_blocks, config.pair_latents, config.pair_heads,
+            config.pair_chunk_size, torch.float32)
 
     def forward(self, X, A, atom_mask, protein_pooled, protein_residues, residue_mask):
         _, atoms = self.ligand(X, A, atom_mask)
         _, residues = self.protein(protein_pooled, protein_residues)
-        return self.bridge(atoms, atom_mask, residues, residue_mask)
+        adjacency = (A.abs().sum(-1) > 0).to(atoms.dtype)
+        return self.bridge(atoms, atom_mask, residues, residue_mask, adjacency)
 
 
 class MechanismCorpus:
@@ -240,7 +233,7 @@ def _evaluate_loss(model, corpus, indices, batch_size, device, pos_weight, dista
     return {key: value / count for key, value in totals.items()}
 
 
-def train_mechanistic_bridge(records_path: str | Path, supervision_dir: str | Path,
+def train_pair_geometry(records_path: str | Path, supervision_dir: str | Path,
                              protein_bank_dir: str | Path, ligand_bank_path: str | Path,
                              output_dir: str | Path, config: TrainConfig, *,
                              device: str = "cuda", max_train_records: int | None = None,
@@ -265,7 +258,7 @@ def train_mechanistic_bridge(records_path: str | Path, supervision_dir: str | Pa
     pos_weight_value, distance_weights_cpu, class_audit = corpus.class_weights(train_indices)
     pos_weight = torch.tensor(pos_weight_value, device=device)
     distance_weights = distance_weights_cpu.to(device)
-    model = MechanismPretrainer(corpus.protein_dim, config).to(device)
+    model = PairGeometryPretrainer(corpus.protein_dim, config).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate,
                                   weight_decay=config.weight_decay)
     scaler = torch.amp.GradScaler("cuda")
@@ -344,16 +337,16 @@ def main() -> int:
     parser.add_argument("output")
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--hidden-dim", type=int, default=128)
-    parser.add_argument("--section-dim", type=int, default=16)
+    parser.add_argument("--section-dim", type=int, default=TrainConfig.section_dim)
     parser.add_argument("--gine-layers", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--device", default="cuda")
-    parser.add_argument("--architecture", choices=("bpsf", "low_rank"), default="bpsf")
     parser.add_argument("--pair-blocks", type=int, default=2)
-    parser.add_argument("--pair-latents", type=int, default=8)
-    parser.add_argument("--pair-heads", type=int, default=4)
-    parser.add_argument("--pair-chunk-size", type=int, default=32)
+    parser.add_argument("--pair-dim", type=int, default=TrainConfig.pair_dim)
+    parser.add_argument("--pair-latents", type=int, default=TrainConfig.pair_latents)
+    parser.add_argument("--pair-heads", type=int, default=TrainConfig.pair_heads)
+    parser.add_argument("--pair-chunk-size", type=int, default=TrainConfig.pair_chunk_size)
     parser.add_argument("--max-train-records", type=int)
     parser.add_argument("--max-eval-records", type=int)
     args = parser.parse_args()
@@ -361,10 +354,10 @@ def main() -> int:
         seed=args.seed, epochs=args.epochs, batch_size=args.batch_size,
         hidden_dim=args.hidden_dim, section_dim=args.section_dim,
         gine_layers=args.gine_layers,
-        architecture=args.architecture, pair_blocks=args.pair_blocks,
+        pair_blocks=args.pair_blocks, pair_dim=args.pair_dim,
         pair_latents=args.pair_latents, pair_heads=args.pair_heads,
         pair_chunk_size=args.pair_chunk_size)
-    result = train_mechanistic_bridge(
+    result = train_pair_geometry(
         args.records, args.supervision_dir, args.protein_bank_dir,
         args.ligand_bank, args.output, config, device=args.device,
         max_train_records=args.max_train_records,

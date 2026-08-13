@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from model.encoders import LigandEncoder, ProteinEncoder
-from model.mechanism import MechanisticInteractionBridge
+from model.bpsf import BipartitePairSectionFormer
 from scripts.build_ligand_bank import ATOM_FEAT_DIM, BOND_FEAT_DIM, featurize_smiles
 
 
@@ -42,15 +42,16 @@ def test_protein_encoder_preserves_residue_axis():
     assert tuple(residues.shape) == (2, 5, 8)
 
 
-def test_mechanism_bridge_rejects_empty_partners():
-    bridge = MechanisticInteractionBridge(4, 4, rank=2, dtype=DTYPE)
+def test_pair_trunk_rejects_empty_partners():
+    bridge = BipartitePairSectionFormer(4, 2, pair_dim=4, blocks=1,
+                                        latent_count=2, heads=1, dtype=DTYPE)
     atoms = torch.zeros(1, 3, 4, dtype=DTYPE)
     residues = torch.zeros(1, 5, 4, dtype=DTYPE)
     atom_mask = torch.zeros(1, 3, dtype=DTYPE)
     residue_mask = torch.ones(1, 5, dtype=DTYPE)
     with pytest.raises(ValueError, match="zero-atom"):
-        bridge(atoms, atom_mask, residues, residue_mask)
+        bridge(atoms, residues, atom_mask, residue_mask)
     atom_mask.fill_(1)
     residue_mask.zero_()
     with pytest.raises(ValueError, match="zero-residue"):
-        bridge(atoms, atom_mask, residues, residue_mask)
+        bridge(atoms, residues, atom_mask, residue_mask)

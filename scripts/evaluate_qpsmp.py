@@ -226,10 +226,17 @@ def main() -> None:
     parser.add_argument("--val-draws-per-target", type=int,
                         default=TrainConfig.val_draws_per_target)
     parser.add_argument("--bootstrap-draws", type=int, default=9999)
-    parser.add_argument("--section-mode", choices=("support_span", "ridge", "neural"),
-                        default=TrainConfig.section_mode)
-    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue"),
-                        default=TrainConfig.interaction_mode)
+    parser.add_argument("--hidden-dim", type=int, default=TrainConfig.hidden_dim)
+    parser.add_argument("--task-dim", type=int, default=TrainConfig.task_dim)
+    parser.add_argument("--ligand-layers", type=int, default=TrainConfig.ligand_layers)
+    parser.add_argument("--pair-dim", type=int, default=TrainConfig.pair_dim)
+    parser.add_argument("--pair-blocks", type=int, default=TrainConfig.pair_blocks)
+    parser.add_argument("--pair-latents", type=int, default=TrainConfig.pair_latents)
+    parser.add_argument("--pair-heads", type=int, default=TrainConfig.pair_heads)
+    parser.add_argument("--support-hidden-dim", type=int,
+                        default=TrainConfig.support_hidden_dim)
+    parser.add_argument("--support-blocks", type=int,
+                        default=TrainConfig.support_blocks)
     parser.add_argument("--device", default=TrainConfig.device)
     args = parser.parse_args()
     if args.output.exists():
@@ -257,8 +264,12 @@ def main() -> None:
             val_interval=args.val_interval,
             val_draws_per_target=args.val_draws_per_target,
             eval_targets_per_component=999999,
-            section_mode=args.section_mode,
-            interaction_mode=args.interaction_mode,
+            hidden_dim=args.hidden_dim, task_dim=args.task_dim,
+            ligand_layers=args.ligand_layers, pair_dim=args.pair_dim,
+            pair_blocks=args.pair_blocks, pair_latents=args.pair_latents,
+            pair_heads=args.pair_heads,
+            support_hidden_dim=args.support_hidden_dim,
+            support_blocks=args.support_blocks,
             device=args.device,
         )
         model, diagnostics, label_scale = train(

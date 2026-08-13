@@ -19,7 +19,7 @@ from scripts.build_holo_complex_index import (
     _ccd_molecule,
     _protein_sequence_mapping,
 )
-from scripts.pretrain_mechanistic_bridge import MechanismPretrainer, TrainConfig
+from scripts.pretrain_pair_geometry import PairGeometryPretrainer, TrainConfig
 from scripts.structure_sources.rcsb import sha256_file
 
 
@@ -399,7 +399,7 @@ def _load_protein_rows(root: Path, keys: set[str]) -> dict[str, dict[str, np.nda
 def _load_frozen_model(checkpoint_path: Path, protein_dim: int, device: str):
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     config = TrainConfig(**checkpoint["config"])
-    model = MechanismPretrainer(protein_dim, config)
+    model = PairGeometryPretrainer(protein_dim, config)
     model.load_state_dict(checkpoint["model_state"])
     model.eval().to(device)
     for parameter in model.parameters():

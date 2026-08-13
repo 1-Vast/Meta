@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from model.bpsf import BipartitePairSectionFormer, QuotientSupportSetOperator
-from model.mechanism import GeometrySupervisionHead
+from model.geometry_supervision import GeometrySupervisionHead
 
 
 def test_pair_section_shapes_masks_and_geometry_head():
@@ -14,11 +14,11 @@ def test_pair_section_shapes_masks_and_geometry_head():
     residue_mask = torch.tensor([[1, 1, 1, 0, 0, 0, 0], [1] * 7, [1, 1, 1, 1, 0, 0, 0]])
 
     encoded = trunk(atoms, residues, atom_mask, residue_mask, return_pair=True)
-    geometry = GeometrySupervisionHead(8)(encoded.pair, encoded.pair_mask)
+    geometry = GeometrySupervisionHead(48)(encoded.pair, encoded.pair_mask)
 
     assert encoded.endpoint.shape == (3, 8)
     assert encoded.section.shape == (3, 6)
-    assert encoded.pair.shape == (3, 5, 7, 8)
+    assert encoded.pair.shape == (3, 5, 7, 48)
     assert geometry.contact_logits.shape == (3, 5, 7)
     assert geometry.distance_logits.shape == (3, 5, 7, 5)
     assert torch.count_nonzero(encoded.pair[0, 3:]) == 0
@@ -43,8 +43,12 @@ def test_quotient_support_operator_invariants_and_gradient():
     order = torch.tensor([2, 0, 3, 1])
     permuted = operator(support[order], query, residual[order])[2]
     shifted = operator(support, query, residual + 3.0)[2]
+    coordinate_shift = torch.randn(7)
+    shifted_coordinates = operator(
+        support + coordinate_shift, query + coordinate_shift, residual)[2]
     assert torch.allclose(prediction, permuted, atol=1e-6)
     assert torch.allclose(prediction, shifted, atol=1e-6)
+    assert torch.allclose(prediction, shifted_coordinates, atol=1e-6)
 
     zero = operator(support, query, torch.zeros_like(residual))
     one = operator(support[:1], query, torch.zeros(1))

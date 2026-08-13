@@ -1,4 +1,4 @@
-"""CPU-budget episodic training for the biological QPSMP meta-learner.
+"""GPU episodic training for the active QPSMP-BPSF meta-learner.
 
 This script is an implementation smoke, not a G2/G3 admission analysis.  Its
 reported gate authorizations are deliberately always false.
@@ -37,9 +37,9 @@ class TrainConfig:
     seed: int = 20260812
     support_size: int = 5
     query_size: int = 8
-    hidden_dim: int = 32
-    task_dim: int = 4
-    ligand_layers: int = 1
+    hidden_dim: int = 128
+    task_dim: int = 32
+    ligand_layers: int = 3
     steps: int = 20
     episodes_per_step: int = 2
     train_cache_size: int = 64
@@ -52,17 +52,18 @@ class TrainConfig:
     eval_targets_per_component: int = 1
     grad_clip: float = 5.0
     zero_shot_loss_weight: float = 0.25
-    section_mode: str = "support_span"
-    interaction_mode: str = "pooled"
     zero_support_only: bool = False
     pretrained_checkpoint: str | None = None
     geometry_checkpoint: str | None = None
     section_only: bool = False
     amp: bool = True
-    pair_blocks: int = 2
-    pair_latents: int = 8
-    pair_heads: int = 4
-    pair_chunk_size: int = 32
+    pair_dim: int = 64
+    pair_blocks: int = 3
+    pair_latents: int = 16
+    pair_heads: int = 8
+    pair_chunk_size: int = 16
+    support_hidden_dim: int = 128
+    support_blocks: int = 2
     episode_cache: str | None = None
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -104,32 +105,25 @@ def load_parent_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str | N
     payload = torch.load(path, map_location="cpu", weights_only=False)
     parent_config = payload.get("config", {})
     for field in (
-            "hidden_dim", "task_dim", "ligand_layers", "interaction_mode",
-            "pair_blocks", "pair_latents", "pair_heads"):
+            "hidden_dim", "task_dim", "ligand_layers", "pair_dim",
+            "pair_blocks", "pair_latents", "pair_heads",
+            "support_hidden_dim", "support_blocks"):
         if parent_config.get(field) != getattr(config, field):
             raise ValueError(f"parent checkpoint has incompatible {field}")
-    incompatible = model.load_state_dict(payload["model_state"], strict=False)
-    allowed_missing = (
-        {key for key in incompatible.missing_keys if key.startswith("meta.qp_ams.")}
-        if config.section_mode == "qp_ams" else set())
-    if set(incompatible.missing_keys) != allowed_missing or incompatible.unexpected_keys:
-        raise ValueError(
-            "parent checkpoint state is incompatible: "
-            f"missing={incompatible.missing_keys}, unexpected={incompatible.unexpected_keys}")
+    model.load_state_dict(payload["model_state"], strict=True)
     return file_sha256(path)
 
 
 def load_geometry_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str | None:
     if config.geometry_checkpoint is None:
         return None
-    if config.interaction_mode != "bpsf":
-        raise ValueError("geometry checkpoint requires interaction_mode=bpsf")
     path = Path(config.geometry_checkpoint)
     payload = torch.load(path, map_location="cpu", weights_only=False)
     teacher = payload.get("config", {})
     required = {
         "hidden_dim": config.hidden_dim,
         "section_dim": config.task_dim,
+        "pair_dim": config.pair_dim,
         "pair_blocks": config.pair_blocks,
         "pair_latents": config.pair_latents,
         "pair_heads": config.pair_heads,
@@ -165,22 +159,10 @@ def load_geometry_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str |
 def freeze_for_section_training(model: QPSMPBioModel) -> None:
     for parameter in model.parameters():
         parameter.requires_grad_(False)
-    for parameter in model.meta.section_head.parameters():
+    for parameter in model.pair_section.latent.section.parameters():
         parameter.requires_grad_(True)
-    if model.meta.section_mode == "ridge":
-        model.meta.support_span.ridge_raw.requires_grad_(True)
-    elif model.meta.section_mode == "neural":
-        for parameter in model.meta.adapter.parameters():
-            parameter.requires_grad_(True)
-    elif model.meta.section_mode == "qp_ams":
-        for parameter in model.meta.qp_ams.parameters():
-            parameter.requires_grad_(True)
-    elif model.meta.section_mode == "section_former":
-        for name, parameter in model.pair_section.latent.named_parameters():
-            if not name.startswith("endpoint."):
-                parameter.requires_grad_(True)
-        for parameter in model.meta.section_former.parameters():
-            parameter.requires_grad_(True)
+    for parameter in model.meta.section_operator.parameters():
+        parameter.requires_grad_(True)
 
 
 def normalized_episode(episode: EpisodeBatch, scale: LabelScale) -> EpisodeBatch:
@@ -406,10 +388,11 @@ def train(data: QPSMPData, config: TrainConfig,
         protein_dim=int(data.protein_bank.manifest["hidden_dim"]),
         hidden_dim=config.hidden_dim, task_dim=config.task_dim,
         ligand_layers=config.ligand_layers,
-        section_mode=config.section_mode,
-        interaction_mode=config.interaction_mode,
-        pair_blocks=config.pair_blocks, pair_latents=config.pair_latents,
+        pair_dim=config.pair_dim, pair_blocks=config.pair_blocks,
+        pair_latents=config.pair_latents,
         pair_heads=config.pair_heads, pair_chunk_size=config.pair_chunk_size,
+        support_hidden_dim=config.support_hidden_dim,
+        support_blocks=config.support_blocks,
         dtype=torch.float32)
     model.to(config.device)
     geometry_sha256 = load_geometry_checkpoint(model, config)
@@ -417,9 +400,8 @@ def train(data: QPSMPData, config: TrainConfig,
     if geometry_sha256 is not None and parent_sha256 is not None:
         raise ValueError("geometry and parent checkpoints are mutually exclusive initializers")
     if config.section_only:
-        if config.section_mode not in {
-                "ridge", "neural", "qp_ams", "section_former"} or parent_sha256 is None:
-            raise ValueError("section-only training requires a section mode and parent checkpoint")
+        if parent_sha256 is None:
+            raise ValueError("section-only training requires a parent checkpoint")
         freeze_for_section_training(model)
     trainable_parameters = [parameter for parameter in model.parameters()
                             if parameter.requires_grad]
@@ -562,6 +544,7 @@ def main() -> None:
     parser.add_argument("--query-size", type=int, default=TrainConfig.query_size)
     parser.add_argument("--hidden-dim", type=int, default=TrainConfig.hidden_dim)
     parser.add_argument("--task-dim", type=int, default=TrainConfig.task_dim)
+    parser.add_argument("--ligand-layers", type=int, default=TrainConfig.ligand_layers)
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--learning-rate", type=float, default=TrainConfig.learning_rate)
     parser.add_argument("--episodes-per-step", type=int, default=TrainConfig.episodes_per_step)
@@ -573,20 +556,19 @@ def main() -> None:
                         default=TrainConfig.eval_targets_per_component)
     parser.add_argument("--zero-shot-loss-weight", type=float,
                         default=TrainConfig.zero_shot_loss_weight)
-    parser.add_argument("--section-mode", choices=(
-        "support_span", "ridge", "neural", "qp_ams", "section_former"),
-                        default=TrainConfig.section_mode)
-    parser.add_argument("--interaction-mode", choices=("pooled", "atom_residue", "bpsf"),
-                        default=TrainConfig.interaction_mode)
     parser.add_argument("--zero-support-only", action="store_true")
     parser.add_argument("--pretrained-checkpoint", type=Path)
     parser.add_argument("--geometry-checkpoint", type=Path)
     parser.add_argument("--section-only", action="store_true")
     parser.add_argument("--no-amp", action="store_true")
+    parser.add_argument("--pair-dim", type=int, default=TrainConfig.pair_dim)
     parser.add_argument("--pair-blocks", type=int, default=TrainConfig.pair_blocks)
     parser.add_argument("--pair-latents", type=int, default=TrainConfig.pair_latents)
     parser.add_argument("--pair-heads", type=int, default=TrainConfig.pair_heads)
     parser.add_argument("--pair-chunk-size", type=int, default=TrainConfig.pair_chunk_size)
+    parser.add_argument("--support-hidden-dim", type=int,
+                        default=TrainConfig.support_hidden_dim)
+    parser.add_argument("--support-blocks", type=int, default=TrainConfig.support_blocks)
     parser.add_argument("--episode-cache", type=Path)
     parser.add_argument("--device", default=TrainConfig.device)
     parser.add_argument("--output", type=Path, default=OUT)
@@ -597,6 +579,7 @@ def main() -> None:
     config = TrainConfig(
         seed=args.seed, support_size=args.support_size, query_size=args.query_size,
         hidden_dim=args.hidden_dim, task_dim=args.task_dim,
+        ligand_layers=args.ligand_layers,
         steps=args.steps, episodes_per_step=args.episodes_per_step,
         learning_rate=args.learning_rate,
         train_cache_size=args.train_cache_size,
@@ -605,8 +588,6 @@ def main() -> None:
         test_draws_per_target=args.test_draws_per_target,
         eval_targets_per_component=args.eval_targets_per_component,
         zero_shot_loss_weight=args.zero_shot_loss_weight,
-        section_mode=args.section_mode,
-        interaction_mode=args.interaction_mode,
         zero_support_only=args.zero_support_only,
         pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
                                if args.pretrained_checkpoint else None),
@@ -614,8 +595,11 @@ def main() -> None:
                              if args.geometry_checkpoint else None),
         section_only=args.section_only,
         amp=not args.no_amp,
-        pair_blocks=args.pair_blocks, pair_latents=args.pair_latents,
+        pair_dim=args.pair_dim, pair_blocks=args.pair_blocks,
+        pair_latents=args.pair_latents,
         pair_heads=args.pair_heads, pair_chunk_size=args.pair_chunk_size,
+        support_hidden_dim=args.support_hidden_dim,
+        support_blocks=args.support_blocks,
         episode_cache=(str(args.episode_cache.resolve()) if args.episode_cache else None),
         device=args.device)
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)

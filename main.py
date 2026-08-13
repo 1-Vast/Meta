@@ -23,14 +23,22 @@ COMMANDS: dict[tuple[str, ...], Command] = {
         description="show the read-only research archive policy"),
     ("verify", "tests"): Command(
         "scripts.verify_project", description="run the maintained test suite"),
-    ("verify", "v1-vectorization"): Command(
-        "research.meta_fewshot.verify_v1_vectorization",
+    ("qpsmp", "train"): Command(
+        "scripts.train_qpsmp",
         cuda_required=True,
-        description="verify the frozen V1 vectorization artifact"),
-    ("v1", "train-evaluate"): Command(
-        "research.meta_fewshot.train_main_v1",
+        description="train the active BPSF meta-learner"),
+    ("qpsmp", "evaluate"): Command(
+        "scripts.evaluate_qpsmp",
         cuda_required=True,
-        description="run the development-only V1 train/evaluate protocol"),
+        description="run governed nested-k BPSF evaluation"),
+    ("geometry", "pretrain"): Command(
+        "scripts.pretrain_pair_geometry",
+        cuda_required=True,
+        description="pretrain the source-only BPSF geometry head"),
+    ("geometry", "evaluate"): Command(
+        "scripts.evaluate_pair_geometry",
+        cuda_required=True,
+        description="evaluate the source-only BPSF geometry head"),
     ("data", "prepare"): Command(
         "scripts.preprocess_dataset",
         description="compile and audit a governed canonical dataset"),

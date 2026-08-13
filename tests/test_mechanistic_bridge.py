@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 import torch
 
-from model.mechanism import MechanisticInteractionBridge
+from model.geometry_supervision import PairGeometryTeacher
 from scripts.build_holo_complex_index import (_protein_sequence_mapping,
     build_holo_complex_index)
 from scripts.build_protein_bank import residue_slot_mapping
@@ -13,7 +13,7 @@ from scripts.cache_structure_proteins import _record_sequence_key, _sequence_chu
 from scripts.build_structure_supervision import (audit_plinder_mlsb,
     build_structure_supervision)
 from scripts.data_contract import read_jsonl
-from scripts.evaluate_mechanism_gate import _metrics, _paired_bootstrap
+from scripts.evaluate_pair_geometry import _metrics, _paired_bootstrap
 
 
 def test_residue_slot_mapping_covers_sequence_without_overlap():
@@ -119,13 +119,16 @@ def test_local_plinder_mlsb_is_rejected_as_holo_supervision():
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA bridge validation")
-def test_low_rank_bridge_shapes_masks_and_gradients_on_cuda():
-    bridge = MechanisticInteractionBridge(8, 10, rank=4).cuda()
+def test_pair_geometry_teacher_shapes_masks_and_gradients_on_cuda():
+    bridge = PairGeometryTeacher(
+        hidden_dim=8, section_dim=4, pair_dim=8, blocks=1,
+        latents=4, heads=2, chunk_size=8).cuda()
     atoms = torch.randn(2, 5, 8, device="cuda", requires_grad=True)
-    residues = torch.randn(2, 7, 10, device="cuda", requires_grad=True)
+    residues = torch.randn(2, 7, 8, device="cuda", requires_grad=True)
     atom_mask = torch.tensor([[1, 1, 1, 0, 0], [1, 1, 1, 1, 1]], device="cuda")
     residue_mask = torch.tensor([[1, 1, 0, 0, 0, 0, 0], [1] * 7], device="cuda")
-    output = bridge(atoms, atom_mask, residues, residue_mask)
+    adjacency = torch.eye(5, device="cuda").expand(2, -1, -1)
+    output = bridge(atoms, atom_mask, residues, residue_mask, adjacency)
     assert output.contact_logits.shape == (2, 5, 7)
     assert output.distance_logits.shape == (2, 5, 7, 5)
     assert output.contact_prob[0, 3:].count_nonzero() == 0
@@ -151,4 +154,3 @@ def test_mechanism_gate_metrics_use_frozen_distance_centers_and_top_l():
                                  higher_is_better=True, seed=17)
     assert interval["point"] == pytest.approx(0.4)
     assert interval["lower_95"] > 0
-
