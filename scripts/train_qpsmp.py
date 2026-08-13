@@ -73,6 +73,7 @@ class TrainConfig:
     pair_chunk_size: int = 16
     support_hidden_dim: int = 128
     support_blocks: int = 2
+    use_cartesian: bool = False
     episode_cache: str | None = None
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -157,6 +158,10 @@ def load_geometry_checkpoint(model: QPSMPBioModel, config: TrainConfig) -> str |
                     continue
                 target_name = target_prefix + name[len(source_prefix):]
                 if target_name not in target or target[target_name].shape != value.shape:
+                    # Retained mechanism slots add outputs but do not alter the
+                    # coordinate-free prefix learned by the geometry teacher.
+                    if target_name.startswith("pair_section.latent"):
+                        continue
                     raise ValueError(f"geometry tensor is incompatible: {name}")
                 target[target_name].copy_(value)
                 loaded.add(target_name)
@@ -172,8 +177,15 @@ def normalized_episode(episode: EpisodeBatch, scale: LabelScale) -> EpisodeBatch
 
 
 def compact_episode(episode: EpisodeBatch) -> EpisodeBatch:
-    active = max(int(episode.support_mask.sum(1).max()),
-                 int(episode.query_mask.sum(1).max()))
+    if episode.support_coordinates is not None or episode.query_coordinates is not None:
+        if episode.support_coordinates is None or episode.query_coordinates is None:
+            raise ValueError("support/query Cartesian coordinates must be paired")
+        # Coordinate node order is tied to the original padded atom width.
+        # Keep that width rather than silently invalidating the packed edges.
+        return episode
+    support_active = (int(episode.support_mask.sum(1).max())
+                      if episode.support_mask.shape[0] else 0)
+    active = max(support_active, int(episode.query_mask.sum(1).max()))
     def atoms(values: torch.Tensor) -> torch.Tensor:
         values = values[:, :active]
         return torch.nn.functional.pad(values, (0, 0, 0, active - values.shape[1])).clone()
@@ -198,8 +210,18 @@ def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True,
             task_state_override: torch.Tensor | None = None):
     if episode.support_atoms.ndim == 3:
         episode = compact_episode(episode)
-    active = max(int(episode.support_mask.sum(-1).max()),
-                 int(episode.query_mask.sum(-1).max()))
+    has_geometry = (episode.support_coordinates is not None
+                    or episode.query_coordinates is not None)
+    if has_geometry:
+        if episode.support_coordinates is None or episode.query_coordinates is None:
+            raise ValueError("support/query Cartesian coordinates must be paired")
+        active = episode.query_atoms.shape[-2]
+        if episode.support_atoms.shape[-2] != active:
+            raise ValueError("Cartesian episodes require a common padded atom width")
+    else:
+        support_active = (int(episode.support_mask.sum(-1).max())
+                          if episode.support_mask.numel() else 0)
+        active = max(support_active, int(episode.query_mask.sum(-1).max()))
     if episode.support_atoms.ndim == 4:
         support_atoms = episode.support_atoms[:, :, :active]
         support_bonds = episode.support_bonds[:, :, :active, :active]
@@ -214,11 +236,20 @@ def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True,
         query_atoms = episode.query_atoms[:, :active]
         query_bonds = episode.query_bonds[:, :active, :active]
         query_mask = episode.query_mask[:, :active]
+    geometry_coordinates = None
+    if has_geometry:
+        pair_axis = 1 if episode.support_coordinates.ndim == 4 else 0
+        geometry_coordinates = torch.cat(
+            (episode.support_coordinates, episode.query_coordinates), pair_axis)
     return model(
         episode.protein_pooled, episode.protein_tokens, episode.protein_mask,
         support_atoms, support_bonds, support_mask, episode.support_y,
         query_atoms, query_bonds, query_mask, adapt=adapt,
-        task_state_override=task_state_override)
+        task_state_override=task_state_override,
+        geometry_coordinates=geometry_coordinates,
+        geometry_edge_index=episode.geometry_edge_index,
+        geometry_available=episode.geometry_available,
+        geometry_common_frame=episode.geometry_common_frame)
 
 
 def centered_task_error(prediction: torch.Tensor,
@@ -378,6 +409,7 @@ def train(data: QPSMPData, config: TrainConfig,
         adapter_rank=config.adapter_rank,
         adaptive_blocks=config.adaptive_blocks,
         adapter_scale=config.adapter_scale,
+        use_cartesian=config.use_cartesian,
         dtype=torch.float32)
     model.to(config.device)
     geometry_sha256 = load_geometry_checkpoint(model, config)
@@ -391,9 +423,9 @@ def train(data: QPSMPData, config: TrainConfig,
     amp_enabled = config.amp and config.device.startswith("cuda")
     scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
     label_scale = training_label_scale(data)
-    train_support_sizes = support_sizes or (1, 2, 3, 5)
-    if not train_support_sizes or any(k < 1 for k in train_support_sizes):
-        raise ValueError("support sizes must be positive")
+    train_support_sizes = support_sizes or (0, 1, 2, 3, 5)
+    if not train_support_sizes or any(k < 0 for k in train_support_sizes):
+        raise ValueError("support sizes cannot be negative")
     if config.min_query_size < 1 or config.query_size < config.min_query_size:
         raise ValueError("query-size range is invalid")
     cache_contract = {
@@ -474,7 +506,7 @@ def train(data: QPSMPData, config: TrainConfig,
                     permuted = forward(
                         model, replace(episode, support_y=episode.support_y.roll(1)))
                     permuted_error = centered_task_error(
-                        permuted.prediction.detach(), query_y)
+                        permuted.prediction, query_y)
                     foreign_state = donor_state(
                         model, data, episode, episode.spec.donor_target,
                         label_scale, wrong_protein=False)
@@ -482,7 +514,7 @@ def train(data: QPSMPData, config: TrainConfig,
                         model, episode,
                         task_state_override=foreign_state.detach()).prediction
                     foreign_error = centered_task_error(
-                        foreign_prediction.detach(), query_y)
+                        foreign_prediction, query_y)
                     loss_dependency = (
                         F.relu(config.dependency_margin + correct_error
                                - permuted_error)
@@ -600,6 +632,8 @@ def main() -> None:
     parser.add_argument("--support-hidden-dim", type=int,
                         default=TrainConfig.support_hidden_dim)
     parser.add_argument("--support-blocks", type=int, default=TrainConfig.support_blocks)
+    parser.add_argument("--use-cartesian", action="store_true",
+                        help="enable optional common-frame Cartesian inputs; the active BindingDB banks provide none")
     parser.add_argument("--episode-cache", type=Path)
     parser.add_argument("--device", default=TrainConfig.device)
     parser.add_argument("--output", type=Path, default=OUT)
@@ -636,6 +670,7 @@ def main() -> None:
         pair_heads=args.pair_heads, pair_chunk_size=args.pair_chunk_size,
         support_hidden_dim=args.support_hidden_dim,
         support_blocks=args.support_blocks,
+        use_cartesian=args.use_cartesian,
         episode_cache=(str(args.episode_cache.resolve()) if args.episode_cache else None),
         device=args.device)
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
@@ -648,15 +683,15 @@ def main() -> None:
     checkpoint = args.output / "checkpoint.pt"
     torch.save({"model_state": model.state_dict(), "config": asdict(config)}, checkpoint)
     result = {
-        "schema": "MetaSieve.QPSMPHyperSARSmoke.v1",
+        "schema": "MetaSieve.DMEMTTrainingRun.v1",
         "scope": "implementation_smoke_only",
         "data": {"corpus": str(CORPUS), "protein_bank_records": len(data.protein_bank),
                  "ligand_bank_records": len(data.ligand_bank)},
         "config": asdict(config), "training": training, "test": metrics,
         "evaluation_population": "fixed hash-selected targets within every eligible component",
-        "controls": {"foreign_code": "only the transient target code is replaced; recipient matching SAR, reliability, level, protein, and query stay fixed",
-                     "wrong_protein": "only transient code inferred under the donor protein is replaced",
-                     "sar_cut": "support-conditioned interaction modulation alone is removed",
+        "controls": {"foreign_code": "only target-level mechanism prompts are replaced; recipient relative evidence, level, protein, and query stay fixed",
+                     "wrong_protein": "only mechanism prompts inferred under the donor protein are replaced",
+                     "sar_cut": "difference-constrained mechanism modulation alone is removed",
                      "permuted": "support labels are cyclically permuted"},
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
         "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",

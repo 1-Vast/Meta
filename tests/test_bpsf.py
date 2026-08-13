@@ -18,6 +18,7 @@ def test_pair_section_shapes_masks_and_geometry_head():
 
     assert encoded.endpoint.shape == (3, 8)
     assert encoded.section.shape == (3, 6)
+    assert encoded.mechanism_slots.shape == (3, 4, 48)
     assert encoded.pair.shape == (3, 5, 7, 48)
     assert geometry.contact_logits.shape == (3, 5, 7)
     assert geometry.distance_logits.shape == (3, 5, 7, 5)
@@ -52,6 +53,20 @@ def test_protein_projection_and_pair_trunk_are_padding_invariant():
 
     assert torch.allclose(left.endpoint, right.endpoint, atol=1e-6, rtol=1e-6)
     assert torch.allclose(left.section, right.section, atol=1e-6, rtol=1e-6)
+    assert torch.allclose(
+        left.mechanism_slots, right.mechanism_slots, atol=1e-6, rtol=1e-6)
+
+
+def test_retained_mechanism_slots_exactly_reconstruct_original_readouts():
+    torch.manual_seed(74)
+    trunk = BipartitePairSectionFormer(
+        8, 5, pair_dim=16, blocks=1, latent_count=4, heads=2)
+    encoded = trunk(
+        torch.randn(2, 5, 8), torch.randn(2, 7, 8),
+        torch.ones(2, 5), torch.ones(2, 7))
+    endpoint, section = trunk.latent.project_slots(encoded.mechanism_slots)
+    assert torch.equal(endpoint, encoded.endpoint)
+    assert torch.equal(section, encoded.section)
 
 
 def test_hypersar_pair_adapter_changes_only_adaptive_path_and_has_gradients():

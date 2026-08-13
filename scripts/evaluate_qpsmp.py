@@ -28,7 +28,7 @@ from scripts.train_qpsmp import (
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "report/meta_fewshot/qpsmp_nested"
-SUPPORT_SIZES = (1, 2, 3, 5)
+SUPPORT_SIZES = (0, 1, 2, 3, 5)
 MODEL_SEEDS = (20260851, 20260852, 20260853)
 
 
@@ -48,8 +48,8 @@ def build_nested_manifest(
         query_size: int, draws: int, seed: int) -> tuple[NestedEpisodeRecord, ...]:
     if not support_sizes or tuple(sorted(set(support_sizes))) != support_sizes:
         raise ValueError("support sizes must be unique and increasing")
-    if support_sizes[0] < 1 or query_size < 1 or draws < 1:
-        raise ValueError("episode sizes and draws must be positive")
+    if support_sizes[0] < 0 or query_size < 1 or draws < 1:
+        raise ValueError("support size cannot be negative and query/draws must be positive")
     max_k = support_sizes[-1]
     def ligand_unique_order(indices: np.ndarray,
                             rng: np.random.Generator) -> np.ndarray:
@@ -169,7 +169,7 @@ def validate_manifest(data: QPSMPData, payload: dict,
 
 def episode_spec(data: QPSMPData, record: NestedEpisodeRecord, k: int) -> EpisodeSpec:
     index = {cell["cell_id"]: i for i, cell in enumerate(data.cells)}
-    if k < 1 or k > len(record.support_cell_ids):
+    if k < 0 or k > len(record.support_cell_ids):
         raise ValueError("k is outside the nested support manifest")
     support = tuple(index[cell] for cell in record.support_cell_ids[:k])
     query = tuple(index[cell] for cell in record.query_cell_ids)
@@ -188,22 +188,25 @@ def evaluate_seed(model, data: QPSMPData, records: tuple[NestedEpisodeRecord, ..
                 spec = episode_spec(data, record, k)
                 episode = normalized_episode(data.materialize(spec), label_scale)
                 full = forward(model, episode)
-                permuted = forward(model, replace(
-                    episode, support_y=episode.support_y.roll(1)))
-                foreign = donor_state(model, data, episode, record.donor_target,
-                                      label_scale, wrong_protein=False)
-                wrong = donor_state(model, data, episode, record.donor_target,
-                                    label_scale, wrong_protein=True)
+                permuted = (forward(model, replace(
+                    episode, support_y=episode.support_y.roll(1))) if k else full)
+                foreign = (donor_state(model, data, episode, record.donor_target,
+                                      label_scale, wrong_protein=False) if k else None)
+                wrong = (donor_state(model, data, episode, record.donor_target,
+                                    label_scale, wrong_protein=True) if k else None)
                 predictions = {
                     "full": full.prediction,
                     "sar_cut": full.prediction - full.sar_adaptation,
                     "zero_shot": forward(model, episode, adapt=False).prediction,
-                    "level_only": episode.support_y.mean().expand_as(episode.query_y),
+                    "level_only": (episode.support_y.mean().expand_as(episode.query_y)
+                                   if k else full.zero_shot),
                     "permuted_state": permuted.prediction,
-                    "foreign_code_state": forward(
-                        model, episode, task_state_override=foreign).prediction,
-                    "wrong_protein_state": forward(
-                        model, episode, task_state_override=wrong).prediction,
+                    "foreign_code_state": (forward(
+                        model, episode, task_state_override=foreign).prediction
+                        if k else full.prediction),
+                    "wrong_protein_state": (forward(
+                        model, episode, task_state_override=wrong).prediction
+                        if k else full.prediction),
                 }
                 for arm, prediction in predictions.items():
                     truth = episode.query_y.detach().cpu().numpy()
@@ -351,6 +354,8 @@ def main() -> None:
                         default=TrainConfig.support_hidden_dim)
     parser.add_argument("--support-blocks", type=int,
                         default=TrainConfig.support_blocks)
+    parser.add_argument("--use-cartesian", action="store_true",
+                        help="enable optional common-frame Cartesian inputs; requires geometry-bearing episodes")
     parser.add_argument("--device", default=TrainConfig.device)
     args = parser.parse_args()
     if args.output.exists():
@@ -387,6 +392,7 @@ def main() -> None:
             pair_heads=args.pair_heads,
             support_hidden_dim=args.support_hidden_dim,
             support_blocks=args.support_blocks,
+            use_cartesian=args.use_cartesian,
             device=args.device,
         )
         model, diagnostics, label_scale = train(
@@ -409,7 +415,7 @@ def main() -> None:
         for row in all_rows:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
     result = {
-        "schema": "MetaSieve.QPSMPNestedEvaluation.v1",
+        "schema": "MetaSieve.DMEMTNestedEvaluation.v1",
         "model_seeds": list(MODEL_SEEDS), "support_sizes": list(SUPPORT_SIZES),
         "training_config": {
             "steps": args.steps,
@@ -422,7 +428,10 @@ def main() -> None:
         "manifest_reused_across_model_seeds": True,
         "training": training, "contrasts": contrasts,
         "metric_summary": metric_summary(all_rows),
-        "test_used_for_tuning": False,
+        "test_used_for_tuning": True,
+        "evidence_status": (
+            "development_only; this historical meta-test was consumed by "
+            "prior architecture search"),
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
     }
     (args.output / "RESULT.json").write_text(

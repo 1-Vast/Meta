@@ -1,4 +1,10 @@
-"""QPSMP-HyperSAR for cold-target few-shot drug-target affinity prediction."""
+"""Mechanism-evidence meta-learning for cold-target affinity prediction.
+
+The active path is solver-free and single stage.  It retains aligned
+protein--ligand interaction slots, binds support residuals to slot
+sensitivities, and transports that evidence to each query through a strict
+support--query difference path.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -8,6 +14,7 @@ import torch.nn as nn
 from torch import Tensor
 
 from .bpsf import BipartitePairSectionFormer
+from .cartesian import SparseCartesianMechanismEncoder
 from .encoders import LigandEncoder, ProteinEncoder
 
 
@@ -35,125 +42,143 @@ class QPSMPMetaOutput:
 
 
 @dataclass(frozen=True)
-class HyperSARState:
+class MechanismMetaState:
     support_zero: Tensor
     query_add: Tensor
     query_ligand_value: Tensor
     query_cross: Tensor
     zero_shot: Tensor
-    task_code: Tensor
+    task_prompts: Tensor
     centered_residual: Tensor
     level_shift: Tensor
     level_adjustment: Tensor
     level_gate: Tensor
     support_evidence: Tensor
+    query_gate: Tensor
+    reference_correction: Tensor
+    support_auxiliary_loss: Tensor
 
 
-class AmortizedTargetConditioner(nn.Module):
-    """Permutation-invariant support-to-code inference without a linear solve."""
+class MechanismEvidenceMetaTransformer(nn.Module):
+    """Convert label-bound slot evidence into query-specific scalar gates.
 
-    def __init__(self, interaction_dim: int, ligand_dim: int, task_dim: int = 32,
-                 hidden_dim: int = 128, blocks: int = 2,
-                 dtype: torch.dtype = torch.float32) -> None:
+    Support order has no positional encoding.  Query transport scores receive
+    only aligned slot differences; absolute support slots are confined to the
+    task-evidence path.  The returned scalar gates can modulate scalar, vector,
+    or tensor channels without changing their O(3) transformation law.
+    """
+
+    def __init__(self, slot_dim: int, prompt_dim: int, slot_count: int,
+                 blocks: int = 2, dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        heads = next(h for h in (8, 4, 2, 1) if hidden_dim % h == 0)
-        self.token = nn.Sequential(
-            nn.Linear(interaction_dim + ligand_dim + 2, hidden_dim, dtype=dtype),
-            nn.GELU(), nn.LayerNorm(hidden_dim, dtype=dtype))
+        heads = next(h for h in (8, 4, 2, 1) if prompt_dim % h == 0)
+        self.slot_count = int(slot_count)
+        self.prompt_dim = int(prompt_dim)
+        self.sensitivity = nn.Sequential(
+            nn.LayerNorm(slot_dim, dtype=dtype),
+            nn.Linear(slot_dim, prompt_dim, dtype=dtype), nn.SiLU(),
+            nn.Linear(prompt_dim, 1, bias=False, dtype=dtype))
+        self.evidence = nn.Sequential(
+            nn.LayerNorm(slot_dim + 4, dtype=dtype),
+            nn.Linear(slot_dim + 4, prompt_dim, dtype=dtype), nn.GELU())
+        self.slot_identity = nn.Parameter(
+            torch.empty(slot_count, prompt_dim, dtype=dtype))
+        nn.init.normal_(self.slot_identity, std=prompt_dim ** -0.5)
         self.attention = nn.ModuleList(
-            nn.MultiheadAttention(hidden_dim, heads, batch_first=True, dtype=dtype)
+            nn.MultiheadAttention(
+                prompt_dim, heads, batch_first=True, dtype=dtype)
             for _ in range(blocks))
-        self.ffn = nn.ModuleList(
+        self.feedforward = nn.ModuleList(
             nn.Sequential(
-                nn.LayerNorm(hidden_dim, dtype=dtype),
-                nn.Linear(hidden_dim, 4 * hidden_dim, dtype=dtype), nn.GELU(),
-                nn.Linear(4 * hidden_dim, hidden_dim, dtype=dtype))
+                nn.LayerNorm(prompt_dim, dtype=dtype),
+                nn.Linear(prompt_dim, 4 * prompt_dim, dtype=dtype), nn.GELU(),
+                nn.Linear(4 * prompt_dim, prompt_dim, dtype=dtype))
             for _ in range(blocks))
-        self.pool_seed = nn.Parameter(torch.empty(1, hidden_dim, dtype=dtype))
-        nn.init.normal_(self.pool_seed, std=hidden_dim ** -0.5)
-        self.pool = nn.MultiheadAttention(
-            hidden_dim, heads, batch_first=True, dtype=dtype)
-        self.output = nn.Sequential(
-            nn.LayerNorm(hidden_dim, dtype=dtype),
-            nn.Linear(hidden_dim, task_dim, dtype=dtype), nn.Tanh())
-        self.binding_token = nn.Sequential(
-            nn.Linear(interaction_dim + ligand_dim, hidden_dim, dtype=dtype),
-            nn.GELU(), nn.LayerNorm(hidden_dim, dtype=dtype))
-        self.binding_output = nn.Linear(
-            hidden_dim, task_dim, bias=False, dtype=dtype)
+        self.prompt_norm = nn.LayerNorm(prompt_dim, dtype=dtype)
+        self.difference = nn.Sequential(
+            nn.LayerNorm(slot_dim, dtype=dtype),
+            nn.Linear(slot_dim, prompt_dim, bias=False, dtype=dtype), nn.GELU(),
+            nn.Linear(prompt_dim, prompt_dim, bias=False, dtype=dtype))
+        self.difference_score = nn.Linear(
+            prompt_dim, 1, bias=False, dtype=dtype)
+        self.gate = nn.Sequential(
+            nn.LayerNorm(prompt_dim, dtype=dtype),
+            nn.Linear(prompt_dim, 1, bias=False, dtype=dtype))
+        nn.init.normal_(self.gate[-1].weight, std=0.02)
 
-    def _encode(self, interaction: Tensor, ligand: Tensor,
-                centered_residual: Tensor) -> Tensor:
-        token = self.token(torch.cat((
-            interaction, ligand, centered_residual.unsqueeze(-1),
-            centered_residual.abs().unsqueeze(-1)), dim=-1))
-        for attention, ffn in zip(self.attention, self.ffn):
+    def forward(self, support_slots: Tensor, support_residual: Tensor,
+                query_slots: Tensor, *,
+                task_state_override: Tensor | None = None,
+                adapt: bool = True) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+        if support_slots.ndim != 4 or query_slots.ndim != 4:
+            raise ValueError("mechanism slot batches must have rank four")
+        batch, support_count, slot_count, slot_dim = support_slots.shape
+        if slot_count != self.slot_count or query_slots.shape[0] != batch \
+                or query_slots.shape[2:] != (slot_count, slot_dim):
+            raise ValueError("support/query mechanism slot contracts disagree")
+        if support_residual.shape != (batch, support_count):
+            raise ValueError("support residuals do not match mechanism slots")
+        query_count = query_slots.shape[1]
+        empty_state = query_slots.new_zeros(
+            batch, slot_count, self.prompt_dim)
+        empty_gate = query_slots.new_zeros(batch, query_count, slot_count)
+        if not adapt or support_count == 0:
+            if task_state_override is not None:
+                raise ValueError("cannot override mechanism state without support")
+            return empty_state, empty_gate, empty_gate, query_slots.new_zeros(())
+
+        centered = support_residual - support_residual.mean(-1, keepdim=True)
+        sensitivity = self.sensitivity(support_slots).squeeze(-1)
+        pseudo_gradient = -support_residual.unsqueeze(-1) * sensitivity
+        broadcast = lambda value: value[:, :, None, None].expand(
+            -1, -1, slot_count, 1)
+        evidence = self.evidence(torch.cat((
+            support_slots, pseudo_gradient.unsqueeze(-1),
+            broadcast(support_residual), broadcast(centered),
+            broadcast(support_residual.abs())), dim=-1))
+        evidence = evidence + self.slot_identity[None, None]
+        token = evidence.flatten(1, 2)
+        for attention, feedforward in zip(self.attention, self.feedforward):
             update, _ = attention(token, token, token, need_weights=False)
             token = token + update
-            token = token + ffn(token)
-        seed = self.pool_seed.unsqueeze(0).expand(token.shape[0], -1, -1)
-        pooled, _ = self.pool(seed, token, token, need_weights=False)
-        return self.output(pooled.squeeze(1))
+            token = token + feedforward(token)
+        token = self.prompt_norm(token).reshape(
+            batch, support_count, slot_count, self.prompt_dim)
+        task_prompts = token.mean(1)
+        if task_state_override is not None:
+            if task_state_override.shape != task_prompts.shape:
+                raise ValueError(
+                    "task_state_override must match target mechanism prompts "
+                    f"{tuple(task_prompts.shape)}, got "
+                    f"{tuple(task_state_override.shape)}")
+            task_prompts = task_state_override.to(task_prompts)
 
-    def forward(self, interaction: Tensor, ligand: Tensor,
-                centered_residual: Tensor) -> Tensor:
-        unbatched = interaction.ndim == 2
-        if unbatched:
-            interaction = interaction.unsqueeze(0)
-            ligand = ligand.unsqueeze(0)
-            centered_residual = centered_residual.unsqueeze(0)
-        pooled_code = self._encode(interaction, ligand, centered_residual)
-        binding_token = self.binding_token(torch.cat((interaction, ligand), -1))
-        denominator = centered_residual.abs().sum(-1, keepdim=True).clamp_min(
-            torch.finfo(centered_residual.dtype).eps)
-        binding = (binding_token * centered_residual.unsqueeze(-1)).sum(-2)
-        binding = binding / denominator
-        # This moment structurally binds every residual to its support ligand
-        # and interaction. Joint support permutations preserve it; label-only
-        # permutations generally change it.
-        code = torch.tanh(pooled_code + self.binding_output(binding))
-        evidence = torch.linalg.vector_norm(centered_residual, dim=-1, keepdim=True)
-        code = code * torch.tanh(evidence)
-        return code.squeeze(0) if unbatched else code
-
-
-class SiameseRelativeConditioner(nn.Module):
-    """Turn one support reference code into query-specific modulation codes."""
-
-    def __init__(self, interaction_dim: int, ligand_dim: int, task_dim: int,
-                 hidden_dim: int, dtype: torch.dtype = torch.float32) -> None:
-        super().__init__()
-        self.query = nn.Sequential(
-            nn.Linear(interaction_dim + ligand_dim, hidden_dim, dtype=dtype),
-            nn.GELU(), nn.LayerNorm(hidden_dim, dtype=dtype))
-        self.reference = nn.Linear(task_dim, hidden_dim, dtype=dtype)
-        self.relative = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim, dtype=dtype), nn.GELU(),
-            nn.Linear(hidden_dim, task_dim, bias=False, dtype=dtype), nn.Tanh())
-
-    def forward(self, reference_code: Tensor, query_interaction: Tensor,
-                query_ligand: Tensor) -> Tensor:
-        if query_interaction.ndim == 3:
-            reference = reference_code.unsqueeze(1).expand(
-                -1, query_interaction.shape[1], -1)
-        else:
-            reference = reference_code.unsqueeze(0).expand(
-                query_interaction.shape[0], -1)
-        query = self.query(torch.cat((query_interaction, query_ligand), dim=-1))
-        anchor = self.reference(reference)
-        gate = self.relative(torch.cat((query - anchor, query * anchor), dim=-1))
-        # Exact zero preservation is structural, not a learned convention.
-        return reference * (1.0 + gate)
+        # Aligned slots permit a strict difference-only reference path.  No
+        # absolute support/query representation enters the transport scores.
+        difference = query_slots[:, :, None] - support_slots[:, None]
+        relative = self.difference(difference)
+        weights = torch.softmax(
+            self.difference_score(relative).squeeze(-1), dim=2)
+        evidence_context = torch.einsum("bqkm,bkmh->bqmh", weights, token)
+        relative_context = (weights.unsqueeze(-1) * relative).sum(2)
+        query_prompts = (task_prompts[:, None] + evidence_context
+                         + relative_context)
+        gate = torch.tanh(self.gate(query_prompts).squeeze(-1))
+        # Evidence magnitude is a diagnostic, not a minimization target: a
+        # direct penalty would teach the model to erase its own sensitivity.
+        auxiliary = pseudo_gradient.new_zeros(())
+        return task_prompts, gate, pseudo_gradient, auxiliary
 
 
 class QPSMPMetaLearner(nn.Module):
-    """Shared scalar heads and amortized target conditioner for HyperSAR."""
+    """Shared scalar heads plus difference-constrained mechanism adaptation."""
 
-    def __init__(self, hidden_dim: int, task_dim: int = 32,
-                 support_hidden_dim: int = 128, support_blocks: int = 2,
+    def __init__(self, hidden_dim: int, slot_dim: int, slot_count: int,
+                 task_dim: int = 32, support_blocks: int = 2,
+                 mechanism_scale: float = 0.25,
                  dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
-        self.task_dim = int(task_dim)
+        self.mechanism_scale = float(mechanism_scale)
         self.ligand_baseline = nn.Sequential(
             nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
             nn.Linear(2 * hidden_dim, 1, dtype=dtype))
@@ -164,160 +189,118 @@ class QPSMPMetaLearner(nn.Module):
             nn.LayerNorm(hidden_dim, dtype=dtype),
             nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
             nn.Linear(2 * hidden_dim, 1, bias=False, dtype=dtype))
-        self.conditioner = AmortizedTargetConditioner(
-            hidden_dim, hidden_dim, task_dim, support_hidden_dim,
-            support_blocks, dtype)
-        self.relative_conditioner = SiameseRelativeConditioner(
-            hidden_dim, hidden_dim, task_dim, support_hidden_dim, dtype)
-        self.code_to_endpoint = nn.Linear(
-            task_dim, hidden_dim, bias=False, dtype=dtype)
-        self.match_query = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim, dtype=dtype),
-            nn.GELU(), nn.LayerNorm(hidden_dim, dtype=dtype))
-        self.match_support = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim, dtype=dtype),
-            nn.GELU(), nn.LayerNorm(hidden_dim, dtype=dtype))
-        self.match_temperature = hidden_dim ** -0.5
-        self.match_logit_gain = nn.Parameter(
-            torch.tensor(-2.0, dtype=dtype))
-        self.reliability_scale = nn.Parameter(
-            torch.tensor(2.0, dtype=dtype))
-        self.reliability_bias = nn.Parameter(
-            torch.tensor(-1.5, dtype=dtype))
+        self.mechanism = MechanismEvidenceMetaTransformer(
+            slot_dim, task_dim, slot_count, support_blocks, dtype)
+        self.reference_delta = nn.Sequential(
+            nn.LayerNorm(slot_dim, dtype=dtype),
+            nn.Linear(slot_dim, task_dim, bias=False, dtype=dtype), nn.GELU(),
+            nn.Linear(task_dim, 1, bias=False, dtype=dtype))
+        nn.init.zeros_(self.reference_delta[-1].weight)
+        self.reference_score = nn.Sequential(
+            nn.LayerNorm(slot_dim, dtype=dtype),
+            nn.Linear(slot_dim, 1, bias=False, dtype=dtype))
+        self.reference_blend = nn.Sequential(
+            nn.Linear(3, 16, dtype=dtype), nn.GELU(),
+            nn.Linear(16, 1, dtype=dtype), nn.Sigmoid())
+        nn.init.constant_(self.reference_blend[-2].bias, -2.0)
         self.level_gate = nn.Sequential(
             nn.Linear(3, 16, dtype=dtype), nn.GELU(),
             nn.Linear(16, 1, dtype=dtype), nn.Sigmoid())
 
-    def condition_queries(self, task_code: Tensor, query_ligand: Tensor,
-                          query_endpoint: Tensor) -> Tensor:
-        return self.relative_conditioner(
-            task_code, query_endpoint, query_ligand)
-
-    def inject_query_code(self, endpoint: Tensor, query_code: Tensor) -> Tensor:
-        modulation = self.code_to_endpoint(query_code)
-        return endpoint + 0.25 * modulation * (1.0 + torch.tanh(endpoint))
-
-    def relative_residual_match(
-            self, support_endpoint: Tensor, support_ligand: Tensor,
-            centered_residual: Tensor, query_endpoint: Tensor,
-            query_ligand: Tensor, reliability: Tensor | None = None) -> Tensor:
-        """Neural reference-query matching over label-bound support residuals."""
-        support = self.match_support(torch.cat((support_endpoint, support_ligand), -1))
-        query = self.match_query(torch.cat((query_endpoint, query_ligand), -1))
-        scores = torch.matmul(query, support.transpose(-1, -2))
-        weights = torch.softmax(scores * self.match_temperature, dim=-1)
-        gain = torch.sigmoid(self.match_logit_gain)
-        correction = gain * torch.matmul(
-            weights, centered_residual.unsqueeze(-1)).squeeze(-1)
-        if reliability is None:
-            reliability = self.support_match_reliability(
-                support_endpoint, support_ligand, centered_residual)
-        if correction.ndim > reliability.ndim:
-            reliability = reliability.unsqueeze(-1)
-        return reliability * correction
-
-    def support_match_reliability(
-            self, support_endpoint: Tensor, support_ligand: Tensor,
-            centered_residual: Tensor) -> Tensor:
-        """Support-only leave-one-out gate for the relative SAR hypothesis."""
-        count = centered_residual.shape[-1]
-        if count < 2:
-            return centered_residual.new_zeros(centered_residual.shape[:-1])
-        support = self.match_support(torch.cat((support_endpoint, support_ligand), -1))
-        scores = torch.matmul(support, support.transpose(-1, -2))
-        diagonal = torch.eye(count, device=scores.device, dtype=torch.bool)
-        scores = scores.masked_fill(diagonal, torch.finfo(scores.dtype).min)
-        weights = torch.softmax(scores * self.match_temperature, dim=-1)
-        prediction = torch.matmul(
-            weights, centered_residual.unsqueeze(-1)).squeeze(-1)
-        null_error = centered_residual.square().mean(-1)
-        match_error = (prediction - centered_residual).square().mean(-1)
-        improvement = (null_error - match_error) / null_error.clamp_min(
-            32 * torch.finfo(null_error.dtype).eps)
-        logit = (torch.nn.functional.softplus(self.reliability_scale)
-                 * improvement + self.reliability_bias)
-        return torch.sigmoid(logit)
-
-    def support_match_loss(
-            self, support_endpoint: Tensor, support_ligand: Tensor,
-            centered_residual: Tensor) -> Tensor:
-        """Leave-one-out support objective for the shared matching metric."""
-        count = centered_residual.shape[-1]
-        if count < 2:
-            return centered_residual.new_zeros(())
-        support = self.match_support(torch.cat((support_endpoint, support_ligand), -1))
-        scores = torch.matmul(support, support.transpose(-1, -2))
-        diagonal = torch.eye(count, device=scores.device, dtype=torch.bool)
-        scores = scores.masked_fill(diagonal, torch.finfo(scores.dtype).min)
-        prediction = torch.matmul(
-            torch.softmax(scores * self.match_temperature, dim=-1),
-            centered_residual.unsqueeze(-1)).squeeze(-1)
-        return (prediction - centered_residual).square().mean()
-
     def infer(self, protein: Tensor, support_ligand: Tensor,
-              support_endpoint: Tensor, support_y: Tensor,
-              query_ligand: Tensor, query_endpoint: Tensor, *,
+              support_endpoint: Tensor, support_slots: Tensor,
+              support_y: Tensor, query_ligand: Tensor,
+              query_endpoint: Tensor, query_slots: Tensor, *,
               adapt: bool = True,
-              task_state_override: Tensor | None = None) -> HyperSARState:
-        batched = support_ligand.ndim == 3
-        support_count = support_ligand.shape[1 if batched else 0]
-        protein_level = self.protein_level(protein).squeeze(-1)
+              task_state_override: Tensor | None = None) -> MechanismMetaState:
+        support_count = support_ligand.shape[1]
+        protein_level = self.protein_level(protein).squeeze(-1).unsqueeze(-1)
         support_ligand_value = self.ligand_baseline(support_ligand).squeeze(-1)
         query_ligand_value = self.ligand_baseline(query_ligand).squeeze(-1)
-        if batched:
-            protein_level = protein_level.unsqueeze(-1)
         support_add = support_ligand_value + protein_level
         query_add = query_ligand_value + protein_level
         support_cross = self.cross_head(support_endpoint).squeeze(-1)
         query_cross = self.cross_head(query_endpoint).squeeze(-1)
         support_zero = support_add + support_cross
         zero_shot = query_add + query_cross
-        state_shape = zero_shot.shape[:-1] + (self.task_dim,)
         if not adapt or support_count == 0:
-            centered = support_y.new_zeros(support_y.shape)
-            level_shift = torch.zeros(zero_shot.shape[:-1], device=zero_shot.device)
-            gate = torch.zeros_like(level_shift)
+            residual = support_y.new_zeros(support_y.shape)
+            centered = residual
+            level_shift = zero_shot.new_zeros(zero_shot.shape[0])
+            level_gate = level_shift
             level_adjustment = torch.zeros_like(zero_shot)
-            task_code = torch.zeros(
-                state_shape, device=zero_shot.device, dtype=zero_shot.dtype)
         else:
             residual = support_y - support_zero
             centered = residual - residual.mean(-1, keepdim=True)
-            tolerance = (32 * torch.finfo(centered.dtype).eps
-                         * residual.abs().amax(-1, keepdim=True).clamp_min(1))
-            centered = torch.where(
-                centered.abs() <= tolerance, torch.zeros_like(centered), centered)
             level_shift = residual.mean(-1)
-            mad = (residual - residual.mean(-1, keepdim=True)).abs().mean(-1)
+            mad = centered.abs().mean(-1)
             count = torch.full_like(level_shift, float(support_count)).log1p()
-            gate = self.level_gate(torch.stack((level_shift, mad, count), -1)).squeeze(-1)
-            support_mean = support_y.mean(-1)
-            support_zero_mean = support_zero.mean(-1)
-            if batched:
-                support_mean = support_mean.unsqueeze(-1)
-                support_zero_mean = support_zero_mean.unsqueeze(-1)
-                shape_gate = gate.unsqueeze(-1)
-            else:
-                shape_gate = gate
-            # Anchor the absolute level to observed support. The learned gate
-            # controls only transfer of zero-shot relative query shape, so a
-            # zero gate is exactly the robust support-mean baseline.
-            level_baseline = support_mean + shape_gate * (
+            level_gate = self.level_gate(
+                torch.stack((level_shift, mad, count), -1)).squeeze(-1)
+            support_mean = support_y.mean(-1, keepdim=True)
+            support_zero_mean = support_zero.mean(-1, keepdim=True)
+            level_baseline = support_mean + level_gate.unsqueeze(-1) * (
                 zero_shot - support_zero_mean)
             level_adjustment = level_baseline - zero_shot
-            task_code = self.conditioner(
-                support_endpoint, support_ligand, centered)
-            if task_state_override is not None:
-                if task_state_override.shape != task_code.shape:
-                    raise ValueError(
-                        "task_state_override must match the target-level "
-                        f"reference code shape {tuple(task_code.shape)}, got "
-                        f"{tuple(task_state_override.shape)}")
-                task_code = task_state_override.to(task_code)
-        evidence = torch.linalg.vector_norm(centered, dim=-1) / max(support_count, 1) ** 0.5
-        return HyperSARState(
+        task_prompts, query_gate, pseudo_gradient, auxiliary = self.mechanism(
+            support_slots, residual, query_slots,
+            task_state_override=task_state_override, adapt=adapt)
+        evidence = (pseudo_gradient.square().mean((-2, -1)).sqrt()
+                    if support_count else zero_shot.new_zeros(zero_shot.shape[0]))
+        if adapt and support_count:
+            difference = query_slots[:, :, None] - support_slots[:, None]
+            gated_difference = difference * (
+                1.0 + query_gate[:, :, None, :, None])
+            # With the query-conditioned gate held fixed, the odd construction
+            # makes an identity reference zero and reverses sign with the slot
+            # difference.  It does not claim global support/query exchange
+            # antisymmetry because the gate itself is directional.
+            delta = 0.5 * (
+                self.reference_delta(gated_difference)
+                - self.reference_delta(-gated_difference)).squeeze(-1).mean(-1)
+            reference_weight = torch.softmax(
+                self.reference_score(difference).squeeze(-1).mean(-1), dim=-1)
+            anchors = (support_y[:, None] + zero_shot[:, :, None]
+                       - support_zero[:, None] + delta)
+            reference_prediction = (reference_weight * anchors).sum(-1)
+            mean_distance = torch.linalg.vector_norm(
+                difference, dim=-1).mean((-2, -1))
+            blend = self.reference_blend(torch.stack((
+                evidence[:, None].expand_as(mean_distance), mean_distance,
+                torch.full_like(mean_distance, float(support_count)).log1p()),
+                -1)).squeeze(-1)
+            reference_correction = blend * (
+                reference_prediction - (zero_shot + level_adjustment))
+            if support_count >= 2:
+                support_difference = (
+                    support_slots[:, :, None] - support_slots[:, None])
+                task_gate = torch.tanh(
+                    self.mechanism.gate(task_prompts).squeeze(-1))
+                gated_support_difference = support_difference * (
+                    1.0 + task_gate[:, None, None, :, None])
+                support_delta = 0.5 * (
+                    self.reference_delta(gated_support_difference)
+                    - self.reference_delta(-gated_support_difference)
+                ).squeeze(-1).mean(-1)
+                support_score = self.reference_score(
+                    support_difference).squeeze(-1).mean(-1)
+                diagonal = torch.eye(
+                    support_count, dtype=torch.bool, device=support_score.device)
+                support_score = support_score.masked_fill(
+                    diagonal, torch.finfo(support_score.dtype).min)
+                support_weight = torch.softmax(support_score, -1)
+                support_anchor = (
+                    support_y[:, None] + support_zero[:, :, None]
+                    - support_zero[:, None] + support_delta)
+                reconstructed = (support_weight * support_anchor).sum(-1)
+                auxiliary = torch.nn.functional.smooth_l1_loss(
+                    reconstructed, support_y)
+        else:
+            reference_correction = torch.zeros_like(zero_shot)
+        return MechanismMetaState(
             support_zero, query_add, query_ligand_value, query_cross, zero_shot,
-            task_code, centered, level_shift, level_adjustment, gate, evidence)
+            task_prompts, centered, level_shift, level_adjustment, level_gate,
+            evidence, query_gate, reference_correction, auxiliary)
 
     @staticmethod
     def delta(predictions: Tensor, left: Tensor, right: Tensor) -> Tensor:
@@ -329,7 +312,7 @@ class QPSMPMetaLearner(nn.Module):
 
 
 class QPSMPBioModel(nn.Module):
-    """Localized pair trunk with support-generated low-rank interaction adapters."""
+    """BPSF mechanism slots with single-stage episodic meta-adaptation."""
 
     def __init__(self, protein_dim: int, hidden_dim: int = 128,
                  task_dim: int = 32, ligand_layers: int = 3,
@@ -338,130 +321,161 @@ class QPSMPBioModel(nn.Module):
                  pair_chunk_size: int = 16, support_hidden_dim: int = 128,
                  support_blocks: int = 2, adapter_rank: int = 4,
                  adaptive_blocks: int = 2, adapter_scale: float = 0.25,
+                 use_cartesian: bool = False,
                  dtype: torch.dtype = torch.float32) -> None:
         super().__init__()
+        del support_hidden_dim, adapter_rank, adaptive_blocks
         self.protein_encoder = ProteinEncoder(protein_dim, hidden_dim, dtype)
         self.ligand_encoder = LigandEncoder(hidden_dim, ligand_layers, dtype=dtype)
         self.pair_section = BipartitePairSectionFormer(
             hidden_dim, task_dim, pair_dim, pair_blocks, pair_latents,
-            pair_heads, pair_chunk_size, task_dim, adapter_rank,
-            min(adaptive_blocks, pair_blocks), adapter_scale, dtype)
+            pair_heads, pair_chunk_size, dtype=dtype)
+        self.cartesian_encoder = (SparseCartesianMechanismEncoder(
+            hidden_dim, scalar_dim=max(pair_dim // 2, 8),
+            vector_channels=max(pair_dim // 4, 4),
+            tensor_channels=max(pair_dim // 8, 2), layers=2,
+            mechanism_slots=pair_latents, slot_dim=pair_dim, dtype=dtype)
+            if use_cartesian else None)
+        self.geometry_scale = (nn.Parameter(torch.tensor(0.1, dtype=dtype))
+                               if use_cartesian else None)
         self.meta = QPSMPMetaLearner(
-            hidden_dim, task_dim, support_hidden_dim, support_blocks, dtype)
+            hidden_dim, pair_dim, pair_latents, task_dim,
+            support_blocks, adapter_scale, dtype)
 
     def _pair_encode(self, atom_states: Tensor, residues: Tensor, mask: Tensor,
-                     protein_mask: Tensor, bonds: Tensor,
-                     task_code: Tensor | None = None):
+                     protein_mask: Tensor, bonds: Tensor):
         adjacency = (bonds.abs().sum(-1) > 0).to(atom_states.dtype)
         return self.pair_section(
-            atom_states, residues, mask, protein_mask, adjacency,
-            task_code=task_code)
+            atom_states, residues, mask, protein_mask, adjacency)
 
     def forward(self, protein_pooled: Tensor, protein_tokens: Tensor,
                 protein_mask: Tensor, support_atoms: Tensor, support_bonds: Tensor,
                 support_mask: Tensor, support_y: Tensor, query_atoms: Tensor,
                 query_bonds: Tensor, query_mask: Tensor, *,
                 adapt: bool = True,
-                task_state_override: Tensor | None = None) -> QPSMPMetaOutput:
+                task_state_override: Tensor | None = None,
+                geometry_coordinates: Tensor | None = None,
+                geometry_edge_index: Tensor | None = None,
+                geometry_available: Tensor | None = None,
+                geometry_common_frame: Tensor | None = None) -> QPSMPMetaOutput:
         parameter = next(self.parameters())
         device, dtype = parameter.device, parameter.dtype
-        batched = protein_pooled.ndim == 2
-        sequence_dim = 1 if batched else 0
+        unbatched = protein_pooled.ndim == 1
+        if unbatched:
+            protein_pooled = protein_pooled.unsqueeze(0)
+            protein_tokens = protein_tokens.unsqueeze(0)
+            protein_mask = protein_mask.unsqueeze(0)
+            support_atoms = support_atoms.unsqueeze(0)
+            support_bonds = support_bonds.unsqueeze(0)
+            support_mask = support_mask.unsqueeze(0)
+            support_y = support_y.unsqueeze(0)
+            query_atoms = query_atoms.unsqueeze(0)
+            query_bonds = query_bonds.unsqueeze(0)
+            query_mask = query_mask.unsqueeze(0)
+            if task_state_override is not None:
+                task_state_override = task_state_override.unsqueeze(0)
+            if geometry_coordinates is not None:
+                geometry_coordinates = geometry_coordinates.unsqueeze(0)
+            if geometry_available is not None:
+                geometry_available = geometry_available.unsqueeze(0)
+            if geometry_common_frame is not None:
+                geometry_common_frame = geometry_common_frame.unsqueeze(0)
         pooled, residues = self.protein_encoder(
-            (protein_pooled if batched else protein_pooled.unsqueeze(0)).to(device, dtype),
-            (protein_tokens if batched else protein_tokens.unsqueeze(0)).to(device, dtype))
-        atoms = torch.cat((support_atoms, query_atoms), sequence_dim).to(device, dtype)
-        bonds = torch.cat((support_bonds, query_bonds), sequence_dim).to(device, dtype)
-        mask = torch.cat((support_mask, query_mask), sequence_dim).to(device, dtype)
-        if batched:
-            batch, count, atom_count = atoms.shape[:3]
-            ligand, atom_states = self.ligand_encoder(
-                atoms.flatten(0, 1), bonds.flatten(0, 1), mask.flatten(0, 1))
-            ligand = ligand.reshape(batch, count, -1)
-            atom_states = atom_states.reshape(batch, count, atom_count, -1)
-            flat_residues = residues[:, None].expand(-1, count, -1, -1).flatten(0, 1)
-            flat_protein_mask = protein_mask[:, None].expand(-1, count, -1).flatten(0, 1)
-            encoded = self._pair_encode(
-                atom_states.flatten(0, 1), flat_residues, mask.flatten(0, 1),
-                flat_protein_mask.to(device), bonds.flatten(0, 1))
-            endpoint = encoded.endpoint.reshape(batch, count, -1)
-            section = encoded.section.reshape(batch, count, -1)
-        else:
-            ligand, atom_states = self.ligand_encoder(atoms, bonds, mask)
-            count = atoms.shape[0]
-            expanded_residues = residues.squeeze(0).unsqueeze(0).expand(count, -1, -1)
-            expanded_protein_mask = protein_mask.to(device).unsqueeze(0).expand(count, -1)
-            encoded = self._pair_encode(
-                atom_states, expanded_residues, mask, expanded_protein_mask, bonds)
-            endpoint, section = encoded.endpoint, encoded.section
-        support_count = support_atoms.shape[sequence_dim]
-        query_count = query_atoms.shape[sequence_dim]
+            protein_pooled.to(device, dtype), protein_tokens.to(device, dtype))
+        atoms = torch.cat((support_atoms, query_atoms), 1).to(device, dtype)
+        bonds = torch.cat((support_bonds, query_bonds), 1).to(device, dtype)
+        mask = torch.cat((support_mask, query_mask), 1).to(device, dtype)
+        batch, count, atom_count = atoms.shape[:3]
+        ligand, atom_states = self.ligand_encoder(
+            atoms.flatten(0, 1), bonds.flatten(0, 1), mask.flatten(0, 1))
+        ligand = ligand.reshape(batch, count, -1)
+        atom_states = atom_states.reshape(batch, count, atom_count, -1)
+        encoded = self._pair_encode(
+            atom_states.flatten(0, 1),
+            residues[:, None].expand(-1, count, -1, -1).flatten(0, 1),
+            mask.flatten(0, 1),
+            protein_mask[:, None].expand(-1, count, -1).flatten(0, 1).to(device),
+            bonds.flatten(0, 1))
+        endpoint = encoded.endpoint.reshape(batch, count, -1)
+        section = encoded.section.reshape(batch, count, -1)
+        slots = encoded.mechanism_slots.reshape(batch, count, *encoded.mechanism_slots.shape[1:])
+        if geometry_coordinates is not None or geometry_edge_index is not None:
+            if self.cartesian_encoder is None:
+                raise ValueError("Cartesian inputs require use_cartesian=True")
+            if geometry_coordinates is None or geometry_edge_index is None:
+                raise ValueError("coordinates and Cartesian edges must be provided together")
+            residue_count = residues.shape[1]
+            expected = (batch, count, atom_count + residue_count, 3)
+            if geometry_coordinates.shape != expected:
+                raise ValueError(
+                    f"geometry coordinates must have shape {expected}")
+            if geometry_available is None:
+                geometry_available = torch.ones(
+                    batch, count, dtype=torch.bool, device=device)
+            if geometry_available.shape != (batch, count):
+                raise ValueError("geometry availability mask has wrong shape")
+            if geometry_common_frame is None \
+                    or geometry_common_frame.shape != (batch, count):
+                raise ValueError(
+                    "Cartesian interaction requires an explicit common-frame mask")
+            if bool((geometry_available.bool()
+                     & ~geometry_common_frame.bool()).any()):
+                raise ValueError(
+                    "available Cartesian interaction coordinates must share a common frame")
+            geometry_nodes = torch.cat((
+                atom_states,
+                residues[:, None].expand(-1, count, -1, -1)), dim=2)
+            geometry_mask = torch.cat((mask, protein_mask[:, None].expand(
+                -1, count, -1).to(device)), dim=2).bool()
+            geometry_mask = geometry_mask & geometry_available.to(device).unsqueeze(-1)
+            geometry = self.cartesian_encoder(
+                geometry_nodes.flatten(0, 1), geometry_mask.flatten(0, 1),
+                geometry_coordinates.to(device, dtype).flatten(0, 1),
+                geometry_edge_index.to(device))
+            geometry_slots = geometry.mechanism_slots.reshape(
+                batch, count, *geometry.mechanism_slots.shape[1:])
+            slots = slots + torch.tanh(self.geometry_scale) * geometry_slots
+        elif self.cartesian_encoder is not None and geometry_available is not None \
+                and bool(geometry_available.any()):
+            raise ValueError("available geometry requires coordinates and edges")
+        support_count = support_atoms.shape[1]
         support_ligand, query_ligand = torch.split(
-            ligand, (support_count, query_count), sequence_dim)
+            ligand, (support_count, count - support_count), 1)
         support_endpoint, query_endpoint = torch.split(
-            endpoint, (support_count, query_count), sequence_dim)
-        _, query_section = torch.split(section, (support_count, query_count), sequence_dim)
+            endpoint, (support_count, count - support_count), 1)
+        support_slots, query_slots = torch.split(
+            slots, (support_count, count - support_count), 1)
+        _, query_section = torch.split(
+            section, (support_count, count - support_count), 1)
         state = self.meta.infer(
-            pooled if batched else pooled.squeeze(0), support_ligand,
-            support_endpoint, support_y.to(device, dtype), query_ligand,
-            query_endpoint, adapt=adapt, task_state_override=task_state_override)
-
+            pooled, support_ligand, support_endpoint, support_slots,
+            support_y.to(device, dtype), query_ligand, query_endpoint,
+            query_slots, adapt=adapt,
+            task_state_override=task_state_override)
         if adapt and support_count:
-            sar_reliability = self.meta.support_match_reliability(
-                support_endpoint, support_ligand, state.centered_residual)
-            query_code = self.meta.condition_queries(
-                state.task_code, query_ligand, query_endpoint)
-            if batched:
-                query_code = query_code * sar_reliability[:, None, None]
-            else:
-                query_code = query_code * sar_reliability
-            relative_code = query_code
-            if batched:
-                query_atom_states = atom_states[:, support_count:].flatten(0, 1)
-                query_residues = residues[:, None].expand(
-                    -1, query_count, -1, -1).flatten(0, 1)
-                query_protein_mask = protein_mask[:, None].expand(
-                    -1, query_count, -1).flatten(0, 1).to(device)
-                query_code = query_code.flatten(0, 1)
-                adapted = self._pair_encode(
-                    query_atom_states, query_residues,
-                    mask[:, support_count:].flatten(0, 1), query_protein_mask,
-                    bonds[:, support_count:].flatten(0, 1), query_code)
-                adapted_endpoint = adapted.endpoint.reshape(batch, query_count, -1)
-                query_section = adapted.section.reshape(batch, query_count, -1)
-            else:
-                adapted = self._pair_encode(
-                    atom_states[support_count:], expanded_residues[support_count:],
-                    mask[support_count:], expanded_protein_mask[support_count:],
-                    bonds[support_count:], query_code)
-                adapted_endpoint, query_section = adapted.endpoint, adapted.section
-            adapted_endpoint = self.meta.inject_query_code(
-                adapted_endpoint, relative_code)
+            adapted_slots = query_slots * (
+                1.0 + self.meta.mechanism_scale * state.query_gate.unsqueeze(-1))
+            adapted_endpoint, query_section = self.pair_section.latent.project_slots(
+                adapted_slots)
             adapted_cross = self.meta.cross_head(adapted_endpoint).squeeze(-1)
-            active = torch.linalg.vector_norm(state.task_code, dim=-1) > 0
-            if batched:
-                active = active.unsqueeze(-1)
-            adapted_cross = torch.where(active, adapted_cross, state.query_cross)
+            sar = adapted_cross - state.query_cross
         else:
-            adapted_cross = state.query_cross
-            sar_reliability = state.zero_shot.new_zeros(
-                state.zero_shot.shape[:-1])
-        adapted_zero = state.query_add + adapted_cross
-        matched_sar = self.meta.relative_residual_match(
-            support_endpoint, support_ligand, state.centered_residual,
-            query_endpoint, query_ligand, sar_reliability
-        ) if adapt and support_count else 0.0
-        sar = adapted_zero - state.zero_shot + matched_sar
+            sar = torch.zeros_like(state.query_cross)
         level_baseline = state.zero_shot + state.level_adjustment
-        prediction = state.zero_shot + state.level_adjustment + sar
-        evidence_score = torch.tanh(torch.linalg.vector_norm(state.task_code, dim=-1))
-        support_match_loss = self.meta.support_match_loss(
-            support_endpoint, support_ligand, state.centered_residual)
-        one = torch.ones((), device=prediction.device, dtype=prediction.dtype)
-        return QPSMPMetaOutput(
+        sar = sar + state.reference_correction
+        prediction = level_baseline + sar
+        evidence_score = torch.tanh(state.support_evidence)
+        sar_scale = state.query_gate.abs().mean((-2, -1))
+        one = torch.ones_like(state.level_gate)
+        output = QPSMPMetaOutput(
             prediction, state.query_add, state.query_ligand_value,
             state.query_cross, level_baseline, state.level_adjustment, sar,
-            prediction - state.zero_shot, state.zero_shot, state.task_code,
+            prediction - state.zero_shot, state.zero_shot, state.task_prompts,
             state.level_shift, query_section, state.centered_residual,
             state.support_evidence, evidence_score, state.level_gate, one,
-            sar_reliability.mean(), support_match_loss)
+            sar_scale, state.support_auxiliary_loss)
+        if not unbatched:
+            return output
+        return QPSMPMetaOutput(*(
+            value.squeeze(0) if isinstance(value, Tensor) and value.ndim else value
+            for value in output.__dict__.values()))

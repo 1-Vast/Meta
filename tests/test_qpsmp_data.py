@@ -43,18 +43,30 @@ def test_fixed_episode_bank_is_reproducible_and_support_query_disjoint():
     assert all(spec.target != spec.donor_target for spec in left)
 
 
+def test_zero_support_episode_materializes_without_placeholder_labels():
+    data = governed_data()
+    spec = data.fixed_episode_bank("meta_val", 0, 3, 1, 18)[0]
+    episode = data.materialize(spec)
+    assert spec.support == ()
+    assert episode.support_atoms.shape == (0, 1, 32)
+    assert episode.support_bonds.shape == (0, 1, 1, 12)
+    assert episode.support_y.numel() == 0
+    assert episode.query_y.numel() == 3
+
+
 def test_nested_episode_banks_share_query_and_use_support_prefixes():
     data = governed_data()
     banks = data.fixed_nested_episode_banks(
-        "meta_val", (1, 2, 3, 5), 3, 1, 29, 1)
+        "meta_val", (0, 1, 2, 3, 5), 3, 1, 29, 1)
 
     assert {key: len(value) for key, value in banks.items()} == {
-        1: len(banks[5]), 2: len(banks[5]), 3: len(banks[5]), 5: len(banks[5])}
-    for episodes in zip(*(banks[size] for size in (1, 2, 3, 5))):
+        0: len(banks[5]), 1: len(banks[5]), 2: len(banks[5]),
+        3: len(banks[5]), 5: len(banks[5])}
+    for episodes in zip(*(banks[size] for size in (0, 1, 2, 3, 5))):
         largest = episodes[-1]
         assert all(item.query == largest.query for item in episodes)
         assert all(item.support == largest.support[:size]
-                   for size, item in zip((1, 2, 3, 5), episodes))
+                   for size, item in zip((0, 1, 2, 3, 5), episodes))
         assert not set(largest.support) & set(largest.query)
         support_ligands = {data.cells[index]["ligand_id"] for index in largest.support}
         query_ligands = {data.cells[index]["ligand_id"] for index in largest.query}

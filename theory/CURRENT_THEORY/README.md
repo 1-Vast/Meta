@@ -9,5 +9,8 @@ This directory contains the complete current theory surface.
 Neither document contains experiment histories, run identifiers, repository audits, or numerical
 results. Those records belong outside the theory surface.
 
-The model document defines a trainable neural meta-operator. Closed-form section solves are
-diagnostic/comparator components and do not constitute the core innovation.
+The documents provide architecture-independent design inspiration, feasibility and
+identifiability diagnostics, and scalar-output consistency checks.  They do not freeze a
+specific neural realization.  In particular, row-span restrictions, centered-only support
+codes, and k=1 structural nullity are not requirements of the active model.  Closed-form
+section solves are diagnostics/comparators and do not constitute the core innovation.

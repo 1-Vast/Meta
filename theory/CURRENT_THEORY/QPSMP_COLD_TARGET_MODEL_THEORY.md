@@ -1,15 +1,26 @@
 # QPSMP Theory for Cold-Target Few-Shot Drug-Target Affinity Prediction
 
+> **2026-08-13 status amendment.** This document is mathematical inspiration,
+> a feasibility/identifiability diagnostic, and a scalar-output consistency
+> guide. It is not a frozen neural architecture contract. The active D-MEMT
+> model may replace the HyperSAR realization, use non-centered label-bound
+> evidence at k=1, and adapt retained mechanism slots, provided support/query
+> isolation, permutation invariance, cold-component governance, and scalar
+> endpoint consistency remain tested. Later statements prescribing HyperSAR,
+> centered-only evidence, row-span adaptation, or k=1 structural nullity are
+> historical constraints and do not bind the active model.
+
 ## 1. Objective
 
 The objective is to learn one shared deep model from historical protein tasks and adapt it to an
-unseen protein using only a small support set. The active core module is
-**QPSMP-HyperSAR**, an amortized conditional meta-potential.
+unseen protein using only a small support set. The active core module is the
+**Difference-constrained Mechanism-Evidence Meta-Transformer (D-MEMT)**; the
+HyperSAR construction below is retained as historical comparator theory.
 
 QPSMP is not an auxiliary diagnostic head. It is the retained scalar affinity path used for
 zero-shot prediction, interaction quotients, and few-shot adaptation.
 
-### 1.1 Active HyperSAR amendment
+### 1.1 Historical HyperSAR amendment
 
 This amendment supersedes the affine-section/ridge adaptation claims in Sections 4.2, 6, 7, 8,
 G3, and the old minimal implementation sketch wherever they conflict with the active model. Those

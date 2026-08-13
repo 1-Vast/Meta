@@ -29,15 +29,16 @@ def synthetic_data():
 
 def test_nested_manifest_uses_common_query_and_support_prefixes():
     data = synthetic_data()
-    records = build_nested_manifest(data, "meta_test", (1, 2, 3, 5), 3, 2, 17)
+    records = build_nested_manifest(data, "meta_test", (0, 1, 2, 3, 5), 3, 2, 17)
 
     assert len(records) == 4
     assert {record.target for record in records} == {"t1", "t2"}
     for record in records:
-        specs = [episode_spec(data, record, k) for k in (1, 2, 3, 5)]
+        specs = [episode_spec(data, record, k) for k in (0, 1, 2, 3, 5)]
         assert all(spec.query == specs[0].query for spec in specs)
-        assert specs[0].support == specs[-1].support[:1]
-        assert specs[1].support == specs[-1].support[:2]
+        assert specs[0].support == ()
+        assert specs[1].support == specs[-1].support[:1]
+        assert specs[2].support == specs[-1].support[:2]
         assert set(specs[-1].support).isdisjoint(specs[-1].query)
 
 

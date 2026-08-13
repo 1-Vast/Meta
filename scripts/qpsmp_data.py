@@ -38,6 +38,14 @@ class EpisodeBatch:
     query_bonds: torch.Tensor
     query_mask: torch.Tensor
     query_y: torch.Tensor
+    # Optional common-frame Cartesian inputs.  Coordinates contain padded
+    # ligand atoms followed by protein residues for each support/query pair.
+    # Edges use the packed flattened indexing consumed by model.cartesian.
+    support_coordinates: torch.Tensor | None = None
+    query_coordinates: torch.Tensor | None = None
+    geometry_edge_index: torch.Tensor | None = None
+    geometry_available: torch.Tensor | None = None
+    geometry_common_frame: torch.Tensor | None = None
 
 
 def stable_seed(*parts: object) -> int:
@@ -222,6 +230,8 @@ class QPSMPData:
 
     def draw_episode(self, split: str, support_size: int, query_size: int,
                      rng: np.random.Generator) -> EpisodeSpec:
+        if support_size < 0:
+            raise ValueError("support size cannot be negative")
         eligible = {
             component: tuple(target for target in targets
                              if self._unique_ligand_count(
@@ -289,8 +299,8 @@ class QPSMPData:
     ) -> dict[int, tuple[EpisodeSpec, ...]]:
         """Build nested support prefixes with one common query per target/draw."""
         sizes = tuple(sorted(set(map(int, support_sizes))))
-        if not sizes or sizes[0] < 1:
-            raise ValueError("support sizes must be positive")
+        if not sizes or sizes[0] < 0:
+            raise ValueError("support sizes cannot be negative")
         max_support = sizes[-1]
         eligible = {
             target: indices for target, indices in self.tasks[split].items()
@@ -346,6 +356,12 @@ class QPSMPData:
         pooled, residues, protein_mask = self._protein_tensors[spec.target]
 
         def graphs(indices: tuple[int, ...]):
+            if not indices:
+                atom_dim = int(self.ligand_bank.manifest["atom_feature_dim"])
+                bond_dim = int(self.ligand_bank.manifest["bond_feature_dim"])
+                return (torch.zeros(0, 1, atom_dim),
+                        torch.zeros(0, 1, 1, bond_dim),
+                        torch.zeros(0, 1, dtype=torch.bool))
             values = []
             for index in indices:
                 ligand = self.cells[index]["ligand_id"]

@@ -12,6 +12,7 @@ from torch import Tensor
 class PairSectionEncoding:
     endpoint: Tensor
     section: Tensor
+    mechanism_slots: Tensor
     pair: Tensor | None = None
     pair_mask: Tensor | None = None
 
@@ -112,7 +113,7 @@ class _LatentReadout(nn.Module):
         self.norm = nn.LayerNorm(pair_dim, dtype=dtype)
         self.output = nn.Linear(pair_dim, output_dim, bias=False, dtype=dtype)
 
-    def forward(self, pair: Tensor, pair_mask: Tensor) -> Tensor:
+    def forward(self, pair: Tensor, pair_mask: Tensor) -> tuple[Tensor, Tensor]:
         batch, _, _, width = pair.shape
         values = pair.reshape(batch, -1, width)
         valid = pair_mask.reshape(batch, -1).bool()
@@ -122,8 +123,15 @@ class _LatentReadout(nn.Module):
         latent = latent + attended
         for block in self.blocks:
             latent = latent + block(latent)
-        pooled = self.norm(latent).mean(1)
-        return self.output(pooled)
+        slots = self.norm(latent)
+        return self.output(slots.mean(1)), slots
+
+    def project_slots(self, slots: Tensor) -> Tensor:
+        """Project retained aligned slots through the original pooled readout."""
+        if slots.ndim < 3 or slots.shape[-2:] != self.latents.shape:
+            raise ValueError(
+                "mechanism slots must end in latent_count x pair_dim")
+        return self.output(slots.mean(-2))
 
 
 class SectionLatentEncoder(nn.Module):
@@ -140,9 +148,14 @@ class SectionLatentEncoder(nn.Module):
         self.section_norm = nn.LayerNorm(
             section_dim, elementwise_affine=False, dtype=dtype)
 
-    def forward(self, pair: Tensor, pair_mask: Tensor) -> tuple[Tensor, Tensor]:
-        shared = self.interaction(pair, pair_mask)
+    def project_slots(self, slots: Tensor) -> tuple[Tensor, Tensor]:
+        shared = self.interaction.project_slots(slots)
         return self.endpoint(shared), self.section_norm(self.section(shared))
+
+    def forward(self, pair: Tensor, pair_mask: Tensor) -> tuple[Tensor, Tensor, Tensor]:
+        shared, slots = self.interaction(pair, pair_mask)
+        return (self.endpoint(shared), self.section_norm(self.section(shared)),
+                slots)
 
 
 class BipartitePairSectionFormer(nn.Module):
@@ -194,8 +207,8 @@ class BipartitePairSectionFormer(nn.Module):
             pair, atoms, residues = block(
                 pair, atoms, residues, atom_mask, residue_mask, adjacency,
                 task_code)
-        endpoint, section = self.latent(pair, mask)
-        return PairSectionEncoding(endpoint, section,
+        endpoint, section, slots = self.latent(pair, mask)
+        return PairSectionEncoding(endpoint, section, slots,
                                    pair if return_pair else None,
                                    mask if return_pair else None)
 
@@ -227,5 +240,6 @@ class BipartitePairSectionFormer(nn.Module):
         return PairSectionEncoding(
             torch.cat([x.endpoint for x in outputs]),
             torch.cat([x.section for x in outputs]),
+            torch.cat([x.mechanism_slots for x in outputs]),
             torch.cat([x.pair for x in outputs]) if return_pair else None,
             torch.cat([x.pair_mask for x in outputs]) if return_pair else None)
