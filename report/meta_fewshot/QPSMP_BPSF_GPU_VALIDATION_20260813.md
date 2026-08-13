@@ -28,7 +28,7 @@ required by affinity inference.
 - BPSF/SectionFormer endpoint smoke: 20 steps, CUDA AMP, peak memory about
   396 MB, validation MSE 0.8632 at the final step.
 - Cached BPSF Stage A: 500 steps, 16 episodes per step, CUDA AMP, about 124
-  seconds of optimization, peak memory about 396 MB, GPU utilization observed
+  seconds of optimization, peak memory about 3.43 GB, GPU utilization observed
   near 78% and power near 76 W.
 - Frozen-zero-shot SectionFormer meta-stage: 1,000 steps, best validation
   checkpoint at step 100, about 368 seconds total optimization, peak memory
