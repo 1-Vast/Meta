@@ -93,3 +93,25 @@ because that intervention replaces the complete donor episode. Consequently,
 this model is not authorized for a three-seed or sealed evaluation. The full
 machine-readable result is in
 `report/meta_fewshot/lcipf_elmt_bindingdb_dev_small_seed20260814/RESULT.json`.
+
+## Medium-model power test
+
+The default model was increased to 3,191,427 trainable parameters:
+`hidden_dim=192`, `task_dim=48`, `ligand_layers=4`, `pair_dim=96`, four pair
+blocks, 24 latent slots, three episodes per optimization step, and 20 query
+examples. Cartesian remains disabled. A 10-step CUDA run completed with a
+peak allocation of approximately 3.99 GB.
+
+The resulting test metrics were:
+
+| metric | value |
+|---|---:|
+| full MSE | 1.2431 |
+| level-only MSE | 1.9248 |
+| binding gap (permuted - full) | -0.0319 |
+| wrong-protein gap | -0.0043 |
+
+The larger model uses substantially more compute and improves aggregate MSE
+in this short run, but both binding and wrong-protein controls fail. This is a
+capacity/optimization diagnostic, not an admission result. The raw output is
+`report/meta_fewshot/lcipf_elmt_medium_power_smoke_20260814/RESULT.json`.
