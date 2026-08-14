@@ -70,3 +70,26 @@ level-only cut and penalizes absent permutation/counterfactual binding gap.
 The next admissible experiment is a one-seed BindingDB A/B/C/D comparison. A
 three-seed or sealed result is not authorized until correct-label binding,
 level-cut improvement, and wrong-protein controls pass on that development run.
+
+## BindingDB development run
+
+Run: `lcipf_elmt_bindingdb_dev_small_seed20260814` (CUDA, 20 steps, reduced
+development width, k sampled from 0/1/2/3/5). The run completed, but failed the
+admission criteria:
+
+| metric | value |
+|---|---:|
+| full MSE | 1.8660 |
+| level-only MSE | 1.4296 |
+| zero-shot MSE | 3.0800 |
+| binding gap (permuted - full) | -0.0127 |
+| wrong-protein gap | +0.0160 |
+| complete foreign gap | +1.8856 |
+
+The negative binding gap means the correct support labels did not beat the
+counterfactual assignment. Full prediction was also worse than the scalar
+level-only baseline. The foreign gap is not treated as proof of label binding,
+because that intervention replaces the complete donor episode. Consequently,
+this model is not authorized for a three-seed or sealed evaluation. The full
+machine-readable result is in
+`report/meta_fewshot/lcipf_elmt_bindingdb_dev_small_seed20260814/RESULT.json`.
