@@ -59,10 +59,11 @@ class TrainConfig:
     ranking_loss_weight: float = 0.5
     shape_loss_weight: float = 0.5
     support_match_loss_weight: float = 0.05
-    dependency_loss_weight: float = 0.25
-    dependency_margin: float = 0.05
+    binding_loss_weight: float = 0.25
+    binding_temperature: float = 0.1
     ranking_temperature: float = 1.0
-    dependency_warmup_fraction: float = 0.1
+    representation_warmup_fraction: float = 0.2
+    admission_binding_margin_pk: float = 0.01
     zero_support_only: bool = False
     pretrained_checkpoint: str | None = None
     geometry_checkpoint: str | None = None
@@ -246,6 +247,7 @@ def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True,
         episode.protein_pooled, episode.protein_tokens, episode.protein_mask,
         support_atoms, support_bonds, support_mask, episode.support_y,
         query_atoms, query_bonds, query_mask, adapt=adapt,
+        protein_chemistry=episode.protein_chemistry,
         task_state_override=task_state_override,
         geometry_coordinates=geometry_coordinates,
         geometry_edge_index=episode.geometry_edge_index,
@@ -269,6 +271,32 @@ def pairwise_ranking_loss(prediction: torch.Tensor, truth: torch.Tensor,
         return prediction.new_zeros(())
     signed = delta_y.sign() * delta_p / temperature
     return torch.nn.functional.softplus(-signed[comparable]).mean()
+
+
+def binding_contrastive_loss(errors: list[torch.Tensor], temperature: float) -> torch.Tensor:
+    """Prefer the true ligand-label binding over matched counterfactuals."""
+    if len(errors) < 2:
+        raise ValueError("binding contrast requires a counterfactual error")
+    logits = -torch.stack(errors) / temperature
+    return F.cross_entropy(logits.unsqueeze(0), logits.new_zeros(1, dtype=torch.long))
+
+
+def matched_wrong_labels(output, support_y: torch.Tensor) -> torch.Tensor:
+    """Flip the zero-shot residual magnitude for a one-support counterfactual."""
+    if support_y.shape[-1] != 1:
+        raise ValueError("magnitude-matched labels are defined only for k=1")
+    raw_residual = output.support_residual_quotient + output.level_adjustment[..., :1]
+    support_y = support_y.to(device=raw_residual.device, dtype=raw_residual.dtype)
+    return support_y - 2.0 * raw_residual.detach()
+
+
+def admission_score(metrics: dict[str, float], binding_margin_pk: float) -> float:
+    """Penalize harmful or label-insensitive meta corrections."""
+    full = metrics["full_mse_pk"]
+    level = metrics["sar_cut_mse_pk"]
+    binding_gap = metrics["permuted_mse_pk"] - full
+    return (full + max(0.0, full - level)
+            + max(0.0, binding_margin_pk - binding_gap))
 
 
 def component_target_mean(rows: list[dict], field: str) -> float:
@@ -334,6 +362,7 @@ def complete_foreign_prediction(model: QPSMPBioModel, data: QPSMPData,
         donor, protein_pooled=recipient.protein_pooled,
         protein_tokens=recipient.protein_tokens,
         protein_mask=recipient.protein_mask,
+        protein_chemistry=recipient.protein_chemistry,
         query_atoms=recipient.query_atoms, query_bonds=recipient.query_bonds,
         query_mask=recipient.query_mask, query_y=recipient.query_y)
     return forward(model, hybrid).prediction
@@ -345,7 +374,8 @@ def wrong_protein_prediction(model: QPSMPBioModel, data: QPSMPData,
     """Replace the protein throughout the full recipient episode."""
     pooled, tokens, mask = data.protein_for_target(donor_target)
     wrong_episode = replace(
-        episode, protein_pooled=pooled, protein_tokens=tokens, protein_mask=mask)
+        episode, protein_pooled=pooled, protein_tokens=tokens, protein_mask=mask,
+        protein_chemistry=data.protein_chemistry_for_target(donor_target))
     return forward(model, wrong_episode, adapt=adapt).prediction
 
 
@@ -396,7 +426,11 @@ def evaluate(model: QPSMPBioModel, data: QPSMPData,
                     full.cross_zero_shot.abs().mean() * label_scale.scale),
             }
             if controls:
-                permuted = replace(episode, support_y=episode.support_y.roll(1))
+                if episode.support_y.shape[-1] == 1:
+                    counterfactual_y = matched_wrong_labels(full, episode.support_y)
+                else:
+                    counterfactual_y = episode.support_y.roll(1)
+                permuted = replace(episode, support_y=counterfactual_y)
                 permuted_output = forward(model, permuted)
                 values.update({
                     "permuted_mse_pk": mse_pk(permuted_output.prediction),
@@ -529,50 +563,45 @@ def train(data: QPSMPData, config: TrainConfig,
             diversity["ligands"].update(
                 data.cells[index]["ligand_id"]
                 for index in (*spec.support, *spec.query))
-        dependency_gate = min(
-            1.0, step / max(config.steps * config.dependency_warmup_fraction, 1.0))
+        phase_a = step <= max(
+            1, int(config.steps * config.representation_warmup_fraction))
         losses = []
         with torch.autocast(
                 device_type="cuda",
                 dtype=(torch.bfloat16 if torch.cuda.is_bf16_supported()
                        else torch.float16), enabled=amp_enabled):
             for episode in selected:
-                full = forward(model, episode, adapt=not config.zero_support_only)
+                adapt = not (config.zero_support_only or phase_a)
+                full = forward(model, episode, adapt=adapt)
                 query_y = episode.query_y.to(
                     device=full.prediction.device, dtype=full.prediction.dtype)
-                endpoint_prediction = (
-                    full.zero_shot if config.zero_support_only else full.prediction)
+                endpoint_prediction = full.prediction if adapt else full.zero_shot
                 loss_full = F.smooth_l1_loss(endpoint_prediction, query_y)
                 loss_zero = F.smooth_l1_loss(full.zero_shot, query_y)
                 loss_rank = pairwise_ranking_loss(
                     full.prediction, query_y, config.ranking_temperature)
                 correct_error = centered_task_error(full.prediction, query_y)
-                if support_size >= 2:
-                    permuted = forward(
-                        model, replace(episode, support_y=episode.support_y.roll(1)))
-                    permuted_error = centered_task_error(
-                        permuted.prediction, query_y)
-                    foreign_prediction = complete_foreign_prediction(
-                        model, data, episode, episode.spec.donor_target,
-                        label_scale)
-                    foreign_error = centered_task_error(
-                        foreign_prediction, query_y)
-                    loss_dependency = (
-                        F.relu(config.dependency_margin + correct_error
-                               - permuted_error)
-                        + F.relu(config.dependency_margin + correct_error
-                                 - foreign_error))
+                loss_binding = loss_full.new_zeros(())
+                if adapt:
+                    wrong_y = (matched_wrong_labels(full, episode.support_y)
+                               if support_size == 1 else episode.support_y.roll(1))
+                    wrong = forward(model, replace(episode, support_y=wrong_y))
+                    loss_binding = binding_contrastive_loss(
+                        [correct_error, centered_task_error(wrong.prediction, query_y)],
+                        config.binding_temperature)
+                if phase_a:
+                    episode_loss = (
+                        loss_zero
+                        + config.ranking_loss_weight * pairwise_ranking_loss(
+                            full.zero_shot, query_y, config.ranking_temperature)
+                        + config.support_match_loss_weight * full.support_match_loss)
                 else:
-                    loss_dependency = loss_full.new_zeros(())
-                episode_loss = (
-                    loss_full
-                    + config.zero_shot_loss_weight * loss_zero
-                    + config.ranking_loss_weight * loss_rank
-                    + config.shape_loss_weight * correct_error
-                    + (0.0 if config.zero_support_only else
-                       config.support_match_loss_weight * full.support_match_loss)
-                    + dependency_gate * config.dependency_loss_weight
-                    * loss_dependency)
+                    episode_loss = (
+                        loss_full + config.zero_shot_loss_weight * loss_zero
+                        + config.ranking_loss_weight * loss_rank
+                        + config.shape_loss_weight * correct_error
+                        + config.support_match_loss_weight * full.support_match_loss
+                        + config.binding_loss_weight * loss_binding)
                 losses.append(episode_loss)
             loss = torch.stack(losses).mean()
         scaler.scale(loss).backward()
@@ -582,15 +611,21 @@ def train(data: QPSMPData, config: TrainConfig,
         scaler.update()
         trace.append(float(loss.detach()))
         if step % config.val_interval == 0 or step == config.steps:
-            selection_field = (
-                "zero_shot_mse_pk" if config.zero_support_only else "full_mse_pk")
-            values = [evaluate(
-                model, data, bank, controls=False,
-                label_scale=label_scale)[selection_field] for bank in val_banks.values()]
+            validation_metrics = {k: evaluate(
+                model, data, bank,
+                controls=not config.zero_support_only and k > 0,
+                label_scale=label_scale) for k, bank in val_banks.items()}
+            values = ([item["zero_shot_mse_pk"]
+                       for item in validation_metrics.values()]
+                      if config.zero_support_only else
+                      [(admission_score(item, config.admission_binding_margin_pk)
+                        if k > 0 else item["full_mse_pk"])
+                       for k, item in validation_metrics.items()])
             value = float(np.mean(values))
             progress = {
-                "step": step, "validation_mse_pk": value,
-                "best_validation_mse_pk": min(best_value, value),
+                "step": step, "phase": "representation" if phase_a else "meta",
+                "validation_admission_score": value,
+                "best_validation_admission_score": min(best_value, value),
                 "elapsed_seconds": time.monotonic() - started,
                 "device": config.device,
             }
@@ -604,7 +639,7 @@ def train(data: QPSMPData, config: TrainConfig,
     if best_state is None:
         raise RuntimeError("training produced no validation checkpoint")
     model.load_state_dict(best_state)
-    return model, {"best_val_component_target_mse_pk": best_value,
+    return model, {"best_val_admission_score": best_value,
                    "best_step": best_step, "loss_trace": trace,
                    "loss_trace_units": "standardized_squared_error",
                    "label_scale": asdict(label_scale),
@@ -662,8 +697,12 @@ def main() -> None:
                         default=TrainConfig.shape_loss_weight)
     parser.add_argument("--support-match-loss-weight", type=float,
                         default=TrainConfig.support_match_loss_weight)
-    parser.add_argument("--dependency-loss-weight", type=float,
-                        default=TrainConfig.dependency_loss_weight)
+    parser.add_argument("--binding-loss-weight", type=float,
+                        default=TrainConfig.binding_loss_weight)
+    parser.add_argument("--binding-temperature", type=float,
+                        default=TrainConfig.binding_temperature)
+    parser.add_argument("--representation-warmup-fraction", type=float,
+                        default=TrainConfig.representation_warmup_fraction)
     parser.add_argument("--zero-support-only", action="store_true")
     parser.add_argument("--pretrained-checkpoint", type=Path)
     parser.add_argument("--geometry-checkpoint", type=Path)
@@ -703,7 +742,9 @@ def main() -> None:
         ranking_loss_weight=args.ranking_loss_weight,
         shape_loss_weight=args.shape_loss_weight,
         support_match_loss_weight=args.support_match_loss_weight,
-        dependency_loss_weight=args.dependency_loss_weight,
+        binding_loss_weight=args.binding_loss_weight,
+        binding_temperature=args.binding_temperature,
+        representation_warmup_fraction=args.representation_warmup_fraction,
         zero_support_only=args.zero_support_only,
         pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
                                if args.pretrained_checkpoint else None),
@@ -728,16 +769,16 @@ def main() -> None:
     checkpoint = args.output / "checkpoint.pt"
     torch.save({"model_state": model.state_dict(), "config": asdict(config)}, checkpoint)
     result = {
-        "schema": "MetaSieve.CIPFTERMTrainingRun.v1",
+        "schema": "MetaSieve.LCIPFELMTTrainingRun.v1",
         "scope": "implementation_smoke_only",
         "data": {"corpus": str(CORPUS), "protein_bank_records": len(data.protein_bank),
                  "ligand_bank_records": len(data.ligand_bank)},
         "config": asdict(config), "training": training, "test": metrics,
         "evaluation_population": "fixed hash-selected targets within every eligible component",
         "controls": {"foreign_code": "donor support ligand/label pairs replace recipient support and are recomputed under the fixed recipient protein and query ligands",
-                     "wrong_protein": "TERM evidence inferred under a donor protein replaces recipient evidence",
-                     "sar_cut": "TERM primitive composition is removed while zero-shot and scalar level calibration remain",
-                     "permuted": "support labels are cyclically permuted"},
+                     "wrong_protein": "ELMT evidence inferred under a donor protein replaces recipient evidence",
+                     "sar_cut": "ELMT primitive composition is removed while zero-shot and scalar level calibration remain",
+                     "permuted": "support labels are cyclically permuted; k=1 uses an equal-magnitude residual flip"},
         "gate_authorization": {"G2": False, "G3a": False, "G3b": False},
         "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
     }

@@ -2,12 +2,14 @@
 
 ## Active 2026-08-13 candidate
 
-The active cold-target candidate is **CIPF + TERM**. CIPF reorganizes the
+The active cold-target candidate is **Localized CIPF + ELMT**. Localized CIPF reorganizes the
 existing sequence/residue and 2D graph inputs into globally indexed interaction
-primitive functions. TERM routes exact virtual squared-loss coefficient
-gradients through protein--support ligand--query ligand triads. It uses no
-support-label prediction anchor, solver, or inner loop. It jointly trains
-k={0,1,2,3,5}; k=0 is exactly zero-shot and k=1 remains active.
+primitive functions. ELMT routes label-bound residual values through a
+label-blind learned transport kernel; it does not use ridge, closed-form solves,
+or test-time optimization. Its transport keys use protein--support
+ligand--query ligand triads, while support labels enter only as values. It
+jointly trains k={0,1,2,3,5}; k=0 is exactly zero-shot and k=1 remains active.
+The previous TERM candidate is retained only in historical reports.
 
 `cartesian.py` supplies an optional sparse O(3)-equivariant scalar/vector/
 symmetric-traceless-rank-2 encoder. It is enabled only for declared coordinate

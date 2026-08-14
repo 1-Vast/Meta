@@ -123,8 +123,9 @@ class _LatentReadout(nn.Module):
     def primitive_response(self, slots: Tensor) -> Tensor:
         if slots.shape[-2:] != self.latents.shape:
             raise ValueError("mechanism slots do not match primitive dictionary")
-        return torch.einsum("...md,md->...m", slots, self.response_weight) \
+        raw = torch.einsum("...md,md->...m", slots, self.response_weight) \
             / self.response_weight.shape[-1] ** 0.5
+        return torch.sigmoid(raw)
 
     def forward(self, pair: Tensor, pair_mask: Tensor,
                 primitive_bias: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor]:
@@ -224,6 +225,8 @@ class BipartitePairSectionFormer(nn.Module):
                        residue_mask: Tensor, adjacency: Tensor,
                        return_pair: bool,
                        atom_features: Tensor | None = None,
+                       atom_chemistry: Tensor | None = None,
+                       residue_chemistry: Tensor | None = None,
                        task_code: Tensor | None = None) -> PairSectionEncoding:
         atoms = atoms * atom_mask.unsqueeze(-1)
         residues = residues * residue_mask.unsqueeze(-1)
@@ -247,6 +250,25 @@ class BipartitePairSectionFormer(nn.Module):
             atom_bias = self.atom_primitive(atom_features)[:, :, None]
             residue_bias = self.residue_primitive(residues)[:, None]
             primitive_bias = torch.tanh(atom_bias + residue_bias)
+        if atom_chemistry is not None or residue_chemistry is not None:
+            if atom_chemistry is None or residue_chemistry is None:
+                raise ValueError("anchored primitives need atom and residue chemistry")
+            if atom_chemistry.shape != (*atoms.shape[:2], 4) or \
+                    residue_chemistry.shape != (*residues.shape[:2], 4):
+                raise ValueError("anchored primitive chemistry has wrong shape")
+            positive_a, negative_a, aromatic_a, hydrophobic_a = atom_chemistry.unbind(-1)
+            positive_r, negative_r, aromatic_r, hydrophobic_r = residue_chemistry.unbind(-1)
+            anchored = torch.stack((
+                positive_a[:, :, None] * negative_r[:, None, :],
+                negative_a[:, :, None] * positive_r[:, None, :],
+                aromatic_a[:, :, None] * aromatic_r[:, None, :],
+                hydrophobic_a[:, :, None] * hydrophobic_r[:, None, :]), -1)
+            missing = self.latent.interaction.latents.shape[0] - anchored.shape[-1]
+            if missing < 0:
+                raise ValueError("primitive dictionary cannot hold anchored channels")
+            anchored = torch.cat((anchored, anchored.new_zeros(
+                *anchored.shape[:-1], missing)), -1)
+            primitive_bias = anchored if primitive_bias is None else primitive_bias + anchored
         endpoint, section, slots, response = self.latent(
             pair, mask, primitive_bias)
         return PairSectionEncoding(endpoint, section, slots, response,
@@ -256,6 +278,8 @@ class BipartitePairSectionFormer(nn.Module):
     def forward(self, atoms: Tensor, residues: Tensor, atom_mask: Tensor,
                 residue_mask: Tensor, adjacency: Tensor | None = None, *,
                 atom_features: Tensor | None = None,
+                atom_chemistry: Tensor | None = None,
+                residue_chemistry: Tensor | None = None,
                 task_code: Tensor | None = None,
                 return_pair: bool = False) -> PairSectionEncoding:
         if atoms.ndim != 3 or residues.ndim != 3:
@@ -279,6 +303,8 @@ class BipartitePairSectionFormer(nn.Module):
                 atoms[start:stop], residues[start:stop], atom_mask[start:stop],
                 residue_mask[start:stop], adjacency[start:stop], return_pair,
                 atom_features[start:stop] if atom_features is not None else None,
+                atom_chemistry[start:stop] if atom_chemistry is not None else None,
+                residue_chemistry[start:stop] if residue_chemistry is not None else None,
                 task_code[start:stop] if task_code is not None else None))
         return PairSectionEncoding(
             torch.cat([x.endpoint for x in outputs]),

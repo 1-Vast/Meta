@@ -20,6 +20,8 @@ def test_pair_section_shapes_masks_and_geometry_head():
     assert encoded.section.shape == (3, 6)
     assert encoded.mechanism_slots.shape == (3, 4, 48)
     assert encoded.mechanism_response.shape == (3, 4)
+    assert bool(((encoded.mechanism_response >= 0)
+                 & (encoded.mechanism_response <= 1)).all())
     assert encoded.pair.shape == (3, 5, 7, 48)
     assert geometry.contact_logits.shape == (3, 5, 7)
     assert geometry.distance_logits.shape == (3, 5, 7, 5)

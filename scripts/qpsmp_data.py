@@ -38,6 +38,7 @@ class EpisodeBatch:
     query_bonds: torch.Tensor
     query_mask: torch.Tensor
     query_y: torch.Tensor
+    protein_chemistry: torch.Tensor | None = None
     # Optional common-frame Cartesian inputs.  Coordinates contain padded
     # ligand atoms followed by protein residues for each support/query pair.
     # Edges use the packed flattened indexing consumed by model.cartesian.
@@ -46,6 +47,26 @@ class EpisodeBatch:
     geometry_edge_index: torch.Tensor | None = None
     geometry_available: torch.Tensor | None = None
     geometry_common_frame: torch.Tensor | None = None
+
+
+def protein_slot_chemistry(sequence: str, slot_count: int) -> torch.Tensor:
+    """Aggregate governed amino-acid roles into the protein-bank slot grid."""
+    roles = (
+        set("KRH"), set("DE"), set("FWY"), set("AVILMFWY"),
+    )
+    values = torch.zeros(slot_count, len(roles), dtype=torch.float32)
+    length = len(sequence)
+    for slot in range(slot_count):
+        start = slot * length // slot_count
+        stop = (slot + 1) * length // slot_count
+        if stop <= start:
+            continue
+        fragment = sequence[start:stop]
+        values[slot] = torch.tensor([
+            sum(residue in role for residue in fragment) / len(fragment)
+            for role in roles
+        ])
+    return values
 
 
 def stable_seed(*parts: object) -> int:
@@ -139,6 +160,8 @@ class QPSMPData:
         self.manifest = manifest
         self.cells = self._read_cells(corpus / "cells.jsonl.gz")
         proteins = self._read_jsonl(corpus / "proteins.jsonl")
+        self._protein_sequences = {
+            row["sequence_sha256"]: row["sequence"] for row in proteins}
         ligands = self._read_jsonl(corpus / "ligands.jsonl")
         protein_keys = {row["sequence_sha256"] for row in proteins}
         self.protein_bank = _ShardedBank(
@@ -148,6 +171,7 @@ class QPSMPData:
             if compact_ligand_bank is not None and compact_ligand_bank.exists()
             else _ShardedBank(ligand_bank, ("X", "A", "mask"), cache_size=1))
         self._protein_tensors: dict[str, tuple[torch.Tensor, ...]] = {}
+        self._protein_chemistry: dict[str, torch.Tensor] = {}
         self._ligand_tensors: OrderedDict[str, tuple[torch.Tensor, ...]] = OrderedDict()
         self._ligand_tensor_cache_size = 128
         self._validate_manifests(proteins, ligands)
@@ -384,11 +408,15 @@ class QPSMPData:
 
         support_atoms, support_bonds, support_mask = graphs(spec.support)
         query_atoms, query_bonds, query_mask = graphs(spec.query)
+        if spec.target not in self._protein_chemistry:
+            self._protein_chemistry[spec.target] = protein_slot_chemistry(
+                self._protein_sequences[spec.target], residues.shape[0])
         return EpisodeBatch(
             spec, pooled, residues, protein_mask, support_atoms, support_bonds, support_mask,
             torch.tensor([self.cells[i]["pK"] for i in spec.support], dtype=torch.float32),
             query_atoms, query_bonds, query_mask,
-            torch.tensor([self.cells[i]["pK"] for i in spec.query], dtype=torch.float32))
+            torch.tensor([self.cells[i]["pK"] for i in spec.query], dtype=torch.float32),
+            protein_chemistry=self._protein_chemistry[spec.target])
 
     def protein_for_target(self, target: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         index = int(self.tasks[next(split for split in self.tasks if target in self.tasks[split])][target][0])
@@ -396,3 +424,10 @@ class QPSMPData:
             self._protein_tensors[target] = tuple(
                 torch.from_numpy(value.copy()) for value in self.protein_bank.get(target))
         return self._protein_tensors[target]
+
+    def protein_chemistry_for_target(self, target: str) -> torch.Tensor:
+        if target not in self._protein_chemistry:
+            residues = self.protein_for_target(target)[1]
+            self._protein_chemistry[target] = protein_slot_chemistry(
+                self._protein_sequences[target], residues.shape[0])
+        return self._protein_chemistry[target]

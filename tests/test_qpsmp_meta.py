@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from contracts.ligand_graph import ATOM_FEAT_DIM, BOND_FEAT_DIM
-from model.qpsmp_meta import QPSMPBioModel, TriadicEvidenceRouter
+from model.qpsmp_meta import EvidenceLockedMetaTransport, QPSMPBioModel
 from scripts.qpsmp_data import EpisodeBatch, EpisodeSpec
 from scripts.train_qpsmp import forward as episode_forward
 
@@ -26,22 +26,17 @@ def _model():
         support_blocks=1)
 
 
-def test_exact_coefficient_gradient_matches_squared_loss_autograd():
+def test_elmt_value_is_label_bound_and_linear():
     torch.manual_seed(31)
     residual = torch.randn(2, 3, dtype=torch.float64)
     primitive = torch.randn(2, 3, 4, dtype=torch.float64)
-    coefficient = torch.zeros(2, 4, dtype=torch.float64, requires_grad=True)
-    prediction = torch.einsum("bkm,bm->bk", primitive, coefficient)
-    loss = 0.5 * (residual - prediction).square().sum()
-    expected, = torch.autograd.grad(loss, coefficient)
-    exact = TriadicEvidenceRouter.exact_coefficient_gradient(
-        residual, primitive).sum(1)
-    assert torch.allclose(exact, expected)
+    value = EvidenceLockedMetaTransport.label_value(residual, primitive)
+    assert torch.equal(value, residual.unsqueeze(-1) * primitive)
 
 
-def test_term_is_support_permutation_invariant_k1_active_and_label_bound():
+def test_elmt_is_support_permutation_invariant_k1_active_and_label_bound():
     torch.manual_seed(32)
-    term = TriadicEvidenceRouter(6, 4, 8, dtype=torch.float64)
+    term = EvidenceLockedMetaTransport(6, 4, 8, dtype=torch.float64)
     protein = torch.randn(2, 6, dtype=torch.float64)
     support_ligand = torch.randn(2, 3, 6, dtype=torch.float64)
     support_phi = torch.randn(2, 3, 4, dtype=torch.float64)
@@ -66,28 +61,24 @@ def test_term_is_support_permutation_invariant_k1_active_and_label_bound():
     assert torch.count_nonzero(one[1]) > 0
 
 
-def test_term_uses_sum_over_sqrt_k_and_abstains_at_zero_evidence():
+def test_elmt_coefficients_are_linear_in_values_and_zero_locked():
     torch.manual_seed(321)
-    term = TriadicEvidenceRouter(6, 4, 8, dtype=torch.float64)
+    term = EvidenceLockedMetaTransport(6, 4, 8, dtype=torch.float64)
     protein = torch.randn(1, 6, dtype=torch.float64)
     support_ligand = torch.randn(1, 1, 6, dtype=torch.float64)
     support_phi = torch.randn(1, 1, 4, dtype=torch.float64)
     residual = torch.ones(1, 1, dtype=torch.float64)
     query_ligand = torch.randn(1, 2, 6, dtype=torch.float64)
     query_phi = torch.randn(1, 2, 4, dtype=torch.float64)
-    one = term(protein, support_ligand, support_phi, residual,
-               query_ligand, query_phi)
-    repeated = term(
-        protein, support_ligand.expand(-1, 4, -1),
-        support_phi.expand(-1, 4, -1), residual.expand(-1, 4),
-        query_ligand, query_phi)
-    # Before tanh, repeated identical evidence scales by sqrt(k); after tanh
-    # its signed coefficient magnitude must not be attenuated.
-    assert repeated[1].abs().mean() >= one[1].abs().mean()
+    left = term(protein, support_ligand, support_phi, residual,
+                query_ligand, query_phi)
+    right = term(protein, support_ligand, support_phi, 0.25 * residual,
+                 query_ligand, query_phi)
+    assert torch.allclose(right[1], 0.25 * left[1], atol=1e-12, rtol=1e-12)
     zero = term(protein, support_ligand, support_phi,
                 torch.zeros_like(residual), query_ligand, query_phi)
     assert torch.count_nonzero(zero[3]) == 0
-    assert torch.count_nonzero(zero[2]) == 0
+    assert torch.count_nonzero(zero[1]) == 0
 
 
 def test_active_model_k0_k1_and_gradients():
@@ -105,20 +96,18 @@ def test_active_model_k0_k1_and_gradients():
     assert torch.count_nonzero(zero.sar_adaptation) == 0
     (output.prediction.square().mean()
      + .01 * output.support_match_loss).backward()
-    assert model.meta.term.triad[-1].weight.grad is not None
+    assert model.meta.term.direction[-1].weight.grad is not None
+    assert model.meta.term.score[-1].weight.grad is not None
+    assert model.residue_query.weight.grad is not None
     assert model.pair_section.latent.interaction.response_weight.grad is not None
     assert model.pair_section.atom_primitive.weight.grad is not None
 
 
-def test_task_state_override_requires_complete_term_evidence_shape():
+def test_elmt_rejects_task_state_transplant():
     model, args = _model(), _inputs()
     valid = model(*args).task_state
-    replay = model(*args, task_state_override=valid)
-    changed = model(*args, task_state_override=torch.zeros_like(valid))
-    assert replay.prediction.shape == (2, 4)
-    assert not torch.allclose(replay.prediction, changed.prediction)
-    with pytest.raises(ValueError, match="TERM evidence"):
-        model(*args, task_state_override=torch.randn(2, 4, 4, 8))
+    with pytest.raises(ValueError, match="does not permit"):
+        model(*args, task_state_override=valid)
 
 
 def test_level_gate_zero_is_exact_support_mean_baseline():
