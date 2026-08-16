@@ -4,7 +4,9 @@ import numpy as np
 import torch
 
 from scripts.train_qpsmp import (LabelScale, admission_score,
+                                 batch_counterfactual_episode,
                                  binding_contrastive_loss, centered_task_error,
+                                 counterfactual_label_assignments,
                                  matched_wrong_labels, pairwise_ranking_loss,
                                  training_label_scale)
 
@@ -58,9 +60,19 @@ def test_one_shot_counterfactual_preserves_residual_magnitude():
     assert torch.allclose(wrong, torch.tensor([-0.1]))
 
 
+def test_multi_shot_counterfactuals_cover_all_cyclic_bindings():
+    labels = torch.tensor([1.0, 2.0, 3.0])
+    assignments = counterfactual_label_assignments(None, labels)
+    assert len(assignments) == 2
+    assert torch.equal(assignments[0], torch.tensor([3.0, 1.0, 2.0]))
+    assert torch.equal(assignments[1], torch.tensor([2.0, 3.0, 1.0]))
+
+
 def test_admission_score_penalizes_harm_and_binding_insensitivity():
     admitted = {"full_mse_pk": 1.0, "sar_cut_mse_pk": 1.2,
+                "zero_shot_mse_pk": 1.5,
                 "permuted_mse_pk": 1.1}
     dead = {"full_mse_pk": 1.1, "sar_cut_mse_pk": 1.0,
+            "zero_shot_mse_pk": 1.5,
             "permuted_mse_pk": 1.1}
     assert admission_score(admitted, 0.01) < admission_score(dead, 0.01)

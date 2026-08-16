@@ -37,25 +37,24 @@ def test_elmt_value_is_label_bound_and_linear():
 def test_elmt_is_support_permutation_invariant_k1_active_and_label_bound():
     torch.manual_seed(32)
     term = EvidenceLockedMetaTransport(6, 4, 8, dtype=torch.float64)
-    protein = torch.randn(2, 6, dtype=torch.float64)
     support_ligand = torch.randn(2, 3, 6, dtype=torch.float64)
     support_phi = torch.randn(2, 3, 4, dtype=torch.float64)
     residual = torch.tensor([[1., -.5, .25], [-1., .5, .75]], dtype=torch.float64)
     query_ligand = torch.randn(2, 5, 6, dtype=torch.float64)
     query_phi = torch.randn(2, 5, 4, dtype=torch.float64)
-    real = term(protein, support_ligand, support_phi, residual,
+    real = term(support_ligand, support_phi, residual,
                 query_ligand, query_phi)
     order = torch.tensor([2, 0, 1])
-    permuted = term(protein, support_ligand[:, order], support_phi[:, order],
+    permuted = term(support_ligand[:, order], support_phi[:, order],
                     residual[:, order], query_ligand, query_phi)
-    wrong_binding = term(protein, support_ligand, support_phi,
+    wrong_binding = term(support_ligand, support_phi,
                          residual.roll(1, 1), query_ligand, query_phi)
     assert real[0].shape == (2, 4, 8)
-    assert real[1].shape == (2, 5, 4)
+    assert real[1].shape == (2, 5)
     assert torch.allclose(real[0], permuted[0], atol=1e-10, rtol=1e-10)
     assert torch.allclose(real[1], permuted[1], atol=1e-10, rtol=1e-10)
     assert not torch.allclose(real[1], wrong_binding[1])
-    one = term(protein, support_ligand[:, :1], support_phi[:, :1],
+    one = term(support_ligand[:, :1], support_phi[:, :1],
                residual[:, :1], query_ligand, query_phi)
     assert torch.count_nonzero(one[3]) > 0
     assert torch.count_nonzero(one[1]) > 0
@@ -64,18 +63,17 @@ def test_elmt_is_support_permutation_invariant_k1_active_and_label_bound():
 def test_elmt_coefficients_are_linear_in_values_and_zero_locked():
     torch.manual_seed(321)
     term = EvidenceLockedMetaTransport(6, 4, 8, dtype=torch.float64)
-    protein = torch.randn(1, 6, dtype=torch.float64)
     support_ligand = torch.randn(1, 1, 6, dtype=torch.float64)
     support_phi = torch.randn(1, 1, 4, dtype=torch.float64)
     residual = torch.ones(1, 1, dtype=torch.float64)
     query_ligand = torch.randn(1, 2, 6, dtype=torch.float64)
     query_phi = torch.randn(1, 2, 4, dtype=torch.float64)
-    left = term(protein, support_ligand, support_phi, residual,
+    left = term(support_ligand, support_phi, residual,
                 query_ligand, query_phi)
-    right = term(protein, support_ligand, support_phi, 0.25 * residual,
+    right = term(support_ligand, support_phi, 0.25 * residual,
                  query_ligand, query_phi)
     assert torch.allclose(right[1], 0.25 * left[1], atol=1e-12, rtol=1e-12)
-    zero = term(protein, support_ligand, support_phi,
+    zero = term(support_ligand, support_phi,
                 torch.zeros_like(residual), query_ligand, query_phi)
     assert torch.count_nonzero(zero[3]) == 0
     assert torch.count_nonzero(zero[1]) == 0
@@ -90,17 +88,25 @@ def test_active_model_k0_k1_and_gradients():
     assert output.task_state.shape == (2, 4, 8)
     assert output.query_basis.shape == (2, 4, 4)
     assert torch.count_nonzero(output.support_evidence) > 0
-    assert torch.count_nonzero(output.sar_adaptation) > 0
+    assert torch.count_nonzero(output.level_adjustment) > 0
+    assert torch.allclose(output.sar_adaptation, torch.zeros_like(
+        output.sar_adaptation), atol=1e-6, rtol=1e-6)
     assert torch.equal(zero.prediction, zero.zero_shot)
     assert torch.count_nonzero(zero.task_state) == 0
     assert torch.count_nonzero(zero.sar_adaptation) == 0
     (output.prediction.square().mean()
      + .01 * output.support_match_loss).backward()
-    assert model.meta.term.direction[-1].weight.grad is not None
-    assert model.meta.term.score[-1].weight.grad is not None
+    assert model.meta.term.interaction_key[-1].weight.grad is not None
     assert model.residue_query.weight.grad is not None
     assert model.pair_section.latent.interaction.response_weight.grad is not None
     assert model.pair_section.atom_primitive.weight.grad is not None
+
+
+def test_batched_k0_level_adjustment_has_stable_scalar_shape():
+    model, args = _model(), _inputs(batch=3, k=0, q=4)
+    output = model(*args, adapt=False)
+    assert output.level_adjustment.shape == (3, 1)
+    assert torch.equal(output.prediction, output.zero_shot)
 
 
 def test_elmt_rejects_task_state_transplant():
@@ -110,18 +116,16 @@ def test_elmt_rejects_task_state_transplant():
         model(*args, task_state_override=valid)
 
 
-def test_level_gate_zero_is_exact_support_mean_baseline():
+def test_level_baseline_is_a_shrunk_scalar_and_preserves_ordering():
     model, args = _model(), _inputs(batch=2, k=3, q=4)
-    with torch.no_grad():
-        model.meta.level_gate[-2].weight.zero_()
-        model.meta.level_gate[-2].bias.fill_(100.)
     output = model(*args)
     # Level correction is a target-wise scalar and preserves zero-shot order.
     delta_level = output.level_baseline - output.zero_shot
     assert torch.allclose(delta_level, delta_level[:, :1].expand_as(delta_level))
     assert torch.allclose(
         output.level_baseline[:, 1:] - output.level_baseline[:, :-1],
-        output.zero_shot[:, 1:] - output.zero_shot[:, :-1])
+        output.zero_shot[:, 1:] - output.zero_shot[:, :-1],
+        atol=1e-6, rtol=1e-6)
 
 
 def test_unbatched_forward_preserves_public_shapes():

@@ -39,6 +39,11 @@ class EpisodeBatch:
     query_mask: torch.Tensor
     query_y: torch.Tensor
     protein_chemistry: torch.Tensor | None = None
+    # Morgan fingerprints of the support/query ligands. These are an ordinary
+    # 2D ligand descriptor, not an extra label source, and they carry the
+    # chemical-similarity structure that learned kernel keys failed to find.
+    support_fingerprint: torch.Tensor | None = None
+    query_fingerprint: torch.Tensor | None = None
     # Optional common-frame Cartesian inputs.  Coordinates contain padded
     # ligand atoms followed by protein residues for each support/query pair.
     # Edges use the packed flattened indexing consumed by model.cartesian.
@@ -87,7 +92,7 @@ class _ShardedBank:
         for item in shards:
             name = item["path"] if isinstance(item, dict) else item
             path = directory / name
-            with np.load(path, allow_pickle=False) as stored:
+            with np.load(path, allow_pickle=False) as stored:  # noqa: SIM117
                 missing = {"keys", *fields}.difference(stored.files)
                 if missing:
                     raise ValueError(f"{path} is missing bank fields {sorted(missing)}")
@@ -106,20 +111,27 @@ class _ShardedBank:
         if path not in self.cache:
             with np.load(path, allow_pickle=False) as stored:
                 self.cache[path] = {field: stored[field] for field in self.fields}
-            self.cache.move_to_end(path)
-            while len(self.cache) > self.cache_size:
-                self.cache.popitem(last=False)
+        self.cache.move_to_end(path)
+        while len(self.cache) > self.cache_size:
+            self.cache.popitem(last=False)
         return tuple(self.cache[path][field][local] for field in self.fields)
 
 
 class _CompactLigandBank:
-    def __init__(self, directory: Path):
+    FIELDS = ("sizes", "atom_offsets", "bond_offsets", "X", "A")
+
+    def __init__(self, directory: Path, cache_size: int | None = None):
         manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
         if manifest.get("schema") != "MetaSieve.QPSMPCompactLigandBank.v1":
             raise ValueError("unsupported compact ligand-bank schema")
         self.manifest = manifest
         self.index: dict[str, tuple[Path, int]] = {}
         self.cache: OrderedDict[Path, dict[str, np.ndarray]] = OrderedDict()
+        # An episode draws ligands uniformly, so it touches most shards. A
+        # single-shard cache reloads and decompresses ~0.6 MB npz archives
+        # dozens of times per episode; resident shards remove that entirely.
+        self.cache_size = (len(manifest["shards"]) if cache_size is None
+                           else max(1, int(cache_size)))
         for item in manifest["shards"]:
             path = directory / item["path"]
             with np.load(path, allow_pickle=False) as stored:
@@ -133,10 +145,10 @@ class _CompactLigandBank:
         path, local = self.index[key]
         if path not in self.cache:
             with np.load(path, allow_pickle=False) as stored:
-                self.cache[path] = {name: stored[name] for name in (
-                    "sizes", "atom_offsets", "bond_offsets", "X", "A")}
-            while len(self.cache) > 1:
-                self.cache.popitem(last=False)
+                self.cache[path] = {name: stored[name] for name in self.FIELDS}
+        self.cache.move_to_end(path)
+        while len(self.cache) > self.cache_size:
+            self.cache.popitem(last=False)
         values = self.cache[path]
         size = int(values["sizes"][local])
         atom_start, atom_stop = values["atom_offsets"][local:local + 2]
@@ -147,11 +159,23 @@ class _CompactLigandBank:
 
 
 class QPSMPData:
-    """Read-only main-v0 corpus with lazy, schema-checked biological banks."""
+    """Read-only main-v0 corpus with lazy, schema-checked biological banks.
+
+    `include_meta_test` is the physical half of the meta_test seal (contract
+    2026-08-16). When False, every `meta_test` cell is dropped before any task
+    index is built, so the sealed confirmation population cannot be read by
+    accident: no episode can be drawn from it and no label can be materialized.
+    Training and development scripts pass False; only an explicitly authorized
+    Stage 5 confirmation run passes True.
+    """
 
     def __init__(self, corpus: Path, protein_bank: Path, ligand_bank: Path,
-                 compact_ligand_bank: Path | None = None):
+                 compact_ligand_bank: Path | None = None,
+                 split_directory: Path | None = None,
+                 include_meta_test: bool = True):
         self.corpus = corpus
+        if split_directory is not None:
+            split_directory = Path(split_directory)
         manifest = json.loads((corpus / "manifest.json").read_text(encoding="utf-8"))
         if manifest.get("schema") != "MetaSieve.MetaFewshot.MainV0Corpus.v1":
             raise ValueError("unsupported corpus schema")
@@ -159,6 +183,28 @@ class QPSMPData:
             raise ValueError("corpus manifest does not authorize training")
         self.manifest = manifest
         self.cells = self._read_cells(corpus / "cells.jsonl.gz")
+        # An alternative governed split replaces `split` on every cell and drops
+        # the cells it does not assign, so downstream indices stay consistent.
+        # The corpus itself is never modified.
+        self.split_manifest = None
+        if split_directory is not None:
+            self.split_manifest = json.loads(
+                (split_directory / "manifest.json").read_text(encoding="utf-8"))
+            if self.split_manifest.get("schema") != "MetaSieve.DoubleColdSplit.v1":
+                raise ValueError("unsupported governed-split schema")
+            assignment = json.loads(
+                (split_directory / "assignment.json").read_text(encoding="utf-8"))
+            recorded = self.split_manifest.get("assignment_sha256")
+            actual = hashlib.sha256(
+                json.dumps(assignment, sort_keys=True).encode("utf-8")).hexdigest()
+            if recorded != actual:
+                raise ValueError(
+                    f"split assignment hash mismatch: {actual} != {recorded}")
+            self.cells = [dict(cell, split=assignment[cell["cell_id"]])
+                          for cell in self.cells if cell["cell_id"] in assignment]
+        if not include_meta_test:
+            self.cells = [cell for cell in self.cells
+                          if cell["split"] != "meta_test"]
         proteins = self._read_jsonl(corpus / "proteins.jsonl")
         self._protein_sequences = {
             row["sequence_sha256"]: row["sequence"] for row in proteins}
@@ -174,11 +220,20 @@ class QPSMPData:
         self._protein_chemistry: dict[str, torch.Tensor] = {}
         self._ligand_tensors: OrderedDict[str, tuple[torch.Tensor, ...]] = OrderedDict()
         self._ligand_tensor_cache_size = 128
+        self._ligand_smiles = {row["drug_key"]: row.get("smiles")
+                               for row in ligands}
+        self._fingerprints: dict[str, torch.Tensor] | None = None
+        self.fingerprint_bits = 1024
+        self.fingerprint_radius = 2
         self._validate_manifests(proteins, ligands)
         self.tasks, self.components = self._build_tasks()
         target_keys = {cell["target_id"] for cell in self.cells}
-        if target_keys != protein_keys:
-            raise ValueError("target IDs do not equal the governed protein-bank keys")
+        if self.split_manifest is None:
+            if target_keys != protein_keys:
+                raise ValueError(
+                    "target IDs do not equal the governed protein-bank keys")
+        elif not target_keys.issubset(protein_keys):
+            raise ValueError("governed split references targets outside the bank")
 
     @staticmethod
     def _read_jsonl(path: Path) -> list[dict]:
@@ -253,13 +308,20 @@ class QPSMPData:
         return len({self.cells[int(index)]["ligand_id"] for index in indices})
 
     def draw_episode(self, split: str, support_size: int, query_size: int,
-                     rng: np.random.Generator) -> EpisodeSpec:
+                     rng: np.random.Generator,
+                     min_query_size: int = 1) -> EpisodeSpec:
         if support_size < 0:
             raise ValueError("support size cannot be negative")
+        if min_query_size < 1:
+            raise ValueError("an episode needs at least one query")
+        # Within-target centered and ranking objectives are undefined on a
+        # one-query episode, so a caller that uses them can require a wider
+        # panel. The default reproduces the historical behaviour exactly.
+        needed = support_size + min_query_size
         eligible = {
             component: tuple(target for target in targets
                              if self._unique_ligand_count(
-                                 self.tasks[split][target]) >= support_size + 1)
+                                 self.tasks[split][target]) >= needed)
             for component, targets in self.components[split].items()
         }
         eligible = {key: value for key, value in eligible.items() if value}
@@ -416,7 +478,45 @@ class QPSMPData:
             torch.tensor([self.cells[i]["pK"] for i in spec.support], dtype=torch.float32),
             query_atoms, query_bonds, query_mask,
             torch.tensor([self.cells[i]["pK"] for i in spec.query], dtype=torch.float32),
-            protein_chemistry=self._protein_chemistry[spec.target])
+            protein_chemistry=self._protein_chemistry[spec.target],
+            support_fingerprint=self.fingerprint_rows(spec.support),
+            query_fingerprint=self.fingerprint_rows(spec.query))
+
+    @property
+    def fingerprints(self) -> dict[str, torch.Tensor]:
+        """Lazily built Morgan fingerprints, keyed by ligand id.
+
+        Ligands whose SMILES cannot be parsed get an all-zero vector. That
+        yields Tanimoto 0 against every other ligand, so such a support gets
+        the *lowest* similarity logit — it is not excluded, because a softmax
+        over the supports still assigns it finite weight. All 9,880 ligands in
+        the active corpus parse, so no episode currently exercises this path;
+        if a corpus with unparsable ligands is ever used, explicit masking
+        should be added rather than relying on the zero vector.
+        """
+        if self._fingerprints is None:
+            from rdkit import Chem, RDLogger
+            from rdkit.Chem import rdFingerprintGenerator
+            RDLogger.DisableLog("rdApp.*")
+            generator = rdFingerprintGenerator.GetMorganGenerator(
+                radius=self.fingerprint_radius, fpSize=self.fingerprint_bits)
+            built: dict[str, torch.Tensor] = {}
+            for key, smiles in self._ligand_smiles.items():
+                vector = torch.zeros(self.fingerprint_bits, dtype=torch.float32)
+                molecule = Chem.MolFromSmiles(smiles) if smiles else None
+                if molecule is not None:
+                    bits = list(generator.GetFingerprint(molecule).GetOnBits())
+                    if bits:
+                        vector[torch.tensor(bits, dtype=torch.long)] = 1.0
+                built[key] = vector
+            self._fingerprints = built
+        return self._fingerprints
+
+    def fingerprint_rows(self, indices: tuple[int, ...]) -> torch.Tensor:
+        if not indices:
+            return torch.zeros(0, self.fingerprint_bits, dtype=torch.float32)
+        table = self.fingerprints
+        return torch.stack([table[self.cells[i]["ligand_id"]] for i in indices])
 
     def protein_for_target(self, target: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         index = int(self.tasks[next(split for split in self.tasks if target in self.tasks[split])][target][0])

@@ -1,9 +1,7 @@
-"""CIPF + TERM for cold-target zero/few-shot affinity prediction.
+"""Interaction-first DTA with label-locked residual adaptation.
 
-CIPF exposes globally indexed protein--ligand interaction primitives from
-sequence/residue embeddings and a 2D ligand graph.  TERM uses the exact loss
-gradient with respect to virtual primitive coefficients; it performs no
-closed-form solve, inner-loop update, or support-label copying.
+CIPF builds sequence/2D protein--ligand interaction endpoints. Few-shot
+adaptation is a normalized residual kernel with no solve or inner loop.
 """
 from __future__ import annotations
 
@@ -61,7 +59,7 @@ class TERMState:
 
 
 class EvidenceLockedMetaTransport(nn.Module):
-    """Label-blind keys transport label-bound residual values to queries."""
+    """Positive interaction kernels transport only label-bound residuals."""
 
     def __init__(self, ligand_dim: int, primitive_count: int,
                  hidden_dim: int = 32,
@@ -69,24 +67,21 @@ class EvidenceLockedMetaTransport(nn.Module):
         super().__init__()
         self.primitive_count = int(primitive_count)
         self.hidden_dim = int(hidden_dim)
-        self.primitive_identity = nn.Parameter(
-            torch.empty(primitive_count, hidden_dim, dtype=dtype))
-        nn.init.normal_(self.primitive_identity, std=hidden_dim ** -0.5)
-        self.protein_key = nn.Linear(ligand_dim, hidden_dim, dtype=dtype)
-        self.ligand_change = nn.Sequential(
-            nn.LayerNorm(4 * ligand_dim, dtype=dtype),
-            nn.Linear(4 * ligand_dim, hidden_dim, dtype=dtype), nn.GELU())
-        width = 3 * hidden_dim + 2
-        self.score = nn.Sequential(
-            nn.LayerNorm(width, dtype=dtype),
-            nn.Linear(width, hidden_dim, dtype=dtype), nn.GELU(),
-            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype))
-        self.direction = nn.Sequential(
-            nn.LayerNorm(width, dtype=dtype),
-            nn.Linear(width, hidden_dim, dtype=dtype), nn.GELU(),
-            nn.Linear(hidden_dim, 1, bias=False, dtype=dtype))
-        self.reliability = nn.Parameter(
-            torch.tensor([0.0, 1.0, 1.0, 0.5], dtype=dtype))
+        self.interaction_key = nn.Sequential(
+            nn.LayerNorm(ligand_dim, dtype=dtype),
+            nn.Linear(ligand_dim, hidden_dim, bias=False, dtype=dtype))
+        self.state = nn.Linear(ligand_dim, hidden_dim, bias=False, dtype=dtype)
+        self.log_temperature = nn.Parameter(
+            torch.tensor(3.981514553, dtype=dtype))
+        self.local_scale_logit = nn.Parameter(
+            torch.zeros((), dtype=dtype))
+        self.log_shrinkage = nn.Parameter(
+            torch.tensor(1.854586542, dtype=dtype))
+
+    def support_shrinkage(self, support_count: int, reference: Tensor) -> Tensor:
+        prior_strength = F.softplus(self.log_shrinkage)
+        count = reference.new_tensor(float(support_count))
+        return count / (count + prior_strength)
 
     @staticmethod
     def label_value(residual: Tensor, primitive: Tensor) -> Tensor:
@@ -94,8 +89,8 @@ class EvidenceLockedMetaTransport(nn.Module):
             raise ValueError("residual and primitive responses disagree")
         return residual.unsqueeze(-1) * primitive
 
-    def forward(self, protein: Tensor, support_ligand: Tensor,
-                support_primitive: Tensor, support_residual: Tensor,
+    def forward(self, support_ligand: Tensor,
+                 support_primitive: Tensor, support_residual: Tensor,
                 query_ligand: Tensor, query_primitive: Tensor, *,
                 adapt: bool = True,
                 task_state_override: Tensor | None = None
@@ -106,53 +101,36 @@ class EvidenceLockedMetaTransport(nn.Module):
                 query_primitive.shape != (batch, query_count, primitive_count):
             raise ValueError("support/query primitive dictionaries disagree")
         if task_state_override is not None:
-            raise ValueError("ELMT does not permit transplanted task states")
-        zero_coeff = query_primitive.new_zeros(batch, query_count, primitive_count)
+            raise ValueError("residual kernel does not permit transplanted task states")
+        zero_coeff = query_primitive.new_zeros(batch, query_count)
         zero_state = query_primitive.new_zeros(batch, primitive_count, self.hidden_dim)
         zero_reliability = query_primitive.new_zeros(batch, query_count)
         value = self.label_value(support_residual, support_primitive)
         if not adapt or support_count == 0:
             return zero_state, zero_coeff, zero_reliability, value
 
-        support = support_ligand[:, None].expand(-1, query_count, -1, -1)
-        query = query_ligand[:, :, None].expand(-1, -1, support_count, -1)
-        change = self.ligand_change(torch.cat((
-            support, query, query - support, query * support), -1))
-        change = change[:, :, :, None].expand(-1, -1, -1, primitive_count, -1)
-        identity = self.primitive_identity[None, None, None].expand(
-            batch, query_count, support_count, -1, -1)
-        protein_key = self.protein_key(protein)[:, None, None, None].expand(
-            -1, query_count, support_count, primitive_count, -1)
-        scalar = torch.stack((
-            support_primitive[:, None].expand(-1, query_count, -1, -1),
-            query_primitive[:, :, None].expand(-1, -1, support_count, -1)), -1)
-        key = torch.cat((change, identity, protein_key, scalar), -1)
-        weights = torch.softmax(self.score(key).squeeze(-1), dim=2)
-        direction = torch.tanh(self.direction(key).squeeze(-1))
-        coefficients = (weights * direction * value[:, None]).sum(2)
-
-        coherence = value.sum(1).abs() / value.abs().sum(1).clamp_min(1e-8)
-        coherence = coherence.mean(-1, keepdim=True).expand(-1, query_count)
-        support_norm = F.normalize(support_ligand, dim=-1)
-        query_norm = F.normalize(query_ligand, dim=-1)
-        coverage = 1.0 - torch.einsum(
-            "bqh,bkh->bqk", query_norm, support_norm).amax(-1)
-        b0, b1, b2, b3 = self.reliability
-        reliability = torch.sigmoid(
-            b0 + F.softplus(b1) * coherence - F.softplus(b2) * coverage
-            + F.softplus(b3) * query_primitive.new_tensor(float(support_count)).log1p())
-        task_state = value.mean(1).unsqueeze(-1) * self.primitive_identity[None]
+        support_key = F.normalize(self.interaction_key(support_ligand), dim=-1)
+        query_key = F.normalize(self.interaction_key(query_ligand), dim=-1)
+        temperature = F.softplus(self.log_temperature) + 1.0
+        score = temperature * torch.einsum("bqh,bkh->bqk", query_key, support_key)
+        weights = torch.softmax(score, -1)
+        local = torch.einsum("bqk,bk->bq", weights, support_residual)
+        level = support_residual.mean(-1, keepdim=True)
+        local_scale = torch.sigmoid(self.local_scale_logit)
+        shrinkage = self.support_shrinkage(support_count, support_residual)
+        coefficients = shrinkage * (level + local_scale * (local - level))
+        reliability = local_scale.expand(batch, query_count)
+        summary = (self.state(support_ligand)
+                   * support_residual.unsqueeze(-1)).mean(1)
+        task_state = summary[:, None].expand(-1, primitive_count, -1)
         return task_state, coefficients, reliability, value
 
 
 ELMT = EvidenceLockedMetaTransport
-# Compatibility names remain importable, but the active implementation is ELMT.
-TERM = EvidenceLockedMetaTransport
-TriadicEvidenceRouter = EvidenceLockedMetaTransport
 
 
 class QPSMPMetaLearner(nn.Module):
-    """Scalar baseline, conserved level residual, and ELMT composition."""
+    """Interaction baseline plus a label-locked residual kernel."""
 
     def __init__(self, hidden_dim: int, primitive_count: int,
                  task_dim: int = 32, mechanism_scale: float = 1.0,
@@ -169,11 +147,8 @@ class QPSMPMetaLearner(nn.Module):
             nn.LayerNorm(hidden_dim, dtype=dtype),
             nn.Linear(hidden_dim, 2 * hidden_dim, dtype=dtype), nn.GELU(),
             nn.Linear(2 * hidden_dim, 1, bias=False, dtype=dtype))
-        self.level_gate = nn.Sequential(
-            nn.Linear(3, 16, dtype=dtype), nn.GELU(),
-            nn.Linear(16, 1, dtype=dtype), nn.Sigmoid())
         self.term = EvidenceLockedMetaTransport(
-            hidden_dim, primitive_count, task_dim, dtype)
+            4 * hidden_dim, primitive_count, task_dim, dtype)
 
     @staticmethod
     def primitive_regularizer(query_primitive: Tensor) -> Tensor:
@@ -202,29 +177,35 @@ class QPSMPMetaLearner(nn.Module):
         query_add = query_ligand_value + protein_level
         support_cross = self.cross_head(support_endpoint).squeeze(-1)
         query_cross = self.cross_head(query_endpoint).squeeze(-1)
-        support_zero = support_add + support_cross
-        zero_shot = query_add + query_cross
+        # The formal zero-shot path is interaction-first. Independent protein
+        # and ligand scalars remain diagnostics but cannot bypass BPSF.
+        support_zero = support_cross
+        zero_shot = query_cross
         if not adapt or support_count == 0:
             residual = support_y.new_zeros(support_y.shape)
+            transport_residual = residual
             level_shift = zero_shot.new_zeros(zero_shot.shape[0])
             level_gate = level_shift
-            level_adjustment = torch.zeros_like(zero_shot)
+            level_adjustment = zero_shot.new_zeros(zero_shot.shape[0], 1)
         else:
             raw_residual = support_y - support_zero
-            centered = raw_residual - raw_residual.mean(-1, keepdim=True)
             level_shift = raw_residual.mean(-1)
-            count = torch.full_like(level_shift, float(support_count)).log1p()
-            level_gate = self.level_gate(torch.stack((
-                level_shift, centered.abs().mean(-1), count), -1)).squeeze(-1)
-            # A scalar shift cannot alter within-target ligand ordering. A
-            # learned shrinkage leaves non-zero k=1 evidence for ELMT.
-            level_adjustment = level_gate.unsqueeze(-1) * level_shift.unsqueeze(-1)
-            # Conservation: the same residual cannot be fully spent by both
-            # level calibration and structural transport.
+            shrinkage = self.term.support_shrinkage(support_count, raw_residual)
+            level_gate = shrinkage.expand_as(level_shift)
+            level_adjustment = shrinkage * level_shift.unsqueeze(-1)
             residual = raw_residual - level_adjustment
+            transport_residual = raw_residual
+        support_kernel = torch.cat((
+            support_endpoint, support_ligand,
+            support_endpoint * support_ligand,
+            support_endpoint - support_ligand), -1)
+        query_kernel = torch.cat((
+            query_endpoint, query_ligand,
+            query_endpoint * query_ligand,
+            query_endpoint - query_ligand), -1)
         task, coefficients, reliability, gradient = self.term(
-            protein, support_ligand, support_primitive, residual.detach(),
-            query_ligand, query_primitive, adapt=adapt,
+            support_kernel, support_primitive, transport_residual.detach(),
+            query_kernel, query_primitive, adapt=adapt,
             task_state_override=task_state_override)
         return TERMState(
             support_zero, query_add, query_ligand_value, query_cross, zero_shot,
@@ -412,7 +393,12 @@ class QPSMPBioModel(nn.Module):
                 geometry_edge_index.to(device))
             geometry_response = self.pair_section.latent.interaction.primitive_response(
                 geometry.mechanism_slots).reshape(batch, count, -1)
-            primitive = primitive + torch.tanh(self.geometry_scale) * geometry_response
+            geometry_endpoint, _ = self.pair_section.latent.project_slots(
+                geometry.mechanism_slots)
+            geometry_endpoint = geometry_endpoint.reshape(batch, count, -1)
+            scale = torch.tanh(self.geometry_scale)
+            endpoint = endpoint + scale * geometry_endpoint
+            primitive = primitive + scale * geometry_response
         elif self.cartesian_encoder is not None and geometry_available is not None \
                 and bool(geometry_available.any()):
             raise ValueError("available geometry requires coordinates and edges")
@@ -432,9 +418,8 @@ class QPSMPBioModel(nn.Module):
             query_primitive, adapt=adapt,
             task_state_override=task_state_override)
         if adapt and support_count:
-            sar = (state.reliability.unsqueeze(-1) * state.coefficients
-                   * query_primitive).sum(-1)
-            sar = self.meta.mechanism_scale * sar
+            correction = self.meta.mechanism_scale * state.coefficients
+            sar = correction - state.level_adjustment
         else:
             sar = torch.zeros_like(state.zero_shot)
         level_baseline = state.zero_shot + state.level_adjustment

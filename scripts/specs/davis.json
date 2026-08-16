@@ -1,0 +1,32 @@
+{
+  "name": "DAVIS",
+  "input": {
+    "path": "dataset/raw/dta/davis.tab",
+    "delimiter": "\t",
+    "columns": {
+      "smiles": "X1",
+      "sequence": "X2",
+      "label": "Y"
+    }
+  },
+  "label": {
+    "transform": "paffinity",
+    "unit_to_molar": 1e-9,
+    "allowed_relations": ["="],
+    "normalization": {"mode": "train_quantile_affine", "low_quantile": 0.01, "high_quantile": 0.99}
+  },
+  "biological_context": {
+    "categorical": {
+      "endpoint": {
+        "vocabulary": ["Kd", "Ki", "IC50", "functional-response", "score-like", "unknown"],
+        "unknown": "unknown"
+      }
+    },
+    "continuous": {}
+  },
+  "split": {
+    "salt": "MetaSieve-DAVIS/sealed-v1",
+    "fractions": {"train": 0.6, "val": 0.15, "test": 0.25}
+  },
+  "duplicates": {"label_tolerance": 0.0, "aggregate": "median", "on_conflict": "fail"}
+}

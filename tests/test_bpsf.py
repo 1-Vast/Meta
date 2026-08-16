@@ -1,8 +1,7 @@
 import pytest
 import torch
 
-from model.bpsf import BipartitePairSectionFormer
-from model.geometry_supervision import GeometrySupervisionHead
+from model.bpsf import BipartitePairSectionFormer, GeometrySupervisionHead
 
 
 def test_pair_section_shapes_masks_and_geometry_head():
@@ -58,6 +57,24 @@ def test_protein_projection_and_pair_trunk_are_padding_invariant():
     assert torch.allclose(left.section, right.section, atol=1e-6, rtol=1e-6)
     assert torch.allclose(
         left.mechanism_slots, right.mechanism_slots, atol=1e-6, rtol=1e-6)
+
+
+def test_pair_trunk_is_equivariant_to_localized_residue_permutation():
+    torch.manual_seed(731)
+    trunk = BipartitePairSectionFormer(
+        8, 5, pair_dim=16, blocks=2, latent_count=4, heads=2)
+    atoms = torch.randn(2, 5, 8)
+    residues = torch.randn(2, 7, 8)
+    atom_mask = torch.ones(2, 5)
+    residue_mask = torch.ones(2, 7)
+    order = torch.tensor([4, 1, 6, 0, 3, 5, 2])
+    left = trunk(atoms, residues, atom_mask, residue_mask)
+    right = trunk(atoms, residues[:, order], atom_mask, residue_mask[:, order])
+    assert torch.allclose(left.endpoint, right.endpoint, atol=1e-6, rtol=1e-6)
+    assert torch.allclose(left.section, right.section, atol=1e-6, rtol=1e-6)
+    assert torch.allclose(
+        left.mechanism_response, right.mechanism_response,
+        atol=1e-6, rtol=1e-6)
 
 
 def test_retained_mechanism_slots_exactly_reconstruct_original_readouts():

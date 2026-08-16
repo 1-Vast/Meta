@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 import torch
 
-from model.geometry_supervision import PairGeometryTeacher
+from model.bpsf import PairGeometryTeacher
 from scripts.build_holo_complex_index import (_protein_sequence_mapping,
     build_holo_complex_index)
 from scripts.build_protein_bank import residue_slot_mapping

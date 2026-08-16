@@ -23,7 +23,7 @@ from contracts.ligand_graph import ATOM_FEAT_DIM, BOND_FEAT_DIM, MAX_ATOMS
 from contracts.mechanism import (CONTACT_THRESHOLD_ANGSTROM,
     DISTANCE_BINS_ANGSTROM, MECHANISM_RESIDUE_SLOTS, MECHANISM_SCHEMA)
 from model.encoders import LigandEncoder, ProteinEncoder
-from model.geometry_supervision import PairGeometryTeacher
+from model.bpsf import PairGeometryTeacher
 
 
 def sha256_file(path: str | Path) -> str:

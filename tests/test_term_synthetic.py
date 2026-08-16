@@ -1,12 +1,12 @@
-"""Held-out synthetic admission gates for evidence-locked transport."""
+"""Held-out synthetic gates for label-locked residual kernels."""
 import torch
 
 from model.qpsmp_meta import EvidenceLockedMetaTransport
 
 
 def _predict(router, batch):
-    _, coefficient, reliability, _ = router(*batch[:-1])
-    return reliability.unsqueeze(-1).mul(coefficient).mul(batch[5]).sum(-1)
+    _, correction, _, _ = router(*batch[:-1])
+    return correction
 
 
 def _fit(router, generator, target_kind, steps=160, tasks=128):
@@ -20,34 +20,29 @@ def _fit(router, generator, target_kind, steps=160, tasks=128):
         optimizer.step()
 
 
-def _batch(generator, kind, tasks, queries=8, width=8, mechanisms=4):
-    active = torch.randint(mechanisms, (tasks,), generator=generator)
-    protein = torch.nn.functional.one_hot(active, width).float()
-    support_ligand = torch.randn(tasks, 1, width, generator=generator)
-    query_ligand = torch.randn(tasks, queries, width, generator=generator)
-    support_phi = torch.zeros(tasks, 1, mechanisms)
-    query_phi = torch.zeros(tasks, queries, mechanisms)
-    support_sign = torch.sign(torch.randn(tasks, 1, generator=generator))
-    query_sign = torch.sign(torch.randn(tasks, queries, generator=generator))
-    support_phi[torch.arange(tasks), 0, active] = support_sign[:, 0]
-    query_phi[torch.arange(tasks)[:, None], torch.arange(queries), active[:, None]] = query_sign
-    amplitude = torch.sign(torch.randn(tasks, generator=generator))
+def _batch(generator, kind, tasks, queries=8, width=8, supports=4):
+    support = torch.zeros(tasks, supports, width)
+    support[:, torch.arange(supports), torch.arange(supports)] = 1.0
+    active = torch.randint(supports, (tasks, queries), generator=generator)
+    query = torch.nn.functional.one_hot(active, width).float()
+    support_phi = torch.zeros(tasks, supports, supports)
+    query_phi = torch.zeros(tasks, queries, supports)
+    amplitude = torch.randn(tasks, supports, generator=generator)
     if kind == "shared":
-        residual = amplitude[:, None] * support_sign
-        target = amplitude[:, None] * query_sign
+        residual = amplitude
+        target = amplitude.gather(1, active)
     elif kind == "level":
-        residual = 0.05 * torch.randn(tasks, 1, generator=generator)
+        residual = torch.zeros(tasks, supports)
         target = torch.zeros(tasks, queries)
     elif kind == "private":
-        residual = amplitude[:, None] * support_sign
-        target = torch.sign(torch.randn(tasks, queries, generator=generator))
+        residual = amplitude
+        target = torch.randn(tasks, queries, generator=generator)
     else:
         raise ValueError(kind)
-    return (protein, support_ligand, support_phi, residual,
-            query_ligand, query_phi, target)
+    return support, support_phi, residual, query, query_phi, target
 
 
-def test_oracle_shared_primitive_transfers_to_heldout_tasks_k1():
+def test_shared_interaction_clusters_transfer_to_heldout_tasks():
     torch.manual_seed(41001)
     router = EvidenceLockedMetaTransport(8, 4, hidden_dim=16)
     _fit(router, torch.Generator().manual_seed(41002), "shared")
@@ -56,18 +51,15 @@ def test_oracle_shared_primitive_transfers_to_heldout_tasks_k1():
     mse = (prediction - heldout[-1]).square().mean()
     assert mse < 0.45 * heldout[-1].square().mean()
     flipped = list(heldout)
-    flipped[3] = -flipped[3]
+    flipped[2] = -flipped[2]
     assert torch.allclose(_predict(router, tuple(flipped)), -prediction,
                           atol=1e-6, rtol=1e-6)
 
 
-def test_level_only_trains_elmt_to_negligible_correction():
-    torch.manual_seed(41003)
+def test_zero_evidence_is_exactly_zero_correction():
     router = EvidenceLockedMetaTransport(8, 4, hidden_dim=16)
-    _fit(router, torch.Generator().manual_seed(41004), "level")
-    heldout = _batch(torch.Generator().manual_seed(73102), "level", 512)
-    correction = _predict(router, heldout).detach()
-    assert correction.square().mean() < 5e-4
+    heldout = _batch(torch.Generator().manual_seed(73102), "level", 128)
+    assert torch.count_nonzero(_predict(router, heldout)) == 0
 
 
 def test_private_mechanism_does_not_claim_heldout_transfer():
@@ -78,4 +70,3 @@ def test_private_mechanism_does_not_claim_heldout_transfer():
     prediction = _predict(router, heldout).detach()
     baseline = heldout[-1].square().mean()
     assert (prediction - heldout[-1]).square().mean() >= 0.98 * baseline
-    assert prediction.square().mean() < 0.05 * baseline

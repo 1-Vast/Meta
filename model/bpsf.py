@@ -7,6 +7,8 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
+from contracts.mechanism import DISTANCE_BINS_ANGSTROM, MECHANISM_SCHEMA
+
 
 @dataclass(frozen=True)
 class PairSectionEncoding:
@@ -28,9 +30,12 @@ class BipartitePairBlock(nn.Module):
         self.atom_neighbor = nn.Sequential(
             nn.Linear(token_dim, 2 * token_dim, bias=False, dtype=dtype),
             nn.SiLU(), nn.Linear(2 * token_dim, token_dim, bias=False, dtype=dtype))
-        self.residue_local = nn.Conv1d(
-            token_dim, token_dim, kernel_size=5, padding=2,
-            groups=token_dim, bias=False, dtype=dtype)
+        # Localized residues are an attention-selected set, not a contiguous
+        # sequence. A shared token update preserves permutation equivariance.
+        self.residue_local = nn.Sequential(
+            nn.Linear(token_dim, 2 * token_dim, bias=False, dtype=dtype),
+            nn.SiLU(),
+            nn.Linear(2 * token_dim, token_dim, bias=False, dtype=dtype))
         self.pair_to_atom = nn.Linear(pair_dim, token_dim, bias=False, dtype=dtype)
         self.pair_to_residue = nn.Linear(pair_dim, token_dim, bias=False, dtype=dtype)
         self.atom_localizer = nn.Linear(pair_dim, 1, bias=False, dtype=dtype)
@@ -80,7 +85,7 @@ class BipartitePairBlock(nn.Module):
         neighbor = adjacency @ atoms / degree
         atoms = self.atom_norm(
             atoms + self.atom_neighbor(neighbor) + self.pair_to_atom(atom_context))
-        local = self.residue_local(residues.transpose(1, 2)).transpose(1, 2)
+        local = self.residue_local(residues)
         local = local * residue_gate
         residues = self.residue_norm(
             residues + local + self.pair_to_residue(residue_context))
@@ -313,3 +318,61 @@ class BipartitePairSectionFormer(nn.Module):
             torch.cat([x.mechanism_response for x in outputs]),
             torch.cat([x.pair for x in outputs]) if return_pair else None,
             torch.cat([x.pair_mask for x in outputs]) if return_pair else None)
+
+
+@dataclass(frozen=True)
+class DenseMechanismPrediction:
+    """Source-only contact and distance predictions from a BPSF pair field."""
+
+    contact_logits: Tensor
+    distance_logits: Tensor
+    pair_mask: Tensor
+
+    @property
+    def contact_prob(self) -> Tensor:
+        return torch.sigmoid(self.contact_logits) * self.pair_mask
+
+    @property
+    def distance_prob(self) -> Tensor:
+        return torch.softmax(self.distance_logits, -1) * self.pair_mask.unsqueeze(-1)
+
+
+class GeometrySupervisionHead(nn.Module):
+    """Attach source-only geometry supervision to an existing BPSF field."""
+
+    schema = MECHANISM_SCHEMA
+
+    def __init__(self, pair_dim: int, distance_bins=DISTANCE_BINS_ANGSTROM,
+                 dtype: torch.dtype = torch.float32) -> None:
+        super().__init__()
+        self.n_distance_bins = len(tuple(distance_bins)) - 1
+        self.contact = nn.Linear(pair_dim, 1, dtype=dtype)
+        self.distance = nn.Linear(pair_dim, self.n_distance_bins, dtype=dtype)
+
+    def forward(self, pair: Tensor, pair_mask: Tensor) -> DenseMechanismPrediction:
+        if pair.ndim != 4 or pair_mask.shape != pair.shape[:3]:
+            raise ValueError("geometry head requires [B,A,R,Dp] pair states and mask")
+        return DenseMechanismPrediction(
+            self.contact(pair).squeeze(-1), self.distance(pair), pair_mask)
+
+
+class PairGeometryTeacher(nn.Module):
+    """BPSF plus its sole source-only geometry supervision consumer."""
+
+    def __init__(self, hidden_dim: int = 128, section_dim: int = 32,
+                 pair_dim: int = 64, blocks: int = 3, latents: int = 16,
+                 heads: int = 8, chunk_size: int = 16,
+                 dtype: torch.dtype = torch.float32) -> None:
+        super().__init__()
+        self.trunk = BipartitePairSectionFormer(
+            hidden_dim, section_dim, pair_dim, blocks, latents, heads,
+            chunk_size, dtype=dtype)
+        self.geometry = GeometrySupervisionHead(pair_dim, dtype=dtype)
+
+    def forward(self, ligand_atoms: Tensor, ligand_mask: Tensor,
+                protein_residues: Tensor, residue_mask: Tensor,
+                adjacency: Tensor | None = None) -> DenseMechanismPrediction:
+        encoded = self.trunk(
+            ligand_atoms, protein_residues, ligand_mask, residue_mask,
+            adjacency, return_pair=True)
+        return self.geometry(encoded.pair, encoded.pair_mask)

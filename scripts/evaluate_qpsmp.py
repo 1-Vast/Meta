@@ -21,8 +21,9 @@ if __package__ in {None, ""}:
 
 from scripts.qpsmp_data import EpisodeSpec, QPSMPData, stable_seed
 from scripts.train_qpsmp import (
-    COMPACT_LIGAND_BANK, CORPUS, LIGAND_BANK, PROTEIN_BANK, LabelScale, TrainConfig,
-    complete_foreign_prediction, forward, normalized_episode, train,
+    ARCHITECTURES, COMPACT_LIGAND_BANK, CORPUS, LIGAND_BANK, PROTEIN_BANK,
+    LabelScale, TrainConfig, complete_foreign_prediction,
+    counterfactual_label_assignments, forward, normalized_episode, train,
     wrong_protein_prediction,
 )
 
@@ -189,14 +190,23 @@ def evaluate_seed(model, data: QPSMPData, records: tuple[NestedEpisodeRecord, ..
                 spec = episode_spec(data, record, k)
                 episode = normalized_episode(data.materialize(spec), label_scale)
                 full = forward(model, episode)
-                permuted = (forward(model, replace(
-                    episode, support_y=episode.support_y.roll(1))) if k else full)
+                if k:
+                    # `roll(1)` is the identity for k=1, which would make the
+                    # label control vacuous exactly where it matters most.
+                    # `counterfactual_label_assignments` keeps `roll(1)` for
+                    # k>=2 and substitutes the magnitude-matched flip at k=1.
+                    wrong_labels = counterfactual_label_assignments(
+                        full, episode.support_y)[0]
+                    permuted_prediction = forward(model, replace(
+                        episode, support_y=wrong_labels)).prediction
+                else:
+                    permuted_prediction = full.prediction
                 predictions = {
                     "full": full.prediction,
                     "sar_cut": full.prediction - full.sar_adaptation,
                     "zero_shot": forward(model, episode, adapt=False).prediction,
                     "level_only": full.level_baseline,
-                    "permuted_state": permuted.prediction,
+                    "permuted_state": permuted_prediction,
                     "foreign_code_state": (complete_foreign_prediction(
                         model, data, episode, record.donor_target, label_scale)
                         if k else full.prediction),
@@ -327,6 +337,15 @@ def main() -> None:
     parser.add_argument("--manifest-seed", type=int, default=20260850)
     parser.add_argument("--draws-per-target", type=int, default=1)
     parser.add_argument("--query-size", type=int, default=8)
+    parser.add_argument("--split", default="meta_val",
+                        choices=("meta_train", "meta_val", "meta_test"),
+                        help="population to evaluate; meta_test is sealed and "
+                             "requires --include-meta-test (contract 2026-08-16)")
+    parser.add_argument("--split-directory", type=Path, default=None,
+                        help="governed split directory (double-cold protocol)")
+    parser.add_argument("--include-meta-test", action="store_true",
+                        help="physically unseal meta_test cells in QPSMPData; "
+                             "required to evaluate the sealed split")
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--episodes-per-step", type=int,
                         default=TrainConfig.episodes_per_step)
@@ -352,11 +371,38 @@ def main() -> None:
                         default=TrainConfig.support_blocks)
     parser.add_argument("--use-cartesian", action="store_true",
                         help="enable optional common-frame Cartesian inputs; requires geometry-bearing episodes")
+    parser.add_argument("--arch", default=TrainConfig.arch,
+                        choices=sorted(ARCHITECTURES))
+    parser.add_argument("--model-seeds", type=int, nargs="+",
+                        default=list(MODEL_SEEDS))
+    parser.add_argument("--min-query-size", type=int,
+                        default=TrainConfig.min_query_size)
+    parser.add_argument("--train-query-size", type=int,
+                        default=TrainConfig.query_size)
+    parser.add_argument("--learning-rate", type=float,
+                        default=TrainConfig.learning_rate)
+    parser.add_argument("--backbone-lr-scale", type=float,
+                        default=TrainConfig.backbone_lr_scale)
+    parser.add_argument("--binding-loss-weight", type=float,
+                        default=TrainConfig.binding_loss_weight)
+    parser.add_argument("--eval-targets-per-component", type=int, default=999999)
+    parser.add_argument("--lr-schedule", default=TrainConfig.lr_schedule,
+                        choices=("constant", "cosine"))
+    parser.add_argument("--lr-warmup-fraction", type=float,
+                        default=TrainConfig.lr_warmup_fraction)
+    parser.add_argument("--lr-final-fraction", type=float,
+                        default=TrainConfig.lr_final_fraction)
     parser.add_argument("--device", default=TrainConfig.device)
     args = parser.parse_args()
+    model_seeds = tuple(args.model_seeds)
     if args.output.exists():
         raise FileExistsError(f"output already exists: {args.output}")
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
+    if args.split == "meta_test" and not args.include_meta_test:
+        parser.error("evaluating the sealed meta_test split requires "
+                     "--include-meta-test")
+    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
+                     split_directory=args.split_directory,
+                     include_meta_test=args.include_meta_test)
     if args.manifest:
         payload, records = load_manifest(args.manifest)
         if tuple(payload["support_sizes"]) != SUPPORT_SIZES:
@@ -364,7 +410,7 @@ def main() -> None:
         validate_manifest(data, payload, records)
     else:
         records = build_nested_manifest(
-            data, "meta_test", SUPPORT_SIZES, args.query_size,
+            data, args.split, SUPPORT_SIZES, args.query_size,
             args.draws_per_target, args.manifest_seed)
         payload = manifest_payload(records, seed=args.manifest_seed,
                                    support_sizes=SUPPORT_SIZES,
@@ -372,13 +418,21 @@ def main() -> None:
                                    corpus_manifest_sha256=file_sha256(
                                        data.corpus / "manifest.json"))
     all_rows, training = [], []
-    for model_seed in MODEL_SEEDS:
+    for model_seed in model_seeds:
         config = TrainConfig(
             seed=model_seed, steps=args.steps,
             episodes_per_step=args.episodes_per_step,
             val_interval=args.val_interval,
             val_draws_per_target=args.val_draws_per_target,
-            eval_targets_per_component=999999,
+            eval_targets_per_component=args.eval_targets_per_component,
+            query_size=args.train_query_size,
+            min_query_size=args.min_query_size,
+            learning_rate=args.learning_rate,
+            backbone_lr_scale=args.backbone_lr_scale,
+            binding_loss_weight=args.binding_loss_weight,
+            arch=args.arch, lr_schedule=args.lr_schedule,
+            lr_warmup_fraction=args.lr_warmup_fraction,
+            lr_final_fraction=args.lr_final_fraction,
             hidden_dim=args.hidden_dim, task_dim=args.task_dim,
             adapter_rank=args.adapter_rank,
             adaptive_blocks=args.adaptive_blocks,
@@ -393,9 +447,25 @@ def main() -> None:
         )
         model, diagnostics, label_scale = train(
             data, config, support_sizes=SUPPORT_SIZES)
-        training.append({"model_seed": model_seed, **diagnostics})
+        args.output.mkdir(parents=True, exist_ok=True)
+        checkpoint = args.output / f"checkpoint_seed{model_seed}.pt"
+        torch.save({"model_state": model.state_dict(), "config": asdict(config)},
+                   checkpoint)
+        training.append({
+            "model_seed": model_seed, "checkpoint": str(checkpoint),
+            "checkpoint_sha256": file_sha256(checkpoint),
+            "trainable_parameters": int(sum(
+                p.numel() for p in model.parameters() if p.requires_grad)),
+            **diagnostics})
         all_rows.extend(evaluate_seed(
             model, data, records, SUPPORT_SIZES, label_scale, model_seed))
+        # Seeds run sequentially in one process. Without an explicit release the
+        # allocator keeps every earlier seed's cached blocks, and later seeds
+        # train several times slower under the resulting memory pressure.
+        del model
+        if config.device.startswith("cuda"):
+            torch.cuda.empty_cache()
+            torch.cuda.reset_peak_memory_stats()
     contrasts = [
         paired_component_bootstrap(
             all_rows, "full", control, k, args.bootstrap_draws,
@@ -404,7 +474,7 @@ def main() -> None:
         for control in ("level_only", "sar_cut", "permuted_state",
                         "foreign_code_state", "wrong_protein_state")
     ]
-    args.output.mkdir(parents=True, exist_ok=False)
+    args.output.mkdir(parents=True, exist_ok=True)
     (args.output / "EPISODES.json").write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     with (args.output / "PREDICTIONS.jsonl").open("w", encoding="utf-8") as handle:
@@ -412,12 +482,27 @@ def main() -> None:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
     result = {
         "schema": "MetaSieve.CIPFTERMNestedEvaluation.v1",
-        "model_seeds": list(MODEL_SEEDS), "support_sizes": list(SUPPORT_SIZES),
+        "arch": args.arch,
+        "model_seeds": list(model_seeds), "support_sizes": list(SUPPORT_SIZES),
+        "split": args.split,
+        "split_directory": str(args.split_directory),
+        "meta_test": {
+            "included": bool(args.include_meta_test),
+            "evaluated": bool(args.split == "meta_test"),
+            "seal": "physical: QPSMPData include_meta_test flag "
+                    "(contract 2026-08-16)",
+        },
         "training_config": {
             "steps": args.steps,
             "episodes_per_step": args.episodes_per_step,
             "val_interval": args.val_interval,
             "val_draws_per_target": args.val_draws_per_target,
+            "eval_targets_per_component": args.eval_targets_per_component,
+            "learning_rate": args.learning_rate,
+            "backbone_lr_scale": args.backbone_lr_scale,
+            "binding_loss_weight": args.binding_loss_weight,
+            "train_query_size": args.train_query_size,
+            "min_query_size": args.min_query_size,
         },
         "targets": len({record.target for record in records}),
         "components": len({record.component for record in records}),
