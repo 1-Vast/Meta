@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .pytest_cycle_*/
 .pytest_tmp*/
+.tmp_pytest_*/
 .coverage
 htmlcov/
 
@@ -15,6 +16,7 @@ htmlcov/
 # Local secrets and machine-specific remote configuration
 .env
 .env.*
+LLM/llm.json
 config/remote/ssh_config
 config/remote/hosts.json
 config/remote/keys/
@@ -23,6 +25,9 @@ LOCAL_RETENTION.md
 
 # Downloaded third-party tools and model caches
 tools/
+!tools/
+tools/**
+!tools/README.md
 weights/**
 !weights/README.md
 
