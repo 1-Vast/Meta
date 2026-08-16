@@ -16,7 +16,9 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.audit_research_record import collect_arms, check_seals, pareto
+from scripts.audit_research_record import (
+    check_seals, check_strict_loading, collect_arms, pareto,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "report"
@@ -95,6 +97,32 @@ def test_best_cliff_record_is_scoped_to_meta_val_development():
     assert "meta_val" in section, "the cliff record is not scoped to meta_val"
     assert "development" in section, "the cliff record is not graded development"
     assert "dominated" in section, "the cliff record omits its dominated status"
+
+
+def test_every_comparator_checkpoint_still_reloads_strictly():
+    """A comparator you cannot reload is not a comparator.
+
+    Six R3R4 pre-fix arms are expected to fail: their `TypedLigandChannels`
+    pooled each ligand to five vectors before any protein contact, and the
+    documented fix replaced it with 16 query-slot tokens. They are retained as
+    evidence for the identifiability and capacity defects, not as comparators.
+    Any *other* failure means an architecture change silently orphaned a
+    checkpoint the record still cites.
+    """
+    loading = check_strict_loading()
+    if "skipped" in loading:
+        pytest.skip(loading["skipped"])
+    assert loading["broken"] == [], loading["broken"]
+    assert loading["loaded"], "no checkpoint was reloaded at all"
+
+    superseded = {row["artifact"] for row in loading["superseded_architecture"]}
+    assert all("stageR3R4" in name for name in superseded), superseded
+
+    # The three frontier arms must be among the checkpoints that do reload.
+    reloadable = {row["artifact"] for row in loading["loaded"]}
+    for arm in ("B3_full", "C2_cliffw2", "A0_incumbent"):
+        assert any(arm in name for name in reloadable), (
+            f"{arm} is on the k=0 Pareto frontier but no checkpoint reloads")
 
 
 @pytest.mark.parametrize("path,expected", [

@@ -9743,12 +9743,25 @@ against its stated control was never computed. Stale counts in
 docs/PROJECT_FILE_ORGANIZATION.md (R5-R10, 394 tests, 72/79 modules, 212
 results) were updated to the measured values.
 
+A seventh defect surfaced during verification: six checkpoints do not reload
+into the current model, and the record did not say so. They are the R3R4
+pre-fix arms (A1_shared/A2_routed/A3_full at seed 20260815 and their
+_predrift copies), whose TypedLigandChannels pooled each ligand to five
+vectors before any protein contact and was replaced by the documented
+capacity fix (16 query-slot tokens, changed anchor shape). This is by design
+— those arms are retained as evidence for the identifiability and capacity
+defects, and their RESULT.json metrics are the evidence rather than the
+bytes — but it is now stated, classified by the audit, and covered by a test
+that fails if any other checkpoint is silently orphaned by a future
+architecture change.
+
 Verification in the drug environment: 78 recorded checkpoint sha256 hashes
-recomputed, 0 mismatched; strict loading contracts intact. The regression
+recomputed, 0 mismatched; 39 checkpoints reload strictly through the
+production loader with 0 broken, covering all three frontier arms. The regression
 suite was split into tiers, because six synthetic *training* gates belonging
 to two already-closed families (relative-transport, closed at R8;
 direct-shape, gate-blocked at R13) were 77% of the wall time while testing
-settled questions. Default tier: 412 passed, 9 skipped, 103 s.
+settled questions. Default tier: 413 passed, 9 skipped, 105 s.
 RUN_RESEARCH_GATES=1: 416 passed, 3 skipped, 2 xfailed, 410 s. The deferred
 verdicts are preserved as immutable evidence, and a new or reopened family
 must still run its own Stage 1 gates in the research tier before any
@@ -9757,13 +9770,14 @@ real-data training.
 meta_test remains sealed and unopened.
 
 ```text
-RECORD_AUDIT_DEFECTS_FOUND=6
-RECORD_AUDIT_DEFECTS_REPAIRED=6
+RECORD_AUDIT_DEFECTS_FOUND=7
+RECORD_AUDIT_DEFECTS_REPAIRED=7
 CHECKPOINT_SHA256_VERIFIED=78
 CHECKPOINT_SHA256_MISMATCHED=0
+CHECKPOINT_STRICT_RELOAD=39_ok_0_broken_6_superseded_by_design
 META_TEST_SEAL_VIOLATIONS=0
 K0_PARETO_FRONTIER=B3(2.055,0.531);C2(2.119,0.548);A0(2.149,0.580)
 CLIFF_SIGN_0782_SCOPE=meta_val_development_on_pareto_dominated_C1
-SUITE_DEFAULT=412_passed_9_skipped_103s
+SUITE_DEFAULT=413_passed_9_skipped_105s
 SUITE_RESEARCH_GATES=416_passed_3_skipped_2_xfailed_410s
 ```

@@ -691,7 +691,7 @@ suite was 410 passed / 3 skipped / 2 xfailed in 410 s. After adding
 
 | tier | command | outcome | wall |
 |---|---|---|---:|
-| default | `pytest tests -q` | 412 passed, 9 skipped | 103 s |
+| default | `pytest tests -q` | 413 passed, 9 skipped | 105 s |
 | research gates | `RUN_RESEARCH_GATES=1 pytest tests -q` | 416 passed, 3 skipped, 2 xfailed | 410 s |
 
 The six deferred tests are the synthetic **training** gates of the two closed

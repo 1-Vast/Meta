@@ -184,16 +184,83 @@ def check_checkpoint_hashes() -> dict:
     return {"verified": checked, "payload_absent": absent, "mismatched": mismatched}
 
 
+def check_strict_loading(stages: list[str] | None = None) -> dict:
+    """Reload every retained checkpoint through the production loader.
+
+    `load_state_dict` defaults to `strict=True`, so a renamed or dropped
+    parameter surfaces here and nowhere else once training has finished.
+
+    A failure is **not automatically a defect**. Checkpoints written before a
+    deliberate architecture change belong to the superseded architecture; they
+    are retained because their `RESULT.json` metrics are the evidence, not
+    because the bytes are re-runnable. Those are reported as `superseded`, and
+    the caller must be able to name the change. Anything else is a real break.
+    """
+    import types
+
+    import torch
+
+    from scripts.stageR6_compare_arms import load_arm
+
+    manifest = (ROOT / "dataset/processed/meta_fewshot"
+                / "bindingdb_ki_main_v0_protein_bank" / "manifest.json")
+    if not manifest.exists():
+        return {"skipped": "protein bank manifest absent (dataset is local-only)"}
+    hidden = int(json.loads(manifest.read_text(encoding="utf-8"))["hidden_dim"])
+    stub = types.SimpleNamespace(
+        protein_bank=types.SimpleNamespace(manifest={"hidden_dim": hidden}))
+
+    # Retained pre-fix arms of the R3R4 ladder. Their `TypedLigandChannels`
+    # pooled each ligand to five vectors before any protein contact; the fix
+    # replaced it with 16 query-slot tokens and changed the anchor shape, so
+    # these state dicts cannot enter the current LevelShapeModel by design.
+    # They are evidence for the identifiability and capacity defects the R3R4
+    # report documents, not comparators.
+    SUPERSEDED = ("stageR3R4_level_shape_20260815/A1_shared",
+                  "stageR3R4_level_shape_20260815/A2_routed",
+                  "stageR3R4_level_shape_20260815/A3_full")
+
+    stages = stages or ["stageR3R4_level_shape_20260815",
+                        "stageR7_reltransport_3seed_20260816",
+                        "stageR8_stronger_shape_20260816",
+                        "stageR9_cliffweight_20260816",
+                        "stageR10_variance_20260816",
+                        "stageR11_grammar_shape_20260816",
+                        "stageR12_margin_20260816"]
+
+    loaded, superseded, broken = [], [], []
+    for stage in stages:
+        for result in sorted((FEWSHOT / stage).glob("*/RESULT.json")):
+            checkpoint = result.parent / "checkpoint.pt"
+            if not checkpoint.exists():
+                continue
+            label = f"{stage}/{result.parent.name}"
+            try:
+                model, kind, _ = load_arm(checkpoint, stub, "cpu")
+                loaded.append({"artifact": label, "arch": kind,
+                               "parameters": sum(p.numel() for p in model.parameters())})
+            except Exception as error:                             # noqa: BLE001
+                row = {"artifact": label, "error": repr(error)[:200]}
+                (superseded if label.startswith(SUPERSEDED) else broken).append(row)
+    return {"loaded": loaded, "superseded_architecture": superseded,
+            "broken": broken}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json", type=Path, default=None,
                         help="also write the audit as JSON to this path")
+    parser.add_argument("--skip-loading", action="store_true",
+                        help="skip the strict checkpoint reload (needs torch "
+                             "and the local protein-bank manifest)")
     arguments = parser.parse_args()
 
     arms = collect_arms()
     frontier = pareto(arms)
     seals = check_seals()
     hashes = check_checkpoint_hashes()
+    loading = {"skipped": "--skip-loading"} if arguments.skip_loading \
+        else check_strict_loading()
 
     print(f"{'arm':<8}{'stage':<7}{'k0 MSE':>9}{'k0 CI':>8}{'rho':>8}"
           f"{'calib':>8}{'shape':>8}{'cliff0':>8}{'cliff5':>8}")
@@ -229,6 +296,15 @@ def main() -> int:
         print(f"  {mismatch['artifact']}: recorded {mismatch['recorded'][:12]}… "
               f"actual {mismatch['actual'][:12]}…")
 
+    if "skipped" in loading:
+        print(f"strict checkpoint reload: skipped ({loading['skipped']})")
+    else:
+        print(f"strict checkpoint reload: {len(loading['loaded'])} loaded, "
+              f"{len(loading['superseded_architecture'])} superseded-architecture "
+              f"(expected), {len(loading['broken'])} broken")
+        for row in loading["broken"]:
+            print(f"  BROKEN {row['artifact']}: {row['error']}")
+
     if arguments.json is not None:
         arguments.json.write_text(json.dumps({
             "schema": "MetaSieve.RecordAudit.v1",
@@ -236,10 +312,12 @@ def main() -> int:
             "k0_pareto_frontier": frontier,
             "meta_test_seal": seals,
             "checkpoint_hashes": hashes,
+            "strict_loading": loading,
         }, indent=1), encoding="utf-8")
         print(f"\nwrote {arguments.json}")
 
-    return 1 if seals["violations"] or hashes["mismatched"] else 0
+    return 1 if (seals["violations"] or hashes["mismatched"]
+                 or loading.get("broken")) else 0
 
 
 if __name__ == "__main__":

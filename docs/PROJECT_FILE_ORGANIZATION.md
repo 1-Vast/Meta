@@ -344,7 +344,7 @@ D:\anaconda\envs\drug\python.exe -m pytest tests -q
 
 | tier | how to run | contents | 2026-08-16 outcome | wall |
 |---|---|---|---|---:|
-| default | `pytest tests -q` | every structural, algebraic, gradient, contract, data and record-integrity gate, including all of the closed families' *non-training* gates | 412 passed, 9 skipped | 103 s |
+| default | `pytest tests -q` | every structural, algebraic, gradient, contract, data and record-integrity gate, including all of the closed families' *non-training* gates | 413 passed, 9 skipped | 105 s |
 | research gates | `RUN_RESEARCH_GATES=1 pytest tests -q` | adds the synthetic **training** gates of the two closed families (`test_reltransport_synthetic.py`, `test_shape_direct_synthetic.py`) | 416 passed, 3 skipped, 2 xfailed | 410 s |
 | slow smokes | `RUN_SLOW=1 pytest tests -q` | adds the full-corpus subprocess smokes in `test_stage0_contract_fixes.py` | — | — |
 

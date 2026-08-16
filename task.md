@@ -393,10 +393,18 @@ new. Each is now recomputed from the leaf artifacts by
 6. **Stale counts** in `docs/PROJECT_FILE_ORGANIZATION.md` (R5-R10, 394
    tests, 72/79 modules, 212 results) updated to R5-R13 and the measured
    values.
+7. **Six checkpoints do not reload into the current model**, and the record
+   did not say so. They are the R3R4 pre-fix arms
+   (`A1_shared`/`A2_routed`/`A3_full` seed 20260815 and their `_predrift`
+   copies), whose `TypedLigandChannels` was replaced by the documented
+   capacity fix. This is by design — their `RESULT.json` metrics are the
+   evidence, not the bytes — but it is now stated, classified by the audit,
+   and covered by a test that fails if any *other* checkpoint is orphaned.
 
 Verified in the `drug` environment: **78 recorded checkpoint sha256 hashes
-recomputed, 0 mismatched**; strict loading contracts intact. Suite tiers:
-default 412 passed / 9 skipped (103 s); `RUN_RESEARCH_GATES=1` 416 passed /
+recomputed, 0 mismatched**; **39 checkpoints reload strictly, 0 broken**,
+covering all three frontier arms. Suite tiers:
+default 413 passed / 9 skipped (105 s); `RUN_RESEARCH_GATES=1` 416 passed /
 3 skipped / 2 xfailed (410 s). The six deferred tests are the synthetic
 training gates of the two **closed** families, whose verdicts are immutable
 evidence; a new or reopened family must run its own gates in that tier.
