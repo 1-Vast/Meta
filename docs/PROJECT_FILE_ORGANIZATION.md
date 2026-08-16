@@ -65,6 +65,15 @@ active model.
   component bootstraps (used by R6-R10).
 - `scripts/stageR9_pair_audit.py`: no-training pair-level CI decomposition
   (stratum counts/sign accuracy/margins/loss + component bootstrap).
+- `scripts/r14_dispersion_audit.py`: no-training exact split of the
+  within-target shape term into an ordering floor `Var(y)(1-r²)` and an
+  amplitude excess. **Every arm comparison must report this alongside MSE and
+  CI** — R14 Phase 2 showed MSE and CI alone hid the effect for seven stages.
+- `scripts/r14_alignment_check.py`: verifies that a candidate ranking term is
+  stationary at the regression optimum before it is trained with.
+- `scripts/audit_research_record.py`: recomputes the narrative numbers, the
+  k=0 Pareto frontier, the `meta_test` seal classification, every recorded
+  checkpoint sha256, and a strict reload of every checkpoint.
 - `contracts/ligand_graph.py`: active atom/bond dimensional contract.
 - `tests/test_bpsf.py`, `tests/test_qpsmp_meta.py`,
   `tests/test_train_qpsmp_meta.py`, `tests/test_term_synthetic.py`,
