@@ -1,0 +1,10 @@
+你是Kimi-K3，只审查MetaSieve当前residual与warmup数据流，不讨论其他架构。
+
+事实：strict cold-target BindingDB Ki；few-shot kernel的support residual r=y-support_zero。预测公式等价于 zero + s*[mean(r)+a*(local(r)-mean(r))]。k1时local=mean，因此只有scalar calibration。旧训练前20% adapt=False，加上k0/k1后，100 steps中约48 steps才训练ligand-specific kernel。取消warmup后，三种子MSE从k0/1/2/3/5=2.22/1.77/1.39/1.30/1.28变为2.12/1.70/1.34/1.27/1.25，已保留。
+
+请仅回答：
+1 residual是否数值双计；
+2 取消warmup的收益解释是否成立；
+3 此模块仍有哪个最高优先级bug；
+4 给一个不涉及新架构的最小修复或明确说无需再改。
+限制300中文字，不承诺SOTA。

@@ -1,0 +1,90 @@
+{
+  "assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "axes": {
+    "ligand": "Bemis-Murcko scaffold cluster (RDKit MurckoScaffold); acyclic ligands form singleton clusters",
+    "protein": "protein_group_40 (CD-HIT40)"
+  },
+  "built_from": {
+    "cells_sha256": "256196665297aab267cf26832daba3f5d83263190312ce3666d4e18af5b5826d",
+    "corpus": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0",
+    "ligands_sha256": "c3e2ca9fc8f5d1bb6d53a9f8b840c7f74d59e12902e1b262247afd396dbc9f83",
+    "proteins_sha256": "4e9fb78927718e7c91cde175ecd95da051214249348a1ea9fdd04d947232b480"
+  },
+  "closure_violations": {
+    "meta_test": {
+      "component_overlap": 0,
+      "document_overlap": 0,
+      "exact_ligand_overlap": 0,
+      "scaffold_overlap": 0
+    },
+    "meta_val": {
+      "component_overlap": 0,
+      "document_overlap": 0,
+      "exact_ligand_overlap": 0,
+      "scaffold_overlap": 0
+    },
+    "val_test_component_overlap": 0
+  },
+  "discarded": {
+    "document_closure_cells": 567,
+    "ineligible_target_cells": 219,
+    "off_diagonal_cells": 9109,
+    "retained_fraction": 0.44149686741547667
+  },
+  "label_blind": true,
+  "parameters": {
+    "axis_salt": "MetaSieve.DoubleCold.v1",
+    "dev_components": 24,
+    "eval_cluster_fraction": 0.3,
+    "min_unique_ligands": 9,
+    "test_components": 12
+  },
+  "rejected_alternative": "single-linkage Morgan Tanimoto clustering at 0.4 chains: the largest cluster absorbs 74.6% of the 9,880 corpus ligands",
+  "schema": "MetaSieve.DoubleColdSplit.v1",
+  "similarity_tiers": {
+    "meta_test": {
+      "lt40": 456,
+      "t40_60": 57,
+      "t60_80": 5
+    },
+    "meta_val": {
+      "ge80": 1,
+      "lt40": 827,
+      "t40_60": 172,
+      "t60_80": 14
+    }
+  },
+  "statistics": {
+    "meta_test": {
+      "cells": 768,
+      "components": 10,
+      "ligands": 518,
+      "median_ligands_per_target": 22.0,
+      "scaffold_clusters": 223,
+      "targets": 22,
+      "targets_with_25_ligands": 9,
+      "targets_with_9_ligands": 22
+    },
+    "meta_train": {
+      "cells": 5643,
+      "components": 258,
+      "ligands": 3825,
+      "median_ligands_per_target": 9.0,
+      "scaffold_clusters": 1628,
+      "targets": 346,
+      "targets_with_25_ligands": 61,
+      "targets_with_9_ligands": 177
+    },
+    "meta_val": {
+      "cells": 1411,
+      "components": 19,
+      "ligands": 1014,
+      "median_ligands_per_target": 21.0,
+      "scaffold_clusters": 410,
+      "targets": 41,
+      "targets_with_25_ligands": 19,
+      "targets_with_9_ligands": 41
+    }
+  },
+  "tier_definition": "max Morgan(r=2,1024) Tanimoto of the evaluation ligand to any training-block ligand"
+}
