@@ -98,19 +98,32 @@ against the forward pass. Incumbent: 7,294,171 parameters, ~6,500 MB peak,
 
 ## The single variable
 
-The incumbent `similarity_only` configuration exactly, at 1200 steps, seeds
-20260815/16/17, changing only the within-target ranking term:
-`none -> regression-compatible ListCE` at one fixed `α`.
+**Correction, before any run.** The incumbent A0 is *not* a ranking-free
+control: its recorded config carries `ranking_loss_weight = 0.5`, a RankNet
+term applied to the whole prediction alongside a dominant smooth-L1 term.
+This makes the experiment cleaner than first drafted — the single variable is
+a **loss-form swap in place**, and the incumbent is itself the matched
+misaligned control.
+
+The incumbent `similarity_only` configuration exactly, 1200 steps, seeds
+20260815/16/17, changing only the form of the existing ranking term at its
+existing weight 0.5: `RankNet -> regression-compatible ListCE`. No weight
+change, no architecture change, no new parameter.
 
 ## Arms
 
-* **A0** — the frozen incumbent checkpoints (MSE-primary, no ranking term).
-* **R1** — A0's configuration plus the regression-compatible ListCE.
-* **R2** — A0's configuration plus a *plain* RankNet term at the same weight.
-  This is the essential control: it separates "adding a ranking term" from
-  "adding a **compatible** ranking term", and it is the ablation that must
-  show the compatible construction is the performance source rather than
-  decoration.
+* **A0** — the frozen incumbent checkpoints. RankNet @ 0.5. The misaligned
+  control; already trained, not re-run.
+* **R1** — identical, with the ranking term's *form* swapped to the
+  regression-compatible ListCE @ 0.5. The candidate.
+* **R3** — identical, with `ranking_loss_weight = 0.0`. **The necessity
+  control.** Phase 2 showed the misaligned term costs `r`; R3 asks whether
+  simply *deleting* it recovers the same ordering. If R3 matches R1 then the
+  innovation is not a source — removal is — and the claim must be withdrawn.
+
+R3 is the arm that makes O4 meaningful. Without it, any gain by R1 over A0 is
+consistent with "the RankNet term was harmful", which is a deletion, not a
+contribution.
 
 ## Gates (preregistered, primary metric first)
 
@@ -120,8 +133,9 @@ The incumbent `similarity_only` configuration exactly, at 1200 steps, seeds
   than 0.02.
 * **O3.** R1's k=0 MSE improves on A0's 2.149 (point estimate) and CI is at
   least A0's 0.580 - 0.01.
-* **O4 (necessity of the innovation).** R1's `r` exceeds R2's, so the
-  *compatibility* — not the presence of a ranking term — is the source.
+* **O4 (necessity of the innovation).** R1's `r` exceeds **R3's** with a
+  positive component-level lower bound, so the *aligned ranking pressure* —
+  not the mere removal of the misaligned one — is the source.
 * **O5.** The direction of O1 holds in all three seeds.
 
 ## Failure conditions and what each closes
@@ -129,11 +143,15 @@ The incumbent `similarity_only` configuration exactly, at 1200 steps, seeds
 * **O1 fails** → the loss form is not the cause of the ordering deficit. That
   closes the objective axis for this family, and the next hypothesis must be
   the trunk's ligand representation (a separate, unstarted line).
-* **O1 passes, O4 fails** → the gain is from adding *any* ranking pressure,
-  not from compatibility. The core-innovation claim is withdrawn and the
-  result is recorded as a loss-weight finding, not an innovation.
+* **O1 passes, O4 fails** → the gain is deletion of a harmful term, not the
+  aligned construction. The core-innovation claim is **withdrawn** and the
+  result is recorded as a negative-term finding. This is a real possible
+  outcome and it is not a partial success.
 * **O2 fails** → the conflict was relocated, not removed; same verdict as
   R11, recorded as such.
+* **R3 beats both** → the honest conclusion is that this project's
+  within-target ranking terms have been net-harmful throughout, which is a
+  publishable negative and closes the axis.
 
 ## Advancement rule
 

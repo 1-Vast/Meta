@@ -30,13 +30,13 @@ This matters because the R7-R13 ladder tracked CI and cliff-sign accuracy,
 which are rank statistics dominated by easy large-gap pairs, and never
 tracked `r`, which is the quantity that enters the MSE.
 
-## Result 1 — every ranking-primary arm has worse k=0 ordering than plain MSE
+## Result 1 — every ranking-primary routed arm has worse k=0 ordering than the regression-dominant incumbent
 
 Double-cold `meta_val`, k=0, three seeds, equal-component weighting:
 
 | arm | training | MSE | calib | shape | **ordering floor** | amp. excess | **r** | sd_p/sd_y | CI |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| **A0** incumbent | MSE-primary | 2.149 | 1.236 | 0.913 | **0.692** | 0.221 | **0.213** | 0.180 | 0.580 |
+| **A0** incumbent | regression-dominant (+RankNet 0.5) | 2.149 | 1.236 | 0.913 | **0.692** | 0.221 | **0.213** | 0.180 | 0.580 |
 | D1 (R10) | shape-first, var 0.5 | 2.285 | 1.358 | 0.927 | 0.706 | 0.221 | 0.156 | 0.023 | 0.552 |
 | C2 (R9) | shape-first, cliff 2 | 2.119 | 1.218 | 0.901 | 0.716 | 0.185 | 0.148 | 0.142 | 0.548 |
 | D2 (R12) | shape-first, margin | 2.154 | 1.245 | 0.908 | 0.725 | 0.183 | 0.129 | 0.084 | 0.551 |
@@ -45,8 +45,15 @@ Double-cold `meta_val`, k=0, three seeds, equal-component weighting:
 | G1 (R11) | shape-first, **same trunk** | 2.405 | 1.488 | 0.917 | 0.751 | 0.166 | 0.134 | 0.204 | 0.525 |
 | B3 (R3R4) | full routed method | 2.055 | 1.131 | 0.924 | 0.753 | 0.172 | 0.073 | 0.225 | 0.531 |
 
-**The plain MSE-trained incumbent has the lowest irreducible ordering error of
-every arm in the project — 8 of 8, without exception.** The ordering floor is
+**The regression-dominant incumbent has the lowest irreducible ordering error
+of every arm in the project — 8 of 8, without exception.**
+
+A0 is not a ranking-free control: it already carries a RankNet term at weight
+0.5 (`ranking_loss_weight=0.5`, applied to the whole prediction) alongside a
+dominant smooth-L1 term. The contrast that separates the arms is therefore
+**regression-dominant with a secondary ranking term** against
+**ranking-primary on a routed shape branch, with cliff and variance
+weighting** — not "MSE-only" against "ranking". The ordering floor is
 monotone in the opposite direction to everything the ladder was optimising.
 
 ### The attribution is clean, because G1 changes nothing but the training

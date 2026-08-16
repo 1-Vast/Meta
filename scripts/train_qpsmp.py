@@ -102,6 +102,12 @@ class TrainConfig:
     binding_temperature: float = 0.1
     protein_contrast_loss_weight: float = 0.5
     ranking_temperature: float = 1.0
+    # Form of the within-target ranking term. "ranknet" is the incumbent
+    # pairwise softplus; "listce" is the R14 regression-compatible listwise
+    # cross-entropy, whose optimum coincides with the regression optimum so it
+    # contributes exactly zero gradient at `prediction == truth`. See
+    # report/meta_fewshot/stageR14_diagnostics_20260816/.
+    ranking_loss_form: str = "ranknet"
     representation_warmup_fraction: float = 0.0
     admission_binding_margin_pk: float = 0.01
     zero_support_only: bool = False
@@ -348,6 +354,62 @@ def pairwise_ranking_loss(prediction: torch.Tensor, truth: torch.Tensor,
         return prediction.new_zeros(())
     signed = delta_y.sign() * delta_p / temperature
     return torch.nn.functional.softplus(-signed[comparable]).mean()
+
+
+#: Fixed shift below the pK label range, used by the listwise transform. It is
+#: not a swept hyperparameter: any constant below the corpus minimum gives the
+#: same stationary point, and 2.0 pK sits under every measured Ki in the bank.
+LISTCE_SHIFT_PK = 2.0
+
+
+def regression_compatible_ranking_loss(prediction: torch.Tensor,
+                                       truth: torch.Tensor,
+                                       label_scale: "LabelScale") -> torch.Tensor:
+    """Within-target listwise cross-entropy that shares the regression optimum.
+
+    The incumbent `pairwise_ranking_loss` is minimised by *any* scale-free
+    monotone arrangement, so its optimum differs from the regression optimum
+    and it keeps pushing for wider margins even at `prediction == truth`. The
+    R14 Phase 2 audit measured the cost of that residual gradient: within-target
+    Pearson `r` at k=0 is lower than the incumbent's in 8 of 8 arms.
+
+    Following the regression-compatible construction of Bai et al.
+    (arXiv:2211.01494), the normalizer uses the model's own value link instead
+    of `exp`. With a fixed shift `m` below the label range, `T(x) = x - m` and
+    weights `w = y - m`:
+
+        L = -(1/Σ_j w_j) Σ_i w_i · log[ T(p_i) / Σ_j T(p_j) ]
+        ∂L/∂p_k ∝ w_k/T(p_k) - Σ_j w_j / Σ_j T(p_j)
+
+    which vanishes for every `k` exactly when `T(p) ∝ w`. The regression
+    optimum `p = y` is such a point, so the two terms share a minimum rather
+    than competing for it, and the regression term alone pins the amplitude.
+
+    Inputs are in normalized label units; the transform is applied in pK,
+    which is an affine reparameterization and therefore leaves the stationary
+    point unchanged.
+    """
+    truth = truth.to(device=prediction.device, dtype=prediction.dtype)
+    truth_pk = truth * label_scale.scale + label_scale.mean
+    prediction_pk = prediction * label_scale.scale + label_scale.mean
+    weights = (truth_pk - LISTCE_SHIFT_PK).clamp_min(1e-6)
+    transformed = (prediction_pk - LISTCE_SHIFT_PK).clamp_min(1e-6)
+    total_weight = weights.sum(-1, keepdim=True)
+    if not bool((total_weight > 0).all()):
+        return prediction.new_zeros(())
+    normalized_log = transformed.log() - transformed.sum(-1, keepdim=True).log()
+    return -((weights * normalized_log).sum(-1) / total_weight.squeeze(-1)).mean()
+
+
+def ranking_term(prediction: torch.Tensor, truth: torch.Tensor,
+                 config: "TrainConfig", label_scale: "LabelScale") -> torch.Tensor:
+    """Dispatch the configured within-target ranking form. One changed variable."""
+    if config.ranking_loss_form == "listce":
+        return regression_compatible_ranking_loss(prediction, truth, label_scale)
+    if config.ranking_loss_form == "ranknet":
+        return pairwise_ranking_loss(prediction, truth, config.ranking_temperature)
+    raise ValueError(f"unknown ranking_loss_form {config.ranking_loss_form!r}; "
+                     "expected 'ranknet' or 'listce'")
 
 
 def relative_difference_loss(output, query_y: torch.Tensor) -> torch.Tensor:
@@ -746,8 +808,8 @@ def train(data: QPSMPData, config: TrainConfig,
                 endpoint_prediction = full.prediction if adapt else full.zero_shot
                 loss_full = F.smooth_l1_loss(endpoint_prediction, query_y)
                 loss_zero = F.smooth_l1_loss(full.zero_shot, query_y)
-                loss_rank = pairwise_ranking_loss(
-                    full.prediction, query_y, config.ranking_temperature)
+                loss_rank = ranking_term(
+                    full.prediction, query_y, config, label_scale)
                 correct_error = centered_task_error(full.prediction, query_y)
                 loss_binding = loss_full.new_zeros(())
                 loss_protein = loss_full.new_zeros(())
@@ -774,8 +836,8 @@ def train(data: QPSMPData, config: TrainConfig,
                 if phase_a:
                     episode_loss = (
                         loss_zero
-                        + config.ranking_loss_weight * pairwise_ranking_loss(
-                            full.zero_shot, query_y, config.ranking_temperature)
+                        + config.ranking_loss_weight * ranking_term(
+                            full.zero_shot, query_y, config, label_scale)
                         + config.support_match_loss_weight * full.support_match_loss)
                 else:
                     episode_loss = (
@@ -883,6 +945,12 @@ def main() -> None:
                         default=TrainConfig.zero_shot_loss_weight)
     parser.add_argument("--ranking-loss-weight", type=float,
                         default=TrainConfig.ranking_loss_weight)
+    parser.add_argument("--ranking-loss-form", choices=("ranknet", "listce"),
+                        default=TrainConfig.ranking_loss_form,
+                        help="form of the within-target ranking term; 'listce' "
+                             "is the R14 regression-compatible construction "
+                             "whose optimum coincides with the regression "
+                             "optimum (default: ranknet, the incumbent)")
     parser.add_argument("--shape-loss-weight", type=float,
                         default=TrainConfig.shape_loss_weight)
     parser.add_argument("--support-match-loss-weight", type=float,
@@ -951,6 +1019,7 @@ def main() -> None:
         val_targets_per_component=args.val_targets_per_component,
         zero_shot_loss_weight=args.zero_shot_loss_weight,
         ranking_loss_weight=args.ranking_loss_weight,
+        ranking_loss_form=args.ranking_loss_form,
         shape_loss_weight=args.shape_loss_weight,
         support_match_loss_weight=args.support_match_loss_weight,
         binding_loss_weight=args.binding_loss_weight,

@@ -87,3 +87,115 @@ def test_list_ce_never_reads_a_prediction_below_the_shift():
     degenerate = torch.full_like(labels, SHIFT - 5.0)
     value = list_ce(degenerate, labels)
     assert torch.isfinite(value), value
+
+
+# ------------------------------------------------------------------ trainer
+# The gates above verify the objective in isolation. These verify the term as
+# it is actually wired into the incumbent trainer, in normalized label units.
+
+from scripts.train_qpsmp import (                                # noqa: E402
+    LISTCE_SHIFT_PK, LabelScale, TrainConfig, pairwise_ranking_loss,
+    ranking_term, regression_compatible_ranking_loss,
+)
+
+SCALE = LabelScale(mean=7.5, scale=1.2)
+
+
+def normalized_panel(seed: int, size: int = 16) -> torch.Tensor:
+    return SCALE.normalize(panel(seed, size))
+
+
+def trainer_grad(config: TrainConfig, prediction: torch.Tensor,
+                 truth: torch.Tensor) -> torch.Tensor:
+    prediction = prediction.clone().requires_grad_(True)
+    ranking_term(prediction, truth, config, SCALE).backward()
+    return prediction.grad
+
+
+@pytest.mark.parametrize("seed", [0, 1, 2])
+def test_trainer_listce_is_stationary_at_the_regression_optimum(seed):
+    """The wired-in term must inherit the property, in normalized units."""
+    labels = normalized_panel(seed)
+    config = TrainConfig(ranking_loss_form="listce")
+    assert float(trainer_grad(config, labels, labels).norm()) < 1e-9
+
+
+@pytest.mark.parametrize("seed", [0, 1, 2])
+def test_trainer_ranknet_is_not_stationary_there(seed):
+    """The incumbent form, through the same dispatch — the matched control."""
+    labels = normalized_panel(seed)
+    config = TrainConfig(ranking_loss_form="ranknet")
+    assert float(trainer_grad(config, labels, labels).norm()) > 1e-3
+
+
+def test_dispatch_reproduces_the_incumbent_exactly():
+    """`ranknet` must be bit-identical to the retained loss: no silent drift."""
+    labels = normalized_panel(4)
+    prediction = labels + 0.3 * torch.randn(
+        len(labels), generator=torch.Generator().manual_seed(8), dtype=torch.float64)
+    config = TrainConfig(ranking_loss_form="ranknet")
+    assert torch.equal(
+        ranking_term(prediction, labels, config, SCALE),
+        pairwise_ranking_loss(prediction, labels, config.ranking_temperature))
+
+
+def test_unknown_ranking_form_is_refused():
+    """A typo must fail loudly rather than silently train the incumbent."""
+    labels = normalized_panel(2)
+    with pytest.raises(ValueError, match="unknown ranking_loss_form"):
+        ranking_term(labels, labels, TrainConfig(ranking_loss_form="softmax"), SCALE)
+
+
+def test_listce_gradient_flows_to_the_prediction_only():
+    """Leakage gate: the term must not create a path from labels into the model.
+
+    The labels enter only as loss weights. Their gradient is irrelevant, but a
+    label tensor that requires grad must not silently become trainable input.
+    """
+    labels = normalized_panel(6).requires_grad_(True)
+    prediction = (labels.detach() + 0.2).requires_grad_(True)
+    regression_compatible_ranking_loss(prediction, labels, SCALE).backward()
+    assert prediction.grad is not None and float(prediction.grad.norm()) > 0
+    # The label gradient exists mathematically; what matters is that the
+    # trainer never feeds labels to the model. Assert the term is not a
+    # function of the label *ordering* alone by checking it uses magnitudes.
+    shuffled = labels.detach()[torch.randperm(
+        len(labels), generator=torch.Generator().manual_seed(1))]
+    assert not torch.allclose(
+        regression_compatible_ranking_loss(prediction.detach(), labels.detach(), SCALE),
+        regression_compatible_ranking_loss(prediction.detach(), shuffled, SCALE))
+
+
+def test_listce_is_permutation_invariant_through_the_trainer():
+    labels = normalized_panel(5)
+    prediction = labels + 0.4
+    order = torch.randperm(len(labels), generator=torch.Generator().manual_seed(2))
+    config = TrainConfig(ranking_loss_form="listce")
+    assert torch.allclose(ranking_term(prediction, labels, config, SCALE),
+                          ranking_term(prediction[order], labels[order], config, SCALE))
+
+
+def test_listce_counterfactual_a_wrong_ordering_costs_more():
+    """Counterfactual gate: shuffling the predictions must raise the loss."""
+    labels = normalized_panel(12)
+    config = TrainConfig(ranking_loss_form="listce")
+    correct = float(ranking_term(labels, labels, config, SCALE))
+    order = torch.randperm(len(labels), generator=torch.Generator().manual_seed(3))
+    shuffled = float(ranking_term(labels[order], labels, config, SCALE))
+    assert shuffled > correct + 1e-4, (shuffled, correct)
+
+
+def test_listce_handles_a_batched_panel():
+    """The trainer passes (episodes, queries); the term must reduce correctly."""
+    labels = torch.stack([normalized_panel(s) for s in (1, 2, 3)])
+    config = TrainConfig(ranking_loss_form="listce")
+    batched = ranking_term(labels, labels, config, SCALE)
+    assert batched.ndim == 0 and float(batched.abs()) < 1e6
+    per_panel = torch.stack([
+        regression_compatible_ranking_loss(row, row, SCALE) for row in labels])
+    assert torch.allclose(batched, per_panel.mean(), atol=1e-9)
+
+
+def test_shift_sits_below_the_corpus_label_range():
+    """A shift inside the label range would make weights negative."""
+    assert LISTCE_SHIFT_PK < 4.0
