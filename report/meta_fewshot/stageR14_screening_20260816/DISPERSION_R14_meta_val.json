@@ -1,0 +1,586 @@
+{
+ "schema": "MetaSieve.R14DispersionAudit.v1",
+ "split": "meta_val",
+ "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+ "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "seal": "physical: QPSMPData include_meta_test=False"
+ },
+ "population": {
+  "targets": 41,
+  "query_size": 16,
+  "evaluation_seed": 73101
+ },
+ "arms": {
+  "A0frozen": {
+   "0": {
+    "mse_pk": 2.198199133070634,
+    "calibration_pk": 1.2807459992555794,
+    "shape_pk": 0.9174531338150546,
+    "shape_ordering_floor": 0.7004547768651553,
+    "shape_amplitude_excess": 0.21699835694989922,
+    "amplitude_share_of_shape": 0.23652255243551545,
+    "mean_pearson_r": 0.1983681234364395,
+    "mean_sd_pred": 0.19415110330731353,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.2606248320010503,
+    "mean_ci": 0.5671203652751755,
+    "scale": {
+     "oracle_per_target_shape": 0.7004547768651553,
+     "global_in_sample": 0.796427629371624,
+     "global_in_sample_shape": 0.9104063929175777,
+     "global_loco_mean": 0.7974261031874955,
+     "global_loco_shape": 0.918826037498254,
+     "global_loco_mse_pk": 2.1995720367538336
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.001372903683199431,
+     "lo": -0.01679703306294177,
+     "hi": 0.014383242527801234,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "1": {
+    "mse_pk": 1.6436539357730238,
+    "calibration_pk": 0.7262008288857958,
+    "shape_pk": 0.9174531068872279,
+    "shape_ordering_floor": 0.7004550382370969,
+    "shape_amplitude_excess": 0.21699806865013105,
+    "amplitude_share_of_shape": 0.23652224513836015,
+    "mean_pearson_r": 0.19836500915029848,
+    "mean_sd_pred": 0.19415109311523188,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.260624849183516,
+    "mean_ci": 0.5668906242559607,
+    "scale": {
+     "oracle_per_target_shape": 0.7004550382370969,
+     "global_in_sample": 0.7964278439474537,
+     "global_in_sample_shape": 0.9104063732844274,
+     "global_loco_mean": 0.7974263193219465,
+     "global_loco_shape": 0.9188260166866532,
+     "global_loco_mse_pk": 1.645026845572449
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.0013729097994255627,
+     "lo": -0.01679701930814573,
+     "hi": 0.014383190866548665,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "2": {
+    "mse_pk": 1.1976086080632158,
+    "calibration_pk": 0.35806932041636136,
+    "shape_pk": 0.8395392876468544,
+    "shape_ordering_floor": 0.637290976288346,
+    "shape_amplitude_excess": 0.2022483113585084,
+    "amplitude_share_of_shape": 0.24090392711148806,
+    "mean_pearson_r": 0.2925584604982963,
+    "mean_sd_pred": 0.2455366994122686,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.3154872365839921,
+    "mean_ci": 0.6058775531527408,
+    "scale": {
+     "oracle_per_target_shape": 0.637290976288346,
+     "global_in_sample": 1.0992761324289224,
+     "global_in_sample_shape": 0.8402916036318893,
+     "global_loco_mean": 1.1003782179635906,
+     "global_loco_shape": 0.8462790481955595,
+     "global_loco_mse_pk": 1.204348368611921
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.006739760548705328,
+     "lo": -0.017056895626631378,
+     "hi": 0.001961631270483495,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "3": {
+    "mse_pk": 1.1705875416104141,
+    "calibration_pk": 0.3391496102528603,
+    "shape_pk": 0.8314379313575538,
+    "shape_ordering_floor": 0.6246610372189444,
+    "shape_amplitude_excess": 0.20677689413860945,
+    "amplitude_share_of_shape": 0.24869793202841806,
+    "mean_pearson_r": 0.2900912459598269,
+    "mean_sd_pred": 0.2755174990348509,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.3570595205784596,
+    "mean_ci": 0.6237736413439587,
+    "scale": {
+     "oracle_per_target_shape": 0.6246610372189444,
+     "global_in_sample": 1.0574610631082002,
+     "global_in_sample_shape": 0.8324310897112256,
+     "global_loco_mean": 1.0576261872606778,
+     "global_loco_shape": 0.843601129136687,
+     "global_loco_mse_pk": 1.1827507393895473
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.012163197779133186,
+     "lo": -0.030321925617634346,
+     "hi": -0.00020391349985221616,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "5": {
+    "mse_pk": 0.9312451086801992,
+    "calibration_pk": 0.19531820627073362,
+    "shape_pk": 0.7359269024094656,
+    "shape_ordering_floor": 0.6360709917681261,
+    "shape_amplitude_excess": 0.09985591064133947,
+    "amplitude_share_of_shape": 0.13568726773597442,
+    "mean_pearson_r": 0.3436956787648256,
+    "mean_sd_pred": 0.3511646853948381,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.41555665736543235,
+    "mean_ci": 0.6222676696105542,
+    "scale": {
+     "oracle_per_target_shape": 0.6360709917681261,
+     "global_in_sample": 1.2592792842863916,
+     "global_in_sample_shape": 0.7409351345715189,
+     "global_loco_mean": 1.2586036054581715,
+     "global_loco_shape": 0.7487337447373603,
+     "global_loco_mse_pk": 0.9440519510080939
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.012806842327894785,
+     "lo": -0.03630537873695364,
+     "hi": 0.008471585167553874,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   }
+  },
+  "A0repro": {
+   "0": {
+    "mse_pk": 2.138985741340089,
+    "calibration_pk": 1.2335977293310159,
+    "shape_pk": 0.9053880120090729,
+    "shape_ordering_floor": 0.6744884005363225,
+    "shape_amplitude_excess": 0.2308996114727504,
+    "amplitude_share_of_shape": 0.2550283507292965,
+    "mean_pearson_r": 0.1565394749013161,
+    "mean_sd_pred": 0.1645283175450438,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.23399892548199966,
+    "mean_ci": 0.5550800773469784,
+    "scale": {
+     "oracle_per_target_shape": 0.6744884005363225,
+     "global_in_sample": 1.247862415176507,
+     "global_in_sample_shape": 0.9113164232815544,
+     "global_loco_mean": 1.2503271724653509,
+     "global_loco_shape": 0.9224388447491638,
+     "global_loco_mse_pk": 2.1560365740801797
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.01705083274009094,
+     "lo": -0.05092113633037783,
+     "hi": 0.0053433324247593155,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "1": {
+    "mse_pk": 1.611701972200689,
+    "calibration_pk": 0.7063139573136189,
+    "shape_pk": 0.9053880148870699,
+    "shape_ordering_floor": 0.6744883928657943,
+    "shape_amplitude_excess": 0.23089962202127556,
+    "amplitude_share_of_shape": 0.2550283615694603,
+    "mean_pearson_r": 0.15653947639851767,
+    "mean_sd_pred": 0.16452834648394468,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.23399900616810937,
+    "mean_ci": 0.5550800773469784,
+    "scale": {
+     "oracle_per_target_shape": 0.6744883928657943,
+     "global_in_sample": 1.2478628777570349,
+     "global_in_sample_shape": 0.9113164317815176,
+     "global_loco_mean": 1.2503276363082378,
+     "global_loco_shape": 0.9224388625964287,
+     "global_loco_mse_pk": 1.6287528199100476
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.01705084770935901,
+     "lo": -0.05092122660345737,
+     "hi": 0.005343383597592344,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "2": {
+    "mse_pk": 1.1728855142001133,
+    "calibration_pk": 0.3491466295910142,
+    "shape_pk": 0.8237388846090992,
+    "shape_ordering_floor": 0.6096678255554995,
+    "shape_amplitude_excess": 0.2140710590535997,
+    "amplitude_share_of_shape": 0.2598773264845764,
+    "mean_pearson_r": 0.2576650950618373,
+    "mean_sd_pred": 0.21949247217892326,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.2960206634603652,
+    "mean_ci": 0.576956549772865,
+    "scale": {
+     "oracle_per_target_shape": 0.6096678255554995,
+     "global_in_sample": 1.463751983451011,
+     "global_in_sample_shape": 0.8197122289573028,
+     "global_loco_mean": 1.4664307975040833,
+     "global_loco_shape": 0.8290965496092559,
+     "global_loco_mse_pk": 1.17824317920027
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.005357665000156749,
+     "lo": -0.04664359922817449,
+     "hi": 0.031016345927834577,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "3": {
+    "mse_pk": 1.158657510097402,
+    "calibration_pk": 0.34213092082530155,
+    "shape_pk": 0.8165265892721003,
+    "shape_ordering_floor": 0.5908910908624866,
+    "shape_amplitude_excess": 0.22563549840961372,
+    "amplitude_share_of_shape": 0.27633576343271127,
+    "mean_pearson_r": 0.27939929657262313,
+    "mean_sd_pred": 0.25680798784918274,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.34539347621037136,
+    "mean_ci": 0.599903037046665,
+    "scale": {
+     "oracle_per_target_shape": 0.5908910908624866,
+     "global_in_sample": 1.2633474393715574,
+     "global_in_sample_shape": 0.8169252155955784,
+     "global_loco_mean": 1.2640888348512842,
+     "global_loco_shape": 0.8317018438137112,
+     "global_loco_mse_pk": 1.1738327646390128
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.015175254541610847,
+     "lo": -0.06075407162444008,
+     "hi": 0.018747728029180868,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "5": {
+    "mse_pk": 0.9138087561093309,
+    "calibration_pk": 0.19671951917247443,
+    "shape_pk": 0.7170892369368564,
+    "shape_ordering_floor": 0.5971317662615729,
+    "shape_amplitude_excess": 0.1199574706752835,
+    "amplitude_share_of_shape": 0.16728388113548887,
+    "mean_pearson_r": 0.32879273791219243,
+    "mean_sd_pred": 0.333804070391569,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.4057496016537058,
+    "mean_ci": 0.625254062486206,
+    "scale": {
+     "oracle_per_target_shape": 0.5971317662615729,
+     "global_in_sample": 1.4352998172701612,
+     "global_in_sample_shape": 0.7179548833450022,
+     "global_loco_mean": 1.4343181963023548,
+     "global_loco_shape": 0.7243366060019263,
+     "global_loco_mse_pk": 0.9210561251744007
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.007247369065069855,
+     "lo": -0.043333470753274,
+     "hi": 0.027247116425065315,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   }
+  },
+  "R1listce": {
+   "0": {
+    "mse_pk": 2.1639421473171145,
+    "calibration_pk": 1.2673495276667963,
+    "shape_pk": 0.896592619650318,
+    "shape_ordering_floor": 0.7126918207457835,
+    "shape_amplitude_excess": 0.18390079890453448,
+    "amplitude_share_of_shape": 0.20511076588635987,
+    "mean_pearson_r": 0.22122412585580245,
+    "mean_sd_pred": 0.06815544075007081,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.09076231546286338,
+    "mean_ci": 0.5487781590451698,
+    "scale": {
+     "oracle_per_target_shape": 0.7126918207457835,
+     "global_in_sample": 3.8904547497788577,
+     "global_in_sample_shape": 0.8620814775388738,
+     "global_loco_mean": 3.892154568622904,
+     "global_loco_shape": 0.8702756827873558,
+     "global_loco_mse_pk": 2.137625210454152
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.026316936862962145,
+     "lo": -0.03839552351806327,
+     "hi": 0.08765568804797345,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "1": {
+    "mse_pk": 1.6253049128676578,
+    "calibration_pk": 0.7287123103662794,
+    "shape_pk": 0.8965926025013783,
+    "shape_ordering_floor": 0.7126915911755494,
+    "shape_amplitude_excess": 0.18390101132582892,
+    "amplitude_share_of_shape": 0.2051110067301121,
+    "mean_pearson_r": 0.22122445062615326,
+    "mean_sd_pred": 0.0681554375891799,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.09076228335646812,
+    "mean_ci": 0.5487781590451698,
+    "scale": {
+     "oracle_per_target_shape": 0.7126915911755494,
+     "global_in_sample": 3.890457646469585,
+     "global_in_sample_shape": 0.8620813929171982,
+     "global_loco_mean": 3.8921574731889157,
+     "global_loco_shape": 0.8702756044586223,
+     "global_loco_mse_pk": 1.5989879148249018
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.026316998042755956,
+     "lo": -0.0383955043969373,
+     "hi": 0.08765577371759108,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "2": {
+    "mse_pk": 1.2056403972041225,
+    "calibration_pk": 0.37720391874753295,
+    "shape_pk": 0.8284364784565896,
+    "shape_ordering_floor": 0.6329243225140981,
+    "shape_amplitude_excess": 0.1955121559424915,
+    "amplitude_share_of_shape": 0.2360013845681186,
+    "mean_pearson_r": 0.2652315186822899,
+    "mean_sd_pred": 0.14427090452067914,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.1819522564386728,
+    "mean_ci": 0.5762810755160366,
+    "scale": {
+     "oracle_per_target_shape": 0.6329243225140981,
+     "global_in_sample": 1.952241915251089,
+     "global_in_sample_shape": 0.7928678466615545,
+     "global_loco_mean": 1.9529995816110925,
+     "global_loco_shape": 0.7980100982403041,
+     "global_loco_mse_pk": 1.1752140169878371
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.030426380216285586,
+     "lo": -0.011453453902053462,
+     "hi": 0.07090226504676325,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "3": {
+    "mse_pk": 1.1917312943099463,
+    "calibration_pk": 0.36650875067778743,
+    "shape_pk": 0.8252225436321589,
+    "shape_ordering_floor": 0.6047901164952915,
+    "shape_amplitude_excess": 0.2204324271368674,
+    "amplitude_share_of_shape": 0.26711876552311525,
+    "mean_pearson_r": 0.27457226248845573,
+    "mean_sd_pred": 0.19843189671905562,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.26009586239790583,
+    "mean_ci": 0.5893485766462231,
+    "scale": {
+     "oracle_per_target_shape": 0.6047901164952915,
+     "global_in_sample": 1.3545926426200117,
+     "global_in_sample_shape": 0.817072507345892,
+     "global_loco_mean": 1.3547885113203215,
+     "global_loco_shape": 0.8320580229639951,
+     "global_loco_mse_pk": 1.1985667736417827
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.0068354793318362115,
+     "lo": -0.06178599272057626,
+     "hi": 0.029164186921711858,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "5": {
+    "mse_pk": 0.924785948413094,
+    "calibration_pk": 0.19604138559743406,
+    "shape_pk": 0.72874456281566,
+    "shape_ordering_floor": 0.6508303155441044,
+    "shape_amplitude_excess": 0.0779142472715556,
+    "amplitude_share_of_shape": 0.1069157167643451,
+    "mean_pearson_r": 0.32755869169940693,
+    "mean_sd_pred": 0.2870140980052654,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.331292417642319,
+    "mean_ci": 0.5945942727788124,
+    "scale": {
+     "oracle_per_target_shape": 0.6508303155441044,
+     "global_in_sample": 1.565908047818065,
+     "global_in_sample_shape": 0.7197279994220365,
+     "global_loco_mean": 1.5637441806518741,
+     "global_loco_shape": 0.7239464767742335,
+     "global_loco_mse_pk": 0.9199878623716675
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.004798086041426657,
+     "lo": -0.03205682727725913,
+     "hi": 0.036989321930511354,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   }
+  },
+  "R3norank": {
+   "0": {
+    "mse_pk": 2.1679734672519753,
+    "calibration_pk": 1.2740998681449924,
+    "shape_pk": 0.8938735991069827,
+    "shape_ordering_floor": 0.7196632376092671,
+    "shape_amplitude_excess": 0.17421036149771563,
+    "amplitude_share_of_shape": 0.1948937318114766,
+    "mean_pearson_r": 0.21237270443522363,
+    "mean_sd_pred": 0.07057913144260893,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.09157363660751837,
+    "mean_ci": 0.5390657577803498,
+    "scale": {
+     "oracle_per_target_shape": 0.7196632376092671,
+     "global_in_sample": 3.69295821499468,
+     "global_in_sample_shape": 0.8541203341698992,
+     "global_loco_mean": 3.694996434457216,
+     "global_loco_shape": 0.8617200277789308,
+     "global_loco_mse_pk": 2.135819895923923
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.03215357132805202,
+     "lo": -0.02273056569653794,
+     "hi": 0.08700307735306141,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "1": {
+    "mse_pk": 1.6207240804514103,
+    "calibration_pk": 0.7268504502034748,
+    "shape_pk": 0.8938736302479354,
+    "shape_ordering_floor": 0.7196634431806285,
+    "shape_amplitude_excess": 0.17421018706730695,
+    "amplitude_share_of_shape": 0.19489352988183123,
+    "mean_pearson_r": 0.21237228671741354,
+    "mean_sd_pred": 0.07057910805864462,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.0915735770121085,
+    "mean_ci": 0.5390657577803498,
+    "scale": {
+     "oracle_per_target_shape": 0.7196634431806285,
+     "global_in_sample": 3.6929592547819787,
+     "global_in_sample_shape": 0.8541204393857565,
+     "global_loco_mean": 3.6949974766745,
+     "global_loco_shape": 0.8617201321428606,
+     "global_loco_mse_pk": 1.5885705823463354
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.032153498105074896,
+     "lo": -0.0227307334355522,
+     "hi": 0.08700309210532241,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "2": {
+    "mse_pk": 1.199371748169791,
+    "calibration_pk": 0.37376702612769214,
+    "shape_pk": 0.8256047220420989,
+    "shape_ordering_floor": 0.6302384704056612,
+    "shape_amplitude_excess": 0.19536625163643773,
+    "amplitude_share_of_shape": 0.23663412577535584,
+    "mean_pearson_r": 0.26772100858035247,
+    "mean_sd_pred": 0.14562076191273365,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.18252338338752247,
+    "mean_ci": 0.5757874690159785,
+    "scale": {
+     "oracle_per_target_shape": 0.6302384704056612,
+     "global_in_sample": 1.964953742088672,
+     "global_in_sample_shape": 0.78833576999203,
+     "global_loco_mean": 1.9659362315853528,
+     "global_loco_shape": 0.7936171730127297,
+     "global_loco_mse_pk": 1.167384199140422
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.03198754902936926,
+     "lo": -0.009703565733160623,
+     "hi": 0.07242917828299038,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "3": {
+    "mse_pk": 1.1804242902692261,
+    "calibration_pk": 0.35898295944361963,
+    "shape_pk": 0.8214413308256066,
+    "shape_ordering_floor": 0.598773457304827,
+    "shape_amplitude_excess": 0.22266787352077955,
+    "amplitude_share_of_shape": 0.27106972240729915,
+    "mean_pearson_r": 0.27269999962002683,
+    "mean_sd_pred": 0.19962978031523596,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.2599999838883607,
+    "mean_ci": 0.5739071926855971,
+    "scale": {
+     "oracle_per_target_shape": 0.598773457304827,
+     "global_in_sample": 1.3793840438997602,
+     "global_in_sample_shape": 0.8119185580565049,
+     "global_loco_mean": 1.379376329959855,
+     "global_loco_shape": 0.8255872301702667,
+     "global_loco_mse_pk": 1.1845701896138863
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": -0.004145899344660176,
+     "lo": -0.057667517850020084,
+     "hi": 0.031683930050239686,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   },
+   "5": {
+    "mse_pk": 0.9194410551131337,
+    "calibration_pk": 0.19310658203229403,
+    "shape_pk": 0.7263344730808396,
+    "shape_ordering_floor": 0.6488828296535551,
+    "shape_amplitude_excess": 0.0774516434272845,
+    "amplitude_share_of_shape": 0.10663357763918811,
+    "mean_pearson_r": 0.32634155654831887,
+    "mean_sd_pred": 0.2883707104957727,
+    "mean_sd_truth": 0.8836893582887061,
+    "mean_dispersion_ratio": 0.3321706563198655,
+    "mean_ci": 0.5860868314302389,
+    "scale": {
+     "oracle_per_target_shape": 0.6488828296535551,
+     "global_in_sample": 1.5673482255602738,
+     "global_in_sample_shape": 0.7171108635169026,
+     "global_loco_mean": 1.5652677488112665,
+     "global_loco_shape": 0.7212619987031685,
+     "global_loco_mse_pk": 0.9143685807354626
+    },
+    "loco_mse_gain_component_bootstrap": {
+     "mean": 0.0050724743776712974,
+     "lo": -0.032748290671552334,
+     "hi": 0.03741118943387786,
+     "components": 19
+    },
+    "note": "a positive rescale is monotone within a target, so it changes MSE and cannot change CI/Spearman/sign accuracy"
+   }
+  }
+ }
+}

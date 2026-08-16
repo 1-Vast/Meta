@@ -74,15 +74,36 @@ def gradient_norm(loss_fn, scores: torch.Tensor, labels: torch.Tensor) -> float:
     return float(scores.grad.norm())
 
 
+def operating_point(labels: torch.Tensor, r: float, dispersion: float,
+                    generator: torch.Generator) -> torch.Tensor:
+    """A prediction with the measured within-target statistics of the incumbent.
+
+    Alignment at `s = y` says what a term does when the model is already
+    perfect. What decides whether a term is *useful* is how much gradient it
+    supplies at the model's actual operating point, which Phase 2 measured as
+    `r ~ 0.2` and `sd_p/sd_y ~ 0.2`.
+    """
+    centered = labels - labels.mean()
+    spread = centered.std()
+    noise = torch.randn(len(labels), generator=generator, dtype=labels.dtype)
+    noise = (noise - noise.mean()) / noise.std()
+    signal = r * centered / spread + (1.0 - r ** 2) ** 0.5 * noise
+    return labels.mean() + dispersion * spread * signal / signal.std()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--panels", type=int, default=200)
     parser.add_argument("--panel-size", type=int, default=16)
+    parser.add_argument("--operating-r", type=float, default=0.2)
+    parser.add_argument("--operating-dispersion", type=float, default=0.2)
     parser.add_argument("--output", type=Path, default=None)
     arguments = parser.parse_args()
 
     generator = torch.Generator().manual_seed(20260816)
     at_optimum: dict[str, list[float]] = {"list_ce": [], "ranknet": [], "hinge": []}
+    at_operating: dict[str, list[float]] = {"list_ce": [], "ranknet": [],
+                                            "hinge": [], "squared_error": []}
     proportional: list[float] = []
     for _ in range(arguments.panels):
         # pK labels on a realistic double-cold support: mean ~7.5, sd ~0.85
@@ -97,6 +118,17 @@ def main() -> int:
         scaled = SHIFT + 1.7 * (labels - SHIFT)
         proportional.append(gradient_norm(list_ce, scaled, labels))
 
+        # The decisive question for usefulness: how much gradient does each
+        # term supply where the model actually sits?
+        current = operating_point(labels, arguments.operating_r,
+                                  arguments.operating_dispersion, generator)
+        at_operating["list_ce"].append(gradient_norm(
+            lambda s, y: list_ce(s, y), current, labels))
+        at_operating["ranknet"].append(gradient_norm(ranknet, current, labels))
+        at_operating["hinge"].append(gradient_norm(hinge, current, labels))
+        at_operating["squared_error"].append(gradient_norm(
+            lambda s, y: (s - y).square().mean(), current, labels))
+
     report = {
         "schema": "MetaSieve.R14AlignmentCheck.v1",
         "shift": SHIFT,
@@ -109,7 +141,17 @@ def main() -> int:
             "scale": 1.7,
             "mean": sum(proportional) / len(proportional),
             "max": max(proportional)},
+        "gradient_norm_at_the_measured_operating_point": {
+            "r": arguments.operating_r,
+            "dispersion": arguments.operating_dispersion,
+            **{name: {"mean": sum(v) / len(v)}
+               for name, v in at_operating.items()}},
     }
+    operating = report["gradient_norm_at_the_measured_operating_point"]
+    operating["listce_over_ranknet"] = (
+        operating["list_ce"]["mean"] / operating["ranknet"]["mean"])
+    operating["listce_over_squared_error"] = (
+        operating["list_ce"]["mean"] / operating["squared_error"]["mean"])
 
     print(json.dumps(report, indent=1))
     aligned = report["gradient_norm_at_the_regression_optimum"]["list_ce"]["max"] < 1e-9
@@ -122,6 +164,13 @@ def main() -> int:
           f"{report['gradient_norm_at_the_regression_optimum']['ranknet']['max']:.3e}")
     print(f"  hinge   max |grad| at s=y : "
           f"{report['gradient_norm_at_the_regression_optimum']['hinge']['max']:.3e}")
+
+    print(f"\nmean |grad| at the measured operating point "
+          f"(r={arguments.operating_r}, sd_p/sd_y={arguments.operating_dispersion}):")
+    for name in ("squared_error", "ranknet", "hinge", "list_ce"):
+        print(f"  {name:<14} {operating[name]['mean']:.4e}")
+    print(f"  ListCE / RankNet       : {operating['listce_over_ranknet']:.3f}")
+    print(f"  ListCE / squared error : {operating['listce_over_squared_error']:.3f}")
 
     if arguments.output is not None:
         arguments.output.parent.mkdir(parents=True, exist_ok=True)

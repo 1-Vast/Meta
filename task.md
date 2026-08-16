@@ -409,6 +409,53 @@ default 413 passed / 9 skipped (105 s); `RUN_RESEARCH_GATES=1` 416 passed /
 training gates of the two **closed** families, whose verdicts are immutable
 evidence; a new or reopened family must run its own gates in that tier.
 
+### Stage R14 (2026-08-16): ordering localized, then the loss-form axis closed
+
+**Phase 2 (no training)** decomposed the within-target shape term exactly into
+an ordering floor `Var(y)(1-r²)` and an amplitude excess `(sd_p - r·sd_y)²`.
+Results, all on double-cold `meta_val`, three seeds, eight arms:
+
+* the regression-dominant incumbent has the **lowest ordering floor of every
+  arm in the project** (0.692, `r` 0.213); every ranking-primary routed arm is
+  worse, 8/8;
+* the cause is the **training method, not the architecture** — G1 is the
+  incumbent architecture with zero changes, and shape-first training takes
+  `r` from 0.213 to 0.134;
+* the retained "first within-target shape source" claim is **corrected**:
+  B1's shape gain is +0.043 worse ordering offset by 0.060 less amplitude,
+  i.e. shrinkage;
+* a protein-conditioned amplitude head was **falsified before
+  implementation** (global rescale worsens 6/8 arms; the per-target optimal
+  scale is negative in 25.2% of targets). It was dropped and **not replaced**,
+  so R14 claimed one core innovation rather than two.
+
+**Phase 3** implemented the surviving training innovation — a within-target
+listwise term whose optimum coincides with the regression optimum — as a
+loss-form swap at fixed weight on the incumbent. 29 gates pass; the alignment
+identity was verified numerically first.
+
+**The claim is withdrawn.** O1 fails (floor 0.6931, worse than both A0 arms),
+O3 fails (CI 0.544 vs 0.570), and **O4, the necessity control, fails**:
+deleting the ranking term entirely (0.6951) is indistinguishable from
+replacing it with the aligned one (0.6931). The measured cause is that at
+this model's operating point the aligned term supplies **1.7% of the
+regression term's gradient** — the `1/T(p)` factor that creates stationarity
+also damps it wherever predictions are under-dispersed. Exact
+regression-compatibility and useful ranking pressure are in tension.
+
+**Secondary finding.** The incumbent configuration retrained under an
+identical setup differs by **0.058 k=0 MSE and 0.051 in `r`**. The whole
+frontier spread (2.055-2.149) is 0.094, about 1.6x that. Frontier
+differences are one to two retraining standard deviations and none was ever
+resolved by a component bootstrap.
+
+**The loss-form axis is closed** (R9, R10, R12, R14 all varied the
+within-target ranking objective; none moved the ordering floor). The next
+evidence-supported hypothesis is that `r` is bounded by what the ligand
+representation carries about within-target ordering — a representation-side
+**diagnostic**, not a model change. Not tuned after the fact: the ListCE
+weight and shift were fixed in advance and a post-hoc sweep is refused.
+
 meta_test remains sealed and unopened.
 
 ## PASS
@@ -416,6 +463,24 @@ meta_test remains sealed and unopened.
 Proceed beyond development only if preregistered component-level lower bounds show useful full-scalar
 gain and correct-protein crossed/SAR specificity, with no support-binding, target-main, document,
 panel, or query leakage.
+
+## Stage M0: corrected MSA diagnostic proposal (2026-08-16)
+
+The MSA direction is diagnostic only and does not replace the core training
+innovation. See `report/meta_fewshot/stageM0_msa_probe_20260816/PREREGISTRATION.md`
+and `report/M0_GLOBAL_RESEARCH_EXPANSION_20260816.md`.
+
+Before execution, D0 must verify a local UniRef snapshot and MMseqs2 or
+jackhmmer in the `drug` environment. M0-A uses per-seed A0 residuals and a
+fixed low-capacity train-only diagnostic probe; no Ridge, solve, checkpoint
+training or deployment adaptation is allowed. M0-B fixes all kernel
+bandwidths and normalization inside meta_train. M0-C reports MSA-depth,
+popularity, family-overlap, label-count and ligand-novelty strata.
+
+M1 is authorized only after M0-A passes its preregistered increment,
+permutation and depth-confounding gates. The training innovation remains the
+single core track: calibration-preserving within-target ranking with
+counterfactual label-binding controls. `meta_test` remains sealed.
 
 ## STOP
 

@@ -1,0 +1,56 @@
+{
+ "schema": "MetaSieve.StageR14Screening.v1",
+ "stage": "R14 (regression-compatible within-target ranking term)",
+ "date": "2026-08-16",
+ "verdict": "core_innovation_claim_withdrawn; loss-form axis closed",
+ "population": {
+  "split": "meta_val",
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "targets": 41, "components": 19, "evaluation_seed": 73101, "query_size": 16
+ },
+ "meta_test": {
+  "evaluated": false, "included": false,
+  "seal": "physical: QPSMPData include_meta_test=False"
+ },
+ "single_variable": "form of the within-target ranking term at fixed weight 0.5: ranknet -> regression-compatible ListCE; the incumbent already carried RankNet at that weight, so it is the matched misaligned control",
+ "seeds": [20260815, 20260816, 20260817],
+ "steps": 1200,
+ "arms_k0_3seed": {
+  "A0frozen": {"mse_pk": 2.1488, "ordering_floor": 0.6922, "pearson_r": 0.213, "shape_pk": 0.9130, "calibration_pk": 1.2358, "ci": 0.580, "sd_pred": 0.132, "note": "retained R3R4 incumbent checkpoints"},
+  "A0repro": {"mse_pk": 2.0911, "ordering_floor": 0.6850, "pearson_r": 0.162, "shape_pk": 0.9032, "calibration_pk": 1.1879, "ci": 0.552, "sd_pred": 0.147, "note": "same configuration retrained here; the run-to-run control"},
+  "R1listce": {"mse_pk": 2.0700, "ordering_floor": 0.6931, "pearson_r": 0.186, "shape_pk": 0.9005, "calibration_pk": 1.1695, "ci": 0.544, "sd_pred": 0.124, "note": "the candidate"},
+  "R3norank": {"mse_pk": 2.0924, "ordering_floor": 0.6951, "pearson_r": 0.178, "shape_pk": 0.9049, "calibration_pk": 1.1875, "ci": 0.543, "sd_pred": 0.121, "note": "necessity control: ranking term deleted"}
+ },
+ "contrasts_vs_A0repro_k0": {
+  "A0frozen": {"ordering_floor": {"mean": -0.0072, "lo": -0.0716, "hi": 0.0648}, "pearson_r": {"mean": 0.0503, "lo": -0.0461, "hi": 0.1509}},
+  "R1listce": {"ordering_floor": {"mean": -0.0081, "lo": -0.0300, "hi": 0.0137}, "pearson_r": {"mean": 0.0231, "lo": -0.0300, "hi": 0.0750}},
+  "R3norank": {"ordering_floor": {"mean": -0.0101, "lo": -0.0250, "hi": 0.0038}, "pearson_r": {"mean": 0.0153, "lo": -0.0242, "hi": 0.0605}}
+ },
+ "gates": {
+  "O1": {"requirement": "k=0 ordering floor / r beats A0 with a positive component lower bound", "measured": "floor 0.6931 worse than A0repro 0.6850 and A0frozen 0.6922; r 0.186 < 0.213; interval crosses zero", "outcome": "fail"},
+  "O2": {"requirement": "calibration no worse than 1.236 + 0.02", "measured": 1.1695, "outcome": "pass"},
+  "O3": {"requirement": "k=0 MSE improves AND CI >= 0.570", "measured": "MSE 2.0700 improves but CI 0.544", "outcome": "fail"},
+  "O4": {"requirement": "R1 r exceeds R3 (necessity) with a positive lower bound", "measured": "floor 0.6931 vs 0.6951 (delta 0.002); r 0.186 vs 0.178; both inside the same-config noise band", "outcome": "fail"},
+  "O5": {"requirement": "3/3 seed direction", "outcome": "not_reached"}
+ },
+ "measured_cause": {
+  "claim": "the regression-compatible ListCE is inert by construction at this model's operating point",
+  "gradient_norm_at_operating_point_r0.2_dispersion0.2": {
+   "squared_error": 0.393, "hinge": 0.228, "ranknet": 0.151, "list_ce": 0.00653,
+   "listce_over_ranknet": 0.043, "listce_over_squared_error": 0.017
+  },
+  "mechanism": "the gradient scales as 1/T(p); the same factor that makes the term stationary at T(p) proportional to w damps it everywhere else, worst where predictions are under-dispersed and T(p) is nearly constant across the panel",
+  "general_lesson": "exact regression-compatibility and useful ranking pressure are in tension; the pre-implementation alignment check probed only s=y and could not expose this",
+  "artifact": "ALIGNMENT_OPERATING_POINT.json"
+ },
+ "secondary_finding": {
+  "claim": "the k=0 Pareto frontier is close to same-configuration retraining noise",
+  "evidence": "A0repro vs A0frozen, identical configuration and seeds, differ by 0.058 k=0 MSE (2.0911 vs 2.1488) and 0.051 in r (0.162 vs 0.213); the whole frontier spread A0->B3 is 0.094, only 1.6x that",
+  "consequence": "A0frozen's recorded 2.149 is one draw, not a constant; no frontier MSE difference was ever resolved by a component bootstrap"
+ },
+ "closed": "the loss-form axis for this family. R9 (cliff dose), R10 (variance), R12 (margin form) and R14 (regression-compatible listwise) each varied the within-target ranking objective; none moved the ordering floor",
+ "not_tested": "a larger ListCE weight, or a shift closer to the label range. The shift was fixed at 2.0 pK in advance and the preregistration forbade a post-hoc sweep; reopening needs its own preregistration and starts from a weak prior",
+ "next_hypothesis": "r is bounded by what the ligand representation carries about within-target potency ordering, not by the objective; the next step is a representation-side diagnostic (meta_train-only fit on frozen trunk embeddings), not a model change",
+ "narrative": "report/meta_fewshot/stageR14_screening_20260816/REPORT.md"
+}

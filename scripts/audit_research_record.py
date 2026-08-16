@@ -130,13 +130,20 @@ def check_seals() -> dict:
     ``sealed_implicit``
         a double-cold run from before R5 that records only ``meta_val`` and
         never mentions ``meta_test`` at all.
+    ``sealed_quarantined``
+        a pre-R5 double-cold run whose trainer *did* compute `meta_test`
+        metrics before the seal was authorised, with those numbers moved into
+        a `SEALED_meta_test_DO_NOT_OPEN.json` sidecar and the `test` field
+        replaced by a pointer. The values exist on disk. They are never read
+        and were used for no decision, but the honest claim is "never opened",
+        not "never computed".
     ``older_protocol``
         an artifact on the pre-double-cold `bindingdb_ki_main_v0` population.
         Stages 4/6/7 legitimately report a `meta_test` there; it is a
         *different, consumed* population and must never be conflated with the
         sealed double-cold confirmation split.
     """
-    explicit, implicit, older, violations = [], [], [], []
+    explicit, implicit, quarantined, older, violations = [], [], [], [], []
     for path in sorted(FEWSHOT.rglob("RESULT.json")):
         name = str(path.relative_to(ROOT))
         try:
@@ -144,19 +151,33 @@ def check_seals() -> dict:
         except (json.JSONDecodeError, UnicodeDecodeError) as error:
             violations.append({"artifact": name, "problem": f"unreadable: {error}"})
             continue
-        if DOUBLE_COLD not in str(payload.get("split_directory", "")):
+        # Trainers record the split in different places: train_reltransport
+        # puts `split_directory` at the top level, train_qpsmp puts it inside
+        # `config`. Missing one silently classifies a sealed double-cold run
+        # as older-protocol and skips its seal check.
+        declared = " ".join(str(payload.get(key, "")) for key in
+                            ("split_directory", "split"))
+        config = payload.get("config")
+        if isinstance(config, dict):
+            declared += " " + str(config.get("split_directory", ""))
+        if DOUBLE_COLD not in declared:
             older.append(name)
             continue
         seal = payload.get("meta_test")
+        sidecars = sorted(path.parent.glob("SEALED_meta_test*"))
         if isinstance(seal, dict) and seal.get("evaluated") is False:
             explicit.append(name)
+        elif sidecars and str(payload.get("test", "")).startswith("SEALED"):
+            quarantined.append({"artifact": name,
+                                "sidecar": str(sidecars[0].relative_to(ROOT))})
         elif seal is None and "meta_test" not in path.read_text(encoding="utf-8"):
             implicit.append(name)
         else:
             violations.append({"artifact": name,
                                "problem": f"double-cold meta_test not sealed: {seal!r}"})
     return {"sealed_explicit": explicit, "sealed_implicit": implicit,
-            "older_protocol": older, "violations": violations}
+            "sealed_quarantined": quarantined, "older_protocol": older,
+            "violations": violations}
 
 
 def check_checkpoint_hashes() -> dict:
@@ -283,6 +304,8 @@ def main() -> int:
 
     print(f"\ndouble-cold meta_test seal: {len(seals['sealed_explicit'])} explicit, "
           f"{len(seals['sealed_implicit'])} implicit (pre-R5), "
+          f"{len(seals['sealed_quarantined'])} quarantined "
+          f"(computed pre-authorisation, moved to a sidecar, never read), "
           f"{len(seals['older_protocol'])} older-protocol artifacts "
           f"(bindingdb_ki_main_v0 — a different, consumed population), "
           f"{len(seals['violations'])} violation(s)")

@@ -9838,4 +9838,128 @@ R14_D_GLOBAL_RESCALE_HELPS=2_of_8_arms_max_0.023
 R14_D_PERTARGET_ORACLE_RESCALE=2.1488->1.9280_but_negative_scale_in_25.2%_of_targets
 R14_D_PROTEIN_CONDITIONED_AMPLITUDE=dropped_before_implementation
 R14_CORE_INNOVATIONS=1_training_only
+
+M0_MSA_ADJUDICATION_20260816
+The MSA direction was expanded as a diagnostic-only sidecar. The corrected
+proposal rejects CD-HIT40 family priors, treats coarse family statistics as
+train-only baselines, rejects target-similarity weighting under the current
+same-recipient episode contract, and keeps Evoformer/Cartesian transfer
+closed. D0 is blocked until a local UniRef snapshot and MMseqs2/jackhmmer
+environment are recorded. M0-A now uses per-seed A0 residuals and a fixed
+low-capacity train-only probe with no Ridge or closed-form adaptation; M0-B
+freezes kernel bandwidths and normalization inside meta_train; M0-C audits
+MSA depth and confounding. No M1 or meta_test access is authorized before the
+registered gates pass.
+```
+
+### Stage R14 (2026-08-16): the regression-compatible ranking term is inert — claim withdrawn
+
+Phase 2 left exactly one core innovation standing, a training mechanism: a
+within-target ranking term whose optimum coincides with the regression
+optimum, so it cannot trade the ordering coefficient r away for coarse rank
+statistics. It was implemented as a loss-form swap in place on the incumbent
+trainer — the incumbent already carries RankNet at ranking_loss_weight 0.5,
+which makes it the matched misaligned control rather than a ranking-free one.
+29 structural gates pass, the GPU smoke is clean, and the alignment identity
+was verified numerically before any training: at s=y the ListCE contributes
+1.7e-17 gradient against RankNet's 1.02e-01 and hinge's 7.36e-02.
+
+Three arms, three seeds, 1200 steps, matched to the incumbent configuration:
+A0repro (RankNet, the retrained control), R1listce (the candidate) and
+R3norank (ranking term deleted, the necessity control). Three gates fail. O1
+fails: R1's k=0 ordering floor is 0.6931, worse than both A0repro's 0.6850
+and A0frozen's 0.6922, with the interval crossing zero. O3 fails on CI
+(0.544 against the 0.570 requirement). O4, the necessity control, fails
+decisively: R3norank reaches floor 0.6951 and r 0.178 against R1's 0.6931 and
+0.186 — deleting the ranking term is indistinguishable from replacing it with
+the aligned one. Under the preregistered rule the core-innovation claim is
+withdrawn and the family is stopped rather than advanced.
+
+The cause was measured rather than inferred. The preregistration's first
+listed failure mode was that the alignment identity might not hold; it holds.
+The failure is the one nobody preregistered. Measuring each term's gradient
+at the model's actual operating point (r about 0.2, sd_p/sd_y about 0.2, the
+values Phase 2 measured) gives squared error 3.93e-01, hinge 2.28e-01,
+RankNet 1.51e-01 and ListCE 6.53e-03 — the aligned term supplies 4.3% of
+RankNet's gradient and 1.7% of the regression term's. It is inert at weight
+0.5 by construction. The mechanism is the alignment property itself: the
+gradient scales as 1/T(p), and the same factor that makes the term vanish at
+T(p) proportional to w damps it everywhere else, worst where predictions are
+under-dispersed and T(p) is nearly constant across the panel. The general
+lesson is that exact regression-compatibility and useful ranking pressure are
+in tension, and that a pre-implementation check probing only s=y cannot
+expose it.
+
+A second finding came out of the control arm. A0repro is the incumbent
+configuration retrained under an identical setup with identical seeds; it
+differs from the frozen checkpoints by 0.058 in k=0 MSE (2.0911 vs 2.1488)
+and 0.051 in r (0.162 vs 0.213). The entire k=0 Pareto frontier spread, A0's
+2.149 down to B3's 2.055, is 0.094 — about 1.6x that same-config noise. The
+frontier's three points are separated by roughly one to two retraining
+standard deviations, none of its MSE differences was ever resolved by a
+component bootstrap, and A0's 2.149 is one draw rather than a constant.
+BOUNDARY_20260816.md now says so.
+
+The loss-form axis is closed: R9 (cliff dose), R10 (variance), R12 (margin
+form) and R14 (regression-compatible listwise) each varied the within-target
+ranking objective and none moved the ordering floor. Combined with the Phase 2
+result that every ranking-primary arm is worse than the regression-dominant
+incumbent, the evidence is that within-target ranking terms are not the lever
+for r on this data. Not tested, and deliberately not tuned after the fact: a
+larger ListCE weight or a shift closer to the label range. The shift was fixed
+at 2.0 pK in advance and the preregistration forbade a post-hoc sweep;
+reopening needs its own preregistration and starts from a weak prior. The next
+evidence-supported hypothesis is that r is bounded by what the ligand
+representation carries about within-target potency ordering, which needs a
+representation-side diagnostic rather than a model change.
+
+meta_test remains sealed and unopened.
+
+```text
+R14_O1_ORDERING_FLOOR=0.6931_vs_A0repro_0.6850_A0frozen_0.6922_FAIL
+R14_O3_CI=0.544_vs_required_0.570_FAIL
+R14_O4_NECESSITY_R3norank=0.6951_vs_R1listce_0.6931_FAIL
+R14_LISTCE_GRADIENT_SHARE_OF_REGRESSION=0.017
+R14_LISTCE_GRADIENT_SHARE_OF_RANKNET=0.043
+R14_SAME_CONFIG_RETRAIN_NOISE_MSE=0.058
+R14_SAME_CONFIG_RETRAIN_NOISE_R=0.051
+R14_FRONTIER_SPREAD_MSE=0.094
+R14_VERDICT=claim_withdrawn_loss_form_axis_closed
+META_TEST_OPENED=false
+```
+
+### 2026-08-16 seal audit refinement: "never opened" is the supported claim
+
+Extending the record audit to the R14 runs exposed two classification bugs
+and one substantive nuance.
+
+The bugs: the audit only looked for `split_directory` at the top level of a
+RESULT.json, but train_qpsmp records it inside `config`, so all nine R14 runs
+were being silently classified as older-protocol and their seal checks
+skipped. Fixed. The corrected counts are 88 explicitly sealed double-cold
+artifacts (up from 75), 15 implicit, 136 older-protocol.
+
+The nuance is worth stating plainly. Three pre-R5 runs
+(stageR3R4_level_shape_20260815/A0_incumbent_seed*) were produced by a trainer
+that evaluated the double-cold meta_test before the seal was authorised. Those
+numbers were quarantined into SEALED_meta_test_DO_NOT_OPEN.json sidecars, with
+the RESULT's test field replaced by a pointer, and the sidecar itself records
+that they were never read and used for no decision. The values nonetheless
+exist on disk.
+
+So the supported claim is that the double-cold meta_test has never been
+opened, never been read and has informed no decision — not that it has never
+been computed. The audit now tracks `sealed_quarantined` as its own state
+rather than folding it into either "sealed" or "violation", because the two
+claims differ and only the weaker one is true. BOUNDARY_20260816.md says so
+explicitly.
+
+```text
+SEAL_EXPLICIT=88
+SEAL_IMPLICIT_PRE_R5=15
+SEAL_QUARANTINED=3
+SEAL_OLDER_PROTOCOL=136
+SEAL_VIOLATIONS=0
+SUPPORTED_CLAIM=never_opened_never_read_no_decision
+UNSUPPORTED_CLAIM=never_computed
 ```
