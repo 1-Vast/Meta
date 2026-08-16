@@ -1,0 +1,30 @@
+{
+  "schema": "MetaSieve.StageR5ContractAndGates.v1",
+  "stage": "R5 (contract repairs + Stage 1 structural gates)",
+  "date": "2026-08-16",
+  "meta_test": {"included": false, "evaluated": false},
+  "contract_repairs": [
+    {"item": "evaluation_wrong_protein_donor_pool", "status": "fixed", "tests": ["test_evaluation_donors_come_from_the_evaluation_split", "test_matched_donors_reproduces_the_meta_train_transform"]},
+    {"item": "whitening_fit_pool_meta_train_only", "status": "fixed", "tests": ["test_whitening_is_fitted_on_meta_train_only"]},
+    {"item": "training_counterfactual_donor_pool_meta_train", "status": "fixed", "tests": ["test_training_donors_come_from_meta_train"]},
+    {"item": "donor_descriptions_in_artifacts", "status": "fixed", "tests": ["test_train_level_shape_saves_contract_artifacts"]},
+    {"item": "gradient_cosine_aggregation", "status": "fixed", "tests": []},
+    {"item": "meta_test_physical_seal", "status": "fixed", "tests": ["test_meta_test_is_physically_sealed_by_default", "test_meta_test_is_present_only_when_authorized", "test_training_does_not_evaluate_meta_test_by_default"]},
+    {"item": "checkpoint_sha256_and_activation_stats", "status": "fixed", "tests": ["test_train_level_shape_saves_contract_artifacts"]}
+  ],
+  "structural_gates": {
+    "suite": "tests/test_reltransport_synthetic.py",
+    "passed": 23,
+    "failed": 0,
+    "notable": {
+      "interaction_branch_gate": {"mean_full_ci": 0.72, "mean_cut_ci": 0.46, "mean_gap": 0.26, "positive_cells": "23/24", "seeds": 3, "proteins_per_seed": 8},
+      "matched_wrong_support_gate": "pass",
+      "private_task_abstention_gate": {"seeds": 2, "panels_per_seed": 3, "criterion": "mean full <= mean level-only + 0.005"},
+      "k1_query_specificity_gate": "pass",
+      "no_dead_branch_gate": "pass (k>=2; documented k=0/k=1 semantic exceptions)"
+    }
+  },
+  "contract_tests": {"suite": "tests/test_stage0_contract_fixes.py", "passed": 8, "failed": 0, "skipped_slow": 0, "slow_smokes": "passed (RUN_SLOW=1, 83s)"},
+  "pipeline_smoke": {"steps": 2, "peak_cuda_memory_mb": 238, "wall_seconds": 14.2, "trainable_parameters": 1866105, "checkpoint_sha256_saved": true},
+  "decision": "advance_to_stage2"
+}

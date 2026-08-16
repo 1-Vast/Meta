@@ -1,0 +1,64 @@
+{
+  "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
+  "config": {
+    "episodes_per_step": 1,
+    "eval_targets_per_component": 1,
+    "grad_clip": 5.0,
+    "hidden_dim": 32,
+    "learning_rate": 0.001,
+    "ligand_layers": 1,
+    "query_size": 8,
+    "seed": 20260812,
+    "steps": 1,
+    "support_size": 5,
+    "task_dim": 4,
+    "test_draws_per_target": 1,
+    "val_draws_per_target": 1,
+    "val_interval": 10,
+    "weight_decay": 1e-05
+  },
+  "controls": {
+    "foreign": "only task_state is replaced; target level and query channels stay fixed",
+    "permuted": "support labels are cyclically permuted",
+    "wrong_protein": "only task_state inferred under the donor protein is replaced",
+    "zero": "task_state is set to zero; target support level stays fixed"
+  },
+  "data": {
+    "corpus": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0",
+    "ligand_bank_records": 9880,
+    "protein_bank_records": 499
+  },
+  "evaluation_population": "fixed hash-selected targets within every eligible component",
+  "gate_authorization": {
+    "G2": false,
+    "G3a": false,
+    "G3b": false
+  },
+  "schema": "MetaSieve.QPSMPMetaSmoke.v1",
+  "scope": "implementation_smoke_only",
+  "test": {
+    "adaptation_abs_mean": 7.4068656762441,
+    "adaptation_gain_mse": 54.191898296276726,
+    "binding_did_mse": -0.012731775641441345,
+    "cross_zero_shot_abs_mean": 0.426094447573026,
+    "episodes": 6,
+    "foreign_state_gap_mse": -0.004926045735677009,
+    "foreign_state_mse": 1.2084688047568004,
+    "frozen_mse": 55.4052931467692,
+    "full_mse": 1.2133948504924774,
+    "no_interaction_mse": 49.60273265838623,
+    "permuted_mse": 1.200663074851036,
+    "weighting": "equal_component_then_equal_target_then_equal_draw",
+    "wrong_protein_gap_mse": 0.004324570298194885,
+    "wrong_protein_state_mse": 1.2177194207906723,
+    "zero_state_mse": 1.2053491075833638
+  },
+  "training": {
+    "best_step": 1,
+    "best_val_component_target_mse": 0.8808950513601304,
+    "loss_trace": [
+      0.7997207641601562
+    ],
+    "validation_episode_bank_size": 10
+  }
+}

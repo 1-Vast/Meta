@@ -1,0 +1,51 @@
+{
+  "name": "stageR11_grammar_shape_20260816",
+  "smoke": {
+    "output_root": "D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\smoke",
+    "trainers": ["scripts.train_grammar_shape"]
+  },
+  "runs": [
+    {"name": "G1_seed20260815",
+     "trainer": "scripts.train_grammar_shape",
+     "args": ["--cliff-pair-weight", "1.0",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260815",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260815"]},
+    {"name": "G1_seed20260816",
+     "trainer": "scripts.train_grammar_shape",
+     "args": ["--cliff-pair-weight", "1.0",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260816",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260816"]},
+    {"name": "G1_seed20260817",
+     "trainer": "scripts.train_grammar_shape",
+     "args": ["--cliff-pair-weight", "1.0",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260817",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260817"]}
+  ],
+  "compare": {
+    "trainer": "scripts.stageR6_compare_arms",
+    "args": [
+      "--split-directory",
+      "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt",
+      "--arm", "G1=D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260815\\checkpoint.pt",
+      "--arm", "G1=D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260816\\checkpoint.pt",
+      "--arm", "G1=D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260817\\checkpoint.pt",
+      "--reference", "A0",
+      "--output", "D:\\MetaSieve\\report\\meta_fewshot\\stageR11_grammar_shape_20260816\\COMPARE_R11_meta_val.json"
+    ]
+  }
+}

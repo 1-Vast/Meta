@@ -1,0 +1,753 @@
+{
+  "arm": {
+    "counterfactual": false,
+    "routing": true
+  },
+  "config": {
+    "amp": true,
+    "anchors": 32,
+    "contrast_temperature": 0.1,
+    "counterfactual": false,
+    "counterfactual_weight": 0.25,
+    "device": "cuda",
+    "diagnostic_interval": 200,
+    "episodes_per_step": 3,
+    "evaluation_seed": 73101,
+    "grad_clip": 1.0,
+    "hidden_dim": 192,
+    "learning_rate": 0.0006,
+    "ligand_layers": 4,
+    "lr_final_fraction": 0.1,
+    "lr_warmup_fraction": 0.05,
+    "min_query_size": 4,
+    "pair_dim": 96,
+    "pair_heads": 4,
+    "query_size": 16,
+    "ranking_loss_weight": 0.5,
+    "ranking_temperature": 1.0,
+    "routing": true,
+    "seed": 20260815,
+    "steps": 1200,
+    "task_dim": 48,
+    "val_interval": 100,
+    "weight_decay": 1e-05
+  },
+  "label_scale": {
+    "mean": 6.386893854998303,
+    "scale": 1.6282670074275054
+  },
+  "meta_val": {
+    "0": {
+      "calibration_pk": 0.9825735765847445,
+      "centered_spread_pk": 0.4767338859157769,
+      "ci": 0.5077296942182549,
+      "full_mse_pk": 1.9481984450012668,
+      "level_only_mse_pk": 1.9481984450012668,
+      "ligand_only_mse_pk": 9.881681934335178,
+      "permuted_mse_pk": 1.9481984450012668,
+      "shape_pk": 0.9656248315060068,
+      "spearman": 0.03845081408258962,
+      "wrong_protein_mse_pk": 2.0278685731360486,
+      "zero_shot_ci": 0.5077296942182549,
+      "zero_shot_mse_pk": 1.9481984450012668
+    },
+    "1": {
+      "calibration_pk": 0.5665232999061333,
+      "centered_spread_pk": 0.4767338943569231,
+      "ci": 0.5077296942182549,
+      "full_mse_pk": 1.5321481001883148,
+      "level_only_mse_pk": 1.5321480876399685,
+      "ligand_only_mse_pk": 9.881681955249087,
+      "permuted_mse_pk": 1.5321481001883148,
+      "shape_pk": 0.9656248129519137,
+      "spearman": 0.03845081408258962,
+      "wrong_protein_mse_pk": 1.6126646501079838,
+      "zero_shot_ci": 0.5077296942182549,
+      "zero_shot_mse_pk": 1.9481984295959314
+    },
+    "2": {
+      "calibration_pk": 0.29338907458077834,
+      "centered_spread_pk": 0.47673389808911826,
+      "ci": 0.5424929893266202,
+      "full_mse_pk": 1.190283099754263,
+      "level_only_mse_pk": 1.2590139259941373,
+      "ligand_only_mse_pk": 9.881681934335178,
+      "permuted_mse_pk": 1.571306904325061,
+      "shape_pk": 0.896894002277264,
+      "spearman": 0.123154817718855,
+      "wrong_protein_mse_pk": 1.2854894136678532,
+      "zero_shot_ci": 0.5077296942182549,
+      "zero_shot_mse_pk": 1.948198482664979
+    },
+    "3": {
+      "calibration_pk": 0.27865281454132856,
+      "centered_spread_pk": 0.4767339102662601,
+      "ci": 0.5475527194219109,
+      "full_mse_pk": 1.1831857673333663,
+      "level_only_mse_pk": 1.2442777043787348,
+      "ligand_only_mse_pk": 9.881681934335178,
+      "permuted_mse_pk": 1.3886593758901185,
+      "shape_pk": 0.9045329261127681,
+      "spearman": 0.135766954960294,
+      "wrong_protein_mse_pk": 1.2901660651388698,
+      "zero_shot_ci": 0.5077296942182549,
+      "zero_shot_mse_pk": 1.948198511048143
+    },
+    "5": {
+      "calibration_pk": 0.14895307213436887,
+      "centered_spread_pk": 0.47673390101938545,
+      "ci": 0.5651560333628342,
+      "full_mse_pk": 0.9330777897893971,
+      "level_only_mse_pk": 1.1145779016785988,
+      "ligand_only_mse_pk": 9.881681953157697,
+      "permuted_mse_pk": 1.383029145905211,
+      "shape_pk": 0.7841247025956598,
+      "spearman": 0.1812745111384774,
+      "wrong_protein_mse_pk": 1.0417139850706236,
+      "zero_shot_ci": 0.5077296942182549,
+      "zero_shot_mse_pk": 1.9481983148495203
+    }
+  },
+  "schema": "MetaSieve.LevelShapeRoutedTraining.v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "training": {
+    "best_step": 900,
+    "best_val_mean_mse_pk": 1.3573786404133217,
+    "gradient_diagnostics": [
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": -0.4041762240194194,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": -0.024225370403400608,
+          "ligand_head": -0.22780585894937658,
+          "other": null,
+          "protein_encoder": -0.06188602780428977,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 1.045618872546164,
+            "interaction": 0.0,
+            "level_head": 6.951995832640206,
+            "ligand_encoder": 0.2631092887119296,
+            "ligand_head": 4.607802098768493,
+            "other": 0.0,
+            "protein_encoder": 1.139488091490931,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 5.802681022353994e-10,
+            "channels": 0.13058286401477218,
+            "interaction": 0.3732740763651988,
+            "level_head": 0.0,
+            "ligand_encoder": 0.2655043936583108,
+            "ligand_head": 0.25073900927817333,
+            "other": 0.0,
+            "protein_encoder": 0.04669558435674069,
+            "transport": 0.0
+          }
+        },
+        "step": 200
+      },
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": -0.04229414484672075,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": 0.027452314485022132,
+          "ligand_head": -0.27701309710884514,
+          "other": null,
+          "protein_encoder": 0.6163606830718553,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 3.5514233968987625,
+            "interaction": 0.0,
+            "level_head": 40.42603609545363,
+            "ligand_encoder": 0.7071146632549757,
+            "ligand_head": 16.419974864055558,
+            "other": 0.0,
+            "protein_encoder": 7.787965385271175,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 0.0,
+            "channels": 0.018316502668004744,
+            "interaction": 0.04644068628145066,
+            "level_head": 0.0,
+            "ligand_encoder": 0.13555961608217798,
+            "ligand_head": 0.0050530815210285485,
+            "other": 0.0,
+            "protein_encoder": 0.00984630400087329,
+            "transport": 0.0
+          }
+        },
+        "step": 400
+      },
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": -0.027159111919312046,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": -0.02578455914833781,
+          "ligand_head": -0.41645494287070883,
+          "other": null,
+          "protein_encoder": -0.7096628661067299,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 1.4004296201913438,
+            "interaction": 0.0,
+            "level_head": 4.784334061092625,
+            "ligand_encoder": 0.11255056226331296,
+            "ligand_head": 3.7352361035382193,
+            "other": 0.0,
+            "protein_encoder": 2.3391636012045516,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 3.3735601270479976e-09,
+            "channels": 0.352788300989275,
+            "interaction": 1.109899283387064,
+            "level_head": 0.0,
+            "ligand_encoder": 0.40349337814723385,
+            "ligand_head": 1.9141914525660582,
+            "other": 0.0,
+            "protein_encoder": 0.18325331209456078,
+            "transport": 0.0
+          }
+        },
+        "step": 600
+      },
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": 0.03681071398190642,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": 0.027998711661152493,
+          "ligand_head": -0.25597614228742294,
+          "other": null,
+          "protein_encoder": 0.6454630242325852,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 2.362730408449507,
+            "interaction": 0.0,
+            "level_head": 40.76146689594239,
+            "ligand_encoder": 0.34112183356914877,
+            "ligand_head": 14.336608804893775,
+            "other": 0.0,
+            "protein_encoder": 8.745333635693656,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 0.0,
+            "channels": 0.15938444547448352,
+            "interaction": 0.2857160036044626,
+            "level_head": 0.0,
+            "ligand_encoder": 1.0682037128684825,
+            "ligand_head": 0.036046691809094436,
+            "other": 0.0,
+            "protein_encoder": 0.12725356918346062,
+            "transport": 0.0
+          }
+        },
+        "step": 800
+      },
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": 0.33706363743799167,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": 0.12431924605480761,
+          "ligand_head": 0.827192122846914,
+          "other": null,
+          "protein_encoder": -0.2543680418781982,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 0.5269299533533349,
+            "interaction": 0.0,
+            "level_head": 10.08881121667332,
+            "ligand_encoder": 0.096314515882749,
+            "ligand_head": 3.506431120311041,
+            "other": 0.0,
+            "protein_encoder": 1.7845887231075594,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 4.49891271006271e-09,
+            "channels": 1.051872440851223,
+            "interaction": 5.996546212718961,
+            "level_head": 0.0,
+            "ligand_encoder": 0.8463476379972007,
+            "ligand_head": 5.480001309214334,
+            "other": 0.0,
+            "protein_encoder": 0.27738686195816803,
+            "transport": 0.0
+          }
+        },
+        "step": 1000
+      },
+      {
+        "cosine_level_shape": {
+          "anchor": null,
+          "channels": -0.7562448200093616,
+          "interaction": null,
+          "level_head": null,
+          "ligand_encoder": -0.08265191320901567,
+          "ligand_head": -0.9562198651977987,
+          "other": null,
+          "protein_encoder": -0.012307240583772397,
+          "transport": null
+        },
+        "norms": {
+          "level": {
+            "anchor": 0.0,
+            "channels": 0.4844433583791561,
+            "interaction": 0.0,
+            "level_head": 2.5867439922554225,
+            "ligand_encoder": 0.035728919721040905,
+            "ligand_head": 3.211251419328174,
+            "other": 0.0,
+            "protein_encoder": 3.6861636203246855,
+            "transport": 0.0
+          },
+          "shape": {
+            "anchor": 0.0,
+            "channels": 0.41828608233686365,
+            "interaction": 1.3524092318498697,
+            "level_head": 0.0,
+            "ligand_encoder": 0.20918723072827342,
+            "ligand_head": 1.613245418396978,
+            "other": 0.0,
+            "protein_encoder": 0.14792427945241463,
+            "transport": 0.0
+          }
+        },
+        "step": 1200
+      }
+    ],
+    "loss_trace": [
+      {
+        "grad_norm": 7.912333965301514,
+        "level": 0.500242200990518,
+        "prediction_mse": 0.5928981055816014,
+        "rank": 0.7063921491305033,
+        "shape": 0.09265593936045964,
+        "step": 1151
+      },
+      {
+        "grad_norm": 7.336007118225098,
+        "level": 0.9335760821898778,
+        "prediction_mse": 1.1775296131769817,
+        "rank": 0.6634631355603535,
+        "shape": 0.24395357072353363,
+        "step": 1152
+      },
+      {
+        "grad_norm": 8.032929420471191,
+        "level": 0.2116996869444847,
+        "prediction_mse": 0.3764347185691198,
+        "rank": 0.6157993078231812,
+        "shape": 0.16473503038287163,
+        "step": 1153
+      },
+      {
+        "grad_norm": 12.736987113952637,
+        "level": 0.2217182598542422,
+        "prediction_mse": 0.5681403974692028,
+        "rank": 0.6053499182065328,
+        "shape": 0.34642214079697925,
+        "step": 1154
+      },
+      {
+        "grad_norm": 2.8170127868652344,
+        "level": 0.10584130848292261,
+        "prediction_mse": 0.2591462607185046,
+        "rank": 0.6891944805781047,
+        "shape": 0.15330495188633603,
+        "step": 1155
+      },
+      {
+        "grad_norm": 1.875636339187622,
+        "level": 0.026108184596523643,
+        "prediction_mse": 0.34443281094233197,
+        "rank": 0.5656961301962535,
+        "shape": 0.3183246354262034,
+        "step": 1156
+      },
+      {
+        "grad_norm": 9.111763000488281,
+        "level": 0.48114151259263355,
+        "prediction_mse": 0.5901809831460316,
+        "rank": 0.5953044593334198,
+        "shape": 0.10903941591580708,
+        "step": 1157
+      },
+      {
+        "grad_norm": 6.822597026824951,
+        "level": 0.44802851734372473,
+        "prediction_mse": 0.6626316880186398,
+        "rank": 0.5782670279343922,
+        "shape": 0.21460317820310593,
+        "step": 1158
+      },
+      {
+        "grad_norm": 0.8714599609375,
+        "level": 0.06632945769039604,
+        "prediction_mse": 0.1665835753083229,
+        "rank": 0.6883463660875957,
+        "shape": 0.100254125893116,
+        "step": 1159
+      },
+      {
+        "grad_norm": 1.4070409536361694,
+        "level": 0.01857564893968326,
+        "prediction_mse": 0.08753305487334728,
+        "rank": 0.598711093266805,
+        "shape": 0.06895740516483784,
+        "step": 1160
+      },
+      {
+        "grad_norm": 10.514328002929688,
+        "level": 1.7547362297773361,
+        "prediction_mse": 2.0565024415651956,
+        "rank": 0.6608767112096151,
+        "shape": 0.30176613107323647,
+        "step": 1161
+      },
+      {
+        "grad_norm": 1.832996129989624,
+        "level": 0.03273768397048116,
+        "prediction_mse": 0.1887965202331543,
+        "rank": 0.692009727160136,
+        "shape": 0.15605883176128071,
+        "step": 1162
+      },
+      {
+        "grad_norm": 3.473788022994995,
+        "level": 0.03923189237616498,
+        "prediction_mse": 0.343930701414744,
+        "rank": 0.7274378935496013,
+        "shape": 0.30469879508018494,
+        "step": 1163
+      },
+      {
+        "grad_norm": 2.0079345703125,
+        "level": 0.0454996187860767,
+        "prediction_mse": 0.18079283088445663,
+        "rank": 0.6330576638380687,
+        "shape": 0.13529320061206818,
+        "step": 1164
+      },
+      {
+        "grad_norm": 1.5918822288513184,
+        "level": 0.006814145541284233,
+        "prediction_mse": 0.09431340297063191,
+        "rank": 0.6338726679484049,
+        "shape": 0.08749925966064134,
+        "step": 1165
+      },
+      {
+        "grad_norm": 5.800909042358398,
+        "level": 0.5288756986459097,
+        "prediction_mse": 0.8326679070790609,
+        "rank": 0.6681085427602131,
+        "shape": 0.30379227673014003,
+        "step": 1166
+      },
+      {
+        "grad_norm": 1.0938903093338013,
+        "level": 0.002084453730882766,
+        "prediction_mse": 0.12307849526405334,
+        "rank": 0.6681697765986124,
+        "shape": 0.12099403887987137,
+        "step": 1167
+      },
+      {
+        "grad_norm": 1.3162232637405396,
+        "level": 0.11129848550384244,
+        "prediction_mse": 0.3512205382188161,
+        "rank": 0.7013182044029236,
+        "shape": 0.23992205659548443,
+        "step": 1168
+      },
+      {
+        "grad_norm": 4.742083549499512,
+        "level": 0.1389949694275856,
+        "prediction_mse": 0.3198429644107818,
+        "rank": 0.5338538885116577,
+        "shape": 0.18084798753261566,
+        "step": 1169
+      },
+      {
+        "grad_norm": 4.6275129318237305,
+        "level": 0.04271362371340122,
+        "prediction_mse": 0.2917960360646248,
+        "rank": 0.6624674201011658,
+        "shape": 0.2490824094663064,
+        "step": 1170
+      },
+      {
+        "grad_norm": 21.06427764892578,
+        "level": 3.322607283790906,
+        "prediction_mse": 3.53108012676239,
+        "rank": 0.6812902688980103,
+        "shape": 0.20847306152184805,
+        "step": 1171
+      },
+      {
+        "grad_norm": 4.68006706237793,
+        "level": 0.24629098611573377,
+        "prediction_mse": 0.5574479897816976,
+        "rank": 0.6817253033320109,
+        "shape": 0.31115703377872705,
+        "step": 1172
+      },
+      {
+        "grad_norm": 8.03182315826416,
+        "level": 0.25795043508211773,
+        "prediction_mse": 0.3604022810856501,
+        "rank": 0.6846220691998799,
+        "shape": 0.10245182613531749,
+        "step": 1173
+      },
+      {
+        "grad_norm": 3.60392427444458,
+        "level": 0.10847394478817782,
+        "prediction_mse": 0.15808990597724915,
+        "rank": 0.5611474514007568,
+        "shape": 0.04961596180995305,
+        "step": 1174
+      },
+      {
+        "grad_norm": 4.0613532066345215,
+        "level": 0.23822592198848724,
+        "prediction_mse": 0.3670152723789215,
+        "rank": 0.6629889408747355,
+        "shape": 0.12878936032454172,
+        "step": 1175
+      },
+      {
+        "grad_norm": 18.850265502929688,
+        "level": 2.1550783067941666,
+        "prediction_mse": 2.4132166504859924,
+        "rank": 0.6997180779774983,
+        "shape": 0.2581384057799975,
+        "step": 1176
+      },
+      {
+        "grad_norm": 15.73937702178955,
+        "level": 0.19278681154052416,
+        "prediction_mse": 0.3372157315413157,
+        "rank": 0.6768006285031637,
+        "shape": 0.1444289448360602,
+        "step": 1177
+      },
+      {
+        "grad_norm": 3.949232816696167,
+        "level": 0.12677514719932031,
+        "prediction_mse": 0.28298332293828327,
+        "rank": 0.7031334042549133,
+        "shape": 0.15620817492405575,
+        "step": 1178
+      },
+      {
+        "grad_norm": 6.981964111328125,
+        "level": 0.25180592512091,
+        "prediction_mse": 0.4785055915514628,
+        "rank": 0.6750070850054423,
+        "shape": 0.22669969623287517,
+        "step": 1179
+      },
+      {
+        "grad_norm": 2.5234739780426025,
+        "level": 0.13038925578196844,
+        "prediction_mse": 0.3954205165306727,
+        "rank": 0.6829879283905029,
+        "shape": 0.26503124833106995,
+        "step": 1180
+      },
+      {
+        "grad_norm": 23.703351974487305,
+        "level": 0.6746067938705285,
+        "prediction_mse": 0.8839797675609589,
+        "rank": 0.6686595479647318,
+        "shape": 0.20937307178974152,
+        "step": 1181
+      },
+      {
+        "grad_norm": 11.940279006958008,
+        "level": 0.6841703777511915,
+        "prediction_mse": 0.825152908762296,
+        "rank": 0.6398304303487141,
+        "shape": 0.14098254529138407,
+        "step": 1182
+      },
+      {
+        "grad_norm": 2.3281826972961426,
+        "level": 0.0899944119155407,
+        "prediction_mse": 0.34878411889076233,
+        "rank": 0.6755721569061279,
+        "shape": 0.25878970821698505,
+        "step": 1183
+      },
+      {
+        "grad_norm": 4.93332052230835,
+        "level": 0.058060282220443085,
+        "prediction_mse": 0.37134016801913583,
+        "rank": 0.6123879353205364,
+        "shape": 0.31327988890310127,
+        "step": 1184
+      },
+      {
+        "grad_norm": 2.884519577026367,
+        "level": 0.21926335617899895,
+        "prediction_mse": 0.9160942335923513,
+        "rank": 0.6536042292912801,
+        "shape": 0.6968308786551157,
+        "step": 1185
+      },
+      {
+        "grad_norm": 15.254873275756836,
+        "level": 0.6061773697535197,
+        "prediction_mse": 0.8976715405782064,
+        "rank": 0.6840691367785137,
+        "shape": 0.2914941410223643,
+        "step": 1186
+      },
+      {
+        "grad_norm": 11.385055541992188,
+        "level": 0.3133789002895355,
+        "prediction_mse": 0.8442656497160593,
+        "rank": 0.6298556923866272,
+        "shape": 0.5308866401513418,
+        "step": 1187
+      },
+      {
+        "grad_norm": 7.358213901519775,
+        "level": 0.5607387224833171,
+        "prediction_mse": 0.6587172547976177,
+        "rank": 0.6575387517611186,
+        "shape": 0.09797855218251546,
+        "step": 1188
+      },
+      {
+        "grad_norm": 10.625720977783203,
+        "level": 0.0241835528674225,
+        "prediction_mse": 0.5387966732184092,
+        "rank": 0.6875031391779582,
+        "shape": 0.514613134165605,
+        "step": 1189
+      },
+      {
+        "grad_norm": 1.7437728643417358,
+        "level": 0.14554910889516276,
+        "prediction_mse": 0.3916786114374796,
+        "rank": 0.6682586073875427,
+        "shape": 0.24612952520449957,
+        "step": 1190
+      },
+      {
+        "grad_norm": 11.387930870056152,
+        "level": 0.49215698381885886,
+        "prediction_mse": 0.8276620209217072,
+        "rank": 0.6831217209498087,
+        "shape": 0.33550505464275676,
+        "step": 1191
+      },
+      {
+        "grad_norm": 6.4315290451049805,
+        "level": 0.11082906662098442,
+        "prediction_mse": 0.13789322723944983,
+        "rank": 0.666491727034251,
+        "shape": 0.027064152682820957,
+        "step": 1192
+      },
+      {
+        "grad_norm": 4.679591655731201,
+        "level": 0.19899591803550723,
+        "prediction_mse": 0.2756116936604182,
+        "rank": 0.6791754364967346,
+        "shape": 0.07661578307549158,
+        "step": 1193
+      },
+      {
+        "grad_norm": 5.292782783508301,
+        "level": 0.09903772251224532,
+        "prediction_mse": 0.6834300458431244,
+        "rank": 0.6577114264170328,
+        "shape": 0.584392306705316,
+        "step": 1194
+      },
+      {
+        "grad_norm": 4.606846332550049,
+        "level": 0.025850439444184303,
+        "prediction_mse": 0.2606760611136754,
+        "rank": 0.6459100047747294,
+        "shape": 0.23482563594977063,
+        "step": 1195
+      },
+      {
+        "grad_norm": 13.696294784545898,
+        "level": 2.0331317111849785,
+        "prediction_mse": 2.5798884630203247,
+        "rank": 0.6325840950012207,
+        "shape": 0.5467569380998611,
+        "step": 1196
+      },
+      {
+        "grad_norm": 4.574868679046631,
+        "level": 0.3021771696706613,
+        "prediction_mse": 0.34500088542699814,
+        "rank": 0.714400053024292,
+        "shape": 0.042823694335917636,
+        "step": 1197
+      },
+      {
+        "grad_norm": 4.313910961151123,
+        "level": 0.14303399591396251,
+        "prediction_mse": 0.3314026339600484,
+        "rank": 0.6508180300394695,
+        "shape": 0.18836863338947296,
+        "step": 1198
+      },
+      {
+        "grad_norm": 1.6023980379104614,
+        "level": 0.07038340717554092,
+        "prediction_mse": 0.7245043168465297,
+        "rank": 0.6109504501024882,
+        "shape": 0.6541209866603215,
+        "step": 1199
+      },
+      {
+        "grad_norm": 4.330921649932861,
+        "level": 0.09318729590935011,
+        "prediction_mse": 0.212530218064785,
+        "rank": 0.7009271383285522,
+        "shape": 0.11934291323026021,
+        "step": 1200
+      }
+    ],
+    "peak_cuda_memory_mb": 393.08935546875,
+    "trainable_parameters": 1560488,
+    "wall_seconds": 116.04699999999139
+  }
+}

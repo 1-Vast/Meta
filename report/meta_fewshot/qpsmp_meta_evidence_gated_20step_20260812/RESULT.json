@@ -1,0 +1,86 @@
+{
+  "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
+  "config": {
+    "episodes_per_step": 2,
+    "eval_targets_per_component": 1,
+    "grad_clip": 5.0,
+    "hidden_dim": 32,
+    "learning_rate": 0.001,
+    "ligand_layers": 1,
+    "query_size": 8,
+    "seed": 20260812,
+    "steps": 20,
+    "support_size": 5,
+    "task_dim": 4,
+    "test_draws_per_target": 1,
+    "val_draws_per_target": 1,
+    "val_interval": 10,
+    "weight_decay": 1e-05
+  },
+  "controls": {
+    "foreign": "only task_state is replaced; target level and query channels stay fixed",
+    "permuted": "support labels are cyclically permuted",
+    "wrong_protein": "only task_state inferred under the donor protein is replaced",
+    "zero": "task_state is set to zero; target support level stays fixed"
+  },
+  "data": {
+    "corpus": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0",
+    "ligand_bank_records": 9880,
+    "protein_bank_records": 499
+  },
+  "evaluation_population": "fixed hash-selected targets within every eligible component",
+  "gate_authorization": {
+    "G2": false,
+    "G3a": false,
+    "G3b": false
+  },
+  "schema": "MetaSieve.QPSMPMetaSmoke.v1",
+  "scope": "implementation_smoke_only",
+  "test": {
+    "adaptation_gain_mse": 54.61662737528483,
+    "binding_did_mse": -0.00026366114616394043,
+    "cross_zero_shot_abs_mean": 0.464619775613149,
+    "episodes": 6,
+    "evidence_gate_mean": 0.008451365826961895,
+    "foreign_state_gap_mse": -0.00040661791960383553,
+    "foreign_state_mse": 1.1664409289757411,
+    "frozen_mse": 55.783474922180176,
+    "full_mse": 1.166847546895345,
+    "level_abs_mean": 7.443775335947673,
+    "level_only_mse": 1.1663414140542347,
+    "no_interaction_mse": 49.45332272847494,
+    "permuted_mse": 1.166583885749181,
+    "sar_adaptation_abs_mean": 0.0003180989300138511,
+    "weighting": "equal_component_then_equal_target_then_equal_draw",
+    "wrong_protein_gap_mse": -0.000205958882967483,
+    "wrong_protein_state_mse": 1.1666415880123775,
+    "zero_state_mse": 1.1663414537906647
+  },
+  "training": {
+    "best_step": 20,
+    "best_val_component_target_mse": 0.8855332379229367,
+    "loss_trace": [
+      0.5485655665397644,
+      3.2463481426239014,
+      1.0178980827331543,
+      1.5108288526535034,
+      0.49192917346954346,
+      0.21155180037021637,
+      1.5801920890808105,
+      1.173994779586792,
+      0.8121227025985718,
+      1.139100193977356,
+      2.119868040084839,
+      0.7566038966178894,
+      0.2683999836444855,
+      1.2240668535232544,
+      0.8759755492210388,
+      1.055332899093628,
+      1.2344846725463867,
+      1.390195608139038,
+      1.940159797668457,
+      0.37808549404144287
+    ],
+    "validation_episode_bank_size": 10
+  }
+}

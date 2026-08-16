@@ -1,0 +1,96 @@
+{
+  "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
+  "config": {
+    "device": "cuda",
+    "episodes_per_step": 8,
+    "eval_batch_size": 16,
+    "eval_targets_per_component": 1,
+    "grad_clip": 5.0,
+    "hidden_dim": 32,
+    "interaction_mode": "pooled",
+    "learning_rate": 0.001,
+    "ligand_layers": 1,
+    "query_size": 8,
+    "section_mode": "support_span",
+    "seed": 20260812,
+    "steps": 2,
+    "support_size": 5,
+    "task_dim": 4,
+    "test_draws_per_target": 1,
+    "train_cache_size": 8,
+    "val_draws_per_target": 1,
+    "val_interval": 2,
+    "weight_decay": 1e-05,
+    "zero_shot_loss_weight": 0.25,
+    "zero_support_only": true
+  },
+  "controls": {
+    "evidence_null": "SAR state is zero; zero-shot and level calibration stay fixed",
+    "foreign": "only task_state is replaced; target level and query channels stay fixed",
+    "permuted": "support labels are cyclically permuted",
+    "sar_cut": "the SAR term alone is removed; zero-shot and level stay fixed",
+    "wrong_protein": "only task_state inferred under the donor protein is replaced"
+  },
+  "data": {
+    "corpus": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0",
+    "ligand_bank_records": 9880,
+    "protein_bank_records": 499
+  },
+  "evaluation_population": "fixed hash-selected targets within every eligible component",
+  "gate_authorization": {
+    "G2": false,
+    "G3a": false,
+    "G3b": false
+  },
+  "schema": "MetaSieve.QPSMPMetaSmoke.v1",
+  "scope": "implementation_smoke_only",
+  "test": {
+    "binding_did_mse_pk": -0.0008553763230643163,
+    "cross_zero_shot_abs_mean_pk": 1.4692490299542744,
+    "episodes": 6,
+    "evidence_score_mean": 0.018808667004729312,
+    "foreign_state_gap_mse_pk": -0.0006502171357474218,
+    "foreign_state_mse_pk": 1.1565947731335957,
+    "full_mse_pk": 1.1572449902693431,
+    "level_adjustment_abs_mean_pk": 1.3461868067582448,
+    "level_only_mse_pk": 1.1663415531317394,
+    "level_plus_sar_gain_mse_pk": 2.458454142014186,
+    "level_shrinkage": 0.9000692367553711,
+    "ligand_only_mse_pk": 3.149763365586599,
+    "no_interaction_mse_pk": 3.3385088046391806,
+    "permuted_mse_pk": 1.1563896139462788,
+    "sar_adaptation_abs_mean_pk": 0.0005677136299103344,
+    "sar_cut_mse_pk": 1.1565280208985012,
+    "sar_gain_mse_pk": -0.00071696937084198,
+    "sar_scale": 0.10000000149011612,
+    "shape_scale": 0.10000000149011612,
+    "weighting": "equal_component_then_equal_target_then_equal_draw",
+    "wrong_protein_gap_mse_pk": -0.0002636412779490893,
+    "wrong_protein_state_mse_pk": 1.156981348991394,
+    "wrong_protein_zero_shot_gap_mse_pk": 0.20719164609909058,
+    "wrong_protein_zero_shot_mse_pk": 3.8228907783826194,
+    "zero_shot_mse_pk": 3.615699132283529
+  },
+  "training": {
+    "best_step": 2,
+    "best_val_component_target_mse_pk": 2.27271583378315,
+    "label_scale": {
+      "mean": 6.464747402761763,
+      "scale": 1.5970727951488612
+    },
+    "loss_trace": [
+      3.4475905895233154,
+      1.8299492597579956
+    ],
+    "loss_trace_units": "standardized_squared_error",
+    "support_sizes": [
+      5
+    ],
+    "train_episode_cache_sizes": {
+      "5": 8
+    },
+    "validation_episode_bank_sizes": {
+      "5": 10
+    }
+  }
+}

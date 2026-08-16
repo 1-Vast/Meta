@@ -1,0 +1,239 @@
+{
+  "activation_scales": {
+    "adaptation": {
+      "abs_mean": 0.35409092538369197,
+      "abs_mean_std": 0.31243122802259915
+    },
+    "additive": {
+      "abs_mean": 0.32057485267675173,
+      "abs_mean_std": 0.2591088730156483
+    },
+    "cross_zero_shot": {
+      "abs_mean": 0.4239033680059947,
+      "abs_mean_std": 0.3413264152296683
+    },
+    "level_adjustment": {
+      "abs_mean": 0.32243547070538625,
+      "abs_mean_std": 0.2924044763013075
+    },
+    "ligand_only": {
+      "abs_mean": 0.16806220560101792,
+      "abs_mean_std": 0.1778733020454228
+    },
+    "query_primitive": {
+      "abs_mean": 0.7823805138468742,
+      "abs_mean_std": 0.06160207695331849
+    },
+    "sar_adaptation": {
+      "abs_mean": 0.06954390573082492,
+      "abs_mean_std": 0.065883715296729
+    },
+    "support_residual": {
+      "abs_mean": 0.4503297313737373,
+      "abs_mean_std": 0.23517130134979358
+    },
+    "task_state": {
+      "abs_mean": 0.3179813098201218,
+      "abs_mean_std": 0.27821621096509236
+    },
+    "zero_shot": {
+      "abs_mean": 0.4239033680059947,
+      "abs_mean_std": 0.3413264152296683
+    }
+  },
+  "checkpoint": "D:\\MetaSieve\\report\\meta_fewshot\\stage3_scaled_budget_20260815\\armC_grammar_7M\\checkpoint.pt",
+  "device": "cpu",
+  "gradient_coverage": {
+    "0": {
+      "dead_parameter_count": 7,
+      "dead_parameters": [
+        "transport.gate.0.bias",
+        "transport.gate.0.weight",
+        "transport.gate.2.bias",
+        "transport.gate.2.weight",
+        "transport.key.weight",
+        "transport.log_shrinkage",
+        "transport.log_temperature"
+      ],
+      "global_grad_norm": 12.934699484779479,
+      "grad_norm_by_module": {
+        "contact_weight": 7.244544982910156,
+        "embed": 0.26953151982059326,
+        "embed_norm": 0.028478090534306617,
+        "grammar": 6.010601596753696,
+        "interaction_head": 2.64881856394777,
+        "ligand_encoder": 0.5673063189037089,
+        "ligand_head": 2.6821950009476425,
+        "protein_encoder": 3.8489964912527257,
+        "protein_head": 7.019413371620049,
+        "section": 0.055178046226501465,
+        "transport": 0.0
+      },
+      "loss_mean": 0.68438521027565,
+      "nonfinite_parameters": []
+    },
+    "1": {
+      "dead_parameter_count": 2,
+      "dead_parameters": [
+        "transport.key.weight",
+        "transport.log_temperature"
+      ],
+      "global_grad_norm": 10.435967130024782,
+      "grad_norm_by_module": {
+        "contact_weight": 6.9322099685668945,
+        "embed": 0.25251008286374277,
+        "embed_norm": 0.02416147220228707,
+        "grammar": 2.1061006854859072,
+        "interaction_head": 2.727754416804748,
+        "ligand_encoder": 0.3814369520911486,
+        "ligand_head": 3.3982608835537857,
+        "protein_encoder": 2.6711791534247826,
+        "protein_head": 5.482054339733975,
+        "section": 0.05502930283546448,
+        "transport": 0.16854749301149458
+      },
+      "loss_mean": 0.25730767846107483,
+      "nonfinite_parameters": []
+    },
+    "2": {
+      "dead_parameter_count": 0,
+      "dead_parameters": [],
+      "global_grad_norm": 15.024271960433497,
+      "grad_norm_by_module": {
+        "contact_weight": 8.200599670410156,
+        "embed": 0.9110749966054672,
+        "embed_norm": 0.20972214825557328,
+        "grammar": 1.9439464092070315,
+        "interaction_head": 3.2916179249902546,
+        "ligand_encoder": 0.39263729938474634,
+        "ligand_head": 2.9200510799339794,
+        "protein_encoder": 2.1406177331483986,
+        "protein_head": 7.967384508384438,
+        "section": 0.0669618770480156,
+        "transport": 8.139065629214397
+      },
+      "loss_mean": 0.43153153359889984,
+      "nonfinite_parameters": []
+    },
+    "3": {
+      "dead_parameter_count": 0,
+      "dead_parameters": [],
+      "global_grad_norm": 2.1392490092006913,
+      "grad_norm_by_module": {
+        "contact_weight": 0.34686264395713806,
+        "embed": 0.14125900130972105,
+        "embed_norm": 0.021163812697124036,
+        "grammar": 0.40427997499273677,
+        "interaction_head": 0.15415476258462762,
+        "ligand_encoder": 0.10272066208224576,
+        "ligand_head": 0.7251786254639193,
+        "protein_encoder": 0.848885788418461,
+        "protein_head": 1.1170272850002596,
+        "section": 0.005437745247036219,
+        "transport": 1.3204705406146116
+      },
+      "loss_mean": 0.3630061596632004,
+      "nonfinite_parameters": []
+    },
+    "5": {
+      "dead_parameter_count": 0,
+      "dead_parameters": [],
+      "global_grad_norm": 3.7834816964534936,
+      "grad_norm_by_module": {
+        "contact_weight": 0.9824163317680359,
+        "embed": 0.12742891747783647,
+        "embed_norm": 0.019198710656270355,
+        "grammar": 0.9124290411030198,
+        "interaction_head": 0.43301566141826947,
+        "ligand_encoder": 0.19117542852076647,
+        "ligand_head": 1.350299057504241,
+        "protein_encoder": 1.6883278775529027,
+        "protein_head": 2.713075050960026,
+        "section": 0.01513043511658907,
+        "transport": 0.49157307431767805
+      },
+      "loss_mean": 0.2821022868156433,
+      "nonfinite_parameters": []
+    }
+  },
+  "label_scale": {
+    "mean": 6.464747402761763,
+    "scale": 1.5970727951488612
+  },
+  "label_structure": {
+    "meta_test": {
+      "between_target_variance_share": 0.6610609820309596,
+      "cells": 1934,
+      "mean_within_target_variance": 1.0964561857549613,
+      "targets": 50,
+      "total_variance": 3.23496596032244
+    },
+    "meta_train": {
+      "between_target_variance_share": 0.6593771758839756,
+      "cells": 12633,
+      "mean_within_target_variance": 0.8688067154671951,
+      "targets": 399,
+      "total_variance": 2.5506415130045967
+    }
+  },
+  "learned_kernel_scalars": {
+    "shrinkage_prior_strength": 1.9853756427764893,
+    "temperature": 2.6699423789978027
+  },
+  "oracle_ceilings": {
+    "0": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": null
+    },
+    "1": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 2.3613444903268044
+    },
+    "2": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.873100025014592
+    },
+    "3": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.5452329006934304
+    },
+    "5": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.2877496219591957
+    }
+  },
+  "parameters": {
+    "by_module": {
+      "contact_weight": 48,
+      "embed": 682560,
+      "embed_norm": 384,
+      "grammar": 1663968,
+      "interaction_head": 49537,
+      "ligand_encoder": 3292421,
+      "ligand_head": 148225,
+      "protein_encoder": 1234944,
+      "protein_head": 148225,
+      "section": 12288,
+      "transport": 61571
+    },
+    "total": 7294171,
+    "trainable": 7294171
+  },
+  "peak_cuda_memory_mb": 0.0,
+  "protein_sensitivity": {
+    "episodes": 48,
+    "ligand_only_protein_swap_abs_delta_pk": 0.0,
+    "wrong_protein_zero_shot_gap_mse_pk": 0.17693381942808628,
+    "wrong_protein_zero_shot_mse_pk": 3.013259214659532,
+    "zero_shot_mse_pk": 2.836325395231446,
+    "zero_shot_protein_swap_abs_delta_pk": 0.43814161753531783,
+    "zero_shot_within_episode_std_pk": 0.19634130604588423
+  },
+  "schema": "MetaSieve.QPSMPStage0Diagnostics.v1",
+  "wall_seconds": 13.077999999994063
+}

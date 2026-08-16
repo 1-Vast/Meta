@@ -1,0 +1,957 @@
+{
+  "arm": {
+    "counterfactual": true,
+    "gate": true,
+    "ordinary": true,
+    "routing": true
+  },
+  "checkpoint_sha256": "b47d445ea5e8f6f15ec1473de83984d1c8130d0f503609f1c244d6c22d84c588",
+  "config": {
+    "amp": true,
+    "anchors": 16,
+    "cliff_gap_pk": 1.0,
+    "cliff_pair_weight": 4.0,
+    "cliff_tanimoto": 0.6,
+    "contrast_temperature": 0.1,
+    "counterfactual": true,
+    "counterfactual_weight": 0.25,
+    "device": "cuda",
+    "diagnostic_interval": 200,
+    "episodes_per_step": 3,
+    "evaluation_seed": 73101,
+    "gate": true,
+    "grad_clip": 1.0,
+    "hidden_dim": 192,
+    "identify_weight": 0.3,
+    "learning_rate": 0.0006,
+    "ligand_layers": 4,
+    "lr_final_fraction": 0.1,
+    "lr_warmup_fraction": 0.05,
+    "min_query_size": 4,
+    "ordinary": true,
+    "pair_dim": 96,
+    "pair_heads": 8,
+    "pair_latents": 24,
+    "query_size": 16,
+    "rank": 96,
+    "ranking_loss_weight": 1.0,
+    "relative_loss_weight": 0.5,
+    "routing": true,
+    "seed": 20260815,
+    "shape_variance_weight": 1.0,
+    "steps": 300,
+    "task_dim": 48,
+    "val_interval": 100,
+    "weight_decay": 1e-05
+  },
+  "donors": {
+    "criterion": "most similar target from a different homology component",
+    "evaluation_wrong_protein_pool": "meta_val",
+    "metric": "esm_whitened (train-fitted)",
+    "training_counterfactual_pool": "meta_train",
+    "whitening_pool": "meta_train"
+  },
+  "label_scale": {
+    "mean": 6.386893854998303,
+    "scale": 1.6282670074275054
+  },
+  "meta_test": {
+    "evaluated": false,
+    "included": false,
+    "seal": "physical: QPSMPData include_meta_test=False"
+  },
+  "meta_val": {
+    "0": {
+      "calibration_pk": 1.404473142791864,
+      "ci": 0.5054330556469552,
+      "endpoint_spread_pk": 0.005515015962560495,
+      "full_mse_pk": 2.335000069583194,
+      "level_only_mse_pk": 2.335000069583194,
+      "level_pk": 5.782661599020185,
+      "ligand_only_mse_pk": 2.9126786870898256,
+      "nogate_mse_pk": 2.335000069583194,
+      "permuted_mse_pk": 2.335000069583194,
+      "shape_abs_mean_pk": 0.6737181602421561,
+      "shape_pk": 0.9305269131845421,
+      "sign_accuracy": 0.505322485102948,
+      "spearman": 0.067965135081084,
+      "transport_abs_mean_pk": 0.0,
+      "wrong_protein_mse_pk": 2.2853786821166677,
+      "zero_shot_ci": 0.5054330556469552,
+      "zero_shot_mse_pk": 2.335000069583194,
+      "zero_shot_sign_accuracy": 0.505322485102948
+    },
+    "1": {
+      "calibration_pk": 1.1556483474576218,
+      "ci": 0.5020946046606705,
+      "endpoint_spread_pk": 0.005515018586792346,
+      "full_mse_pk": 2.0861023324623447,
+      "level_only_mse_pk": 1.7472070447241606,
+      "level_pk": 5.782661599020185,
+      "ligand_only_mse_pk": 2.9126787153236045,
+      "nogate_mse_pk": 2.0858372743136453,
+      "permuted_mse_pk": 2.635675775162633,
+      "shape_abs_mean_pk": 0.6737181560728914,
+      "shape_pk": 0.9304539930929703,
+      "sign_accuracy": 0.5019840341166633,
+      "spearman": 0.06523037505079797,
+      "transport_abs_mean_pk": 0.13152342302254907,
+      "wrong_protein_mse_pk": 2.0716339991448964,
+      "zero_shot_ci": 0.5054330556469552,
+      "zero_shot_mse_pk": 2.335000007635071,
+      "zero_shot_sign_accuracy": 0.505322485102948
+    },
+    "2": {
+      "calibration_pk": 0.7928912296059614,
+      "ci": 0.5233435653364227,
+      "endpoint_spread_pk": 0.0055150199867668274,
+      "full_mse_pk": 1.681324192577212,
+      "level_only_mse_pk": 1.4391964882458175,
+      "level_pk": 5.782661599020185,
+      "ligand_only_mse_pk": 2.9126787153236045,
+      "nogate_mse_pk": 1.681209513100616,
+      "permuted_mse_pk": 1.9191303047582617,
+      "shape_abs_mean_pk": 0.6737181606412199,
+      "shape_pk": 0.8884329789173427,
+      "sign_accuracy": 0.5232329947924156,
+      "spearman": 0.07651068378272234,
+      "transport_abs_mean_pk": 0.28682417681144856,
+      "wrong_protein_mse_pk": 1.7265423762152217,
+      "zero_shot_ci": 0.5054330556469552,
+      "zero_shot_mse_pk": 2.3349999981771283,
+      "zero_shot_sign_accuracy": 0.505322485102948
+    },
+    "3": {
+      "calibration_pk": 0.6487549015060236,
+      "ci": 0.5751860879212235,
+      "endpoint_spread_pk": 0.005515028470788701,
+      "full_mse_pk": 1.5192017399129414,
+      "level_only_mse_pk": 1.387434341202497,
+      "level_pk": 5.782661599020185,
+      "ligand_only_mse_pk": 2.9126787200619124,
+      "nogate_mse_pk": 1.5190757031419448,
+      "permuted_mse_pk": 1.7029622855612585,
+      "shape_abs_mean_pk": 0.6737181627619581,
+      "shape_pk": 0.8704468667154716,
+      "sign_accuracy": 0.5750755173772164,
+      "spearman": 0.2143632989230762,
+      "transport_abs_mean_pk": 0.4006463435460734,
+      "wrong_protein_mse_pk": 1.6261448248296528,
+      "zero_shot_ci": 0.5054330556469552,
+      "zero_shot_mse_pk": 2.335000032078204,
+      "zero_shot_sign_accuracy": 0.505322485102948
+    },
+    "5": {
+      "calibration_pk": 0.36920041694958816,
+      "ci": 0.5970951694762363,
+      "endpoint_spread_pk": 0.005515017792090009,
+      "full_mse_pk": 1.1493376795001757,
+      "level_only_mse_pk": 1.183119183459919,
+      "level_pk": 5.782661599020185,
+      "ligand_only_mse_pk": 2.9126786897367425,
+      "nogate_mse_pk": 1.1494119270496947,
+      "permuted_mse_pk": 1.5208419310792647,
+      "shape_abs_mean_pk": 0.6737181549441115,
+      "shape_pk": 0.7801372602623992,
+      "sign_accuracy": 0.5969845989322293,
+      "spearman": 0.2832987192634869,
+      "transport_abs_mean_pk": 0.5604695956248964,
+      "wrong_protein_mse_pk": 1.3705549842881082,
+      "zero_shot_ci": 0.5054330556469552,
+      "zero_shot_mse_pk": 2.3350000567827607,
+      "zero_shot_sign_accuracy": 0.505322485102948
+    }
+  },
+  "schema": "MetaSieve.RelTransportShapeFirstTraining.v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "split_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "training": {
+    "best_step": 100,
+    "best_val_mean_mse_pk": 1.7541932028071734,
+    "gradient_coverage": {
+      "nonzero_fraction": 1.0,
+      "zero_gradient_parameters": []
+    },
+    "gradient_diagnostics": [
+      {
+        "episode_count": 3,
+        "mean_over_episodes": {
+          "cosine_level_shape": {
+            "anchor": -0.035540660841680886,
+            "embed": -0.05935036699021157,
+            "grammar": -0.06831564353139123,
+            "level_head": -0.9999999999999967,
+            "ligand_encoder": 0.010227234912709549,
+            "ligand_head": 0.051223726505764546,
+            "other": null,
+            "protein_encoder": 0.003309840786714105,
+            "relative": 0.011005226090808985,
+            "transport": null
+          },
+          "norms": {
+            "level": {
+              "anchor": 0.015448531736111992,
+              "embed": 0.802776371464101,
+              "grammar": 0.024742808843769625,
+              "level_head": 1.1595244004782848,
+              "ligand_encoder": 0.7666688962017475,
+              "ligand_head": 0.9993518949251228,
+              "other": 0.0,
+              "protein_encoder": 0.9793441108053157,
+              "relative": 2.3524155688680453,
+              "transport": 0.0
+            },
+            "shape": {
+              "anchor": 0.003676764763748217,
+              "embed": 0.20693751422090526,
+              "grammar": 0.01922180258576961,
+              "level_head": 5.088341787903969e-08,
+              "ligand_encoder": 0.5016345420777455,
+              "ligand_head": 0.32279139188725287,
+              "other": 0.0,
+              "protein_encoder": 0.0936530621879983,
+              "relative": 0.36184776674562275,
+              "transport": 0.0
+            }
+          }
+        },
+        "per_episode": [
+          {
+            "cosine_level_shape": {
+              "anchor": -0.02333192515714002,
+              "embed": -0.06907435927411042,
+              "grammar": 0.008156279529767482,
+              "level_head": -0.9999999999999977,
+              "ligand_encoder": 0.18015697742235032,
+              "ligand_head": 0.1539251811549249,
+              "other": null,
+              "protein_encoder": 0.0708779785755694,
+              "relative": 0.07922605361323976,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.0016154578741699802,
+                "embed": 0.07814687231429454,
+                "grammar": 0.0022873557547753217,
+                "level_head": 0.13634035755914037,
+                "ligand_encoder": 0.08164985462319385,
+                "ligand_head": 0.09858124569908092,
+                "other": 0.0,
+                "protein_encoder": 0.10676420978601016,
+                "relative": 0.24086977921564473,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.000630343695249152,
+                "embed": 0.053584939657117664,
+                "grammar": 0.0069789626900749,
+                "level_head": 4.241764626722566e-08,
+                "ligand_encoder": 0.33092114726222405,
+                "ligand_head": 0.24672048805525706,
+                "other": 0.0,
+                "protein_encoder": 0.040042191101697294,
+                "relative": 0.11666428987094747,
+                "transport": 0.0
+              }
+            }
+          },
+          {
+            "cosine_level_shape": {
+              "anchor": -0.04625739042353687,
+              "embed": -0.08520856446229329,
+              "grammar": -0.19077055024014994,
+              "level_head": null,
+              "ligand_encoder": -0.26297203742008257,
+              "ligand_head": 0.20751198286070005,
+              "other": null,
+              "protein_encoder": 0.04153022493272805,
+              "relative": -0.05594696980288452,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.005972544553218785,
+                "embed": 0.31263305509878286,
+                "grammar": 0.009594714749821145,
+                "level_head": 0.42725157444567485,
+                "ligand_encoder": 0.2608687393070968,
+                "ligand_head": 0.33852748104023933,
+                "other": 0.0,
+                "protein_encoder": 0.3605729029070099,
+                "relative": 0.8542792037678432,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.00974715759179741,
+                "embed": 0.5311321944292915,
+                "grammar": 0.04639316087573408,
+                "level_head": 0.0,
+                "ligand_encoder": 0.8886439951692767,
+                "ligand_head": 0.6419551561575512,
+                "other": 0.0,
+                "protein_encoder": 0.2183772381578707,
+                "relative": 0.8925149645835156,
+                "transport": 0.0
+              }
+            }
+          },
+          {
+            "cosine_level_shape": {
+              "anchor": -0.037032666944365786,
+              "embed": -0.02376817723423101,
+              "grammar": -0.022332659883791246,
+              "level_head": -0.9999999999999957,
+              "ligand_encoder": 0.1134967647358609,
+              "ligand_head": -0.20776598449833134,
+              "other": null,
+              "protein_encoder": -0.10247868114815514,
+              "relative": 0.009736594462071722,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.03875759278094721,
+                "embed": 2.0175491869792253,
+                "grammar": 0.06234635602671241,
+                "level_head": 2.9149812694300388,
+                "ligand_encoder": 1.9574880946749516,
+                "ligand_head": 2.560946958036048,
+                "other": 0.0,
+                "protein_encoder": 2.470695219722927,
+                "relative": 5.962097723620648,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.0006527930041980892,
+                "embed": 0.03609540857630668,
+                "grammar": 0.004293284191499852,
+                "level_head": 1.1023260736989342e-07,
+                "ligand_encoder": 0.2853384838017356,
+                "ligand_head": 0.07969853144895045,
+                "other": 0.0,
+                "protein_encoder": 0.02253975730442696,
+                "relative": 0.07636404578240506,
+                "transport": 0.0
+              }
+            }
+          }
+        ],
+        "step": 200
+      },
+      {
+        "episode_count": 3,
+        "mean_over_episodes": {
+          "cosine_level_shape": {
+            "anchor": 0.03362524443471938,
+            "embed": -0.036720386966455916,
+            "grammar": -0.036747474619372396,
+            "level_head": -0.9999999999999974,
+            "ligand_encoder": 0.041054523178192075,
+            "ligand_head": 0.054338478357507096,
+            "other": null,
+            "protein_encoder": -0.10614115041709792,
+            "relative": 0.012237931867501023,
+            "transport": null
+          },
+          "norms": {
+            "level": {
+              "anchor": 0.03299067731039097,
+              "embed": 1.6357160655177474,
+              "grammar": 0.04888055374965325,
+              "level_head": 3.7148266111625943,
+              "ligand_encoder": 1.3772377466229555,
+              "ligand_head": 2.6168837989926956,
+              "other": 0.0,
+              "protein_encoder": 4.5282591819693065,
+              "relative": 6.840547843351939,
+              "transport": 0.0
+            },
+            "shape": {
+              "anchor": 0.0012276803674691767,
+              "embed": 0.08472233822380282,
+              "grammar": 0.006255770300322222,
+              "level_head": 7.139089265938591e-08,
+              "ligand_encoder": 0.2617078761986034,
+              "ligand_head": 0.18529641338583513,
+              "other": 0.0,
+              "protein_encoder": 0.09565053513777778,
+              "relative": 0.28532623478179314,
+              "transport": 0.0
+            }
+          }
+        },
+        "per_episode": [
+          {
+            "cosine_level_shape": {
+              "anchor": 0.019438722279945572,
+              "embed": -0.05296317569639732,
+              "grammar": -0.06446499133762353,
+              "level_head": -0.9999999999999962,
+              "ligand_encoder": 0.004800635222677076,
+              "ligand_head": 0.2168006837258156,
+              "other": null,
+              "protein_encoder": -0.10103038422902548,
+              "relative": 0.02077906800988976,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.07828032582683062,
+                "embed": 3.9093350903981055,
+                "grammar": 0.1195202853314158,
+                "level_head": 8.633962947784992,
+                "ligand_encoder": 3.2682170625536933,
+                "ligand_head": 5.973766174595989,
+                "other": 0.0,
+                "protein_encoder": 10.606569596551058,
+                "relative": 15.866050347586386,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.00033749434800484123,
+                "embed": 0.021372951753667505,
+                "grammar": 0.0026782685990123655,
+                "level_head": 1.7708294516727046e-07,
+                "ligand_encoder": 0.1093120579077065,
+                "ligand_head": 0.08682328153205841,
+                "other": 0.0,
+                "protein_encoder": 0.01972176352567314,
+                "relative": 0.05613767567063835,
+                "transport": 0.0
+              }
+            }
+          },
+          {
+            "cosine_level_shape": {
+              "anchor": 0.053886711640883704,
+              "embed": 0.03415359476566161,
+              "grammar": 0.08789851344282502,
+              "level_head": -0.9999999999999987,
+              "ligand_encoder": 0.06631566698539006,
+              "ligand_head": -0.12816594305613993,
+              "other": null,
+              "protein_encoder": -0.09247767536019044,
+              "relative": 0.061160048611145046,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.00015590161046230566,
+                "embed": 0.007305639996007569,
+                "grammar": 0.00018367215048088634,
+                "level_head": 0.02046236902574214,
+                "ligand_encoder": 0.009163216268392152,
+                "ligand_head": 0.016962083935027947,
+                "other": 0.0,
+                "protein_encoder": 0.03055145603541658,
+                "relative": 0.04137918854796492,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.00041204926077428736,
+                "embed": 0.019393094886136157,
+                "grammar": 0.0014437268481260358,
+                "level_head": 3.7089732810887276e-08,
+                "ligand_encoder": 0.07012475756857865,
+                "ligand_head": 0.09067616687120557,
+                "other": 0.0,
+                "protein_encoder": 0.026348074532930487,
+                "relative": 0.07140079433798692,
+                "transport": 0.0
+              }
+            }
+          },
+          {
+            "cosine_level_shape": {
+              "anchor": 0.02755029938332886,
+              "embed": -0.09135157996863204,
+              "grammar": -0.1336759459633187,
+              "level_head": null,
+              "ligand_encoder": 0.05204726732650907,
+              "ligand_head": 0.07438069440284562,
+              "other": null,
+              "protein_encoder": -0.12491539166207781,
+              "relative": -0.045225321018531744,
+              "transport": null
+            },
+            "norms": {
+              "level": {
+                "anchor": 0.020535804493879994,
+                "embed": 0.99050746615913,
+                "grammar": 0.02693770376706307,
+                "level_head": 2.4900545166770494,
+                "ligand_encoder": 0.8543329610467812,
+                "ligand_head": 1.8599231384470696,
+                "other": 0.0,
+                "protein_encoder": 2.9476564933214453,
+                "relative": 4.6142139939214655,
+                "transport": 0.0
+              },
+              "shape": {
+                "anchor": 0.0029334974936284014,
+                "embed": 0.2134009680316048,
+                "grammar": 0.014645315453828264,
+                "level_head": 0.0,
+                "ligand_encoder": 0.6056868131195252,
+                "ligand_head": 0.3783897917542414,
+                "other": 0.0,
+                "protein_encoder": 0.24088176735472974,
+                "relative": 0.7284402343367541,
+                "transport": 0.0
+              }
+            }
+          }
+        ],
+        "step": 300
+      }
+    ],
+    "gradient_summary": {
+      "anchor": {
+        "conflict_frequency": 0.5,
+        "cosine_mean": -0.0009577082034807546,
+        "cosine_min": -0.035540660841680886,
+        "episode_snapshots": 6,
+        "level_norm_mean": 0.024219604523251483,
+        "shape_norm_mean": 0.0024522225656086966,
+        "steps_recorded": 2
+      },
+      "embed": {
+        "conflict_frequency": 0.8333333333333334,
+        "cosine_mean": -0.04803537697833374,
+        "cosine_min": -0.05935036699021157,
+        "episode_snapshots": 6,
+        "level_norm_mean": 1.219246218490924,
+        "shape_norm_mean": 0.14582992622235402,
+        "steps_recorded": 2
+      },
+      "grammar": {
+        "conflict_frequency": 0.6666666666666666,
+        "cosine_mean": -0.05253155907538182,
+        "cosine_min": -0.06831564353139123,
+        "episode_snapshots": 6,
+        "level_norm_mean": 0.03681168129671144,
+        "shape_norm_mean": 0.012738786443045916,
+        "steps_recorded": 2
+      },
+      "level_head": {
+        "conflict_frequency": 1.0,
+        "cosine_mean": -0.9999999999999971,
+        "cosine_min": -0.9999999999999974,
+        "episode_snapshots": 4,
+        "level_norm_mean": 2.4371755058204396,
+        "shape_norm_mean": 6.11371552692128e-08,
+        "steps_recorded": 2
+      },
+      "ligand_encoder": {
+        "conflict_frequency": 0.16666666666666666,
+        "cosine_mean": 0.02564087904545081,
+        "cosine_min": 0.010227234912709549,
+        "episode_snapshots": 6,
+        "level_norm_mean": 1.0719533214123516,
+        "shape_norm_mean": 0.3816712091381744,
+        "steps_recorded": 2
+      },
+      "ligand_head": {
+        "conflict_frequency": 0.3333333333333333,
+        "cosine_mean": 0.05278110243163582,
+        "cosine_min": 0.051223726505764546,
+        "episode_snapshots": 6,
+        "level_norm_mean": 1.8081178469589092,
+        "shape_norm_mean": 0.254043902636544,
+        "steps_recorded": 2
+      },
+      "other": {
+        "conflict_frequency": null,
+        "cosine_mean": null,
+        "cosine_min": null,
+        "episode_snapshots": 0,
+        "level_norm_mean": 0.0,
+        "shape_norm_mean": 0.0,
+        "steps_recorded": 2
+      },
+      "protein_encoder": {
+        "conflict_frequency": 0.6666666666666666,
+        "cosine_mean": -0.051415654815191905,
+        "cosine_min": -0.10614115041709792,
+        "episode_snapshots": 6,
+        "level_norm_mean": 2.753801646387311,
+        "shape_norm_mean": 0.09465179866288805,
+        "steps_recorded": 2
+      },
+      "relative": {
+        "conflict_frequency": 0.3333333333333333,
+        "cosine_mean": 0.011621578979155004,
+        "cosine_min": 0.011005226090808985,
+        "episode_snapshots": 6,
+        "level_norm_mean": 4.5964817061099925,
+        "shape_norm_mean": 0.32358700076370794,
+        "steps_recorded": 2
+      },
+      "transport": {
+        "conflict_frequency": null,
+        "cosine_mean": null,
+        "cosine_min": null,
+        "episode_snapshots": 0,
+        "level_norm_mean": 0.0,
+        "shape_norm_mean": 0.0,
+        "steps_recorded": 2
+      }
+    },
+    "loss_trace": [
+      {
+        "grad_norm": 12.007076263427734,
+        "level": 0.4388591524329968,
+        "prediction_mse": 0.5862762276083231,
+        "shape": 0.14741703867912292,
+        "step": 251
+      },
+      {
+        "grad_norm": 11.560164451599121,
+        "level": 0.31337795282403624,
+        "prediction_mse": 0.48000794649124146,
+        "shape": 0.1666299772138397,
+        "step": 252
+      },
+      {
+        "grad_norm": 5.197970390319824,
+        "level": 0.09058884325835,
+        "prediction_mse": 0.2603580132126808,
+        "shape": 0.16976917535066605,
+        "step": 253
+      },
+      {
+        "grad_norm": 4.3777594566345215,
+        "level": 0.06341884005814791,
+        "prediction_mse": 0.4813386512299379,
+        "shape": 0.4179198890924454,
+        "step": 254
+      },
+      {
+        "grad_norm": 3.739781141281128,
+        "level": 0.03591730321447054,
+        "prediction_mse": 0.16788977881272635,
+        "shape": 0.13197248056530952,
+        "step": 255
+      },
+      {
+        "grad_norm": 8.421241760253906,
+        "level": 0.4810476191341877,
+        "prediction_mse": 0.6181468566258749,
+        "shape": 0.1370992474257946,
+        "step": 256
+      },
+      {
+        "grad_norm": 6.731062889099121,
+        "level": 0.1719028524433573,
+        "prediction_mse": 0.3953921049833298,
+        "shape": 0.22348926216363907,
+        "step": 257
+      },
+      {
+        "grad_norm": 8.390965461730957,
+        "level": 0.2106856632429602,
+        "prediction_mse": 0.6700448592503865,
+        "shape": 0.45935916900634766,
+        "step": 258
+      },
+      {
+        "grad_norm": 3.711272716522217,
+        "level": 0.09779322976222224,
+        "prediction_mse": 0.39740990847349167,
+        "shape": 0.29961668653413653,
+        "step": 259
+      },
+      {
+        "grad_norm": 1.6961644887924194,
+        "level": 0.02636980451643467,
+        "prediction_mse": 0.20377577717105547,
+        "shape": 0.1774059757590294,
+        "step": 260
+      },
+      {
+        "grad_norm": 8.104674339294434,
+        "level": 0.41531816124916077,
+        "prediction_mse": 0.5582982997099558,
+        "shape": 0.14298013597726822,
+        "step": 261
+      },
+      {
+        "grad_norm": 15.099472045898438,
+        "level": 0.41618314385414124,
+        "prediction_mse": 0.688652902841568,
+        "shape": 0.27246980865796405,
+        "step": 262
+      },
+      {
+        "grad_norm": 2.607341766357422,
+        "level": 0.2141318917274475,
+        "prediction_mse": 0.3126245439052582,
+        "shape": 0.09849267204602559,
+        "step": 263
+      },
+      {
+        "grad_norm": 1.3027927875518799,
+        "level": 0.03065830210088431,
+        "prediction_mse": 0.09288136909405391,
+        "shape": 0.06222306673104564,
+        "step": 264
+      },
+      {
+        "grad_norm": 2.8987131118774414,
+        "level": 0.024618052450629573,
+        "prediction_mse": 0.33835987746715546,
+        "shape": 0.3137418280045191,
+        "step": 265
+      },
+      {
+        "grad_norm": 13.14438247680664,
+        "level": 0.4557791355376442,
+        "prediction_mse": 0.6829848488171895,
+        "shape": 0.22720585390925407,
+        "step": 266
+      },
+      {
+        "grad_norm": 7.185946941375732,
+        "level": 0.27711525559425354,
+        "prediction_mse": 0.6040242065985997,
+        "shape": 0.326908953487873,
+        "step": 267
+      },
+      {
+        "grad_norm": 4.170528888702393,
+        "level": 0.46904198014332604,
+        "prediction_mse": 0.8199413915475209,
+        "shape": 0.35089939335982007,
+        "step": 268
+      },
+      {
+        "grad_norm": 2.772463798522949,
+        "level": 0.018580670119263232,
+        "prediction_mse": 0.16424168025453886,
+        "shape": 0.14566101071735224,
+        "step": 269
+      },
+      {
+        "grad_norm": 4.189657211303711,
+        "level": 0.05258350168393614,
+        "prediction_mse": 0.1691192388534546,
+        "shape": 0.1165357232093811,
+        "step": 270
+      },
+      {
+        "grad_norm": 11.759098052978516,
+        "level": 0.48040105154116947,
+        "prediction_mse": 0.9176897654930751,
+        "shape": 0.43728885365029174,
+        "step": 271
+      },
+      {
+        "grad_norm": 10.411384582519531,
+        "level": 0.2882960727959774,
+        "prediction_mse": 0.42728495473663014,
+        "shape": 0.13898889968792597,
+        "step": 272
+      },
+      {
+        "grad_norm": 4.929774761199951,
+        "level": 0.18761716783046722,
+        "prediction_mse": 0.274324506521225,
+        "shape": 0.0867073560754458,
+        "step": 273
+      },
+      {
+        "grad_norm": 3.3971219062805176,
+        "level": 0.10250908757249513,
+        "prediction_mse": 0.6092725992202759,
+        "shape": 0.506763497988383,
+        "step": 274
+      },
+      {
+        "grad_norm": 7.390649795532227,
+        "level": 0.09833861231648673,
+        "prediction_mse": 0.47913888096809387,
+        "shape": 0.3808002471923828,
+        "step": 275
+      },
+      {
+        "grad_norm": 5.418239593505859,
+        "level": 0.36802584802110994,
+        "prediction_mse": 1.4105067054430644,
+        "shape": 1.0424807866414387,
+        "step": 276
+      },
+      {
+        "grad_norm": 16.13462257385254,
+        "level": 0.45378006125489867,
+        "prediction_mse": 0.6243063857158024,
+        "shape": 0.17052639027436575,
+        "step": 277
+      },
+      {
+        "grad_norm": 3.8628454208374023,
+        "level": 0.12716156244277954,
+        "prediction_mse": 0.4678386847178141,
+        "shape": 0.34067715207735694,
+        "step": 278
+      },
+      {
+        "grad_norm": 7.4377923011779785,
+        "level": 0.10661119315773249,
+        "prediction_mse": 0.3145113612214724,
+        "shape": 0.2079001603027185,
+        "step": 279
+      },
+      {
+        "grad_norm": 2.7057104110717773,
+        "level": 0.08113783101240794,
+        "prediction_mse": 0.24701524029175442,
+        "shape": 0.16587740182876587,
+        "step": 280
+      },
+      {
+        "grad_norm": 0.4292220175266266,
+        "level": 0.0026414727326482534,
+        "prediction_mse": 0.31893161932627356,
+        "shape": 0.31629015256961185,
+        "step": 281
+      },
+      {
+        "grad_norm": 14.12486743927002,
+        "level": 0.6494791259368261,
+        "prediction_mse": 1.1296715140342712,
+        "shape": 0.48019243963062763,
+        "step": 282
+      },
+      {
+        "grad_norm": 4.960818290710449,
+        "level": 0.05839998150865237,
+        "prediction_mse": 0.3257703048487504,
+        "shape": 0.26737031899392605,
+        "step": 283
+      },
+      {
+        "grad_norm": 10.163751602172852,
+        "level": 0.26447312844296295,
+        "prediction_mse": 0.37252293278773624,
+        "shape": 0.10804981489976247,
+        "step": 284
+      },
+      {
+        "grad_norm": 2.050694465637207,
+        "level": 0.021257914369925857,
+        "prediction_mse": 0.40508372088273364,
+        "shape": 0.38382578641176224,
+        "step": 285
+      },
+      {
+        "grad_norm": 14.120833396911621,
+        "level": 0.49863710999488825,
+        "prediction_mse": 0.7732835908730825,
+        "shape": 0.27464650074640906,
+        "step": 286
+      },
+      {
+        "grad_norm": 4.519538879394531,
+        "level": 0.12144130220015845,
+        "prediction_mse": 0.6035858790079753,
+        "shape": 0.4821445556978385,
+        "step": 287
+      },
+      {
+        "grad_norm": 10.283548355102539,
+        "level": 0.2002967594501873,
+        "prediction_mse": 0.40214246759812033,
+        "shape": 0.20184571544329324,
+        "step": 288
+      },
+      {
+        "grad_norm": 7.247692584991455,
+        "level": 0.14201572413245836,
+        "prediction_mse": 0.4349608918031057,
+        "shape": 0.29294517387946445,
+        "step": 289
+      },
+      {
+        "grad_norm": 5.985866546630859,
+        "level": 0.31191757569710415,
+        "prediction_mse": 0.5214669903119405,
+        "shape": 0.20954939226309457,
+        "step": 290
+      },
+      {
+        "grad_norm": 32.306800842285156,
+        "level": 1.1555697321891785,
+        "prediction_mse": 1.6566237111886342,
+        "shape": 0.501053853581349,
+        "step": 291
+      },
+      {
+        "grad_norm": 20.8524169921875,
+        "level": 1.1744879136094823,
+        "prediction_mse": 1.6640327523152034,
+        "shape": 0.48954484735925996,
+        "step": 292
+      },
+      {
+        "grad_norm": 9.837459564208984,
+        "level": 0.13811844657175243,
+        "prediction_mse": 0.4019377361983061,
+        "shape": 0.2638192977756261,
+        "step": 293
+      },
+      {
+        "grad_norm": 3.285409927368164,
+        "level": 0.09250566611687343,
+        "prediction_mse": 0.29649736980597174,
+        "shape": 0.20399170275777578,
+        "step": 294
+      },
+      {
+        "grad_norm": 2.284245491027832,
+        "level": 0.029775205378731094,
+        "prediction_mse": 0.3983551089962324,
+        "shape": 0.3685798744360606,
+        "step": 295
+      },
+      {
+        "grad_norm": 7.777645111083984,
+        "level": 0.496424777355666,
+        "prediction_mse": 0.6056084223091602,
+        "shape": 0.10918366288145383,
+        "step": 296
+      },
+      {
+        "grad_norm": 27.57670021057129,
+        "level": 1.157872633698086,
+        "prediction_mse": 1.6025377561648688,
+        "shape": 0.44466503957907355,
+        "step": 297
+      },
+      {
+        "grad_norm": 22.44236183166504,
+        "level": 0.6255600899457932,
+        "prediction_mse": 0.8949026564757029,
+        "shape": 0.2693426272210976,
+        "step": 298
+      },
+      {
+        "grad_norm": 2.719383478164673,
+        "level": 0.013321166517774449,
+        "prediction_mse": 0.28798173864682514,
+        "shape": 0.274660587310791,
+        "step": 299
+      },
+      {
+        "grad_norm": 0.9600417613983154,
+        "level": 0.007623100110019246,
+        "prediction_mse": 0.340840349594752,
+        "shape": 0.33321724707881606,
+        "step": 300
+      }
+    ],
+    "peak_cuda_memory_mb": 551.0244140625,
+    "trainable_parameters": 1866105,
+    "wall_seconds": 78.06200000000536
+  }
+}

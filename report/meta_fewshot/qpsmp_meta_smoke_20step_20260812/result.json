@@ -1,0 +1,85 @@
+{
+  "authorization_reason": "A training smoke cannot authorize preregistered inferential gates.",
+  "config": {
+    "episodes_per_step": 2,
+    "eval_targets_per_component": 1,
+    "grad_clip": 5.0,
+    "hidden_dim": 32,
+    "learning_rate": 0.001,
+    "ligand_layers": 1,
+    "query_size": 8,
+    "seed": 20260812,
+    "steps": 20,
+    "support_size": 5,
+    "task_dim": 4,
+    "test_draws_per_target": 1,
+    "val_draws_per_target": 1,
+    "val_interval": 10,
+    "weight_decay": 1e-05
+  },
+  "controls": {
+    "foreign": "only task_state is replaced; target level and query channels stay fixed",
+    "permuted": "support labels are cyclically permuted",
+    "wrong_protein": "only task_state inferred under the donor protein is replaced",
+    "zero": "task_state is set to zero; target support level stays fixed"
+  },
+  "data": {
+    "corpus": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_main_v0",
+    "ligand_bank_records": 9880,
+    "protein_bank_records": 499
+  },
+  "evaluation_population": "fixed hash-selected targets within every eligible component",
+  "gate_authorization": {
+    "G2": false,
+    "G3a": false,
+    "G3b": false
+  },
+  "schema": "MetaSieve.QPSMPMetaSmoke.v1",
+  "scope": "implementation_smoke_only",
+  "test": {
+    "adaptation_gain_mse": 80.21062768499056,
+    "binding_did_mse": -0.019426604111989487,
+    "cross_zero_shot_abs_mean": 2.0378549297650657,
+    "episodes": 6,
+    "foreign_state_gap_mse": -0.006804868578910828,
+    "foreign_state_mse": 1.1830184708038967,
+    "frozen_mse": 81.40045102437337,
+    "full_mse": 1.1898233393828075,
+    "level_abs_mean": 9.015312512715658,
+    "level_only_mse": 1.1663414140542347,
+    "no_interaction_mse": 49.36763000488281,
+    "permuted_mse": 1.170396735270818,
+    "sar_adaptation_abs_mean": 0.011780435335822403,
+    "weighting": "equal_component_then_equal_target_then_equal_draw",
+    "wrong_protein_gap_mse": -0.0014556248982748876,
+    "wrong_protein_state_mse": 1.1883677144845326,
+    "zero_state_mse": 1.18111485739549
+  },
+  "training": {
+    "best_step": 20,
+    "best_val_component_target_mse": 0.8422032298520208,
+    "loss_trace": [
+      0.5107247829437256,
+      3.7996997833251953,
+      0.9168074727058411,
+      1.615133285522461,
+      0.4728010594844818,
+      0.1698804348707199,
+      1.2915054559707642,
+      1.3347989320755005,
+      1.039789080619812,
+      1.0177698135375977,
+      2.2601006031036377,
+      0.7321109175682068,
+      0.36658549308776855,
+      1.2449135780334473,
+      0.9315789937973022,
+      1.0650839805603027,
+      1.2737805843353271,
+      1.401814341545105,
+      1.9372012615203857,
+      1.0129311084747314
+    ],
+    "validation_episode_bank_size": 10
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "MetaSieve.StageR8StrongerShape.v1",
+  "stage": "R8 (stronger shape signal on the A3 configuration)",
+  "date": "2026-08-16",
+  "population": {"split": "meta_val", "targets": 41, "components": 19, "evaluation_seed": 73101, "query_size": 16},
+  "meta_test": {"opened": false, "evaluated": false},
+  "arms": {
+    "A0": "frozen R3R4 incumbent checkpoints, 1200 steps, 3 seeds",
+    "A3": "R7 best arm: routed + counterfactual + relative + ranking, no gate, 1200 steps, 3 seeds",
+    "B1": "A3 with shape_variance_weight 1.5 and relative_loss_weight 1.0, 1200 steps, 3 seeds"
+  },
+  "summary_3seed_mean": {
+    "A0": {"k0_mse": 2.149, "k0_ci": 0.580, "k0_spearman": 0.223, "k0_calib": 1.236, "k0_shape": 0.913, "k5_cliff_sign": 0.675},
+    "A3": {"k0_mse": 2.197, "k0_ci": 0.551, "k0_spearman": 0.136, "k0_calib": 1.292, "k0_shape": 0.905, "k5_cliff_sign": 0.676},
+    "B1": {"k0_mse": 2.167, "k0_ci": 0.535, "k0_spearman": 0.096, "k0_calib": 1.271, "k0_shape": 0.896, "k5_cliff_sign": 0.768}
+  },
+  "b1_vs_a0_bootstrap": {"k0_mse": [-0.018, [-0.243, 0.229]], "k0_ci": [-0.045, [-0.014, 0.109]]},
+  "gates": {
+    "Z1_prime": {"result": "fail", "value": -0.008, "threshold": -0.02},
+    "Z5_prime": {"result": "fail", "ci_delta": -0.045, "tolerance": 0.02},
+    "S_shape": {"result": "pass", "a3_shape": 0.905, "b1_shape": 0.896},
+    "S_corr": {"result": "pass", "a3_k0": 2.197, "b1_k0": 2.167}
+  },
+  "verdict": "family_closed_for_double_cold_zero_shot_target",
+  "meta_test_opened": false,
+  "retained_positive_findings": [
+    "shape-first training is the project's first measured shape source (0.943 -> 0.896)",
+    "k=5 activity-cliff sign accuracy 0.768, best recorded (A0 0.675)",
+    "attention-pooled routed level converges to incumbent calibration at full budget (1.271 vs 1.236)",
+    "gradient-level verification of routing, counterfactuals, identifiability pin"
+  ],
+  "next_cycle_handoff": "retain B1's shape gain without the CI regression and with better-than-A0 calibration; candidates: support-conditioned calibration at k>=1 only, LambdaRank-style pair weighting, budget scaling"
+}

@@ -1,0 +1,60 @@
+{
+  "name": "stageR12_margin_20260816",
+  "smoke": {
+    "output_root": "D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\smoke",
+    "trainers": ["scripts.train_reltransport"]
+  },
+  "runs": [
+    {"name": "D2_margin_seed20260815",
+     "trainer": "scripts.train_reltransport",
+     "args": ["--no-gate", "--shape-variance-weight", "1.5",
+              "--relative-loss-weight", "1.0", "--cliff-pair-weight", "2.0",
+              "--ranking-loss", "margin", "--ranking-margin", "0.1",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260815",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260815"]},
+    {"name": "D2_margin_seed20260816",
+     "trainer": "scripts.train_reltransport",
+     "args": ["--no-gate", "--shape-variance-weight", "1.5",
+              "--relative-loss-weight", "1.0", "--cliff-pair-weight", "2.0",
+              "--ranking-loss", "margin", "--ranking-margin", "0.1",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260816",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260816"]},
+    {"name": "D2_margin_seed20260817",
+     "trainer": "scripts.train_reltransport",
+     "args": ["--no-gate", "--shape-variance-weight", "1.5",
+              "--relative-loss-weight", "1.0", "--cliff-pair-weight", "2.0",
+              "--ranking-loss", "margin", "--ranking-margin", "0.1",
+              "--steps", "1200", "--episodes-per-step", "3",
+              "--val-interval", "200", "--seed", "20260817",
+              "--split-directory",
+              "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+              "--output",
+              "D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260817"]}
+  ],
+  "compare": {
+    "trainer": "scripts.stageR6_compare_arms",
+    "args": [
+      "--split-directory",
+      "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt",
+      "--arm", "A0=D:\\MetaSieve\\report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt",
+      "--arm", "C2=D:\\MetaSieve\\report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260815\\checkpoint.pt",
+      "--arm", "C2=D:\\MetaSieve\\report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260816\\checkpoint.pt",
+      "--arm", "C2=D:\\MetaSieve\\report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260817\\checkpoint.pt",
+      "--arm", "D2=D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260815\\checkpoint.pt",
+      "--arm", "D2=D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260816\\checkpoint.pt",
+      "--arm", "D2=D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\D2_margin_seed20260817\\checkpoint.pt",
+      "--reference", "A0",
+      "--output", "D:\\MetaSieve\\report\\meta_fewshot\\stageR12_margin_20260816\\COMPARE_R12_meta_val.json"
+    ]
+  }
+}

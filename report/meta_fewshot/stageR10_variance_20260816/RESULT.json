@@ -1,0 +1,15 @@
+{
+  "schema": "MetaSieve.StageR10Variance.v1",
+  "stage": "R10 (shape-variance reduction on the C1 base)",
+  "date": "2026-08-16",
+  "population": {"split": "meta_val", "targets": 41, "components": 19},
+  "meta_test": {"opened": false, "evaluated": false},
+  "summary_3seed_mean": {
+    "A0": {"k0_mse": 2.149, "k0_ci": 0.580, "k0_calib": 1.236, "k0_shape": 0.913, "k5_cliff_sign": 0.675},
+    "C1": {"k0_mse": 2.235, "k0_ci": 0.562, "k0_calib": 1.332, "k0_shape": 0.903, "k5_cliff_sign": 0.782},
+    "D1": {"k0_mse": 2.285, "k0_ci": 0.552, "k0_calib": 1.358, "k0_shape": 0.927, "k5_cliff_sign": 0.694}
+  },
+  "gates": {"G1": "fail", "G2": "fail", "G3": "fail", "G4": "fail"},
+  "verdict": "variance_term_hypothesis_falsified; next variable = shape parameterization (R11 grammar-trunk shape-first)",
+  "meta_test_opened": false
+}

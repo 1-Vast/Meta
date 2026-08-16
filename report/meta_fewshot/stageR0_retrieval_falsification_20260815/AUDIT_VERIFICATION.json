@@ -1,0 +1,130 @@
+{
+  "findings": {
+    "10_esm_similarity_compression": {
+      "claim": "raw pooled ESM cosine similarities are highly compressed, so the current experiment does not rule out all protein representations",
+      "raw_cosine": {
+        "max": 0.9963020086288452,
+        "mean": 0.8969177007675171,
+        "p01": 0.7656070560216903,
+        "p99": 0.979400166273117,
+        "std": 0.05009187012910843,
+        "top16_spread": 0.023533230647444725
+      },
+      "train_centered_cosine": {
+        "max": 0.9526650905609131,
+        "mean": -0.005938661750406027,
+        "p01": -0.5838509076833724,
+        "p99": 0.8549493986368177,
+        "std": 0.31962817907333374,
+        "top16_spread": 0.2382829636335373
+      },
+      "train_whitened_cosine": {
+        "max": 0.7737219333648682,
+        "mean": 0.00026947143487632275,
+        "p01": -0.11515536427497863,
+        "p99": 0.20190145835280413,
+        "std": 0.06237206980586052,
+        "top16_spread": 0.4202774167060852
+      },
+      "verdict": "CONFIRMED"
+    },
+    "11_meta_test_status": {
+      "claim": "the previous meta_test split has been inspected many times and may not be used for selection or as a pristine confirmation set",
+      "verdict": "ACCEPTED_AS_POLICY"
+    },
+    "1_status": {
+      "basis": "selection and inference used the same population; see finding 2",
+      "claim": "Stage C's 12.3% is a meta_val development result, not confirmed",
+      "verdict": "ACCEPTED_AS_POLICY"
+    },
+    "2_selection_on_inference_data": {
+      "basis": "stage10_retrieval_prior.py sweeps three sources x five weights on meta_val and BOOTSTRAP_meta_val.json resamples that same population; no outer fold separates selection from inference",
+      "claim": "beta=24, retrieval source and w=0.5 were selected on the same meta_val data used for the bootstrap",
+      "verdict": "CONFIRMED"
+    },
+    "3_population": {
+      "claim": "Stage C contains 44 targets and 10 protein components",
+      "components": 10,
+      "targets": 44,
+      "verdict": "CONFIRMED"
+    },
+    "4_component_direction": {
+      "claim": "only 6 of 10 components improve",
+      "improving": 6,
+      "per_component_mse_reduction": {
+        "03980af349b4e44c1cfb0ae424bb60f2fcd30da8c5e5a460156d6c4a85e6f8c2": -0.11020136695037491,
+        "28efbc7b86d5edc9a982df15fb48d5fc552e0139b6759eaad3d3e9b8d470408b": 0.08343787469019529,
+        "578e395536ef90ecb42e1ebc3af3178e316cc1853c358cad50611c34a8a00206": -0.05900337903940759,
+        "690931ef2522ab6c1c7bdeb61fc5442ce45dc69ccb27550a4ec3bbcc8d02b976": 0.041294712725410944,
+        "7ccb784145877f7788f4036eff901ee7f9f7866d868ef693a925047c553308a6": -0.154680081149987,
+        "85337d0ebf907c72d949249f97ea97712a1fb6fa8b7e9c50e18045e16ef4a9b3": 0.40546710000229214,
+        "bc8480698005ce1a03dc37ec1b4b3116c39f9e555bda084647b414dd254567b1": -0.012009681831553876,
+        "d3014b5147947cf87e217c7263143f363fb8e719f240cf4cfb9b381b6ac1c98e": 0.39561155925021957,
+        "edb7224e7ddcbb6707094534679fa557a04b1f7799d0965a4cb5e90fdd1f4e77": 0.4649257625336441,
+        "f1f002ace5bc98012e92d0b3305041e9649ca28275f69e600c4793e2c3c0f958": 0.9204574937818887
+      },
+      "total": 10,
+      "verdict": "CONFIRMED"
+    },
+    "5_exact_ligand_overlap": {
+      "claim": "305/624 Stage C query cells (48.9%) have the exact ligand in meta_train",
+      "exact_in_meta_train": 305,
+      "fraction": 0.48878205128205127,
+      "query_cells": 624,
+      "verdict": "CONFIRMED"
+    },
+    "6_ligand_disjoint_subset": {
+      "all_targets_bootstrap": {
+        "components": 10,
+        "hi": 0.4050712443786754,
+        "lo": 0.01551667000107134,
+        "mean": 0.19752999940123273
+      },
+      "bootstrap": {
+        "components": 5,
+        "hi": 0.1747391374642695,
+        "lo": -0.07367959882703463,
+        "mean": 0.050184191819255465
+      },
+      "claim": "on completely ligand-disjoint targets the improvement is small and statistically unresolved",
+      "disjoint_targets": 12,
+      "evaluated_targets": 12,
+      "verdict": "CONFIRMED"
+    },
+    "7_transductive_upper_bound": {
+      "basis": "stage9_k0_decomposition.py builds retrieval[shape|level] as shape - shape.mean() + level.mean(); both means are over the query panel of the episode, so the predictor is transductive",
+      "claim": "Stage A's 25.5% composed retrieval uses query-panel means",
+      "verdict": "CONFIRMED"
+    },
+    "8_offline_evaluator": {
+      "basis": "the blend exists only in scripts/stage10_retrieval_prior.py; no ARCHITECTURES entry, no checkpoint tensor, and scripts/evaluate_qpsmp.py does not compute it",
+      "claim": "the retrieval prior is an offline evaluator, not part of the model, checkpoint or standard evaluation path",
+      "verdict": "CONFIRMED"
+    },
+    "9_transport_beta": {
+      "checkpoints": {
+        "arm_F_similarity_only": {
+          "arch": "similarity_only",
+          "log_shrinkage": 1.8014049530029297,
+          "similarity_scale": 7.984881401062012
+        },
+        "seed20260813_F_similarity_only": {
+          "arch": "similarity_only",
+          "log_shrinkage": 1.800769329071045,
+          "similarity_scale": 7.9897332191467285
+        },
+        "seed20260814_F_similarity_only": {
+          "arch": "similarity_only",
+          "log_shrinkage": 1.778367519378662,
+          "similarity_scale": 7.974252700805664
+        }
+      },
+      "claim": "w=0 is only numerically close to the checkpoint baseline because the script uses beta=8 instead of the learned similarity scale",
+      "max_abs_difference": 0.025747299194335938,
+      "script_transport_beta": 8.0,
+      "verdict": "CONFIRMED"
+    }
+  },
+  "rows": "report\\meta_fewshot\\stage10_retrieval_prior_20260815\\BLEND_meta_val.rows.jsonl",
+  "schema": "MetaSieve.Stage10AuditVerification.v1"
+}

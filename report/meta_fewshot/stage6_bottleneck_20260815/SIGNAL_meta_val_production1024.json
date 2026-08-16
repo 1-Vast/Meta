@@ -1,0 +1,48 @@
+{
+  "draws_per_target": 3,
+  "estimator_mse_pk": {
+    "1": {
+      "episodes": 132,
+      "mean_max_tanimoto": 0.36264152149714174,
+      "nearest_support": 1.7488477221420708,
+      "oracle_best_support": 1.7488477221420708,
+      "oracle_target_mean": 0.6147640675800521,
+      "similarity_softmax": 1.7488477221420708,
+      "support_mean": 1.7488477221420708
+    },
+    "2": {
+      "episodes": 132,
+      "mean_max_tanimoto": 0.4381774032175068,
+      "nearest_support": 1.028410172134238,
+      "oracle_best_support": 0.5703801371270032,
+      "oracle_target_mean": 0.6147640675800521,
+      "similarity_softmax": 0.9756061702745977,
+      "support_mean": 1.1629664397255792
+    },
+    "3": {
+      "episodes": 132,
+      "mean_max_tanimoto": 0.48556537435168307,
+      "nearest_support": 0.8784314910922841,
+      "oracle_best_support": 0.3571147302987233,
+      "oracle_target_mean": 0.6147640675800521,
+      "similarity_softmax": 0.8864621126792931,
+      "support_mean": 1.0955997896291394
+    },
+    "5": {
+      "episodes": 132,
+      "mean_max_tanimoto": 0.5371024062780161,
+      "nearest_support": 0.7327738992374717,
+      "oracle_best_support": 0.18636038077985448,
+      "oracle_target_mean": 0.6147640675800521,
+      "similarity_softmax": 0.7467463207071765,
+      "support_mean": 1.0015700847750182
+    }
+  },
+  "evaluation_seed": 73101,
+  "fingerprint": "Morgan r=2 1024 bits, Tanimoto, softmax beta=8.0",
+  "matches_production_pipeline": true,
+  "note": "oracle_best_support selects the best support using query labels; it is an upper bound on any selection mechanism, not a deployable predictor",
+  "schema": "MetaSieve.TransferableSignalAudit.v1",
+  "split": "meta_val",
+  "within_target_similarity_vs_abs_affinity_gap_pearson": -0.34913323973493965
+}

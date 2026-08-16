@@ -1,0 +1,52 @@
+{
+  "schema": "MetaSieve.StageR7FormalDevelopment.v1",
+  "stage": "R7 (Stage 3 three-seed formal validation)",
+  "date": "2026-08-16",
+  "population": {"split": "meta_val", "targets": 41, "components": 19, "evaluation_seed": 73101, "query_size": 16},
+  "meta_test": {"opened": false, "evaluated": false},
+  "arms": {
+    "A0": "frozen R3R4 incumbent similarity_only checkpoints, 1200 steps, seeds 20260815/16/17",
+    "A1": "relative-transport trunk, ordinary training, 1200 steps, 3 seeds",
+    "A2": "relative-transport trunk, full method (routed shape-first + counterfactuals + rho gate), 1200 steps, 3 seeds",
+    "A3": "A2 without the rho gate, 1200 steps, 3 seeds"
+  },
+  "summary_3seed_mean": {
+    "A0": {"k0_mse": 2.149, "k0_ci": 0.580, "k0_spearman": 0.223, "k0_calib": 1.236, "k0_shape": 0.913, "k5_mse": 0.915},
+    "A1": {"k0_mse": 2.519, "k0_ci": 0.520, "k0_spearman": 0.059, "k0_calib": 1.576, "k0_shape": 0.943, "k5_mse": 0.958},
+    "A2": {"k0_mse": 2.420, "k0_ci": 0.542, "k0_spearman": 0.114, "k0_calib": 1.525, "k0_shape": 0.895, "k5_mse": 0.907},
+    "A3": {"k0_mse": 2.197, "k0_ci": 0.551, "k0_spearman": 0.136, "k0_calib": 1.292, "k0_shape": 0.905, "k5_mse": 1.092}
+  },
+  "a2_vs_a0_bootstrap": {
+    "k0_mse": [-0.271, [-0.683, 0.091]],
+    "k1_mse": [-0.399, [-0.745, -0.103]],
+    "k2_mse": [-0.247, [-0.434, -0.097]],
+    "k3_mse": [-0.081, [-0.199, 0.022]],
+    "k5_mse": [0.009, [-0.045, 0.061]]
+  },
+  "gates": {
+    "Z1": {"result": "fail", "value": -0.126, "target": "+0.10"},
+    "Z2": {"result": "fail", "lower_bound": -0.683},
+    "Z3": {"result": "fail", "seeds_k0": [2.130, 2.399, 2.730]},
+    "Z4": {"result": "fail", "tier_lt40": "2.373 vs 2.103"},
+    "Z5": {"result": "fail", "ci_delta": -0.038, "spearman": "0.114 vs 0.223"},
+    "Z6": {"result": "fail_at_k0", "wrong_protein_mse": 2.312, "full_mse": 2.420},
+    "Z7": {"result": "pass", "interaction_cut_worse": true},
+    "F1": {"result": "pass", "query_specific": "structural + 23 Stage 1 gates"},
+    "F2": {"result": "fail", "level_only_gap": -0.458},
+    "F3": {"result": "pass", "permuted_gap_k1": 0.65},
+    "F4": {"result": "pass", "support_replacement_moves_prediction": true},
+    "F5": {"result": "fail", "ci_k1": 0.542, "ci_k0": 0.542},
+    "G1": {"result": "fail_at_k23", "level_only_gaps": [-0.458, -0.358, -0.225, 0.02]},
+    "G2": {"result": "fail", "nogate_gap": "~0.000 (gate eval-inert)"},
+    "G3": {"result": "pass", "permuted_gaps": [0.70, 0.24, 0.18, 0.38]},
+    "G4": {"result": "fail", "ci_spearman_worse_at_k0_3": true},
+    "G5": {"result": "inconclusive"},
+    "T1": {"result": "pass_point_estimate", "a2_vs_a1_k0": 0.099},
+    "T2": {"result": "pass", "shape_a1": 0.943, "shape_a2": 0.895},
+    "T3": {"result": "fail", "reason": "total A2-vs-A0 change negative"},
+    "T4": {"result": "not_evaluable"}
+  },
+  "verdict": "admission_refused",
+  "meta_test_opened": false,
+  "next_hypothesis": "R8: A3 configuration exactly, shape_variance_weight 1.5 and relative_loss_weight 1.0 (stronger shape signal, no query-specific gate), 3 seeds, 1200 steps, gates Z1-Z7 unchanged; failure closes the model family for the double-cold k=0 target."
+}

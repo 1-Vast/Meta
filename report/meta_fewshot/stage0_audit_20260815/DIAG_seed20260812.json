@@ -1,0 +1,300 @@
+{
+  "activation_scales": {
+    "adaptation": {
+      "abs_mean": 0.47832639515399933,
+      "abs_mean_std": 0.2957938460703117
+    },
+    "additive": {
+      "abs_mean": 0.1404840750619769,
+      "abs_mean_std": 0.047497776467394344
+    },
+    "cross_zero_shot": {
+      "abs_mean": 0.24779322743415833,
+      "abs_mean_std": 0.061331910962796284
+    },
+    "level_adjustment": {
+      "abs_mean": 0.47527872771024704,
+      "abs_mean_std": 0.3025418415048835
+    },
+    "ligand_only": {
+      "abs_mean": 0.13867509458214045,
+      "abs_mean_std": 0.025620586724341057
+    },
+    "query_primitive": {
+      "abs_mean": 0.49127985164523125,
+      "abs_mean_std": 0.00028778854378949106
+    },
+    "sar_adaptation": {
+      "abs_mean": 0.03714494360610843,
+      "abs_mean_std": 0.023730666654740055
+    },
+    "support_residual": {
+      "abs_mean": 0.5557038821280003,
+      "abs_mean_std": 0.23703020683000728
+    },
+    "task_state": {
+      "abs_mean": 0.2170755248516798,
+      "abs_mean_std": 0.1308854304889892
+    },
+    "zero_shot": {
+      "abs_mean": 0.24779322743415833,
+      "abs_mean_std": 0.061331910962796284
+    }
+  },
+  "checkpoint": "D:\\MetaSieve\\report\\meta_fewshot\\stageE_no_warmup_seed20260812_100step\\checkpoint.pt",
+  "device": "cuda",
+  "gradient_coverage": {
+    "0": {
+      "dead_parameter_count": 23,
+      "dead_parameters": [
+        "meta.ligand_baseline.0.bias",
+        "meta.ligand_baseline.0.weight",
+        "meta.ligand_baseline.2.bias",
+        "meta.ligand_baseline.2.weight",
+        "meta.protein_level.0.bias",
+        "meta.protein_level.0.weight",
+        "meta.protein_level.2.bias",
+        "meta.protein_level.2.weight",
+        "meta.term.interaction_key.0.bias",
+        "meta.term.interaction_key.0.weight",
+        "meta.term.interaction_key.1.weight",
+        "meta.term.local_scale_logit",
+        "meta.term.log_shrinkage",
+        "meta.term.log_temperature",
+        "meta.term.state.weight",
+        "pair_section.latent.interaction.response_weight",
+        "pair_section.latent.section.weight",
+        "protein_encoder.norm.bias",
+        "protein_encoder.norm.weight",
+        "protein_encoder.proj.0.bias",
+        "protein_encoder.proj.0.weight",
+        "protein_encoder.proj.2.bias",
+        "protein_encoder.proj.2.weight"
+      ],
+      "global_grad_norm": 11.781202279656249,
+      "grad_norm_by_module": {
+        "ligand_encoder": 6.519888289182302,
+        "meta": 7.219788981739098,
+        "pair_section": 6.6134733570716895,
+        "protein_encoder": 0.6514308864029934,
+        "residue_key": 0.004299241118133068,
+        "residue_query": 0.004514641594141722
+      },
+      "loss_mean": 1.0198560953140259,
+      "nonfinite_parameters": []
+    },
+    "1": {
+      "dead_parameter_count": 22,
+      "dead_parameters": [
+        "meta.ligand_baseline.0.bias",
+        "meta.ligand_baseline.0.weight",
+        "meta.ligand_baseline.2.bias",
+        "meta.ligand_baseline.2.weight",
+        "meta.protein_level.0.bias",
+        "meta.protein_level.0.weight",
+        "meta.protein_level.2.bias",
+        "meta.protein_level.2.weight",
+        "meta.term.interaction_key.0.bias",
+        "meta.term.interaction_key.0.weight",
+        "meta.term.interaction_key.1.weight",
+        "meta.term.local_scale_logit",
+        "meta.term.log_temperature",
+        "meta.term.state.weight",
+        "pair_section.latent.interaction.response_weight",
+        "pair_section.latent.section.weight",
+        "protein_encoder.norm.bias",
+        "protein_encoder.norm.weight",
+        "protein_encoder.proj.0.bias",
+        "protein_encoder.proj.0.weight",
+        "protein_encoder.proj.2.bias",
+        "protein_encoder.proj.2.weight"
+      ],
+      "global_grad_norm": 4.478609667391898,
+      "grad_norm_by_module": {
+        "ligand_encoder": 2.476538945181931,
+        "meta": 2.7379360145086613,
+        "pair_section": 2.528386679581979,
+        "protein_encoder": 0.1888304531613678,
+        "residue_key": 0.002173386048525572,
+        "residue_query": 0.002218371955677867
+      },
+      "loss_mean": 0.1911810263991356,
+      "nonfinite_parameters": []
+    },
+    "2": {
+      "dead_parameter_count": 17,
+      "dead_parameters": [
+        "meta.ligand_baseline.0.bias",
+        "meta.ligand_baseline.0.weight",
+        "meta.ligand_baseline.2.bias",
+        "meta.ligand_baseline.2.weight",
+        "meta.protein_level.0.bias",
+        "meta.protein_level.0.weight",
+        "meta.protein_level.2.bias",
+        "meta.protein_level.2.weight",
+        "meta.term.state.weight",
+        "pair_section.latent.interaction.response_weight",
+        "pair_section.latent.section.weight",
+        "protein_encoder.norm.bias",
+        "protein_encoder.norm.weight",
+        "protein_encoder.proj.0.bias",
+        "protein_encoder.proj.0.weight",
+        "protein_encoder.proj.2.bias",
+        "protein_encoder.proj.2.weight"
+      ],
+      "global_grad_norm": 21.264336626044056,
+      "grad_norm_by_module": {
+        "ligand_encoder": 10.825062363246088,
+        "meta": 13.5086423105844,
+        "pair_section": 12.316202102670621,
+        "protein_encoder": 0.9042527027104961,
+        "residue_key": 0.007275489158928394,
+        "residue_query": 0.007732096128165722
+      },
+      "loss_mean": 0.6473178714513779,
+      "nonfinite_parameters": []
+    },
+    "3": {
+      "dead_parameter_count": 17,
+      "dead_parameters": [
+        "meta.ligand_baseline.0.bias",
+        "meta.ligand_baseline.0.weight",
+        "meta.ligand_baseline.2.bias",
+        "meta.ligand_baseline.2.weight",
+        "meta.protein_level.0.bias",
+        "meta.protein_level.0.weight",
+        "meta.protein_level.2.bias",
+        "meta.protein_level.2.weight",
+        "meta.term.state.weight",
+        "pair_section.latent.interaction.response_weight",
+        "pair_section.latent.section.weight",
+        "protein_encoder.norm.bias",
+        "protein_encoder.norm.weight",
+        "protein_encoder.proj.0.bias",
+        "protein_encoder.proj.0.weight",
+        "protein_encoder.proj.2.bias",
+        "protein_encoder.proj.2.weight"
+      ],
+      "global_grad_norm": 2.7819421152056716,
+      "grad_norm_by_module": {
+        "ligand_encoder": 1.975470960976866,
+        "meta": 1.3135760779007857,
+        "pair_section": 1.4438825388168164,
+        "protein_encoder": 0.16257323546907057,
+        "residue_key": 0.0018785669235512614,
+        "residue_query": 0.001982537331059575
+      },
+      "loss_mean": 0.33974356204271317,
+      "nonfinite_parameters": []
+    },
+    "5": {
+      "dead_parameter_count": 17,
+      "dead_parameters": [
+        "meta.ligand_baseline.0.bias",
+        "meta.ligand_baseline.0.weight",
+        "meta.ligand_baseline.2.bias",
+        "meta.ligand_baseline.2.weight",
+        "meta.protein_level.0.bias",
+        "meta.protein_level.0.weight",
+        "meta.protein_level.2.bias",
+        "meta.protein_level.2.weight",
+        "meta.term.state.weight",
+        "pair_section.latent.interaction.response_weight",
+        "pair_section.latent.section.weight",
+        "protein_encoder.norm.bias",
+        "protein_encoder.norm.weight",
+        "protein_encoder.proj.0.bias",
+        "protein_encoder.proj.0.weight",
+        "protein_encoder.proj.2.bias",
+        "protein_encoder.proj.2.weight"
+      ],
+      "global_grad_norm": 5.115523396678294,
+      "grad_norm_by_module": {
+        "ligand_encoder": 3.5187850183886007,
+        "meta": 2.785925261859324,
+        "pair_section": 2.4476780377251113,
+        "protein_encoder": 0.18498860702164005,
+        "residue_key": 0.0013190842000767589,
+        "residue_query": 0.001323097967542708
+      },
+      "loss_mean": 0.3167033940553665,
+      "nonfinite_parameters": []
+    }
+  },
+  "label_scale": {
+    "mean": 6.464747402761763,
+    "scale": 1.5970727951488612
+  },
+  "label_structure": {
+    "meta_test": {
+      "between_target_variance_share": 0.6610609820309596,
+      "cells": 1934,
+      "mean_within_target_variance": 1.0964561857549613,
+      "targets": 50,
+      "total_variance": 3.23496596032244
+    },
+    "meta_train": {
+      "between_target_variance_share": 0.6593771758839756,
+      "cells": 12633,
+      "mean_within_target_variance": 0.8688067154671951,
+      "targets": 399,
+      "total_variance": 2.5506415130045967
+    }
+  },
+  "learned_kernel_scalars": {
+    "local_scale": 0.500810980796814,
+    "shrinkage_prior_strength": 1.996940016746521,
+    "temperature": 5.003273010253906
+  },
+  "oracle_ceilings": {
+    "0": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": null
+    },
+    "1": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 2.3613444903268044
+    },
+    "2": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.873100025014592
+    },
+    "3": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.5452329006934304
+    },
+    "5": {
+      "episodes": 6,
+      "oracle_target_mean_mse": 1.0958025812759349,
+      "support_mean_mse": 1.2877496219591957
+    }
+  },
+  "parameters": {
+    "by_module": {
+      "ligand_encoder": 684292,
+      "meta": 261893,
+      "pair_section": 2485440,
+      "protein_encoder": 283584,
+      "residue_key": 36864,
+      "residue_query": 36864
+    },
+    "total": 3788937,
+    "trainable": 3788937
+  },
+  "peak_cuda_memory_mb": 546.03271484375,
+  "protein_sensitivity": {
+    "episodes": 8,
+    "ligand_only_protein_swap_abs_delta_pk": 0.0,
+    "wrong_protein_zero_shot_gap_mse_pk": 0.005575597286224365,
+    "wrong_protein_zero_shot_mse_pk": 4.191059336066246,
+    "zero_shot_mse_pk": 4.185483738780022,
+    "zero_shot_protein_swap_abs_delta_pk": 0.00927504183167007,
+    "zero_shot_within_episode_std_pk": 0.06503369840267159
+  },
+  "schema": "MetaSieve.QPSMPStage0Diagnostics.v1",
+  "wall_seconds": 23.79699999999866
+}
