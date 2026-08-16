@@ -9781,3 +9781,61 @@ CLIFF_SIGN_0782_SCOPE=meta_val_development_on_pareto_dominated_C1
 SUITE_DEFAULT=413_passed_9_skipped_105s
 SUITE_RESEARCH_GATES=416_passed_3_skipped_2_xfailed_410s
 ```
+
+### Stage R14 Phase 2 (2026-08-16): the ordering coefficient is the only lever
+
+Before implementing anything, a no-training decomposition of the frozen
+checkpoints (scripts/r14_dispersion_audit.py) split the within-target shape
+term exactly into an ordering floor Var(y)(1-r^2) and an amplitude excess
+(sd_p - r*sd_y)^2, where r is the within-target Pearson correlation. The
+audit reproduces the retained authority exactly (A0 k=0 MSE 2.1488,
+calibration 1.2358, shape 0.9130) under equal-component weighting. The split
+matters because a positive rescale is monotone within a target: it moves MSE
+and cannot change CI, Spearman or sign accuracy at all. The R7-R13 ladder
+tracked CI and cliff sign, which are rank statistics dominated by easy
+large-gap pairs, and never tracked r, which is what enters the MSE.
+
+The result reverses a standing reading of the cycle. Across all eight arms
+the plain MSE-trained incumbent A0 has the LOWEST irreducible ordering error
+in the project (floor 0.692, r 0.213); every shape-first or ranking-primary
+arm is worse, without exception. The attribution is clean because G1 is the
+incumbent architecture with zero changes trained by the shape-first method:
+it takes r from 0.213 to 0.134, a 37% loss. The damage is specific to k=0 —
+at k=5 the floors converge and G1 slightly beats A0 (0.631 vs 0.646).
+
+That forces a correction to a retained claim. B1's "best-ever shape term"
+(0.896 vs A0's 0.913) is not an ordering gain but shrinkage: its ordering
+floor is 0.735 against A0's 0.692, offset by 0.060 less amplitude excess.
+Shape-first training is a measured amplitude-suppression source at k=0, not
+a within-target shape source. The activity-cliff records stand as
+measurements and are compatible with poor global correlation, because cliff
+pairs are the high-similarity large-gap pairs.
+
+The model-side candidate for R14 — a protein-conditioned amplitude head —
+was falsified before implementation by two independent tests. A single
+global rescale fitted leave-one-component-out makes k=0 MSE worse for six of
+eight arms. The per-target oracle rescale is worth 0.221 MSE (2.1488 ->
+1.9280, which would by itself clear Z1), but the optimal scale has IQR
+[0.02, 5.36], is negative in 25.2% of targets — meaning a quarter of targets
+are ordered backwards, so learning it would be an ordering fix disguised as
+an amplitude one — and is numerically unstable wherever sd_p is small. It is
+dropped and not replaced; substituting an unmeasured alternative to preserve
+a two-innovation shape would be the auxiliary decoration the mandate forbids.
+
+What survives is a single, sharply specified target: at the MSE-optimal
+amplitude the shape term equals the ordering floor, so achievable k=0 MSE =
+calibration + 0.725*(1-r^2). Raising r is the only move that improves MSE and
+CI together, and R14 carries one core innovation aimed at exactly that — a
+training objective whose ranking term cannot trade r away for coarse rank
+statistics. meta_test remains sealed and unopened.
+
+```text
+R14_D_ORDERING_FLOOR_MIN_ARM=A0_incumbent_0.6922
+R14_D_ARMS_WORSE_THAN_INCUMBENT_ON_ORDERING=8_of_8
+R14_D_SAME_ARCH_ATTRIBUTION_G1_vs_A0_r=0.134_vs_0.213
+R14_D_B1_SHAPE_GAIN_IS_SHRINKAGE=ordering+0.043_amplitude-0.060
+R14_D_GLOBAL_RESCALE_HELPS=2_of_8_arms_max_0.023
+R14_D_PERTARGET_ORACLE_RESCALE=2.1488->1.9280_but_negative_scale_in_25.2%_of_targets
+R14_D_PROTEIN_CONDITIONED_AMPLITUDE=dropped_before_implementation
+R14_CORE_INNOVATIONS=1_training_only
+```

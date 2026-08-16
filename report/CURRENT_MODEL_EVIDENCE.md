@@ -523,14 +523,17 @@ reports: `meta_fewshot/stageR{5..9}_*/`.
    training gradients disturb calibration. It is the seventh query-specific
    channel in the project with that signature, now under ranking-primary
    objectives, so the objective is no longer the explanation.
-3. **The shape-first training method is the project's first real
-   within-target shape source** (measured, R7/R8): same-architecture shape
-   term 0.943 -> 0.896, k=0 cliff sign 0.512 -> 0.598, k=5 cliff sign 0.675
-   -> 0.768 (best on record). It did not convert into a global CI or k=0
-   MSE gain: R8's best arm ties A0 at k=0 (2.167 vs 2.149) while CI
-   regresses (0.535 vs 0.580), so the family was closed for the double-cold
-   zero-shot target under its preregistered rule. `meta_test` was never
-   opened.
+3. **The shape-first training method suppresses amplitude; it does not
+   improve within-target ordering at k=0.** *(Corrected 2026-08-16 by the
+   R14 Phase 2 decomposition — the earlier reading of this row, "the
+   project's first real within-target shape source", was causally wrong.)*
+   The measured shape term did improve (0.943 -> 0.896 same-architecture),
+   and k=5 cliff sign reached 0.768, but the exact split
+   `shape = Var(y)(1-r²) + (sd_p - r·sd_y)²` shows B1 bought that with
+   **worse** ordering: irreducible ordering floor 0.735 against A0's 0.692,
+   offset by 0.060 less amplitude excess. Across all eight arms the plain
+   MSE-trained incumbent has the **lowest** ordering floor in the project.
+   See `meta_fewshot/stageR14_diagnostics_20260816/`.
 4. **The pair-level audit localizes the CI regression** (R9,
    `stageR9_cliffweight_20260816/PAIR_AUDIT_meta_val.json`): at k=0 the only
    component-resolved stratum is the **mid-similarity band

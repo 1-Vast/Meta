@@ -1,0 +1,104 @@
+{
+ "schema": "MetaSieve.StageR14Diagnostics.v1",
+ "stage": "R14 Phase 2 diagnostics (no training): ordering/amplitude decomposition of the shape term",
+ "date": "2026-08-16",
+ "training": false,
+ "population": {
+  "split": "meta_val",
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "targets": 41,
+  "components": 19,
+  "evaluation_seed": 73101,
+  "query_size": 16,
+  "seeds": [20260815, 20260816, 20260817],
+  "weighting": "equal-component then equal-target (component_target_mean)"
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "seal": "physical: QPSMPData include_meta_test=False"
+ },
+ "identity": "shape = Var(y)(1-r^2) + (sd_p - r*sd_y)^2, exact; the first term is the ordering floor, the second is removable by a positive rescale that cannot change any rank metric",
+ "reproduces_authority": {
+  "A0_k0_mse_pk": 2.1488, "A0_k0_calibration_pk": 1.2358, "A0_k0_shape_pk": 0.9130,
+  "note": "matches COMPARE_R9_meta_val.json summary exactly"
+ },
+ "k0_arms": {
+  "A0": {"training": "MSE-primary incumbent", "mse_pk": 2.1488, "calibration_pk": 1.2358, "shape_pk": 0.9130, "ordering_floor": 0.6922, "amplitude_excess": 0.2208, "pearson_r": 0.213, "dispersion_ratio": 0.180, "ci": 0.580},
+  "D1": {"training": "shape-first, variance 0.5", "mse_pk": 2.2846, "calibration_pk": 1.3578, "shape_pk": 0.9268, "ordering_floor": 0.7060, "amplitude_excess": 0.2207, "pearson_r": 0.156, "dispersion_ratio": 0.023, "ci": 0.552},
+  "C2": {"training": "shape-first, cliff weight 2", "mse_pk": 2.1195, "calibration_pk": 1.2181, "shape_pk": 0.9014, "ordering_floor": 0.7164, "amplitude_excess": 0.1851, "pearson_r": 0.148, "dispersion_ratio": 0.142, "ci": 0.548},
+  "D2": {"training": "shape-first, hinge margin", "mse_pk": 2.1537, "calibration_pk": 1.2454, "shape_pk": 0.9083, "ordering_floor": 0.7252, "amplitude_excess": 0.1831, "pearson_r": 0.129, "dispersion_ratio": 0.084, "ci": 0.551},
+  "C1": {"training": "shape-first, cliff weight 1", "mse_pk": 2.2348, "calibration_pk": 1.3316, "shape_pk": 0.9032, "ordering_floor": 0.7314, "amplitude_excess": 0.1718, "pearson_r": 0.150, "dispersion_ratio": 0.132, "ci": 0.562},
+  "B1": {"training": "shape-first, variance 1.5", "mse_pk": 2.1666, "calibration_pk": 1.2705, "shape_pk": 0.8960, "ordering_floor": 0.7353, "amplitude_excess": 0.1607, "pearson_r": 0.096, "dispersion_ratio": 0.123, "ci": 0.535},
+  "G1": {"training": "shape-first on the incumbent trunk (zero architecture change)", "mse_pk": 2.4053, "calibration_pk": 1.4878, "shape_pk": 0.9174, "ordering_floor": 0.7514, "amplitude_excess": 0.1661, "pearson_r": 0.134, "dispersion_ratio": 0.204, "ci": 0.525},
+  "B3": {"training": "R3R4 full routed method", "mse_pk": 2.0554, "calibration_pk": 1.1309, "shape_pk": 0.9244, "ordering_floor": 0.7525, "amplitude_excess": 0.1720, "pearson_r": 0.073, "dispersion_ratio": 0.225, "ci": 0.531}
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "claim": "every ranking-primary / shape-first arm has a worse k=0 ordering floor than the plain MSE-trained incumbent",
+   "evidence": "8 of 8 arms; A0 ordering floor 0.6922 is the minimum over the whole project",
+   "grade": "development"
+  },
+  {
+   "id": "F2",
+   "claim": "the loss of within-target ordering is caused by the training method, not the architecture",
+   "evidence": "G1 is the incumbent architecture with zero changes trained by the shape-first method: k=0 Pearson r falls 0.213 -> 0.134 (-37%)",
+   "grade": "development"
+  },
+  {
+   "id": "F3",
+   "claim": "the retained 'shape-first is the project's first within-target shape source' claim is causally wrong at k=0; it is an amplitude-suppression source",
+   "evidence": "B1 vs A0: ordering floor +0.043 WORSE (0.735 vs 0.692), amplitude excess -0.060, net shape -0.017",
+   "grade": "development",
+   "record_action": "corrected in report/CURRENT_MODEL_EVIDENCE.md, report/BOUNDARY_20260816.md, task.md, history.md"
+  },
+  {
+   "id": "F4",
+   "claim": "a single global amplitude rescale is not a usable lever",
+   "evidence": "leave-one-component-out rescale makes k=0 MSE worse for 6 of 8 arms; the two gains (D1, D2) are <=0.023 and occur only in the most collapsed arms",
+   "grade": "development"
+  },
+  {
+   "id": "F5",
+   "claim": "a protein-conditioned amplitude head is not supported and is dropped before implementation",
+   "evidence": "the per-target oracle rescale is worth 0.221 MSE (2.1488 -> 1.9280) but the optimal scale has IQR [0.02, 5.36], is NEGATIVE in 25.2% of targets (an ordering fix, not an amplitude one), and is numerically unstable wherever sd_p is small (C2 seed-transfer diverges to 29.8)",
+   "grade": "development"
+  },
+  {
+   "id": "F6",
+   "claim": "k=0 within-target Pearson r is the only quantity that improves MSE and CI together",
+   "evidence": "at the MSE-optimal amplitude shape equals the ordering floor exactly, so achievable MSE = calibration + Var(y)(1-r^2) with Var(y) ~ 0.725",
+   "grade": "development"
+  },
+  {
+   "id": "F8",
+   "claim": "the regression-compatible ListCE contributes exactly zero gradient at the regression optimum, while RankNet and hinge do not",
+   "evidence": "200 synthetic 16-query panels: max gradient norm at s=y is 1.7e-17 for ListCE, 1.02e-01 for RankNet, 7.36e-02 for hinge; ListCE is also stationary at any positive multiple of the centered label (3.9e-18 at scale 1.7)",
+   "grade": "analytic + numerical verification",
+   "consequence": "names the mechanism behind F1/F2 — the incumbent ranking losses pull away from s=y even when the prediction is already correct — and clears the R14 design's first listed failure mode",
+   "artifact": "ALIGNMENT_CHECK.json"
+  },
+  {
+   "id": "F7",
+   "claim": "support observations do supply within-target ordering; the deficit is specific to k=0",
+   "evidence": "A0 r rises 0.213 -> 0.348 from k=0 to k=5; at k=5 the ordering floors converge across arms and G1 slightly beats A0 (0.631 vs 0.646)",
+   "grade": "development"
+  }
+ ],
+ "headroom_at_A0_calibration": {
+  "note": "k=0 MSE = 1.2358 + 0.725*(1-r^2), i.e. at the per-target optimal amplitude",
+  "r_0.213": 1.928, "r_0.30": 1.896, "r_0.40": 1.845, "r_0.50": 1.780,
+  "Z1_target": 1.934
+ },
+ "design_consequence": "one core innovation survives Phase 2 and it is a training innovation: a ranking term whose optimum coincides with the regression optimum, so it cannot trade r away for coarse rank statistics. The model-side candidate (protein-conditioned amplitude) is dropped, not replaced.",
+ "instrument": "scripts/r14_dispersion_audit.py",
+ "artifacts": [
+  "DISPERSION_meta_val.json",
+  "DISPERSION_attribution_meta_val.json",
+  "DISPERSION_rows.json",
+  "DISPERSION_rows.rows.jsonl"
+ ],
+ "narrative": "report/meta_fewshot/stageR14_diagnostics_20260816/REPORT.md"
+}
