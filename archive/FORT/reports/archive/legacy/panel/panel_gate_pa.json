@@ -1,0 +1,316 @@
+{
+  "schema": "panel-gate-pa-v1",
+  "substrate": "ChEMBL-37 doc CHEMBL1201862 pKi dense panel",
+  "preregistration": "reports/active/panel_pa_preregistration.md",
+  "thresholds": {
+    "minimum_projected_label_sd": 0.5,
+    "maximum_top1_percent_energy_fraction": 0.5,
+    "maximum_adaptive_empirical_p": 0.01,
+    "interaction_reproducibility_lcb95": 0.0,
+    "permutations": 4096
+  },
+  "source_audit": {
+    "registry_sha256": "94da6bb5a59c2911672fde982530c8dd6a673c194b2b2d7b4638df7768c8173e",
+    "registry_cells": 29291,
+    "train_cells": 12574,
+    "targets": 112,
+    "ligands": 619,
+    "homology_components": 101,
+    "documents": 1,
+    "assays": 112,
+    "assay_is_nested_in_target": true,
+    "endpoint": "pKi",
+    "only_train_split_read": true
+  },
+  "nuisance_space": {
+    "axes": [
+      "target",
+      "ligand"
+    ],
+    "columns": 731,
+    "assay_adds_no_column": true,
+    "document_is_constant": true
+  },
+  "target_ligand_graph": {
+    "unique_edges": 12574,
+    "targets": 112,
+    "ligands": 619,
+    "components": 1,
+    "cycle_rank": 11844,
+    "normalized_top_singular_values": [
+      1.0,
+      0.6086230273758622,
+      0.5331617350507312,
+      0.40809543286592476,
+      0.3614518628930156,
+      0.3329824629953008,
+      0.3274225050010721,
+      0.31587624862828645
+    ]
+  },
+  "label_projection": {
+    "raw_sd": 0.9432816767913638,
+    "projected_sd": 0.6629237424789598,
+    "variance_fraction": 0.4939060547753349,
+    "projection_audit": {
+      "converged": true,
+      "lsmr": {
+        "solver": "lsmr",
+        "istop": 2,
+        "iterations": 20,
+        "norm_residual": 74.33619056701922,
+        "norm_normal_residual": 1.0999542000096395e-10,
+        "relative_kkt_error": 1.1704113948485585e-13,
+        "kkt_converged": true
+      },
+      "lsqr": {
+        "solver": "lsqr",
+        "istop": 2,
+        "iterations": 20,
+        "norm_residual": 74.33619056701922,
+        "norm_normal_residual": 74.33619056701922,
+        "relative_kkt_error": 1.2150755696918054e-13,
+        "kkt_converged": true
+      },
+      "repeat_lsmr": {
+        "solver": "lsmr",
+        "istop": 2,
+        "iterations": 1,
+        "norm_residual": 74.33619056701932,
+        "norm_normal_residual": 2.852101029070166e-11,
+        "relative_kkt_error": 9.579137483228806e-11,
+        "kkt_converged": true
+      },
+      "relative_solver_residual_disagreement": 2.6178317932855086e-13,
+      "relative_idempotence_error": 1.448487305279678e-12,
+      "max_group_residual_sum": 2.8709035149177e-10,
+      "max_group_residual_sum_by_axis": {
+        "target": 2.8709035149177e-10,
+        "ligand": 5.191669316673142e-11
+      }
+    },
+    "energy_concentration": {
+      "target": {
+        "groups": 112,
+        "top1_percent_groups": 2,
+        "top1_percent_energy_fraction": 0.08425371907763814,
+        "effective_groups": 62.25341387239442,
+        "energy_gini": 0.4401759029085376
+      },
+      "ligand": {
+        "groups": 619,
+        "top1_percent_groups": 7,
+        "top1_percent_energy_fraction": 0.06495170922098768,
+        "effective_groups": 269.8158604915739,
+        "energy_gini": 0.5521478827916608
+      }
+    }
+  },
+  "interaction_reproducibility": {
+    "rank": 8,
+    "folds": 5,
+    "ridge": 1.0,
+    "held_out_r2": -0.01061829880849885,
+    "held_out_r2_permuted_control": -0.7121093934378893,
+    "held_out_pearson": 0.40755608631006807,
+    "mean_squared_error_gain_per_target": 0.29029322909003746,
+    "lcb95": 0.24307787636015712,
+    "ucb95": 0.33681167540189927,
+    "targets": 112
+  },
+  "features": {
+    "target": {
+      "source": "dataset\\public\\chembl_37\\processed\\dualcold\\target_esm2.npz",
+      "targets": 112,
+      "raw_dimension": 1280,
+      "dimension": 32,
+      "leading_singular_values": [
+        16.194804881255394,
+        6.869883484620437,
+        6.0249403504994055,
+        4.3609629574624496,
+        3.3369848265802617,
+        3.085250213460755,
+        2.798630639545114,
+        2.747115875035346
+      ]
+    },
+    "ligand": {
+      "source": "count-Morgan-64 plus 10 physicochemical descriptors",
+      "unique_ligands": 619,
+      "raw_dimension": 74,
+      "dimension": 64,
+      "cache_hit": false,
+      "cache": "dataset\\public\\chembl_37\\processed\\panel_metz\\pa_ligand_features.npz",
+      "ligand_hash": "f48446d47fb33b5f293117103b397e1d6b66940d79d37b40e513b85e63603e9c",
+      "leading_singular_values": [
+        2422.447338871424,
+        605.2176859611086,
+        55.224447802311005,
+        48.595486317781216,
+        43.37567510566292,
+        39.38353139206641,
+        33.67398856225402,
+        32.787717648948174
+      ]
+    }
+  },
+  "permutation_contract": {
+    "type": "label-blind graph-exposure-matched target-feature shuffle",
+    "blocks": 14,
+    "minimum_block_size": 8,
+    "maximum_block_size": 8,
+    "family_matched": false
+  },
+  "primary": {
+    "statistics": {
+      "frobenius_squared": 39462276.0,
+      "operator_squared": 14132218.0,
+      "maximum_squared": 963979.125
+    },
+    "standardized_statistics": {
+      "frobenius_squared": 7.668749809265137,
+      "operator_squared": 3.577324867248535,
+      "maximum_squared": 2.0089333057403564
+    },
+    "adaptive_statistic": 7.668749809265137,
+    "adaptive_empirical_p": 0.000488162069807176,
+    "individual_empirical_p": {
+      "frobenius_squared": 0.000244081034903588,
+      "operator_squared": 0.00122040517451794,
+      "maximum_squared": 0.043202343177935074
+    },
+    "null_mean": {
+      "frobenius_squared": 24594570.0,
+      "operator_squared": 8018830.5,
+      "maximum_squared": 581515.6875
+    },
+    "null_sd": {
+      "frobenius_squared": 1938739.25,
+      "operator_squared": 1708927.125,
+      "maximum_squared": 190381.34375
+    },
+    "leading_singular_values": [
+      3759.2841796875,
+      2293.29150390625,
+      2041.9700927734375,
+      1554.171630859375,
+      1453.009033203125,
+      1242.8704833984375,
+      1152.2735595703125,
+      1008.7734375
+    ]
+  },
+  "top1_percent_ligand_removal_diagnostic": {
+    "removed_ligands": 7,
+    "result": {
+      "statistics": {
+        "frobenius_squared": 36190856.0,
+        "operator_squared": 12700545.0,
+        "maximum_squared": 943949.0
+      },
+      "standardized_statistics": {
+        "frobenius_squared": 7.46353006362915,
+        "operator_squared": 3.3881516456604004,
+        "maximum_squared": 2.2318296432495117
+      },
+      "adaptive_statistic": 7.46353006362915,
+      "adaptive_empirical_p": 0.000488162069807176,
+      "individual_empirical_p": {
+        "frobenius_squared": 0.000244081034903588,
+        "operator_squared": 0.001464486209421528,
+        "maximum_squared": 0.031242372467659263
+      },
+      "null_mean": {
+        "frobenius_squared": 22749892.0,
+        "operator_squared": 7358737.5,
+        "maximum_squared": 537533.9375
+      },
+      "null_sd": {
+        "frobenius_squared": 1800885.625,
+        "operator_squared": 1576614.0,
+        "maximum_squared": 182099.5
+      },
+      "leading_singular_values": [
+        3563.782470703125,
+        2271.531005859375,
+        1961.279052734375,
+        1445.9886474609375,
+        1375.087890625,
+        1163.70703125,
+        1096.2489013671875,
+        968.099853515625
+      ]
+    }
+  },
+  "random_protein_control": {
+    "statistics": {
+      "frobenius_squared": 23813164.0,
+      "operator_squared": 8314707.5,
+      "maximum_squared": 509281.125
+    },
+    "standardized_statistics": {
+      "frobenius_squared": 1.1063299179077148,
+      "operator_squared": 1.2691307067871094,
+      "maximum_squared": -0.000383496459107846
+    },
+    "adaptive_statistic": 1.2691307067871094,
+    "adaptive_empirical_p": 0.2077129607029534,
+    "individual_empirical_p": {
+      "frobenius_squared": 0.13985843299975592,
+      "operator_squared": 0.1078838174273859,
+      "maximum_squared": 0.4190871369294606
+    },
+    "null_mean": {
+      "frobenius_squared": 22280012.0,
+      "operator_squared": 6684184.5,
+      "maximum_squared": 509343.25
+    },
+    "null_sd": {
+      "frobenius_squared": 1385800.0,
+      "operator_squared": 1284755.75,
+      "maximum_squared": 161996.28125
+    },
+    "leading_singular_values": [
+      2883.5234375,
+      1605.0985107421875,
+      1326.5240478515625,
+      1294.535888671875,
+      1203.3294677734375,
+      974.798095703125,
+      944.1880493164062,
+      883.9205322265625
+    ]
+  },
+  "cross_document_replication_diagnostic": {
+    "external_records_scanned": 1451,
+    "shared_cells": 489,
+    "shared_targets": 97,
+    "eligible_targets": 86,
+    "cross_document_blocks": 1668,
+    "cross_document_sign_agreement": 0.7434052757793765,
+    "median_abs_dd": 0.8999999999999995,
+    "reference_threshold": 0.65,
+    "gating": false
+  },
+  "disjoint_packing_diagnostic": {
+    "target_and_ligand_disjoint_blocks": 55,
+    "structural_upper_bound": 56,
+    "mde80_sign_accuracy_delta": 0.18888283690591717,
+    "note": "document is constant on this panel, so P0's document-disjointness cannot apply",
+    "gating": false
+  },
+  "gates": {
+    "PA1_numerical_valid": true,
+    "PA2_projected_label_sd": true,
+    "PA3_top1_energy": true,
+    "PA4_interaction_reproducibility": true,
+    "PA5_feature_alignment": true
+  },
+  "verdict": "PANEL_GATE_PA_PASS",
+  "authorizes": "panel power audit only",
+  "panel_development_labels_read": false,
+  "panel_confirmation_labels_read": false,
+  "chembl_confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

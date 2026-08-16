@@ -1,0 +1,101 @@
+{
+  "schema": "papyrus-f0-v1",
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\papyrus_f0_preregistration.md",
+    "sha256": "5820cf37d4f384454266167bde327968bec789320a837f3de76e6f1a890fb239"
+  },
+  "sources": {
+    "activity_path": "D:\\FORT\\dataset\\public\\papyrus_05_7\\raw\\05.7++_combined_set_without_stereochemistry.tsv.xz",
+    "activity_sha256": "8004e0d1027a760f205b45264386f792e7d49658da39f77f52e660a6f19760dd",
+    "targets_path": "D:\\FORT\\dataset\\public\\papyrus_05_7\\raw\\05.7_combined_set_protein_targets.tsv.xz",
+    "targets_sha256": "832e564fb82daea0e4da79abcb44834d10104229382874e79915a1288d80783c"
+  },
+  "firewall": {
+    "role": "raw_provenance_audit_only_not_model_training",
+    "current_run_fort_dev_labels_read": false,
+    "current_run_fort_confirmation_labels_read": false,
+    "project_historical_confirmation_labels_read": true,
+    "existing_confirmation_permanently_quarantined": true,
+    "sealed_test_consumed": false
+  },
+  "target_registry": {
+    "all_target_rows": 7327,
+    "human_wild_type_rows_before_metadata_conflict_exclusion": 3473,
+    "metadata_conflicting_target_ids_excluded": 0,
+    "eligible_human_wild_type_targets": 3473,
+    "eligible_top_level_classes": 15
+  },
+  "filtering": {
+    "raw_activity_rows": 707461,
+    "raw_parent_target_aggregation": {
+      "unique_connectivity_target_pairs": 707461,
+      "duplicate_rows_beyond_one_per_pair": 0,
+      "one_aggregated_row_per_parent_target": true
+    },
+    "rows_after_each_cumulative_filter": {
+      "quality_high_or_very_high": 707461,
+      "human_wild_type_classified_target": 598982,
+      "activity_protein_type_wt": 598982,
+      "accession_matches_target_id": 598982,
+      "exact_relation": 598982,
+      "finite_raw_and_mean_pk": 497990,
+      "single_numeric_value": 497990,
+      "exact_single_ki_or_kd": 248954,
+      "atomic_source_and_document_fields": 248954,
+      "unambiguous_document_identity": 147434,
+      "structure_and_connectivity_present": 147434
+    },
+    "rows_with_atomic_fields_before_document_identity_agreement": 248954,
+    "rows_excluded_for_doc_id_all_doc_ids_disagreement": 101520,
+    "strict_retained_rows_before_duplicate_resolution": 147434
+  },
+  "duplicate_resolution": {
+    "input_rows": 147434,
+    "unique_keys_before_resolution": 147434,
+    "duplicate_keys": 0,
+    "conflicting_value_or_endpoint_keys_excluded": 0,
+    "rows_excluded_for_conflicting_keys": 0,
+    "consistent_duplicate_rows_collapsed": 0,
+    "resolved_observations": 147434
+  },
+  "support": {
+    "retained_observations": 147434,
+    "human_wild_type_exact_pk_targets": 1468,
+    "top_level_classes": 14,
+    "unique_parent_target_cells": 147434,
+    "document_replicated_parent_target_cells": 0,
+    "replication_supported_targets": 0,
+    "replication_supported_top_level_classes": 0,
+    "anchor_capable_ligands": 2779,
+    "target_contrast_ligands": 30636,
+    "provenance_completeness": {
+      "source": 1.0,
+      "doc_id": 1.0,
+      "all_doc_ids": 1.0
+    },
+    "endpoint_counts": {
+      "Kd": 14708,
+      "Ki": 132726
+    },
+    "source_counts": {
+      "ChEMBL34": 133042,
+      "Christmann2016": 14327,
+      "Sharma2016": 65
+    },
+    "replication_graph": {
+      "components": 0,
+      "largest_component_possible_cells": 0
+    }
+  },
+  "gates": {
+    "at_least_100_human_wild_type_exact_pk_targets_10_classes": true,
+    "at_least_100000_observations_20000_parent_target_cells": true,
+    "at_least_500_document_replicated_cells_30_supported_targets_10_classes": false,
+    "at_least_1000_anchor_capable_ligands": true,
+    "at_least_1000_target_contrast_ligands": true,
+    "source_and_exact_document_fields_complete": true,
+    "current_run_labels_unread_and_sealed_unconsumed": true
+  },
+  "passed": false,
+  "verdict": "PAPYRUS_F0_RAW_PROVENANCE_INSUFFICIENT_STOP"
+}

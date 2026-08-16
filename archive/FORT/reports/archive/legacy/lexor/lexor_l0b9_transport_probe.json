@@ -1,0 +1,36 @@
+{
+  "candidate_metadata_accepted": false,
+  "external_metadata_network_called": true,
+  "fort_labels_read": false,
+  "inputs": {
+    "plan_sha256": "80d3773c36197d467c0debd35ccbb54f64e8a3d8f19384e744a9b12718418815",
+    "preregistration_sha256": "48a67903537984010ccbed63a4a45da44e4d304150ab56f713e0188f36410174"
+  },
+  "llm_api_called": false,
+  "mode": "transport_compatibility_only",
+  "model_trained": false,
+  "raw_measurement_files_read": false,
+  "requests": [
+    {
+      "probe_id": "zenodo_q",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://zenodo.org/api/records?q=zzlexortransportprobenomatchqzq20260727"
+    },
+    {
+      "probe_id": "zenodo_q_size",
+      "protocol_error": "A validation error occurred. | size | Page size cannot be greater than 25. Please use authenticated requests to increase the limit to 100.",
+      "status": 400,
+      "url": "https://zenodo.org/api/records?q=zzlexortransportprobenomatchqzq20260727&size=100"
+    },
+    {
+      "probe_id": "zenodo_q_size_sort_mostrecent",
+      "protocol_error": "A validation error occurred. | size | Page size cannot be greater than 25. Please use authenticated requests to increase the limit to 100.",
+      "status": 400,
+      "url": "https://zenodo.org/api/records?q=zzlexortransportprobenomatchqzq20260727&size=100&sort=mostrecent"
+    }
+  ],
+  "schema": "lexor-l0b-transport-probe-result.v1",
+  "sealed_test_consumed": false,
+  "user_agent": "FORT-LEXOR-L0B/1.0 metadata-only"
+}

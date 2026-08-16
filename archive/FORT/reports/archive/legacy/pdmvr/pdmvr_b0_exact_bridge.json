@@ -1,0 +1,85 @@
+{
+  "schema": "pdmvr-b0-exact-bridge-v1",
+  "wall_clock_s": 99.943,
+  "bindingdb_safe_scan": {
+    "physical_records": 65126,
+    "malformed_field_count": 1,
+    "native_source": 64729,
+    "single_chain": 56921,
+    "pdb_linked": 3059,
+    "ki_or_kd_present": 1574,
+    "safe_candidates_before_chemistry": 1574,
+    "invalid_ligand": 0
+  },
+  "bindingdb_firewall": {
+    "protected_rows": 42539,
+    "blocked_union_rows": 307,
+    "blocked_by_axis": {
+      "exact_accession": 225,
+      "sequence_4mer_containment_ge_0_40": 263,
+      "exact_connectivity": 52,
+      "exact_scaffold": 97,
+      "morgan_tanimoto_ge_0_95": 59,
+      "missing_doi": 0,
+      "chembl_provenance": 0
+    },
+    "allowed_rows": 1267
+  },
+  "document_mapping": {
+    "documents": 9643,
+    "pubmed_ids_with_doi": 8519,
+    "ambiguous_pubmed_ids": 0
+  },
+  "exact_join": {
+    "binding_rows": 1267,
+    "expanded_binding_pdb_links": 24777,
+    "exact_bridge_units": 23,
+    "local_pubmed_doi_mapped_units": 0,
+    "same_article_local_doi_verified_units": 0
+  },
+  "optimistic_conflict_free": {
+    "ceiling": 5,
+    "terms": {
+      "exact_units": 23,
+      "sequence_exact_targets": 5,
+      "ligands": 6,
+      "pdb_ids": 6,
+      "bindingdb_dois": 22,
+      "institutions": 16,
+      "biolip_pubmeds": 5
+    }
+  },
+  "train_homology_support": {
+    "exact_units_mapped_to_train_homology": 19,
+    "mapped_fraction": 0.8260869565217391,
+    "known_train_homology_components": 2,
+    "broad_family_mapping_available": false
+  },
+  "gate": {
+    "B0_exact_units_ge_40": false,
+    "B0_sequence_exact_targets_ge_40": false,
+    "B0_optimistic_conflict_free_ceiling_ge_40": false,
+    "B0_broad_families_ge_4": null,
+    "B0_firewall": true,
+    "available_gates_pass": false,
+    "decision": "STOP_PDMVR_B0_EXACT_BRIDGE_UPPER_BOUND_INADEQUATE"
+  },
+  "files": {
+    "source_sha256": {
+      "bindingdb": "d2584d1519318d00ab5f46289da5ab3549affe732d598a5072f8777b6b3b5262",
+      "biolip": "7905e4edf88073f564baa4b2d4fb50d496432bc4e15e97cccbfa0766b1b0638d",
+      "documents": "5c920d4b33b88389c5331879ce1b620fe9b70e5006c3b3b845b1ad7102734109",
+      "chembl": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784"
+    },
+    "candidate_registry_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\pdmvr_b0_exact_bridge_candidates.parquet",
+    "candidate_registry_sha256": "7e51a71926808269ebadc17098b9bad2caf9c43abf9ef010c352898ddaad6004"
+  },
+  "numeric_affinity_decoded": false,
+  "numeric_affinity_parsed": false,
+  "structure_coordinates_loaded": false,
+  "contact_latent_or_bridge_rank_computed": false,
+  "development_or_confirmation_features_loaded": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only safe TSV projection, exact joins, and set ceilings"
+}

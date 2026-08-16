@@ -1,0 +1,95 @@
+{
+  "schema_version": "a2s-cmal-v1",
+  "program": "A2S-DTA",
+  "model": "A2S-CMAL",
+  "core_claim": "a protein-conditioned learned meta-adaptation operator uses a few recipient support measurements to produce query-dependent ranking improvements on strictly unseen targets",
+  "primary_endpoint": "pKi",
+  "formal_execution": "external_cuda_only",
+  "local_execution": "source_meta_validation_smoke_only",
+  "data": {
+    "corpus": "dataset/formal_training/chembl37_pki_formal.v4",
+    "recipient_roster": "dataset/formal_training/a2s_d0r_roster.v3",
+    "recipient_roster_content_sha256": "c10a8d483f9f02db2d7534a58979def48f689820e824325d5f67f7749141cea9",
+    "model_ready_episodes": "dataset/formal_training/a2s_cmal_episodes.v3",
+    "content_sha256": "2df5831bc8a51df93dc54531302327716fcca8900ec43f1aa37f16ed2fb9485a",
+    "frozen_label_key": "measurement_uid",
+    "label_table": "canonical/pki_measurements_context_main.parquet",
+    "labels_in_episode_package": false,
+    "recipient_labels_read_during_local_smoke": false
+  },
+  "architecture": {
+    "support_free_protein_ligand_base": true,
+    "base_frozen_before_meta_adaptation": true,
+    "recipient_protein_conditioned": true,
+    "support_set_encoder": "self_attention_over_pair_and_measured_residual_tokens",
+    "query_operator": "query_to_support_cross_attention_and_learned_delta_head",
+    "measurement_anchor": "learned query scale times attention-weighted measured support residual",
+    "query_dependent": true,
+    "closed_form_inner_update": false,
+    "budget_gate": false,
+    "deep_kernel": false
+  },
+  "counterfactual_support": {
+    "score": "negative post-adaptation query pairwise-ranking loss",
+    "objective": "four-way InfoNCE: correct support versus three target-mismatched supports",
+    "negative_types": [
+      "different-target random",
+      "different-target protein-hard",
+      "different-target support-chemistry-matched",
+      "same-compound wrong-target residual label-swap"
+    ],
+    "query_labels_used_for_negative_mining": false,
+    "query_chemistry_used_for_negative_mining": false
+  },
+  "project_primary_protocol": {
+    "provenance": "user-required extension from the supplied Figure 2 critique; not attributed to a published benchmark",
+    "support_budgets": [1, 3, 5],
+    "seeds": [1729, 1731, 1733, 1741, 1753],
+    "primary_metrics": [
+      "target_macro_ci",
+      "target_macro_spearman",
+      "target_macro_ndcg_at_10"
+    ],
+    "secondary_metrics": [
+      "rmse",
+      "mae",
+      "mse",
+      "pearson",
+      "r2",
+      "pairwise_accuracy",
+      "aupr_at_7"
+    ],
+    "uncertainty_unit": "recipient homology component bootstrap"
+  },
+  "published_reproduction_track": {
+    "source": "AdaMBind, Nature Communications (2026), DOI 10.1038/s41467-026-70554-5",
+    "datasets": ["BindingDB", "KIBA", "Davis"],
+    "task_unit": "one target",
+    "splits": {
+      "random_task": "8:1:1",
+      "novel_task": "CD-HIT 40% sequence-identity clusters, then 8:1:1"
+    },
+    "support_sizes": {
+      "majority": 40,
+      "few_shot": 5,
+      "sensitivity": [5, 10, 20, 30, 40]
+    },
+    "runs": 5,
+    "metrics": ["MSE", "CI", "R2", "Spearman", "Pearson"],
+    "cross_domain": "KIBA to BindingDB"
+  },
+  "formal_training_defaults": {
+    "base_steps": 3000,
+    "meta_steps": 3000,
+    "batch_episodes": 64,
+    "learning_rate": 0.0003,
+    "hidden_width": 128,
+    "note": "engineering defaults for this implementation, not claimed as copied hyperparameters"
+  },
+  "commands": {
+    "verify_or_prepare_episodes": "D:\\anaconda\\envs\\drug\\python.exe main.py prepare-cmal-data --device cuda",
+    "local_smoke": "D:\\anaconda\\envs\\drug\\python.exe main.py a2s-cmal --smoke",
+    "external_formal_example": "$env:A2S_FORMAL_EXTERNAL='1'; D:\\anaconda\\envs\\drug\\python.exe main.py a2s-cmal --formal --seed 1729"
+  },
+  "scientific_status": "SOURCE_MECHANISM_GATE_FAILED_RECIPIENT_FORMAL_BLOCKED"
+}

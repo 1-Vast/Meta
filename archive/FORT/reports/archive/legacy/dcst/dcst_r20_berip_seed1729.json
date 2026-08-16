@@ -1,0 +1,79 @@
+{
+  "schema": "dcst-r20-berip-audit-v1",
+  "seed": 1729,
+  "wall_clock_s": 3.859,
+  "validity": {
+    "same_endpoint": true,
+    "min_union_assays": 2,
+    "min_union_documents": 2,
+    "common_document_across_four_cells_forbidden": true
+  },
+  "caps": {
+    "target_pair": 256,
+    "homology_pair": 4096
+  },
+  "before_caps": {
+    "rectangles": 324444,
+    "target_pairs": 233,
+    "targets": 145,
+    "homology_components": 136,
+    "cross_hcluster_rectangles": 324389,
+    "cross_hcluster_fraction": 0.9998304792198346,
+    "cross_hcluster_target_pairs": 223,
+    "endpoint_counts": {
+      "pKi": 324104,
+      "pKd": 340
+    }
+  },
+  "after_target_pair_cap": {
+    "rectangles": 11871,
+    "target_pairs": 233,
+    "targets": 145,
+    "homology_components": 136,
+    "cross_hcluster_rectangles": 11816,
+    "cross_hcluster_fraction": 0.9953668604161402,
+    "cross_hcluster_target_pairs": 223,
+    "endpoint_counts": {
+      "pKi": 11615,
+      "pKd": 256
+    }
+  },
+  "balanced": {
+    "rectangles": 11871,
+    "target_pairs": 233,
+    "targets": 145,
+    "homology_components": 136,
+    "cross_hcluster_rectangles": 11816,
+    "cross_hcluster_fraction": 0.9953668604161402,
+    "cross_hcluster_target_pairs": 223,
+    "endpoint_counts": {
+      "pKi": 11615,
+      "pKd": 256
+    },
+    "largest_target_pair_fraction": 0.021565158790329376,
+    "largest_homology_pair_fraction": 0.021565158790329376,
+    "pKd_fraction": 0.021565158790329376
+  },
+  "gate": {
+    "G1_valid_scale": false,
+    "G2_balanced_scale": false,
+    "G3_cross_homology": true,
+    "G4_concentration": false,
+    "G5_endpoint": false,
+    "G6_firewall": true,
+    "pass": false,
+    "decision": "STOP_BERIP_BALANCED_MANIFEST_INADEQUATE"
+  },
+  "files": {
+    "chembl_registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "manifest_path": null,
+    "manifest_sha256": null,
+    "manifest_rows_written": 0
+  },
+  "affinity_column_requested": false,
+  "affinity_values_loaded": false,
+  "development_rows_loaded": 0,
+  "confirmation_rows_loaded": 0,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only metadata, provenance, and graph audit"
+}

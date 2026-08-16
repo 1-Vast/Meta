@@ -1,0 +1,103 @@
+{
+  "schema": "dualcold-power-v1",
+  "seeds": [
+    1729,
+    2027,
+    4241,
+    5501
+  ],
+  "steps": 6000,
+  "device": "cuda",
+  "wall_clock_s": 269.5,
+  "registry_sha256": "1adde66d3fd8bdb5f1520023b979e3892286ce9015fbf373b9a03eaafcc5e359",
+  "seed_pairs_mean_sd": [
+    [
+      1729,
+      2027,
+      -0.0029,
+      0.2597
+    ],
+    [
+      1729,
+      4241,
+      0.0148,
+      0.2291
+    ],
+    [
+      1729,
+      5501,
+      0.0437,
+      0.3082
+    ],
+    [
+      2027,
+      4241,
+      0.0177,
+      0.2187
+    ],
+    [
+      2027,
+      5501,
+      0.0466,
+      0.2981
+    ],
+    [
+      4241,
+      5501,
+      0.0289,
+      0.2429
+    ]
+  ],
+  "frozen_gate_z": {
+    "primary_metric": "development target-macro Spearman",
+    "statistical_unit": "target component (tunit)",
+    "reserved_pool_protocol": {
+      "n_components": 34,
+      "median_query_ligands": 4,
+      "retrain_noise_sd_per_component": 0.2584,
+      "mde80_paired": 0.131
+    },
+    "zero_shot_full_query_protocol": {
+      "n_components": 34,
+      "retrain_noise_sd_per_component": 0.23,
+      "mde80_paired": 0.0954
+    },
+    "gate_z_threshold_spearman": 0.0954,
+    "gate_z_protocol": "zero-shot full-query (no support reserved at k=0; identical rows per arm)",
+    "threshold_rule": "max(task-specified 0.03, empirical MDE80). The task allows stricter thresholds when the power audit justifies them; it never allows looser.",
+    "by_shot_reserved_pool": {
+      "k0": {
+        "targets": 42,
+        "components": 34,
+        "mde80": 0.1324
+      },
+      "k1": {
+        "targets": 36,
+        "components": 33,
+        "mde80": 0.1323
+      },
+      "k2": {
+        "targets": 32,
+        "components": 31,
+        "mde80": 0.1354
+      },
+      "k4": {
+        "targets": 26,
+        "components": 26,
+        "mde80": 0.1592
+      },
+      "k8": {
+        "targets": 17,
+        "components": 17,
+        "mde80": 0.2098
+      },
+      "k16": {
+        "targets": 10,
+        "components": 10,
+        "mde80": 0.3113
+      }
+    }
+  },
+  "confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

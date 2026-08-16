@@ -1,0 +1,1722 @@
+{
+  "external_source_balanced": {
+    "coverage_median": 0.6710223883719095,
+    "coverage_q10": 0.47886914386703755,
+    "molecules_by_source": {
+      "KIRHub2026": 92,
+      "Papyrus-Christmann2016": 1395,
+      "Reinecke2024": 1034
+    },
+    "source_weight": {
+      "KIRHub2026": 0.3333333333333333,
+      "Papyrus-Christmann2016": 0.3333333333333333,
+      "Reinecke2024": 0.3333333333333333
+    },
+    "supported_composition_fraction_by_source": {
+      "KIRHub2026": 0.4891304347826087,
+      "Papyrus-Christmann2016": 0.45017921146953405,
+      "Reinecke2024": 0.3065764023210832
+    },
+    "true_minus_decoy": {
+      "draws": 10000,
+      "lcb95": 0.5004203233233353,
+      "mean": 0.5091186193344455,
+      "seed": 1729,
+      "ucb95": 0.5177120631075472
+    }
+  },
+  "firewall": {
+    "current_run_confirmation_labels_read": false,
+    "existing_chembl_confirmation_opened_by_current_run": false,
+    "existing_confirmation_permanently_quarantined": true,
+    "numerical_activity_columns_read": false,
+    "papyrus_chembl31_excluded": true,
+    "project_historical_confirmation_labels_read": true,
+    "sealed_test_consumed": false,
+    "strict_connectivity_and_scaffold_corpus_disjoint": true,
+    "target_or_protein_features_read": false
+  },
+  "folds": {
+    "KIRHub2026": {
+      "calibration_decoy_false_coverage": {
+        "atom": 0.07478130467383154,
+        "motif": 0.047546207775653285,
+        "pair": 0.049541270525591284
+      },
+      "changed_decoy_fraction_by_level_validation": {
+        "chemistry": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        },
+        "environment": {
+          "atom": 0.9833718589217806,
+          "motif": 0.9908501715592832,
+          "pair": 0.9999319295697949
+        },
+        "role": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        }
+      },
+      "changed_decoy_fraction_held": {
+        "chemistry": 1.0,
+        "environment": 0.9942537783375315,
+        "role": 1.0
+      },
+      "changed_decoy_fraction_validation": {
+        "chemistry": 1.0,
+        "environment": 0.9958406814627492,
+        "role": 1.0
+      },
+      "gates": {
+        "calibration": false,
+        "changed_decoys": true,
+        "effective_rank": false,
+        "finite": true,
+        "inner_pseudo_ood": false,
+        "structural": true
+      },
+      "held_coverage_quantiles": {
+        "0.0": 0.43542176898701146,
+        "0.1": 0.5246138823915218,
+        "0.5": 0.6945535929249151,
+        "0.9": 0.8444944161629699,
+        "1.0": 0.9261915360160046
+      },
+      "held_decoy_coverage_quantiles": {
+        "0.0": 0.1326407487253328,
+        "0.1": 0.1510856034046475,
+        "0.5": 0.17403506218518316,
+        "0.9": 0.21391917216023723,
+        "1.0": 0.23874657197131496
+      },
+      "held_molecules": 92,
+      "held_vs_inner_train_connectivity_overlap": 0,
+      "held_vs_inner_train_scaffold_overlap": 0,
+      "inner_coverage_quantiles": {
+        "0.0": 0.24277924727717004,
+        "0.1": 0.613113369396856,
+        "0.5": 0.8092673746065879,
+        "0.9": 0.914607784334964,
+        "1.0": 0.9806266932998957
+      },
+      "inner_scaffold_overlap": 0,
+      "inner_train_molecules": 1909,
+      "inner_validation_molecules": 460,
+      "outer_candidate_molecules_before_firewall": 2411,
+      "representation": {
+        "atom_role_5nn_macro_f1": {
+          "baseline": 0.02650167917596412,
+          "margin": 0.7575617786712563,
+          "score": 0.7840634578472204
+        },
+        "dimension": 128,
+        "participation_rank": 10.046955616640366,
+        "rank_ratio": 0.07849184075500286
+      },
+      "strict_outer_train_molecules": 2369,
+      "structural": {
+        "brics_attachment_bin_accuracy": {
+          "baseline": 0.498609944957552,
+          "margin": 0.39024994617659164,
+          "score": 0.8888598911341437
+        },
+        "directed_bond_order_accuracy": {
+          "baseline": 0.615599593495935,
+          "margin": 0.38440040650406504,
+          "score": 1.0
+        },
+        "masked_element_accuracy": {
+          "baseline": 0.7276238455079765,
+          "margin": 0.16989867701454597,
+          "score": 0.8975225225225225
+        }
+      },
+      "tau_by_level_role": {
+        "atom": {
+          "Acceptor": 4.77540094768892,
+          "Acceptor+Aromatic": 3.6924310520902393,
+          "Acceptor+Aromatic+Donor": 0.8441019203665407,
+          "Acceptor+Aromatic+Donor+PosIonizable": 1.3858284776702439,
+          "Acceptor+Aromatic+PosIonizable": 1.8403695313616284,
+          "Acceptor+Donor": 7.503511955178506,
+          "Acceptor+Donor+NegIonizable": 4.135523538957494,
+          "Acceptor+NegIonizable": 6.801005248304988,
+          "Aromatic": 1e-06,
+          "Aromatic+Donor": 4.214130272924556,
+          "Aromatic+Donor+PosIonizable": 1.1663420836532628,
+          "Aromatic+Hydrophobe": 0.37849456270676624,
+          "Aromatic+PosIonizable": 1.623565296418765,
+          "Donor": 5.717665806406445,
+          "Donor+PosIonizable": 2.6969336436147318,
+          "HalogenDonor": 5.344012926320397,
+          "Hydrophobe": 0.0036575573254932405,
+          "MetalBinder": 11.297193029266383,
+          "NegIonizable": 6.580121428953653,
+          "PosIonizable": 5.601922299093967,
+          "Structural": 1e-06
+        },
+        "motif": {
+          "MOTIF:Acceptor": 6.104578981967943,
+          "MOTIF:Acceptor+Aromatic": 3.021914496522176,
+          "MOTIF:Acceptor+Aromatic+Donor": 3.021914496522176,
+          "MOTIF:Acceptor+Donor": 7.882336602150734,
+          "MOTIF:Acceptor+NegIonizable": 5.902055006876063,
+          "MOTIF:Aromatic": 2.7857050451190206,
+          "MOTIF:Aromatic+Hydrophobe": 2.0310192220087275,
+          "MOTIF:Aromatic+PosIonizable": 2.9456143520968974,
+          "MOTIF:Donor": 9.525614082422349,
+          "MOTIF:Donor+PosIonizable": 4.584820228363769,
+          "MOTIF:HalogenDonor": 9.874062703245608,
+          "MOTIF:Hydrophobe": 5.277750147326748,
+          "MOTIF:MetalBinder": 3.021914496522176,
+          "MOTIF:NegIonizable": 9.809855753123003,
+          "MOTIF:PosIonizable": 3.021914496522176,
+          "MOTIF:Structural": 6.680934339256118
+        },
+        "pair": {
+          "Acceptor+Aromatic+Donor+PosIonizable|Acceptor+Donor": 11.673255384403362,
+          "Acceptor+Aromatic+Donor+PosIonizable|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic": 8.03493466579366,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 7.375012121460454,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 6.72066056649141,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor": 8.04768773530443,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|HalogenDonor": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|Hydrophobe": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor+PosIonizable|Structural": 8.977408248986881,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor": 7.098210250408285,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor|Acceptor+Donor": 3.489152266341101,
+          "Acceptor+Aromatic+Donor|Aromatic": 2.2542134845568778,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor": 4.992870367994453,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor|Aromatic+Hydrophobe": 5.344565344229126,
+          "Acceptor+Aromatic+Donor|Aromatic+PosIonizable": 3.9126771269348137,
+          "Acceptor+Aromatic+Donor|Donor": 9.11258957205143,
+          "Acceptor+Aromatic+Donor|Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+Donor|HalogenDonor": 8.145055417320837,
+          "Acceptor+Aromatic+Donor|Hydrophobe": 4.392236842400775,
+          "Acceptor+Aromatic+Donor|Structural": 4.62080041969975,
+          "Acceptor+Aromatic+PosIonizable|Acceptor+Donor": 8.98427896189857,
+          "Acceptor+Aromatic+PosIonizable|Acceptor+Donor+NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+PosIonizable|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic+PosIonizable|Aromatic": 6.81223449563073,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+Donor": 6.393265282388769,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+Hydrophobe": 8.384878666602603,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+PosIonizable": 5.273245275167282,
+          "Acceptor+Aromatic+PosIonizable|Donor": 9.272674043328108,
+          "Acceptor+Aromatic+PosIonizable|Donor+PosIonizable": 6.667635284709584,
+          "Acceptor+Aromatic+PosIonizable|HalogenDonor": 3.489152266341101,
+          "Acceptor+Aromatic+PosIonizable|Hydrophobe": 8.481601402531192,
+          "Acceptor+Aromatic+PosIonizable|PosIonizable": 10.169396953065199,
+          "Acceptor+Aromatic+PosIonizable|Structural": 7.830253594654414,
+          "Acceptor+Aromatic|Acceptor+Aromatic": 7.226829476630267,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor": 2.6189846203356186,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic|Acceptor+Aromatic+PosIonizable": 8.037219751738073,
+          "Acceptor+Aromatic|Acceptor+Donor": 10.750470033737228,
+          "Acceptor+Aromatic|Acceptor+Donor+NegIonizable": 5.987091862644073,
+          "Acceptor+Aromatic|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic|Aromatic": 4.347597316260108,
+          "Acceptor+Aromatic|Aromatic+Donor": 5.435885114198778,
+          "Acceptor+Aromatic|Aromatic+Donor+PosIonizable": 3.0726676895950638,
+          "Acceptor+Aromatic|Aromatic+Hydrophobe": 5.620856752650972,
+          "Acceptor+Aromatic|Aromatic+PosIonizable": 4.048330962725014,
+          "Acceptor+Aromatic|Donor": 8.449571885279848,
+          "Acceptor+Aromatic|Donor+PosIonizable": 6.149412384380665,
+          "Acceptor+Aromatic|HalogenDonor": 7.274192818743344,
+          "Acceptor+Aromatic|Hydrophobe": 6.116681663746783,
+          "Acceptor+Aromatic|MetalBinder": 3.489152266341101,
+          "Acceptor+Aromatic|NegIonizable": 3.489152266341101,
+          "Acceptor+Aromatic|PosIonizable": 3.489152266341101,
+          "Acceptor+Aromatic|Structural": 5.573872828667971,
+          "Acceptor+Donor+NegIonizable|Acceptor+Donor+NegIonizable": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Acceptor+NegIonizable": 15.253202757213282,
+          "Acceptor+Donor+NegIonizable|Aromatic": 7.740876511862397,
+          "Acceptor+Donor+NegIonizable|Aromatic+Donor": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Aromatic+Hydrophobe": 4.160978801640948,
+          "Acceptor+Donor+NegIonizable|Aromatic+PosIonizable": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Donor": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|HalogenDonor": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Hydrophobe": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|NegIonizable": 3.489152266341101,
+          "Acceptor+Donor+NegIonizable|Structural": 4.7291676873853215,
+          "Acceptor+Donor|Acceptor+Donor": 9.753336045737333,
+          "Acceptor+Donor|Acceptor+Donor+NegIonizable": 3.489152266341101,
+          "Acceptor+Donor|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor+Donor|Aromatic": 10.09765601632388,
+          "Acceptor+Donor|Aromatic+Donor": 3.489152266341101,
+          "Acceptor+Donor|Aromatic+Donor+PosIonizable": 6.629672595208552,
+          "Acceptor+Donor|Aromatic+Hydrophobe": 10.782688046303997,
+          "Acceptor+Donor|Aromatic+PosIonizable": 3.1982868807756915,
+          "Acceptor+Donor|Donor": 8.850210040357421,
+          "Acceptor+Donor|Donor+PosIonizable": 8.25093476127194,
+          "Acceptor+Donor|HalogenDonor": 3.489152266341101,
+          "Acceptor+Donor|Hydrophobe": 10.795675086282483,
+          "Acceptor+Donor|NegIonizable": 9.368077109757143,
+          "Acceptor+Donor|PosIonizable": 3.489152266341101,
+          "Acceptor+Donor|Structural": 10.098666543796144,
+          "Acceptor+NegIonizable|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor+NegIonizable|Aromatic": 11.002446800677602,
+          "Acceptor+NegIonizable|Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+NegIonizable|Aromatic+Hydrophobe": 5.075641638728551,
+          "Acceptor+NegIonizable|Aromatic+PosIonizable": 3.489152266341101,
+          "Acceptor+NegIonizable|Donor": 3.489152266341101,
+          "Acceptor+NegIonizable|Donor+PosIonizable": 3.489152266341101,
+          "Acceptor+NegIonizable|HalogenDonor": 3.489152266341101,
+          "Acceptor+NegIonizable|Hydrophobe": 3.489152266341101,
+          "Acceptor+NegIonizable|NegIonizable": 3.489152266341101,
+          "Acceptor+NegIonizable|Structural": 4.728975894716775,
+          "Acceptor|Acceptor": 9.536400392054759,
+          "Acceptor|Acceptor+Aromatic": 8.466986238817313,
+          "Acceptor|Acceptor+Aromatic+Donor": 2.996766403522884,
+          "Acceptor|Acceptor+Aromatic+Donor+PosIonizable": 2.822860004479521,
+          "Acceptor|Acceptor+Aromatic+PosIonizable": 9.915813667132603,
+          "Acceptor|Acceptor+Donor": 10.678692199007571,
+          "Acceptor|Acceptor+Donor+NegIonizable": 6.205888922738309,
+          "Acceptor|Acceptor+NegIonizable": 3.489152266341101,
+          "Acceptor|Aromatic": 7.233386152057881,
+          "Acceptor|Aromatic+Donor": 5.187162167229963,
+          "Acceptor|Aromatic+Donor+PosIonizable": 4.400852765427518,
+          "Acceptor|Aromatic+Hydrophobe": 8.68080951481696,
+          "Acceptor|Aromatic+PosIonizable": 3.9579317004644143,
+          "Acceptor|Donor": 8.927583382193491,
+          "Acceptor|Donor+PosIonizable": 6.87290656182895,
+          "Acceptor|HalogenDonor": 7.382016346829944,
+          "Acceptor|Hydrophobe": 9.174112759938968,
+          "Acceptor|MetalBinder": 3.489152266341101,
+          "Acceptor|NegIonizable": 10.082910131776316,
+          "Acceptor|PosIonizable": 3.489152266341101,
+          "Acceptor|Structural": 8.009274866070689,
+          "Aromatic+Donor+PosIonizable|Aromatic+Donor+PosIonizable": 3.489152266341101,
+          "Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 11.093101719065729,
+          "Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 5.781093367442062,
+          "Aromatic+Donor+PosIonizable|Donor": 8.157487854641284,
+          "Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.489152266341101,
+          "Aromatic+Donor+PosIonizable|HalogenDonor": 3.489152266341101,
+          "Aromatic+Donor+PosIonizable|Hydrophobe": 3.489152266341101,
+          "Aromatic+Donor+PosIonizable|Structural": 7.313084754950666,
+          "Aromatic+Donor|Aromatic+Donor": 3.489152266341101,
+          "Aromatic+Donor|Aromatic+Donor+PosIonizable": 10.747901739548997,
+          "Aromatic+Donor|Aromatic+Hydrophobe": 5.741047701536901,
+          "Aromatic+Donor|Aromatic+PosIonizable": 4.1076946877534315,
+          "Aromatic+Donor|Donor": 8.748441828190234,
+          "Aromatic+Donor|Donor+PosIonizable": 8.443424931264397,
+          "Aromatic+Donor|HalogenDonor": 3.489152266341101,
+          "Aromatic+Donor|Hydrophobe": 7.943648880813266,
+          "Aromatic+Donor|NegIonizable": 3.489152266341101,
+          "Aromatic+Donor|Structural": 4.862374765782207,
+          "Aromatic+Hydrophobe|Aromatic+Hydrophobe": 6.0108246730177814,
+          "Aromatic+Hydrophobe|Aromatic+PosIonizable": 4.169402325124336,
+          "Aromatic+Hydrophobe|Donor": 8.616259923177651,
+          "Aromatic+Hydrophobe|Donor+PosIonizable": 5.7176820099638235,
+          "Aromatic+Hydrophobe|HalogenDonor": 7.952106288140112,
+          "Aromatic+Hydrophobe|Hydrophobe": 6.635293287619505,
+          "Aromatic+Hydrophobe|MetalBinder": 12.571215590499376,
+          "Aromatic+Hydrophobe|NegIonizable": 10.615674197550838,
+          "Aromatic+Hydrophobe|PosIonizable": 3.489152266341101,
+          "Aromatic+Hydrophobe|Structural": 5.501621773192054,
+          "Aromatic+PosIonizable|Aromatic+PosIonizable": 6.583879602349131,
+          "Aromatic+PosIonizable|Donor": 8.165054774332921,
+          "Aromatic+PosIonizable|Donor+PosIonizable": 6.4886927047267715,
+          "Aromatic+PosIonizable|HalogenDonor": 8.665389190065902,
+          "Aromatic+PosIonizable|Hydrophobe": 6.610782706491628,
+          "Aromatic+PosIonizable|NegIonizable": 3.489152266341101,
+          "Aromatic+PosIonizable|PosIonizable": 10.775222272413725,
+          "Aromatic+PosIonizable|Structural": 4.428014094800899,
+          "Aromatic|Aromatic": 0.5760595563920856,
+          "Aromatic|Aromatic+Donor": 4.847329024391922,
+          "Aromatic|Aromatic+Donor+PosIonizable": 3.5489291921972503,
+          "Aromatic|Aromatic+Hydrophobe": 3.150176526346641,
+          "Aromatic|Aromatic+PosIonizable": 3.225753427719267,
+          "Aromatic|Donor": 7.461924038323308,
+          "Aromatic|Donor+PosIonizable": 4.915658373940717,
+          "Aromatic|HalogenDonor": 7.700174308560583,
+          "Aromatic|Hydrophobe": 3.4400549615260823,
+          "Aromatic|MetalBinder": 11.581241309194827,
+          "Aromatic|NegIonizable": 8.805643541485338,
+          "Aromatic|PosIonizable": 8.10407041035841,
+          "Aromatic|Structural": 2.429688837041837,
+          "Donor+PosIonizable|Donor+PosIonizable": 10.906820404319156,
+          "Donor+PosIonizable|HalogenDonor": 3.489152266341101,
+          "Donor+PosIonizable|Hydrophobe": 7.084321232631557,
+          "Donor+PosIonizable|MetalBinder": 3.489152266341101,
+          "Donor+PosIonizable|NegIonizable": 3.489152266341101,
+          "Donor+PosIonizable|PosIonizable": 9.621746814662423,
+          "Donor+PosIonizable|Structural": 4.3585344140531905,
+          "Donor|Donor": 9.592905696278311,
+          "Donor|Donor+PosIonizable": 4.4806438560410715,
+          "Donor|HalogenDonor": 7.786616221113659,
+          "Donor|Hydrophobe": 8.849349815545981,
+          "Donor|MetalBinder": 3.489152266341101,
+          "Donor|NegIonizable": 9.517749308574857,
+          "Donor|PosIonizable": 3.489152266341101,
+          "Donor|Structural": 8.615452577391164,
+          "HalogenDonor|HalogenDonor": 12.686797365675472,
+          "HalogenDonor|Hydrophobe": 10.372426191893211,
+          "HalogenDonor|NegIonizable": 3.489152266341101,
+          "HalogenDonor|Structural": 8.875059824044751,
+          "Hydrophobe|Hydrophobe": 0.8030200688279525,
+          "Hydrophobe|MetalBinder": 3.489152266341101,
+          "Hydrophobe|NegIonizable": 11.729660756575168,
+          "Hydrophobe|PosIonizable": 3.489152266341101,
+          "Hydrophobe|Structural": 5.134794616365246,
+          "MetalBinder|Structural": 13.010332440498221,
+          "NegIonizable|NegIonizable": 3.489152266341101,
+          "NegIonizable|Structural": 10.507882752912431,
+          "PosIonizable|PosIonizable": 11.176092455959626,
+          "PosIonizable|Structural": 8.31563813498764
+        }
+      },
+      "training": {
+        "all_losses_and_gradients_finite": true,
+        "best_epoch": 37,
+        "best_validation": {
+          "attachment_accuracy": 0.8888598911341437,
+          "bond_accuracy": 1.0,
+          "element_accuracy": 0.8975225225225225,
+          "loss": 0.13339101057499647
+        },
+        "epoch_trace": [
+          {
+            "epoch": 1,
+            "train_loss": 0.8402794351180395,
+            "validation_loss": 0.45888721477240324
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.41961828867594403,
+            "validation_loss": 0.36608194280415773
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.35654498636722565,
+            "validation_loss": 0.32302341889590025
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.32365030646324155,
+            "validation_loss": 0.2992032873444259
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.29825843473275504,
+            "validation_loss": 0.28470258554443717
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.28399530053138733,
+            "validation_loss": 0.27198090171441436
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.26548071404298146,
+            "validation_loss": 0.28133932407945395
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.26819145331780114,
+            "validation_loss": 0.24070504494011402
+          },
+          {
+            "epoch": 9,
+            "train_loss": 0.24251079956690472,
+            "validation_loss": 0.22868013195693493
+          },
+          {
+            "epoch": 10,
+            "train_loss": 0.23745025644699733,
+            "validation_loss": 0.2160514034330845
+          },
+          {
+            "epoch": 11,
+            "train_loss": 0.2281255637605985,
+            "validation_loss": 0.21163652138784528
+          },
+          {
+            "epoch": 12,
+            "train_loss": 0.22025260577599207,
+            "validation_loss": 0.19732600403949618
+          },
+          {
+            "epoch": 13,
+            "train_loss": 0.20588647921880085,
+            "validation_loss": 0.19883825816214085
+          },
+          {
+            "epoch": 14,
+            "train_loss": 0.2081440086166064,
+            "validation_loss": 0.19616731442511082
+          },
+          {
+            "epoch": 15,
+            "train_loss": 0.19810385704040528,
+            "validation_loss": 0.18634830135852098
+          },
+          {
+            "epoch": 16,
+            "train_loss": 0.19346246421337127,
+            "validation_loss": 0.17734597926028073
+          },
+          {
+            "epoch": 17,
+            "train_loss": 0.17921929210424423,
+            "validation_loss": 0.17263620626181364
+          },
+          {
+            "epoch": 18,
+            "train_loss": 0.18285290499528248,
+            "validation_loss": 0.17798858974128962
+          },
+          {
+            "epoch": 19,
+            "train_loss": 0.1816051503022512,
+            "validation_loss": 0.18850520718842745
+          },
+          {
+            "epoch": 20,
+            "train_loss": 0.17992443094650903,
+            "validation_loss": 0.16975190909579396
+          },
+          {
+            "epoch": 21,
+            "train_loss": 0.1668103019396464,
+            "validation_loss": 0.161927999695763
+          },
+          {
+            "epoch": 22,
+            "train_loss": 0.16898384938637415,
+            "validation_loss": 0.16483998368494213
+          },
+          {
+            "epoch": 23,
+            "train_loss": 0.16334757407506306,
+            "validation_loss": 0.15781660424545407
+          },
+          {
+            "epoch": 24,
+            "train_loss": 0.16283248762289684,
+            "validation_loss": 0.15648566838353872
+          },
+          {
+            "epoch": 25,
+            "train_loss": 0.1590377137064934,
+            "validation_loss": 0.15028280788101256
+          },
+          {
+            "epoch": 26,
+            "train_loss": 0.15725620687007905,
+            "validation_loss": 0.15511768404394388
+          },
+          {
+            "epoch": 27,
+            "train_loss": 0.15540679643551508,
+            "validation_loss": 0.17260947078466415
+          },
+          {
+            "epoch": 28,
+            "train_loss": 0.1577684151629607,
+            "validation_loss": 0.15643739933148026
+          },
+          {
+            "epoch": 29,
+            "train_loss": 0.148830080529054,
+            "validation_loss": 0.14415352931246161
+          },
+          {
+            "epoch": 30,
+            "train_loss": 0.14889529645442962,
+            "validation_loss": 0.15051257004961371
+          },
+          {
+            "epoch": 31,
+            "train_loss": 0.14537139534950255,
+            "validation_loss": 0.156055097701028
+          },
+          {
+            "epoch": 32,
+            "train_loss": 0.147537096341451,
+            "validation_loss": 0.1455435073003173
+          },
+          {
+            "epoch": 33,
+            "train_loss": 0.14161338905493417,
+            "validation_loss": 0.1386530625168234
+          },
+          {
+            "epoch": 34,
+            "train_loss": 0.14244733601808549,
+            "validation_loss": 0.13988271006383002
+          },
+          {
+            "epoch": 35,
+            "train_loss": 0.13947526415189107,
+            "validation_loss": 0.14155324641615152
+          },
+          {
+            "epoch": 36,
+            "train_loss": 0.1420861765742302,
+            "validation_loss": 0.13663504994474351
+          },
+          {
+            "epoch": 37,
+            "train_loss": 0.1354977567990621,
+            "validation_loss": 0.13339101057499647
+          },
+          {
+            "epoch": 38,
+            "train_loss": 0.13930460785826046,
+            "validation_loss": 0.15063765039667487
+          },
+          {
+            "epoch": 39,
+            "train_loss": 0.13807420829931896,
+            "validation_loss": 0.1490817884914577
+          },
+          {
+            "epoch": 40,
+            "train_loss": 0.13933225323756535,
+            "validation_loss": 0.1344479168765247
+          }
+        ]
+      }
+    },
+    "Papyrus-Christmann2016": {
+      "calibration_decoy_false_coverage": {
+        "atom": 0.06987089074536183,
+        "motif": 0.04790748898678414,
+        "pair": 0.048828615506045274
+      },
+      "changed_decoy_fraction_by_level_validation": {
+        "chemistry": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        },
+        "environment": {
+          "atom": 0.9799547365017782,
+          "motif": 0.9843878389482333,
+          "pair": 1.0
+        },
+        "role": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        }
+      },
+      "changed_decoy_fraction_held": {
+        "chemistry": 1.0,
+        "environment": 0.9967915400046076,
+        "role": 1.0
+      },
+      "changed_decoy_fraction_validation": {
+        "chemistry": 1.0,
+        "environment": 0.9944968250913989,
+        "role": 1.0
+      },
+      "gates": {
+        "calibration": false,
+        "changed_decoys": true,
+        "effective_rank": false,
+        "finite": true,
+        "inner_pseudo_ood": false,
+        "structural": true
+      },
+      "held_coverage_quantiles": {
+        "0.0": 0.02446766148197389,
+        "0.1": 0.48860341969449833,
+        "0.5": 0.6878734061565752,
+        "0.9": 0.8103639104202932,
+        "1.0": 0.9577259765942124
+      },
+      "held_decoy_coverage_quantiles": {
+        "0.0": 0.04767388569010981,
+        "0.1": 0.10884213438785224,
+        "0.5": 0.14876155871859806,
+        "0.9": 0.18347396092216628,
+        "1.0": 0.25236225052522315
+      },
+      "held_molecules": 1395,
+      "held_vs_inner_train_connectivity_overlap": 0,
+      "held_vs_inner_train_scaffold_overlap": 0,
+      "inner_coverage_quantiles": {
+        "0.0": 0.3724265038707281,
+        "0.1": 0.6211426111040073,
+        "0.5": 0.8202628796979208,
+        "0.9": 0.9214647236690839,
+        "1.0": 0.9853499665042897
+      },
+      "inner_scaffold_overlap": 0,
+      "inner_train_molecules": 766,
+      "inner_validation_molecules": 194,
+      "outer_candidate_molecules_before_firewall": 1123,
+      "representation": {
+        "atom_role_5nn_macro_f1": {
+          "baseline": 0.028840838713486073,
+          "margin": 0.7755253963414922,
+          "score": 0.8043662350549783
+        },
+        "dimension": 128,
+        "participation_rank": 8.148866491662083,
+        "rank_ratio": 0.06366301946611003
+      },
+      "strict_outer_train_molecules": 960,
+      "structural": {
+        "brics_attachment_bin_accuracy": {
+          "baseline": 0.4462584463004155,
+          "margin": 0.37361707907947456,
+          "score": 0.8198755253798901
+        },
+        "directed_bond_order_accuracy": {
+          "baseline": 0.5929934600527785,
+          "margin": 0.40700653994722147,
+          "score": 1.0
+        },
+        "masked_element_accuracy": {
+          "baseline": 0.7238846686532086,
+          "margin": 0.15688078767652647,
+          "score": 0.880765456329735
+        }
+      },
+      "tau_by_level_role": {
+        "atom": {
+          "Acceptor": 4.483371191887369,
+          "Acceptor+Aromatic": 3.9654311963648627,
+          "Acceptor+Aromatic+Donor": 0.44654180650097763,
+          "Acceptor+Aromatic+Donor+PosIonizable": 0.37192363077844975,
+          "Acceptor+Aromatic+PosIonizable": 4.340663164701804,
+          "Acceptor+Donor": 7.7147898363993495,
+          "Acceptor+Donor+NegIonizable": 5.141335351214566,
+          "Acceptor+NegIonizable": 6.502284879805657,
+          "Aromatic": 1e-06,
+          "Aromatic+Donor": 4.15664213494915,
+          "Aromatic+Donor+PosIonizable": 1.378275804364729,
+          "Aromatic+Hydrophobe": 0.9032495549762792,
+          "Aromatic+PosIonizable": 0.3091548980918871,
+          "Donor": 5.483787624120606,
+          "Donor+PosIonizable": 4.140689419158034,
+          "HalogenDonor": 4.302255676424694,
+          "Hydrophobe": 0.1358477499919306,
+          "MetalBinder": 12.550018586282503,
+          "NegIonizable": 6.879685758019566,
+          "Structural": 1e-06
+        },
+        "motif": {
+          "MOTIF:Acceptor": 5.763924494764506,
+          "MOTIF:Acceptor+Aromatic": 3.0729225264416002,
+          "MOTIF:Acceptor+Aromatic+Donor": 3.0729225264416002,
+          "MOTIF:Acceptor+Donor": 7.9450930405651405,
+          "MOTIF:Acceptor+NegIonizable": 6.250770753760723,
+          "MOTIF:Aromatic": 2.6502503249533853,
+          "MOTIF:Aromatic+Hydrophobe": 1.8898282402395004,
+          "MOTIF:Aromatic+PosIonizable": 2.7689478459675967,
+          "MOTIF:Donor": 9.373707451477546,
+          "MOTIF:Donor+PosIonizable": 4.687411221166731,
+          "MOTIF:HalogenDonor": 8.20559716726858,
+          "MOTIF:Hydrophobe": 4.481665934363853,
+          "MOTIF:NegIonizable": 14.738824651544126,
+          "MOTIF:Structural": 5.404937250147219
+        },
+        "pair": {
+          "Acceptor+Aromatic+Donor+PosIonizable|Acceptor+Donor": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic": 6.093654163275146,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Hydrophobe": 3.019123327560638,
+          "Acceptor+Aromatic+Donor+PosIonizable|Structural": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Acceptor+Donor": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Aromatic": 4.887142115641427,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor": 5.355364823044873,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Aromatic+Hydrophobe": 5.74298982229805,
+          "Acceptor+Aromatic+Donor|Aromatic+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Donor": 8.473037792112917,
+          "Acceptor+Aromatic+Donor|Donor+PosIonizable": 5.721570054568253,
+          "Acceptor+Aromatic+Donor|HalogenDonor": 3.019123327560638,
+          "Acceptor+Aromatic+Donor|Hydrophobe": 8.2414246284445,
+          "Acceptor+Aromatic+Donor|Structural": 7.919054348670258,
+          "Acceptor+Aromatic+PosIonizable|Acceptor+Donor": 14.143403027490608,
+          "Acceptor+Aromatic+PosIonizable|Aromatic": 6.747090490345968,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+Hydrophobe": 8.53641473978953,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+PosIonizable": 5.687428693901068,
+          "Acceptor+Aromatic+PosIonizable|Donor": 7.3041349698627815,
+          "Acceptor+Aromatic+PosIonizable|Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic+PosIonizable|HalogenDonor": 3.019123327560638,
+          "Acceptor+Aromatic+PosIonizable|Hydrophobe": 7.38578261188953,
+          "Acceptor+Aromatic+PosIonizable|Structural": 4.330087966586001,
+          "Acceptor+Aromatic|Acceptor+Aromatic": 7.364320241548198,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor": 1.7145896650182442,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic|Acceptor+Aromatic+PosIonizable": 7.905534796276752,
+          "Acceptor+Aromatic|Acceptor+Donor": 12.930045614083024,
+          "Acceptor+Aromatic|Aromatic": 4.689369626401899,
+          "Acceptor+Aromatic|Aromatic+Donor": 5.14535205327833,
+          "Acceptor+Aromatic|Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Aromatic|Aromatic+Hydrophobe": 6.179157725999809,
+          "Acceptor+Aromatic|Aromatic+PosIonizable": 2.606915539191992,
+          "Acceptor+Aromatic|Donor": 7.978170428318616,
+          "Acceptor+Aromatic|Donor+PosIonizable": 7.838196574435521,
+          "Acceptor+Aromatic|HalogenDonor": 8.924000716992541,
+          "Acceptor+Aromatic|Hydrophobe": 5.547005590826636,
+          "Acceptor+Aromatic|Structural": 5.715534441850944,
+          "Acceptor+Donor+NegIonizable|Acceptor+Donor+NegIonizable": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|Acceptor+NegIonizable": 19.03734715781544,
+          "Acceptor+Donor+NegIonizable|Aromatic": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|Aromatic+Hydrophobe": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|Donor": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|HalogenDonor": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|Hydrophobe": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|NegIonizable": 3.019123327560638,
+          "Acceptor+Donor+NegIonizable|Structural": 5.233366823500936,
+          "Acceptor+Donor|Acceptor+Donor": 3.019123327560638,
+          "Acceptor+Donor|Acceptor+Donor+NegIonizable": 3.019123327560638,
+          "Acceptor+Donor|Acceptor+NegIonizable": 3.019123327560638,
+          "Acceptor+Donor|Aromatic": 9.241216566270957,
+          "Acceptor+Donor|Aromatic+Donor": 3.019123327560638,
+          "Acceptor+Donor|Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Donor|Aromatic+Hydrophobe": 3.367099314283283,
+          "Acceptor+Donor|Aromatic+PosIonizable": 7.174202992514058,
+          "Acceptor+Donor|Donor": 3.019123327560638,
+          "Acceptor+Donor|Donor+PosIonizable": 3.019123327560638,
+          "Acceptor+Donor|HalogenDonor": 3.019123327560638,
+          "Acceptor+Donor|Hydrophobe": 3.019123327560638,
+          "Acceptor+Donor|NegIonizable": 3.019123327560638,
+          "Acceptor+Donor|Structural": 9.588725866266108,
+          "Acceptor+NegIonizable|Acceptor+NegIonizable": 3.019123327560638,
+          "Acceptor+NegIonizable|Aromatic": 3.019123327560638,
+          "Acceptor+NegIonizable|Aromatic+Hydrophobe": 3.019123327560638,
+          "Acceptor+NegIonizable|Donor": 3.019123327560638,
+          "Acceptor+NegIonizable|HalogenDonor": 3.019123327560638,
+          "Acceptor+NegIonizable|Hydrophobe": 3.019123327560638,
+          "Acceptor+NegIonizable|NegIonizable": 3.019123327560638,
+          "Acceptor+NegIonizable|Structural": 5.233239865291064,
+          "Acceptor|Acceptor": 9.975432643705343,
+          "Acceptor|Acceptor+Aromatic": 9.470719140731473,
+          "Acceptor|Acceptor+Aromatic+Donor": 2.677031184280355,
+          "Acceptor|Acceptor+Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Acceptor|Acceptor+Aromatic+PosIonizable": 4.82179755846172,
+          "Acceptor|Acceptor+Donor": 10.980473158539535,
+          "Acceptor|Acceptor+Donor+NegIonizable": 3.019123327560638,
+          "Acceptor|Acceptor+NegIonizable": 3.019123327560638,
+          "Acceptor|Aromatic": 8.253842096186343,
+          "Acceptor|Aromatic+Donor": 5.375104619701497,
+          "Acceptor|Aromatic+Donor+PosIonizable": 4.713248592458577,
+          "Acceptor|Aromatic+Hydrophobe": 8.723955238846443,
+          "Acceptor|Aromatic+PosIonizable": 3.045893516005564,
+          "Acceptor|Donor": 6.3349013026901915,
+          "Acceptor|Donor+PosIonizable": 7.664887896505319,
+          "Acceptor|HalogenDonor": 9.64087275745057,
+          "Acceptor|Hydrophobe": 9.37237143681649,
+          "Acceptor|MetalBinder": 3.019123327560638,
+          "Acceptor|NegIonizable": 8.786274565565675,
+          "Acceptor|Structural": 7.531296221313326,
+          "Aromatic+Donor+PosIonizable|Aromatic+Donor+PosIonizable": 3.019123327560638,
+          "Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 14.430397684612787,
+          "Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 3.019123327560638,
+          "Aromatic+Donor+PosIonizable|Donor": 3.019123327560638,
+          "Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.019123327560638,
+          "Aromatic+Donor+PosIonizable|Hydrophobe": 3.019123327560638,
+          "Aromatic+Donor+PosIonizable|Structural": 3.019123327560638,
+          "Aromatic+Donor|Aromatic+Donor": 3.019123327560638,
+          "Aromatic+Donor|Aromatic+Hydrophobe": 4.146968550506705,
+          "Aromatic+Donor|Aromatic+PosIonizable": 3.019123327560638,
+          "Aromatic+Donor|Donor": 8.033504464162375,
+          "Aromatic+Donor|Donor+PosIonizable": 7.501138265512097,
+          "Aromatic+Donor|HalogenDonor": 3.019123327560638,
+          "Aromatic+Donor|Hydrophobe": 9.987384152969465,
+          "Aromatic+Donor|Structural": 3.766109375969203,
+          "Aromatic+Hydrophobe|Aromatic+Hydrophobe": 6.328978548458046,
+          "Aromatic+Hydrophobe|Aromatic+PosIonizable": 4.048515897708228,
+          "Aromatic+Hydrophobe|Donor": 8.53266380843343,
+          "Aromatic+Hydrophobe|Donor+PosIonizable": 7.004304263214399,
+          "Aromatic+Hydrophobe|HalogenDonor": 9.095482094875301,
+          "Aromatic+Hydrophobe|Hydrophobe": 7.250219847778877,
+          "Aromatic+Hydrophobe|MetalBinder": 13.077811861878155,
+          "Aromatic+Hydrophobe|NegIonizable": 3.019123327560638,
+          "Aromatic+Hydrophobe|Structural": 5.332871675841842,
+          "Aromatic+PosIonizable|Aromatic+PosIonizable": 5.751593486453666,
+          "Aromatic+PosIonizable|Donor": 8.611156631998997,
+          "Aromatic+PosIonizable|Donor+PosIonizable": 6.002857660994269,
+          "Aromatic+PosIonizable|HalogenDonor": 9.891747844322484,
+          "Aromatic+PosIonizable|Hydrophobe": 4.519706647736057,
+          "Aromatic+PosIonizable|Structural": 3.125170684802387,
+          "Aromatic|Aromatic": 0.5545927963229744,
+          "Aromatic|Aromatic+Donor": 4.727153449667799,
+          "Aromatic|Aromatic+Donor+PosIonizable": 3.5435008588713317,
+          "Aromatic|Aromatic+Hydrophobe": 3.082724566051777,
+          "Aromatic|Aromatic+PosIonizable": 2.4050489106631767,
+          "Aromatic|Donor": 7.024149797691768,
+          "Aromatic|Donor+PosIonizable": 6.087176037676871,
+          "Aromatic|HalogenDonor": 8.826490783521095,
+          "Aromatic|Hydrophobe": 2.6545876794366325,
+          "Aromatic|MetalBinder": 12.789595161183902,
+          "Aromatic|NegIonizable": 3.019123327560638,
+          "Aromatic|Structural": 2.01611273815776,
+          "Donor+PosIonizable|Donor+PosIonizable": 11.003653631921154,
+          "Donor+PosIonizable|Hydrophobe": 5.2951016488632465,
+          "Donor+PosIonizable|Structural": 4.81232383812277,
+          "Donor|Donor": 9.379846718412091,
+          "Donor|Donor+PosIonizable": 7.424122292021407,
+          "Donor|HalogenDonor": 9.459060994749626,
+          "Donor|Hydrophobe": 8.946903322628653,
+          "Donor|MetalBinder": 3.019123327560638,
+          "Donor|NegIonizable": 3.019123327560638,
+          "Donor|Structural": 4.8006773036789205,
+          "HalogenDonor|HalogenDonor": 3.019123327560638,
+          "HalogenDonor|Hydrophobe": 11.833362876464431,
+          "HalogenDonor|NegIonizable": 3.019123327560638,
+          "HalogenDonor|Structural": 4.158818742021601,
+          "Hydrophobe|Hydrophobe": 3.9105019460181625,
+          "Hydrophobe|MetalBinder": 3.019123327560638,
+          "Hydrophobe|NegIonizable": 3.019123327560638,
+          "Hydrophobe|Structural": 3.647367441833613,
+          "MetalBinder|Structural": 15.506088298949747,
+          "NegIonizable|Structural": 3.019123327560638
+        }
+      },
+      "training": {
+        "all_losses_and_gradients_finite": true,
+        "best_epoch": 38,
+        "best_validation": {
+          "attachment_accuracy": 0.8198755253798901,
+          "bond_accuracy": 1.0,
+          "element_accuracy": 0.880765456329735,
+          "loss": 0.1643087579868734
+        },
+        "epoch_trace": [
+          {
+            "epoch": 1,
+            "train_loss": 1.2349598556756973,
+            "validation_loss": 0.6730777304619551
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6229952673117319,
+            "validation_loss": 0.5011252220720053
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.4919077654679616,
+            "validation_loss": 0.4282281193882227
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.4296318242947261,
+            "validation_loss": 0.3863643743097782
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.3932849367459615,
+            "validation_loss": 0.36112100537866354
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.36780976752440137,
+            "validation_loss": 0.3412862457334995
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.3475693538784981,
+            "validation_loss": 0.332049154676497
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.3336183379093806,
+            "validation_loss": 0.3203256959095597
+          },
+          {
+            "epoch": 9,
+            "train_loss": 0.3226492702960968,
+            "validation_loss": 0.31729480624198914
+          },
+          {
+            "epoch": 10,
+            "train_loss": 0.31436125189065933,
+            "validation_loss": 0.30863705184310675
+          },
+          {
+            "epoch": 11,
+            "train_loss": 0.30747916797796887,
+            "validation_loss": 0.3033784218132496
+          },
+          {
+            "epoch": 12,
+            "train_loss": 0.30016786356767017,
+            "validation_loss": 0.2867348436266184
+          },
+          {
+            "epoch": 13,
+            "train_loss": 0.2917338237166405,
+            "validation_loss": 0.2818159945309162
+          },
+          {
+            "epoch": 14,
+            "train_loss": 0.2867946997284889,
+            "validation_loss": 0.2746194051578641
+          },
+          {
+            "epoch": 15,
+            "train_loss": 0.2761811663707097,
+            "validation_loss": 0.27353978529572487
+          },
+          {
+            "epoch": 16,
+            "train_loss": 0.2664210796356201,
+            "validation_loss": 0.25414943881332874
+          },
+          {
+            "epoch": 17,
+            "train_loss": 0.26526541511217755,
+            "validation_loss": 0.24729510955512524
+          },
+          {
+            "epoch": 18,
+            "train_loss": 0.25862674166758853,
+            "validation_loss": 0.24379852320998907
+          },
+          {
+            "epoch": 19,
+            "train_loss": 0.24815281480550766,
+            "validation_loss": 0.23509563319385052
+          },
+          {
+            "epoch": 20,
+            "train_loss": 0.24039662505189577,
+            "validation_loss": 0.22954463865607977
+          },
+          {
+            "epoch": 21,
+            "train_loss": 0.23597432548801103,
+            "validation_loss": 0.23220803029835224
+          },
+          {
+            "epoch": 22,
+            "train_loss": 0.23191745951771736,
+            "validation_loss": 0.21577612590044737
+          },
+          {
+            "epoch": 23,
+            "train_loss": 0.22311235219240189,
+            "validation_loss": 0.21727430075407028
+          },
+          {
+            "epoch": 24,
+            "train_loss": 0.21894706164797148,
+            "validation_loss": 0.21609522309154272
+          },
+          {
+            "epoch": 25,
+            "train_loss": 0.21775490790605545,
+            "validation_loss": 0.2166540278121829
+          },
+          {
+            "epoch": 26,
+            "train_loss": 0.21951786801218987,
+            "validation_loss": 0.19801858998835087
+          },
+          {
+            "epoch": 27,
+            "train_loss": 0.21591940894722939,
+            "validation_loss": 0.22941450215876102
+          },
+          {
+            "epoch": 28,
+            "train_loss": 0.20758752152323723,
+            "validation_loss": 0.19952732417732477
+          },
+          {
+            "epoch": 29,
+            "train_loss": 0.19654412815968195,
+            "validation_loss": 0.18495967611670494
+          },
+          {
+            "epoch": 30,
+            "train_loss": 0.19952895119786263,
+            "validation_loss": 0.1886416720226407
+          },
+          {
+            "epoch": 31,
+            "train_loss": 0.20339668914675713,
+            "validation_loss": 0.19764629658311605
+          },
+          {
+            "epoch": 32,
+            "train_loss": 0.1971859522163868,
+            "validation_loss": 0.18404541118070483
+          },
+          {
+            "epoch": 33,
+            "train_loss": 0.18345078825950623,
+            "validation_loss": 0.17731828708201647
+          },
+          {
+            "epoch": 34,
+            "train_loss": 0.18650538474321365,
+            "validation_loss": 0.17254070099443197
+          },
+          {
+            "epoch": 35,
+            "train_loss": 0.18728622669974962,
+            "validation_loss": 0.18365383241325617
+          },
+          {
+            "epoch": 36,
+            "train_loss": 0.18117990717291832,
+            "validation_loss": 0.17770034354180098
+          },
+          {
+            "epoch": 37,
+            "train_loss": 0.1815463105837504,
+            "validation_loss": 0.18755575502291322
+          },
+          {
+            "epoch": 38,
+            "train_loss": 0.18297487994035086,
+            "validation_loss": 0.1643087579868734
+          },
+          {
+            "epoch": 39,
+            "train_loss": 0.17605067789554596,
+            "validation_loss": 0.16935399919748306
+          },
+          {
+            "epoch": 40,
+            "train_loss": 0.17346426596244177,
+            "validation_loss": 0.17465238645672798
+          }
+        ]
+      }
+    },
+    "Reinecke2024": {
+      "calibration_decoy_false_coverage": {
+        "atom": 0.06599131693198264,
+        "motif": 0.04996824052508998,
+        "pair": 0.04957215582915117
+      },
+      "changed_decoy_fraction_by_level_validation": {
+        "chemistry": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        },
+        "environment": {
+          "atom": 0.9854338970497469,
+          "motif": 0.9968274111675127,
+          "pair": 0.9998916889306088
+        },
+        "role": {
+          "atom": 1.0,
+          "motif": 1.0,
+          "pair": 1.0
+        }
+      },
+      "changed_decoy_fraction_held": {
+        "chemistry": 1.0,
+        "environment": 0.9949558270402659,
+        "role": 1.0
+      },
+      "changed_decoy_fraction_validation": {
+        "chemistry": 1.0,
+        "environment": 0.996628762541806,
+        "role": 1.0
+      },
+      "gates": {
+        "calibration": false,
+        "changed_decoys": true,
+        "effective_rank": false,
+        "finite": true,
+        "inner_pseudo_ood": false,
+        "structural": false
+      },
+      "held_coverage_quantiles": {
+        "0.0": 0.17277107960479268,
+        "0.1": 0.43384564566333356,
+        "0.5": 0.6393126164309464,
+        "0.9": 0.784823024755668,
+        "1.0": 0.9222242162176784
+      },
+      "held_decoy_coverage_quantiles": {
+        "0.0": 0.03394209726915585,
+        "0.1": 0.09070788496617586,
+        "0.5": 0.1228806066054884,
+        "0.9": 0.15828892202495948,
+        "1.0": 0.2658702495814046
+      },
+      "held_molecules": 1034,
+      "held_vs_inner_train_connectivity_overlap": 0,
+      "held_vs_inner_train_scaffold_overlap": 0,
+      "inner_coverage_quantiles": {
+        "0.0": 0.23670828708109967,
+        "0.1": 0.5731881048694686,
+        "0.5": 0.7735181439562145,
+        "0.9": 0.8982990297985786,
+        "1.0": 0.967674035108403
+      },
+      "inner_scaffold_overlap": 0,
+      "inner_train_molecules": 1105,
+      "inner_validation_molecules": 289,
+      "outer_candidate_molecules_before_firewall": 1475,
+      "representation": {
+        "atom_role_5nn_macro_f1": {
+          "baseline": 0.02885332415533758,
+          "margin": 0.7242955650633139,
+          "score": 0.7531488892186515
+        },
+        "dimension": 128,
+        "participation_rank": 8.593482931108326,
+        "rank_ratio": 0.0671365853992838
+      },
+      "strict_outer_train_molecules": 1394,
+      "structural": {
+        "brics_attachment_bin_accuracy": {
+          "baseline": 0.5212506767731456,
+          "margin": 0.34706804931005397,
+          "score": 0.8683187260831996
+        },
+        "directed_bond_order_accuracy": {
+          "baseline": 0.6157967243226695,
+          "margin": 0.3842032756773305,
+          "score": 1.0
+        },
+        "masked_element_accuracy": {
+          "baseline": 0.7318963183540877,
+          "margin": 0.14969239731035178,
+          "score": 0.8815887156644395
+        }
+      },
+      "tau_by_level_role": {
+        "atom": {
+          "Acceptor": 3.823439949015244,
+          "Acceptor+Aromatic": 3.223058498987727,
+          "Acceptor+Aromatic+Donor": 0.5911651255238786,
+          "Acceptor+Aromatic+Donor+PosIonizable": 0.9958671064940718,
+          "Acceptor+Aromatic+PosIonizable": 1.3612154409028763,
+          "Acceptor+Donor": 6.59424463971886,
+          "Acceptor+Donor+NegIonizable": 4.5011855770692275,
+          "Acceptor+NegIonizable": 5.715932915849997,
+          "Aromatic": 1e-06,
+          "Aromatic+Donor": 3.5430052242154875,
+          "Aromatic+Donor+PosIonizable": 0.7065059612865462,
+          "Aromatic+Hydrophobe": 0.11795343181189755,
+          "Aromatic+PosIonizable": 1.6975115757547028,
+          "Donor": 5.519634404144585,
+          "Donor+PosIonizable": 3.218293237077229,
+          "HalogenDonor": 6.2655627405645475,
+          "Hydrophobe": 0.004687192444694864,
+          "MetalBinder": 0.003314345619092699,
+          "NegIonizable": 6.896352967751516,
+          "PosIonizable": 4.37393187985314,
+          "Structural": 0.003314345619092699
+        },
+        "motif": {
+          "MOTIF:Acceptor": 6.149450212910375,
+          "MOTIF:Acceptor+Donor": 6.032005979406284,
+          "MOTIF:Acceptor+NegIonizable": 3.0346054827400692,
+          "MOTIF:Aromatic": 2.956467478645688,
+          "MOTIF:Aromatic+Hydrophobe": 2.0144757641647453,
+          "MOTIF:Aromatic+PosIonizable": 2.978916971320851,
+          "MOTIF:Donor": 10.25517178882912,
+          "MOTIF:Donor+PosIonizable": 4.566958163051146,
+          "MOTIF:Hydrophobe": 3.870369497015432,
+          "MOTIF:MetalBinder": 3.0346054827400692,
+          "MOTIF:NegIonizable": 9.41460243867676,
+          "MOTIF:PosIonizable": 3.0346054827400692,
+          "MOTIF:Structural": 6.727844811158167
+        },
+        "pair": {
+          "Acceptor+Aromatic+Donor+PosIonizable|Acceptor+Donor": 12.40484118550244,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic": 8.742010614014633,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 3.188891447286997,
+          "Acceptor+Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 6.130773397938604,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor": 8.913299774416481,
+          "Acceptor+Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor+PosIonizable|HalogenDonor": 3.188891447286997,
+          "Acceptor+Aromatic+Donor+PosIonizable|Hydrophobe": 3.188891447286997,
+          "Acceptor+Aromatic+Donor+PosIonizable|Structural": 9.037003921566987,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Acceptor+Aromatic+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Acceptor+Donor": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Aromatic": 1.3854164501338078,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor": 4.2380368315558465,
+          "Acceptor+Aromatic+Donor|Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Aromatic+Hydrophobe": 3.723091480003483,
+          "Acceptor+Aromatic+Donor|Aromatic+PosIonizable": 2.5685986370945826,
+          "Acceptor+Aromatic+Donor|Donor": 8.272386167408404,
+          "Acceptor+Aromatic+Donor|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|HalogenDonor": 3.188891447286997,
+          "Acceptor+Aromatic+Donor|Hydrophobe": 5.080199592204574,
+          "Acceptor+Aromatic+Donor|Structural": 4.437143454144524,
+          "Acceptor+Aromatic+PosIonizable|Acceptor+Donor": 6.359072944237698,
+          "Acceptor+Aromatic+PosIonizable|Aromatic": 7.235331388109712,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+Donor": 3.188891447286997,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+Hydrophobe": 4.208151767126698,
+          "Acceptor+Aromatic+PosIonizable|Aromatic+PosIonizable": 6.082579972462895,
+          "Acceptor+Aromatic+PosIonizable|Donor": 9.118404646463445,
+          "Acceptor+Aromatic+PosIonizable|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+PosIonizable|HalogenDonor": 3.188891447286997,
+          "Acceptor+Aromatic+PosIonizable|Hydrophobe": 8.20700471224036,
+          "Acceptor+Aromatic+PosIonizable|PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic+PosIonizable|Structural": 8.288864436783408,
+          "Acceptor+Aromatic|Acceptor+Aromatic": 7.4216987577040845,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor": 2.5780115283485925,
+          "Acceptor+Aromatic|Acceptor+Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic|Acceptor+Aromatic+PosIonizable": 6.456861048892053,
+          "Acceptor+Aromatic|Acceptor+Donor": 9.851559744899843,
+          "Acceptor+Aromatic|Acceptor+Donor+NegIonizable": 5.549785866385367,
+          "Acceptor+Aromatic|Acceptor+NegIonizable": 3.188891447286997,
+          "Acceptor+Aromatic|Aromatic": 3.9829813482552394,
+          "Acceptor+Aromatic|Aromatic+Donor": 4.62669685579438,
+          "Acceptor+Aromatic|Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic|Aromatic+Hydrophobe": 5.5049655117810214,
+          "Acceptor+Aromatic|Aromatic+PosIonizable": 4.249152107792612,
+          "Acceptor+Aromatic|Donor": 7.596352958000672,
+          "Acceptor+Aromatic|Donor+PosIonizable": 5.930996967624135,
+          "Acceptor+Aromatic|HalogenDonor": 7.221253794100921,
+          "Acceptor+Aromatic|Hydrophobe": 6.641950077161309,
+          "Acceptor+Aromatic|MetalBinder": 3.188891447286997,
+          "Acceptor+Aromatic|NegIonizable": 8.52844056664328,
+          "Acceptor+Aromatic|PosIonizable": 3.188891447286997,
+          "Acceptor+Aromatic|Structural": 5.563493691573532,
+          "Acceptor+Donor+NegIonizable|Acceptor+Donor+NegIonizable": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|Acceptor+NegIonizable": 15.871189038551393,
+          "Acceptor+Donor+NegIonizable|Aromatic": 6.397867133142583,
+          "Acceptor+Donor+NegIonizable|Aromatic+Donor": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|Aromatic+Hydrophobe": 3.6969501251202166,
+          "Acceptor+Donor+NegIonizable|Donor": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|HalogenDonor": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|Hydrophobe": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|NegIonizable": 3.188891447286997,
+          "Acceptor+Donor+NegIonizable|Structural": 3.188891447286997,
+          "Acceptor+Donor|Acceptor+Donor": 3.188891447286997,
+          "Acceptor+Donor|Acceptor+Donor+NegIonizable": 3.188891447286997,
+          "Acceptor+Donor|Acceptor+NegIonizable": 3.188891447286997,
+          "Acceptor+Donor|Aromatic": 8.967837226387019,
+          "Acceptor+Donor|Aromatic+Donor": 3.188891447286997,
+          "Acceptor+Donor|Aromatic+Donor+PosIonizable": 5.966309576441952,
+          "Acceptor+Donor|Aromatic+Hydrophobe": 9.351017535232542,
+          "Acceptor+Donor|Aromatic+PosIonizable": 4.30508533136365,
+          "Acceptor+Donor|Donor": 8.125491796421029,
+          "Acceptor+Donor|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+Donor|HalogenDonor": 3.188891447286997,
+          "Acceptor+Donor|Hydrophobe": 10.498459200890958,
+          "Acceptor+Donor|NegIonizable": 7.965999513582176,
+          "Acceptor+Donor|PosIonizable": 3.188891447286997,
+          "Acceptor+Donor|Structural": 9.818114510095967,
+          "Acceptor+NegIonizable|Acceptor+NegIonizable": 3.188891447286997,
+          "Acceptor+NegIonizable|Aromatic": 10.409091302137707,
+          "Acceptor+NegIonizable|Aromatic+Hydrophobe": 4.369588436392651,
+          "Acceptor+NegIonizable|Donor": 3.188891447286997,
+          "Acceptor+NegIonizable|Donor+PosIonizable": 3.188891447286997,
+          "Acceptor+NegIonizable|HalogenDonor": 3.188891447286997,
+          "Acceptor+NegIonizable|Hydrophobe": 3.188891447286997,
+          "Acceptor+NegIonizable|NegIonizable": 3.188891447286997,
+          "Acceptor+NegIonizable|Structural": 3.188891447286997,
+          "Acceptor|Acceptor": 9.465886960758791,
+          "Acceptor|Acceptor+Aromatic": 7.883653318192889,
+          "Acceptor|Acceptor+Aromatic+Donor": 2.5991567459151677,
+          "Acceptor|Acceptor+Aromatic+Donor+PosIonizable": 2.882014236324154,
+          "Acceptor|Acceptor+Aromatic+PosIonizable": 9.905105442058847,
+          "Acceptor|Acceptor+Donor": 11.210589404806086,
+          "Acceptor|Acceptor+Donor+NegIonizable": 5.961236446941263,
+          "Acceptor|Acceptor+NegIonizable": 3.188891447286997,
+          "Acceptor|Aromatic": 7.054551959915809,
+          "Acceptor|Aromatic+Donor": 4.496753590574224,
+          "Acceptor|Aromatic+Donor+PosIonizable": 5.5622215606006185,
+          "Acceptor|Aromatic+Hydrophobe": 8.06021148705435,
+          "Acceptor|Aromatic+PosIonizable": 4.037936208718846,
+          "Acceptor|Donor": 6.578617127908288,
+          "Acceptor|Donor+PosIonizable": 6.762046657014566,
+          "Acceptor|HalogenDonor": 7.193604780131684,
+          "Acceptor|Hydrophobe": 8.792612685145702,
+          "Acceptor|NegIonizable": 3.188891447286997,
+          "Acceptor|PosIonizable": 7.20378935316262,
+          "Acceptor|Structural": 7.71046055335105,
+          "Aromatic+Donor+PosIonizable|Aromatic+Hydrophobe": 11.730645957138773,
+          "Aromatic+Donor+PosIonizable|Aromatic+PosIonizable": 5.536948643567862,
+          "Aromatic+Donor+PosIonizable|Donor": 3.188891447286997,
+          "Aromatic+Donor+PosIonizable|Donor+PosIonizable": 3.188891447286997,
+          "Aromatic+Donor+PosIonizable|HalogenDonor": 3.188891447286997,
+          "Aromatic+Donor+PosIonizable|Hydrophobe": 3.188891447286997,
+          "Aromatic+Donor+PosIonizable|Structural": 8.78730188324097,
+          "Aromatic+Donor|Aromatic+Donor": 3.188891447286997,
+          "Aromatic+Donor|Aromatic+Donor+PosIonizable": 3.188891447286997,
+          "Aromatic+Donor|Aromatic+Hydrophobe": 6.039206751296983,
+          "Aromatic+Donor|Aromatic+PosIonizable": 2.7926199182875853,
+          "Aromatic+Donor|Donor": 9.20399895720109,
+          "Aromatic+Donor|Donor+PosIonizable": 3.188891447286997,
+          "Aromatic+Donor|HalogenDonor": 3.188891447286997,
+          "Aromatic+Donor|Hydrophobe": 3.188891447286997,
+          "Aromatic+Donor|NegIonizable": 3.188891447286997,
+          "Aromatic+Donor|Structural": 6.5580709160065505,
+          "Aromatic+Hydrophobe|Aromatic+Hydrophobe": 5.523749298552316,
+          "Aromatic+Hydrophobe|Aromatic+PosIonizable": 3.7841693836150956,
+          "Aromatic+Hydrophobe|Donor": 8.516131163075615,
+          "Aromatic+Hydrophobe|Donor+PosIonizable": 5.6832895245010135,
+          "Aromatic+Hydrophobe|HalogenDonor": 8.003739277737003,
+          "Aromatic+Hydrophobe|Hydrophobe": 6.508131471249376,
+          "Aromatic+Hydrophobe|NegIonizable": 8.03629770661284,
+          "Aromatic+Hydrophobe|PosIonizable": 3.188891447286997,
+          "Aromatic+Hydrophobe|Structural": 5.382966298487468,
+          "Aromatic+PosIonizable|Aromatic+PosIonizable": 7.363214394272726,
+          "Aromatic+PosIonizable|Donor": 8.371504764163062,
+          "Aromatic+PosIonizable|Donor+PosIonizable": 8.189680054799544,
+          "Aromatic+PosIonizable|HalogenDonor": 10.033574082411759,
+          "Aromatic+PosIonizable|Hydrophobe": 6.917348084948867,
+          "Aromatic+PosIonizable|PosIonizable": 9.528537722039934,
+          "Aromatic+PosIonizable|Structural": 4.988935816550557,
+          "Aromatic|Aromatic": 0.497475704133937,
+          "Aromatic|Aromatic+Donor": 4.198890938470459,
+          "Aromatic|Aromatic+Donor+PosIonizable": 2.7266071110274273,
+          "Aromatic|Aromatic+Hydrophobe": 2.7411501375557745,
+          "Aromatic|Aromatic+PosIonizable": 3.1501899281653216,
+          "Aromatic|Donor": 7.424499484943851,
+          "Aromatic|Donor+PosIonizable": 4.660020027845171,
+          "Aromatic|HalogenDonor": 7.400478409036257,
+          "Aromatic|Hydrophobe": 3.1113784837867247,
+          "Aromatic|MetalBinder": 3.188891447286997,
+          "Aromatic|NegIonizable": 7.585046678032612,
+          "Aromatic|PosIonizable": 7.19177347471051,
+          "Aromatic|Structural": 2.382992248051351,
+          "Donor+PosIonizable|Donor+PosIonizable": 11.850300145486024,
+          "Donor+PosIonizable|HalogenDonor": 3.188891447286997,
+          "Donor+PosIonizable|Hydrophobe": 7.62585245463502,
+          "Donor+PosIonizable|NegIonizable": 3.188891447286997,
+          "Donor+PosIonizable|PosIonizable": 8.190876407338076,
+          "Donor+PosIonizable|Structural": 4.58155281439651,
+          "Donor|Donor": 9.569263512542626,
+          "Donor|Donor+PosIonizable": 4.179743431397462,
+          "Donor|HalogenDonor": 7.4393331640469995,
+          "Donor|Hydrophobe": 8.893344921556999,
+          "Donor|MetalBinder": 3.188891447286997,
+          "Donor|NegIonizable": 8.649961259150583,
+          "Donor|PosIonizable": 3.188891447286997,
+          "Donor|Structural": 8.405578842643177,
+          "HalogenDonor|HalogenDonor": 12.384183167031875,
+          "HalogenDonor|Hydrophobe": 3.188891447286997,
+          "HalogenDonor|NegIonizable": 3.188891447286997,
+          "HalogenDonor|Structural": 8.896265971842068,
+          "Hydrophobe|Hydrophobe": 0.49866394477920006,
+          "Hydrophobe|MetalBinder": 3.188891447286997,
+          "Hydrophobe|NegIonizable": 11.160489583266267,
+          "Hydrophobe|Structural": 5.309497407104808,
+          "MetalBinder|Structural": 3.188891447286997,
+          "NegIonizable|NegIonizable": 3.188891447286997,
+          "NegIonizable|Structural": 9.601807781006274,
+          "PosIonizable|PosIonizable": 3.188891447286997,
+          "PosIonizable|Structural": 7.024189527762543
+        }
+      },
+      "training": {
+        "all_losses_and_gradients_finite": true,
+        "best_epoch": 40,
+        "best_validation": {
+          "attachment_accuracy": 0.8683187260831996,
+          "bond_accuracy": 1.0,
+          "element_accuracy": 0.8815887156644395,
+          "loss": 0.15376634895801544
+        },
+        "epoch_trace": [
+          {
+            "epoch": 1,
+            "train_loss": 1.0366987983385723,
+            "validation_loss": 0.5791800409555435
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.5202281458510293,
+            "validation_loss": 0.4249920904636383
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.418367862701416,
+            "validation_loss": 0.3611958548426628
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.36770276228586835,
+            "validation_loss": 0.3290469512343407
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.3397716134786606,
+            "validation_loss": 0.31162222325801847
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.3235229750474294,
+            "validation_loss": 0.29768583476543425
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.3106609616014693,
+            "validation_loss": 0.28511109948158264
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.29642994701862335,
+            "validation_loss": 0.2857204005122185
+          },
+          {
+            "epoch": 9,
+            "train_loss": 0.28798754347695243,
+            "validation_loss": 0.2665978096425533
+          },
+          {
+            "epoch": 10,
+            "train_loss": 0.27688683734999764,
+            "validation_loss": 0.2568849608302116
+          },
+          {
+            "epoch": 11,
+            "train_loss": 0.27171338266796535,
+            "validation_loss": 0.2527838833630085
+          },
+          {
+            "epoch": 12,
+            "train_loss": 0.2621380074156655,
+            "validation_loss": 0.23675933107733727
+          },
+          {
+            "epoch": 13,
+            "train_loss": 0.2530820088254081,
+            "validation_loss": 0.2513767920434475
+          },
+          {
+            "epoch": 14,
+            "train_loss": 0.25240855250093674,
+            "validation_loss": 0.23259653449058532
+          },
+          {
+            "epoch": 15,
+            "train_loss": 0.24182164751821095,
+            "validation_loss": 0.23535166531801224
+          },
+          {
+            "epoch": 16,
+            "train_loss": 0.23941982951429155,
+            "validation_loss": 0.21236984953284263
+          },
+          {
+            "epoch": 17,
+            "train_loss": 0.2269920359055201,
+            "validation_loss": 0.20860697254538535
+          },
+          {
+            "epoch": 18,
+            "train_loss": 0.22780823045306736,
+            "validation_loss": 0.20293602272868155
+          },
+          {
+            "epoch": 19,
+            "train_loss": 0.2221233066585329,
+            "validation_loss": 0.22453809678554534
+          },
+          {
+            "epoch": 20,
+            "train_loss": 0.2196329856912295,
+            "validation_loss": 0.20074848905205728
+          },
+          {
+            "epoch": 21,
+            "train_loss": 0.20652685479985344,
+            "validation_loss": 0.1955976039171219
+          },
+          {
+            "epoch": 22,
+            "train_loss": 0.209061066309611,
+            "validation_loss": 0.18784188553690911
+          },
+          {
+            "epoch": 23,
+            "train_loss": 0.1994607142276234,
+            "validation_loss": 0.19972515478730202
+          },
+          {
+            "epoch": 24,
+            "train_loss": 0.20449120716916191,
+            "validation_loss": 0.179170361161232
+          },
+          {
+            "epoch": 25,
+            "train_loss": 0.19234799262550142,
+            "validation_loss": 0.1829678125679493
+          },
+          {
+            "epoch": 26,
+            "train_loss": 0.19422093944417107,
+            "validation_loss": 0.17547011375427246
+          },
+          {
+            "epoch": 27,
+            "train_loss": 0.18694033142593172,
+            "validation_loss": 0.1848536252975464
+          },
+          {
+            "epoch": 28,
+            "train_loss": 0.18841401818725798,
+            "validation_loss": 0.17711034268140793
+          },
+          {
+            "epoch": 29,
+            "train_loss": 0.18159644140137565,
+            "validation_loss": 0.1712569959461689
+          },
+          {
+            "epoch": 30,
+            "train_loss": 0.18539179199271733,
+            "validation_loss": 0.17698803693056106
+          },
+          {
+            "epoch": 31,
+            "train_loss": 0.17771983395020166,
+            "validation_loss": 0.1704886808991432
+          },
+          {
+            "epoch": 32,
+            "train_loss": 0.17792599565453,
+            "validation_loss": 0.16075090728700162
+          },
+          {
+            "epoch": 33,
+            "train_loss": 0.17418375611305237,
+            "validation_loss": 0.1643980208784342
+          },
+          {
+            "epoch": 34,
+            "train_loss": 0.17500425461265776,
+            "validation_loss": 0.1717918872833252
+          },
+          {
+            "epoch": 35,
+            "train_loss": 0.17206841541661155,
+            "validation_loss": 0.1664546400308609
+          },
+          {
+            "epoch": 36,
+            "train_loss": 0.17260485721959007,
+            "validation_loss": 0.15685392916202545
+          },
+          {
+            "epoch": 37,
+            "train_loss": 0.16248461935255262,
+            "validation_loss": 0.1579192839562893
+          },
+          {
+            "epoch": 38,
+            "train_loss": 0.16785037186410692,
+            "validation_loss": 0.16712702289223672
+          },
+          {
+            "epoch": 39,
+            "train_loss": 0.16517408109373516,
+            "validation_loss": 0.15840709991753102
+          },
+          {
+            "epoch": 40,
+            "train_loss": 0.165205088754495,
+            "validation_loss": 0.15376634895801544
+          }
+        ]
+      }
+    }
+  },
+  "gates": {
+    "all_calibration_false_coverage_at_most_005": false,
+    "all_changed_decoy_fractions_at_least_095": true,
+    "all_effective_rank_gates_pass": false,
+    "all_inner_pseudo_ood_folds_pass": false,
+    "all_losses_and_gradients_finite": true,
+    "all_structural_margins_pass": false,
+    "current_run_confirmation_unread_and_sealed_unconsumed": true,
+    "external_median_at_least_090": false,
+    "external_q10_at_least_070": false,
+    "grouped_mde_still_passes": true,
+    "max_source_weight_at_most_040": true,
+    "primitive_graph_still_passes": true,
+    "true_minus_decoy_grouped_lcb95_above_zero": true
+  },
+  "inherited_discrete_checks": {
+    "document_primitive_graph": {
+      "component_sizes": [
+        30
+      ],
+      "components": 1,
+      "cross_source_edges": 57,
+      "edges": 430,
+      "environments": 30,
+      "informative_anchor_tokens": 1405,
+      "informative_carrier_tokens": 3980,
+      "largest_component_environments": 30,
+      "largest_component_fraction": 1.0,
+      "largest_component_sources": [
+        "KIRHub2026",
+        "Papyrus-Christmann2016",
+        "Reinecke2024"
+      ]
+    },
+    "grouped_power": {
+      "equal_source_weight": {
+        "KIRHub2026": 0.3333333333333334,
+        "Papyrus-Christmann2016": 0.33333333333333326,
+        "Reinecke2024": 0.3333333333333333
+      },
+      "interpretation": "Optimistic label-blind design envelope; it does not include biological or assay noise.",
+      "kish_effective_n": 15364.03640426861,
+      "mde80_standardized_paired_effect": 0.022602223939274694,
+      "strata": 16684,
+      "strata_by_source": {
+        "KIRHub2026": 8004,
+        "Papyrus-Christmann2016": 4366,
+        "Reinecke2024": 4314
+      }
+    }
+  },
+  "passed": false,
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\factor_f0c1_preregistration.md",
+    "sha256": "10dba441b5193891bde898e05a45e46c3090c8095e14a402fb23111e14e6b9f1"
+  },
+  "representation_valid": false,
+  "runtime": {
+    "cuda": "12.4",
+    "device": "cuda",
+    "epochs": 40,
+    "full_uncapped_replication_required_if_passed": true,
+    "pair_cap": 96,
+    "pair_cap_is_audit_only": true,
+    "seed": 1729,
+    "torch": "2.6.0+cu124"
+  },
+  "schema": "factor-f0c1-v1",
+  "sources": {
+    "discrete_f0_sha256": "a7f7c5239972b5d2e5f918fcb90dc5fb708488fd1a6a5dd21fbd70ca95e1ea45",
+    "kirhub_registry_sha256": "fc3bd42fb7618c548ad7b661fa7907cfacd7afa70a768782c99ea83edf1825ed",
+    "papyrus_kinase200_sha256": "d55b113315bbbed0de7d726d3171b58cbb1468967375a574c54aef217c99ff29",
+    "reinecke_registry_sha256": "92ca4981efb87ee42ae03fd4f6d2b2a0fc11ee90a678921a1c67d6b0c2768405"
+  },
+  "structure_summary": {
+    "input_structures": 2489,
+    "invalid_unique_structures_by_source": {
+      "KIRHub2026": 0,
+      "Papyrus-Christmann2016": 0,
+      "Reinecke2024": 0
+    },
+    "valid_canonical_structures": 2489
+  },
+  "verdict": "FACTOR_F0C1_REPRESENTATION_UNIDENTIFIED_STOP"
+}

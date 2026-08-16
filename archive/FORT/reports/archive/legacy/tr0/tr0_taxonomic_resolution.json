@@ -1,0 +1,149 @@
+{
+  "schema": "tr0-taxonomic-resolution-v1",
+  "candidate": "TR-0 taxonomic-resolution premise/specificity/ceiling analysis",
+  "preregistration": "reports/active/taxonomic_resolution_preregistration.md",
+  "source": {
+    "workbook_sha256": "d9eef358396b193834b0c4d48ccd8cadb43697a6458cdcb50415af5a7e4e0b03",
+    "component_registry_sha256": "fc3bd42fb7618c548ad7b661fa7907cfacd7afa70a768782c99ea83edf1825ed",
+    "strict_components_sha256": "0122780145a5504a61d78a709829d65d093f5636ccb4bca117d5e39cc2c4a7d4",
+    "frozen_esm_sha256": "062e4accc076527014adc5b4865788eed31a17ff43d1feff2b9e883b5c0cff79",
+    "reanalysed_frozen_a1": "reports/active/kirhub_spkop_a1_strict.json"
+  },
+  "protocol": {
+    "reuses": "kirhub_spkop_a1 audit machinery, arms bit-identical",
+    "new_control_arms": [
+      "group_cold",
+      "random_group_labels",
+      "shuffled_group"
+    ],
+    "statistical_unit": "strict full-sequence homology component",
+    "grouped_bootstrap_draws": 10000,
+    "model_trained": false,
+    "affinity_label_read_for_selection": false,
+    "seed": 1729
+  },
+  "component_macro_arm_spearman": {
+    "ligand_only": {
+      "mean": 0.0429,
+      "lcb95": 0.0236,
+      "ucb95": 0.0622,
+      "n_units": 308
+    },
+    "true_protein": {
+      "mean": 0.0719,
+      "lcb95": 0.0515,
+      "ucb95": 0.092,
+      "n_units": 308
+    },
+    "protein_shuffle": {
+      "mean": 0.0261,
+      "lcb95": 0.0058,
+      "ucb95": 0.047,
+      "n_units": 308
+    },
+    "random_protein": {
+      "mean": 0.02,
+      "lcb95": 0.0002,
+      "ucb95": 0.0396,
+      "n_units": 308
+    },
+    "group_centroid": {
+      "mean": 0.083,
+      "lcb95": 0.0628,
+      "ucb95": 0.1028,
+      "n_units": 308
+    },
+    "group_cold": {
+      "mean": 0.0739,
+      "lcb95": 0.0542,
+      "ucb95": 0.0938,
+      "n_units": 308
+    },
+    "random_group_labels": {
+      "mean": 0.0482,
+      "lcb95": 0.0287,
+      "ucb95": 0.0673,
+      "n_units": 308
+    },
+    "shuffled_group": {
+      "mean": 0.0636,
+      "lcb95": 0.0446,
+      "ucb95": 0.0829,
+      "n_units": 308
+    }
+  },
+  "contrasts": {
+    "group_minus_ligand_only": {
+      "mean": 0.04,
+      "lcb95": 0.0181,
+      "ucb95": 0.0616,
+      "n_units": 308
+    },
+    "group_minus_random_group_labels": {
+      "mean": 0.0347,
+      "lcb95": 0.0119,
+      "ucb95": 0.0578,
+      "n_units": 308
+    },
+    "group_minus_shuffled_group": {
+      "mean": 0.0193,
+      "lcb95": 0.0022,
+      "ucb95": 0.0361,
+      "n_units": 308
+    },
+    "group_cold_minus_ligand_only": {
+      "mean": 0.0309,
+      "lcb95": 0.0107,
+      "ucb95": 0.0515,
+      "n_units": 308
+    },
+    "group_minus_group_cold": {
+      "mean": 0.0091,
+      "lcb95": -0.0076,
+      "ucb95": 0.0256,
+      "n_units": 308
+    },
+    "true_minus_group_centroid": {
+      "mean": -0.011,
+      "lcb95": -0.0321,
+      "ucb95": 0.0105,
+      "n_units": 308
+    },
+    "true_minus_ligand_only": {
+      "mean": 0.029,
+      "lcb95": 0.0079,
+      "ucb95": 0.0499,
+      "n_units": 308
+    }
+  },
+  "prospective_mde80": {
+    "independent_homology_component_units": 308,
+    "normal_approximation_envelope": {
+      "sd_0.05": 0.008,
+      "sd_0.10": 0.016,
+      "sd_0.20": 0.0319
+    },
+    "required_gain": 0.03
+  },
+  "gates": {
+    "G1_group_beats_ligand_mean_at_least_threshold": true,
+    "G1_group_beats_ligand_lcb_above_zero": true,
+    "G2_group_beats_random_group_labels_lcb_above_zero": true,
+    "G2_group_beats_shuffled_group_lcb_above_zero": true,
+    "G0_group_beats_group_cold_lcb_above_zero": false
+  },
+  "g3_ceiling_diagnostic": {
+    "true_minus_group_centroid": {
+      "mean": -0.011,
+      "lcb95": -0.0321,
+      "ucb95": 0.0105,
+      "n_units": 308
+    },
+    "fine_protein_beats_group_ceiling": false,
+    "note": "non-gating; k-support ceiling deferred to TR-1. Negative/zero here means finer-than-group resolution is not identifiable zero-shot."
+  },
+  "verdict": "TR0_PREMISE_FAIL_STOP",
+  "authorize_tr1": false,
+  "sealed_test_consumed": false,
+  "confirmation_labels_read": true
+}

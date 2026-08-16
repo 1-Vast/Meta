@@ -1,0 +1,223 @@
+{
+  "schema": "panel-power-v1",
+  "substrate": "ChEMBL-37 doc CHEMBL1201862 pKi dense panel",
+  "registry_sha256": "94da6bb5a59c2911672fde982530c8dd6a673c194b2b2d7b4638df7768c8173e",
+  "feature_sha256": "68abc58fdc9cba7c03850b831adc46633e46f22fb47ee90e3e0e74ee12968550",
+  "seeds": [
+    1729,
+    2027,
+    4241,
+    5501
+  ],
+  "steps": 4000,
+  "folds": 5,
+  "fold_seed": 1729,
+  "max_train_episode_rows": 256,
+  "device": "cuda",
+  "wall_clock_s": 455.4,
+  "b0_macro_spearman_by_seed": {
+    "1729": 0.2785580229494403,
+    "2027": 0.3022468898850791,
+    "4241": 0.29376979757358307,
+    "5501": 0.2913413974002862
+  },
+  "b0_macro_rmse_by_seed": {
+    "1729": 0.8107656245917899,
+    "2027": 0.8135879188913329,
+    "4241": 0.8091434770416628,
+    "5501": 0.8116908880518066
+  },
+  "cross_validation_audit": {
+    "1729": {
+      "folds": [
+        {
+          "fold": 0,
+          "train_rows": 9718,
+          "held_rows": 1204,
+          "held_components": 21
+        },
+        {
+          "fold": 1,
+          "train_rows": 10556,
+          "held_rows": 836,
+          "held_components": 20
+        },
+        {
+          "fold": 2,
+          "train_rows": 10479,
+          "held_rows": 911,
+          "held_components": 20
+        },
+        {
+          "fold": 3,
+          "train_rows": 9864,
+          "held_rows": 1040,
+          "held_components": 20
+        },
+        {
+          "fold": 4,
+          "train_rows": 9679,
+          "held_rows": 1221,
+          "held_components": 20
+        }
+      ],
+      "provenance_violations": 0
+    },
+    "2027": {
+      "folds": [
+        {
+          "fold": 0,
+          "train_rows": 9718,
+          "held_rows": 1204,
+          "held_components": 21
+        },
+        {
+          "fold": 1,
+          "train_rows": 10556,
+          "held_rows": 836,
+          "held_components": 20
+        },
+        {
+          "fold": 2,
+          "train_rows": 10479,
+          "held_rows": 911,
+          "held_components": 20
+        },
+        {
+          "fold": 3,
+          "train_rows": 9864,
+          "held_rows": 1040,
+          "held_components": 20
+        },
+        {
+          "fold": 4,
+          "train_rows": 9679,
+          "held_rows": 1221,
+          "held_components": 20
+        }
+      ],
+      "provenance_violations": 0
+    },
+    "4241": {
+      "folds": [
+        {
+          "fold": 0,
+          "train_rows": 9718,
+          "held_rows": 1204,
+          "held_components": 21
+        },
+        {
+          "fold": 1,
+          "train_rows": 10556,
+          "held_rows": 836,
+          "held_components": 20
+        },
+        {
+          "fold": 2,
+          "train_rows": 10479,
+          "held_rows": 911,
+          "held_components": 20
+        },
+        {
+          "fold": 3,
+          "train_rows": 9864,
+          "held_rows": 1040,
+          "held_components": 20
+        },
+        {
+          "fold": 4,
+          "train_rows": 9679,
+          "held_rows": 1221,
+          "held_components": 20
+        }
+      ],
+      "provenance_violations": 0
+    },
+    "5501": {
+      "folds": [
+        {
+          "fold": 0,
+          "train_rows": 9718,
+          "held_rows": 1204,
+          "held_components": 21
+        },
+        {
+          "fold": 1,
+          "train_rows": 10556,
+          "held_rows": 836,
+          "held_components": 20
+        },
+        {
+          "fold": 2,
+          "train_rows": 10479,
+          "held_rows": 911,
+          "held_components": 20
+        },
+        {
+          "fold": 3,
+          "train_rows": 9864,
+          "held_rows": 1040,
+          "held_components": 20
+        },
+        {
+          "fold": 4,
+          "train_rows": 9679,
+          "held_rows": 1221,
+          "held_components": 20
+        }
+      ],
+      "provenance_violations": 0
+    }
+  },
+  "seed_pairs_mean_sd": [
+    [
+      1729,
+      2027,
+      -0.0223,
+      0.0972
+    ],
+    [
+      1729,
+      4241,
+      -0.0142,
+      0.1087
+    ],
+    [
+      1729,
+      5501,
+      -0.0141,
+      0.1093
+    ],
+    [
+      2027,
+      4241,
+      0.008,
+      0.0835
+    ],
+    [
+      2027,
+      5501,
+      0.0081,
+      0.0903
+    ],
+    [
+      4241,
+      5501,
+      0.0001,
+      0.0781
+    ]
+  ],
+  "frozen_gate_pb": {
+    "primary_metric": "dual-cold development target-macro Spearman",
+    "statistical_unit": "sequence-homology component (tunit)",
+    "protocol": "leave-component-out cross-validation, 5 folds, fixed fold map",
+    "n_components": 101,
+    "median_query_ligands_per_target": 43.0,
+    "retrain_noise_sd_per_component": 0.0948,
+    "mde80_paired": 0.0181,
+    "gate_pb_threshold_spearman": 0.03,
+    "threshold_rule": "max(task-specified 0.03, empirical MDE80); never looser"
+  },
+  "panel_confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

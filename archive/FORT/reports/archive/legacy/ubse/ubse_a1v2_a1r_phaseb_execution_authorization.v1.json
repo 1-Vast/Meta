@@ -1,0 +1,77 @@
+{
+  "schema": "ubse-a1v2-a1r-phaseb-execution-authorization-v1",
+  "status": "AUTHORIZED",
+  "phase": "B",
+  "issued_date": "2026-07-30",
+  "decision": "EXECUTE_A1R_PARSE_AND_EVENT_RELIABILITY_ONLY",
+  "binding_inputs": [
+    {
+      "id": "stage1_parent_contract",
+      "path": "manifests/ubse_a1v2_stage1_extractor_contract.v1.json",
+      "sha256": "e2e66f1143c93ce886af86a976abe4dcb28f5677ab332451998b9d301e638c92"
+    },
+    {
+      "id": "mask_statistic_closure_amendment",
+      "path": "reports/active/ubse_a1v2_mask_statistic_closure_amendment_2026-07-30.md",
+      "sha256": "42e0684792595067d703f9b01ef347246ec153caed134ddff32f6d54293b7b76"
+    },
+    {
+      "id": "prepared_acquisition_packet",
+      "path": "reports/active/ubse_a1v2_coordinate_acquisition_authorization.v1.json",
+      "sha256": "0b650526ba64160355e1da92d18219239bffbc7f44800b804f7744c26d37e7a2"
+    },
+    {
+      "id": "phase_a_execution_authorization",
+      "path": "reports/active/ubse_a1v2_a1r_acquisition_execution_authorization.v1.json",
+      "sha256": "8a9e4cd4427504fbe966136c3cb2a4b637c5c05c6f6ee7189801d1097e1f9ba0"
+    },
+    {
+      "id": "coordinate_body_ledger",
+      "path": "dataset/public/biolip2/processed/ubse_a1v2_coordinate_body_ledger.v1.parquet",
+      "sha256": "61454d03f5bc22faa85a7389cadccfa051f2522d3185a4998f81ade7aeaf764b"
+    },
+    {
+      "id": "ccd_snapshot_ledger",
+      "path": "dataset/public/biolip2/processed/ubse_a1v2_ccd_snapshot_ledger.v1.parquet",
+      "sha256": "75076d1649e3458bb9b0666895b7dd6859acffc902b8272f439e1489968ce6c8"
+    },
+    {
+      "id": "phase_a_result",
+      "path": "reports/active/ubse_a1v2_a1r_acquisition_result.v1.json",
+      "sha256": "45a03cff6ae2c3c78fe6590b283930642e7bd5e5684ba4b510cb24df3333b063"
+    },
+    {
+      "id": "user_execution_instruction",
+      "path": "C:/Users/59964/.codex/attachments/8550da0c-2e86-4103-a207-e9258545854d/pasted-text.txt",
+      "sha256": "e06b32c7f6f8d99252ffb160e57bdbc92458e81dd089d4aee4a543ab92083983"
+    }
+  ],
+  "scope": {
+    "role": "a1r_only",
+    "coordinate_bodies": 421,
+    "coordinate_instances": 459,
+    "ccd_snapshots": 1,
+    "engineering_smoke_precedes_full_run": true,
+    "smoke_has_no_scientific_decision": true,
+    "primary_teacher": "PLIP 3.0.1",
+    "non_voting_audit": "ProLIF 2.2.1"
+  },
+  "effective_authorizations": {
+    "coordinate_get": false,
+    "coordinate_parse": true,
+    "ccd_snapshot_get": false,
+    "event_extraction": true,
+    "a1r_event_read": false,
+    "a1s_event_read": false,
+    "a1c_event_read": false,
+    "a1c_scoring": false,
+    "affinity_read": false,
+    "student_training": false,
+    "p0a_v2_training": false,
+    "stage4a": false,
+    "stage4b_kernel": false,
+    "confirmation_read": false,
+    "sealed_access": false
+  },
+  "stop_rule": "STOP_C1_ON_ANY_FROZEN_RELIABILITY_COVERAGE_CHEMISTRY_OR_EFFECTIVE_SAMPLE_SIZE_FAILURE"
+}

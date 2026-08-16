@@ -1,0 +1,172 @@
+{
+  "schema": "ubse-a1v2-coordinate-acquisition-authorization-v1",
+  "packet_id": "ubse-a1v2-a1r-coordinate-ccd-acquisition-v1",
+  "prepared_date": "2026-07-30",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "decision": "REQUEST_EXPLICIT_USER_AUTHORIZATION_BEFORE_ANY_NETWORK_GET",
+  "workspace_root": "D:/FORT",
+  "binding_inputs": [
+    {
+      "id": "stage1_parent_contract",
+      "path": "manifests/ubse_a1v2_stage1_extractor_contract.v1.json",
+      "sha256": "e2e66f1143c93ce886af86a976abe4dcb28f5677ab332451998b9d301e638c92"
+    },
+    {
+      "id": "mask_statistic_closure_amendment",
+      "path": "reports/active/ubse_a1v2_mask_statistic_closure_amendment_2026-07-30.md",
+      "sha256": "42e0684792595067d703f9b01ef347246ec153caed134ddff32f6d54293b7b76"
+    },
+    {
+      "id": "a1r_locator_manifest",
+      "path": "dataset/public/biolip2/processed/ubse_a1v2_a1r_locator_manifest.parquet",
+      "sha256": "da788694eaf0f072752a8b7dfbaac6c9ddcd9bf57fcf9709364a1dc7902f0083"
+    },
+    {
+      "id": "selected_url_manifest",
+      "path": "reports/active/ubse_a1v2_selected_urls.parquet",
+      "sha256": "284fdb770b5539476facc8a3e873dac676d1df5f836060735eac6fb1979adbd7"
+    },
+    {
+      "id": "strict_head_result",
+      "path": "reports/active/ubse_a1v2_head_firewall_verification.json",
+      "sha256": "aa76b5e710cb37d75415fe2dd1aaf0531c9a414c073c7eeaeec6249273c5c24d"
+    },
+    {
+      "id": "strict_head_ledger",
+      "path": "reports/active/ubse_a1v2_head_firewall_verification_ledger.parquet",
+      "sha256": "2b115f71536a779e343a94dc60d47c7be023ddde1d5477bd65fceebb155d6b20"
+    }
+  ],
+  "scope": {
+    "role": "a1r_only",
+    "coordinate_instances": 459,
+    "unique_coordinate_bodies": 421,
+    "selected_url_filter": {
+      "column": "role",
+      "equals": "a1r",
+      "expected_rows": 421,
+      "duplicate_pdb_ids": "forbidden"
+    },
+    "a1s_coordinate_get": false,
+    "a1c_coordinate_get": false,
+    "ccd_snapshot": {
+      "included_in_request": true,
+      "expected_required_ccd_identifiers": 3470
+    }
+  },
+  "coordinate_transport": {
+    "scheme": "https",
+    "host": "files.rcsb.org",
+    "path_template": "/download/{lowercase_pdb_id}.cif.gz",
+    "query": "forbidden",
+    "fragment": "forbidden",
+    "method": "GET",
+    "follow_redirects": false,
+    "streaming": true,
+    "connect_and_read_timeout_s": 30,
+    "retries_after_initial_attempt": 2,
+    "accepted_content_types": [
+      "application/gzip",
+      "application/octet-stream"
+    ],
+    "max_compressed_bytes_per_body": 536870912,
+    "max_decompressed_bytes_per_body": 2147483648
+  },
+  "ccd_transport": {
+    "url": "https://files.wwpdb.org/pub/pdb/data/monomers/components.cif.gz",
+    "method": "GET",
+    "follow_redirects": false,
+    "streaming": true,
+    "connect_and_read_timeout_s": 30,
+    "retries_after_initial_attempt": 2,
+    "max_compressed_bytes": 536870912,
+    "max_decompressed_bytes": 2147483648
+  },
+  "integrity": {
+    "compressed_sha256": "measure_once_then_freeze",
+    "gzip_magic": "required_before_stream_acceptance",
+    "gzip_crc": "required",
+    "decompressed_sha256": "measure_stream_without_parsing",
+    "content_length_if_present": "must_equal_streamed_bytes",
+    "unexpected_body": "hard_fail",
+    "redirect": "hard_fail",
+    "hash_mismatch": "hard_fail"
+  },
+  "write_once": {
+    "coordinate_root": "dataset/public/biolip2/coordinates/ubse_a1v2/raw",
+    "coordinate_filename": "{lowercase_pdb_id}.cif.gz",
+    "ccd_path": "dataset/public/biolip2/coordinates/ubse_a1v2/ccd/components.cif.gz",
+    "temporary_suffix": ".part",
+    "temporary_open_mode": "exclusive_create",
+    "stale_temporary": "hard_fail",
+    "finalize": "same_volume_hardlink_no_replace_then_unlink_temp",
+    "existing_final": "verify_frozen_hash_only_never_overwrite",
+    "delete_or_replace_existing": false
+  },
+  "future_runner_requirements": {
+    "runner_exists": false,
+    "network_disabled_by_default": true,
+    "dry_run_default": true,
+    "exact_request_count_before_retries": 422,
+    "maximum_attempts_including_retries": 1266,
+    "coordinate_ledger": "dataset/public/biolip2/processed/ubse_a1v2_coordinate_body_ledger.v1.parquet",
+    "ccd_ledger": "dataset/public/biolip2/processed/ubse_a1v2_ccd_snapshot_ledger.v1.parquet",
+    "ledger_write_mode": "exclusive_create_no_append_no_overwrite",
+    "recovery_tests_required": [
+      "binding_input_hash_mismatch",
+      "url_manifest_count_or_duplicate_mismatch",
+      "redirect",
+      "unexpected_content_type",
+      "compressed_size_limit",
+      "decompressed_size_limit",
+      "truncated_gzip_or_crc_failure",
+      "content_length_mismatch",
+      "stale_part_file",
+      "existing_final_hash_mismatch",
+      "resume_without_overwrite",
+      "unexpected_body"
+    ]
+  },
+  "execution_firewall": {
+    "allowed_while_prepared": [
+      "read_safe_metadata",
+      "verify_binding_hashes",
+      "validate_packet",
+      "synthetic_recovery_tests"
+    ],
+    "forbidden_while_prepared": [
+      "network_get",
+      "coordinate_parse",
+      "ccd_parse",
+      "event_extraction",
+      "event_read",
+      "model_training",
+      "affinity_read",
+      "confirmation_read",
+      "sealed_access"
+    ]
+  },
+  "effective_authorizations": {
+    "coordinate_get": false,
+    "coordinate_parse": false,
+    "ccd_snapshot_get": false,
+    "event_extraction": false,
+    "a1r_event_read": false,
+    "a1s_event_read": false,
+    "a1c_event_read": false,
+    "a1c_scoring": false,
+    "affinity_read": false,
+    "student_training": false,
+    "p0a_v2_training": false,
+    "stage4a": false,
+    "stage4b_kernel": false,
+    "confirmation_read": false,
+    "sealed_access": false
+  },
+  "requested_future_authorizations": [
+    "coordinate_get:a1r_only",
+    "ccd_snapshot_get"
+  ],
+  "explicit_user_authorization_required": true,
+  "authorization_boundary": "A future user authorization may unlock only A1-R coordinate GET and the CCD snapshot GET. Parsing and every downstream action require later separate authorization."
+}

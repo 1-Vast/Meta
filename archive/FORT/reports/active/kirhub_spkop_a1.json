@@ -1,0 +1,102 @@
+{
+  "schema": "kirhub-spkop-a1-v1",
+  "candidate": "A1 separable protein-ligand kernel ordinal probe",
+  "source": {
+    "workbook_sha256": "d9eef358396b193834b0c4d48ccd8cadb43697a6458cdcb50415af5a7e4e0b03",
+    "component_registry_sha256": "fc3bd42fb7618c548ad7b661fa7907cfacd7afa70a768782c99ea83edf1825ed",
+    "frozen_esm_sha256": "062e4accc076527014adc5b4865788eed31a17ff43d1feff2b9e883b5c0cff79",
+    "protein_model": "facebook/esm2_t33_650M_UR50D",
+    "affinity_supervision_in_protein_model": false
+  },
+  "protocol": {
+    "outer_folds": "5 KLIFS-family folds x 5 Bemis-Murcko folds",
+    "training_exclusion": "all held-family targets and all held-scaffold ligands excluded jointly",
+    "training_label": "within-training-target ordinal rank, 5-95% residual-activity cells only",
+    "protein_neighbors": 8,
+    "ligand_neighbors": 8,
+    "protein_features": "train-fold PCA-whitened frozen ESM-2 pooled vectors",
+    "ligand_features": "Morgan radius 2, 2048-bit Tanimoto",
+    "target_id_lookup": false,
+    "seed": 1729
+  },
+  "evaluated_target_arm_rows": 8190,
+  "family_macro_arm_spearman": {
+    "ligand_only": {
+      "mean": 0.0815,
+      "lcb95": 0.0473,
+      "ucb95": 0.1129,
+      "n_units": 92
+    },
+    "true_protein": {
+      "mean": 0.0672,
+      "lcb95": 0.033,
+      "ucb95": 0.099,
+      "n_units": 92
+    },
+    "protein_shuffle": {
+      "mean": 0.0609,
+      "lcb95": 0.0365,
+      "ucb95": 0.0847,
+      "n_units": 92
+    },
+    "random_protein": {
+      "mean": 0.0585,
+      "lcb95": 0.0291,
+      "ucb95": 0.0862,
+      "n_units": 92
+    },
+    "group_centroid": {
+      "mean": 0.0873,
+      "lcb95": 0.0491,
+      "ucb95": 0.122,
+      "n_units": 92
+    }
+  },
+  "paired_family_gains": {
+    "true_minus_ligand_only": {
+      "mean": -0.0143,
+      "lcb95": -0.0409,
+      "ucb95": 0.0116,
+      "n_units": 92
+    },
+    "true_minus_protein_shuffle": {
+      "mean": 0.0063,
+      "lcb95": -0.0262,
+      "ucb95": 0.0379,
+      "n_units": 92
+    },
+    "true_minus_random_protein": {
+      "mean": 0.0087,
+      "lcb95": -0.0234,
+      "ucb95": 0.041,
+      "n_units": 92
+    },
+    "true_minus_group_centroid": {
+      "mean": -0.0201,
+      "lcb95": -0.0524,
+      "ucb95": 0.0111,
+      "n_units": 92
+    }
+  },
+  "prospective_mde80": {
+    "independent_family_units": 92,
+    "normal_approximation_envelope": {
+      "sd_0.05": 0.0146,
+      "sd_0.10": 0.0292,
+      "sd_0.20": 0.0584
+    },
+    "required_gain": 0.03
+  },
+  "gates": {
+    "true_minus_ligand_mean_at_least_max_0.03_mde80": false,
+    "true_minus_ligand_lcb_above_zero": false,
+    "true_beats_shuffle_lcb_above_zero": false,
+    "true_beats_random_lcb_above_zero": false,
+    "true_beats_group_centroid_lcb_above_zero": false
+  },
+  "verdict": "A1_PROTEIN_NECESSITY_FAIL_STOP_A2",
+  "authorize_a2": false,
+  "mechanism_revision_used": false,
+  "sealed_test_consumed": false,
+  "confirmation_labels_read": false
+}

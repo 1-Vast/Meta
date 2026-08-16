@@ -1,0 +1,206 @@
+{
+  "schema": "rb-dr-qmapd-power-audit-v1",
+  "stage": "O0 feasibility/power (model-free)",
+  "substrate": "ChEMBL-37 Metz pKi dense panel, development split only",
+  "data_manifest": {
+    "schema": "panel",
+    "registry_sha256": "94da6bb5a59c2911672fde982530c8dd6a673c194b2b2d7b4638df7768c8173e",
+    "feature_sha256": "68abc58fdc9cba7c03850b831adc46633e46f22fb47ee90e3e0e74ee12968550",
+    "rows": 29291,
+    "feat_dim": 1034,
+    "morgan_bits": 1024,
+    "n_descriptors": 10,
+    "descriptors": [
+      "heavy_atoms",
+      "mol_wt",
+      "clogp",
+      "tpsa",
+      "hbd",
+      "hba",
+      "rot_bonds",
+      "aromatic_rings",
+      "fraction_csp3",
+      "n_rings"
+    ],
+    "descriptor_standardization": "train-split mean/std only",
+    "descriptor_mean": [
+      26.9534,
+      376.7669,
+      3.8418,
+      87.5393,
+      2.4258,
+      4.9458,
+      4.1585,
+      3.4768,
+      0.16,
+      3.8902
+    ],
+    "descriptor_std": [
+      7.0415,
+      96.3258,
+      1.4168,
+      30.3395,
+      1.33,
+      1.8675,
+      2.39,
+      0.9797,
+      0.137,
+      1.012
+    ],
+    "rows_by_split": {
+      "buffer": 10078,
+      "confirmation": 1427,
+      "development": 5212,
+      "train": 12574
+    },
+    "confirmation_labels_read": false
+  },
+  "min_query": 4,
+  "support_query_tanimoto_max": 0.95,
+  "min_components_to_resolve": 30,
+  "frozen_reference_mde80_k4": 0.0367,
+  "mde80_note": "empirical paired MDE80 for Delta_info/Delta_total is computed in O1 via support-resampling null; the k=4 panel MDE80 0.0367 is the frozen reference",
+  "development_targets_total": 112,
+  "seed": 1729,
+  "pairs": [
+    {
+      "k": 4,
+      "K": 16,
+      "eligible_targets": 80,
+      "independent_homology_components": 76,
+      "query_per_target": {
+        "median": 23.5,
+        "min": 4.0,
+        "max": 106.0
+      },
+      "visible_support_per_target": 4,
+      "completion_per_target": 12,
+      "support_scaffold_count": {
+        "median": 16.0,
+        "min": 16.0,
+        "max": 16.0
+      },
+      "query_scaffold_count": {
+        "median": 20.0,
+        "min": 4.0,
+        "max": 78.0
+      },
+      "completion_scaffold_count": {
+        "median": 12.0,
+        "min": 12.0,
+        "max": 12.0
+      },
+      "support_query_median_max_tanimoto": {
+        "median": 0.1807185411453247,
+        "min": 0.150544673204422,
+        "max": 0.25617697834968567
+      },
+      "completion_query_median_max_tanimoto": {
+        "median": 0.21817338466644287,
+        "min": 0.1805555522441864,
+        "max": 0.30197855830192566
+      },
+      "document_overlap": "single document (CHEMBL1201862); support/query share doc by construction",
+      "assay_overlap": "assay is 1:1 with target; support/query share the target's assay",
+      "resolvable": true
+    },
+    {
+      "k": 4,
+      "K": 32,
+      "eligible_targets": 42,
+      "independent_homology_components": 40,
+      "query_per_target": {
+        "median": 18.0,
+        "min": 4.0,
+        "max": 79.0
+      },
+      "visible_support_per_target": 4,
+      "completion_per_target": 28,
+      "support_scaffold_count": {
+        "median": 32.0,
+        "min": 32.0,
+        "max": 32.0
+      },
+      "query_scaffold_count": {
+        "median": 15.0,
+        "min": 4.0,
+        "max": 62.0
+      },
+      "completion_scaffold_count": {
+        "median": 28.0,
+        "min": 28.0,
+        "max": 28.0
+      },
+      "support_query_median_max_tanimoto": {
+        "median": 0.17701002955436707,
+        "min": 0.14490586519241333,
+        "max": 0.2759740352630615
+      },
+      "completion_query_median_max_tanimoto": {
+        "median": 0.2586141675710678,
+        "min": 0.2150537669658661,
+        "max": 0.3901515007019043
+      },
+      "document_overlap": "single document (CHEMBL1201862); support/query share doc by construction",
+      "assay_overlap": "assay is 1:1 with target; support/query share the target's assay",
+      "resolvable": true
+    },
+    {
+      "k": 8,
+      "K": 32,
+      "eligible_targets": 42,
+      "independent_homology_components": 40,
+      "query_per_target": {
+        "median": 18.0,
+        "min": 4.0,
+        "max": 79.0
+      },
+      "visible_support_per_target": 8,
+      "completion_per_target": 24,
+      "support_scaffold_count": {
+        "median": 32.0,
+        "min": 32.0,
+        "max": 32.0
+      },
+      "query_scaffold_count": {
+        "median": 15.0,
+        "min": 4.0,
+        "max": 62.0
+      },
+      "completion_scaffold_count": {
+        "median": 24.0,
+        "min": 24.0,
+        "max": 24.0
+      },
+      "support_query_median_max_tanimoto": {
+        "median": 0.2101302221417427,
+        "min": 0.17721518874168396,
+        "max": 0.3301214873790741
+      },
+      "completion_query_median_max_tanimoto": {
+        "median": 0.24547840654850006,
+        "min": 0.2150537669658661,
+        "max": 0.3901515007019043
+      },
+      "document_overlap": "single document (CHEMBL1201862); support/query share doc by construction",
+      "assay_overlap": "assay is 1:1 with target; support/query share the target's assay",
+      "resolvable": true
+    }
+  ],
+  "chosen_pair": {
+    "k": 4,
+    "K": 16
+  },
+  "chosen_pair_rule": "primary = most independent components (best power); tie-break larger K",
+  "secondary_pair": {
+    "k": 4,
+    "K": 32
+  },
+  "dual_disjointness": "held homology component (CV fold) + query scaffold disjoint from support",
+  "verdict": "RB_DR_QMAPD_O0_FEASIBLE",
+  "wall_clock_s": 0.6,
+  "panel_development_labels_read": false,
+  "panel_confirmation_labels_read": false,
+  "davis_panel_touched": false,
+  "sealed_test_consumed": false
+}

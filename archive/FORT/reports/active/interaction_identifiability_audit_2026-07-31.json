@@ -1,0 +1,187 @@
+{
+  "schema": "protein-ligand-interaction-identifiability-audit-v1",
+  "estimand": "endpoint-specific document-local exact-ligand 2x2 difference-in-differences",
+  "source_audit": {
+    "raw_train_rows": 279035,
+    "skipped_invalid_smiles": 0,
+    "train_targets": 559,
+    "train_homology_components": 517,
+    "endpoint_rows": {
+      "pKi": 248775,
+      "pKd": 30260
+    },
+    "all_targets_train": true,
+    "development_labels_read": false,
+    "confirmation_labels_read": false,
+    "sealed_labels_read": false
+  },
+  "cell_audit": {
+    "cells": 270312,
+    "replicate_cells": 7805
+  },
+  "summary": {
+    "rectangles": 17120772,
+    "target_pairs": 10835,
+    "ligand_pairs": 1546036,
+    "homology_pairs": 7996,
+    "documents": 2934,
+    "same_assay_rectangles": 0,
+    "median_abs_dd": 0.8000000000000007,
+    "mean_abs_dd": 1.0444974151691306,
+    "dd_sd": 1.3709542929214575,
+    "order_reversal_fraction": 0.3341052027326805,
+    "replicate_cells": 7805,
+    "replicate_pair_sd_median": 0.006929646455627716,
+    "replicate_pair_sd_quantiles": {
+      "0.5": 0.006929646455627716,
+      "0.9": 0.72151362343217,
+      "0.95": 1.1304426449330032,
+      "0.99": 2.189793735822623
+    },
+    "replicate_nonzero_fraction": 0.7848814862267777,
+    "propagated_four_cell_noise_sd": 0.013859292911255433,
+    "propagated_four_cell_noise_q90": 1.44302724686434,
+    "propagated_four_cell_noise_q95": 2.2608852898660063,
+    "unit_count": 39166,
+    "unit_median_abs_dd": 0.3669499999999999,
+    "unit_order_reversal_fraction": 0.3853640464747974,
+    "unit_component_bootstrap_dd": {
+      "mean": 0.05973158798447632,
+      "q025": 0.04539716993981766,
+      "q975": 0.07437488435860855,
+      "components": 7996
+    },
+    "unit_component_bootstrap_abs_dd": {
+      "mean": 0.759519392457744,
+      "q025": 0.7317063463234343,
+      "q975": 0.7888840875685432,
+      "components": 7996
+    },
+    "unit_component_bootstrap_reversal": {
+      "mean": 0.3853640464747974,
+      "q025": 0.37976522637697546,
+      "q975": 0.3907748071997141,
+      "components": 7996
+    },
+    "largest_target_pair_unit_fraction": 0.013761936373385079,
+    "largest_homology_pair_unit_fraction": 0.013761936373385079,
+    "dd_to_noise_ratio": 98.91949767567694,
+    "dd_to_noise_ratio_q90": 0.9500543360497905,
+    "dd_to_noise_ratio_q95": 0.6063794121119291,
+    "by_endpoint": {
+      "pKd": {
+        "rectangles": 1773992,
+        "target_pairs": 9899,
+        "ligand_pairs": 22394,
+        "homology_pairs": 7115,
+        "documents": 181,
+        "same_assay_rectangles": 0,
+        "median_abs_dd": 0.9223999999999988,
+        "mean_abs_dd": 1.2082870786339504,
+        "dd_sd": 1.6099579481353354,
+        "order_reversal_fraction": 0.3666307401611732,
+        "replicate_cells": 344,
+        "replicate_pair_sd_median": 0.015308861812688559,
+        "replicate_pair_sd_quantiles": {
+          "0.5": 0.015308861812688559,
+          "0.9": 0.6803781448576955,
+          "0.95": 0.8634374839051734,
+          "0.99": 1.9383599994615242
+        },
+        "replicate_nonzero_fraction": 0.752906976744186,
+        "propagated_four_cell_noise_sd": 0.030617723625377118,
+        "propagated_four_cell_noise_q90": 1.360756289715391,
+        "propagated_four_cell_noise_q95": 1.7268749678103468,
+        "unit_count": 26381,
+        "unit_median_abs_dd": 0.5140000000000002,
+        "unit_order_reversal_fraction": 0.39841112902057046,
+        "unit_component_bootstrap_dd": {
+          "mean": 0.08004033679542095,
+          "q025": 0.05897379971898021,
+          "q975": 0.10106078478145847,
+          "components": 7115
+        },
+        "unit_component_bootstrap_abs_dd": {
+          "mean": 0.9608098432584056,
+          "q025": 0.9434428906082273,
+          "q975": 0.9785607557609954,
+          "components": 7115
+        },
+        "unit_component_bootstrap_reversal": {
+          "mean": 0.39841112902057046,
+          "q025": 0.3930066122375103,
+          "q975": 0.4037567032622019,
+          "components": 7115
+        },
+        "largest_target_pair_unit_fraction": 0.0006444031689473485,
+        "largest_homology_pair_unit_fraction": 0.0032978279822599597,
+        "dd_to_noise_ratio": 52.58254884765313,
+        "dd_to_noise_ratio_q90": 1.183134673198583,
+        "dd_to_noise_ratio_q95": 0.9322956080466784
+      },
+      "pKi": {
+        "rectangles": 15346780,
+        "target_pairs": 4559,
+        "ligand_pairs": 1525611,
+        "homology_pairs": 3588,
+        "documents": 2769,
+        "same_assay_rectangles": 0,
+        "median_abs_dd": 0.7999999999999998,
+        "mean_abs_dd": 1.0255643521637772,
+        "dd_sd": 1.3405688962028857,
+        "order_reversal_fraction": 0.3303454535739745,
+        "replicate_cells": 7461,
+        "replicate_pair_sd_median": 0.006788225099391365,
+        "replicate_pair_sd_quantiles": {
+          "0.5": 0.006788225099391365,
+          "0.9": 0.7363810019276709,
+          "0.95": 1.1313708498984758,
+          "0.99": 2.1891601681466795
+        },
+        "replicate_nonzero_fraction": 0.7863557163919046,
+        "propagated_four_cell_noise_sd": 0.01357645019878273,
+        "propagated_four_cell_noise_q90": 1.4727620038553417,
+        "propagated_four_cell_noise_q95": 2.2627416997969516,
+        "unit_count": 12785,
+        "unit_median_abs_dd": 0.19999999999999973,
+        "unit_order_reversal_fraction": 0.35844225651468486,
+        "unit_component_bootstrap_dd": {
+          "mean": 0.01782583105201408,
+          "q025": 0.004413394713036934,
+          "q975": 0.03142354498383388,
+          "components": 3588
+        },
+        "unit_component_bootstrap_abs_dd": {
+          "mean": 0.3441698904966758,
+          "q025": 0.3284103271530178,
+          "q975": 0.3604058892590375,
+          "components": 3588
+        },
+        "unit_component_bootstrap_reversal": {
+          "mean": 0.35844225651468486,
+          "q025": 0.34829600993787657,
+          "q975": 0.36793264691841354,
+          "components": 3588
+        },
+        "largest_target_pair_unit_fraction": 0.04122017989831834,
+        "largest_homology_pair_unit_fraction": 0.04122017989831834,
+        "dd_to_noise_ratio": 98.7422247034119,
+        "dd_to_noise_ratio_q90": 0.910241364656064,
+        "dd_to_noise_ratio_q95": 0.592453348220516
+      }
+    }
+  },
+  "method_notes": [
+    "pKi and pKd are never pooled.",
+    "A rectangle is not treated as an independent observation; target-pair/document units and homology-pair bootstrap are reported.",
+    "Replicate noise is estimated from repeated raw measurements and propagated over four cells.",
+    "Same-assay counts are reported separately; document-local rectangles may use distinct assays for the two targets."
+  ],
+  "admission": {
+    "exact_ligand_rectangles_exist": true,
+    "strict_same_assay_rectangles_exist": false,
+    "cross_homology_units_exist": true,
+    "component_concentration_below_25_percent": true
+  },
+  "verdict": "AUDIT_RECTANGLES_EXIST_STRICT_ASSAY_COMPARABILITY_LIMITED"
+}

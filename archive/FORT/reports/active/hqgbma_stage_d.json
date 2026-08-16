@@ -1,0 +1,174 @@
+{
+  "schema": "hqgbma-stage-d-v1",
+  "stage": "Stage D (protein->Grassmann subspace, train-only)",
+  "gating": true,
+  "authorizes": "review of Stage E episodic meta-training (mechanism-only)",
+  "preregistration": "reports/active/hqgbma_preregistration.md",
+  "design": "reports/active/hqgbma_design.md",
+  "substrate": "ChEMBL-37 Metz pKi dense panel, TRAIN cells only",
+  "source_audit": {
+    "registry_sha256": "94da6bb5a59c2911672fde982530c8dd6a673c194b2b2d7b4638df7768c8173e",
+    "registry_cells": 29291,
+    "train_cells": 12574,
+    "targets": 112,
+    "ligands": 619,
+    "homology_components": 101,
+    "documents": 1,
+    "assays": 112,
+    "assay_is_nested_in_target": true,
+    "endpoint": "pKi",
+    "only_train_split_read": true
+  },
+  "features": {
+    "target_esm": {
+      "source": "dataset\\public\\chembl_37\\processed\\dualcold\\target_esm2.npz",
+      "targets": 112,
+      "raw_dimension": 1280,
+      "dimension": 32,
+      "leading_singular_values": [
+        16.194804881255394,
+        6.869883484620437,
+        6.0249403504994055,
+        4.3609629574624496,
+        3.3369848265802617,
+        3.085250213460755,
+        2.798630639545114,
+        2.747115875035346
+      ]
+    },
+    "ligand": {
+      "source": "count-Morgan-64 plus 10 physicochemical descriptors",
+      "unique_ligands": 619,
+      "raw_dimension": 74,
+      "dimension": 64,
+      "cache_hit": true,
+      "cache": "dataset\\public\\chembl_37\\processed\\panel_metz\\pa_ligand_features.npz",
+      "ligand_hash": "f48446d47fb33b5f293117103b397e1d6b66940d79d37b40e513b85e63603e9c",
+      "leading_singular_values": [
+        2422.447338871424,
+        605.2176859611086,
+        55.224447802311005,
+        48.595486317781216,
+        43.37567510566292,
+        39.38353139206641,
+        33.67398856225402,
+        32.787717648948174
+      ]
+    },
+    "pooled_dim": 21
+  },
+  "projection_audit": {
+    "columns": 2048,
+    "weighted": false,
+    "relative_kkt_error": 2.969798577547992e-15,
+    "relative_idempotence_error": 1.942610579250032e-15,
+    "audited_columns": 16,
+    "relative_solver_disagreement": 3.727143033876222e-12,
+    "converged": true
+  },
+  "ambient_dim": 64,
+  "target_dim": 32,
+  "rank_grid": [
+    3,
+    4,
+    6
+  ],
+  "rank_selection": {
+    "3": 0.07335230451859295,
+    "4": 0.0761656463016859,
+    "6": 0.22001082099213973
+  },
+  "selected_rank": 6,
+  "ridge": 1.0,
+  "map_steps": 400,
+  "seed": 1729,
+  "device": "cuda",
+  "n_components": 101,
+  "n_targets_with_signal": 87,
+  "positive_signal_fraction": 0.7767857142857143,
+  "orthonormality_max_error": 4.172325134277344e-07,
+  "containment_summary": {
+    "protein_true": {
+      "mean": 0.10762441870020147,
+      "lcb95": -0.14304580317668888,
+      "ucb95": 0.32410161084926814,
+      "n_components": 78
+    },
+    "protein_shuffle": {
+      "mean": 0.23736219812367657,
+      "lcb95": 0.10859328993958317,
+      "ucb95": 0.39619727705679453,
+      "n_components": 78
+    },
+    "protein_random": {
+      "mean": 0.3140220642656995,
+      "lcb95": 0.13720874064937771,
+      "ucb95": 0.5623670239167925,
+      "n_components": 78
+    },
+    "pooled_only": {
+      "mean": 0.20146134593742937,
+      "lcb95": -0.026121597923811017,
+      "ucb95": 0.4423798354847293,
+      "n_components": 78
+    },
+    "global": {
+      "mean": 0.3400313511180381,
+      "lcb95": 0.16252296892329096,
+      "ucb95": 0.5483823448365839,
+      "n_components": 78
+    }
+  },
+  "contrasts": {
+    "true_minus_global": {
+      "mean": -0.2324069324178366,
+      "lcb95": -0.4343418628380099,
+      "ucb95": -0.08255821053706346,
+      "n_components": 78
+    },
+    "true_minus_protein_shuffle": {
+      "mean": -0.12973777942347509,
+      "lcb95": -0.5110356092693296,
+      "ucb95": 0.16661028602064984,
+      "n_components": 78
+    },
+    "true_minus_protein_random": {
+      "mean": -0.20639764556549808,
+      "lcb95": -0.5490854035656995,
+      "ucb95": 0.03697013611060517,
+      "n_components": 78
+    },
+    "true_minus_pooled_only": {
+      "mean": -0.09383692723722795,
+      "lcb95": -0.19552731915381058,
+      "ucb95": 0.001561865235308686,
+      "n_components": 78
+    }
+  },
+  "stability_top1_removed_ligands": 7,
+  "stability": {
+    "mean": -0.12354393659178678,
+    "lcb95": -0.28050215556617186,
+    "ucb95": -0.012368646873901153,
+    "n_components": 73
+  },
+  "eb_prior_pd": true,
+  "min_protein_advantage_threshold": 0.02,
+  "checks": {
+    "rank_in_grid": true,
+    "orthonormal_and_projection_audited": true,
+    "protein_beats_global": false,
+    "protein_beats_shuffle": false,
+    "protein_beats_random": false,
+    "plm_beats_pooled_only": false,
+    "signal_exists": true,
+    "stable_under_top1_percent_removal": false
+  },
+  "verdict": "HQGBMA_STAGE_D_FAIL_STOP",
+  "predictive_claim": "ARCHITECTURE_MECHANISM_RESULT_ONLY__NO_INDEPENDENT_PREDICTIVE_CLAIM",
+  "wall_clock_s": 1048.0,
+  "panel_development_labels_read": false,
+  "panel_confirmation_labels_read": false,
+  "davis_panel_touched": false,
+  "sealed_test_consumed": false
+}

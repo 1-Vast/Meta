@@ -1,0 +1,84 @@
+{
+  "schema": "bm0-gate-v1",
+  "seed": 1729,
+  "steps": {
+    "base": 800,
+    "crossfit": 400,
+    "meta": 1200
+  },
+  "registry_sha256": "460156aaa23664db18fdc91289a6999cf160fa4c107e55869db98df7c382a223",
+  "hard_episodes": 148,
+  "components": 141,
+  "threshold": 0.0657,
+  "cross_fit_audit": {
+    "train_rows": 201827,
+    "oof_covered": 201827,
+    "provenance_violations": 0,
+    "folds": 5,
+    "fold_component_sizes": [
+      104,
+      104,
+      103,
+      103,
+      103
+    ]
+  },
+  "summary": {
+    "B0": {
+      "spearman": 0.1429081219294386,
+      "rmse": 1.4748491387125189
+    },
+    "BM0": {
+      "spearman": 0.1711272729192538,
+      "rmse": 1.2560509181961688
+    },
+    "wrong": {
+      "spearman": 0.13230543041720774,
+      "rmse": 1.522507769613548
+    },
+    "permuted": {
+      "spearman": 0.13643018195563605,
+      "rmse": 1.2919958141988932
+    }
+  },
+  "paired": {
+    "bm0_minus_b0": {
+      "mean": 0.0261,
+      "lcb95": 0.0032,
+      "ucb95": 0.0533,
+      "se": 0.0128,
+      "n_units": 141
+    },
+    "bm0_minus_wrong": {
+      "mean": 0.0357,
+      "lcb95": 0.0063,
+      "ucb95": 0.0675,
+      "se": 0.0156,
+      "n_units": 141
+    },
+    "bm0_minus_permuted": {
+      "mean": 0.0315,
+      "lcb95": 0.0077,
+      "ucb95": 0.0597,
+      "se": 0.0133,
+      "n_units": 141
+    }
+  },
+  "negative_transfer": {
+    "rate": 0.338,
+    "mean_delta": 0.0282,
+    "worst_delta": -0.464,
+    "n": 148
+  },
+  "gates": {
+    "effect": false,
+    "lcb95": true,
+    "rmse_safety": true,
+    "wrong_support_specificity": true,
+    "label_specificity": true
+  },
+  "verdict": "BM0_FAIL_STOP",
+  "wall_clock_s": 46.6,
+  "confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

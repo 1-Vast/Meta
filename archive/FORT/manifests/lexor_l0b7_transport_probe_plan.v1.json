@@ -1,0 +1,24 @@
+{
+  "schema": "lexor-l0b-transport-probe-plan.v1",
+  "scope": "HTTP header-compatibility diagnosis for the exact failed L0B6 first-query shape. Successful response bodies must not be read, parsed, retained, or serialized. For an HTTP error, the runner may retain only a bounded protocol-error description, never a candidate record.",
+  "allow_exact_search": true,
+  "user_agent": "FORT-LEXOR-L0B/1.0 metadata-only",
+  "requests": [
+    {
+      "probe_id": "openalex_exact_l0b6_header",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "kinase inhibitor profiling",
+        "per-page": 200,
+        "filter": "is_oa:true,from_publication_date:2010-01-01",
+        "sort": "cited_by_count:desc",
+        "select": "id,doi,title"
+      }
+    }
+  ],
+  "network_budget": {
+    "max_http_requests": 1,
+    "timeout_seconds": 30,
+    "retries": 0
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "counts": {
+    "components": 372,
+    "units": 538
+  },
+  "firewall": {
+    "confirm_read": false,
+    "evaluated_role": "discover",
+    "validate_read": false
+  },
+  "generated_at": "2026-08-02T11:28:01Z",
+  "headline": {
+    "best_observable_router_arm": "chemistry_softmax_t0.02",
+    "best_observable_router_over_uniform": 0.005718487686677899,
+    "honest_oracle_ceiling_over_uniform": 0.12213753798199908,
+    "insample_oracle_over_uniform_BIASED": 0.16975430657692708,
+    "selection_bias_removed": 0.047616768594928,
+    "target_specific_headroom": 0.11044809970407402,
+    "universal_best_over_uniform": 0.011689438277925067
+  },
+  "protocol": {
+    "capacity": 266,
+    "leave_out": "homology component",
+    "metric": "within-document pair concordance on pair-half B, component bootstrap",
+    "ridge": 100.0,
+    "seed": 20260802,
+    "selection": "every selective arm chooses on pair-half A and is scored on half B",
+    "temperatures": [
+      0.02,
+      0.05,
+      0.1,
+      0.25
+    ],
+    "top_m": 5
+  },
+  "routing_signal_spearman": {
+    "chemistry": {
+      "components": 372,
+      "lower95": -0.061688785676423004,
+      "mean": -0.048104288054318524,
+      "sd_across_components": 0.13083031244017007,
+      "units": 538,
+      "upper95": -0.034426194200960124
+    },
+    "protein": {
+      "components": 372,
+      "lower95": -0.002600725762871335,
+      "mean": 0.0020613420674119418,
+      "sd_across_components": 0.04566024331393168,
+      "units": 538,
+      "upper95": 0.006743362476673223
+    }
+  },
+  "runtime_seconds": 140.5,
+  "substrate": {
+    "basis_decomposition": "exact symmetric eigendecomposition, sign-fixed",
+    "basis_dimension": 26,
+    "basis_dimension_max": 266,
+    "components": 508,
+    "explained_variance_ratio": 0.21187051905041382,
+    "explained_variance_ratio_max": 0.71778501746762,
+    "pca_max": 256,
+    "role": "discover",
+    "rows": 263318,
+    "substrate_manifest": {
+      "accessions": 1035,
+      "assays": 40096,
+      "by_endpoint": {
+        "pIC50": 219533,
+        "pKd": 14918,
+        "pKi": 185625
+      },
+      "by_role": {
+        "confirm": 173,
+        "discover": 508,
+        "validate": 147
+      },
+      "components": 828,
+      "documents": 17451,
+      "rows": 420076,
+      "structures": 259144,
+      "units": 1371
+    },
+    "units": 823
+  },
+  "summary": {
+    "negative_transfer_rate": {
+      "chemistry_softmax_t0.02": 0.4646840148698885,
+      "chemistry_softmax_t0.05": 0.4423791821561338,
+      "chemistry_softmax_t0.1": 0.43308550185873607,
+      "chemistry_softmax_t0.25": 0.45353159851301117,
+      "chemistry_top1": 0.4944237918215613,
+      "chemistry_top5": 0.48698884758364314,
+      "oracle_insample": 0.0,
+      "oracle_split": 0.02973977695167286,
+      "oracle_top5_split": 0.0055762081784386614,
+      "own": 0.3903345724907063,
+      "protein_softmax_t0.02": 0.395910780669145,
+      "protein_softmax_t0.05": 0.40148698884758366,
+      "protein_softmax_t0.1": 0.41263940520446096,
+      "protein_softmax_t0.25": 0.4163568773234201,
+      "protein_top1": 0.4684014869888476,
+      "protein_top5": 0.46654275092936803,
+      "random_source": 0.5278810408921933,
+      "uniform": 0.4144981412639405,
+      "universal_best": 0.4052044609665427
+    },
+    "versus_base": {
+      "chemistry_softmax_t0.02": {
+        "components": 372,
+        "lower95": 0.00030474793930667873,
+        "mean": 0.005799773604562522,
+        "sd_across_components": 0.055740354042381576,
+        "units": 538,
+        "upper95": 0.011319215279772588
+      },
+      "chemistry_softmax_t0.05": {
+        "components": 372,
+        "lower95": 6.80084231209402e-05,
+        "mean": 0.003323206503110939,
+        "sd_across_components": 0.03272781749456625,
+        "units": 538,
+        "upper95": 0.006678042069766052
+      },
+      "chemistry_softmax_t0.1": {
+        "components": 372,
+        "lower95": -0.002367664683165247,
+        "mean": 0.00017067143791144528,
+        "sd_across_components": 0.023923929880217982,
+        "units": 538,
+        "upper95": 0.002476029890679476
+      },
+      "chemistry_softmax_t0.25": {
+        "components": 372,
+        "lower95": -0.0022433617940660075,
+        "mean": -0.0005371202176921601,
+        "sd_across_components": 0.017881473326891703,
+        "units": 538,
+        "upper95": 0.0012756382623123545
+      },
+      "chemistry_top1": {
+        "components": 372,
+        "lower95": -0.008231562167440077,
+        "mean": -0.0005463757581785329,
+        "sd_across_components": 0.08395959642837773,
+        "units": 538,
+        "upper95": 0.008108597105444437
+      },
+      "chemistry_top5": {
+        "components": 372,
+        "lower95": -0.008491718854835654,
+        "mean": -0.002445452063511203,
+        "sd_across_components": 0.061368619624809995,
+        "units": 538,
+        "upper95": 0.003939981601550041
+      },
+      "oracle_insample": {
+        "components": 372,
+        "lower95": 0.16212789044993353,
+        "mean": 0.16983559249481173,
+        "sd_across_components": 0.07900442139968328,
+        "units": 538,
+        "upper95": 0.17813453032826881
+      },
+      "oracle_split": {
+        "components": 372,
+        "lower95": 0.11328078693183197,
+        "mean": 0.1222188238998837,
+        "sd_across_components": 0.08750428355658657,
+        "units": 538,
+        "upper95": 0.13110731869257955
+      },
+      "oracle_top5_split": {
+        "components": 372,
+        "lower95": 0.12944988651656442,
+        "mean": 0.13696817441975373,
+        "sd_across_components": 0.07542070846755165,
+        "units": 538,
+        "upper95": 0.144897988122608
+      },
+      "own": {
+        "components": 372,
+        "lower95": 0.006936596937254387,
+        "mean": 0.013392889906196526,
+        "sd_across_components": 0.06661996297208199,
+        "units": 538,
+        "upper95": 0.020170083832124534
+      },
+      "protein_softmax_t0.02": {
+        "components": 372,
+        "lower95": 0.0006837638140066998,
+        "mean": 0.0030476306774771173,
+        "sd_across_components": 0.023900308694486012,
+        "units": 538,
+        "upper95": 0.005688931631106934
+      },
+      "protein_softmax_t0.05": {
+        "components": 372,
+        "lower95": -0.0015992200198025523,
+        "mean": -4.559737496613241e-05,
+        "sd_across_components": 0.016270953961000995,
+        "units": 538,
+        "upper95": 0.0016301937921533055
+      },
+      "protein_softmax_t0.1": {
+        "components": 372,
+        "lower95": -0.0015011827944950643,
+        "mean": 5.449404328267254e-06,
+        "sd_across_components": 0.015597016542301386,
+        "units": 538,
+        "upper95": 0.0016160211437710038
+      },
+      "protein_softmax_t0.25": {
+        "components": 372,
+        "lower95": -0.0015374739152661208,
+        "mean": -6.306291688598097e-06,
+        "sd_across_components": 0.01563345783787445,
+        "units": 538,
+        "upper95": 0.0016000793692301407
+      },
+      "protein_top1": {
+        "components": 372,
+        "lower95": -0.003805538508215502,
+        "mean": 0.002710667546780151,
+        "sd_across_components": 0.06354571247121947,
+        "units": 538,
+        "upper95": 0.009358793001873884
+      },
+      "protein_top5": {
+        "components": 372,
+        "lower95": -0.002323271868586446,
+        "mean": 0.0024330134529830087,
+        "sd_across_components": 0.045888752691370695,
+        "units": 538,
+        "upper95": 0.007041119327637686
+      },
+      "random_source": {
+        "components": 372,
+        "lower95": -0.010511802953873373,
+        "mean": -0.00409055169705814,
+        "sd_across_components": 0.06495986101571993,
+        "units": 538,
+        "upper95": 0.0023750205564249346
+      },
+      "uniform": {
+        "components": 372,
+        "lower95": -0.0014506752595507327,
+        "mean": 8.128591788462207e-05,
+        "sd_across_components": 0.015815554997178644,
+        "units": 538,
+        "upper95": 0.0016993260533635936
+      },
+      "universal_best": {
+        "components": 372,
+        "lower95": 0.005870881324945945,
+        "mean": 0.01177072419580969,
+        "sd_across_components": 0.06047048136168996,
+        "units": 538,
+        "upper95": 0.017875482508601527
+      }
+    },
+    "versus_uniform": {
+      "chemistry_softmax_t0.02": {
+        "components": 372,
+        "lower95": 0.0006378840772670386,
+        "mean": 0.005718487686677899,
+        "sd_across_components": 0.05303598880491685,
+        "units": 538,
+        "upper95": 0.0112289371852606
+      },
+      "chemistry_softmax_t0.05": {
+        "components": 372,
+        "lower95": 0.00027976441057312015,
+        "mean": 0.0032419205852263176,
+        "sd_across_components": 0.029201074167835482,
+        "units": 538,
+        "upper95": 0.006151874372151118
+      },
+      "chemistry_softmax_t0.1": {
+        "components": 372,
+        "lower95": -0.0018922530091089163,
+        "mean": 8.93855200268233e-05,
+        "sd_across_components": 0.017726682399397828,
+        "units": 538,
+        "upper95": 0.001788128948168749
+      },
+      "chemistry_softmax_t0.25": {
+        "components": 372,
+        "lower95": -0.0014179412742723436,
+        "mean": -0.000618406135576782,
+        "sd_across_components": 0.00821611934030056,
+        "units": 538,
+        "upper95": 0.00024784679669789545
+      },
+      "chemistry_top1": {
+        "components": 372,
+        "lower95": -0.008174870656329427,
+        "mean": -0.0006276616760631554,
+        "sd_across_components": 0.08364404811883136,
+        "units": 538,
+        "upper95": 0.008141718380007655
+      },
+      "chemistry_top5": {
+        "components": 372,
+        "lower95": -0.008507698514892078,
+        "mean": -0.002526737981395826,
+        "sd_across_components": 0.05996882719889604,
+        "units": 538,
+        "upper95": 0.003603366718226865
+      },
+      "oracle_insample": {
+        "components": 372,
+        "lower95": 0.1622697420448607,
+        "mean": 0.16975430657692708,
+        "sd_across_components": 0.0794234503409802,
+        "units": 538,
+        "upper95": 0.17803925431128817
+      },
+      "oracle_split": {
+        "components": 372,
+        "lower95": 0.11327114926442937,
+        "mean": 0.12213753798199908,
+        "sd_across_components": 0.08886821187544351,
+        "units": 538,
+        "upper95": 0.13100322040031223
+      },
+      "oracle_top5_split": {
+        "components": 372,
+        "lower95": 0.1292715634585821,
+        "mean": 0.13688688850186911,
+        "sd_across_components": 0.07619733569346251,
+        "units": 538,
+        "upper95": 0.14486380601661306
+      },
+      "own": {
+        "components": 372,
+        "lower95": 0.006586989154334159,
+        "mean": 0.013311603988311903,
+        "sd_across_components": 0.06877916764672362,
+        "units": 538,
+        "upper95": 0.020405268915559917
+      },
+      "protein_softmax_t0.02": {
+        "components": 372,
+        "lower95": 0.0011752083410935226,
+        "mean": 0.002966344759592495,
+        "sd_across_components": 0.018788026698844176,
+        "units": 538,
+        "upper95": 0.005098466734839206
+      },
+      "protein_softmax_t0.05": {
+        "components": 372,
+        "lower95": -0.0007547263207033794,
+        "mean": -0.00012688329285075444,
+        "sd_across_components": 0.005740844509742986,
+        "units": 538,
+        "upper95": 0.0003963045411034124
+      },
+      "protein_softmax_t0.1": {
+        "components": 372,
+        "lower95": -0.0002994456399558616,
+        "mean": -7.583651355635477e-05,
+        "sd_across_components": 0.002119799839692326,
+        "units": 538,
+        "upper95": 0.0001284514458745784
+      },
+      "protein_softmax_t0.25": {
+        "components": 372,
+        "lower95": -0.00025555691247378137,
+        "mean": -8.75922095732201e-05,
+        "sd_across_components": 0.0014691640842252234,
+        "units": 538,
+        "upper95": 3.6229576042158175e-05
+      },
+      "protein_top1": {
+        "components": 372,
+        "lower95": -0.003906503093357602,
+        "mean": 0.0026293816288955286,
+        "sd_across_components": 0.06249834580471428,
+        "units": 538,
+        "upper95": 0.008941923161247799
+      },
+      "protein_top5": {
+        "components": 372,
+        "lower95": -0.002137232525790317,
+        "mean": 0.0023517275350983867,
+        "sd_across_components": 0.044323715983839024,
+        "units": 538,
+        "upper95": 0.006822449377423207
+      },
+      "random_source": {
+        "components": 372,
+        "lower95": -0.010837110849933867,
+        "mean": -0.00417183761494276,
+        "sd_across_components": 0.06567684543345034,
+        "units": 538,
+        "upper95": 0.002316806424858904
+      },
+      "uniform": {
+        "components": 372,
+        "lower95": 0.0,
+        "mean": 0.0,
+        "sd_across_components": 0.0,
+        "units": 538,
+        "upper95": 0.0
+      },
+      "universal_best": {
+        "components": 372,
+        "lower95": 0.005616288205594519,
+        "mean": 0.011689438277925067,
+        "sd_across_components": 0.061630041315377214,
+        "units": 538,
+        "upper95": 0.01791001580345318
+      }
+    }
+  },
+  "verdict": "ROUTABLE_TARGET_SPECIFIC_SOURCE_STRUCTURE"
+}

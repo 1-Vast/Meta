@@ -1,17 +1,17 @@
 # MetaSieve project context
 
-This is the compact root-level context file. `README.md`, `task.md` and
-`history.md` remain the detailed entry points.
+This is the compact root-level context file. The current authority is
+`README.md`, `PROJECT_SUMMARY.md`, `task.md`, and
+`docs/PROJECT_FILE_ORGANIZATION.md`; `history.md` is provenance.
 
 ## Status
 
 ```text
 Task: unseen-target few-shot drug-target affinity prediction
-Stage: R0C_EXACT_DISTANCE_CONFIRMATION_COMPLETE
-Status: MARGINAL_OR_SLOT_RECALIBRATION_ONLY
-Training authorized: false
-NO_VALIDATED_END_TO_END_FEWSHOT_DTA_MODEL
-BIOLOGICAL_STATISTIC_NOT_ADMITTED_TO_Z
+Stage: QPSMP_BPSF_DEVELOPMENT
+Status: TRAINABLE_INTERFACE_NOT_ADMITTED
+Development training authorized: true
+NO_ADMITTED_COLD_TARGET_UTILITY_CLAIM
 ```
 
 Use the `drug` conda environment:
@@ -23,22 +23,20 @@ conda run -n drug python main.py verify tests
 
 ## Experimental Contract
 
-- Predict query-ligand affinity for an unseen target after `k=1/2/3/5`
-  support affinities.
+- Predict query-ligand affinity for an unseen target after `k=0/1/2/3/5`
+  support observations.
 - Keep query labels out of model selection.
 - Keep measurement modalities separate.
 - Train on target episodes or complete panels, not IID activity rows.
-- Use support-only positive-ridge adaptation with task freedom `d <= 5`.
-- Require ligand-only, wrong-partner, foreign-support, permuted-support,
-  endpoint-separated and source-separated controls.
-
-No raw pair map or arbitrary neural latent enters `z`; only an independently
-confirmed partner-specific biological statistic may be proposed for
-`A(F,z)=K(B(z)F(z))`.
+- Use an interaction-first BPSF zero-shot endpoint and a positive label-locked
+  residual kernel; no ridge, closed-form solve, inner loop, or test-time
+  gradient is permitted.
+- Require additive, level, ligand-only, SAR-cut, wrong-protein,
+  shuffled-protein, foreign-support, and design-nuisance controls.
 
 ## Data Boundary
 
-Git tracks source code, tests, frozen theory, compact reports and manifests.
+Git tracks source code, tests, compact reports and manifests.
 It does not redistribute third-party releases, feature banks, tensors,
 checkpoints, prediction dumps, row-level experiment payloads, local caches,
 credentials or machine-specific remote configs.
@@ -48,16 +46,15 @@ files plus compact `RESULT.json` evidence.
 
 ## Archive Boundary
 
-Retired scripts, detailed result payloads, checkpoints and draw-metric traces
-are removed from the active Git boundary. Historical report summaries and
+Historical theory, retired scripts, result payloads, checkpoints and traces
+are archive material, not active runtime authority. Historical summaries and
 archive manifests remain for audit context.
 
 ## Do Not Reopen
 
 ```text
-R1 affinity training from the rejected exact distance residual
-Exact residual connection to V1
-Centered ridge as a replacement for the uncentered positive ridge
-Full MAML/test-time scheduling
-Scheduler or fixed-noise baselines as production components
+Closed-form or ridge adaptation in the active path
+Full MAML or test-time scheduling
+Persistent target-specific parameter memory
+Atomic 3D claims without legal common-frame coordinates
 ```

@@ -1,0 +1,117 @@
+{
+  "evaluation": {
+    "heavy_atom_q05": 18.0,
+    "heavy_atom_q95": 41.0,
+    "molecules_by_source": {
+      "KIRHub2026": 92,
+      "Papyrus-Christmann2016": 1395,
+      "Reinecke2024": 1034
+    },
+    "unique_molecules_in_frozen_chemical_domain": 2482,
+    "unique_valid_molecules_for_firewall": 2489
+  },
+  "firewall": {
+    "activity_or_affinity_columns_read": false,
+    "chembl_confirmation_rows_materialized": 0,
+    "connectivity_overlap_by_evaluation_source": {
+      "KIRHub2026": 0,
+      "Papyrus-Christmann2016": 0,
+      "Reinecke2024": 0
+    },
+    "current_run_confirmation_labels_read": false,
+    "existing_confirmation_permanently_quarantined": true,
+    "project_historical_confirmation_labels_read": true,
+    "protein_target_assay_document_columns_read": false,
+    "scaffold_overlap_by_evaluation_source": {
+      "KIRHub2026": 0,
+      "Papyrus-Christmann2016": 0,
+      "Reinecke2024": 0
+    },
+    "sealed_test_consumed": false
+  },
+  "gates": {
+    "all_evaluation_element_classes_supported": true,
+    "all_evaluation_pharmacophore_roles_supported": true,
+    "at_least_10000_exclusive_molecules_each_source": true,
+    "at_least_25000_nonempty_scaffolds": true,
+    "at_least_50000_unique_molecules": true,
+    "current_run_activity_affinity_protein_columns_read_false": true,
+    "current_run_confirmation_unread_and_sealed_unconsumed": true,
+    "heavy_atom_domain_contains_evaluation_middle_90pct": true,
+    "licenses_and_hashes_recorded": true,
+    "max_scaffold_fraction_at_most_0005": true,
+    "zero_connectivity_overlap_every_source": true,
+    "zero_scaffold_overlap_every_source": true
+  },
+  "passed": true,
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\factor_u0b_preregistration.md",
+    "sha256": "ec624e0c2fbaa9ee3bd263a12c778f5fa19594cfcae25c7b126b488bbbe8c627"
+  },
+  "retained": {
+    "element_classes": [
+      "C",
+      "HALOGEN",
+      "N",
+      "O",
+      "OTHER",
+      "P",
+      "S"
+    ],
+    "heavy_atom_q01": 10.0,
+    "heavy_atom_q99": 66.0,
+    "max_scaffold_count": 510,
+    "max_scaffold_fraction": 0.003674219228413962,
+    "nonempty_scaffolds": 60021,
+    "pharmacophore_roles": [
+      "Acceptor",
+      "Aromatic",
+      "Donor",
+      "HalogenDonor",
+      "Hydrophobe",
+      "MetalBinder",
+      "NegIonizable",
+      "PosIonizable",
+      "Structural"
+    ],
+    "source_exclusive": {
+      "ChEMBL37_train": 109423,
+      "PLINDER2024": 26682,
+      "shared": 2700
+    },
+    "source_membership": {
+      "ChEMBL37_train": 112123,
+      "PLINDER2024": 29382
+    },
+    "unique_molecules": 138805
+  },
+  "schema": "factor-u0b-v1",
+  "sources": {
+    "ChEMBL37_train": {
+      "confirmation_rows_materialized": 0,
+      "invalid_or_outside_domain": 3190,
+      "license": "CC BY-SA 3.0 (ChEMBL official site)",
+      "path": "D:\\FORT\\dataset\\public\\chembl_37\\processed\\dualcold\\registry.parquet",
+      "predicate": "dual_cold_split == \"train\"",
+      "projected_columns": [
+        "conn",
+        "scaffold"
+      ],
+      "sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+      "train_rows_materialized": 201827,
+      "unique_input_connectivities": 121401,
+      "unique_normalized": 118182
+    },
+    "PLINDER2024": {
+      "invalid_or_outside_domain": 519,
+      "license": "CC BY 4.0 (project manifest)",
+      "path": "D:\\FORT\\dataset\\public\\plinder_2024_06_v2\\raw\\annotation_table.parquet",
+      "rows_passing_quality": 294908,
+      "rows_projected": 1357906,
+      "sha256": "d7ff7a087b3d336859afd5e57775fa1a4e9a23c90a7bb4ccbb6a278540ae31e9",
+      "unique_input_smiles": 35278,
+      "unique_normalized": 33479
+    }
+  },
+  "verdict": "FACTOR_U0B_PASS_AUTHORIZE_U1_PREREGISTRATION"
+}

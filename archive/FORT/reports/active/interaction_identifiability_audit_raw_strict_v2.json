@@ -1,0 +1,226 @@
+{
+  "schema": "protein-ligand-interaction-identifiability-audit-v1",
+  "estimand": "endpoint-specific document-local exact-ligand 2x2 difference-in-differences",
+  "source_audit": {
+    "raw_train_rows": 279035,
+    "skipped_invalid_smiles": 0,
+    "train_targets": 559,
+    "train_homology_components": 517,
+    "endpoint_rows": {
+      "pKi": 248775,
+      "pKd": 30260
+    },
+    "registry_train_rows": {
+      "pKd": 16236,
+      "pKi": 185591
+    },
+    "registry_member_rows": {
+      "pKi": 248775,
+      "pKd": 25625
+    },
+    "excluded_nonregistry_rows": {},
+    "registry_closed": false,
+    "range_policy": "none",
+    "raw_pK_out_of_range_rows": {
+      "pKi": 220,
+      "pKd": 2
+    },
+    "all_targets_train": true,
+    "development_labels_read": false,
+    "confirmation_labels_read": false,
+    "sealed_labels_read": false
+  },
+  "noise_source": "cell",
+  "cross_component_only": true,
+  "range_policy": "none",
+  "cell_audit": {
+    "cells": 270312,
+    "replicate_cells": 7805
+  },
+  "summary": {
+    "rectangles": 16907643,
+    "target_pairs": 10782,
+    "ligand_pairs": 1531804,
+    "homology_pairs": 7970,
+    "documents": 2878,
+    "same_assay_rectangles": 0,
+    "median_abs_dd": 0.8000000000000007,
+    "mean_abs_dd": 1.0517754355973787,
+    "dd_sd": 1.3777194270428557,
+    "order_reversal_fraction": 0.33634215011518753,
+    "replicate_cells": 7805,
+    "replicate_pair_sd_median": 0.006929646455627716,
+    "replicate_pair_sd_quantiles": {
+      "0.5": 0.006929646455627716,
+      "0.9": 0.72151362343217,
+      "0.95": 1.1304426449330032,
+      "0.99": 2.189793735822623
+    },
+    "replicate_nonzero_fraction": 0.7848814862267777,
+    "propagated_four_cell_noise_sd": 0.013859292911255433,
+    "propagated_four_cell_noise_q90": 1.44302724686434,
+    "propagated_four_cell_noise_q95": 2.2608852898660063,
+    "unit_count": 38814,
+    "panel_pair_count": 48818,
+    "multi_panel_unit_count": 3369,
+    "multi_panel_unit_fraction": 0.08679857783274077,
+    "multi_panel_pair_fraction": 0.27393584333647425,
+    "unit_median_abs_dd": 0.3702749999999997,
+    "unit_order_reversal_fraction": 0.386916279683371,
+    "unit_component_bootstrap_dd": {
+      "mean": 0.060789592028649454,
+      "q025": 0.046418017212019706,
+      "q975": 0.07564626434893264,
+      "components": 7970
+    },
+    "unit_component_bootstrap_abs_dd": {
+      "mean": 0.7630014369815016,
+      "q025": 0.736186755826876,
+      "q975": 0.7911487167639912,
+      "components": 7970
+    },
+    "unit_component_bootstrap_reversal": {
+      "mean": 0.386916279683371,
+      "q025": 0.38103610096995943,
+      "q975": 0.39267505458843466,
+      "components": 7970
+    },
+    "largest_target_pair_unit_fraction": 0.013886741897253568,
+    "largest_homology_pair_unit_fraction": 0.013886741897253568,
+    "dd_to_noise_ratio": 99.40762749331748,
+    "dd_to_noise_ratio_q90": 0.9547424901619866,
+    "dd_to_noise_ratio_q95": 0.6093716621618196,
+    "document_families": 10,
+    "largest_document_family_unit_fraction": 0.7151027979594992,
+    "by_endpoint": {
+      "pKd": {
+        "rectangles": 1765507,
+        "target_pairs": 9859,
+        "ligand_pairs": 21340,
+        "homology_pairs": 7095,
+        "documents": 161,
+        "same_assay_rectangles": 0,
+        "median_abs_dd": 0.9258000000000006,
+        "mean_abs_dd": 1.2111849438716475,
+        "dd_sd": 1.6127183023018372,
+        "order_reversal_fraction": 0.3673766232589279,
+        "replicate_cells": 344,
+        "replicate_pair_sd_median": 0.015308861812688559,
+        "replicate_pair_sd_quantiles": {
+          "0.5": 0.015308861812688559,
+          "0.9": 0.6803781448576955,
+          "0.95": 0.8634374839051734,
+          "0.99": 1.9383599994615242
+        },
+        "replicate_nonzero_fraction": 0.752906976744186,
+        "propagated_four_cell_noise_sd": 0.030617723625377118,
+        "propagated_four_cell_noise_q90": 1.360756289715391,
+        "propagated_four_cell_noise_q95": 1.7268749678103468,
+        "unit_count": 26153,
+        "panel_pair_count": 35380,
+        "multi_panel_unit_count": 2892,
+        "multi_panel_unit_fraction": 0.11058004817802929,
+        "multi_panel_pair_fraction": 0.3425381571509327,
+        "unit_median_abs_dd": 0.5172999999999996,
+        "unit_order_reversal_fraction": 0.3999931718406172,
+        "unit_component_bootstrap_dd": {
+          "mean": 0.08121955894161283,
+          "q025": 0.06032430621735217,
+          "q975": 0.10203482620298733,
+          "components": 7095
+        },
+        "unit_component_bootstrap_abs_dd": {
+          "mean": 0.9653199126295263,
+          "q025": 0.9481960835457476,
+          "q975": 0.9839819013284229,
+          "components": 7095
+        },
+        "unit_component_bootstrap_reversal": {
+          "mean": 0.3999931718406173,
+          "q025": 0.3947478610404347,
+          "q975": 0.4051450547084448,
+          "components": 7095
+        },
+        "largest_target_pair_unit_fraction": 0.00065002103009215,
+        "largest_homology_pair_unit_fraction": 0.0033265782128245325,
+        "dd_to_noise_ratio": 52.67270428181525,
+        "dd_to_noise_ratio_q90": 1.1851632173158246,
+        "dd_to_noise_ratio_q95": 0.9338940759253355,
+        "document_families": 4,
+        "largest_document_family_unit_fraction": 0.7547126524681681
+      },
+      "pKi": {
+        "rectangles": 15142136,
+        "target_pairs": 4518,
+        "ligand_pairs": 1512420,
+        "homology_pairs": 3569,
+        "documents": 2733,
+        "same_assay_rectangles": 0,
+        "median_abs_dd": 0.8000000000000007,
+        "mean_abs_dd": 1.033188982356916,
+        "dd_sd": 1.3476410671516899,
+        "order_reversal_fraction": 0.33272366593458147,
+        "replicate_cells": 7461,
+        "replicate_pair_sd_median": 0.006788225099391365,
+        "replicate_pair_sd_quantiles": {
+          "0.5": 0.006788225099391365,
+          "0.9": 0.7363810019276709,
+          "0.95": 1.1313708498984758,
+          "0.99": 2.1891601681466795
+        },
+        "replicate_nonzero_fraction": 0.7863557163919046,
+        "propagated_four_cell_noise_sd": 0.01357645019878273,
+        "propagated_four_cell_noise_q90": 1.4727620038553417,
+        "propagated_four_cell_noise_q95": 2.2627416997969516,
+        "unit_count": 12661,
+        "panel_pair_count": 13438,
+        "multi_panel_unit_count": 477,
+        "multi_panel_unit_fraction": 0.03767474922991865,
+        "multi_panel_pair_fraction": 0.09331745795505283,
+        "unit_median_abs_dd": 0.20000000000000018,
+        "unit_order_reversal_fraction": 0.35990419844267435,
+        "unit_component_bootstrap_dd": {
+          "mean": 0.0185887449648527,
+          "q025": 0.004705460459151299,
+          "q975": 0.03111530403679723,
+          "components": 3569
+        },
+        "unit_component_bootstrap_abs_dd": {
+          "mean": 0.3450853881999842,
+          "q025": 0.33006168652819107,
+          "q975": 0.3609055722172752,
+          "components": 3569
+        },
+        "unit_component_bootstrap_reversal": {
+          "mean": 0.35990419844267435,
+          "q025": 0.3490077913852684,
+          "q975": 0.3701075512256782,
+          "components": 3569
+        },
+        "largest_target_pair_unit_fraction": 0.04162388436932312,
+        "largest_homology_pair_unit_fraction": 0.04162388436932312,
+        "dd_to_noise_ratio": 99.26313929045457,
+        "dd_to_noise_ratio_q90": 0.9150433427966536,
+        "dd_to_noise_ratio_q95": 0.5955788357427723,
+        "document_families": 9,
+        "largest_document_family_unit_fraction": 0.6332833109549009
+      }
+    }
+  },
+  "method_notes": [
+    "pKi and pKd are never pooled.",
+    "A rectangle is not treated as an independent observation; target-pair/document units and homology-pair bootstrap are reported.",
+    "Noise uses repeated raw within-cell measurements and is propagated over four cells.",
+    "Same-assay counts are reported separately; document-local rectangles may use distinct assays for the two targets.",
+    "Registry-closed and [0,14]-clipped runs are sensitivity analyses, not additional independent evidence.",
+    "Source-family labels are dependence blocks only; src_id does not establish assay comparability.",
+    "Strict runs exclude target pairs sharing one registered homology component; --allow-same-component is sensitivity only."
+  ],
+  "admission": {
+    "exact_ligand_rectangles_exist": true,
+    "strict_same_assay_rectangles_exist": false,
+    "cross_homology_units_exist": true,
+    "component_concentration_below_25_percent": true
+  },
+  "verdict": "AUDIT_RECTANGLES_EXIST_STRICT_ASSAY_COMPARABILITY_LIMITED"
+}

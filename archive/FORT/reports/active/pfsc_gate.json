@@ -1,0 +1,104 @@
+{
+  "schema": "pfsc-gate-0-v1",
+  "candidate": "PFSC-0 pan-family single-cold-start protein-necessity gate",
+  "preregistration": "reports/active/pfsc_preregistration.md",
+  "scope": "SINGLE cold-start (novel target, KNOWN ligands); declared relaxation of ligand-cold axis; not dual-cold",
+  "source": {
+    "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "frozen_esm_sha256": "f2eea6c9fc451e6789c17a2b0495140b73c058d3ae1e4de7c9aeae18cc94b63d",
+    "endpoint": "pKi"
+  },
+  "block": {
+    "min_hclusters_per_ligand": 10,
+    "ligands": 771,
+    "targets": 187,
+    "homology_clusters": 172
+  },
+  "protocol": {
+    "task": "leave-homology-cluster-out; cross-family + strict cross-document neighbours",
+    "min_cross_doc_neighbors_per_ligand": 3,
+    "min_ligands_per_target": 5,
+    "statistical_unit": "homology cluster",
+    "grouped_bootstrap_draws": 10000,
+    "model_trained": false,
+    "seed": 1729
+  },
+  "component_macro_arm_spearman": {
+    "ligand_only": {
+      "mean": -0.1017,
+      "lcb95": -0.3136,
+      "ucb95": 0.1131,
+      "n_units": 19
+    },
+    "esm_kernel": {
+      "mean": -0.0861,
+      "lcb95": -0.2936,
+      "ucb95": 0.116,
+      "n_units": 19
+    },
+    "protein_shuffle": {
+      "mean": -0.0163,
+      "lcb95": -0.2111,
+      "ucb95": 0.1788,
+      "n_units": 19
+    },
+    "random_protein": {
+      "mean": -0.0171,
+      "lcb95": -0.2346,
+      "ucb95": 0.1888,
+      "n_units": 19
+    },
+    "far_kernel": {
+      "mean": -0.0937,
+      "lcb95": -0.3034,
+      "ucb95": 0.1205,
+      "n_units": 19
+    }
+  },
+  "contrasts": {
+    "esm_minus_ligand_only": {
+      "mean": 0.0156,
+      "lcb95": -0.1865,
+      "ucb95": 0.211,
+      "n_units": 19
+    },
+    "esm_minus_protein_shuffle": {
+      "mean": -0.0698,
+      "lcb95": -0.3172,
+      "ucb95": 0.1666,
+      "n_units": 19
+    },
+    "esm_minus_random_protein": {
+      "mean": -0.069,
+      "lcb95": -0.323,
+      "ucb95": 0.1843,
+      "n_units": 19
+    },
+    "esm_minus_far_kernel": {
+      "mean": 0.0076,
+      "lcb95": -0.2467,
+      "ucb95": 0.2449,
+      "n_units": 19
+    }
+  },
+  "prospective_mde80": {
+    "independent_homology_component_units": 19,
+    "normal_approximation_envelope": {
+      "sd_0.05": 0.0321,
+      "sd_0.10": 0.0643,
+      "sd_0.20": 0.1285
+    },
+    "required_gain": 0.0643
+  },
+  "gates": {
+    "G1_esm_beats_ligand_mean_at_least_threshold": false,
+    "G1_esm_beats_ligand_lcb_above_zero": false,
+    "G2_esm_beats_protein_shuffle_lcb_above_zero": false,
+    "G2_esm_beats_random_protein_lcb_above_zero": false,
+    "G0_esm_beats_far_kernel_lcb_above_zero": false
+  },
+  "verdict": "PFSC0_FAIL_STOP",
+  "authorize_pfsc1": false,
+  "sealed_test_consumed": false,
+  "confirmation_labels_read": true
+}

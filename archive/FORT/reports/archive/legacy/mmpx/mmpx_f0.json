@@ -1,0 +1,80 @@
+{
+  "firewall": {
+    "current_run_confirmation_labels_read": false,
+    "existing_chembl_confirmation_opened_by_current_run": false,
+    "existing_confirmation_permanently_quarantined": true,
+    "numerical_activity_inhibition_affinity_columns_read": false,
+    "project_historical_confirmation_labels_read": true,
+    "sealed_test_consumed": false
+  },
+  "gates": {
+    "at_least_100_transformation_family_source_environment_units": true,
+    "at_least_100_unique_transformations": true,
+    "at_least_25_transformations_in_two_environments": true,
+    "at_least_25_transformations_in_two_sources": true,
+    "at_least_30_families_and_all_sources": true,
+    "current_run_labels_unread_and_sealed_unconsumed": true,
+    "largest_graph_component_spans_sources_and_080_units": true,
+    "max_equal_source_weight_at_most_040": true,
+    "mde80_at_most_005": true
+  },
+  "graph": {
+    "components": 1,
+    "largest_component_fraction": 1.0,
+    "largest_component_sources": [
+      "KIRHub2026",
+      "Papyrus-Christmann2016",
+      "Reinecke2024"
+    ],
+    "largest_component_units": 2228
+  },
+  "mmp_summary": {
+    "independent_transformation_family_units": 2184,
+    "klifs_families": 97,
+    "molecules_with_eligible_single_cuts": 2158,
+    "paired_units": 2228,
+    "paired_units_by_source": {
+      "KIRHub2026": 92,
+      "Papyrus-Christmann2016": 1506,
+      "Reinecke2024": 630
+    },
+    "sources": [
+      "KIRHub2026",
+      "Papyrus-Christmann2016",
+      "Reinecke2024"
+    ],
+    "transformations_in_at_least_two_environments": 61,
+    "transformations_in_at_least_two_sources": 60,
+    "unique_core_transformation_molecule_pairs": 925,
+    "unique_eligible_cores": 6842,
+    "unique_transformations_with_paired_units": 460
+  },
+  "passed": true,
+  "power": {
+    "assumed_standardized_sd": 0.1,
+    "mde80": 0.005994838948774597,
+    "n_units": 2184,
+    "unit": "unique transformation x conservative KLIFS family"
+  },
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\mmpx_f0_preregistration.md",
+    "sha256": "a264a73c13aec7fdeff355514138b551ca682fbb15fd25762d7aa11ee11ea5ec"
+  },
+  "schema": "mmpx-f0-v1",
+  "sources": {
+    "kirhub_registry_sha256": "fc3bd42fb7618c548ad7b661fa7907cfacd7afa70a768782c99ea83edf1825ed",
+    "klifs_sha256": "9a64e3e9027aeb729812fcdb244b07c65e162b7c68d3e2785b939e36c05eb4d9",
+    "papyrus_kinase200_sha256": "d55b113315bbbed0de7d726d3171b58cbb1468967375a574c54aef217c99ff29",
+    "reinecke_registry_sha256": "92ca4981efb87ee42ae03fd4f6d2b2a0fc11ee90a678921a1c67d6b0c2768405"
+  },
+  "structure_summary": {
+    "metadata_rows": 55024,
+    "unique_molecules": 2489,
+    "unique_molecules_by_source": {
+      "KIRHub2026": 92,
+      "Papyrus-Christmann2016": 1395,
+      "Reinecke2024": 1034
+    }
+  },
+  "verdict": "MMPX_F0_PASS_AUTHORIZE_DIRECTIONAL_LABEL_AUDIT"
+}

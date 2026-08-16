@@ -1,0 +1,100 @@
+{
+  "acquisition_list": [],
+  "authorize_l1_preregistration": false,
+  "authorize_live_api": false,
+  "declared_components": [
+    {
+      "component_id": "reinecke_2024_single_campaign",
+      "document_id": "reinecke_2024_kinobeads",
+      "eligible": false,
+      "license_verified": true,
+      "provenance_family": "pf_db319a961c819145",
+      "reason_not_countable": "The frozen summaries establish one document/campaign, but do not establish a post-firewall scaffold-diverse query count from metadata alone.",
+      "reasons": [
+        "no explicit scaffold-diverse query-ligand count"
+      ],
+      "scaffold_diverse_query_ligands": null
+    },
+    {
+      "component_id": "spd_2023_single_campaign",
+      "document_id": "brennan_2023_spd",
+      "eligible": false,
+      "license_verified": true,
+      "provenance_family": "pf_d5ccaad3804b8c02",
+      "reason_not_countable": "The manifest reports a median of 14 tested ligands per gene-assay, not a verified scaffold-diverse dual-cold query count.",
+      "reasons": [
+        "no explicit scaffold-diverse query-ligand count"
+      ],
+      "scaffold_diverse_query_ligands": null
+    }
+  ],
+  "eligible_family_representatives": [],
+  "external_network_called": false,
+  "firewall": {
+    "axes_enforced": [],
+    "axes_not_enforced": [
+      "target_accession",
+      "protein_homology_pocket_family",
+      "ligand_parent",
+      "bemis_murcko_scaffold",
+      "high_similarity_chemical_neighbourhood",
+      "assay_document_provenance",
+      "target_component_statistics"
+    ],
+    "confirmation_labels_read": false,
+    "sealed_test_consumed": false
+  },
+  "gates": {
+    "each_family_declares_ge_40_scaffold_diverse_queries": false,
+    "eligible_provenance_families_ge_30": false,
+    "high_noise_mde80_proxy_le_003": false,
+    "verified_open_license_for_every_acquisition_document": false
+  },
+  "inputs": {
+    "inventory_sha256": "ae271c1168b57b8d6dae70805da1f3c6e1167c8014cb7a8549bf5d651a656411",
+    "preregistration_sha256": "e117b6cf939a066fcd313b886ba2aa677975df00973d099d1b53face8d5b14fc"
+  },
+  "llm_api_called": false,
+  "mode": "metadata_only_local_inventory",
+  "model_trained": false,
+  "power_proxy": {
+    "formula": "2.49 * noise_MAD / sqrt(n_families * q_min)",
+    "mde80_proxy": null,
+    "reason": "no eligible provenance-family environment has a declared query depth",
+    "status": "not_evaluable"
+  },
+  "provenance": {
+    "definition": "union-find over registered metadata links; one provisional environment per family",
+    "family_of_document": {
+      "bindingdb_native_articles_202607_archive": "pf_1e6b122ef078a4a5",
+      "brennan_2023_spd": "pf_d5ccaad3804b8c02",
+      "reinecke_2024_kinobeads": "pf_db319a961c819145"
+    },
+    "family_size_histogram": [
+      1,
+      1,
+      1
+    ],
+    "links_by_rule": {},
+    "max_family_size": 1,
+    "n_documents": 3,
+    "n_families": 3,
+    "singleton_families": 3
+  },
+  "raw_measurement_files_read": false,
+  "registered_thresholds": {
+    "affiliation_jaccard_threshold": 0.5,
+    "author_jaccard_threshold": 0.5,
+    "mde80_high_noise_max": 0.03,
+    "min_provenance_families": 30,
+    "min_scaffold_diverse_query_ligands": 40,
+    "noise_mad": {
+      "ic50": 0.27,
+      "ki": 0.45
+    }
+  },
+  "schema": "lexor-l0-corpus-frame-v1",
+  "scope": "Frozen local open-source metadata inventory only; no network discovery, raw measurement table, affinity value, or model output is read.",
+  "stage": "L0",
+  "verdict": "LEXOR_L0_CORPUS_FRAME_INSUFFICIENT_STOP"
+}

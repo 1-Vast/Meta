@@ -1,0 +1,50 @@
+{
+  "counts": {
+    "annotation_matched_systems": 44960,
+    "firewall_safe_train_systems": 9264,
+    "firewall_safe_validation_systems": 358,
+    "protected_accessions": 4699,
+    "protected_compound_parents": 1050,
+    "protected_pocket_clusters": 20072,
+    "protected_protein_clusters": 7993,
+    "protected_scaffolds": 582,
+    "quality_split_train_or_val_systems": 44960,
+    "selected_train_experimental_apo_links": 1828,
+    "selected_train_ligand_clusters": 1890,
+    "selected_train_official_apo_or_pred_links": 2902,
+    "selected_train_pocket_clusters": 2696,
+    "selected_train_protein_clusters": 1375,
+    "selected_train_systems": 9264,
+    "selected_validation_systems": 358,
+    "structural_quality_systems": 34508
+  },
+  "firewall_exclusions": {
+    "official_validation_pocket_fident_qcov__70__strong__component_overlap": 0,
+    "official_validation_protein_seqsim_qcov_weighted_sum__70__strong__component_overlap": 737,
+    "official_validation_tanimoto_similarity_max__95__strong__component_overlap": 7150,
+    "protected_bemis_murcko_scaffold": 78,
+    "protected_exact_parent": 1,
+    "protected_pocket_cluster": 1592,
+    "protected_protein_homology_cluster": 4973,
+    "protected_target_accession": 10355
+  },
+  "gates": {
+    "edge_firewall_by_axis_quarantine": true,
+    "experimental_apo_partner_type_certified": true,
+    "label_columns_read": false,
+    "minimum_official_links": true,
+    "minimum_pocket_clusters": true,
+    "minimum_protein_clusters": true,
+    "minimum_train_systems": true,
+    "plinder_test_selected": false,
+    "sealed_test_consumed": false,
+    "train_validation_axes_disjoint": true
+  },
+  "long_training_authorized": false,
+  "near_neighbor_tanimoto_threshold": 0.95,
+  "partner_provenance_note": "official apo and predicted link tables were resolved separately; system_has_apo_or_pred alone was not treated as experimental apo evidence",
+  "release_cutoff": "2024-06-30",
+  "schema": "fire-dta-d0-report-v1",
+  "sealed_test_consumed": false,
+  "verdict": "FIRE_DTA_D0_PASS"
+}

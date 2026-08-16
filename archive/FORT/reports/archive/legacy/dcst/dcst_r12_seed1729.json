@@ -1,0 +1,216 @@
+{
+  "schema": "dcst-r12-structure-prompt-v1",
+  "seed": 1729,
+  "device": "cuda",
+  "wall_clock_s": 207.851,
+  "steps": {
+    "base": 4000,
+    "head_per_arm": 4000
+  },
+  "source_admission": {
+    "report": "D:\\FORT\\reports\\active\\dcst_r6_stage1_seed1729.json",
+    "checkpoint": "D:\\FORT\\reports\\active\\dcst_r6_stage1_seed1729.pt",
+    "checkpoint_sha256": "b29050444e69d18d9fe2879e229dc0253e03741f2b0d0b85d5b7ee93586f15ba",
+    "gate": {
+      "G0_privileged_joint_mechanism_pass": true,
+      "G1_source_certificate_nonempty": true,
+      "G2_privileged_certificate_exceeds_no_privileged": true,
+      "pass": true
+    },
+    "privileged_certificate_bands": 2,
+    "no_privileged_certificate_bands": 0
+  },
+  "stage2": {
+    "dataset": "ChEMBL-37 exact Ki/Kd strict dual-cold train/development",
+    "manifest": {
+      "schema": "chembl",
+      "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+      "feature_sha256": "35bf3688caa36d5f39b404a0f61c79770743256c394636bcf08e4050ca37454c",
+      "rows": 225620,
+      "feat_dim": 1034,
+      "loaded_splits": [
+        "train",
+        "development"
+      ],
+      "morgan_bits": 1024,
+      "n_descriptors": 10,
+      "descriptors": [
+        "heavy_atoms",
+        "mol_wt",
+        "clogp",
+        "tpsa",
+        "hbd",
+        "hba",
+        "rot_bonds",
+        "aromatic_rings",
+        "fraction_csp3",
+        "n_rings"
+      ],
+      "descriptor_standardization": "train-split mean/std only",
+      "descriptor_mean": [
+        32.0796,
+        457.2112,
+        3.3846,
+        100.6796,
+        2.2535,
+        5.8364,
+        6.5878,
+        2.8175,
+        0.323,
+        3.9641
+      ],
+      "descriptor_std": [
+        17.5115,
+        248.2842,
+        2.4525,
+        103.769,
+        3.6898,
+        3.8253,
+        7.5223,
+        1.2125,
+        0.1903,
+        1.5666
+      ],
+      "rows_by_split": {
+        "development": 23793,
+        "train": 201827
+      },
+      "confirmation_labels_read": false
+    },
+    "target_feature_sha256": "714e68b47b6dab07439eb417dfb2a3917882778d00889b6164c63d605f6907ba",
+    "crossfit": {
+      "train_rows": 201827,
+      "oof_covered": 201827,
+      "provenance_violations": 0,
+      "folds": 5,
+      "fold_component_sizes": [
+        104,
+        104,
+        103,
+        103,
+        103
+      ]
+    }
+  },
+  "arms": {
+    "B0": {
+      "spearman": 0.098237,
+      "n_targets": 194,
+      "concordance": 0.537289,
+      "rmse": 1.455993,
+      "mae": 1.245379,
+      "negative_g_abs_mean": 0.0,
+      "trainable_parameters": 0
+    },
+    "SIMP-Priv": {
+      "spearman": 0.096554,
+      "n_targets": 194,
+      "concordance": 0.536657,
+      "rmse": 1.457552,
+      "mae": 1.246657,
+      "negative_g_abs_mean": 0.004027,
+      "trainable_parameters": 33537
+    },
+    "SIMP-NoPriv": {
+      "spearman": 0.098898,
+      "n_targets": 194,
+      "concordance": 0.537577,
+      "rmse": 1.452657,
+      "mae": 1.242041,
+      "negative_g_abs_mean": 0.048672,
+      "trainable_parameters": 33537
+    },
+    "SIMP-Uniform": {
+      "spearman": 0.098237,
+      "n_targets": 194,
+      "concordance": 0.537289,
+      "rmse": 1.454805,
+      "mae": 1.242906,
+      "negative_g_abs_mean": 0.025955,
+      "trainable_parameters": 33537
+    },
+    "SIMP-Tshuffle": {
+      "spearman": 0.098331,
+      "n_targets": 194,
+      "concordance": 0.537701,
+      "rmse": 1.458727,
+      "mae": 1.248507,
+      "negative_g_abs_mean": 0.005808,
+      "trainable_parameters": 33537
+    },
+    "SIMP-Lshuffle": {
+      "spearman": 0.097204,
+      "n_targets": 194,
+      "concordance": 0.537362,
+      "rmse": 1.456953,
+      "mae": 1.2464,
+      "negative_g_abs_mean": 0.004027,
+      "trainable_parameters": 33537
+    }
+  },
+  "paired": {
+    "SIMP-Priv_minus_B0": {
+      "mean": -0.0017,
+      "lcb95": -0.0048,
+      "ucb95": 0.0009,
+      "se": 0.0014,
+      "n_units": 181
+    },
+    "SIMP-NoPriv_minus_B0": {
+      "mean": 0.0006,
+      "lcb95": -0.0014,
+      "ucb95": 0.0027,
+      "se": 0.001,
+      "n_units": 181
+    },
+    "SIMP-Uniform_minus_B0": {
+      "mean": -0.0,
+      "lcb95": -0.0,
+      "ucb95": 0.0,
+      "se": 0.0,
+      "n_units": 181
+    },
+    "SIMP-Tshuffle_minus_B0": {
+      "mean": 0.0009,
+      "lcb95": -0.0037,
+      "ucb95": 0.0059,
+      "se": 0.0025,
+      "n_units": 181
+    },
+    "SIMP-Lshuffle_minus_B0": {
+      "mean": -0.0013,
+      "lcb95": -0.0032,
+      "ucb95": 0.0002,
+      "se": 0.0009,
+      "n_units": 181
+    },
+    "SIMP-Priv_minus_SIMP-NoPriv": {
+      "mean": -0.0023,
+      "lcb95": -0.0054,
+      "ucb95": 0.0004,
+      "se": 0.0015,
+      "n_units": 181
+    },
+    "SIMP-Priv_minus_SIMP-Uniform": {
+      "mean": -0.0017,
+      "lcb95": -0.0048,
+      "ucb95": 0.0009,
+      "se": 0.0014,
+      "n_units": 181
+    }
+  },
+  "gate": {
+    "threshold": 0.0586,
+    "G0_r6_source_admission": true,
+    "G1_simp_minus_b0_ge_mde": false,
+    "G2_simp_minus_b0_lcb95_gt_zero": false,
+    "G3_simp_beats_no_priv_and_uniform": false,
+    "G4_no_material_rmse_loss": true,
+    "G5_target_and_ligand_destruction_remove_70pct": false,
+    "pass": false
+  },
+  "checkpoint": "reports\\active\\dcst_r12_seed1729.pt",
+  "cuda_peak_memory_bytes": 1359625728,
+  "confirmation_labels_scored": false,
+  "sealed_test_consumed": false
+}

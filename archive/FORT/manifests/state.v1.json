@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "active_program": "HTL_DTA",
+  "active_stage": "A2S_H0_S_DATA_NOT_READY",
+  "primary_task": "ABUNDANT_TO_SCARCE_TARGET_TRANSFER",
+  "reference_task": "K5_STRICT_UNSEEN_TARGET_STRESS_TEST",
+  "permissions": {
+    "affinity_training_authorized": false,
+    "active_training_authorized": false,
+    "new_architecture_training_authorized": false,
+    "confirmation_authorized": false,
+    "sealed_authorized": false,
+    "fsa_d0_authorized": true,
+    "new_numeric_affinity_read": false
+  },
+  "execution": {
+    "device": "cuda",
+    "numericalpaths": "cuda"
+  },
+  "gate_d0": {
+    "artifact": "dataset/processed/a2s_natural_tail_d0.v1.json",
+    "artifact_sha256": "1c2fb0a8501bc69333931e7ce50b9960b7b2d3cb58c0382d1a23c4434d7d5c27",
+    "certificate_scope": "feasibility DATA stop; strict roster is not admission-grade pending protocol correction",
+    "decision": "DATA_NOT_READY",
+    "candidate_recipients": 193,
+    "optimistic_provenance_upper_bound": 40,
+    "strict_recipients": 0,
+    "independent_components": 0,
+    "mde80": null,
+    "training_authorized": false
+  },
+  "gate_h0_s": {
+    "artifact": "dataset/processed/a2s_h0_metadata_inventory.v1.json",
+    "artifact_sha256": "b8812489f4d8535f28fbd8c3bce5c3d6c39539da03031e82634e958594ad7942",
+    "decision": "DATA_NOT_READY",
+    "chembl_documents": 9643,
+    "chembl_documents_with_publication_year": 9640,
+    "chembl_documents_with_release_date": 9643,
+    "activity_first_seen_available": false,
+    "historical_snapshots_present": false,
+    "gtopdb_release": "2026.2",
+    "training_authorized": false
+  },
+  "architecture": {
+    "modules": [
+      "edge_aware_long_context_interaction_encoder",
+      "decoupled_bayesian_reordering_meta_adapter",
+      "counterfactual_query_span_episode_design"
+    ],
+    "d_model": 256,
+    "hybrid_stages": 2,
+    "mamba_blocks": 2,
+    "sparse_attention_blocks": 2,
+    "attention_landmarks": 32,
+    "posterior_dim": 4,
+    "inner_solver": "cholesky",
+    "exact_null": "zero_ranking_evidence_returns_b0_plus_calibration",
+    "meta_test_updates": ["cholesky_posterior_only"],
+    "frozen_at_meta_test": [
+      "protein_language_model",
+      "ligand_encoder",
+      "pair_encoder",
+      "B0",
+      "prior_covariance"
+    ]
+  },
+  "closed_runtime_dependencies": [
+    "ubse",
+    "dcst",
+    "pcic",
+    "rdib",
+    "pdmvr",
+    "omut",
+    "medip",
+    "tau",
+    "a1"
+  ],
+  "ready_area": {
+    "path": "dataset/ready",
+    "index": "dataset/ready/manifest.json",
+    "validation_package": "dataset/ready/a2s_validation_small.v1",
+    "formal_training_data_ready": false,
+    "overwrite_or_delete": false
+  },
+  "next_action": "resolve the 12782 H0-S cross-release identity collisions with an affinity-blind lineage audit; only after identity presence passes may a formal historical affinity training package be created"
+}

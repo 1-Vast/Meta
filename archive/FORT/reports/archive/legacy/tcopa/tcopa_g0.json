@@ -1,0 +1,192 @@
+{
+  "schema": "tcopa-g0-v1",
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\tcopa_g0_preregistration.md",
+    "sha256": "8274c50cf565bd2d985a6d1eba1218945f58547582d7d7449044378eff9ff083"
+  },
+  "sources": {
+    "labels_path": "D:\\FORT\\dataset\\public\\toxcast_invitrodb_v4_3\\raw\\toxcast_data_deepchem_projection.csv.gz",
+    "labels_sha256": "02c8b96da666884a13746e4891fc10b4f81f51fa14e0060df1db7da0223b46c6",
+    "targets_path": "D:\\FORT\\dataset\\public\\toxcast_invitrodb_v4_3\\raw\\assay_target_mappings_invitrodb_v4_3_AUG2024.xlsx",
+    "targets_sha256": "bf45c47dc383c16aea9c4cf92993f7034a3141a252aa02d9f7aa7216ac84c394",
+    "annotations_path": "D:\\FORT\\dataset\\public\\toxcast_invitrodb_v4_3\\raw\\assay_annotations_invitrodb_v4_3_AUG2024.xlsx",
+    "annotations_sha256": "eecbdac47fe4b4c3db765d412d15526331c269d36c7d79dde938f59ea60461f9"
+  },
+  "firewall": {
+    "role": "pretraining_mechanism_proof_only",
+    "current_run_fort_dev_labels_read": false,
+    "current_run_fort_confirmation_labels_read": false,
+    "project_historical_confirmation_labels_read": true,
+    "existing_confirmation_permanently_quarantined": true,
+    "sealed_test_consumed": false
+  },
+  "summary": {
+    "registry": {
+      "projected_endpoints": 617,
+      "exact_human_single_gene_endpoints": 128,
+      "annotated_protein_endpoints": 98,
+      "eligible_endpoints": 67,
+      "representative_exact_genes": 57,
+      "discarded_eligible_same_gene_endpoints": 10,
+      "representative_families": 10,
+      "representative_sources": [
+        "NVS",
+        "TOX21"
+      ],
+      "genes_by_family": {
+        "cyp": 9,
+        "dna binding": 1,
+        "esterase": 4,
+        "gpcr": 15,
+        "hydrolase": 2,
+        "kinase": 6,
+        "nuclear receptor": 11,
+        "phosphatase": 2,
+        "protease": 3,
+        "transporter": 4
+      }
+    },
+    "ligands": {
+      "input_rows": 8597,
+      "invalid_structure_rows": 20,
+      "canonical_ligands": 8436,
+      "collapsed_duplicate_rows": 141,
+      "ligands_with_at_least_5_observed_genes": 7811,
+      "ligands_with_active_and_inactive_genes": 2240,
+      "unique_scaffolds": 4344,
+      "largest_scaffold_fraction": 0.1844476055002371
+    },
+    "labels": {
+      "observed_gene_cells": 53196,
+      "positive_gene_cells": 6707,
+      "negative_gene_cells": 46489,
+      "tested_negative_fraction": 0.8739190916610271,
+      "discordant_target_contrast_triples": 52249,
+      "distinct_active_inactive_gene_pairs": 3069
+    },
+    "metadata": {
+      "complete_fraction": 1.0,
+      "source_complete_fraction": 1.0,
+      "technology_complete_fraction": 1.0,
+      "design_complete_fraction": 1.0
+    },
+    "target_folds": [
+      {
+        "fold": 0,
+        "genes": 12,
+        "families": 7,
+        "observed_cells": 2573,
+        "positives": 1004,
+        "gene_ids": [
+          "ADRA2C",
+          "CYP1A2",
+          "DUSP3",
+          "ELANE",
+          "GSK3B",
+          "HTR6",
+          "NR1I2",
+          "OPRM1",
+          "PPARA",
+          "PRKAA1",
+          "THRA",
+          "TSPO"
+        ]
+      },
+      {
+        "fold": 1,
+        "genes": 11,
+        "families": 7,
+        "observed_cells": 9463,
+        "positives": 1235,
+        "gene_ids": [
+          "ACHE",
+          "CHRM2",
+          "CHRM3",
+          "CYP1A1",
+          "CYP3A4",
+          "ESR1",
+          "FGFR1",
+          "NR1I3",
+          "SIRT1",
+          "SLC6A3",
+          "TACR2"
+        ]
+      },
+      {
+        "fold": 2,
+        "genes": 11,
+        "families": 7,
+        "observed_cells": 9463,
+        "positives": 1182,
+        "gene_ids": [
+          "ADORA1",
+          "BACE1",
+          "CYP2A6",
+          "CYP2C19",
+          "HTR2A",
+          "HTR7",
+          "NR1H4",
+          "PDE4A",
+          "PIK3CA",
+          "PPARG",
+          "PTPN9"
+        ]
+      },
+      {
+        "fold": 3,
+        "genes": 11,
+        "families": 7,
+        "observed_cells": 14551,
+        "positives": 1200,
+        "gene_ids": [
+          "AR",
+          "ATAD5",
+          "BCHE",
+          "CYP19A1",
+          "CYP2D6",
+          "DRD2",
+          "HTR5A",
+          "KDR",
+          "OPRD1",
+          "RARA",
+          "SLC6A2"
+        ]
+      },
+      {
+        "fold": 4,
+        "genes": 12,
+        "families": 8,
+        "observed_cells": 17146,
+        "positives": 2086,
+        "gene_ids": [
+          "AHR",
+          "CHRM4",
+          "CSNK1D",
+          "CYP2B6",
+          "CYP2C9",
+          "DRD1",
+          "HTR2C",
+          "MMP3",
+          "NR3C1",
+          "PDE5A",
+          "PGR",
+          "SLC6A4"
+        ]
+      }
+    ]
+  },
+  "gates": {
+    "at_least_50_genes_8_families": true,
+    "nvs_and_tox21_represented": true,
+    "at_least_50000_cells_negative_fraction_ge_070": true,
+    "at_least_1000_ligands_with_5_genes": true,
+    "at_least_500_discordant_ligands": true,
+    "at_least_10000_triples_200_gene_pairs": true,
+    "at_least_1000_scaffolds_largest_le_005": false,
+    "all_target_folds_meet_support": false,
+    "assay_metadata_complete_ge_095": true,
+    "current_run_confirmation_labels_unread": true,
+    "sealed_test_unconsumed": true
+  },
+  "verdict": "TCOPA_G0_INSUFFICIENT_TARGET_CONTRAST_SUPPORT_STOP"
+}

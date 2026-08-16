@@ -1,0 +1,202 @@
+{
+  "stage": "OMUT-F0",
+  "generated_utc": "2026-07-28T11:15:08.954136+00:00",
+  "preregistration": {
+    "path": "reports/active/omut_f0_preregistration.md",
+    "sha256": "dad31cbefc8b0be4be4bf46cf160d01195d694b57ac2cc25153ee7e45dc11eb8",
+    "expected_sha256": "dad31cbefc8b0be4be4bf46cf160d01195d694b57ac2cc25153ee7e45dc11eb8",
+    "matches": true
+  },
+  "policy": {
+    "policy": "preserve_confirmation",
+    "decided_utc": "2026-07-28",
+    "authority": "project owner, asked in session with both consequences stated, 2026-07-28",
+    "one_way": true,
+    "consequence": "panel_davis remains sealed single-use confirmation; every overlapping DAVIS-Complete value is excluded; the DAVIS-Complete WT-to-mutant contrast is foreclosed",
+    "reversal": "a new explicit human decision recorded as a superseding preregistration amendment with date and authority; a code change is not a reversal"
+  },
+  "predecessor": {
+    "present": true,
+    "verdict": "OMUT_D0_SOURCE_FREEZE_COMPLETE",
+    "substantive_registry_sha256": "1953cff4c1d7301c51d1ef934c0c5c913f7c154022ad515c53e416bbce8f82f9",
+    "preregistration_matches": true,
+    "affinity_bearing_sources": [
+      "binder2030",
+      "bindingdb_download_index",
+      "bindingdb_local_archive",
+      "chembl_activity_variant_projection",
+      "davis_complete_dataverse",
+      "davis_complete_zenodo",
+      "europepmc_supplements",
+      "mdrdb_rights",
+      "platinum_flatfile"
+    ]
+  },
+  "panel_davis": {
+    "path": "dataset/public/chembl_37/processed/panel_davis/manifest.json",
+    "sha256": "84035ad45e0a47a8708520acb9caec638e53533a246cf7b8af68465f85199e69",
+    "sha256_expected": "84035ad45e0a47a8708520acb9caec638e53533a246cf7b8af68465f85199e69",
+    "sha256_matches": true,
+    "single_use": true,
+    "role": "confirmation",
+    "consumed": false,
+    "sealed_test_consumed": false,
+    "confirmation_labels_read": false,
+    "document": "CHEMBL1908390",
+    "endpoint": "pKd",
+    "registry_cells": 3429,
+    "affinity_fields_read": 0
+  },
+  "panel_registry_footer": {
+    "path": "dataset/public/chembl_37/processed/panel_davis/registry.parquet",
+    "columns": [
+      "target",
+      "conn",
+      "affinity",
+      "replicate_sd",
+      "n_records",
+      "scaffold",
+      "organism",
+      "assays",
+      "endpoint",
+      "doc_id",
+      "accession",
+      "hcluster",
+      "target_side",
+      "ligand_side",
+      "max_anchor_tanimoto",
+      "dual_cold_split"
+    ],
+    "types": [
+      "string",
+      "string",
+      "double",
+      "double",
+      "int64",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "float",
+      "string"
+    ],
+    "declared_rows": 3429,
+    "rows_read": 0,
+    "row_groups_opened": 0,
+    "note": "footer metadata only; no row group was materialised"
+  },
+  "firewall": {
+    "overlap_key_panel": [
+      "accession",
+      "conn",
+      "endpoint"
+    ],
+    "overlap_key_davis": [
+      "uniprot_accession_of_canonical_wt_base_protein",
+      "ligand_parent_connectivity",
+      "endpoint"
+    ],
+    "overlap_endpoint": "pKd",
+    "overlap_computation": "deferred to OMUT-D1: it requires DAVIS-Complete construct canonicalisation, which is a D1 deliverable",
+    "document_keys": {
+      "davis_complete_dataverse": [
+        "CHEMBL1908390 (the original Davis panel document)"
+      ],
+      "davis_complete_zenodo": [
+        "CHEMBL1908390 (the original Davis panel document)"
+      ],
+      "bindingdb_download_index": [
+        "Article DOI",
+        "PMID",
+        "BindingDB Entry DOI"
+      ],
+      "bindingdb_local_archive": [
+        "Article DOI",
+        "PMID",
+        "BindingDB Entry DOI"
+      ],
+      "chembl_activity_variant_projection": [
+        "document_chembl_id"
+      ],
+      "platinum_flatfile": [
+        "mut.doi",
+        "mut.pmid"
+      ],
+      "mdrdb_rights": [
+        "upstream source document, via PLATINUM/TKI/RET re-export"
+      ],
+      "binder2030": [
+        "10.1016/j.slasd.2026.100299"
+      ],
+      "europepmc_supplements": [
+        "DOI",
+        "PMID",
+        "PMCID"
+      ]
+    },
+    "reexport_edges": [
+      [
+        "bindingdb_local_archive",
+        "chembl_activity_variant_projection",
+        "BindingDB imports ChEMBL records; one paper is one unit"
+      ],
+      [
+        "mdrdb_rights",
+        "platinum_flatfile",
+        "MdrDB aggregates PLATINUM, GDSC, DepMap, AIMMS, KinaseMD, TKI and RET"
+      ],
+      [
+        "davis_complete_dataverse",
+        "panel_davis",
+        "DAVIS-Complete contains the original Davis panel, ChEMBL document CHEMBL1908390"
+      ],
+      [
+        "davis_complete_zenodo",
+        "davis_complete_dataverse",
+        "the Zenodo archive is the same DAVIS-Complete release"
+      ]
+    ],
+    "collapse_rule": "one primary document is one provenance unit however many databases re-export it; a database name is never a provenance unit; the collapse is transitive over shared identifiers"
+  },
+  "access_guard_selftest": {
+    "checks": [
+      {
+        "case": "davis_complete_dataverse affinity",
+        "refused": true
+      },
+      {
+        "case": "davis_complete_zenodo affinity",
+        "refused": true
+      },
+      {
+        "case": "davis metadata",
+        "refused": false
+      },
+      {
+        "case": "bindingdb affinity",
+        "refused": false
+      }
+    ],
+    "behaves_as_frozen": true
+  },
+  "notes": [
+    "no prior policy manifest; this run establishes the one-way record"
+  ],
+  "claim_boundary": "F0 freezes policy. It is not evidence about substitution semantics, ligand reordering, topology, power, or dual-cold transfer. A pass authorises OMUT-D1 on non-Davis sources only.",
+  "gates": {
+    "F0_D0_COMPLETE": true,
+    "F0_POLICY_RECORDED": true,
+    "F0_POLICY_IRREVERSIBLE": true,
+    "F0_PANEL_SEALED_STATE": true,
+    "F0_OVERLAP_KEYS_FROZEN": true,
+    "F0_DOI_COLLAPSE_FROZEN": true,
+    "F0_ACCESS_GUARD": true,
+    "F0_NO_VALUES_READ": true
+  },
+  "verdict": "OMUT_F0_DAVIS_ROLE_FROZEN__PRESERVE_CONFIRMATION"
+}

@@ -1,0 +1,179 @@
+{
+  "schema": "klbp-r3-v2",
+  "stage": "R3 synthetic estimator sensitivity (empirical V_t)",
+  "preregistration": "reports/active/klbp_r3_preregistration.md",
+  "amendment": "A1 fold-pooled t-CI plus A2 pre-result implementation repairs",
+  "substrate": "Metz TRAIN cells only (empirical V_t and folds; no new label use)",
+  "source_audit": {
+    "registry_sha256": "94da6bb5a59c2911672fde982530c8dd6a673c194b2b2d7b4638df7768c8173e",
+    "registry_cells": 29291,
+    "train_cells": 12574,
+    "targets": 112,
+    "ligands": 619,
+    "homology_components": 101,
+    "documents": 1,
+    "assays": 112,
+    "assay_is_nested_in_target": true,
+    "endpoint": "pKi",
+    "only_train_split_read": true,
+    "parquet_train_filter_applied": true,
+    "projected_columns": [
+      "target",
+      "conn",
+      "assays",
+      "doc_id",
+      "scaffold",
+      "affinity",
+      "hcluster",
+      "dual_cold_split"
+    ]
+  },
+  "ligand_audit": {
+    "source": "count-Morgan-64 plus 10 physicochemical descriptors",
+    "unique_ligands": 619,
+    "raw_dimension": 74,
+    "dimension": 64,
+    "cache_hit": true,
+    "cache": "dataset\\public\\chembl_37\\processed\\panel_metz\\pa_ligand_features.npz",
+    "ligand_hash": "f48446d47fb33b5f293117103b397e1d6b66940d79d37b40e513b85e63603e9c",
+    "leading_singular_values": [
+      2422.447338871424,
+      605.2176859611086,
+      55.224447802311005,
+      48.595486317781216,
+      43.37567510566292,
+      39.38353139206641,
+      33.67398856225402,
+      32.787717648948174
+    ]
+  },
+  "eligibility": {
+    "eligible": 111,
+    "excluded": [
+      {
+        "target": "CHEMBL5026",
+        "accession": "O00418",
+        "reason": "no_85_residue_klifs_pocket"
+      }
+    ]
+  },
+  "coordinate": {
+    "source": "det_proxy_card",
+    "columns": [
+      "site_polarity_class",
+      "hbond_donor_availability",
+      "hbond_acceptor_availability",
+      "buried_hydrophobic_subpocket",
+      "charged_residue_pos",
+      "charged_residue_neg",
+      "metal_coordination_in_site",
+      "covalent_targetable_nucleophile",
+      "documented_conformational_states",
+      "induced_fit_reported",
+      "cryptic_pocket_reported",
+      "documented_conformational_states__missing",
+      "induced_fit_reported__missing",
+      "cryptic_pocket_reported__missing"
+    ],
+    "dim": 14
+  },
+  "replicates_frozen": 200,
+  "replicates_requested": 200,
+  "results": [
+    {
+      "regime": "S1_gamma_0.0",
+      "gamma_star": 0.0,
+      "replicates": 200,
+      "replicates_completed": 1,
+      "coverage": 1.0,
+      "contains_zero": 1.0,
+      "median_gamma_E": -8.820195125292172e-06,
+      "median_ratio_E": null,
+      "median_gamma_N": 0.0,
+      "median_gamma_N2": 0.11785832551713116,
+      "median_N_minus_E": 8.820195125292172e-06,
+      "N_minus_E_lcb": {
+        "median": null,
+        "lcb95": null,
+        "ucb95": null,
+        "n_replicates": 1
+      },
+      "rank1_attenuation_median": null,
+      "gamma_E_values": [
+        -8.820195125292172e-06
+      ],
+      "gamma_N_values": [
+        0.0
+      ],
+      "optimizer": {
+        "E": {
+          "fits": 5,
+          "converged": 3,
+          "nonmonotone_stops": 0
+        },
+        "N": {
+          "fits": 1,
+          "converged": 1,
+          "nonmonotone_stops": 0
+        },
+        "N2": {
+          "fits": 1,
+          "converged": 1,
+          "nonmonotone_stops": 0
+        }
+      },
+      "all_fits_converged": false,
+      "execution_stopped_early": true,
+      "component_scale_draws": null,
+      "degenerate_signal_check": null
+    }
+  ],
+  "gates": {
+    "G_R3_0_execution_valid": false,
+    "G_R3_1_recovery": false,
+    "G_R3_2_null_control": false,
+    "G_R3_3_N_biased_upward": false,
+    "G_R3_4_graceful_degradation": false
+  },
+  "verdict": "R3_ESTIMATOR_INSENSITIVE_NO_DECISION",
+  "execution_failure": {
+    "reason": "alternating_gls_did_not_converge_within_frozen_200_iterations",
+    "regime": "S1_gamma_0.0",
+    "replicates_completed": 1,
+    "optimizer": {
+      "E": {
+        "fits": 5,
+        "converged": 3,
+        "nonmonotone_stops": 0
+      },
+      "N": {
+        "fits": 1,
+        "converged": 1,
+        "nonmonotone_stops": 0
+      },
+      "N2": {
+        "fits": 1,
+        "converged": 1,
+        "nonmonotone_stops": 0
+      }
+    },
+    "remaining_regimes_not_run": [
+      "S1_gamma_0.5",
+      "S1_gamma_1.0",
+      "S2_heteroscedastic",
+      "S3_degenerate_signal",
+      "S4_rank2_misspecification",
+      "S5_null_coordinate"
+    ]
+  },
+  "predictive_claim": "ESTIMATOR_CERTIFICATION_ONLY__NO_SCIENTIFIC_CLAIM",
+  "authorizes": "NOTHING__R4_BLOCKED",
+  "seed": 1729,
+  "device": "cuda",
+  "wall_clock_s": 8.9,
+  "panel_development_labels_read": false,
+  "panel_confirmation_labels_read": false,
+  "davis_panel_touched": false,
+  "chembl_confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

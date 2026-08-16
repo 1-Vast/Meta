@@ -1,0 +1,56 @@
+{
+  "schema": "lexor-l1e-engineering-smoke-plan-v1",
+  "stage": "L1E",
+  "purpose": "connectivity_and_refusal_contract_only",
+  "authorizes_l1": false,
+  "provider": {
+    "provider_id": "openai_compatible",
+    "api_key_env": "MOONSHOT_API_KEY",
+    "base_url_env": "MOONSHOT_BASE_URL",
+    "model_env": "KIMI_MODEL",
+    "allowed_hosts": [
+      "api.moonshot.ai",
+      "api.moonshot.cn"
+    ],
+    "timeout_s": 60.0
+  },
+  "request": {
+    "prompt_id": "lexor-l1e-refusal-smoke-v1",
+    "temperature": 0.0,
+    "seed": 1729,
+    "max_output_tokens": 96,
+    "mode": "engineering_smoke"
+  },
+  "budget": {
+    "max_calls": 1,
+    "max_tokens": 512,
+    "retry_allowed": false
+  },
+  "artifacts": {
+    "amendment": {
+      "path": "reports/active/lexor_l1e_instrument_amendment.md",
+      "sha256": "23ff9f51dcafc3e2d63948637025b66cdf15b6c4bdedbd3733dc13c3fe4ac74f"
+    },
+    "prompt": {
+      "path": "lexor/prompts/l1e_refusal_smoke.v1.md",
+      "sha256": "063d9eca0245c3cfa718442a66f807919be9df1a22f077d192c4a842fd493e63"
+    },
+    "fixture": {
+      "path": "lexor/fixtures/l1e_refusal_smoke.v1.json",
+      "sha256": "9dae288bbc269296ea27874786a5508228de3a9c98d4be3893e83f9a015c76bf"
+    },
+    "firewall_registry": {
+      "path": "lexor/fixtures/l1e_firewall_registry.v1.json",
+      "sha256": "234c824ea6515db09ccd922e777833ecfc7cc4571eb787bf207601dd991f62c4"
+    }
+  },
+  "firewall": {
+    "requires_empty_registry": true,
+    "sealed_test_consumed": false,
+    "confirmation_labels_read": false
+  },
+  "approval": {
+    "receipt_path": "reports/active/lexor_l1e_user_authorization.md",
+    "requires_cli_execute": true
+  }
+}

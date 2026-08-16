@@ -1,0 +1,90 @@
+{
+  "schema": "dcst-r18-bindingdb-pdb-source-v1",
+  "seed": 1729,
+  "wall_clock_s": 125.753,
+  "safe_scan": {
+    "physical_records": 65126,
+    "malformed_field_count": 1,
+    "native_source": 64729,
+    "single_chain": 56921,
+    "pdb_linked": 3059,
+    "ki_or_kd_present": 1574,
+    "safe_candidates_before_chemistry": 1574,
+    "invalid_ligand": 0
+  },
+  "source": {
+    "rows": 1267,
+    "exact_pairs": 957,
+    "accessions": 159,
+    "ligands": 340,
+    "scaffolds": 180,
+    "pdb_ids": 6561,
+    "article_dois": 163,
+    "institutions": 115,
+    "endpoint_presence": {
+      "Ki": 1146,
+      "Kd": 119,
+      "Ki|Kd": 2
+    }
+  },
+  "firewall": {
+    "protected_rows": 42539,
+    "blocked_union_rows": 307,
+    "blocked_by_axis": {
+      "exact_accession": 225,
+      "sequence_4mer_containment_ge_0_40": 263,
+      "exact_connectivity": 52,
+      "exact_scaffold": 97,
+      "morgan_tanimoto_ge_0_95": 59,
+      "missing_doi": 0,
+      "chembl_provenance": 0
+    },
+    "allowed_rows": 1267
+  },
+  "exact_chembl_train_bridge": {
+    "pairs": 348,
+    "targets": 58,
+    "homology_components": 55,
+    "ligands": 151
+  },
+  "target_support": {
+    "chembl_train_targets": 559,
+    "exact_accession_supported_targets": 71,
+    "fraction_exact_accession_supported": 0.12701252236135957
+  },
+  "ligand_support": {
+    "source_unique_ligands": 340,
+    "audited_target_unique_ligands": 20000,
+    "target_sample_sha256": "5dd4619b0c7d44071f0db20996937505f7b348ee2ea45ffcca6da0be1c617cf2",
+    "max_source_tanimoto": {
+      "min": 0.052632,
+      "q10": 0.2,
+      "median": 0.252336,
+      "q90": 0.367816,
+      "max": 1.0
+    },
+    "fraction_ge_0_40": 0.07145
+  },
+  "gate": {
+    "G1_source_scale": false,
+    "G2_exact_train_bridge": false,
+    "G3_target_support": false,
+    "G4_ligand_support": false,
+    "G5_firewall_clean": true,
+    "pass": false,
+    "decision": "STOP_BINDINGDB_PDB_SOURCE_INADEQUATE"
+  },
+  "files": {
+    "bindingdb_archive_sha256": "d2584d1519318d00ab5f46289da5ab3549affe732d598a5072f8777b6b3b5262",
+    "chembl_registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "target_sequences_sha256": "470ce39fd97498395305b352d60aa7d0ef778ff831127d1c45e7442c26975fa1"
+  },
+  "numeric_affinity_decoded": false,
+  "numeric_affinity_parsed": false,
+  "numeric_affinity_written": false,
+  "pdb_coordinates_downloaded": false,
+  "confirmation_metadata_used_for_firewall_only": true,
+  "confirmation_features_loaded": false,
+  "confirmation_labels_scored": false,
+  "sealed_test_consumed": false
+}

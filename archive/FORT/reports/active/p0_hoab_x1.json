@@ -1,0 +1,145 @@
+{
+  "schema": "p0-hoab-x1-v1",
+  "endpoint": "pKi",
+  "exploratory": true,
+  "one_shot_kernel_contract": true,
+  "thresholds": {
+    "maximum_kernel_empirical_p": 0.01,
+    "permutations": 4096
+  },
+  "source_audit": {
+    "source_train_rows": 279035,
+    "usable_rows": 279035,
+    "train_targets": 559,
+    "target_homology_clusters": 517,
+    "all_rows_are_train_targets": true
+  },
+  "projection_audit": {
+    "converged": true,
+    "lsmr": {
+      "solver": "lsmr",
+      "istop": 2,
+      "iterations": 1272,
+      "norm_residual": 171.11638725253988,
+      "norm_normal_residual": 8.457937953891039e-09,
+      "relative_kkt_error": 9.082688943143932e-13,
+      "kkt_converged": true
+    },
+    "lsqr": {
+      "solver": "lsqr",
+      "istop": 2,
+      "iterations": 1348,
+      "norm_residual": 171.11638725253988,
+      "norm_normal_residual": 171.11638725253988,
+      "relative_kkt_error": 8.139342351193934e-14,
+      "kkt_converged": true
+    },
+    "repeat_lsmr": {
+      "solver": "lsmr",
+      "istop": 2,
+      "iterations": 79,
+      "norm_residual": 171.1163872525293,
+      "norm_normal_residual": 2.125147210169296e-09,
+      "relative_kkt_error": 1.9261060635322735e-08,
+      "kkt_converged": false
+    },
+    "relative_solver_residual_disagreement": 1.6292653284729803e-09,
+    "relative_idempotence_error": 1.4071929120472347e-09,
+    "max_group_residual_sum": 1.0879763401305809e-07,
+    "max_group_residual_sum_by_axis": {
+      "target": 3.4135356319353605e-08,
+      "ligand": 2.006578014857041e-09,
+      "assay": 7.099858478909482e-09,
+      "doc": 1.0879763401305809e-07
+    }
+  },
+  "features": {
+    "target_base": {
+      "source": "dataset\\public\\chembl_37\\processed\\dualcold\\target_esm2.npz",
+      "targets": 559,
+      "raw_dimension": 1280,
+      "dimension": 64,
+      "leading_singular_values": [
+        38.829585105776864,
+        17.79594028787984,
+        16.02777550406469,
+        12.975720864379571,
+        9.664748656467387,
+        9.07029623689429,
+        8.043832821833814,
+        6.710912430099943
+      ]
+    },
+    "ligand_base": {
+      "source": "count-Morgan-64 plus 10 physicochemical descriptors",
+      "unique_ligands": 112125,
+      "raw_dimension": 74,
+      "dimension": 64,
+      "cache_hit": true,
+      "cache": "dataset\\public\\chembl_37\\processed\\dualcold\\p0_hoab_ligand_features.npz",
+      "ligand_hash": "5dcd0b92ef864b7dce125c86f03fc989ee6ea3f276570260813badb58cf56fa0",
+      "leading_singular_values": [
+        87495.8007479796,
+        15116.936735720921,
+        1175.1212826704614,
+        771.8908152397337,
+        668.0109636855286,
+        511.7845918033336,
+        414.73194644412587,
+        390.5637351609983
+      ]
+    },
+    "target_kernel": {
+      "requested_rank": 64,
+      "effective_rank": 64,
+      "bandwidth_squared": 117.76701981109774,
+      "median_sample": 559,
+      "landmark_seed": 1729,
+      "landmarks": 64
+    },
+    "ligand_kernel": {
+      "requested_rank": 128,
+      "effective_rank": 128,
+      "bandwidth_squared": 121.18326017136707,
+      "median_sample": 2048,
+      "landmark_seed": 1729,
+      "landmarks": 128
+    }
+  },
+  "projection_identity": "r=M_X*r, so r^T*K*r equals r^T*M_X*K*M_X*r",
+  "permutation_contract": {
+    "type": "same label-blind graph-exposure-matched target-feature shuffle as X0",
+    "blocks": 70,
+    "family_matched": false
+  },
+  "primary": {
+    "kernel_quadratic_statistic": 9025.4248046875,
+    "null_mean": 9402.37109375,
+    "null_sd": 1791.5936279296875,
+    "standardized_statistic": -0.21039720346521212,
+    "empirical_p": 0.5291676836709788
+  },
+  "top1_percent_ligand_removal_diagnostic": {
+    "removed_ligands": 1122,
+    "result": {
+      "kernel_quadratic_statistic": 967.7114868164062,
+      "null_mean": 2517.532958984375,
+      "null_sd": 348.3266906738281,
+      "standardized_statistic": -4.4493330935102415,
+      "empirical_p": 1.0
+    }
+  },
+  "gates": {
+    "numerical_valid": true,
+    "kernel_score": false
+  },
+  "verdict": "P0_HOAB_X1_NO_KERNEL_ALIGNED_INTERACTION",
+  "authorizes_model_training": false,
+  "closes_current_mathematical_route": true,
+  "runtime_seconds": 95.85492777824402,
+  "device": "cuda",
+  "development_labels_read": false,
+  "confirmation_labels_read": false,
+  "support_labels_read": false,
+  "sealed_test_consumed": false
+}

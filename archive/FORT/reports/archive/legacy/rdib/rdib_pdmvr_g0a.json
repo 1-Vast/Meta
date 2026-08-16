@@ -1,0 +1,69 @@
+{
+  "schema": "rdib-pdmvr-g0a-v1",
+  "wall_clock_s": 3.716,
+  "enumeration": {
+    "input_rows": 66660,
+    "rows_excluded_missing_exact_identity_pubmed_or_pdb": 0,
+    "eligible_rows": 66660,
+    "target_pubmed_panels_with_at_least_two_ligands": 8512,
+    "source_specific_ligand_pairs_enumerated": 133352,
+    "exact_target_ligand_observations_repeated_across_pubmeds": 1028,
+    "replicated_exact_difference_blocks": 145,
+    "scaffold_annotation_conflict_ligands": 0
+  },
+  "optimistic_packing": {
+    "exact_targets": 59,
+    "ligands": 113,
+    "scaffold_tokens": 61,
+    "pubmed_ids": 126,
+    "largest_target_block_share": 0.11724137931034483,
+    "largest_pubmed_block_share": 0.1724137931034483,
+    "packing_ceiling": 56,
+    "packing_ceiling_terms": {
+      "blocks": 145,
+      "three_per_exact_target": 177,
+      "two_ligands_per_block": 56,
+      "one_or_two_scaffolds_per_block": 61,
+      "two_pubmeds_per_block": 63
+    }
+  },
+  "chembl_train_support": {
+    "chembl_train_rows_read": 201827,
+    "candidate_blocks": 145,
+    "target_accession_supported_blocks": 8,
+    "target_accession_supported_fraction": 0.05517241379310345,
+    "both_ligands_present_blocks": 6,
+    "both_ligands_present_fraction": 0.041379310344827586,
+    "same_chembl_target_with_both_ligands_blocks": 5,
+    "same_chembl_target_with_both_ligands_fraction": 0.034482758620689655
+  },
+  "gate": {
+    "G0A_replicated_blocks_ge_200": false,
+    "G0A_exact_targets_ge_80": false,
+    "G0A_optimistic_packing_ceiling_ge_200": false,
+    "G0A_largest_pubmed_share_le_0_05": false,
+    "G0A_firewall": true,
+    "pass": false,
+    "decision": "STOP_RDIB_PDMVR_G0A_REPLICATION_TOPOLOGY_INADEQUATE"
+  },
+  "files": {
+    "closed_registry_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\closed_registry.parquet",
+    "closed_registry_sha256": "7905e4edf88073f564baa4b2d4fb50d496432bc4e15e97cccbfa0766b1b0638d",
+    "candidate_registry_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\rdib_pdmvr_g0a_candidates.parquet",
+    "candidate_registry_sha256": "3d239b76b2e18a84d7e772665a394bae945e00ebd76c1e836b14386f198353e5"
+  },
+  "limitations": {
+    "pubmed_is_only_optimistic_lineage_proxy": true,
+    "doi_author_institution_closure_performed": false,
+    "homology_or_family_closure_performed": false,
+    "directed_edit_equivalence_performed": false,
+    "structure_coordinates_loaded": false,
+    "contact_differences_or_icc_computed": false
+  },
+  "affinity_columns_read": [],
+  "affinity_values_loaded": false,
+  "development_or_confirmation_features_loaded": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only exact set enumeration and metadata overlap audit"
+}

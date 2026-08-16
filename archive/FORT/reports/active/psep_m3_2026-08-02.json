@@ -1,0 +1,371 @@
+{
+  "firewall": {
+    "confirm_read": false,
+    "evaluated_role": "discover",
+    "validate_read": false
+  },
+  "generated_at": "2026-08-02T10:31:32Z",
+  "metric_materially_matters": false,
+  "protocol": {
+    "basis_holdout": "evaluated homology component removed before the SVD",
+    "capacity": 266,
+    "geometries": [
+      "raw",
+      "whitened",
+      "precision"
+    ],
+    "ranks": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      266
+    ],
+    "reference": "target-agnostic global head of identical capacity",
+    "seed": 20260802
+  },
+  "retained_by_rank": {
+    "rank1": {
+      "precision": 0.24281385623355034,
+      "raw": 0.18352497290582623,
+      "whitened": 0.332294861109982
+    },
+    "rank128": {
+      "precision": 0.6924605668129871,
+      "raw": 0.7858784580733077,
+      "whitened": 0.770882951477647
+    },
+    "rank16": {
+      "precision": 0.31662306181789,
+      "raw": 0.2962575123381475,
+      "whitened": 0.3475915698514119
+    },
+    "rank2": {
+      "precision": 0.24029093254557168,
+      "raw": 0.20735542912300944,
+      "whitened": 0.3305712785363236
+    },
+    "rank266": {
+      "precision": 0.9998567766547123,
+      "raw": 0.9998592495357835,
+      "whitened": 1.000014879184367
+    },
+    "rank32": {
+      "precision": 0.2728236417744081,
+      "raw": 0.4044645779145884,
+      "whitened": 0.40815008283045323
+    },
+    "rank4": {
+      "precision": 0.2897986297725654,
+      "raw": 0.21332923193172934,
+      "whitened": 0.3435471076155668
+    },
+    "rank64": {
+      "precision": 0.47154321326525495,
+      "raw": 0.5072559806789252,
+      "whitened": 0.5005177327194071
+    },
+    "rank8": {
+      "precision": 0.2917577331602112,
+      "raw": 0.2546273550448993,
+      "whitened": 0.33825411739610695
+    }
+  },
+  "runtime_seconds": 232.5,
+  "substrate": {
+    "basis_decomposition": "exact symmetric eigendecomposition, sign-fixed",
+    "basis_dimension": 26,
+    "basis_dimension_max": 266,
+    "components": 508,
+    "explained_variance_ratio": 0.21187051905041382,
+    "explained_variance_ratio_max": 0.71778501746762,
+    "pca_max": 256,
+    "role": "discover",
+    "rows": 263318,
+    "substrate_manifest": {
+      "accessions": 1035,
+      "assays": 40096,
+      "by_endpoint": {
+        "pIC50": 219533,
+        "pKd": 14918,
+        "pKi": 185625
+      },
+      "by_role": {
+        "confirm": 173,
+        "discover": 508,
+        "validate": 147
+      },
+      "components": 828,
+      "documents": 17451,
+      "rows": 420076,
+      "structures": 259144,
+      "units": 1371
+    },
+    "units": 823
+  },
+  "summary": {
+    "full": {
+      "components": 379,
+      "lower95": 0.012308878743735114,
+      "mean": 0.018966955726890323,
+      "sd_across_components": 0.06756700116684411,
+      "units": 553,
+      "upper95": 0.02600936082034623
+    },
+    "geometries": {
+      "precision": {
+        "rank1": {
+          "components": 379,
+          "lower95": 0.000714183594901222,
+          "mean": 0.004605439661057261,
+          "retained_fraction": 0.24281385623355034,
+          "sd_across_components": 0.03911369474907387,
+          "units": 553,
+          "upper95": 0.008511438231193295
+        },
+        "rank128": {
+          "components": 379,
+          "lower95": 0.007120118098705831,
+          "mean": 0.013133868913359303,
+          "retained_fraction": 0.6924605668129871,
+          "sd_across_components": 0.058126941659130946,
+          "units": 553,
+          "upper95": 0.01908087309343292
+        },
+        "rank16": {
+          "components": 379,
+          "lower95": 0.0015151987446891967,
+          "mean": 0.006005375595612377,
+          "retained_fraction": 0.31662306181789,
+          "sd_across_components": 0.04263542027095669,
+          "units": 553,
+          "upper95": 0.010264621551385324
+        },
+        "rank2": {
+          "components": 379,
+          "lower95": 0.000659132693110419,
+          "mean": 0.004557587479165047,
+          "retained_fraction": 0.24029093254557168,
+          "sd_across_components": 0.038726452703246025,
+          "units": 553,
+          "upper95": 0.00847253082189289
+        },
+        "rank266": {
+          "components": 379,
+          "lower95": 0.012305669732835981,
+          "mean": 0.018964239216041193,
+          "retained_fraction": 0.9998567766547123,
+          "sd_across_components": 0.06756618495805104,
+          "units": 553,
+          "upper95": 0.026009724330716955
+        },
+        "rank32": {
+          "components": 379,
+          "lower95": 0.00041875197064853895,
+          "mean": 0.005174633934784184,
+          "retained_fraction": 0.2728236417744081,
+          "sd_across_components": 0.04523535246144304,
+          "units": 553,
+          "upper95": 0.009678750238889665
+        },
+        "rank4": {
+          "components": 379,
+          "lower95": 0.001526889838185572,
+          "mean": 0.005496597780609727,
+          "retained_fraction": 0.2897986297725654,
+          "sd_across_components": 0.039728053340784414,
+          "units": 553,
+          "upper95": 0.009486285964774265
+        },
+        "rank64": {
+          "components": 379,
+          "lower95": 0.0038703340564041093,
+          "mean": 0.008943739249317692,
+          "retained_fraction": 0.47154321326525495,
+          "sd_across_components": 0.05124712251132794,
+          "units": 553,
+          "upper95": 0.014187344027551224
+        },
+        "rank8": {
+          "components": 379,
+          "lower95": 0.0013919322189882347,
+          "mean": 0.0055337560078276065,
+          "retained_fraction": 0.2917577331602112,
+          "sd_across_components": 0.04099317444695144,
+          "units": 553,
+          "upper95": 0.009639587572014222
+        }
+      },
+      "raw": {
+        "rank1": {
+          "components": 379,
+          "lower95": -0.0003870054516065542,
+          "mean": 0.003480910035883552,
+          "retained_fraction": 0.18352497290582623,
+          "sd_across_components": 0.03778801043094297,
+          "units": 553,
+          "upper95": 0.0072202024602711955
+        },
+        "rank128": {
+          "components": 379,
+          "lower95": 0.008977900609879087,
+          "mean": 0.01490572192099326,
+          "retained_fraction": 0.7858784580733077,
+          "sd_across_components": 0.059564068896689075,
+          "units": 553,
+          "upper95": 0.021145862963572605
+        },
+        "rank16": {
+          "components": 379,
+          "lower95": 0.0010869975464332193,
+          "mean": 0.0056191031202763074,
+          "retained_fraction": 0.2962575123381475,
+          "sd_across_components": 0.04268290373503693,
+          "units": 553,
+          "upper95": 0.009951529555427906
+        },
+        "rank2": {
+          "components": 379,
+          "lower95": 5.916364915048802e-05,
+          "mean": 0.003932901243906464,
+          "retained_fraction": 0.20735542912300944,
+          "sd_across_components": 0.03745634003945249,
+          "units": 553,
+          "upper95": 0.007584164241245663
+        },
+        "rank266": {
+          "components": 379,
+          "lower95": 0.01230544468255073,
+          "mean": 0.01896428611906699,
+          "retained_fraction": 0.9998592495357835,
+          "sd_across_components": 0.0675663615861979,
+          "units": 553,
+          "upper95": 0.02600989403522257
+        },
+        "rank32": {
+          "components": 379,
+          "lower95": 0.002998800686376194,
+          "mean": 0.007671461742401379,
+          "retained_fraction": 0.4044645779145884,
+          "sd_across_components": 0.04419065597202659,
+          "units": 553,
+          "upper95": 0.012178201592110562
+        },
+        "rank4": {
+          "components": 379,
+          "lower95": 8.441657472141254e-05,
+          "mean": 0.004046206097300628,
+          "retained_fraction": 0.21332923193172934,
+          "sd_across_components": 0.038365685184611,
+          "units": 553,
+          "upper95": 0.008088415475484056
+        },
+        "rank64": {
+          "components": 379,
+          "lower95": 0.004671205822991815,
+          "mean": 0.009621101727737507,
+          "retained_fraction": 0.5072559806789252,
+          "sd_across_components": 0.050472393676971476,
+          "units": 553,
+          "upper95": 0.014810959529694995
+        },
+        "rank8": {
+          "components": 379,
+          "lower95": 0.0006114433042287362,
+          "mean": 0.004829505769991789,
+          "retained_fraction": 0.2546273550448993,
+          "sd_across_components": 0.03876142875653746,
+          "units": 553,
+          "upper95": 0.008809422735562428
+        }
+      },
+      "whitened": {
+        "rank1": {
+          "components": 379,
+          "lower95": 0.0022939594905879005,
+          "mean": 0.006302621918946198,
+          "retained_fraction": 0.332294861109982,
+          "sd_across_components": 0.038929511039168696,
+          "units": 553,
+          "upper95": 0.01012246152970023
+        },
+        "rank128": {
+          "components": 379,
+          "lower95": 0.00871128305997109,
+          "mean": 0.01462130281129107,
+          "retained_fraction": 0.770882951477647,
+          "sd_across_components": 0.058926292032769445,
+          "units": 553,
+          "upper95": 0.020762400012071185
+        },
+        "rank16": {
+          "components": 379,
+          "lower95": 0.002142443895986056,
+          "mean": 0.006592753916412035,
+          "retained_fraction": 0.3475915698514119,
+          "sd_across_components": 0.043403948883388506,
+          "units": 553,
+          "upper95": 0.011037404675781484
+        },
+        "rank2": {
+          "components": 379,
+          "lower95": 0.0021408979757301634,
+          "mean": 0.00626993080457998,
+          "retained_fraction": 0.3305712785363236,
+          "sd_across_components": 0.0395183647017046,
+          "units": 553,
+          "upper95": 0.010265961010882842
+        },
+        "rank266": {
+          "components": 379,
+          "lower95": 0.012308660197596957,
+          "mean": 0.018967237939721465,
+          "retained_fraction": 1.000014879184367,
+          "sd_across_components": 0.06756718988190487,
+          "units": 553,
+          "upper95": 0.026009799298808964
+        },
+        "rank32": {
+          "components": 379,
+          "lower95": 0.003215545198214999,
+          "mean": 0.007741364550971824,
+          "retained_fraction": 0.40815008283045323,
+          "sd_across_components": 0.04524064176517774,
+          "units": 553,
+          "upper95": 0.0123153435685884
+        },
+        "rank4": {
+          "components": 379,
+          "lower95": 0.0025145993578272008,
+          "mean": 0.00651604278024568,
+          "retained_fraction": 0.3435471076155668,
+          "sd_across_components": 0.039329522512706626,
+          "units": 553,
+          "upper95": 0.010376176068823535
+        },
+        "rank64": {
+          "components": 379,
+          "lower95": 0.004538997590123722,
+          "mean": 0.009493297677012518,
+          "retained_fraction": 0.5005177327194071,
+          "sd_across_components": 0.05014251079047489,
+          "units": 553,
+          "upper95": 0.014603036161568128
+        },
+        "rank8": {
+          "components": 379,
+          "lower95": 0.002147152946142686,
+          "mean": 0.0064156508690903225,
+          "retained_fraction": 0.33825411739610695,
+          "sd_across_components": 0.0413390353642428,
+          "units": 553,
+          "upper95": 0.010438238560886666
+        }
+      }
+    }
+  }
+}

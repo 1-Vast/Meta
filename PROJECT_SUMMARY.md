@@ -1,8 +1,8 @@
 # MetaSieve Project Summary
 
 This file is the current status entry point. Numerical claims are controlled by the corresponding
-`RESULT.json` and manifest files; mathematical and model claims are controlled by
-`theory/CURRENT_THEORY/`.
+`RESULT.json` and manifest files. Historical theory now lives under
+`archive/theory/` and is design provenance, not a frozen neural contract.
 
 ## Objective
 
@@ -11,35 +11,56 @@ training. Deployment may use only the protein sequence or legal structure repres
 molecular information, context, and a disjoint support set. Target identifiers, query labels, and
 target-specific parameter memory are prohibited.
 
-## Core Innovation
+## Current population and incumbent
 
-The candidate core is the **Quotient-Preserving Section Meta-Potential (QPSMP)** in
-`model/qpsmp_meta.py`. It is a trainable neural scalar potential with ligand-conditioned protein
-localization and a permutation-invariant, centered, zero-preserving support adapter. Query loss
-trains the localizer, crossed interaction map, scalar head, section basis, and adapter. The analytic
-section remains a mathematical diagnostic and is not a second model implementation.
+The governed **double-cold protocol**
+`dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1` is the
+development/confirmation population (meta_train 5,643 cells / 346 targets;
+meta_val 41 targets / 19 components; meta_test 22 targets / 10 components,
+physically sealed and pristine — never opened).
 
-## Current Status
+The retained incumbent is the **Stage R3/R4 `similarity_only` grammar**
+(three checkpoints, `report/meta_fewshot/stageR3R4_level_shape_20260815/
+A0_incumbent_seed*/`, 1200 steps). Double-cold meta_val: k=0 MSE 2.149 /
+CI 0.580 / Spearman 0.223 / calibration 1.236 / shape 0.913. It is a
+development incumbent, not an admitted model.
 
-`QPSMP_TRAINABILITY_INTERFACE_DEFINED=true`
+## Current status (2026-08-16)
 
-The module interface and focused invariants are implemented and pass unit tests. Protein-specific
-Cold Target admission is **not** established. The current frozen PLM-slot/T-BASIS diagnostics do
-not authorize G2, G3, biological interpretation, or V1 integration.
+- The R5-R8 relative-transport/gate model family was **closed** under its
+  preregistered gates (R6a/R6b/R7 transport mechanisms all measured
+  deployment-inert; R8 strong-shape arm ties A0 at k=0 but regresses CI).
+  Full cycle summary: `report/meta_fewshot/README.md`.
+- The shape-first training method is retained as the project's first
+  measured within-target shape source (shape 0.943 -> 0.896; k=5
+  activity-cliff sign 0.768, best on record).
+- R9 localized the CI regression to the mid-similarity band (0.4-0.6) and
+  showed the x4 activity-cliff pair weight is a net negative for ranking;
+  the cliff-weight dose response found no single dose passing both
+  preregistered advance gates (C1: CI 0.562; C2: k=0 2.119, calib 1.218).
+- R10 (in progress) tests the next single variable: `shape_variance_weight`
+  1.5 -> 0.5 on the C1 base, three seeds, 1200 steps, via the smoke-first
+  stage runner.
+- The complete maintained suite passes 393 tests (79 pytest modules).
 
-The repaired endpoint contract improved over its matched level baseline in an already-consumed k=5
-development diagnostic. A stricter shared-checkpoint nested-k evaluation over k={1,2,3,5} produced
-positive point estimates against level at every k, but no component-bootstrap lower bound was above
-zero, and SAR/protein-specific controls were not stable. The recipe has therefore not passed
-development promotion. No G2, G3, biological, confirmation, performance-guarantee, or integration
-claim is authorized. The governed manifest records only six independent homology components, and
-the repository currently has no authorized untouched confirmation cohort.
+No Cold Target admission, SOTA, or confirmation claim is authorized.
+`meta_test` opens once, only after every preregistered meta_val gate passes.
 
 ## Core Repository Surface
 
-1. `model/qpsmp_meta.py`: current neural model.
-2. `scripts/qpsmp_data.py`, `scripts/train_qpsmp.py`, and `scripts/evaluate_qpsmp.py`: current data,
-   training, and governed evaluation entry points.
-3. `theory/CURRENT_THEORY/`: current mathematics and model contract.
-4. `docs/MODEL_IMPLEMENTATION_CONTRACT.md`: code-to-theory mapping.
-5. `report/meta_fewshot/qpsmp_nested_k1235_development_20260812/RESULT.json`: core development report.
+1. `docs/PROJECT_FILE_ORGANIZATION.md`: ownership and active-file map.
+2. Active models: `model/interaction_grammar.py` + `model/similarity_grammar.py`
+   (incumbent family), `model/level_shape.py`, `model/reltransport.py`
+   (closed, retained for evidence), `model/qpsmp_meta.py` (control arm).
+3. `scripts/qpsmp_data.py`, `scripts/train_qpsmp.py`,
+   `scripts/train_reltransport.py`, `scripts/train_grammar_shape.py`,
+   `scripts/stageR6_compare_arms.py`, `scripts/stageR9_pair_audit.py`,
+   `scripts/stage_smoke.py`, `scripts/run_stage.py`: current data, training,
+   evaluation, auditing and orchestration entry points.
+4. `report/CURRENT_MODEL_EVIDENCE.md`: consolidated model and experiment ledger.
+5. `archive/theory/`: historical mathematical provenance.
+
+Directory-specific indexes now live in `model/`, `scripts/`, `research/`,
+`report/`, `dataset/`, `tests/`, `contracts/`, `config/`, `docs/`, and `LLM/`.
+Experiment outputs belong only under `report/`; research directories contain
+code, not result trees.

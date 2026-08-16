@@ -1,0 +1,116 @@
+{
+  "schema": "ubse-a0c-locator-correction-v2",
+  "wall_clock_s": 24.666,
+  "files": {
+    "annotation_path": "D:\\FORT\\dataset\\public\\biolip2\\BioLiP.txt.gz",
+    "annotation_sha256": "c92229bbc8c55c3bd84a9813c3e278ba62f4cfa44e6315cc98d9bf63ed64b6ec",
+    "old_manifest_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a0_3d_event_sources.parquet",
+    "old_manifest_sha256_before": "3d4dfcf425b3323d192a7ad50fe6873f6a84c2832a227c68bcdbdc858da8067d",
+    "old_manifest_sha256_after": "3d4dfcf425b3323d192a7ad50fe6873f6a84c2832a227c68bcdbdc858da8067d",
+    "old_result_path": "D:\\FORT\\reports\\active\\ubse_a0_3d_event_source.json",
+    "old_result_sha256_before": "30494dfa0bec15096f359e83e15155d66cff977a76cb72ee19580b53df35db58",
+    "old_result_sha256_after": "30494dfa0bec15096f359e83e15155d66cff977a76cb72ee19580b53df35db58",
+    "manifest_v2_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a0c_3d_event_sources_v2.parquet",
+    "manifest_v2_sha256": "adc72f142e515c47ea18d20d7af08f6a434a30202a1483dcb362115062a068d5"
+  },
+  "byte_scan": {
+    "physical_rows": 989058,
+    "malformed_rows": 0,
+    "relevant_rows": 11609,
+    "unique_relevant_keys": 11609,
+    "duplicate_relevant_rows": 0,
+    "decoded_columns": {
+      "0": "pdb_id",
+      "1": "receptor_chain",
+      "4": "ligand_ccd",
+      "5": "ligand_chain",
+      "6": "biolip_filename_serial",
+      "18": "pubmed",
+      "19": "mmcif_auth_seq_id",
+      "20": "sequence"
+    },
+    "forbidden_affinity_columns": [
+      13,
+      14,
+      15,
+      16
+    ],
+    "affinity_fields_decoded": false
+  },
+  "strict_join": {
+    "old_rows": 3467,
+    "matched_rows": 3467,
+    "missing_rows": 0,
+    "ambiguous_rows": 0,
+    "scalar_auth_seq_id_rows": 3467,
+    "auth_seq_id_equals_filename_serial_rows": 39
+  },
+  "corrected_manifest": {
+    "rows": 3467,
+    "panels": 1412,
+    "unique_pdb": 2833,
+    "complete_locator_rows": 3467,
+    "scalar_auth_seq_id_rows": 3467,
+    "duplicate_biolip_file_instance_rows": 0,
+    "duplicate_mmcif_coordinate_instance_rows": 0,
+    "by_role": {
+      "fit": {
+        "rows": 3130,
+        "panels": 1260,
+        "unique_pdb": 2496,
+        "biolip_file_instances": 3130,
+        "mmcif_coordinate_instances": 3130
+      },
+      "validation": {
+        "rows": 140,
+        "panels": 64,
+        "unique_pdb": 140,
+        "biolip_file_instances": 140,
+        "mmcif_coordinate_instances": 140
+      },
+      "audit": {
+        "rows": 197,
+        "panels": 88,
+        "unique_pdb": 197,
+        "biolip_file_instances": 197,
+        "mmcif_coordinate_instances": 197
+      }
+    },
+    "pdb_role_overlap": {
+      "fit_vs_validation": 0,
+      "fit_vs_audit": 0,
+      "validation_vs_audit": 0
+    }
+  },
+  "remote_availability": {
+    "executed": false,
+    "reason": "metadata-only locator correction; no coordinate access"
+  },
+  "old_gate_disposition": {
+    "A0_1_identity": "superseded by A0C frozen hashes including BioLiP.txt.gz",
+    "A0_2_complete_locator": "old pass withdrawn; revalidated with mmcif_auth_seq_id",
+    "A0_3_unique_instance": "old pass withdrawn; revalidated with corrected instance",
+    "A0_4_scale": "unchanged and revalidated",
+    "A0_5_role_closure": "unchanged and revalidated",
+    "A0_6_remote_availability": "not executed; remains WAIT",
+    "A0_7_firewall": "unchanged and strengthened by byte scanner"
+  },
+  "affinity_fields_loaded": false,
+  "affinity_values_decoded": false,
+  "coordinate_files_read": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "gate": {
+    "A0C_1_frozen_inputs": true,
+    "A0C_2_byte_firewall": true,
+    "A0C_3_strict_unique_join": true,
+    "A0C_4_auth_seq_complete": true,
+    "A0C_5_unique_mmcif_instance": true,
+    "A0C_6_scale": true,
+    "A0C_7_role_closure": true,
+    "A0C_8_old_artifacts_immutable": true,
+    "pass": true,
+    "decision": "FREEZE_UBSE_A0C_LOCATOR_V2_KEEP_A0_REMOTE_WAIT"
+  },
+  "compute": "CPU-only gzip byte scan, identity join, manifest write, and hash verification; no coordinate or model tensor operation"
+}

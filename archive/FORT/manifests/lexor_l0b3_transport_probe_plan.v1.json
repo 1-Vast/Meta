@@ -1,0 +1,56 @@
+{
+  "schema": "lexor-l0b-transport-probe-plan.v1",
+  "scope": "HTTP parameter-compatibility diagnosis only. Each request uses one synthetic non-candidate search token. Successful response bodies must not be read, parsed, retained, or serialized. For an HTTP error, the runner may retain only a bounded protocol-error description, never a candidate record.",
+  "requests": [
+    {
+      "probe_id": "openalex_base",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "zzlexortransportprobenomatchqzq20260727"
+      }
+    },
+    {
+      "probe_id": "openalex_per_page",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "zzlexortransportprobenomatchqzq20260727",
+        "per-page": 1
+      }
+    },
+    {
+      "probe_id": "openalex_filter",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "zzlexortransportprobenomatchqzq20260727",
+        "per-page": 1,
+        "filter": "is_oa:true,from_publication_date:2010-01-01"
+      }
+    },
+    {
+      "probe_id": "openalex_sort",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "zzlexortransportprobenomatchqzq20260727",
+        "per-page": 1,
+        "filter": "is_oa:true,from_publication_date:2010-01-01",
+        "sort": "cited_by_count:desc"
+      }
+    },
+    {
+      "probe_id": "openalex_select",
+      "endpoint": "https://api.openalex.org/works",
+      "parameters": {
+        "search": "zzlexortransportprobenomatchqzq20260727",
+        "per-page": 1,
+        "filter": "is_oa:true,from_publication_date:2010-01-01",
+        "sort": "cited_by_count:desc",
+        "select": "id,doi,title"
+      }
+    }
+  ],
+  "network_budget": {
+    "max_http_requests": 5,
+    "timeout_seconds": 30,
+    "retries": 0
+  }
+}

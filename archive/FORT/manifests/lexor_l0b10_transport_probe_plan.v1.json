@@ -1,0 +1,20 @@
+{
+  "schema": "lexor-l0b-transport-probe-plan.v1",
+  "scope": "Zenodo anonymous page-size confirmation only. The request uses one synthetic non-candidate query. A successful response body must not be read, parsed, retained, or serialized. For an HTTP error, the runner may retain only a bounded protocol-error description, never a candidate record.",
+  "user_agent": "FORT-LEXOR-L0B/1.0 metadata-only",
+  "requests": [
+    {
+      "probe_id": "zenodo_q_size_25",
+      "endpoint": "https://zenodo.org/api/records",
+      "parameters": {
+        "q": "zzlexortransportprobenomatchqzq20260727",
+        "size": 25
+      }
+    }
+  ],
+  "network_budget": {
+    "max_http_requests": 1,
+    "timeout_seconds": 30,
+    "retries": 0
+  }
+}

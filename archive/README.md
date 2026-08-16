@@ -1,20 +1,20 @@
-# Historical archive
+# Archived Material
 
-`legacy_pre_b5_20260810.zip` contains 72 pre-B5 files removed from the active
-research/report tree after their conclusions were consolidated into
-`history.md` and `report/EXPERIMENTAL_EVIDENCE_LEDGER.md`.
+This directory contains curated historical provenance. It is not current
+mathematical, implementation, or experimental authority.
 
-```text
-SHA-256: a4c916cb09004383c0b55a6c8dd32df70748524874ada5c89a97c5d7ae9012e5
-size:    361895 bytes
-```
+- `theory/` contains superseded mathematical development and frozen historical
+  theory.
+- `retired_research_20260811/` contains the manifest-governed retired research
+  corpus.
+- `legacy/` contains retired executable implementations that are not imported
+  by the active model, plus superseded contracts and raw report inputs under
+  `legacy/docs/`.
+- `FORT/` contains the predecessor's unique source, reports, manifests, and
+  decision history. Its labels do not apply to the active MetaSieve project.
 
-The archive includes withdrawn S5/S5R2 implementations and reports, terminated
-XP/multipanel code, the superseded five-artifact R0 input, obsolete unexecuted
-preregistrations, and redundant console logs. It is historical evidence only:
-agents must not treat any contained protocol, status, or result as current.
-
-The S7/L2B route was subsequently terminated and removed from the active tree.
-See `FAILED_RESEARCH_ARCHIVE_20260810.md` for the new cleanup boundary. Current
-work is the BindingDB quotient and few-shot meta-learning route described in
-`task.md`.
+Archives are curated evidence, not storage dumps. Credentials are excluded.
+Nested Git databases, downloaded third-party trees, duplicate datasets,
+runtime caches, and reproducible quarantine outputs are excluded rather than
+retained as evidence. Cleanup decisions are recorded in `history.md` and
+`docs/PROJECT_FILE_ORGANIZATION.md`.

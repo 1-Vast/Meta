@@ -1,0 +1,155 @@
+{
+  "schema": "crossdoc-reordering-c3-v1",
+  "candidate": "C3 CROSSDOC independent-document reordering replication",
+  "source": {
+    "kirhub_workbook_sha256": "d9eef358396b193834b0c4d48ccd8cadb43697a6458cdcb50415af5a7e4e0b03",
+    "kirhub_registry_sha256": "fc3bd42fb7618c548ad7b661fa7907cfacd7afa70a768782c99ea83edf1825ed",
+    "strict_components_sha256": "0122780145a5504a61d78a709829d65d093f5636ccb4bca117d5e39cc2c4a7d4",
+    "chembl_registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "chembl_manifest_sha256": "602b9d647a565ee0b854f342c8d6a3bbf6f04353b0933d66270ef01f0436630f",
+    "preregistration_sha256": "025f47444bcfe75c2eaae7fb39822b2db85f04bfc56dbcf5f3383a64cad38d32"
+  },
+  "protocol": {
+    "chembl_split_read": "train only",
+    "exact_single_document_only": true,
+    "raw_endpoint_pooling": false,
+    "target_label_permutations": 2000,
+    "ligand_label_permutations_per_target": 32,
+    "seed": 1729
+  },
+  "panel_audit": [
+    {
+      "document": "CHEMBL1908390",
+      "endpoint": "pKd",
+      "exact_document_rows": 312,
+      "eligible_targets_ge5": 17,
+      "ligands": 18,
+      "assays": 34,
+      "median_finite_replicate_sd": 0.384
+    },
+    {
+      "document": "CHEMBL1201862",
+      "endpoint": "pKi",
+      "exact_document_rows": 241,
+      "eligible_targets_ge5": 15,
+      "ligands": 13,
+      "assays": 15,
+      "median_finite_replicate_sd": 0.2121
+    },
+    {
+      "document": "CHEMBL3991601",
+      "endpoint": "pKd",
+      "exact_document_rows": 160,
+      "eligible_targets_ge5": 10,
+      "ligands": 27,
+      "assays": 10,
+      "median_finite_replicate_sd": null
+    }
+  ],
+  "usable_target_document_units": 13,
+  "independent_homology_components": 11,
+  "per_document": {
+    "CHEMBL1908390_pKd": {
+      "group_residual_rank": {
+        "mean": 0.25,
+        "lcb95": -0.075,
+        "ucb95": 0.525,
+        "n_units": 4
+      },
+      "global_residual_rank": {
+        "mean": 0.375,
+        "lcb95": 0.0,
+        "ucb95": 0.6,
+        "n_units": 4
+      },
+      "target_document_units": 4,
+      "homology_components": 3
+    },
+    "CHEMBL1201862_pKi": {
+      "group_residual_rank": {
+        "mean": 0.5926,
+        "lcb95": 0.4113,
+        "ucb95": 0.775,
+        "n_units": 8
+      },
+      "global_residual_rank": {
+        "mean": 0.4887,
+        "lcb95": 0.3125,
+        "ucb95": 0.6619,
+        "n_units": 8
+      },
+      "target_document_units": 8,
+      "homology_components": 8
+    },
+    "CHEMBL3991601_pKd": {
+      "group_residual_rank": {
+        "mean": null,
+        "lcb95": null,
+        "ucb95": null,
+        "n_units": 1
+      },
+      "global_residual_rank": {
+        "mean": null,
+        "lcb95": null,
+        "ucb95": null,
+        "n_units": 1
+      },
+      "target_document_units": 1,
+      "homology_components": 1
+    }
+  },
+  "pooled_component_macro": {
+    "direct_rank": {
+      "mean": 0.5337,
+      "lcb95": 0.3101,
+      "ucb95": 0.7336,
+      "n_units": 11
+    },
+    "group_residual_rank": {
+      "mean": 0.4946,
+      "lcb95": 0.3156,
+      "ucb95": 0.6727,
+      "n_units": 11
+    },
+    "global_residual_rank": {
+      "mean": 0.46,
+      "lcb95": 0.3041,
+      "ucb95": 0.6139,
+      "n_units": 11
+    },
+    "ligand_permutation_rank": {
+      "mean": 0.0163,
+      "lcb95": -0.0136,
+      "ucb95": 0.0426,
+      "n_units": 11
+    }
+  },
+  "ligand_permutation_observed_gain": {
+    "mean": 0.4783,
+    "lcb95": 0.3031,
+    "ucb95": 0.6524,
+    "n_units": 11
+  },
+  "within_group_target_permutation": {
+    "observed": 0.4946,
+    "null_mean": 0.1664,
+    "null_lcb95": -0.0675,
+    "null_ucb95": 0.4256,
+    "p_one_sided": 0.001499,
+    "note": "exchangeability over observed target-unit correlations within document/group"
+  },
+  "gates": {
+    "coverage": false,
+    "pooled_group_residual_at_least_0.10_lcb_positive": true,
+    "two_documents_positive_and_combined_lcb_positive": true,
+    "target_permutation_p_at_most_0.01": true,
+    "ligand_permutation_centered_and_destroyed": true,
+    "global_residual_sensitivity_lcb_positive": true
+  },
+  "verdict": "CROSSDOC_C3_FAIL_PUBLIC_OVERLAP",
+  "candidate_slots_used_this_round": 3,
+  "authorize_predictive_model": false,
+  "sealed_test_consumed": false,
+  "confirmation_labels_read": true,
+  "confirmation_partition_status": "quarantined after prior schema inspection displayed five labeled rows; not used in this experiment"
+}

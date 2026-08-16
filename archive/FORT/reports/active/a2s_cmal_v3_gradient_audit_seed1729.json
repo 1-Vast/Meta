@@ -1,0 +1,1374 @@
+{
+  "schema": "a2s-cmal-run-v2",
+  "status": "MECHANISM_SMOKE_ONLY",
+  "model": "A2S-CMAL protein-conditioned counterfactual meta-adaptation operator",
+  "seed": 1729,
+  "formal": false,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "data_package": {
+    "path": "dataset\\formal_training\\a2s_cmal_episodes.v3",
+    "content_sha256": "2df5831bc8a51df93dc54531302327716fcca8900ec43f1aa37f16ed2fb9485a",
+    "recipient_labels_read": false
+  },
+  "architecture": {
+    "support_free_base": true,
+    "protein_conditioned": true,
+    "query_dependent": true,
+    "closed_form_inner_update": false,
+    "budget_gate": false,
+    "deep_kernel": false,
+    "parameters": 1420290,
+    "hidden": 128
+  },
+  "objective": {
+    "base": "masked query MSE + pairwise ranking loss",
+    "adaptation": "positive query fit + InfoNCE over post-adaptation query ranking loss",
+    "counterfactuals": [
+      "random",
+      "protein_hard",
+      "chemical_match"
+    ],
+    "counterfactual_weight": 1.0,
+    "temperature": 0.2
+  },
+  "training": {
+    "protocol": "ordered",
+    "base_steps": 300,
+    "meta_steps": 500,
+    "batch_episodes": 64,
+    "base_phase": {
+      "loss": 0.23044586181640625,
+      "mse": 0.12484924495220184,
+      "rank": 0.3519887328147888,
+      "seconds": 2.902953799988609,
+      "steps_per_second": 103.34301565570117,
+      "episodes_per_second": 6613.953001964875,
+      "relative_parameter_delta_by_module": {
+        "ligand_encoder": 0.20575161278247833,
+        "protein_encoder": 0.09650964289903641,
+        "pair_encoder": 0.09944123774766922,
+        "base_head": 0.2913404703140259
+      }
+    },
+    "adapter_phase": {
+      "loss": 1.3139069080352783,
+      "mse": 0.14181286096572876,
+      "rank": 0.3459148406982422,
+      "counterfactual": 1.06831955909729,
+      "ranking_gap": 0.22287587821483612,
+      "seconds": 6.481257100007497,
+      "steps_per_second": 77.14552783277517,
+      "episodes_per_second": 4937.313781297611,
+      "relative_parameter_delta_by_module": {
+        "residual_encoder": 0.10289304703474045,
+        "support_attention": 0.2765268385410309,
+        "support_norm": 0.027763905003666878,
+        "query_attention": 0.26899850368499756,
+        "query_norm": 0.02482178434729576,
+        "delta_head": 0.3184046447277069
+      }
+    },
+    "wall_time_seconds": 19.525830599988694,
+    "log": [
+      {
+        "phase": "base",
+        "completed_steps": 1,
+        "loss": 1.2325609922409058,
+        "mse": 1.0445749759674072,
+        "rank": 0.6266201734542847,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 0.0,
+          "protein_encoder": 0.0,
+          "pair_encoder": 0.0,
+          "base_head": 0.4701647162437439
+        }
+      },
+      {
+        "phase": "base",
+        "completed_steps": 76,
+        "loss": 0.5844888091087341,
+        "mse": 0.45298445224761963,
+        "rank": 0.43834787607192993,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 1.6499762535095215,
+          "protein_encoder": 1.180139422416687,
+          "pair_encoder": 1.732994794845581,
+          "base_head": 1.5759998559951782
+        }
+      },
+      {
+        "phase": "base",
+        "completed_steps": 100,
+        "loss": 0.46909043192863464,
+        "mse": 0.343732088804245,
+        "rank": 0.41786113381385803,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 1.4039818048477173,
+          "protein_encoder": 0.7436432242393494,
+          "pair_encoder": 0.5879465937614441,
+          "base_head": 0.5860069394111633
+        }
+      },
+      {
+        "phase": "base",
+        "completed_steps": 151,
+        "loss": 0.3674786686897278,
+        "mse": 0.24391120672225952,
+        "rank": 0.41189152002334595,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 1.2861183881759644,
+          "protein_encoder": 1.2240477800369263,
+          "pair_encoder": 1.7405331134796143,
+          "base_head": 1.45758855342865
+        }
+      },
+      {
+        "phase": "base",
+        "completed_steps": 225,
+        "loss": 0.2915689945220947,
+        "mse": 0.17753276228904724,
+        "rank": 0.38012075424194336,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 1.2992149591445923,
+          "protein_encoder": 1.0491416454315186,
+          "pair_encoder": 1.5213744640350342,
+          "base_head": 1.2186001539230347
+        }
+      },
+      {
+        "phase": "base",
+        "completed_steps": 300,
+        "loss": 0.23044586181640625,
+        "mse": 0.12484924495220184,
+        "rank": 0.3519887328147888,
+        "gradient_l2_by_module": {
+          "ligand_encoder": 1.0045682191848755,
+          "protein_encoder": 1.268845558166504,
+          "pair_encoder": 0.5178987383842468,
+          "base_head": 0.2635343372821808
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 1,
+        "loss": 1.6028319597244263,
+        "mse": 0.11755980551242828,
+        "rank": 0.3299238085746765,
+        "counterfactual": 1.386294960975647,
+        "ranking_gap": 7.450580596923828e-09,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.0,
+          "support_attention": 0.0,
+          "support_norm": 0.0,
+          "query_attention": 0.0,
+          "query_norm": 0.0,
+          "delta_head": 0.39733877778053284
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 100,
+        "loss": 1.6148658990859985,
+        "mse": 0.12286437302827835,
+        "rank": 0.36458998918533325,
+        "counterfactual": 1.3826245069503784,
+        "ranking_gap": 0.0010577186476439238,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.013840094208717346,
+          "support_attention": 0.020909320563077927,
+          "support_norm": 0.002725140657275915,
+          "query_attention": 0.04415404424071312,
+          "query_norm": 0.006385788321495056,
+          "delta_head": 0.3144144117832184
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 126,
+        "loss": 1.584592342376709,
+        "mse": 0.11607341468334198,
+        "rank": 0.3589295446872711,
+        "counterfactual": 1.360840082168579,
+        "ranking_gap": 0.007114881183952093,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.021587079390883446,
+          "support_attention": 0.026279916986823082,
+          "support_norm": 0.002505413256585598,
+          "query_attention": 0.03742131590843201,
+          "query_norm": 0.00456834863871336,
+          "delta_head": 0.20814384520053864
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 251,
+        "loss": 1.5343447923660278,
+        "mse": 0.13201309740543365,
+        "rank": 0.3529583215713501,
+        "counterfactual": 1.2964441776275635,
+        "ranking_gap": 0.032856859266757965,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.17048674821853638,
+          "support_attention": 0.131550133228302,
+          "support_norm": 0.017145071178674698,
+          "query_attention": 0.13126440346240997,
+          "query_norm": 0.018743855878710747,
+          "delta_head": 0.503730058670044
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 300,
+        "loss": 1.4497339725494385,
+        "mse": 0.12161417305469513,
+        "rank": 0.3631206154823303,
+        "counterfactual": 1.2191835641860962,
+        "ranking_gap": 0.06693383306264877,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.36149320006370544,
+          "support_attention": 0.2965766489505768,
+          "support_norm": 0.03343828022480011,
+          "query_attention": 0.2326473444700241,
+          "query_norm": 0.03319724649190903,
+          "delta_head": 0.8058764338493347
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 375,
+        "loss": 1.328027367591858,
+        "mse": 0.19774353504180908,
+        "rank": 0.3666030168533325,
+        "counterfactual": 1.0203028917312622,
+        "ranking_gap": 0.2022513598203659,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.5140394568443298,
+          "support_attention": 0.47108694911003113,
+          "support_norm": 0.04912900924682617,
+          "query_attention": 0.4699799120426178,
+          "query_norm": 0.04645951837301254,
+          "delta_head": 1.2201217412948608
+        }
+      },
+      {
+        "phase": "adapter",
+        "completed_steps": 500,
+        "loss": 1.3139069080352783,
+        "mse": 0.14181286096572876,
+        "rank": 0.3459148406982422,
+        "counterfactual": 1.06831955909729,
+        "ranking_gap": 0.22287587821483612,
+        "gradient_l2_by_module": {
+          "residual_encoder": 0.42157068848609924,
+          "support_attention": 0.3592108190059662,
+          "support_norm": 0.038049954921007156,
+          "query_attention": 0.34143850207328796,
+          "query_norm": 0.04373054578900337,
+          "delta_head": 1.1909048557281494
+        }
+      }
+    ]
+  },
+  "gradient_parameter_audit": {
+    "inventory": [
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.0.weight",
+        "shape": [
+          256,
+          2058
+        ],
+        "numel": 526848,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.0.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.2.weight",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.2.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.3.weight",
+        "shape": [
+          128,
+          256
+        ],
+        "numel": 32768,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.3.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.5.weight",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "ligand_encoder",
+        "parameter_name": "ligand_encoder.5.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.0.weight",
+        "shape": [
+          1280
+        ],
+        "numel": 1280,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.0.bias",
+        "shape": [
+          1280
+        ],
+        "numel": 1280,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.1.weight",
+        "shape": [
+          256,
+          1280
+        ],
+        "numel": 327680,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.1.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.3.weight",
+        "shape": [
+          128,
+          256
+        ],
+        "numel": 32768,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.3.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.4.weight",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "protein_encoder",
+        "parameter_name": "protein_encoder.4.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.0.weight",
+        "shape": [
+          256,
+          512
+        ],
+        "numel": 131072,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.0.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.2.weight",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.2.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.3.weight",
+        "shape": [
+          128,
+          256
+        ],
+        "numel": 32768,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.3.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.5.weight",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "pair_encoder",
+        "parameter_name": "pair_encoder.5.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "base_head",
+        "parameter_name": "base_head.0.weight",
+        "shape": [
+          128,
+          128
+        ],
+        "numel": 16384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "base_head",
+        "parameter_name": "base_head.0.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "base_head",
+        "parameter_name": "base_head.2.weight",
+        "shape": [
+          1,
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "base_head",
+        "parameter_name": "base_head.2.bias",
+        "shape": [
+          1
+        ],
+        "numel": 1,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "base_phase"
+      },
+      {
+        "module": "residual_encoder",
+        "parameter_name": "residual_encoder.0.weight",
+        "shape": [
+          128,
+          1
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "residual_encoder",
+        "parameter_name": "residual_encoder.0.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "residual_encoder",
+        "parameter_name": "residual_encoder.2.weight",
+        "shape": [
+          128,
+          128
+        ],
+        "numel": 16384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "residual_encoder",
+        "parameter_name": "residual_encoder.2.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_attention",
+        "parameter_name": "support_attention.in_proj_weight",
+        "shape": [
+          384,
+          128
+        ],
+        "numel": 49152,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_attention",
+        "parameter_name": "support_attention.in_proj_bias",
+        "shape": [
+          384
+        ],
+        "numel": 384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_attention",
+        "parameter_name": "support_attention.out_proj.weight",
+        "shape": [
+          128,
+          128
+        ],
+        "numel": 16384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_attention",
+        "parameter_name": "support_attention.out_proj.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_norm",
+        "parameter_name": "support_norm.weight",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "support_norm",
+        "parameter_name": "support_norm.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_attention",
+        "parameter_name": "query_attention.in_proj_weight",
+        "shape": [
+          384,
+          128
+        ],
+        "numel": 49152,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_attention",
+        "parameter_name": "query_attention.in_proj_bias",
+        "shape": [
+          384
+        ],
+        "numel": 384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_attention",
+        "parameter_name": "query_attention.out_proj.weight",
+        "shape": [
+          128,
+          128
+        ],
+        "numel": 16384,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_attention",
+        "parameter_name": "query_attention.out_proj.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_norm",
+        "parameter_name": "query_norm.weight",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "query_norm",
+        "parameter_name": "query_norm.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.0.weight",
+        "shape": [
+          256,
+          512
+        ],
+        "numel": 131072,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.0.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.2.weight",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.2.bias",
+        "shape": [
+          256
+        ],
+        "numel": 256,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.3.weight",
+        "shape": [
+          128,
+          256
+        ],
+        "numel": 32768,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.3.bias",
+        "shape": [
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.5.weight",
+        "shape": [
+          1,
+          128
+        ],
+        "numel": 128,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      },
+      {
+        "module": "delta_head",
+        "parameter_name": "delta_head.5.bias",
+        "shape": [
+          1
+        ],
+        "numel": 1,
+        "requires_grad_at_initialization": true,
+        "optimizer_group": "adapter_phase"
+      }
+    ],
+    "total_parameters": 1420290,
+    "base_optimizer_parameters": 1106049,
+    "adapter_optimizer_parameters": 314241,
+    "base_frozen_during_adapter_phase": true,
+    "snapshots": {
+      "random_initialization": {
+        "split": "meta_validation",
+        "k": 5,
+        "n_targets": 18,
+        "absolute": {
+          "base": {
+            "rmse": 1.2170258858413605,
+            "ci": 0.5605393625231446,
+            "spearman": 0.17166764238953053,
+            "ndcg10": 0.6753267797931836
+          },
+          "adapted": {
+            "rmse": 1.2170258858413605,
+            "ci": 0.5605393625231446,
+            "spearman": 0.17166764238953053,
+            "ndcg10": 0.6753267797931836
+          }
+        },
+        "correct_support_advantage": {
+          "adapted_random": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          },
+          "adapted_protein_hard": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          },
+          "adapted_chemical_match": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          }
+        }
+      },
+      "after_base_before_meta_adapter": {
+        "split": "meta_validation",
+        "k": 5,
+        "n_targets": 18,
+        "absolute": {
+          "base": {
+            "rmse": 1.2258779866000016,
+            "ci": 0.5885988268550517,
+            "spearman": 0.25310582902069184,
+            "ndcg10": 0.7170822981880716
+          },
+          "adapted": {
+            "rmse": 1.2258779866000016,
+            "ci": 0.5885988268550517,
+            "spearman": 0.25310582902069184,
+            "ndcg10": 0.7170822981880716
+          }
+        },
+        "correct_support_advantage": {
+          "adapted_random": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          },
+          "adapted_protein_hard": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          },
+          "adapted_chemical_match": {
+            "rmse": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.0,
+              "lo": 0.0,
+              "hi": 0.0,
+              "n_components": 12
+            }
+          }
+        }
+      },
+      "after_meta_adapter": {
+        "split": "meta_validation",
+        "k": 5,
+        "n_targets": 18,
+        "absolute": {
+          "base": {
+            "rmse": 1.2258779866000016,
+            "ci": 0.5885988268550517,
+            "spearman": 0.25310582902069184,
+            "ndcg10": 0.7170822981880716
+          },
+          "adapted": {
+            "rmse": 1.32433702217208,
+            "ci": 0.5787203013700831,
+            "spearman": 0.2222532640259166,
+            "ndcg10": 0.7044609213355769
+          }
+        },
+        "correct_support_advantage": {
+          "adapted_random": {
+            "rmse": {
+              "mean": -0.02347686350759533,
+              "lo": -0.05695111918625318,
+              "hi": 0.014631445213324488,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": -0.0005261665907472629,
+              "lo": -0.01424169324411251,
+              "hi": 0.011409888446497837,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.002369574845421421,
+              "lo": -0.04624376981349426,
+              "hi": 0.034532300773117426,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.00029281434792488223,
+              "lo": -0.02271968760889634,
+              "hi": 0.013471644870634932,
+              "n_components": 12
+            }
+          },
+          "adapted_protein_hard": {
+            "rmse": {
+              "mean": -0.07036834179113309,
+              "lo": -0.182330735038138,
+              "hi": 0.0034370332024991246,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": -0.0019131235097275521,
+              "lo": -0.03351589521400584,
+              "hi": 0.02523926331047607,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.006343008074276444,
+              "lo": -0.10266744879736774,
+              "hi": 0.06582178400124129,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": -0.009109989925303241,
+              "lo": -0.05624365896568406,
+              "hi": 0.02634800953655468,
+              "n_components": 12
+            }
+          },
+          "adapted_chemical_match": {
+            "rmse": {
+              "mean": -0.0066971818813019125,
+              "lo": -0.03559896728127371,
+              "hi": 0.020060343278779,
+              "n_components": 12
+            },
+            "ci": {
+              "mean": -0.004642677289353091,
+              "lo": -0.020107902438706922,
+              "hi": 0.004378337282438591,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.012812312054042409,
+              "lo": -0.049783684739000085,
+              "hi": 0.014560919475246672,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.00391737018015355,
+              "lo": -0.008003198578541572,
+              "hi": 0.016650459741690795,
+              "n_components": 12
+            }
+          }
+        }
+      }
+    },
+    "trained_vs_untrained": {
+      "adapted_absolute_after_minus_before": {
+        "rmse": 0.09845903557207847,
+        "ci": -0.009878525484968592,
+        "spearman": -0.030852564994775233,
+        "ndcg10": -0.012621376852494648
+      },
+      "specificity_mean_after_minus_before": {
+        "adapted_random": {
+          "rmse": -0.02347686350759533,
+          "ci": -0.0005261665907472629,
+          "spearman": -0.002369574845421421,
+          "ndcg10": 0.00029281434792488223
+        },
+        "adapted_protein_hard": {
+          "rmse": -0.07036834179113309,
+          "ci": -0.0019131235097275521,
+          "spearman": -0.006343008074276444,
+          "ndcg10": -0.009109989925303241
+        },
+        "adapted_chemical_match": {
+          "rmse": -0.0066971818813019125,
+          "ci": -0.004642677289353091,
+          "spearman": -0.012812312054042409,
+          "ndcg10": 0.00391737018015355
+        }
+      }
+    }
+  },
+  "evaluation": {
+    "split": "meta_validation",
+    "statistical_unit": "source validation target",
+    "results": {
+      "5": {
+        "n_episodes": 432,
+        "n_targets": 18,
+        "summary": {
+          "base": {
+            "rmse": 1.2258779866000016,
+            "mse": 1.6222979650591256,
+            "mae": 1.0054516777810123,
+            "ci": 0.5885988268550517,
+            "rm2": 0.09652135066056833,
+            "pearson": 0.27628184689981145,
+            "r2": -0.8502900496493724,
+            "spearman": 0.25310582902069184,
+            "pairwise": 0.5885988268550517,
+            "ndcg10": 0.7170822981880716,
+            "aupr": 0.6940233181482904
+          },
+          "adapted": {
+            "rmse": 1.32433702217208,
+            "mse": 1.899367623169113,
+            "mae": 1.0905461046085865,
+            "ci": 0.5787203013700831,
+            "rm2": 0.06671504027332961,
+            "pearson": 0.24169063088692525,
+            "r2": -1.2194564218519153,
+            "spearman": 0.2222532640259166,
+            "pairwise": 0.5787203013700831,
+            "ndcg10": 0.7044609213355769,
+            "aupr": 0.6759864224523076
+          },
+          "adapted_random": {
+            "rmse": 1.3241969260076685,
+            "mse": 1.9089122254539417,
+            "mae": 1.0878501849042044,
+            "ci": 0.5724372452071402,
+            "rm2": 0.05982674516176197,
+            "pearson": 0.22402447585639498,
+            "r2": -1.09701929832319,
+            "spearman": 0.205358511120885,
+            "pairwise": 0.5724372452071402,
+            "ndcg10": 0.6970766273789027,
+            "aupr": 0.6734870393019182
+          },
+          "adapted_protein_hard": {
+            "rmse": 1.2813663655133156,
+            "mse": 1.772877530436273,
+            "mae": 1.0489814086230818,
+            "ci": 0.5777623542254157,
+            "rm2": 0.07606416734239468,
+            "pearson": 0.2414102252519542,
+            "r2": -0.904880160824479,
+            "spearman": 0.22080091357647808,
+            "pairwise": 0.5777623542254157,
+            "ndcg10": 0.7104731829796269,
+            "aupr": 0.6918566823707407
+          },
+          "adapted_chemical_match": {
+            "rmse": 1.3261902613772287,
+            "mse": 1.9295607613123675,
+            "mae": 1.0961386234396033,
+            "ci": 0.58130013652718,
+            "rm2": 0.0694952078369684,
+            "pearson": 0.24894571867582524,
+            "r2": -1.153687642409069,
+            "spearman": 0.22961103791666343,
+            "pairwise": 0.58130013652718,
+            "ndcg10": 0.7021326239482052,
+            "aupr": 0.6773569814096613
+          },
+          "adapted_permuted_labels": {
+            "rmse": 1.3456135735743573,
+            "mse": 1.9631311509551272,
+            "mae": 1.1084506987697549,
+            "ci": 0.5720392802976162,
+            "rm2": 0.05777586831661054,
+            "pearson": 0.22266604440031523,
+            "r2": -1.2653138312872891,
+            "spearman": 0.20602710411409955,
+            "pairwise": 0.5720392802976162,
+            "ndcg10": 0.6986857919408395,
+            "aupr": 0.6751201464722602
+          }
+        },
+        "target_specific_ranking": {
+          "adapted_random": {
+            "ci": {
+              "mean": -0.0005261665907472629,
+              "lo": -0.01339770003987144,
+              "hi": 0.009854528899728354,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.002369574845421421,
+              "lo": -0.046018442586694595,
+              "hi": 0.032686452643211523,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.00029281434792488223,
+              "lo": -0.017930740058643615,
+              "hi": 0.016845692329804433,
+              "n_components": 12
+            },
+            "rmse": {
+              "mean": -0.02347686350759533,
+              "lo": -0.0616510845979469,
+              "hi": 0.016997236882129476,
+              "n_components": 12
+            }
+          },
+          "adapted_protein_hard": {
+            "ci": {
+              "mean": -0.0019131235097275521,
+              "lo": -0.03770786379542057,
+              "hi": 0.01857358363796335,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.006343008074276444,
+              "lo": -0.1020447425521816,
+              "hi": 0.05585949423076171,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": -0.009109989925303241,
+              "lo": -0.056399539854431656,
+              "hi": 0.033193874162145705,
+              "n_components": 12
+            },
+            "rmse": {
+              "mean": -0.07036834179113309,
+              "lo": -0.16562309864804972,
+              "hi": 0.006624823904389351,
+              "n_components": 12
+            }
+          },
+          "adapted_chemical_match": {
+            "ci": {
+              "mean": -0.004642677289353091,
+              "lo": -0.01608190895279841,
+              "hi": 0.006001631955022253,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": -0.012812312054042409,
+              "lo": -0.0444738290342274,
+              "hi": 0.018876358427987055,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.00391737018015355,
+              "lo": -0.008552528330366599,
+              "hi": 0.017188492022040903,
+              "n_components": 12
+            },
+            "rmse": {
+              "mean": -0.0066971818813019125,
+              "lo": -0.03703428016147679,
+              "hi": 0.020921654131574083,
+              "n_components": 12
+            }
+          },
+          "adapted_permuted_labels": {
+            "ci": {
+              "mean": 0.002753807493022792,
+              "lo": -0.0011700343307215156,
+              "hi": 0.007311663379950213,
+              "n_components": 12
+            },
+            "spearman": {
+              "mean": 0.005865880717135352,
+              "lo": -0.004407772274131972,
+              "hi": 0.01810960161042008,
+              "n_components": 12
+            },
+            "ndcg10": {
+              "mean": 0.002141305745365437,
+              "lo": -0.0019897271682729188,
+              "hi": 0.006474693283707029,
+              "n_components": 12
+            }
+          }
+        }
+      }
+    }
+  },
+  "gpu_pipeline": {
+    "all_features_labels_episode_indices_resident": true,
+    "pandas_in_training_loop": false,
+    "per_step_host_transfer": false,
+    "counterfactual_arms_fused": true,
+    "telemetry": {
+      "samples": 20,
+      "utilization_mean_percent": 38.1,
+      "utilization_p10_percent": 11.8,
+      "utilization_p90_percent": 58.400000000000006,
+      "busy_fraction_ge_40_percent": 0.6,
+      "power_mean_watts": 27.0545,
+      "power_peak_watts": 49.13,
+      "memory_peak_mib": 5393.0
+    },
+    "telemetry_by_phase": {
+      "base": {
+        "samples": 10,
+        "utilization_mean_percent": 28.0,
+        "utilization_p10_percent": 11.5,
+        "utilization_p90_percent": 48.099999999999994,
+        "busy_fraction_ge_40_percent": 0.3,
+        "power_mean_watts": 14.429999999999998,
+        "power_peak_watts": 22.37,
+        "memory_peak_mib": 5393.0
+      },
+      "adapter": {
+        "samples": 10,
+        "utilization_mean_percent": 48.2,
+        "utilization_p10_percent": 40.6,
+        "utilization_p90_percent": 62.0,
+        "busy_fraction_ge_40_percent": 0.9,
+        "power_mean_watts": 39.678999999999995,
+        "power_peak_watts": 49.13,
+        "memory_peak_mib": 5374.0
+      }
+    },
+    "peak_torch_memory_mib": 1954.6240234375
+  }
+}

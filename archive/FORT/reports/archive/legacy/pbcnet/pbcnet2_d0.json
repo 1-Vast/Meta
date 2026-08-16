@@ -1,0 +1,100 @@
+{
+  "schema": "pbcnet2-d0-v1",
+  "wall_clock_s": 5.339,
+  "zenodo": {
+    "record": 18299525,
+    "title": "Training data of PBCNet2.0",
+    "access_right": "open",
+    "license": "cc-by-4.0",
+    "files": {
+      "PBCNet2.0_training_BindingDB.zip": {
+        "size": 5441875666,
+        "checksum": "md5:b1f52cb60c9326e99fff3be7a2834845"
+      },
+      "training_data_8_6.csv": {
+        "size": 38413018,
+        "checksum": "md5:6407a4a64969e8d8d9166c08b1a4e509"
+      },
+      "training_data_0_86.csv": {
+        "size": 3841037,
+        "checksum": "md5:d1d84c252c424563f6cb881c4f09b31c"
+      },
+      "training_data_0_086.csv": {
+        "size": 385094,
+        "checksum": "md5:c46b62af1c2c98215bb007d04f5f5f02"
+      },
+      "training_data_86.rar": {
+        "size": 48171392,
+        "checksum": "md5:95b9a44f5b90986bc75297aa2e8bac8b"
+      },
+      "training_data_860.rar": {
+        "size": 385126449,
+        "checksum": "md5:53bf3f7fe1ccf8db640df6ff597b6526"
+      }
+    },
+    "total_bytes": 5917812656
+  },
+  "pair_manifest_header": {
+    "file": "training_data_8_6.csv",
+    "bytes_read_and_decoded": 110,
+    "newline_found": true,
+    "sha256": "816531833f7be7cbded01ebf532477d240bc18540ef833fb08c5996c45b1b63e",
+    "columns": [
+      "lig1",
+      "lig2",
+      "smile1",
+      "smile2",
+      "similarity",
+      "Label1",
+      "Label2",
+      "Label",
+      "abs_L",
+      "0",
+      "\u76f8\u4f3c\u5ea6\u533a\u95f4",
+      "\u6d3b\u6027\u5dee\u503c\u533a\u95f4",
+      "dir_1",
+      "dir_2"
+    ],
+    "classification": {
+      "protein_or_complex_identity": [
+        "dir_1",
+        "dir_2"
+      ],
+      "ligand_member_identity": [
+        "lig1",
+        "lig2"
+      ],
+      "outcome": [
+        "Label1",
+        "Label2",
+        "Label"
+      ],
+      "lineage": []
+    }
+  },
+  "github": {
+    "repository": "YuJie-0202/PBCNet2.0",
+    "default_branch": "master",
+    "commit_sha": "3d46e6e594531c5692376e242b606641979e8550",
+    "root_license_files": [],
+    "api_detected_license": null,
+    "readme_license_claim_not_treated_as_file": true,
+    "code_reuse_authorized": false
+  },
+  "gate": {
+    "G1_open_stable_licensed_files": true,
+    "G2_pair_identity_reconstructible": true,
+    "G3_outcome_separable": true,
+    "G4_lineage_reconstructible": false,
+    "G5_header_only_firewall": true,
+    "pass": false,
+    "decision": "STOP_PBCNET2_D0_IDENTITY_OR_PROVENANCE_INADEQUATE"
+  },
+  "csv_data_rows_read": 0,
+  "outcome_values_read": false,
+  "structure_archive_downloaded": false,
+  "model_weights_loaded": false,
+  "development_or_confirmation_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU/network metadata and first-line header projection only"
+}

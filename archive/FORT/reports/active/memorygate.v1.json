@@ -1,0 +1,1145 @@
+{
+  "metrics": {
+    "correct": {
+      "target_macro_rmse": 1.1555309295654297,
+      "target_macro_mae": 0.9399226307868958,
+      "within_target_spearman": 0.2075849175453186,
+      "pairwise_accuracy": 0.577022910118103,
+      "concordance_index": 0.5773107409477234,
+      "independent_components": 65.0
+    },
+    "wrongprotein": {
+      "target_macro_rmse": 1.1649647951126099,
+      "target_macro_mae": 0.9544987082481384,
+      "within_target_spearman": 0.20116332173347473,
+      "pairwise_accuracy": 0.5746526122093201,
+      "concordance_index": 0.5749427676200867,
+      "independent_components": 65.0
+    },
+    "supportonly": {
+      "target_macro_rmse": 1.149459958076477,
+      "target_macro_mae": 0.9383507966995239,
+      "within_target_spearman": 0.22353495657444,
+      "pairwise_accuracy": 0.5848339200019836,
+      "concordance_index": 0.5851240158081055,
+      "independent_components": 65.0
+    },
+    "supportkernel": {
+      "target_macro_rmse": 1.1527878046035767,
+      "target_macro_mae": 0.9329812526702881,
+      "within_target_spearman": 0.2410789281129837,
+      "pairwise_accuracy": 0.5897875428199768,
+      "concordance_index": 0.5900753736495972,
+      "independent_components": 65.0
+    },
+    "intercept": {
+      "target_macro_rmse": 1.2139689922332764,
+      "target_macro_mae": 0.9955899715423584,
+      "within_target_spearman": 0.16262765228748322,
+      "pairwise_accuracy": 0.5631071329116821,
+      "concordance_index": 0.5633950233459473,
+      "independent_components": 65.0
+    },
+    "ligand": {
+      "target_macro_rmse": 1.405237078666687,
+      "target_macro_mae": 1.205594778060913,
+      "within_target_spearman": 0.16262765228748322,
+      "pairwise_accuracy": 0.5631071329116821,
+      "concordance_index": 0.5633950233459473,
+      "independent_components": 65.0
+    },
+    "global": {
+      "target_macro_rmse": 1.435737133026123,
+      "target_macro_mae": 1.254309892654419,
+      "within_target_spearman": null,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.5,
+      "independent_components": 65.0
+    }
+  },
+  "episodes": 115,
+  "components": 65,
+  "queries": 5178,
+  "posterior": {
+    "mean_entropy": 3.258930407140566,
+    "mean_null_probability": 0.017777838072709072,
+    "mean_dynamic_probability": 0.028385685272773957
+  },
+  "gate": "STOP",
+  "criteria": {
+    "protein_specificity": false,
+    "absolute_and_ranking_superiority": false
+  },
+  "paired_component_bootstrap": {
+    "wrongprotein": {
+      "rmse_gain": {
+        "mean": -0.00172573877895368,
+        "ci95": [
+          -0.025251147324827257,
+          0.02097292731427187
+        ],
+        "probability_positive": 0.4270000159740448,
+        "largest_positive_component_share": 0.16490454381607023,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": 0.008486328598351016,
+        "ci95": [
+          -0.016575665246645818,
+          0.03441439848842747
+        ],
+        "probability_positive": 0.7290000319480896,
+        "largest_positive_component_share": 0.23583394110538483,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": -0.01815830352340817,
+        "ci95": [
+          -0.05825160086867875,
+          0.02028878719905421
+        ],
+        "probability_positive": 0.17900000512599945,
+        "largest_positive_component_share": 0.14178891347652872,
+        "components": 62.0
+      },
+      "pairwise_gain": {
+        "mean": -0.008245031831661729,
+        "ci95": [
+          -0.02693717803870797,
+          0.00878166214319556
+        ],
+        "probability_positive": 0.1875000149011612,
+        "largest_positive_component_share": 0.1739828762158222,
+        "components": 62.0
+      }
+    },
+    "supportonly": {
+      "rmse_gain": {
+        "mean": -0.01330898842184156,
+        "ci95": [
+          -0.03559510502995775,
+          0.006566968281599287
+        ],
+        "probability_positive": 0.09000000357627869,
+        "largest_positive_component_share": 0.15179945444776763,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": -0.006568069910480715,
+        "ci95": [
+          -0.026545604479487412,
+          0.014126788390955262
+        ],
+        "probability_positive": 0.23900000751018524,
+        "largest_positive_component_share": 0.2416307536461018,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": -0.037262981416429725,
+        "ci95": [
+          -0.06342412543455238,
+          -0.011310883123242478
+        ],
+        "probability_positive": 0.0010000000474974513,
+        "largest_positive_component_share": 0.18103608551993852,
+        "components": 62.0
+      },
+      "pairwise_gain": {
+        "mean": -0.017550877643144204,
+        "ci95": [
+          -0.030518847663893754,
+          -0.006253798525649412
+        ],
+        "probability_positive": 0.0010000000474974513,
+        "largest_positive_component_share": 0.18163416197672963,
+        "components": 62.0
+      }
+    },
+    "supportkernel": {
+      "rmse_gain": {
+        "mean": -0.016196638255860245,
+        "ci95": [
+          -0.04274786811368576,
+          0.007849838952915305
+        ],
+        "probability_positive": 0.08900000154972076,
+        "largest_positive_component_share": 0.137900278701638,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": -0.019548573359650784,
+        "ci95": [
+          -0.04152177768887138,
+          0.0015177763739044438
+        ],
+        "probability_positive": 0.039500001817941666,
+        "largest_positive_component_share": 0.12179999007989606,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": -0.05291160634739858,
+        "ci95": [
+          -0.09089239916020368,
+          -0.020170002543245944
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": 0.15097724652452046,
+        "components": 62.0
+      },
+      "pairwise_gain": {
+        "mean": -0.02146319231050374,
+        "ci95": [
+          -0.03589807611311842,
+          -0.007866690132490235
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": 0.16256629495869135,
+        "components": 62.0
+      }
+    },
+    "intercept": {
+      "rmse_gain": {
+        "mean": 0.05560078990832214,
+        "ci95": [
+          0.014230221812449645,
+          0.10143767459153098
+        ],
+        "probability_positive": 0.9960000514984131,
+        "largest_positive_component_share": 0.20007401222232193,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": 0.05408564691197139,
+        "ci95": [
+          0.0154091165154735,
+          0.09820205359614617
+        ],
+        "probability_positive": 0.999500036239624,
+        "largest_positive_component_share": 0.1921282140149922,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": 0.025397909268057923,
+        "ci95": [
+          -0.014141082934488926,
+          0.06673965037942049
+        ],
+        "probability_positive": 0.8865000605583191,
+        "largest_positive_component_share": 0.15869361608344856,
+        "components": 62.0
+      },
+      "pairwise_gain": {
+        "mean": 0.005633336972380644,
+        "ci95": [
+          -0.010534572046948142,
+          0.02205054452337843
+        ],
+        "probability_positive": 0.7580000162124634,
+        "largest_positive_component_share": 0.15252043375998645,
+        "components": 62.0
+      }
+    },
+    "ligand": {
+      "rmse_gain": {
+        "mean": 0.2965811488462264,
+        "ci95": [
+          0.10381168375355614,
+          0.5564100023832772
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.2661196216171968,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": 0.3225572705468228,
+        "ci95": [
+          0.1268492697137572,
+          0.5853531288590718
+        ],
+        "probability_positive": 0.999500036239624,
+        "largest_positive_component_share": 0.275452120490881,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": 0.025397909268057923,
+        "ci95": [
+          -0.014141082934488926,
+          0.06673965037942049
+        ],
+        "probability_positive": 0.8865000605583191,
+        "largest_positive_component_share": 0.15869361608344856,
+        "components": 62.0
+      },
+      "pairwise_gain": {
+        "mean": 0.005633336972380644,
+        "ci95": [
+          -0.010534572046948142,
+          0.02205054452337843
+        ],
+        "probability_positive": 0.7580000162124634,
+        "largest_positive_component_share": 0.15252043375998645,
+        "components": 62.0
+      }
+    },
+    "global": {
+      "rmse_gain": {
+        "mean": 0.35016483612823596,
+        "ci95": [
+          0.15044409480729323,
+          0.6164205858190431
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.2605236961298746,
+        "components": 65.0
+      },
+      "mae_gain": {
+        "mean": 0.38476185012721803,
+        "ci95": [
+          0.1844464219899875,
+          0.6545563164240662
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.26415811338581435,
+        "components": 65.0
+      },
+      "spearman_gain": {
+        "mean": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "probability_positive": null,
+        "largest_positive_component_share": null,
+        "components": 0.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5682002370893373,
+        "ci95": [
+          0.5376645432754567,
+          0.599330173781502
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.02460135302875295,
+        "components": 62.0
+      }
+    }
+  },
+  "protocol": "TRAIN-only strict-homology-held-out k=5 target-function memory",
+  "roles_read": [
+    "train"
+  ],
+  "endpoint": "pKi",
+  "support": 5,
+  "seed": 1729,
+  "fit_targets": 428,
+  "fit_components": 286,
+  "gate_targets": 131,
+  "gate_components": 72,
+  "gate_episodes": 115,
+  "queries_per_episode": 64,
+  "expert_count": 397,
+  "expert_dimension": 106,
+  "expert_fit_noise": 0.39617305994033813,
+  "selected_config": {
+    "noise": 1.1,
+    "proteinweight": 7.0,
+    "functionweight": 0.5,
+    "topk": 64,
+    "offsetscale": 4.0,
+    "dynamicbias": 0.5,
+    "nullbias": 0.0
+  },
+  "inner_selection": {
+    "fit_targets": 348,
+    "gate_targets": 80,
+    "gate_episodes": 68,
+    "candidates": [
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.6523691453039646,
+        "correct": {
+          "target_macro_rmse": 1.3566700220108032,
+          "target_macro_mae": 1.1240791082382202,
+          "within_target_spearman": 0.21554164588451385,
+          "pairwise_accuracy": 0.5810607075691223,
+          "concordance_index": 0.5811445713043213,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3733121156692505,
+          "target_macro_mae": 1.1339914798736572,
+          "within_target_spearman": 0.14374926686286926,
+          "pairwise_accuracy": 0.551474392414093,
+          "concordance_index": 0.5515621304512024,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.596667690575123,
+        "correct": {
+          "target_macro_rmse": 1.3337841033935547,
+          "target_macro_mae": 1.105485439300537,
+          "within_target_spearman": 0.20367977023124695,
+          "pairwise_accuracy": 0.5746431350708008,
+          "concordance_index": 0.5747269988059998,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.35406494140625,
+          "target_macro_mae": 1.1229846477508545,
+          "within_target_spearman": 0.1792457103729248,
+          "pairwise_accuracy": 0.5659042000770569,
+          "concordance_index": 0.5659881234169006,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.645842157304287,
+        "correct": {
+          "target_macro_rmse": 1.3542921543121338,
+          "target_macro_mae": 1.1230417490005493,
+          "within_target_spearman": 0.21420487761497498,
+          "pairwise_accuracy": 0.5792445540428162,
+          "concordance_index": 0.5793284177780151,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3792740106582642,
+          "target_macro_mae": 1.137702465057373,
+          "within_target_spearman": 0.09853136539459229,
+          "pairwise_accuracy": 0.52855384349823,
+          "concordance_index": 0.5286376476287842,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5962148033082486,
+        "correct": {
+          "target_macro_rmse": 1.3349844217300415,
+          "target_macro_mae": 1.106013536453247,
+          "within_target_spearman": 0.2091689258813858,
+          "pairwise_accuracy": 0.5765159130096436,
+          "concordance_index": 0.5765997767448425,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.358647346496582,
+          "target_macro_mae": 1.1235252618789673,
+          "within_target_spearman": 0.1508571207523346,
+          "pairwise_accuracy": 0.554402232170105,
+          "concordance_index": 0.5544861555099487,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.6354060731828213,
+        "correct": {
+          "target_macro_rmse": 1.3502163887023926,
+          "target_macro_mae": 1.1205352544784546,
+          "within_target_spearman": 0.20883800089359283,
+          "pairwise_accuracy": 0.5762479305267334,
+          "concordance_index": 0.5763318538665771,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3853877782821655,
+          "target_macro_mae": 1.1400253772735596,
+          "within_target_spearman": 0.09740164875984192,
+          "pairwise_accuracy": 0.5286779403686523,
+          "concordance_index": 0.5287618637084961,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.55,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.6057493016123772,
+        "correct": {
+          "target_macro_rmse": 1.3400075435638428,
+          "target_macro_mae": 1.1117432117462158,
+          "within_target_spearman": 0.2060500681400299,
+          "pairwise_accuracy": 0.5744293928146362,
+          "concordance_index": 0.57451331615448,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3676732778549194,
+          "target_macro_mae": 1.1275125741958618,
+          "within_target_spearman": 0.10871893167495728,
+          "pairwise_accuracy": 0.5333809852600098,
+          "concordance_index": 0.5334648489952087,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.3382982015609741,
+          "target_macro_mae": 1.112991213798523,
+          "within_target_spearman": 0.19861891865730286,
+          "pairwise_accuracy": 0.5750092267990112,
+          "concordance_index": 0.5750930905342102,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.6031237423419953,
+        "correct": {
+          "target_macro_rmse": 1.3054255247116089,
+          "target_macro_mae": 1.0898066759109497,
+          "within_target_spearman": 0.21121859550476074,
+          "pairwise_accuracy": 0.5785020589828491,
+          "concordance_index": 0.5785859823226929,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3190206289291382,
+          "target_macro_mae": 1.0961705446243286,
+          "within_target_spearman": 0.13944533467292786,
+          "pairwise_accuracy": 0.5460933446884155,
+          "concordance_index": 0.5461771488189697,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5546401008963584,
+        "correct": {
+          "target_macro_rmse": 1.2894313335418701,
+          "target_macro_mae": 1.0777462720870972,
+          "within_target_spearman": 0.2137281596660614,
+          "pairwise_accuracy": 0.5776599049568176,
+          "concordance_index": 0.5777437686920166,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.2930856943130493,
+          "target_macro_mae": 1.0770858526229858,
+          "within_target_spearman": 0.18710267543792725,
+          "pairwise_accuracy": 0.5677983164787292,
+          "concordance_index": 0.567882239818573,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.588485287129879,
+        "correct": {
+          "target_macro_rmse": 1.3009312152862549,
+          "target_macro_mae": 1.0866432189941406,
+          "within_target_spearman": 0.215486079454422,
+          "pairwise_accuracy": 0.5790930986404419,
+          "concordance_index": 0.5791770219802856,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3246302604675293,
+          "target_macro_mae": 1.0991257429122925,
+          "within_target_spearman": 0.13782788813114166,
+          "pairwise_accuracy": 0.5463863611221313,
+          "concordance_index": 0.5464702844619751,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5549142576754094,
+        "correct": {
+          "target_macro_rmse": 1.2895020246505737,
+          "target_macro_mae": 1.0781631469726562,
+          "within_target_spearman": 0.2137421816587448,
+          "pairwise_accuracy": 0.5772226452827454,
+          "concordance_index": 0.5773065090179443,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3020823001861572,
+          "target_macro_mae": 1.0827363729476929,
+          "within_target_spearman": 0.15688550472259521,
+          "pairwise_accuracy": 0.5553221702575684,
+          "concordance_index": 0.5554060339927673,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.6145417086780072,
+        "correct": {
+          "target_macro_rmse": 1.3072900772094727,
+          "target_macro_mae": 1.094119906425476,
+          "within_target_spearman": 0.20359204709529877,
+          "pairwise_accuracy": 0.5746280550956726,
+          "concordance_index": 0.5747118592262268,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3351094722747803,
+          "target_macro_mae": 1.1082732677459717,
+          "within_target_spearman": 0.11368771642446518,
+          "pairwise_accuracy": 0.5375387668609619,
+          "concordance_index": 0.5376226305961609,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 0.8,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5993211545050143,
+        "correct": {
+          "target_macro_rmse": 1.304001808166504,
+          "target_macro_mae": 1.0922613143920898,
+          "within_target_spearman": 0.21071849763393402,
+          "pairwise_accuracy": 0.5762118101119995,
+          "concordance_index": 0.5762956738471985,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3192723989486694,
+          "target_macro_mae": 1.095881700515747,
+          "within_target_spearman": 0.12061714380979538,
+          "pairwise_accuracy": 0.5391197800636292,
+          "concordance_index": 0.5392036437988281,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.286786437034607,
+          "target_macro_mae": 1.0760011672973633,
+          "within_target_spearman": 0.21026518940925598,
+          "pairwise_accuracy": 0.57793790102005,
+          "concordance_index": 0.578021764755249,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5510873682796955,
+        "correct": {
+          "target_macro_rmse": 1.2766703367233276,
+          "target_macro_mae": 1.0719568729400635,
+          "within_target_spearman": 0.20929287374019623,
+          "pairwise_accuracy": 0.5783171057701111,
+          "concordance_index": 0.5784010291099548,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.2919647693634033,
+          "target_macro_mae": 1.0791747570037842,
+          "within_target_spearman": 0.1463271975517273,
+          "pairwise_accuracy": 0.550654947757721,
+          "concordance_index": 0.5507388114929199,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 3.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5302882768213748,
+        "correct": {
+          "target_macro_rmse": 1.2690373659133911,
+          "target_macro_mae": 1.065313458442688,
+          "within_target_spearman": 0.2086838334798813,
+          "pairwise_accuracy": 0.5771875381469727,
+          "concordance_index": 0.5772714614868164,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.2753920555114746,
+          "target_macro_mae": 1.0672698020935059,
+          "within_target_spearman": 0.18307244777679443,
+          "pairwise_accuracy": 0.5657424330711365,
+          "concordance_index": 0.5658262968063354,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.553403752297163,
+        "correct": {
+          "target_macro_rmse": 1.2772656679153442,
+          "target_macro_mae": 1.0724204778671265,
+          "within_target_spearman": 0.20791657269001007,
+          "pairwise_accuracy": 0.5770750045776367,
+          "concordance_index": 0.5771588683128357,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3004697561264038,
+          "target_macro_mae": 1.0857292413711548,
+          "within_target_spearman": 0.1347198784351349,
+          "pairwise_accuracy": 0.5446874499320984,
+          "concordance_index": 0.5447713136672974,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 7.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.530225870013237,
+        "correct": {
+          "target_macro_rmse": 1.269391417503357,
+          "target_macro_mae": 1.0656156539916992,
+          "within_target_spearman": 0.21037888526916504,
+          "pairwise_accuracy": 0.5771388411521912,
+          "concordance_index": 0.5772227048873901,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.2850761413574219,
+          "target_macro_mae": 1.0746334791183472,
+          "within_target_spearman": 0.15691295266151428,
+          "pairwise_accuracy": 0.5551044344902039,
+          "concordance_index": 0.5551883578300476,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 24,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5944384515285492,
+        "correct": {
+          "target_macro_rmse": 1.2899904251098633,
+          "target_macro_mae": 1.08306884765625,
+          "within_target_spearman": 0.20460903644561768,
+          "pairwise_accuracy": 0.5743806958198547,
+          "concordance_index": 0.5744645595550537,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.315615177154541,
+          "target_macro_mae": 1.09885835647583,
+          "within_target_spearman": 0.10634676367044449,
+          "pairwise_accuracy": 0.5351967215538025,
+          "concordance_index": 0.5352805256843567,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      },
+      {
+        "config": {
+          "noise": 1.1,
+          "proteinweight": 12.0,
+          "functionweight": 0.5,
+          "topk": 64,
+          "offsetscale": 4.0,
+          "dynamicbias": 0.5,
+          "nullbias": 0.0
+        },
+        "score": 1.5848281413316727,
+        "correct": {
+          "target_macro_rmse": 1.2864388227462769,
+          "target_macro_mae": 1.0803637504577637,
+          "within_target_spearman": 0.20341897010803223,
+          "pairwise_accuracy": 0.573367714881897,
+          "concordance_index": 0.573451578617096,
+          "independent_components": 47.0
+        },
+        "wrongprotein": {
+          "target_macro_rmse": 1.3085201978683472,
+          "target_macro_mae": 1.0932531356811523,
+          "within_target_spearman": 0.12216108292341232,
+          "pairwise_accuracy": 0.5402218699455261,
+          "concordance_index": 0.5403057336807251,
+          "independent_components": 47.0
+        },
+        "supportonly": {
+          "target_macro_rmse": 1.2699264287948608,
+          "target_macro_mae": 1.0654617547988892,
+          "within_target_spearman": 0.207867830991745,
+          "pairwise_accuracy": 0.5769693851470947,
+          "concordance_index": 0.5770533084869385,
+          "independent_components": 47.0
+        }
+      }
+    ]
+  },
+  "base": {
+    "kind": "ligand ridge",
+    "ridge": 10.0,
+    "fit_residual_variance": 1.4092707633972168,
+    "label_center": 6.936983585357666
+  },
+  "strict_homology": {
+    "targets": 1045,
+    "pairs": 545490,
+    "edges": 1077,
+    "components": 573,
+    "assignment_sha256": "b3c79413fa25f5f63df3e4e40dcb5d33890232d9c7588344074d98cae6909efd"
+  },
+  "feature_columns": [
+    926,
+    935,
+    695,
+    378,
+    456,
+    128,
+    147,
+    314,
+    175,
+    389,
+    90,
+    1,
+    875,
+    1019,
+    428,
+    64,
+    730,
+    893,
+    80,
+    831,
+    301,
+    121,
+    36,
+    33,
+    136,
+    333,
+    807,
+    486,
+    511,
+    736,
+    452,
+    42,
+    739,
+    350,
+    656,
+    4,
+    841,
+    980,
+    361,
+    887,
+    197,
+    816,
+    675,
+    896,
+    407,
+    881,
+    694,
+    294,
+    283,
+    140,
+    433,
+    458,
+    191,
+    698,
+    713,
+    946,
+    667,
+    715,
+    904,
+    310,
+    650,
+    578,
+    573,
+    219,
+    549,
+    15,
+    255,
+    435,
+    659,
+    767,
+    842,
+    117,
+    673,
+    138,
+    114,
+    792,
+    322,
+    233,
+    561,
+    73,
+    79,
+    319,
+    119,
+    352,
+    726,
+    623,
+    967,
+    41,
+    231,
+    512,
+    960,
+    325,
+    10,
+    843,
+    745,
+    222,
+    1024,
+    1025,
+    1026,
+    1027,
+    1028,
+    1029,
+    1030,
+    1031,
+    1032,
+    1033
+  ],
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "wall_seconds": 350.6000872000004,
+  "gpu_telemetry": {
+    "samples": 612,
+    "mean_utilization_percent": 6.240196078431373,
+    "peak_utilization_percent": 48.0,
+    "mean_power_watts": 11.966928104575164,
+    "peak_power_watts": 26.51,
+    "peak_nvidia_memory_mib": 5755.0,
+    "peak_torch_memory_mib": 1733.1298828125
+  },
+  "sources": {
+    "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "ligand_sha256": "a4db99f302e8e864aecc6abec32117bc97f56e6763350bf47992123e8b57755c",
+    "protein_sha256": "f2eea6c9fc451e6789c17a2b0495140b73c058d3ae1e4de7c9aeae18cc94b63d",
+    "sequence_sha256": "470ce39fd97498395305b352d60aa7d0ef778ff831127d1c45e7442c26975fa1"
+  }
+}

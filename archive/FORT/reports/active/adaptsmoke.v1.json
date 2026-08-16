@@ -1,0 +1,973 @@
+{
+  "protocol": "Nested ligand posterior plus protein-conditioned increment",
+  "seed": 1729,
+  "endpoint": "pKi",
+  "support": 5,
+  "ambient_dimension": 8,
+  "posterior_rank": 2,
+  "selector": "label-free query-span v1 for train and development",
+  "epochs": 1,
+  "base_ridge": 10.0,
+  "bayesian_nll_weight": 0.0,
+  "gate": "soft",
+  "backbone": "hybrid",
+  "ranking_prior_mode": "evidence",
+  "ligand_base": "shared frozen TRAIN-only posterior",
+  "increment_support_base": "leave-one-out ligand posterior",
+  "increment_calibration": "disabled",
+  "ranking_inclusion": {
+    "bayesian": {
+      "estimate": 0.9999,
+      "approx_ci95_low": 0.0,
+      "approx_ci95_high": 1.0,
+      "objective": 1.9227103020750942,
+      "components": 2.0,
+      "logbf_mean": 0.9613891839981079,
+      "logbf_median": -0.18004393577575684,
+      "positive_fraction": 0.5,
+      "applied": 0.9999
+    },
+    "proteinfree": {
+      "estimate": 0.9999,
+      "approx_ci95_low": 0.0,
+      "approx_ci95_high": 1.0,
+      "objective": 1.3386279505846392,
+      "components": 2.0,
+      "logbf_mean": 0.6693490743637085,
+      "logbf_median": -0.04671883583068848,
+      "positive_fraction": 0.5,
+      "applied": 0.9999
+    }
+  },
+  "train_episodes": 2,
+  "development_episodes": 2,
+  "base_residual_variance": 1.4622149467468262,
+  "ligand_normalization": {
+    "descriptor_center": [
+      31.62146759033203,
+      450.7867736816406,
+      3.4028711318969727,
+      98.0329818725586,
+      2.1706008911132812,
+      5.710508346557617,
+      6.441195964813232,
+      2.7935028076171875,
+      0.32263174653053284,
+      3.9360475540161133
+    ],
+    "descriptor_scale": [
+      16.48446273803711,
+      233.6766357421875,
+      2.364034652709961,
+      97.55585479736328,
+      3.483232259750366,
+      3.616788148880005,
+      7.031879901885986,
+      1.1974661350250244,
+      0.1921839714050293,
+      1.5351406335830688
+    ]
+  },
+  "parameters": {
+    "bayesian": 3847140,
+    "proteinfree": 3829668,
+    "ligand": 299142,
+    "gradient": 3610768
+  },
+  "metrics": {
+    "b0": {
+      "target_macro_rmse": 1.654594898223877,
+      "target_macro_mae": 1.5550967454910278,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "nll": 2.3435847759246826,
+      "coverage_50": 0.25,
+      "width_50": 1.6312140226364136,
+      "coverage_80": 0.5,
+      "width_80": 3.0993576049804688,
+      "coverage_95": 0.75,
+      "width_95": 4.740058422088623,
+      "calibration_slope": -6.318487644195557,
+      "risk_coverage_auc": 1.6558151245117188,
+      "independent_components": 2.0
+    },
+    "supportmean": {
+      "target_macro_rmse": 0.2090422809123993,
+      "target_macro_mae": 0.19712483882904053,
+      "within_target_spearman": NaN,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.5,
+      "independent_components": 2.0
+    },
+    "residualmean": {
+      "target_macro_rmse": 0.47224605083465576,
+      "target_macro_mae": 0.40609240531921387,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "independent_components": 2.0
+    },
+    "calibration": {
+      "target_macro_rmse": 0.7021192908287048,
+      "target_macro_mae": 0.5930795669555664,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "nll": 1.3049123287200928,
+      "coverage_50": 0.5,
+      "width_50": 1.6980526447296143,
+      "coverage_80": 1.0,
+      "width_80": 3.226353168487549,
+      "coverage_95": 1.0,
+      "width_95": 4.934281349182129,
+      "calibration_slope": -6.318557262420654,
+      "risk_coverage_auc": 0.6863535046577454,
+      "independent_components": 2.0
+    },
+    "ligand": {
+      "target_macro_rmse": 0.4908697009086609,
+      "target_macro_mae": 0.42833542823791504,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "nll": 1.1101146936416626,
+      "coverage_50": 1.0,
+      "width_50": 1.4763879776000977,
+      "coverage_80": 1.0,
+      "width_80": 2.805183172225952,
+      "coverage_95": 1.0,
+      "width_95": 4.290157318115234,
+      "calibration_slope": -6.300986289978027,
+      "risk_coverage_auc": 0.5748389959335327,
+      "independent_components": 2.0
+    },
+    "gradient": {
+      "target_macro_rmse": 0.2522937059402466,
+      "target_macro_mae": 0.2475872039794922,
+      "within_target_spearman": 0.0,
+      "pairwise_accuracy": 0.5,
+      "concordance_index": 0.5,
+      "independent_components": 2.0
+    },
+    "bayesian": {
+      "target_macro_rmse": 0.43689531087875366,
+      "target_macro_mae": 0.3916224241256714,
+      "within_target_spearman": 0.0,
+      "pairwise_accuracy": 0.5,
+      "concordance_index": 0.5,
+      "nll": 1.1084235906600952,
+      "coverage_50": 1.0,
+      "width_50": 1.5060033798217773,
+      "coverage_80": 1.0,
+      "width_80": 2.8614535331726074,
+      "coverage_95": 1.0,
+      "width_95": 4.376214981079102,
+      "calibration_slope": 1.9936877489089966,
+      "risk_coverage_auc": 0.4081563651561737,
+      "independent_components": 2.0
+    },
+    "exact": {
+      "target_macro_rmse": 0.4325065016746521,
+      "target_macro_mae": 0.3850069046020508,
+      "within_target_spearman": 0.0,
+      "pairwise_accuracy": 0.5,
+      "concordance_index": 0.5,
+      "nll": 1.0977133512496948,
+      "coverage_50": 1.0,
+      "width_50": 1.4910510778427124,
+      "coverage_80": 1.0,
+      "width_80": 2.8330435752868652,
+      "coverage_95": 1.0,
+      "width_95": 4.332766056060791,
+      "calibration_slope": 1.9861996173858643,
+      "risk_coverage_auc": 0.405304878950119,
+      "independent_components": 2.0
+    },
+    "soft": {
+      "target_macro_rmse": 0.43689531087875366,
+      "target_macro_mae": 0.3916224241256714,
+      "within_target_spearman": 0.0,
+      "pairwise_accuracy": 0.5,
+      "concordance_index": 0.5,
+      "nll": 1.1084235906600952,
+      "coverage_50": 1.0,
+      "width_50": 1.5060033798217773,
+      "coverage_80": 1.0,
+      "width_80": 2.8614535331726074,
+      "coverage_95": 1.0,
+      "width_95": 4.376214981079102,
+      "calibration_slope": 1.9936877489089966,
+      "risk_coverage_auc": 0.4081563651561737,
+      "independent_components": 2.0
+    },
+    "wrongsupport": {
+      "target_macro_rmse": 0.420484721660614,
+      "target_macro_mae": 0.3526794910430908,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "nll": 1.1109471321105957,
+      "coverage_50": 1.0,
+      "width_50": 1.5256075859069824,
+      "coverage_80": 1.0,
+      "width_80": 2.8987019062042236,
+      "coverage_95": 1.0,
+      "width_95": 4.433182239532471,
+      "calibration_slope": -2.7883095741271973,
+      "risk_coverage_auc": 0.2805468738079071,
+      "independent_components": 2.0
+    },
+    "permutedlabels": {
+      "target_macro_rmse": 0.47527259588241577,
+      "target_macro_mae": 0.42247605323791504,
+      "within_target_spearman": 0.0,
+      "pairwise_accuracy": 0.5,
+      "concordance_index": 0.5,
+      "nll": 1.1206297874450684,
+      "coverage_50": 1.0,
+      "width_50": 1.5060029029846191,
+      "coverage_80": 1.0,
+      "width_80": 2.861452579498291,
+      "coverage_95": 1.0,
+      "width_95": 4.376214027404785,
+      "calibration_slope": 9.23627758026123,
+      "risk_coverage_auc": 0.4306955337524414,
+      "independent_components": 2.0
+    },
+    "proteinfree": {
+      "target_macro_rmse": 0.4829276502132416,
+      "target_macro_mae": 0.41620397567749023,
+      "within_target_spearman": -1.0,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.0,
+      "nll": 1.1116549968719482,
+      "coverage_50": 1.0,
+      "width_50": 1.4846378564834595,
+      "coverage_80": 1.0,
+      "width_80": 2.8208580017089844,
+      "coverage_95": 1.0,
+      "width_95": 4.3141303062438965,
+      "calibration_slope": -4.781399250030518,
+      "risk_coverage_auc": 0.5658339262008667,
+      "independent_components": 2.0
+    }
+  },
+  "diagnostics": {
+    "ranking_logbf": {
+      "mean": 0.01749633252620697,
+      "median": 0.01749633252620697,
+      "minimum": -0.07533290982246399,
+      "maximum": 0.11032557487487793
+    },
+    "ranking_probability": {
+      "mean": 0.999901294708252,
+      "median": 0.999901294708252,
+      "minimum": 0.9998921155929565,
+      "maximum": 0.9999104738235474
+    }
+  },
+  "paired_component_bootstrap": {
+    "b0": {
+      "rmse_gain": {
+        "mean": 1.2176995501081458,
+        "ci95": [
+          0.1966881017713804,
+          2.2387109984449114
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.9192378359038106,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 1.1634743213653564,
+        "ci95": [
+          0.04203963279724121,
+          2.2849090099334717
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.9819335794416558,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "supportmean": {
+      "rmse_gain": {
+        "mean": -0.22785304445986232,
+        "ci95": [
+          -0.3716590352283984,
+          -0.08404705369132626
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": -0.19449758529663086,
+        "ci95": [
+          -0.3559732437133789,
+          -0.03302192687988281
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": NaN,
+        "ci95": [
+          NaN,
+          NaN
+        ],
+        "probability_positive": NaN,
+        "largest_positive_component_share": NaN,
+        "components": 0.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "residualmean": {
+      "rmse_gain": {
+        "mean": 0.035350712267790074,
+        "ci95": [
+          -0.010896731916259395,
+          0.08159815645183954
+        ],
+        "probability_positive": 0.7635000348091125,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.01446998119354248,
+        "ci95": [
+          -0.013108968734741211,
+          0.04204893112182617
+        ],
+        "probability_positive": 0.7640000581741333,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "calibration": {
+      "rmse_gain": {
+        "mean": 0.2652239574818457,
+        "ci95": [
+          0.12300950875115213,
+          0.4074384062125393
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.7681025690155235,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.20145714282989502,
+        "ci95": [
+          -0.013108968734741211,
+          0.41602325439453125
+        ],
+        "probability_positive": 0.7640000581741333,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "ligand": {
+      "rmse_gain": {
+        "mean": 0.053974371862270276,
+        "ci95": [
+          -0.008777651263415565,
+          0.11672639498795612
+        ],
+        "probability_positive": 0.7635000348091125,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.03671300411224365,
+        "ci95": [
+          -0.013231039047241211,
+          0.08665704727172852
+        ],
+        "probability_positive": 0.7640000581741333,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "gradient": {
+      "rmse_gain": {
+        "mean": -0.1846016072971088,
+        "ci95": [
+          -0.2727352899775721,
+          -0.0964679246166455
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": -0.1440352201461792,
+        "ci95": [
+          -0.24374938011169434,
+          -0.04432106018066406
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      }
+    },
+    "exact": {
+      "rmse_gain": {
+        "mean": -0.004388825631707782,
+        "ci95": [
+          -0.008777651263415565,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": -0.0066155195236206055,
+        "ci95": [
+          -0.013231039047241211,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      }
+    },
+    "soft": {
+      "rmse_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      }
+    },
+    "wrongsupport": {
+      "rmse_gain": {
+        "mean": -0.016410604184865812,
+        "ci95": [
+          -0.1452228296537194,
+          0.11240162128398778
+        ],
+        "probability_positive": 0.2535000145435333,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": -0.038942933082580566,
+        "ci95": [
+          -0.13406109809875488,
+          0.05617523193359375
+        ],
+        "probability_positive": 0.24750001728534698,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    },
+    "permutedlabels": {
+      "rmse_gain": {
+        "mean": 0.03837729244456917,
+        "ci95": [
+          0.01018859332289912,
+          0.06656599156623921
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.8672575281644065,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.030853629112243652,
+        "ci95": [
+          0.011921167373657227,
+          0.04978609085083008
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.8068109373732222,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "probability_positive": 0.0,
+        "largest_positive_component_share": NaN,
+        "components": 2.0
+      }
+    },
+    "proteinfree": {
+      "rmse_gain": {
+        "mean": 0.04603232009677907,
+        "ci95": [
+          -0.009352135951971596,
+          0.10141677614552974
+        ],
+        "probability_positive": 0.7635000348091125,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "mae_gain": {
+        "mean": 0.024581551551818848,
+        "ci95": [
+          -0.012769460678100586,
+          0.06193256378173828
+        ],
+        "probability_positive": 0.7640000581741333,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "spearman_gain": {
+        "mean": 0.9999999999999999,
+        "ci95": [
+          0.0,
+          1.9999999999999998
+        ],
+        "probability_positive": 0.7470000386238098,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "probability_positive": 0.737000048160553,
+        "largest_positive_component_share": 1.0,
+        "components": 2.0
+      }
+    }
+  },
+  "episode_ledger": [
+    {
+      "target": "CHEMBL1287628",
+      "component": "he1baf54add06",
+      "support_rows": [
+        312728,
+        312733,
+        312764,
+        312766,
+        312770
+      ],
+      "query_rows": [
+        312724,
+        312725
+      ],
+      "query_depth": 2,
+      "support_residual_rms": 0.3883521556854248,
+      "ranking_logbf": -0.07533290982246399,
+      "ranking_probability": 0.9998921155929565,
+      "calibration_logbf": -0.6278645992279053,
+      "labels": [
+        7.0706000328063965,
+        7.346799850463867
+      ],
+      "predictions": {
+        "b0": [
+          7.015451431274414,
+          6.329722881317139
+        ],
+        "supportmean": [
+          7.2719407081604,
+          7.2719407081604
+        ],
+        "residualmean": [
+          7.374117851257324,
+          6.688389301300049
+        ],
+        "calibration": [
+          7.1194610595703125,
+          6.433732509613037
+        ],
+        "ligand": [
+          7.3676438331604,
+          6.682159423828125
+        ],
+        "gradient": [
+          7.305232524871826,
+          7.080784797668457
+        ],
+        "bayesian": [
+          7.391477584838867,
+          6.679531097412109
+        ],
+        "exact": [
+          7.3676438331604,
+          6.682159423828125
+        ],
+        "soft": [
+          7.391477584838867,
+          6.679531097412109
+        ],
+        "wrongsupport": [
+          7.314323425292969,
+          6.870499134063721
+        ],
+        "permutedlabels": [
+          7.406750202178955,
+          6.670961380004883
+        ],
+        "proteinfree": [
+          7.370943546295166,
+          6.684535980224609
+        ]
+      },
+      "variances": {
+        "b0": [
+          1.4622149467468262,
+          1.4622149467468262
+        ],
+        "calibration": [
+          1.540488362312317,
+          1.540488362312317
+        ],
+        "ligand": [
+          1.2301520109176636,
+          1.2135334014892578
+        ],
+        "bayesian": [
+          1.324058175086975,
+          1.2196694612503052
+        ],
+        "exact": [
+          1.2301520109176636,
+          1.2135334014892578
+        ],
+        "soft": [
+          1.324058175086975,
+          1.2196694612503052
+        ],
+        "wrongsupport": [
+          1.2576817274093628,
+          1.3099879026412964
+        ],
+        "permutedlabels": [
+          1.3240582942962646,
+          1.2196694612503052
+        ],
+        "proteinfree": [
+          1.2555484771728516,
+          1.2200418710708618
+        ]
+      }
+    },
+    {
+      "target": "CHEMBL1293224",
+      "component": "hab5914423369",
+      "support_rows": [
+        219677,
+        219782,
+        219789,
+        219797,
+        219862
+      ],
+      "query_rows": [
+        219666,
+        219667
+      ],
+      "query_depth": 2,
+      "support_residual_rms": 0.9345175623893738,
+      "ranking_logbf": 0.11032557487487793,
+      "ranking_probability": 0.9999104738235474,
+      "calibration_logbf": 9.582804679870605,
+      "labels": [
+        9.124899864196777,
+        8.612600326538086
+      ],
+      "predictions": {
+        "b0": [
+          6.2737321853637695,
+          6.315606594085693
+        ],
+        "supportmean": [
+          8.796319961547852,
+          8.796319961547852
+        ],
+        "residualmean": [
+          8.516592025756836,
+          8.558466911315918
+        ],
+        "calibration": [
+          8.142618179321289,
+          8.184492111206055
+        ],
+        "ligand": [
+          8.471923828125,
+          8.51391887664795
+        ],
+        "gradient": [
+          8.946746826171875,
+          8.924148559570312
+        ],
+        "bayesian": [
+          8.63812255859375,
+          8.521034240722656
+        ],
+        "exact": [
+          8.63812255859375,
+          8.521034240722656
+        ],
+        "soft": [
+          8.63812255859375,
+          8.521034240722656
+        ],
+        "wrongsupport": [
+          8.471700668334961,
+          8.575105667114258
+        ],
+        "permutedlabels": [
+          8.54338264465332,
+          8.516201972961426
+        ],
+        "proteinfree": [
+          8.489683151245117,
+          8.545608520507812
+        ]
+      },
+      "variances": {
+        "b0": [
+          1.4622149467468262,
+          1.4622149467468262
+        ],
+        "calibration": [
+          1.629126787185669,
+          1.629126787185669
+        ],
+        "ligand": [
+          1.1719895601272583,
+          1.1760976314544678
+        ],
+        "bayesian": [
+          1.2672888040542603,
+          1.1768015623092651
+        ],
+        "exact": [
+          1.2672888040542603,
+          1.1768015623092651
+        ],
+        "soft": [
+          1.2672888040542603,
+          1.1768015623092651
+        ],
+        "wrongsupport": [
+          1.2910091876983643,
+          1.257765293121338
+        ],
+        "permutedlabels": [
+          1.2672853469848633,
+          1.1768015623092651
+        ],
+        "proteinfree": [
+          1.184657335281372,
+          1.1854143142700195
+        ]
+      }
+    }
+  ],
+  "family_dominance": "not evaluated: the frozen registry has no family field",
+  "training_seconds": 7.172262399995816,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_telemetry": {
+    "samples": 12,
+    "mean_utilization_percent": 12.0,
+    "peak_utilization_percent": 76.0,
+    "mean_power_watts": 13.715000000000003,
+    "peak_power_watts": 18.0,
+    "peak_nvidia_memory_mib": 5734.0,
+    "peak_torch_memory_mib": 2245.796875
+  },
+  "checkpoint": "reports\\active\\adaptsmoke.v1.pt"
+}

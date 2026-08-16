@@ -1,0 +1,58 @@
+{
+  "schema": "lock-clock-g0-sources-v1",
+  "retrieved_utc": "2026-07-28",
+  "paper": {
+    "title": "Flexible Kernels for Protein Property Prediction",
+    "authors": [
+      "Martin Jankowiak",
+      "Yerdos Ordabayev",
+      "Rudraksh Tuwani",
+      "Henry N. Ward",
+      "Hunter Nisonoff",
+      "James M. McFarland",
+      "Gevorg Grigoryan"
+    ],
+    "arxiv": "2606.11057v1",
+    "url": "https://arxiv.org/abs/2606.11057",
+    "pdf_sha256": "0f3a992953d5929a4837ec01e07056cce1d8cc6926774d85995d12d0cb7d13f3",
+    "license": "CC BY-NC-ND 4.0",
+    "role": "method definition and evidence boundary only"
+  },
+  "reference_implementation": {
+    "repository": "https://github.com/generatebio/lock_gp",
+    "commit": "df384fe24c26ebc3ac4a8aab49809d66104f7e8e",
+    "commit_date": "2026-06-10T04:27:59Z",
+    "license": "Apache-2.0",
+    "files": {
+      "README.md": {
+        "sha256": "0d6971cdad8dd5534417b7487c414105112e4067c26fc3f7d481e3e858acb478"
+      },
+      "lock_gp/lock_kernel.py": {
+        "sha256": "60b7a1d4844044f835afb07137b6f03de4ec6c5e4e5ea64f18986415abe6015e"
+      },
+      "lock_gp/blosum50.py": {
+        "sha256": "cbbf18d0ce6a09d6846546f8b35576f76075772be5c90078fd337ee5e7437ec8"
+      }
+    },
+    "role": "formula and BLOSUM50 normalization cross-check; code is not vendored"
+  },
+  "local_substrates": {
+    "kirhub": {
+      "path": "dataset/public/kirhub_2026/raw/41587_2026_3090_MOESM4_ESM.xlsx",
+      "doi": "10.1038/s41587-026-03090-8",
+      "role": "single-source TRAIN-only shared-panel reordering oracle; no predictive claim"
+    },
+    "klifs": {
+      "path": "dataset/public/klifs_2026_07_22/raw/kinase_information.json.gz",
+      "role": "label-free 85-position aligned kinase-pocket sequences"
+    },
+    "pooled_esm2": {
+      "path": "dataset/public/kirhub_2026/processed/target_esm2.npz",
+      "role": "frozen comparison coordinate"
+    },
+    "strict_components": {
+      "path": "dataset/public/kirhub_2026/processed/strict_components.json",
+      "role": "independent homology components and target folds"
+    }
+  }
+}

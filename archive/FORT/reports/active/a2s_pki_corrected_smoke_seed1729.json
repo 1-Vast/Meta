@@ -1,0 +1,446 @@
+{
+  "compute": {
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gradient_evaluations": 0,
+    "peak_torch_memory_mib": 48.61474609375,
+    "wall_seconds": 13.70399240000188
+  },
+  "decision": "DESCRIPTIVE_BASELINE_ONLY",
+  "endpoint": "pKi",
+  "input": {
+    "features_sha256": "a4db99f302e8e864aecc6abec32117bc97f56e6763350bf47992123e8b57755c",
+    "recipient_labels_used_only_support_query": true,
+    "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "source_labels_used_for_fit": true,
+    "split": "train",
+    "target_features_sha256": "f2eea6c9fc451e6789c17a2b0495140b73c058d3ae1e4de7c9aeae18cc94b63d"
+  },
+  "metrics_by_k": {
+    "1": {
+      "recipients": 3,
+      "summary": {
+        "b0": {
+          "mae": 1.1228040342330932,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.38283208020050125,
+          "rmse": 1.3427172059459151,
+          "rmse_gain_ci95": [
+            -0.6099001998594651,
+            1.5095449859616592
+          ],
+          "rmse_gain_vs_calibration": 0.3120498538044208,
+          "spearman": -0.11551445454468486
+        },
+        "recipient_calibration": {
+          "mae": 1.425511395072937,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.38283208020050125,
+          "rmse": 1.654767059750336,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": -0.11551445454468486
+        },
+        "source_chemistry": {
+          "mae": 1.0215149896084579,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.4066416040100251,
+          "rmse": 1.1242554300310412,
+          "rmse_gain_ci95": [
+            -1.0270086317253833,
+            1.493592360804893
+          ],
+          "rmse_gain_vs_calibration": 0.5305116297192948,
+          "spearman": 0.0432157041854739
+        },
+        "source_gated": {
+          "mae": 1.425511395072937,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.38283208020050125,
+          "rmse": 1.654767059750336,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": -0.11551445454468486
+        },
+        "source_protein": {
+          "mae": 1.36474123059885,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.38283208020050125,
+          "rmse": 1.5337940619977122,
+          "rmse_gain_ci95": [
+            -0.5786547561565678,
+            1.2176120345715498
+          ],
+          "rmse_gain_vs_calibration": 0.12097299775262393,
+          "spearman": -0.11551445454468486
+        },
+        "source_random": {
+          "mae": 1.4350433271675167,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.38283208020050125,
+          "rmse": 1.687613107977283,
+          "rmse_gain_ci95": [
+            -0.926602557016432,
+            1.0429132739693927
+          ],
+          "rmse_gain_vs_calibration": -0.03284604822694718,
+          "spearman": -0.11551445454468486
+        },
+        "source_support": {
+          "mae": 1.274039475516493,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.2600250626566416,
+          "rmse": 1.4725318210535276,
+          "rmse_gain_ci95": [
+            -0.22986859668800075,
+            0.8335694511469637
+          ],
+          "rmse_gain_vs_calibration": 0.18223523869680833,
+          "spearman": -0.47965148465745866
+        }
+      }
+    },
+    "3": {
+      "recipients": 3,
+      "summary": {
+        "b0": {
+          "mae": 1.29785417824803,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.41242678889737716,
+          "rmse": 1.4089666929227753,
+          "rmse_gain_ci95": [
+            -1.435105816575198,
+            0.9644632291596715
+          ],
+          "rmse_gain_vs_calibration": -0.10051332983800727,
+          "spearman": -0.22100152168252918
+        },
+        "recipient_calibration": {
+          "mae": 1.0722205026522227,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.41242678889737716,
+          "rmse": 1.308453363084768,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": -0.22100152168252918
+        },
+        "source_chemistry": {
+          "mae": 1.1231321892196442,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.4790934555640438,
+          "rmse": 1.2118814354672551,
+          "rmse_gain_ci95": [
+            -0.6477119948360972,
+            0.7113967098892053
+          ],
+          "rmse_gain_vs_calibration": 0.09657192761751283,
+          "spearman": -0.011477712158719622
+        },
+        "source_gated": {
+          "mae": 0.9344628779536187,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.37545199898141074,
+          "rmse": 1.0751751119879722,
+          "rmse_gain_ci95": [
+            -0.14728371853978883,
+            0.6210874040307455
+          ],
+          "rmse_gain_vs_calibration": 0.23327825109679567,
+          "spearman": -0.3244530237720163
+        },
+        "source_protein": {
+          "mae": 1.1927024086699178,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.41242678889737716,
+          "rmse": 1.3019200106359412,
+          "rmse_gain_ci95": [
+            -1.1157246328837367,
+            1.2622830123762898
+          ],
+          "rmse_gain_vs_calibration": 0.006533352448826839,
+          "spearman": -0.22100152168252918
+        },
+        "source_random": {
+          "mae": 1.4792003112468464,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.6245480010185892,
+          "rmse": 1.6210046812756154,
+          "rmse_gain_ci95": [
+            -1.910084304515329,
+            1.084307320969891
+          ],
+          "rmse_gain_vs_calibration": -0.31255131819084747,
+          "spearman": 0.3244530237720163
+        },
+        "source_support": {
+          "mae": 0.9344628779536187,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.37545199898141074,
+          "rmse": 1.0751751119879722,
+          "rmse_gain_ci95": [
+            -0.14728371853978883,
+            0.6210874040307455
+          ],
+          "rmse_gain_vs_calibration": 0.23327825109679567,
+          "spearman": -0.3244530237720163
+        }
+      }
+    },
+    "5": {
+      "recipients": 3,
+      "summary": {
+        "b0": {
+          "mae": 0.9274538981050932,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.41982570806100217,
+          "rmse": 1.026945593123569,
+          "rmse_gain_ci95": [
+            -0.5979456146673547,
+            0.19677298302400514
+          ],
+          "rmse_gain_vs_calibration": -0.10427266101412518,
+          "spearman": -0.16306588801305763
+        },
+        "recipient_calibration": {
+          "mae": 0.8153438877265519,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.41982570806100217,
+          "rmse": 0.9226729321094437,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": -0.16306588801305763
+        },
+        "source_chemistry": {
+          "mae": 1.2047913417355727,
+          "negative_transfer_rate_vs_calibration": 1.0,
+          "pairwise_accuracy": 0.41982570806100217,
+          "rmse": 1.2946729283209608,
+          "rmse_gain_ci95": [
+            -0.6723260640972303,
+            -0.05102420985846279
+          ],
+          "rmse_gain_vs_calibration": -0.37199999621151686,
+          "spearman": -0.16306588801305763
+        },
+        "source_gated": {
+          "mae": 0.701622061834014,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.560566448801743,
+          "rmse": 0.8296197168960786,
+          "rmse_gain_ci95": [
+            -0.1570519500551144,
+            0.37400982060183696
+          ],
+          "rmse_gain_vs_calibration": 0.09305321521336506,
+          "spearman": 0.1320201363790707
+        },
+        "source_protein": {
+          "mae": 1.2991362662093577,
+          "negative_transfer_rate_vs_calibration": 0.6666666666666666,
+          "pairwise_accuracy": 0.41982570806100217,
+          "rmse": 1.373684036302197,
+          "rmse_gain_ci95": [
+            -1.6983559215872261,
+            0.3778104465784107
+          ],
+          "rmse_gain_vs_calibration": -0.45101110419275336,
+          "spearman": -0.16306588801305763
+        },
+        "source_random": {
+          "mae": 1.0470304106799633,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.41982570806100217,
+          "rmse": 1.1211469644590342,
+          "rmse_gain_ci95": [
+            -0.9145253106331378,
+            0.25046041615939485
+          ],
+          "rmse_gain_vs_calibration": -0.19847403234959035,
+          "spearman": -0.16306588801305763
+        },
+        "source_support": {
+          "mae": 0.701622061834014,
+          "negative_transfer_rate_vs_calibration": 0.3333333333333333,
+          "pairwise_accuracy": 0.560566448801743,
+          "rmse": 0.8296197168960786,
+          "rmse_gain_ci95": [
+            -0.1570519500551144,
+            0.37400982060183696
+          ],
+          "rmse_gain_vs_calibration": 0.09305321521336506,
+          "spearman": 0.1320201363790707
+        }
+      }
+    }
+  },
+  "primary_support_sizes": [
+    1,
+    3,
+    5
+  ],
+  "protocol": "target-disjoint A2S target-side single-cold source-only ridge plus source adapters",
+  "query_track": "target-side single-cold; source chemical overlap permitted",
+  "recipient_candidates": 193,
+  "recipient_counts_by_n_eff": {
+    "lt10": 61,
+    "lt30": 193,
+    "lt5": 40
+  },
+  "recipient_records": [
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "he0ac96256556",
+      "k": 1,
+      "query_units": 8,
+      "recipient_calibration_rmse": 1.651533064145803,
+      "selected_source_chemistry": "CHEMBL4605",
+      "selected_source_protein": "CHEMBL2360",
+      "selected_source_random": "CHEMBL4296",
+      "selected_source_support": "CHEMBL3920",
+      "source_gated_rmse": 1.651533064145803,
+      "source_support_rmse": 1.8814016608338038,
+      "target": "CHEMBL1075097"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "hefe05047bb7c",
+      "k": 1,
+      "query_units": 18,
+      "recipient_calibration_rmse": 2.1238887128522665,
+      "selected_source_chemistry": "CHEMBL1881",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL1827",
+      "selected_source_support": "CHEMBL4481",
+      "source_gated_rmse": 2.1238887128522665,
+      "source_support_rmse": 1.2903192617053028,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h16b7f8522451",
+      "k": 1,
+      "query_units": 6,
+      "recipient_calibration_rmse": 1.1888794022529383,
+      "selected_source_chemistry": "CHEMBL1892",
+      "selected_source_protein": "CHEMBL1966",
+      "selected_source_random": "CHEMBL248",
+      "selected_source_support": "CHEMBL2525",
+      "source_gated_rmse": 1.1888794022529383,
+      "source_support_rmse": 1.2458745406214764,
+      "target": "CHEMBL1075189"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "he0ac96256556",
+      "k": 3,
+      "query_units": 6,
+      "recipient_calibration_rmse": 0.8120209428777617,
+      "selected_source_chemistry": "CHEMBL4605",
+      "selected_source_protein": "CHEMBL2360",
+      "selected_source_random": "CHEMBL4877",
+      "selected_source_support": "CHEMBL4605",
+      "source_gated_rmse": 0.5859898750783313,
+      "source_support_rmse": 0.5859898750783313,
+      "target": "CHEMBL1075097"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "hefe05047bb7c",
+      "k": 3,
+      "query_units": 16,
+      "recipient_calibration_rmse": 0.8041564668347689,
+      "selected_source_chemistry": "CHEMBL1255126",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL2085",
+      "selected_source_support": "CHEMBL4394",
+      "source_gated_rmse": 0.9514401853745578,
+      "source_support_rmse": 0.9514401853745578,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h068489bb4e8d",
+      "k": 3,
+      "query_units": 11,
+      "recipient_calibration_rmse": 2.3091826795417734,
+      "selected_source_chemistry": "CHEMBL4040",
+      "selected_source_protein": "CHEMBL3982",
+      "selected_source_random": "CHEMBL2052031",
+      "selected_source_support": "CHEMBL4121",
+      "source_gated_rmse": 1.688095275511028,
+      "source_support_rmse": 1.688095275511028,
+      "target": "CHEMBL1250379"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "hefe05047bb7c",
+      "k": 5,
+      "query_units": 14,
+      "recipient_calibration_rmse": 0.8497409870780159,
+      "selected_source_chemistry": "CHEMBL1255126",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL1966",
+      "selected_source_support": "CHEMBL4394",
+      "source_gated_rmse": 1.0067929371331303,
+      "source_support_rmse": 1.0067929371331303,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h068489bb4e8d",
+      "k": 5,
+      "query_units": 9,
+      "recipient_calibration_rmse": 1.375020880658848,
+      "selected_source_chemistry": "CHEMBL220",
+      "selected_source_protein": "CHEMBL3982",
+      "selected_source_random": "CHEMBL4296",
+      "selected_source_support": "CHEMBL3119",
+      "source_gated_rmse": 1.001011060057011,
+      "source_support_rmse": 1.001011060057011,
+      "target": "CHEMBL1250379"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h0a6c5e686443",
+      "k": 5,
+      "query_units": 17,
+      "recipient_calibration_rmse": 0.5432569285914675,
+      "selected_source_chemistry": "CHEMBL1867",
+      "selected_source_protein": "CHEMBL1892",
+      "selected_source_random": "CHEMBL5815",
+      "selected_source_support": "CHEMBL3629",
+      "source_gated_rmse": 0.48105515349809486,
+      "source_support_rmse": 0.48105515349809486,
+      "target": "CHEMBL1287627"
+    }
+  ],
+  "recipient_rule": "n_eff < 30",
+  "ridge": {
+    "feature_width": 1034,
+    "lambda": 10.0
+  },
+  "schema_version": "a2s-dta-baseline-v1",
+  "seed": 1729,
+  "source_rule": "n_eff >= 100",
+  "source_targets": 242
+}

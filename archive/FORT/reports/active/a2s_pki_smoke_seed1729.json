@@ -1,0 +1,671 @@
+{
+  "compute": {
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gradient_evaluations": 0,
+    "peak_torch_memory_mib": 48.61474609375,
+    "wall_seconds": 11.964335900000151
+  },
+  "decision": "DESCRIPTIVE_BASELINE_ONLY",
+  "endpoint": "pKi",
+  "input": {
+    "features_sha256": "a4db99f302e8e864aecc6abec32117bc97f56e6763350bf47992123e8b57755c",
+    "recipient_labels_used_only_support_query": true,
+    "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "source_labels_used_for_fit": true,
+    "split": "train",
+    "target_features_sha256": "f2eea6c9fc451e6789c17a2b0495140b73c058d3ae1e4de7c9aeae18cc94b63d"
+  },
+  "metrics_by_k": {
+    "1": {
+      "recipients": 8,
+      "summary": {
+        "b0": {
+          "mae": 1.6428419141040473,
+          "negative_transfer_rate_vs_calibration": 0.375,
+          "pairwise_accuracy": 0.548475452080937,
+          "rmse": 1.7297456443950816,
+          "rmse_gain_ci95": [
+            -1.641047204793128,
+            0.3334499726460224
+          ],
+          "rmse_gain_vs_calibration": -0.5180782256152708,
+          "spearman": 0.15647110968801686
+        },
+        "recipient_calibration": {
+          "mae": 1.1079165153967154,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.548475452080937,
+          "rmse": 1.2116674187798109,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": 0.15647110968801686
+        },
+        "source_chemistry": {
+          "mae": 1.597921102962962,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.5555267341322191,
+          "rmse": 1.6939533437440404,
+          "rmse_gain_ci95": [
+            -1.4467564806056488,
+            0.3395943600185275
+          ],
+          "rmse_gain_vs_calibration": -0.4822859249642295,
+          "spearman": 0.11208674271179586
+        },
+        "source_gated": {
+          "mae": 1.1079165153967154,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.548475452080937,
+          "rmse": 1.2116674187798109,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": 0.15647110968801686
+        },
+        "source_protein": {
+          "mae": 1.758748945348118,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.5504045536810913,
+          "rmse": 1.8254928881892138,
+          "rmse_gain_ci95": [
+            -1.4806336461968497,
+            0.3055073877465777
+          ],
+          "rmse_gain_vs_calibration": -0.613825469409403,
+          "spearman": 0.06381486283666443
+        },
+        "source_random": {
+          "mae": 1.866358156350367,
+          "negative_transfer_rate_vs_calibration": 0.5,
+          "pairwise_accuracy": 0.572351856575319,
+          "rmse": 1.9465487337155918,
+          "rmse_gain_ci95": [
+            -1.6480618208655367,
+            0.09528744912001795
+          ],
+          "rmse_gain_vs_calibration": -0.7348813149357808,
+          "spearman": 0.24292506390326235
+        },
+        "source_support": {
+          "mae": 1.1127924427749547,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.5388600674655524,
+          "rmse": 1.2285818171398497,
+          "rmse_gain_ci95": [
+            -0.10470792852387246,
+            0.0709834547604375
+          ],
+          "rmse_gain_vs_calibration": -0.01691439836003878,
+          "spearman": 0.149602977819885
+        }
+      }
+    },
+    "3": {
+      "recipients": 8,
+      "summary": {
+        "b0": {
+          "mae": 1.445118891929495,
+          "negative_transfer_rate_vs_calibration": 0.75,
+          "pairwise_accuracy": 0.5629475008313428,
+          "rmse": 1.5718009268273607,
+          "rmse_gain_ci95": [
+            -1.6021741124694293,
+            0.10643570805904402
+          ],
+          "rmse_gain_vs_calibration": -0.6196958683450677,
+          "spearman": 0.1536842417274409
+        },
+        "recipient_calibration": {
+          "mae": 0.8293341666276438,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.5629475008313428,
+          "rmse": 0.952105058482293,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": 0.1536842417274409
+        },
+        "source_chemistry": {
+          "mae": 1.524423100789475,
+          "negative_transfer_rate_vs_calibration": 0.75,
+          "pairwise_accuracy": 0.5528402168110154,
+          "rmse": 1.6144854448167427,
+          "rmse_gain_ci95": [
+            -1.7689973428398362,
+            0.16618758160097336
+          ],
+          "rmse_gain_vs_calibration": -0.6623803863344497,
+          "spearman": 0.12766100925343174
+        },
+        "source_gated": {
+          "mae": 0.9328283029333533,
+          "negative_transfer_rate_vs_calibration": 0.5,
+          "pairwise_accuracy": 0.4619036896448476,
+          "rmse": 1.0716110397723493,
+          "rmse_gain_ci95": [
+            -0.2723006900913244,
+            -0.006807380840481928
+          ],
+          "rmse_gain_vs_calibration": -0.11950598129005628,
+          "spearman": -0.10732140355724748
+        },
+        "source_protein": {
+          "mae": 1.535949484344055,
+          "negative_transfer_rate_vs_calibration": 0.75,
+          "pairwise_accuracy": 0.4851956151106861,
+          "rmse": 1.6342688756864687,
+          "rmse_gain_ci95": [
+            -1.5107394102635978,
+            0.08179597148641424
+          ],
+          "rmse_gain_vs_calibration": -0.6821638172041757,
+          "spearman": -0.06434069390770791
+        },
+        "source_random": {
+          "mae": 1.453208930369175,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.564330900040829,
+          "rmse": 1.5918741224227002,
+          "rmse_gain_ci95": [
+            -1.5063024960268205,
+            0.12277101627615586
+          ],
+          "rmse_gain_vs_calibration": -0.6397690639404071,
+          "spearman": 0.18662890575906146
+        },
+        "source_support": {
+          "mae": 0.9335300565784658,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.4619036896448476,
+          "rmse": 1.0789985436255338,
+          "rmse_gain_ci95": [
+            -0.2847496729009466,
+            -0.005963927704923675
+          ],
+          "rmse_gain_vs_calibration": -0.12689348514324078,
+          "spearman": -0.10732140355724748
+        }
+      }
+    },
+    "5": {
+      "recipients": 8,
+      "summary": {
+        "b0": {
+          "mae": 1.1305422450560474,
+          "negative_transfer_rate_vs_calibration": 1.0,
+          "pairwise_accuracy": 0.5152116895618947,
+          "rmse": 1.272898749223066,
+          "rmse_gain_ci95": [
+            -0.7201208935065988,
+            -0.23265264832004348
+          ],
+          "rmse_gain_vs_calibration": -0.47457527269083466,
+          "spearman": 0.024115147119999278
+        },
+        "recipient_calibration": {
+          "mae": 0.6581960413039258,
+          "negative_transfer_rate_vs_calibration": 0.0,
+          "pairwise_accuracy": 0.5152116895618947,
+          "rmse": 0.7983234765322313,
+          "rmse_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "rmse_gain_vs_calibration": 0.0,
+          "spearman": 0.024115147119999278
+        },
+        "source_chemistry": {
+          "mae": 1.393512630448577,
+          "negative_transfer_rate_vs_calibration": 0.75,
+          "pairwise_accuracy": 0.5580688324190375,
+          "rmse": 1.5111210187618207,
+          "rmse_gain_ci95": [
+            -1.193731679472346,
+            -0.28116665190020496
+          ],
+          "rmse_gain_vs_calibration": -0.7127975422295894,
+          "spearman": 0.10643839857102999
+        },
+        "source_gated": {
+          "mae": 0.7807030243035041,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.43362551974043084,
+          "rmse": 0.9242554077407754,
+          "rmse_gain_ci95": [
+            -0.26322395760954737,
+            -0.014875219338796606
+          ],
+          "rmse_gain_vs_calibration": -0.12593193120854407,
+          "spearman": -0.19002656185950656
+        },
+        "source_protein": {
+          "mae": 1.6063570481991305,
+          "negative_transfer_rate_vs_calibration": 0.875,
+          "pairwise_accuracy": 0.4521320132469243,
+          "rmse": 1.7051944334401528,
+          "rmse_gain_ci95": [
+            -1.6762308323681925,
+            -0.24528855866221622
+          ],
+          "rmse_gain_vs_calibration": -0.9068709569079214,
+          "spearman": -0.15933456768659596
+        },
+        "source_random": {
+          "mae": 1.087349006814991,
+          "negative_transfer_rate_vs_calibration": 1.0,
+          "pairwise_accuracy": 0.517763369148458,
+          "rmse": 1.2112672297612705,
+          "rmse_gain_ci95": [
+            -0.6256717120171352,
+            -0.2006989248616748
+          ],
+          "rmse_gain_vs_calibration": -0.4129437532290393,
+          "spearman": 0.08206444276070386
+        },
+        "source_support": {
+          "mae": 0.771696380891758,
+          "negative_transfer_rate_vs_calibration": 0.625,
+          "pairwise_accuracy": 0.43362551974043084,
+          "rmse": 0.9219354936231378,
+          "rmse_gain_ci95": [
+            -0.2623650472649042,
+            -0.0010791964441286264
+          ],
+          "rmse_gain_vs_calibration": -0.12361201709090645,
+          "spearman": -0.19002656185950656
+        }
+      }
+    }
+  },
+  "primary_support_sizes": [
+    1,
+    3,
+    5
+  ],
+  "protocol": "target-disjoint A2S target-side single-cold source-only ridge plus source adapters",
+  "query_track": "target-side single-cold; source chemical overlap permitted",
+  "recipient_candidates": 193,
+  "recipient_counts_by_n_eff": {
+    "lt10": 61,
+    "lt30": 193,
+    "lt5": 40
+  },
+  "recipient_records": [
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "he0ac96256556",
+      "k": 1,
+      "query_units": 8,
+      "recipient_calibration_rmse": 0.6041856784656465,
+      "selected_source_chemistry": "CHEMBL2525",
+      "selected_source_protein": "CHEMBL2360",
+      "selected_source_random": "CHEMBL4296",
+      "selected_source_support": "CHEMBL4605",
+      "source_gated_rmse": 0.6041856784656465,
+      "source_support_rmse": 0.46290058133381523,
+      "target": "CHEMBL1075097"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "hefe05047bb7c",
+      "k": 1,
+      "query_units": 18,
+      "recipient_calibration_rmse": 1.1607335983394542,
+      "selected_source_chemistry": "CHEMBL2243",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL1827",
+      "selected_source_support": "CHEMBL1873",
+      "source_gated_rmse": 1.1607335983394542,
+      "source_support_rmse": 1.2798449263860632,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h16b7f8522451",
+      "k": 1,
+      "query_units": 6,
+      "recipient_calibration_rmse": 1.747701147478081,
+      "selected_source_chemistry": "CHEMBL4501",
+      "selected_source_protein": "CHEMBL1966",
+      "selected_source_random": "CHEMBL248",
+      "selected_source_support": "CHEMBL1163125",
+      "source_gated_rmse": 1.747701147478081,
+      "source_support_rmse": 1.9520147186237113,
+      "target": "CHEMBL1075189"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h068489bb4e8d",
+      "k": 1,
+      "query_units": 13,
+      "recipient_calibration_rmse": 1.3507015344719207,
+      "selected_source_chemistry": "CHEMBL4896",
+      "selected_source_protein": "CHEMBL3982",
+      "selected_source_random": "CHEMBL2016",
+      "selected_source_support": "CHEMBL4896",
+      "source_gated_rmse": 1.3507015344719207,
+      "source_support_rmse": 1.5028614039051298,
+      "target": "CHEMBL1250379"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h0a6c5e686443",
+      "k": 1,
+      "query_units": 21,
+      "recipient_calibration_rmse": 1.4988043196791807,
+      "selected_source_chemistry": "CHEMBL3763008",
+      "selected_source_protein": "CHEMBL1892",
+      "selected_source_random": "CHEMBL4018",
+      "selected_source_support": "CHEMBL3242",
+      "source_gated_rmse": 1.4988043196791807,
+      "source_support_rmse": 1.3348746688898432,
+      "target": "CHEMBL1287627"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h3b686c700a5b",
+      "k": 1,
+      "query_units": 26,
+      "recipient_calibration_rmse": 2.0454564117188063,
+      "selected_source_chemistry": "CHEMBL248",
+      "selected_source_protein": "CHEMBL5071",
+      "selected_source_random": "CHEMBL2326",
+      "selected_source_support": "CHEMBL1801",
+      "source_gated_rmse": 2.0454564117188063,
+      "source_support_rmse": 1.9760130021571343,
+      "target": "CHEMBL1628473"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h2f6873f48a69",
+      "k": 1,
+      "query_units": 14,
+      "recipient_calibration_rmse": 1.018234369823443,
+      "selected_source_chemistry": "CHEMBL4605",
+      "selected_source_protein": "CHEMBL4895",
+      "selected_source_random": "CHEMBL1892",
+      "selected_source_support": "CHEMBL4073",
+      "source_gated_rmse": 1.018234369823443,
+      "source_support_rmse": 1.0354800451715416,
+      "target": "CHEMBL1743124"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h35093755a106",
+      "k": 1,
+      "query_units": 6,
+      "recipient_calibration_rmse": 0.26752229026195495,
+      "selected_source_chemistry": "CHEMBL3024",
+      "selected_source_protein": "CHEMBL1908389",
+      "selected_source_random": "CHEMBL3568",
+      "selected_source_support": "CHEMBL2424",
+      "source_gated_rmse": 0.26752229026195495,
+      "source_support_rmse": 0.28466519065155915,
+      "target": "CHEMBL1764946"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "he0ac96256556",
+      "k": 3,
+      "query_units": 6,
+      "recipient_calibration_rmse": 0.41589854836829704,
+      "selected_source_chemistry": "CHEMBL2525",
+      "selected_source_protein": "CHEMBL2360",
+      "selected_source_random": "CHEMBL2349",
+      "selected_source_support": "CHEMBL4605",
+      "source_gated_rmse": 0.41589854836829704,
+      "source_support_rmse": 0.5341025290902663,
+      "target": "CHEMBL1075097"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "hefe05047bb7c",
+      "k": 3,
+      "query_units": 16,
+      "recipient_calibration_rmse": 0.6413155951868683,
+      "selected_source_chemistry": "CHEMBL2243",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL2525",
+      "selected_source_support": "CHEMBL4394",
+      "source_gated_rmse": 1.160230340887328,
+      "source_support_rmse": 1.160230340887328,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h068489bb4e8d",
+      "k": 3,
+      "query_units": 11,
+      "recipient_calibration_rmse": 1.4216914431516183,
+      "selected_source_chemistry": "CHEMBL3710",
+      "selected_source_protein": "CHEMBL3982",
+      "selected_source_random": "CHEMBL3582",
+      "selected_source_support": "CHEMBL4394",
+      "source_gated_rmse": 1.7389269555374762,
+      "source_support_rmse": 1.7389269555374762,
+      "target": "CHEMBL1250379"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h0a6c5e686443",
+      "k": 3,
+      "query_units": 19,
+      "recipient_calibration_rmse": 0.7593478300238099,
+      "selected_source_chemistry": "CHEMBL3763008",
+      "selected_source_protein": "CHEMBL1892",
+      "selected_source_random": "CHEMBL224",
+      "selected_source_support": "CHEMBL4237",
+      "source_gated_rmse": 0.676225972600031,
+      "source_support_rmse": 0.676225972600031,
+      "target": "CHEMBL1287627"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h3b686c700a5b",
+      "k": 3,
+      "query_units": 24,
+      "recipient_calibration_rmse": 1.8487055326754447,
+      "selected_source_chemistry": "CHEMBL248",
+      "selected_source_protein": "CHEMBL5071",
+      "selected_source_random": "CHEMBL5052",
+      "selected_source_support": "CHEMBL2431",
+      "source_gated_rmse": 1.8299428759868284,
+      "source_support_rmse": 1.8299428759868284,
+      "target": "CHEMBL1628473"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h2f6873f48a69",
+      "k": 3,
+      "query_units": 12,
+      "recipient_calibration_rmse": 0.7941624381638138,
+      "selected_source_chemistry": "CHEMBL4605",
+      "selected_source_protein": "CHEMBL4895",
+      "selected_source_random": "CHEMBL2971",
+      "selected_source_support": "CHEMBL3763008",
+      "source_gated_rmse": 0.7941624381638138,
+      "source_support_rmse": 0.7350584882673206,
+      "target": "CHEMBL1743124"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h72b3973a52ae",
+      "k": 3,
+      "query_units": 13,
+      "recipient_calibration_rmse": 0.6954552140657325,
+      "selected_source_chemistry": "CHEMBL4093",
+      "selected_source_protein": "CHEMBL2002",
+      "selected_source_random": "CHEMBL2815",
+      "selected_source_support": "CHEMBL4608",
+      "source_gated_rmse": 0.8162949263750325,
+      "source_support_rmse": 0.8162949263750325,
+      "target": "CHEMBL1772927"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h2e4bbbe626e0",
+      "k": 3,
+      "query_units": 22,
+      "recipient_calibration_rmse": 1.0402638662227597,
+      "selected_source_chemistry": "CHEMBL3638334",
+      "selected_source_protein": "CHEMBL1985",
+      "selected_source_random": "CHEMBL4422",
+      "selected_source_support": "CHEMBL3710",
+      "source_gated_rmse": 1.1412062602599875,
+      "source_support_rmse": 1.1412062602599875,
+      "target": "CHEMBL1793"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "hefe05047bb7c",
+      "k": 5,
+      "query_units": 14,
+      "recipient_calibration_rmse": 0.696057131612513,
+      "selected_source_chemistry": "CHEMBL2243",
+      "selected_source_protein": "CHEMBL4315",
+      "selected_source_random": "CHEMBL2431",
+      "selected_source_support": "CHEMBL4394",
+      "source_gated_rmse": 1.2299505271888018,
+      "source_support_rmse": 1.2299505271888018,
+      "target": "CHEMBL1075162"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h068489bb4e8d",
+      "k": 5,
+      "query_units": 9,
+      "recipient_calibration_rmse": 0.7703368321278043,
+      "selected_source_chemistry": "CHEMBL4247",
+      "selected_source_protein": "CHEMBL3982",
+      "selected_source_random": "CHEMBL1985",
+      "selected_source_support": "CHEMBL4441",
+      "source_gated_rmse": 0.9694050938119767,
+      "source_support_rmse": 0.9694050938119767,
+      "target": "CHEMBL1250379"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h0a6c5e686443",
+      "k": 5,
+      "query_units": 17,
+      "recipient_calibration_rmse": 0.5078276481147105,
+      "selected_source_chemistry": "CHEMBL3763008",
+      "selected_source_protein": "CHEMBL1892",
+      "selected_source_random": "CHEMBL251",
+      "selected_source_support": "CHEMBL246",
+      "source_gated_rmse": 0.4379686476147043,
+      "source_support_rmse": 0.4379686476147043,
+      "target": "CHEMBL1287627"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h3b686c700a5b",
+      "k": 5,
+      "query_units": 22,
+      "recipient_calibration_rmse": 1.0526271128530473,
+      "selected_source_chemistry": "CHEMBL248",
+      "selected_source_protein": "CHEMBL5071",
+      "selected_source_random": "CHEMBL1801",
+      "selected_source_support": "CHEMBL3991",
+      "source_gated_rmse": 1.2013491828100888,
+      "source_support_rmse": 1.2013491828100888,
+      "target": "CHEMBL1628473"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 0.0,
+      "homology": "h2f6873f48a69",
+      "k": 5,
+      "query_units": 10,
+      "recipient_calibration_rmse": 0.8394715029371169,
+      "selected_source_chemistry": "CHEMBL4605",
+      "selected_source_protein": "CHEMBL4895",
+      "selected_source_random": "CHEMBL335",
+      "selected_source_support": "CHEMBL2424",
+      "source_gated_rmse": 0.8394715029371169,
+      "source_support_rmse": 0.820912189996016,
+      "target": "CHEMBL1743124"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h72b3973a52ae",
+      "k": 5,
+      "query_units": 11,
+      "recipient_calibration_rmse": 0.7699854514927164,
+      "selected_source_chemistry": "CHEMBL4093",
+      "selected_source_protein": "CHEMBL2002",
+      "selected_source_random": "CHEMBL3180",
+      "selected_source_support": "CHEMBL4608",
+      "source_gated_rmse": 0.8793303661270557,
+      "source_support_rmse": 0.8793303661270557,
+      "target": "CHEMBL1772927"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h2e4bbbe626e0",
+      "k": 5,
+      "query_units": 20,
+      "recipient_calibration_rmse": 1.094619972714629,
+      "selected_source_chemistry": "CHEMBL4575",
+      "selected_source_protein": "CHEMBL1985",
+      "selected_source_random": "CHEMBL2039",
+      "selected_source_support": "CHEMBL3180",
+      "source_gated_rmse": 1.267149786059148,
+      "source_support_rmse": 1.267149786059148,
+      "target": "CHEMBL1793"
+    },
+    {
+      "endpoint": "pKi",
+      "gate": 1.0,
+      "homology": "h682bb8c702fc",
+      "k": 5,
+      "query_units": 10,
+      "recipient_calibration_rmse": 0.6556621604053129,
+      "selected_source_chemistry": "CHEMBL4685",
+      "selected_source_protein": "CHEMBL1873",
+      "selected_source_random": "CHEMBL2652",
+      "selected_source_support": "CHEMBL5052",
+      "source_gated_rmse": 0.5694181553773106,
+      "source_support_rmse": 0.5694181553773106,
+      "target": "CHEMBL1795140"
+    }
+  ],
+  "recipient_rule": "n_eff < 30",
+  "ridge": {
+    "feature_width": 1034,
+    "lambda": 10.0
+  },
+  "schema_version": "a2s-dta-baseline-v1",
+  "seed": 1729,
+  "source_rule": "n_eff >= 100",
+  "source_targets": 242
+}

@@ -1,0 +1,122 @@
+{
+  "evaluation": {
+    "element_classes": [
+      "C",
+      "HALOGEN",
+      "N",
+      "O",
+      "P",
+      "S"
+    ],
+    "heavy_atom_q05": 18.0,
+    "heavy_atom_q95": 41.0,
+    "molecules_by_source": {
+      "KIRHub2026": 92,
+      "Papyrus-Christmann2016": 1395,
+      "Reinecke2024": 1034
+    },
+    "pharmacophore_roles": [
+      "Acceptor",
+      "Aromatic",
+      "Donor",
+      "HalogenDonor",
+      "Hydrophobe",
+      "MetalBinder",
+      "NegIonizable",
+      "PosIonizable",
+      "Structural"
+    ],
+    "unique_molecules_in_frozen_chemical_domain": 2482,
+    "unique_valid_molecules_for_firewall": 2489
+  },
+  "firewall": {
+    "activity_or_affinity_columns_read": false,
+    "connectivity_overlap_by_evaluation_source": {
+      "KIRHub2026": 0,
+      "Papyrus-Christmann2016": 0,
+      "Reinecke2024": 0
+    },
+    "current_run_confirmation_labels_read": false,
+    "existing_confirmation_permanently_quarantined": true,
+    "plinder_split_column_read": false,
+    "project_historical_confirmation_labels_read": true,
+    "protein_or_pocket_columns_read": false,
+    "scaffold_overlap_by_evaluation_source": {
+      "KIRHub2026": 0,
+      "Papyrus-Christmann2016": 0,
+      "Reinecke2024": 0
+    },
+    "sealed_test_consumed": false
+  },
+  "gates": {
+    "all_evaluation_element_classes_supported": true,
+    "all_evaluation_pharmacophore_roles_supported": true,
+    "at_least_20000_unique_molecules": true,
+    "at_least_8000_nonempty_scaffolds": true,
+    "current_run_activity_affinity_protein_columns_read_false": true,
+    "current_run_confirmation_unread_and_sealed_unconsumed": true,
+    "heavy_atom_domain_contains_evaluation_middle_90pct": true,
+    "license_and_hash_recorded": true,
+    "max_scaffold_fraction_at_most_0005": false,
+    "zero_connectivity_overlap_every_source": true,
+    "zero_scaffold_overlap_every_source": true
+  },
+  "passed": false,
+  "preregistration": {
+    "path": "D:\\FORT\\reports\\active\\factor_u0_preregistration.md",
+    "sha256": "6d55744fc830ab94168de34d4fea106c655740e1f4ca2dec2fbe5260e76bed6a"
+  },
+  "quality_filter": {
+    "invalid_or_outside_frozen_domain": 519,
+    "removed_by_connectivity_or_scaffold_firewall": 4097,
+    "rows_passing_projected_quality_flags": 294908,
+    "unique_input_smiles": 35278,
+    "unique_normalized_before_firewall": 33479
+  },
+  "retained": {
+    "element_classes": [
+      "C",
+      "HALOGEN",
+      "N",
+      "O",
+      "OTHER",
+      "P",
+      "S"
+    ],
+    "heavy_atom_q01": 7.0,
+    "heavy_atom_q99": 58.0,
+    "max_scaffold_count": 372,
+    "max_scaffold_fraction": 0.012660812742495406,
+    "nonempty_scaffolds": 17003,
+    "pharmacophore_roles": [
+      "Acceptor",
+      "Aromatic",
+      "Donor",
+      "HalogenDonor",
+      "Hydrophobe",
+      "MetalBinder",
+      "NegIonizable",
+      "PosIonizable",
+      "Structural"
+    ],
+    "unique_molecules": 29382
+  },
+  "schema": "factor-u0-v1",
+  "source": {
+    "license": "CC BY 4.0 (project manifest; verify before redistribution)",
+    "name": "PLINDER 2024-06/v2 annotation table",
+    "parquet_rows": 1357906,
+    "path": "D:\\FORT\\dataset\\public\\plinder_2024_06_v2\\raw\\annotation_table.parquet",
+    "projected_columns": [
+      "ligand_rdkit_canonical_smiles",
+      "ligand_is_rdkit_loadable",
+      "ligand_is_cofactor",
+      "ligand_is_artifact",
+      "ligand_is_ion",
+      "ligand_is_oligo",
+      "ligand_is_invalid"
+    ],
+    "sha256": "d7ff7a087b3d336859afd5e57775fa1a4e9a23c90a7bb4ccbb6a278540ae31e9"
+  },
+  "verdict": "FACTOR_U0_CORPUS_INELIGIBLE_STOP"
+}

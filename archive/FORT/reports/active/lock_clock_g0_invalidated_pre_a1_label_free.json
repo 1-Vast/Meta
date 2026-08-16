@@ -1,0 +1,249 @@
+{
+  "schema": "lock-clock-g0-label-free-v1",
+  "stage": "G0-L",
+  "source": {
+    "source_manifest_sha256": "68d92261d0330ee57854bf09dadb28519ed6e15ae2b1d79dab114070ab58316b",
+    "input_bindings_sha256": "75585ed253757c1cbe961de5c54eb3cb8846726d5de1a7e28bf6799f49041f9e",
+    "preregistration_sha256": "0f5932ac130ecb70f127878f23d8b347794f959c1883a3924b3cc7a2a583c762",
+    "implementation_amendment_sha256": "9930f1021ca09ba1e9e5e0335adc26d58c25e1a85097849ed6fbf49709947fa9",
+    "klifs_kinase_information_sha256": "9a64e3e9027aeb729812fcdb244b07c65e162b7c68d3e2785b939e36c05eb4d9",
+    "pooled_esm2_sha256": "062e4accc076527014adc5b4865788eed31a17ff43d1feff2b9e883b5c0cff79",
+    "strict_components_sha256": "0122780145a5504a61d78a709829d65d093f5636ccb4bca117d5e39cc2c4a7d4",
+    "runner_sha256": "f8e21efe13714655a99426731efb23d111cc025091400b8358313c71ce0e0776",
+    "helper_sha256": {
+      "kirhub_pocket_oracle": "50d1ff4696c6937e8a6bbb03b3a4cfe8704e3ea83383f1b2a8a59c1a0ab564b0",
+      "kirhub_spkop_a1": "8719cc0bba200980f14a3c6e39dbb54977c43f677451f7be0ec95643718e1da4",
+      "kirhub_wt_h0": "0728b5cfc74b980a495a7acd6c82ab5f5ba9dda15cfdc2e1a50a9bb7ccbd582a"
+    },
+    "implementation_bundle_sha256": "57506b7a5094bbec73f6291065e020bc6e30eeb92f2bd5297e17239c226be548"
+  },
+  "coverage": {
+    "genes": 372,
+    "families": 93,
+    "groups": 9,
+    "strict_homology_components": 319,
+    "unique_pockets": 371,
+    "gene_order_sha256": "4af69133645d5014bb4c38b54cfa4b0b18fff77f30d8aaefebcc7e6a23ec0874"
+  },
+  "coordinate_definition": {
+    "alphabet": "ARNDCQEGHILKMFPSTWYV-",
+    "position_exponent_min": 0.6209715100066584,
+    "position_exponent_median": 0.9607249067493577,
+    "position_exponent_max": 1.4890106647310564,
+    "true_clock_available": false,
+    "conservation_lock_is_clock": false
+  },
+  "token_kernel_audit": {
+    "blosum_correlation_min_eigenvalue": 0.015092713574370848,
+    "conservation_position_min_eigenvalue": 0.008460274221086955,
+    "random_psd_min_eigenvalue": 0.0041158247599104485
+  },
+  "control_audit": {
+    "sequence_shuffled": {
+      "blocks": 9,
+      "singleton_fixed_points": 1,
+      "total_fixed_points": 1,
+      "permutation_sha256": "33084ed96f69f90592dd779a6a23fa1bfecd509206f87207b40015acc22ed3d9"
+    },
+    "position_shuffled_encoded_sha256": "535189664da7bd2d2c3ea4227931574dc52beaefc86390c67ed1c3c4af0773d2",
+    "blosum_token_permutation": [
+      6,
+      9,
+      3,
+      13,
+      19,
+      11,
+      17,
+      8,
+      15,
+      2,
+      10,
+      5,
+      16,
+      14,
+      18,
+      7,
+      4,
+      12,
+      0,
+      1,
+      20
+    ],
+    "random_psd": {
+      "dimensions": 8,
+      "gamma": 0.017537243431484675,
+      "target_off_diagonal_median": 0.7788007830714049,
+      "observed_off_diagonal_median": 0.7788007830714048
+    }
+  },
+  "kernel_metrics": {
+    "lock": {
+      "raw_min_eigenvalue": 1.096345236817342e-15,
+      "normalized_min_eigenvalue": 2.0686577451023425e-16,
+      "centered_effective_rank": 289.3561647012891,
+      "top16_centered_frobenius_energy": 0.23403155340110984,
+      "cka": {
+        "family": 0.5392696053830263,
+        "group": 0.27456380558875787,
+        "composition": 0.2762340037137527,
+        "aligned_identity": 0.7117254491116122,
+        "pooled_esm2": 0.16329434899167874
+      },
+      "family_composition_residual_energy": 0.3850753108068864,
+      "top8_neighbor_overlap_with_esm2": 0.2825940860215054,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    },
+    "conservation_lock": {
+      "raw_min_eigenvalue": 1.3877787807807155e-16,
+      "normalized_min_eigenvalue": -2.7755575615676945e-16,
+      "centered_effective_rank": 276.36069750645396,
+      "top16_centered_frobenius_energy": 0.2499554701375149,
+      "cka": {
+        "family": 0.5568555592585909,
+        "group": 0.27861495211279497,
+        "composition": 0.2807249940857976,
+        "aligned_identity": 0.7236066624275551,
+        "pooled_esm2": 0.16660378481643723
+      },
+      "family_composition_residual_energy": 0.3578092749645395,
+      "top8_neighbor_overlap_with_esm2": 0.28360215053763443,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    },
+    "aligned_identity": {
+      "raw_min_eigenvalue": -2.1923313569980604e-16,
+      "normalized_min_eigenvalue": -2.1923313569980604e-16,
+      "centered_effective_rank": 81.44962671263279,
+      "top16_centered_frobenius_energy": 0.7207102104222105,
+      "cka": {
+        "family": 0.6196287988358719,
+        "group": 0.5755622253615493,
+        "composition": 0.38420418459679223,
+        "aligned_identity": 0.999999999999999,
+        "pooled_esm2": 0.17141536562073303
+      },
+      "family_composition_residual_energy": 0.06642546558348687,
+      "top8_neighbor_overlap_with_esm2": 0.2859543010752688,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    },
+    "composition": {
+      "raw_min_eigenvalue": -1.2371974733903864e-13,
+      "normalized_min_eigenvalue": -1.9794043715138983e-13,
+      "centered_effective_rank": 11.508115784281994,
+      "top16_centered_frobenius_energy": 0.9953597369820647,
+      "cka": {
+        "family": 0.2640538820510241,
+        "group": 0.28030122342385916,
+        "composition": 1.0000000000000038,
+        "aligned_identity": 0.38420418459679223,
+        "pooled_esm2": 0.0843598608214097
+      },
+      "family_composition_residual_energy": 1.4267514316144805e-25,
+      "top8_neighbor_overlap_with_esm2": 0.21202956989247312,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    },
+    "pooled_esm2": {
+      "raw_min_eigenvalue": 4.861076013185084e-05,
+      "normalized_min_eigenvalue": 4.8610774622962424e-05,
+      "centered_effective_rank": 5.207954111880795,
+      "top16_centered_frobenius_energy": 0.9981721834166902,
+      "cka": {
+        "family": 0.13123131876738336,
+        "group": 0.10939786636608459,
+        "composition": 0.0843598608214097,
+        "aligned_identity": 0.17141536562073303,
+        "pooled_esm2": 1.0000000000000013
+      },
+      "family_composition_residual_energy": 0.08566144912847364,
+      "top8_neighbor_overlap_with_esm2": 1.0,
+      "within_family_nonconstant_pair_fraction": 1.0,
+      "within_family_pairs": 1300
+    },
+    "position_shuffled": {
+      "raw_min_eigenvalue": 1.0340651356018162,
+      "normalized_min_eigenvalue": 0.517032567800911,
+      "centered_effective_rank": 366.4504604982194,
+      "top16_centered_frobenius_energy": 0.07156316511718738,
+      "cka": {
+        "family": 0.3550937443015955,
+        "group": 0.12908886130453717,
+        "composition": 0.18108709981170384,
+        "aligned_identity": 0.4679252373099833,
+        "pooled_esm2": 0.1186427629989989
+      },
+      "family_composition_residual_energy": 0.6370935885892193,
+      "top8_neighbor_overlap_with_esm2": 0.032594086021505375,
+      "within_family_nonconstant_pair_fraction": 1.0,
+      "within_family_pairs": 1300
+    },
+    "sequence_shuffled": {
+      "raw_min_eigenvalue": -5.925815393936787e-15,
+      "normalized_min_eigenvalue": -1.027823659516428e-15,
+      "centered_effective_rank": 289.35616470128906,
+      "top16_centered_frobenius_energy": 0.23403155340110965,
+      "cka": {
+        "family": 0.3712336882462496,
+        "group": 0.2745638055887577,
+        "composition": 0.2041639229835369,
+        "aligned_identity": 0.5158642391981813,
+        "pooled_esm2": 0.12026659348688144
+      },
+      "family_composition_residual_energy": 0.5554942420884807,
+      "top8_neighbor_overlap_with_esm2": 0.09307795698924731,
+      "within_family_nonconstant_pair_fraction": 1.0,
+      "within_family_pairs": 1300
+    },
+    "blosum_permuted": {
+      "raw_min_eigenvalue": -1.401974841219191e-15,
+      "normalized_min_eigenvalue": 1.6720016509320155e-15,
+      "centered_effective_rank": 315.34049893338033,
+      "top16_centered_frobenius_energy": 0.20235565610895545,
+      "cka": {
+        "family": 0.5085004367751557,
+        "group": 0.27025616605450437,
+        "composition": 0.26618361843076305,
+        "aligned_identity": 0.7026345521204133,
+        "pooled_esm2": 0.15719775249129853
+      },
+      "family_composition_residual_energy": 0.44116645820577105,
+      "top8_neighbor_overlap_with_esm2": 0.28360215053763443,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    },
+    "random_psd": {
+      "raw_min_eigenvalue": -2.985160648542097e-16,
+      "normalized_min_eigenvalue": 2.2056113029643773e-16,
+      "centered_effective_rank": 318.3867495087833,
+      "top16_centered_frobenius_energy": 0.20002789672823562,
+      "cka": {
+        "family": 0.4984667598232821,
+        "group": 0.26974754345625174,
+        "composition": 0.261158658646183,
+        "aligned_identity": 0.6941440055606539,
+        "pooled_esm2": 0.15551907649739183
+      },
+      "family_composition_residual_energy": 0.4510910552203159,
+      "top8_neighbor_overlap_with_esm2": 0.2819220430107527,
+      "within_family_nonconstant_pair_fraction": 0.9992307692307693,
+      "within_family_pairs": 1300
+    }
+  },
+  "gates": {
+    "lock_psd": true,
+    "lock_family_composition_residual_at_least_0.05": true,
+    "lock_cka_with_esm2_at_most_0.95": true,
+    "lock_within_family_nonconstant_at_least_0.80": true
+  },
+  "low_dimensional_claim": {
+    "threshold": 0.8,
+    "observed": 0.23403155340110984,
+    "passed": false
+  },
+  "authorize_reordering_audit": true,
+  "verdict": "LOCK_G0_LABEL_FREE_PASS_AUTHORIZE_REORDERING_AUDIT",
+  "affinity_labels_read": false,
+  "sealed_test_consumed": false
+}

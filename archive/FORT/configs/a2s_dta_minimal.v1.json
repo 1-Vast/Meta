@@ -1,0 +1,69 @@
+{
+  "schema_version": "a2s-dta-minimal-v1",
+  "program": "A2S-DTA",
+  "model": "A2S-CFRA",
+  "primary_endpoint": "pKi",
+  "secondary_endpoint": "pKd",
+  "source_rule": "n_eff >= 100",
+  "recipient_rule": "n_eff < 30",
+  "support_budgets": [1, 3, 5],
+  "primary_track": "target_side_single_cold",
+  "natural_tail_required_for_pass": true,
+  "source_target_disjoint": true,
+  "source_fit_weighting": "target_macro_equal_total_weight",
+  "router": {
+    "type": "cross_fitted_linear_utility_router",
+    "source_folds": 3,
+    "top_l": 3,
+    "features": [
+      "support_loo_error",
+      "support_rank_agreement",
+      "calibration_bias",
+      "source_reliability",
+      "protein_relation",
+      "chemical_overlap",
+      "provenance_compatibility"
+    ],
+    "query_labels_in_router_fit": false,
+    "query_labels_in_gate_fit": false
+  },
+  "abstention": {
+    "type": "pseudo_recipient_calibrated_lower_gain_bound",
+    "current_code_status": "not_admitted_uncalibrated_diagnostic_only",
+    "current_code_gate": "predicted_utility_gt_0",
+    "confidence": 0.9,
+    "random_abstention_control": true,
+    "no_abstention_control": true
+  },
+  "required_metrics": [
+    "target_macro_rmse",
+    "target_macro_mae",
+    "within_target_spearman",
+    "pairwise_accuracy",
+    "ndcg_at_10",
+    "transfer_gain_curve",
+    "aulc_rmse_gain",
+    "negative_transfer_rate",
+    "benefiting_recipient_rate",
+    "abstention_rate",
+    "risk_coverage",
+    "recipient_bootstrap_ci"
+  ],
+  "commands": {
+    "topology": "D:\\anaconda\\envs\\drug\\python.exe main.py topology-audit --split train",
+    "natural_tail_d0": "D:\\anaconda\\envs\\drug\\python.exe main.py natural-tail-audit --out dataset/processed/a2s_natural_tail_d0.v1.json",
+    "baseline_pki": "D:\\anaconda\\envs\\drug\\python.exe main.py a2s-baseline --endpoint pKi --out reports/active/a2s_pki_targetbalanced_seed1729.json",
+    "router_pki": "D:\\anaconda\\envs\\drug\\python.exe main.py a2s-router --endpoint pKi --out reports/active/a2s_router_pki_targetbalanced_seed1729.json",
+    "baseline_pkd": "D:\\anaconda\\envs\\drug\\python.exe main.py a2s-baseline --endpoint pKd --out reports/active/a2s_pkd_targetbalanced_seed1729.json"
+  },
+  "gate_d0": {
+    "artifact": "dataset/processed/a2s_natural_tail_d0.v1.json",
+    "decision": "DATA_NOT_READY",
+    "optimistic_provenance_upper_bound": 40,
+    "strict_recipients": 0,
+    "training_authorized": false
+  },
+  "neural_training_authorized": false,
+  "decision": "DATA_NOT_READY",
+  "implementation_status": "blocked_after_gate_d0_data_stop"
+}

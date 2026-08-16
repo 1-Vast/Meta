@@ -1,0 +1,597 @@
+{
+  "protocol": "Wave 1 shared-selector pKi Bayesian kill test",
+  "seed": 1729,
+  "endpoint": "pKi",
+  "support": 5,
+  "ambient_dimension": 8,
+  "posterior_rank": 2,
+  "selector": "label-free query-span v1 for train and development",
+  "epochs": 1,
+  "base_ridge": 10.0,
+  "train_episodes": 64,
+  "development_episodes": 64,
+  "base_residual_variance": 1.4622149467468262,
+  "ligand_normalization": {
+    "descriptor_center": [
+      31.62146759033203,
+      450.7867736816406,
+      3.4028711318969727,
+      98.0329818725586,
+      2.1706008911132812,
+      5.710508346557617,
+      6.441195964813232,
+      2.7935028076171875,
+      0.32263174653053284,
+      3.9360475540161133
+    ],
+    "descriptor_scale": [
+      16.48446273803711,
+      233.6766357421875,
+      2.364034652709961,
+      97.55585479736328,
+      3.483232259750366,
+      3.616788148880005,
+      7.031879901885986,
+      1.1974661350250244,
+      0.1921839714050293,
+      1.5351406335830688
+    ]
+  },
+  "parameters": {
+    "bayesian": 3547998,
+    "proteinfree": 3530526,
+    "ligand": 299142,
+    "gradient": 3610768
+  },
+  "metrics": {
+    "b0": {
+      "target_macro_rmse": 1.4885008335113525,
+      "target_macro_mae": 1.2939419746398926,
+      "within_target_spearman": 0.10336505621671677,
+      "pairwise_accuracy": 0.5383298397064209,
+      "concordance_index": 0.5383425951004028,
+      "nll": 1.9807345867156982,
+      "coverage_50": 0.3667687177658081,
+      "width_50": 1.6312140226364136,
+      "coverage_80": 0.6666488647460938,
+      "width_80": 3.0993576049804688,
+      "coverage_95": 0.8565609455108643,
+      "width_95": 4.740058422088623,
+      "calibration_slope": 0.2392793446779251,
+      "risk_coverage_auc": 1.417006015777588,
+      "independent_components": 61.0
+    },
+    "supportmean": {
+      "target_macro_rmse": 1.1876367330551147,
+      "target_macro_mae": 0.9818846583366394,
+      "within_target_spearman": NaN,
+      "pairwise_accuracy": 0.0,
+      "concordance_index": 0.5,
+      "independent_components": 61.0
+    },
+    "residualmean": {
+      "target_macro_rmse": 1.2028703689575195,
+      "target_macro_mae": 0.9867573976516724,
+      "within_target_spearman": 0.10336505621671677,
+      "pairwise_accuracy": 0.5383298397064209,
+      "concordance_index": 0.5383425951004028,
+      "independent_components": 61.0
+    },
+    "calibration": {
+      "target_macro_rmse": 1.1991806030273438,
+      "target_macro_mae": 1.0012946128845215,
+      "within_target_spearman": 0.10336505621671677,
+      "pairwise_accuracy": 0.5383298397064209,
+      "concordance_index": 0.5383425951004028,
+      "nll": 1.660678505897522,
+      "coverage_50": 0.5113827586174011,
+      "width_50": 1.684340000152588,
+      "coverage_80": 0.8011817336082458,
+      "width_80": 3.20029878616333,
+      "coverage_95": 0.9384905099868774,
+      "width_95": 4.894434452056885,
+      "calibration_slope": 0.23927928507328033,
+      "risk_coverage_auc": 1.1376856565475464,
+      "independent_components": 61.0
+    },
+    "ligand": {
+      "target_macro_rmse": 1.1875629425048828,
+      "target_macro_mae": 0.974848747253418,
+      "within_target_spearman": 0.11705579608678818,
+      "pairwise_accuracy": 0.5424936413764954,
+      "concordance_index": 0.5425063967704773,
+      "nll": 1.6789023876190186,
+      "coverage_50": 0.5161064267158508,
+      "width_50": 1.5692005157470703,
+      "coverage_80": 0.7844405770301819,
+      "width_80": 2.981529712677002,
+      "coverage_95": 0.914422333240509,
+      "width_95": 4.559856414794922,
+      "calibration_slope": 0.27051395177841187,
+      "risk_coverage_auc": 1.1715075969696045,
+      "independent_components": 61.0
+    },
+    "gradient": {
+      "target_macro_rmse": 1.3158522844314575,
+      "target_macro_mae": 1.0774667263031006,
+      "within_target_spearman": 0.06006181612610817,
+      "pairwise_accuracy": 0.5232226848602295,
+      "concordance_index": 0.5232353806495667,
+      "independent_components": 61.0
+    },
+    "bayesian": {
+      "target_macro_rmse": 1.1883949041366577,
+      "target_macro_mae": 0.9875510334968567,
+      "within_target_spearman": 0.11370521783828735,
+      "pairwise_accuracy": 0.5401688814163208,
+      "concordance_index": 0.5401816368103027,
+      "nll": 1.642744541168213,
+      "coverage_50": 0.5244511365890503,
+      "width_50": 1.7133731842041016,
+      "coverage_80": 0.8176476955413818,
+      "width_80": 3.255462408065796,
+      "coverage_95": 0.9478492140769958,
+      "width_95": 4.978799819946289,
+      "calibration_slope": 0.24507048726081848,
+      "risk_coverage_auc": 1.1646828651428223,
+      "independent_components": 61.0
+    },
+    "wrongsupport": {
+      "target_macro_rmse": 1.727759599685669,
+      "target_macro_mae": 1.5235865116119385,
+      "within_target_spearman": 0.10199805349111557,
+      "pairwise_accuracy": 0.5379239320755005,
+      "concordance_index": 0.5379366874694824,
+      "nll": 2.1966006755828857,
+      "coverage_50": 0.333061158657074,
+      "width_50": 1.788375735282898,
+      "coverage_80": 0.6324254274368286,
+      "width_80": 3.3979697227478027,
+      "coverage_95": 0.8382799625396729,
+      "width_95": 5.196746349334717,
+      "calibration_slope": 0.22516949474811554,
+      "risk_coverage_auc": 1.6850899457931519,
+      "independent_components": 61.0
+    },
+    "permutedlabels": {
+      "target_macro_rmse": 1.225978136062622,
+      "target_macro_mae": 1.0248442888259888,
+      "within_target_spearman": 0.08954939246177673,
+      "pairwise_accuracy": 0.5337847471237183,
+      "concordance_index": 0.533797562122345,
+      "nll": 1.678999900817871,
+      "coverage_50": 0.5093690752983093,
+      "width_50": 1.7053194046020508,
+      "coverage_80": 0.7937144041061401,
+      "width_80": 3.2401599884033203,
+      "coverage_95": 0.9342540502548218,
+      "width_95": 4.955397129058838,
+      "calibration_slope": 0.18938396871089935,
+      "risk_coverage_auc": 1.1753923892974854,
+      "independent_components": 61.0
+    },
+    "proteinfree": {
+      "target_macro_rmse": 1.2065669298171997,
+      "target_macro_mae": 1.0055756568908691,
+      "within_target_spearman": 0.09026726335287094,
+      "pairwise_accuracy": 0.532993733882904,
+      "concordance_index": 0.5330064296722412,
+      "nll": 1.66545569896698,
+      "coverage_50": 0.5146006345748901,
+      "width_50": 1.700123906135559,
+      "coverage_80": 0.808425784111023,
+      "width_80": 3.230288505554199,
+      "coverage_95": 0.9377580881118774,
+      "width_95": 4.940299987792969,
+      "calibration_slope": 0.24599817395210266,
+      "risk_coverage_auc": 1.167895793914795,
+      "independent_components": 61.0
+    }
+  },
+  "diagnostics": {
+    "ranking_logbf": {
+      "mean": -0.09753949719015509,
+      "median": -0.42750805616378784,
+      "minimum": -1.694610834121704,
+      "maximum": 5.430818557739258
+    },
+    "ranking_probability": {
+      "mean": 0.08356232682126574,
+      "median": 0.033184243366122246,
+      "minimum": 0.009574327617883682,
+      "maximum": 0.923181414604187
+    }
+  },
+  "paired_component_bootstrap": {
+    "b0": {
+      "rmse_gain": {
+        "mean": 0.3015230653705908,
+        "ci95": [
+          0.18111989703717024,
+          0.4365666156041575
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.10711155631079404,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.3071679820684832,
+        "ci95": [
+          0.19300279190901645,
+          0.4354099446943179
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.10938217446930014,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.005190941143526582,
+        "ci95": [
+          -0.004417475630931396,
+          0.016977246613782825
+        ],
+        "probability_positive": 0.8230000138282776,
+        "largest_positive_component_share": 0.39619455202734827,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0010947898247172516,
+        "ci95": [
+          -0.002493934464432638,
+          0.0050807280534550655
+        ],
+        "probability_positive": 0.6855000257492065,
+        "largest_positive_component_share": 0.47113656258815545,
+        "components": 60.0
+      }
+    },
+    "supportmean": {
+      "rmse_gain": {
+        "mean": 0.003162460694286659,
+        "ci95": [
+          -0.06552765815887773,
+          0.07643374891557078
+        ],
+        "probability_positive": 0.5420000553131104,
+        "largest_positive_component_share": 0.11304925106633393,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": -0.0025911060499497884,
+        "ci95": [
+          -0.07275991378781808,
+          0.06486644438166819
+        ],
+        "probability_positive": 0.46150001883506775,
+        "largest_positive_component_share": 0.1274244071551416,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": NaN,
+        "ci95": [
+          NaN,
+          NaN
+        ],
+        "probability_positive": NaN,
+        "largest_positive_component_share": NaN,
+        "components": 0.0
+      },
+      "pairwise_gain": {
+        "mean": 0.5384849065958235,
+        "ci95": [
+          0.4972111532251937,
+          0.5784184445288398
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.030951037740369478,
+        "components": 60.0
+      }
+    },
+    "residualmean": {
+      "rmse_gain": {
+        "mean": 0.008888083883959553,
+        "ci95": [
+          -0.033530437054223,
+          0.05225604405624184
+        ],
+        "probability_positive": 0.6575000286102295,
+        "largest_positive_component_share": 0.12469646248306172,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": -0.005690631998907983,
+        "ci95": [
+          -0.05275881501881441,
+          0.037271480644276905
+        ],
+        "probability_positive": 0.38700002431869507,
+        "largest_positive_component_share": 0.17198479203759337,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.005190941143526582,
+        "ci95": [
+          -0.004417475630931396,
+          0.016977246613782825
+        ],
+        "probability_positive": 0.8230000138282776,
+        "largest_positive_component_share": 0.39619455202734827,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0010947898247172516,
+        "ci95": [
+          -0.002493934464432638,
+          0.0050807280534550655
+        ],
+        "probability_positive": 0.6855000257492065,
+        "largest_positive_component_share": 0.47113656258815545,
+        "components": 60.0
+      }
+    },
+    "calibration": {
+      "rmse_gain": {
+        "mean": 0.005790843180672059,
+        "ci95": [
+          -0.0013111675735894323,
+          0.014393405167399023
+        ],
+        "probability_positive": 0.940000057220459,
+        "largest_positive_component_share": 0.34066360873907425,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.008191858294351385,
+        "ci95": [
+          -0.000495904590104171,
+          0.018957976742025786
+        ],
+        "probability_positive": 0.9630000591278076,
+        "largest_positive_component_share": 0.3668618799986508,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.005190941143526582,
+        "ci95": [
+          -0.004417475630931396,
+          0.016977246613782825
+        ],
+        "probability_positive": 0.8230000138282776,
+        "largest_positive_component_share": 0.39619455202734827,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0010947898247172516,
+        "ci95": [
+          -0.002493934464432638,
+          0.0050807280534550655
+        ],
+        "probability_positive": 0.6855000257492065,
+        "largest_positive_component_share": 0.47113656258815545,
+        "components": 60.0
+      }
+    },
+    "ligand": {
+      "rmse_gain": {
+        "mean": -0.006207232510757873,
+        "ci95": [
+          -0.04760171704745768,
+          0.036184785602337434
+        ],
+        "probability_positive": 0.38750001788139343,
+        "largest_positive_component_share": 0.14472359252979322,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": -0.017869364385066148,
+        "ci95": [
+          -0.06383842053830646,
+          0.024818071643799903
+        ],
+        "probability_positive": 0.19950000941753387,
+        "largest_positive_component_share": 0.2014305634833488,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": -0.008733702206519835,
+        "ci95": [
+          -0.024809630491594313,
+          0.007576988591741232
+        ],
+        "probability_positive": 0.13450001180171967,
+        "largest_positive_component_share": 0.3482727420484543,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": -0.003172862184366699,
+        "ci95": [
+          -0.009303190485920959,
+          0.002125738144123016
+        ],
+        "probability_positive": 0.12200000882148743,
+        "largest_positive_component_share": 0.4058427776358881,
+        "components": 60.0
+      }
+    },
+    "gradient": {
+      "rmse_gain": {
+        "mean": 0.13235274894659194,
+        "ci95": [
+          -0.0001426664733001853,
+          0.29540747001401213
+        ],
+        "probability_positive": 0.9745000600814819,
+        "largest_positive_component_share": 0.2450741610207514,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.09633012189294864,
+        "ci95": [
+          -0.026356538862733345,
+          0.23855345177423876
+        ],
+        "probability_positive": 0.9300000667572021,
+        "largest_positive_component_share": 0.2519753607208756,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.03747844946980672,
+        "ci95": [
+          -0.07957100030690772,
+          0.14669156521442261
+        ],
+        "probability_positive": 0.7490000128746033,
+        "largest_positive_component_share": 0.21662412420613095,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.010553165407513845,
+        "ci95": [
+          -0.04235809715216481,
+          0.05591067541943612
+        ],
+        "probability_positive": 0.6585000157356262,
+        "largest_positive_component_share": 0.2318712723602265,
+        "components": 60.0
+      }
+    },
+    "wrongsupport": {
+      "rmse_gain": {
+        "mean": 0.5174627119820601,
+        "ci95": [
+          0.31765946617479,
+          0.7422089700340777
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.09660086112710359,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.5145879541668443,
+        "ci95": [
+          0.32615421726129595,
+          0.7366683503706826
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.09873615454358216,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.006626285891403516,
+        "ci95": [
+          -0.007093029156156792,
+          0.021734616156157342
+        ],
+        "probability_positive": 0.8260000348091125,
+        "largest_positive_component_share": 0.24631621063772283,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.0015210284432716195,
+        "ci95": [
+          -0.0027646207028206196,
+          0.006079442105358867
+        ],
+        "probability_positive": 0.7365000247955322,
+        "largest_positive_component_share": 0.2991781374308246,
+        "components": 60.0
+      }
+    },
+    "permutedlabels": {
+      "rmse_gain": {
+        "mean": 0.0331286245902988,
+        "ci95": [
+          0.00638578485352397,
+          0.0732593852266094
+        ],
+        "probability_positive": 0.9980000257492065,
+        "largest_positive_component_share": 0.4222632067120492,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.032336409937374,
+        "ci95": [
+          0.007312157697251585,
+          0.06579584186037098
+        ],
+        "probability_positive": 1.0,
+        "largest_positive_component_share": 0.4288928008204168,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.01896043723361206,
+        "ci95": [
+          -4.392522018646212e-05,
+          0.04282249823559725
+        ],
+        "probability_positive": 0.9745000600814819,
+        "largest_positive_component_share": 0.3795926106425902,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.005629776483764187,
+        "ci95": [
+          -0.0006597007490633489,
+          0.014121790633089782
+        ],
+        "probability_positive": 0.956000030040741,
+        "largest_positive_component_share": 0.42210150343654734,
+        "components": 60.0
+      }
+    },
+    "proteinfree": {
+      "rmse_gain": {
+        "mean": 0.011353913708001661,
+        "ci95": [
+          6.185795440893895e-05,
+          0.025739768762608473
+        ],
+        "probability_positive": 0.9755000472068787,
+        "largest_positive_component_share": 0.25841388704263785,
+        "components": 61.0
+      },
+      "mae_gain": {
+        "mean": 0.011376579215892869,
+        "ci95": [
+          0.00040537726731876365,
+          0.024547329394326176
+        ],
+        "probability_positive": 0.9785000681877136,
+        "largest_positive_component_share": 0.2625669618602563,
+        "components": 61.0
+      },
+      "spearman_gain": {
+        "mean": 0.010778960342531124,
+        "ci95": [
+          -0.003397771370746857,
+          0.030450581077142724
+        ],
+        "probability_positive": 0.9075000286102295,
+        "largest_positive_component_share": 0.41546675809207456,
+        "components": 60.0
+      },
+      "pairwise_gain": {
+        "mean": 0.003181679621163126,
+        "ci95": [
+          -0.002003258662385317,
+          0.009641192651253128
+        ],
+        "probability_positive": 0.8555000424385071,
+        "largest_positive_component_share": 0.3848897574742455,
+        "components": 60.0
+      }
+    }
+  },
+  "family_dominance": "not evaluated: the frozen registry has no family field",
+  "training_seconds": 35.38913660000253,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_telemetry": {
+    "samples": 61,
+    "mean_utilization_percent": 35.67213114754098,
+    "peak_utilization_percent": 90.0,
+    "mean_power_watts": 11.464262295081967,
+    "peak_power_watts": 15.27,
+    "peak_nvidia_memory_mib": 5032.0,
+    "peak_torch_memory_mib": 2245.796875
+  }
+}

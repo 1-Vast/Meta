@@ -1,0 +1,145 @@
+{
+  "schema": "bm1-rr-stage-a-v1",
+  "seed": 1729,
+  "steps": {
+    "base": 800,
+    "crossfit": 400,
+    "meta": 1200
+  },
+  "objective": "pair Huber + directional rank softplus + 0.1 base orthogonality; no affinity MSE",
+  "registry_sha256": "460156aaa23664db18fdc91289a6999cf160fa4c107e55869db98df7c382a223",
+  "hard_episodes": 148,
+  "components": 141,
+  "threshold": 0.0657,
+  "cross_fit_audit": {
+    "train_rows": 201827,
+    "oof_covered": 201827,
+    "provenance_violations": 0,
+    "folds": 5,
+    "fold_component_sizes": [
+      104,
+      104,
+      103,
+      103,
+      103
+    ]
+  },
+  "summary": {
+    "B0": {
+      "spearman": 0.1429081219294386,
+      "rmse": 1.4748491387125189
+    },
+    "C0": {
+      "spearman": 0.142908124194318,
+      "rmse": 1.2299309140418402
+    },
+    "BM1-RR": {
+      "spearman": 0.17779086567631303,
+      "rmse": 1.465191998238738
+    },
+    "wrong": {
+      "spearman": 0.11860290772595014,
+      "rmse": 1.5200790141734324
+    },
+    "permuted": {
+      "spearman": 0.1094385264816807,
+      "rmse": 1.5137976556034836
+    },
+    "protein_shuffle": {
+      "spearman": 0.17819143790195602,
+      "rmse": 1.4659330456789388
+    },
+    "ligand_shuffle": {
+      "spearman": 0.138677906219956,
+      "rmse": 1.4977184002666823
+    },
+    "random_protein": {
+      "spearman": 0.17251538195191884,
+      "rmse": 1.5497722001917646
+    }
+  },
+  "target_centered_rmse": {
+    "B0": 1.0830173302480068,
+    "C0": 1.0830173374510617,
+    "BM1-RR": 1.0792147624879693,
+    "wrong": 1.1174205173011116,
+    "permuted": 1.113506258355027,
+    "protein_shuffle": 1.079158616018315,
+    "ligand_shuffle": 1.1123415193489952,
+    "random_protein": 1.165943523929051
+  },
+  "paired": {
+    "bm1_minus_c0": {
+      "mean": 0.0323,
+      "lcb95": 0.0059,
+      "ucb95": 0.0598,
+      "se": 0.0138,
+      "n_units": 141
+    },
+    "centered_rmse_bm1_minus_c0": {
+      "mean": -0.0024,
+      "lcb95": -0.0193,
+      "ucb95": 0.0152,
+      "se": 0.0087,
+      "n_units": 141
+    },
+    "bm1_minus_wrong": {
+      "mean": 0.0614,
+      "lcb95": 0.0277,
+      "ucb95": 0.0954,
+      "se": 0.0174,
+      "n_units": 141
+    },
+    "bm1_minus_permuted": {
+      "mean": 0.0685,
+      "lcb95": 0.0203,
+      "ucb95": 0.1176,
+      "se": 0.0247,
+      "n_units": 141
+    },
+    "bm1_minus_protein_shuffle": {
+      "mean": -0.0005,
+      "lcb95": -0.0131,
+      "ucb95": 0.0108,
+      "se": 0.006,
+      "n_units": 141
+    },
+    "bm1_minus_ligand_shuffle": {
+      "mean": 0.0374,
+      "lcb95": 0.0012,
+      "ucb95": 0.0719,
+      "se": 0.0179,
+      "n_units": 141
+    },
+    "bm1_minus_random_protein": {
+      "mean": 0.0035,
+      "lcb95": -0.0246,
+      "ucb95": 0.0321,
+      "se": 0.0144,
+      "n_units": 141
+    }
+  },
+  "negative_transfer": {
+    "rate": 0.419,
+    "mean_delta": 0.0349,
+    "worst_delta": -0.6,
+    "n": 148
+  },
+  "gates": {
+    "effect_vs_c0": false,
+    "lcb95_vs_c0": true,
+    "centered_rmse": false,
+    "c0_rank_identity": true,
+    "c0_calibration": true,
+    "negative_transfer": false,
+    "specificity_wrong": true,
+    "specificity_permuted": true,
+    "specificity_protein_shuffle": false,
+    "specificity_ligand_shuffle": true,
+    "specificity_random_protein": false
+  },
+  "verdict": "BM1_RR_FAIL_STOP",
+  "wall_clock_s": 65.8,
+  "confirmation_labels_read": false,
+  "sealed_test_consumed": false
+}

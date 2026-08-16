@@ -1,0 +1,60 @@
+{
+  "schema": "ubse-a1v2-head-firewall-verification-v1",
+  "files": {
+    "selected_urls_sha256": "284fdb770b5539476facc8a3e873dac676d1df5f836060735eac6fb1979adbd7",
+    "initial_ledger_sha256": "fa288a0f60374c0f4e81e5fedc38e2c9215675e515eea8acbb6e6336759cfea3",
+    "initial_result_sha256": "64448c919073aba6c06a6240785d97bae211d0edd768fa2cadc4eeb33aae9c7b",
+    "ledger_path": "D:\\FORT\\reports\\active\\ubse_a1v2_head_firewall_verification_ledger.parquet",
+    "ledger_sha256": "2b115f71536a779e343a94dc60d47c7be023ddde1d5477bd65fceebb155d6b20"
+  },
+  "transport": {
+    "method": "HEAD",
+    "follow_redirects": false,
+    "streaming": true,
+    "body_stream_iterated": false,
+    "workers": 16,
+    "timeout_s": 20.0,
+    "retries": 2,
+    "user_agent": "FORT-UBSE-A1V2-H0V/1.0"
+  },
+  "initial_ledger_consistent": true,
+  "verification": {
+    "checked": 997,
+    "responses": 997,
+    "available": 997,
+    "coverage": 1.0,
+    "status_counts": {
+      "200": 997
+    },
+    "content_type_counts": {
+      "application/gzip": 997
+    },
+    "audit": {
+      "rows": 997,
+      "unique_urls": 997,
+      "head_only": true,
+      "redirects_followed": 0,
+      "body_stream_iterations": 0,
+      "actual_downloaded_bytes": 0
+    }
+  },
+  "firewall": {
+    "coordinate_bytes_loaded": 0,
+    "coordinates_parsed": false,
+    "event_labels_loaded": false,
+    "binding_residue_labels_loaded": false,
+    "affinity_fields_loaded": false,
+    "confirmation_labels_loaded": false,
+    "sealed_test_consumed": false
+  },
+  "gate": {
+    "H0V_1_frozen_inputs": true,
+    "H0V_2_no_redirect_transport": true,
+    "H0V_3_stream_not_iterated": true,
+    "H0V_4_actual_downloaded_bytes_zero": true,
+    "H0V_5_exact_availability_reproduced": true,
+    "pass": true,
+    "coordinate_bodies_unlocked": false,
+    "decision": "FREEZE_A1V2_H0V_STRICT_HEAD_FIREWALL_KEEP_BODIES_LOCKED"
+  }
+}

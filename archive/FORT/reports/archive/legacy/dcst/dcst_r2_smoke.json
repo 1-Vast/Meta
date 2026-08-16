@@ -1,0 +1,340 @@
+{
+  "schema": "dcst-stage1-source-only-v1",
+  "seed": 1729,
+  "device": "cuda",
+  "wall_clock_s": 21.305,
+  "steps": {
+    "stage1_base": 10,
+    "stage1_interaction": 10
+  },
+  "rank": 8,
+  "certificate_scale": 0.05,
+  "loss_weights": {
+    "affinity": 0.3,
+    "center": 1.0,
+    "base_orthogonality": 1.0,
+    "transfer_orthogonality": 0.3,
+    "gate_prior": 0.05,
+    "privileged_joint_absolute": 0.25,
+    "privileged_joint_contrast": 1.0,
+    "privileged_counterfactual": 0.5
+  },
+  "stage1": {
+    "dataset": "PLINDER 2024-06/v2 processed dual-cold train/development",
+    "source_target_mode": "accession",
+    "eligible_train_rows": 2106,
+    "eligible_development_rows": 220,
+    "manifest": {
+      "schema": "plinder",
+      "registry_sha256": "5a94e5c6c65e085dc82ddd362fc8fc16db79ea1af9147502a9477b47a1cb8cd2",
+      "feature_sha256": "c36521a78c8c6ef9c790de8e2e5321110404986baa3ac9386c76b1689f52caf9",
+      "rows": 6821,
+      "feat_dim": 1034,
+      "loaded_splits": [
+        "train",
+        "development"
+      ],
+      "morgan_bits": 1024,
+      "n_descriptors": 10,
+      "descriptors": [
+        "heavy_atoms",
+        "mol_wt",
+        "clogp",
+        "tpsa",
+        "hbd",
+        "hba",
+        "rot_bonds",
+        "aromatic_rings",
+        "fraction_csp3",
+        "n_rings"
+      ],
+      "descriptor_standardization": "train-split mean/std only",
+      "descriptor_mean": [
+        22.2019,
+        329.3335,
+        0.7225,
+        119.2414,
+        3.3498,
+        6.067,
+        4.6137,
+        1.5558,
+        0.4224,
+        2.3537
+      ],
+      "descriptor_std": [
+        10.9568,
+        166.7054,
+        2.7323,
+        80.7835,
+        2.3778,
+        4.2242,
+        3.8852,
+        1.1741,
+        0.2987,
+        1.4306
+      ],
+      "rows_by_split": {
+        "development": 1017,
+        "train": 5804
+      },
+      "confirmation_labels_read": false
+    },
+    "target_feature_sha256": "03991d9fb8324228f7b41bb6d1029cedbc0d646756d7298e18011769c2632464",
+    "cross_source_firewall": {
+      "schema": "dcst-cross-source-firewall-v1",
+      "protected_downstream_splits": [
+        "development",
+        "confirmation"
+      ],
+      "protected_downstream_rows": 42539,
+      "source_candidate_rows": 6821,
+      "source_allowed_train_rows": 5130,
+      "source_allowed_development_rows": 447,
+      "blocked_union_rows": 1244,
+      "blocked_by_axis": {
+        "target_accession": 829,
+        "target_homology_4mer_containment_0.40": 898,
+        "ligand_parent": 185,
+        "ligand_scaffold": 572,
+        "ligand_tanimoto_ge_0.95": 478
+      },
+      "document_provenance_closed": false,
+      "document_provenance_limit": "PLINDER processed affinity registry has system_id but no DOI/document lineage compatible with ChEMBL docs",
+      "downstream_affinity_labels_used": false
+    },
+    "privileged_supervision": {
+      "schema": "plinder-privileged-supervision-v1",
+      "allowed_rows": 5577,
+      "covered_rows": 2221,
+      "coverage": 0.3982427828581675,
+      "raw_rows_for_allowed_systems": 9755,
+      "matched_raw_rows": 2533,
+      "covered_validation_pass_rows": 1612,
+      "contact_bins": 32,
+      "interaction_types": [
+        "hydrogen_bonds",
+        "hydrophobic_contacts",
+        "water_bridges",
+        "salt_bridges",
+        "pi_stacks",
+        "pi_cation",
+        "halogen_bonds",
+        "metal_complexes"
+      ],
+      "registry_sha256": "5a94e5c6c65e085dc82ddd362fc8fc16db79ea1af9147502a9477b47a1cb8cd2",
+      "allowed_sha256": "c59d629b86e70788097c9fcea65922d962c7d5c038d3cab095bcd4b60761a899",
+      "affinity_columns_read": false,
+      "target_key_mode": "exact_pocket_uniprot",
+      "exact_target_rows": 2326,
+      "mapped_contact_residues": 13329,
+      "unmapped_contact_residues": 133,
+      "alignment_sha256": "6764ab071688d872946e775f12c691ca7d3f93e00cec6b71299cc0c344b7e849"
+    },
+    "privileged_mechanism_probe": {
+      "true": 5.052092858516809,
+      "target_destroyed": 5.068005960637873,
+      "ligand_destroyed": 5.0571220340150775,
+      "centered_alignment": {
+        "true": 0.026508317274205825,
+        "target_destroyed": 0.023073410286622888,
+        "ligand_destroyed": -0.01050343583611881
+      },
+      "uniform_cross_entropy": 5.545177444479562,
+      "targets": 34,
+      "rows": 165,
+      "pass": false
+    },
+    "no_privileged_mechanism_probe": {
+      "true": 5.4909952076998625,
+      "target_destroyed": 5.487545175263376,
+      "ligand_destroyed": 5.489898730769302,
+      "centered_alignment": {
+        "true": -0.0003139657132765826,
+        "target_destroyed": -0.0005452194634605857,
+        "ligand_destroyed": -0.001670367577496697
+      },
+      "uniform_cross_entropy": 5.545177444479562,
+      "targets": 34,
+      "rows": 165,
+      "pass": false
+    },
+    "crossfit": {
+      "train_rows": 2106,
+      "oof_covered": 2106,
+      "provenance_violations": 0,
+      "folds": 5,
+      "fold_component_sizes": [
+        79,
+        79,
+        79,
+        79,
+        78
+      ]
+    },
+    "certificate": {
+      "rank": 8,
+      "band_size": 2,
+      "bands_zero_based": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "group_index": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ],
+      "source_development_targets": 35,
+      "singular_values": [
+        0.15611176192760468,
+        0.0635632798075676,
+        0.0507667101919651,
+        0.030697189271450043,
+        0.02664301171898842,
+        0.02433071844279766,
+        0.00934748724102974,
+        0.008811406791210175
+      ],
+      "utility": {
+        "true": [
+          -0.1844569444656372,
+          0.03918840363621712,
+          0.14486688375473022,
+          0.0018901710864156485
+        ],
+        "target_destroyed": [
+          0.0016114850295707583,
+          0.06035473570227623,
+          0.14776544272899628,
+          0.016553951427340508
+        ],
+        "ligand_destroyed": [
+          0.22025108337402344,
+          -0.08318477869033813,
+          0.0672508180141449,
+          -0.21383610367774963
+        ]
+      },
+      "margin": [
+        -0.40470802783966064,
+        -0.04399637505412102,
+        -0.0028985589742660522,
+        -0.21194593608379364
+      ],
+      "confidence": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active_bands": 0,
+      "active_directions": 0
+    },
+    "no_privileged_certificate": {
+      "rank": 8,
+      "band_size": 2,
+      "bands_zero_based": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "group_index": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ],
+      "source_development_targets": 35,
+      "singular_values": [
+        0.19261020421981812,
+        0.06197015568614006,
+        0.028705017641186714,
+        0.02154342643916607,
+        0.01203059684485197,
+        0.009679416194558144,
+        0.008169594220817089,
+        0.006655257660895586
+      ],
+      "utility": {
+        "true": [
+          -0.00034458693698979914,
+          -0.02333945967257023,
+          0.1102185919880867,
+          -0.12562580406665802
+        ],
+        "target_destroyed": [
+          -0.09721137583255768,
+          -0.03884660825133324,
+          0.12485300749540329,
+          -0.098849818110466
+        ],
+        "ligand_destroyed": [
+          -0.014211748726665974,
+          -0.021909523755311966,
+          0.10306256264448166,
+          0.004286138340830803
+        ]
+      },
+      "margin": [
+        -0.0975559651851654,
+        -0.062186069786548615,
+        -0.01463441550731659,
+        -0.22447562217712402
+      ],
+      "confidence": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active_bands": 0,
+      "active_directions": 0
+    }
+  },
+  "gate": {
+    "G0_privileged_joint_mechanism_pass": false,
+    "G1_source_certificate_nonempty": false,
+    "G2_privileged_certificate_exceeds_no_privileged": false,
+    "pass": false
+  },
+  "checkpoint": "reports\\active\\dcst_r2_smoke.pt",
+  "cuda_peak_memory_bytes": 465138176,
+  "downstream_affinity_labels_used": false,
+  "confirmation_labels_scored": false,
+  "sealed_test_consumed": false
+}

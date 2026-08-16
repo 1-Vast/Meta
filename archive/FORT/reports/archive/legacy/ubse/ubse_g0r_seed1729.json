@@ -1,0 +1,66 @@
+{
+  "schema": "ubse-g0r-v1",
+  "seed": 1729,
+  "wall_clock_s": 13.449,
+  "parsing": {
+    "input_rows": 66660,
+    "rows_excluded_missing_identity_or_heavy_atoms": 0,
+    "rows_excluded_empty_or_malformed_residue_list": 0,
+    "eligible_observations": 66660
+  },
+  "scale": {
+    "repeated_units": 1028,
+    "exact_targets": 800,
+    "ligands": 648,
+    "pubmed_ids": 1679,
+    "pdb_entries": 1936
+  },
+  "hard_negative_coverage": {
+    "units": 753,
+    "exact_targets": 525
+  },
+  "repeatability": {
+    "median_correct_jaccard": 0.75,
+    "median_wrong_ligand_jaccard": 0.5,
+    "median_unit_ligand_specific_margin": 0.10416666666666663
+  },
+  "target_cluster_bootstrap": {
+    "targets": 525,
+    "replicates": 2000,
+    "median_of_target_medians": 0.15714840714840705,
+    "ci95_low": 0.12499999999999989,
+    "ci95_high": 0.19999999999999996
+  },
+  "optimistic_contact_label_retrieval": {
+    "queries": 1076,
+    "exact_targets": 220,
+    "median_candidate_ligands": 11.0,
+    "recall_at_1": 0.5604089219330854,
+    "mrr": 0.6697569811777357,
+    "random_recall_at_1": 0.08457151490300516,
+    "random_mrr": 0.23911098272648473
+  },
+  "gate": {
+    "R1_scale": true,
+    "R2_hard_negative_coverage": true,
+    "R3_repeatability": true,
+    "R4_ligand_specificity": true,
+    "R5_optimistic_retrieval": true,
+    "R6_firewall": true,
+    "pass": true,
+    "decision": "REQUEST_UBSE_G0C_SMALL_COORDINATE_RELIABILITY_PREREGISTRATION"
+  },
+  "files": {
+    "source_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\closed_registry.parquet",
+    "source_sha256": "7905e4edf88073f564baa4b2d4fb50d496432bc4e15e97cccbfa0766b1b0638d",
+    "units_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_g0r_units.parquet",
+    "units_sha256": "225cfa7baf77b171b1572fbcfdbcfe481d25a7c9125b2f858728553ef0b25e34"
+  },
+  "affinity_fields_loaded": false,
+  "affinity_values_decoded": false,
+  "structure_archives_downloaded": false,
+  "development_or_confirmation_features_loaded": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only parsing, set algebra, matching, and bootstrap"
+}

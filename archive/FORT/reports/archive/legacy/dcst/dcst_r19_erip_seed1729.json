@@ -1,0 +1,63 @@
+{
+  "schema": "dcst-r19-erip-audit-v1",
+  "seed": 1729,
+  "wall_clock_s": 1.886,
+  "high_confidence_definition": {
+    "min_records": 2,
+    "max_replicate_sd_pK": 0.3,
+    "min_distinct_assays_or_documents": 2,
+    "max_targets_per_ligand": 50
+  },
+  "source": {
+    "train_rows_loaded": 201827,
+    "high_confidence_pairs": 19712,
+    "targets": 441,
+    "ligands": 15082,
+    "scaffolds": 7340,
+    "homology_components": 408,
+    "endpoints": {
+      "pKi": 17529,
+      "pKd": 2183
+    },
+    "promiscuous_ligands_excluded": 3,
+    "rows_removed_by_promiscuity": 192
+  },
+  "two_core": {
+    "edges": 7500,
+    "targets": 237,
+    "ligands": 3101,
+    "homology_components": 210,
+    "largest_ligand_edge_fraction": 0.0044
+  },
+  "rectangular_topology": {
+    "rectangles": 527654,
+    "target_pairs": 994,
+    "participating_targets": 224,
+    "participating_homology_components": 199,
+    "largest_target_pair_rectangle_fraction": 0.38752667467696633,
+    "provenance_sample_size": 100000,
+    "provenance_sample_key_sha256": "83f72d2267b1a5a7997cb023492ce4332089de7f7a78b100c30429c75cafcea8",
+    "provenance_qualified": 99897,
+    "provenance_qualified_fraction": 0.99897,
+    "estimated_provenance_qualified_rectangles": 527110.51638
+  },
+  "gate": {
+    "G1_high_confidence_scale": true,
+    "G2_bipartite_two_core": true,
+    "G3_rectangular_topology": true,
+    "G4_provenance": true,
+    "G5_concentration": false,
+    "G6_firewall": true,
+    "pass": false,
+    "decision": "STOP_ERIP_RECTANGULAR_EVIDENCE_INADEQUATE"
+  },
+  "files": {
+    "chembl_registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784"
+  },
+  "affinity_column_requested": false,
+  "affinity_values_loaded": false,
+  "development_rows_loaded": 0,
+  "confirmation_rows_loaded": 0,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only metadata and graph audit; no trainable tensor"
+}

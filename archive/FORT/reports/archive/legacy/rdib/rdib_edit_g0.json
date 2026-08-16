@@ -1,0 +1,69 @@
+{
+  "schema": "rdib-edit-g0-v1",
+  "wall_clock_s": 55.238,
+  "enumeration": {
+    "input_rows": 66660,
+    "rows_excluded_missing_identity_pubmed_or_pdb": 0,
+    "eligible_closed_rows": 66660,
+    "unique_ligands": 25648,
+    "ligands_with_eligible_single_cuts": 21960,
+    "eligible_fragment_records": 96098,
+    "target_pubmed_panels_with_at_least_two_ligands": 8512,
+    "source_specific_ligand_pairs_enumerated": 133352,
+    "source_specific_pairs_with_any_mmp_token": 2530,
+    "multi_token_ambiguous_pairs_excluded": 537,
+    "unique_token_source_records": 1993,
+    "global_edit_classes": 730,
+    "global_edits_ge_2_pubmed_and_ge_2_targets": 200,
+    "replicated_target_edit_units": 29,
+    "exact_pair_replicated_units": 6,
+    "edit_only_salvage_units": 23
+  },
+  "optimistic_resources": {
+    "exact_targets": 17,
+    "edit_classes": 17,
+    "pubmed_ids": 40,
+    "ligands": 95,
+    "pubmed_incidence": 61,
+    "largest_pubmed_unit_share": 0.10344827586206896,
+    "ceiling_terms": {
+      "replicated_units": 29,
+      "three_per_exact_target": 51,
+      "two_pubmeds_per_unit": 20,
+      "two_ligands_per_unit": 47
+    },
+    "ceiling": 20
+  },
+  "scale_context": {
+    "optimistic_mechanism_floor": 88,
+    "structural_block_floor": 200,
+    "predictive_scale_floor": 423
+  },
+  "gate": {
+    "G0_replicated_units_ge_88": false,
+    "G0_exact_targets_ge_80": false,
+    "G0_optimistic_resource_ceiling_ge_88": false,
+    "G0_firewall": true,
+    "pass": false,
+    "decision": "STOP_RDIB_EDIT_G0_REPLICATION_TOPOLOGY_INADEQUATE"
+  },
+  "files": {
+    "source_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\closed_registry.parquet",
+    "source_sha256": "7905e4edf88073f564baa4b2d4fb50d496432bc4e15e97cccbfa0766b1b0638d",
+    "candidate_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\rdib_edit_g0_candidates.parquet",
+    "candidate_sha256": "ca1b709e7fa1c212950ae55db6ac25fc02782e693eb11151a879bcf7ed3c5f54"
+  },
+  "limitations": {
+    "non_isomeric_connectivity_upper_bound_only": true,
+    "strict_stereo_charge_tautomer_identity_reconstructed": false,
+    "homology_family_scaffold_chemical_neighbour_closed": false,
+    "construct_or_deposition_lineage_closed": false,
+    "structure_coordinates_loaded": false
+  },
+  "affinity_columns_read": [],
+  "affinity_values_loaded": false,
+  "development_or_confirmation_features_loaded": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU-only RDKit single-cut fragmentation and set enumeration"
+}

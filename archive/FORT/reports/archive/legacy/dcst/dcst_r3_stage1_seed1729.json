@@ -1,0 +1,340 @@
+{
+  "schema": "dcst-stage1-source-only-v1",
+  "seed": 1729,
+  "device": "cuda",
+  "wall_clock_s": 223.47,
+  "steps": {
+    "stage1_base": 4000,
+    "stage1_interaction": 4000
+  },
+  "rank": 8,
+  "certificate_scale": 0.05,
+  "loss_weights": {
+    "affinity": 0.3,
+    "center": 1.0,
+    "base_orthogonality": 1.0,
+    "transfer_orthogonality": 0.3,
+    "gate_prior": 0.05,
+    "privileged_joint_absolute": 0.25,
+    "privileged_joint_contrast": 1.0,
+    "privileged_counterfactual": 0.5
+  },
+  "stage1": {
+    "dataset": "PLINDER 2024-06/v2 processed dual-cold train/development",
+    "source_target_mode": "accession",
+    "eligible_train_rows": 2106,
+    "eligible_development_rows": 220,
+    "manifest": {
+      "schema": "plinder",
+      "registry_sha256": "5a94e5c6c65e085dc82ddd362fc8fc16db79ea1af9147502a9477b47a1cb8cd2",
+      "feature_sha256": "c36521a78c8c6ef9c790de8e2e5321110404986baa3ac9386c76b1689f52caf9",
+      "rows": 6821,
+      "feat_dim": 1034,
+      "loaded_splits": [
+        "train",
+        "development"
+      ],
+      "morgan_bits": 1024,
+      "n_descriptors": 10,
+      "descriptors": [
+        "heavy_atoms",
+        "mol_wt",
+        "clogp",
+        "tpsa",
+        "hbd",
+        "hba",
+        "rot_bonds",
+        "aromatic_rings",
+        "fraction_csp3",
+        "n_rings"
+      ],
+      "descriptor_standardization": "train-split mean/std only",
+      "descriptor_mean": [
+        22.2019,
+        329.3335,
+        0.7225,
+        119.2414,
+        3.3498,
+        6.067,
+        4.6137,
+        1.5558,
+        0.4224,
+        2.3537
+      ],
+      "descriptor_std": [
+        10.9568,
+        166.7054,
+        2.7323,
+        80.7835,
+        2.3778,
+        4.2242,
+        3.8852,
+        1.1741,
+        0.2987,
+        1.4306
+      ],
+      "rows_by_split": {
+        "development": 1017,
+        "train": 5804
+      },
+      "confirmation_labels_read": false
+    },
+    "target_feature_sha256": "03991d9fb8324228f7b41bb6d1029cedbc0d646756d7298e18011769c2632464",
+    "cross_source_firewall": {
+      "schema": "dcst-cross-source-firewall-v1",
+      "protected_downstream_splits": [
+        "development",
+        "confirmation"
+      ],
+      "protected_downstream_rows": 42539,
+      "source_candidate_rows": 6821,
+      "source_allowed_train_rows": 5130,
+      "source_allowed_development_rows": 447,
+      "blocked_union_rows": 1244,
+      "blocked_by_axis": {
+        "target_accession": 829,
+        "target_homology_4mer_containment_0.40": 898,
+        "ligand_parent": 185,
+        "ligand_scaffold": 572,
+        "ligand_tanimoto_ge_0.95": 478
+      },
+      "document_provenance_closed": false,
+      "document_provenance_limit": "PLINDER processed affinity registry has system_id but no DOI/document lineage compatible with ChEMBL docs",
+      "downstream_affinity_labels_used": false
+    },
+    "privileged_supervision": {
+      "schema": "plinder-privileged-supervision-v1",
+      "allowed_rows": 5577,
+      "covered_rows": 2221,
+      "coverage": 0.3982427828581675,
+      "raw_rows_for_allowed_systems": 9755,
+      "matched_raw_rows": 2533,
+      "covered_validation_pass_rows": 1612,
+      "contact_bins": 32,
+      "interaction_types": [
+        "hydrogen_bonds",
+        "hydrophobic_contacts",
+        "water_bridges",
+        "salt_bridges",
+        "pi_stacks",
+        "pi_cation",
+        "halogen_bonds",
+        "metal_complexes"
+      ],
+      "registry_sha256": "5a94e5c6c65e085dc82ddd362fc8fc16db79ea1af9147502a9477b47a1cb8cd2",
+      "allowed_sha256": "c59d629b86e70788097c9fcea65922d962c7d5c038d3cab095bcd4b60761a899",
+      "affinity_columns_read": false,
+      "target_key_mode": "exact_pocket_uniprot",
+      "exact_target_rows": 2326,
+      "mapped_contact_residues": 13329,
+      "unmapped_contact_residues": 133,
+      "alignment_sha256": "6764ab071688d872946e775f12c691ca7d3f93e00cec6b71299cc0c344b7e849"
+    },
+    "privileged_mechanism_probe": {
+      "true": 4.6521378018639306,
+      "target_destroyed": 6.7134237029335715,
+      "ligand_destroyed": 4.686574078328682,
+      "centered_alignment": {
+        "true": 0.016795640482622033,
+        "target_destroyed": -0.0074900721802430995,
+        "ligand_destroyed": -0.013177761260200949
+      },
+      "uniform_cross_entropy": 5.545177444479562,
+      "targets": 34,
+      "rows": 165,
+      "pass": false
+    },
+    "no_privileged_mechanism_probe": {
+      "true": 5.339058179566354,
+      "target_destroyed": 5.258175770441691,
+      "ligand_destroyed": 5.348803335247617,
+      "centered_alignment": {
+        "true": -0.00024980481933144965,
+        "target_destroyed": 0.0032325387001037598,
+        "ligand_destroyed": -0.009633641032611622
+      },
+      "uniform_cross_entropy": 5.545177444479562,
+      "targets": 34,
+      "rows": 165,
+      "pass": false
+    },
+    "crossfit": {
+      "train_rows": 2106,
+      "oof_covered": 2106,
+      "provenance_violations": 0,
+      "folds": 5,
+      "fold_component_sizes": [
+        79,
+        79,
+        79,
+        79,
+        78
+      ]
+    },
+    "certificate": {
+      "rank": 8,
+      "band_size": 2,
+      "bands_zero_based": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "group_index": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ],
+      "source_development_targets": 35,
+      "singular_values": [
+        0.621511697769165,
+        0.46541208028793335,
+        0.39619362354278564,
+        0.2791447937488556,
+        0.254389226436615,
+        0.20163628458976746,
+        0.1855800449848175,
+        0.16837532818317413
+      ],
+      "utility": {
+        "true": [
+          -0.1534290909767151,
+          -0.1691259890794754,
+          0.09588132053613663,
+          -0.1948007196187973
+        ],
+        "target_destroyed": [
+          -0.15141862630844116,
+          -0.19916239380836487,
+          0.06417670845985413,
+          -0.26201048493385315
+        ],
+        "ligand_destroyed": [
+          -0.0041017113253474236,
+          -0.010614881291985512,
+          -0.04756660759449005,
+          0.020766757428646088
+        ]
+      },
+      "margin": [
+        -0.30484771728515625,
+        -0.36828839778900146,
+        0.0317046120762825,
+        -0.45681118965148926
+      ],
+      "confidence": [
+        0.0,
+        0.0,
+        0.4695832133293152,
+        0.0
+      ],
+      "active_bands": 1,
+      "active_directions": 2
+    },
+    "no_privileged_certificate": {
+      "rank": 8,
+      "band_size": 2,
+      "bands_zero_based": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "group_index": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ],
+      "source_development_targets": 35,
+      "singular_values": [
+        0.6952056884765625,
+        0.43433263897895813,
+        0.35295072197914124,
+        0.27053573727607727,
+        0.2359156459569931,
+        0.19307829439640045,
+        0.16727446019649506,
+        0.15202473104000092
+      ],
+      "utility": {
+        "true": [
+          -0.07064411789178848,
+          -0.088177390396595,
+          0.019718879833817482,
+          0.020899273455142975
+        ],
+        "target_destroyed": [
+          -0.09673107415437698,
+          -0.13728868961334229,
+          0.013787811622023582,
+          0.01563066616654396
+        ],
+        "ligand_destroyed": [
+          -0.07355906814336777,
+          -0.044679753482341766,
+          -0.07584407925605774,
+          -0.013890707865357399
+        ]
+      },
+      "margin": [
+        -0.16737519204616547,
+        -0.2254660725593567,
+        -0.056125201284885406,
+        0.005268607288599014
+      ],
+      "confidence": [
+        0.0,
+        0.0,
+        0.0,
+        0.1000104546546936
+      ],
+      "active_bands": 1,
+      "active_directions": 2
+    }
+  },
+  "gate": {
+    "G0_privileged_joint_mechanism_pass": false,
+    "G1_source_certificate_nonempty": true,
+    "G2_privileged_certificate_exceeds_no_privileged": false,
+    "pass": false
+  },
+  "checkpoint": "reports\\active\\dcst_r3_stage1_seed1729.pt",
+  "cuda_peak_memory_bytes": 987232256,
+  "downstream_affinity_labels_used": false,
+  "confirmation_labels_scored": false,
+  "sealed_test_consumed": false
+}

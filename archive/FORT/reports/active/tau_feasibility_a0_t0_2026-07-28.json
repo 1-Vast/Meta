@@ -1,0 +1,181 @@
+{
+  "affinity_stage_authorized": false,
+  "conceptual_transfer": {
+    "claim": "Training-only, intervention-conditioned delta supervision can increase within-unit supervision density but not independent n.",
+    "independent_sample_increase_claimed": false,
+    "status": "PASS"
+  },
+  "current_run_confirmation_labels_read": false,
+  "current_run_development_labels_read": false,
+  "current_run_sealed_test_consumed": false,
+  "firewall_scope": "current tau audit only",
+  "historical_firewall_state_unchanged": true,
+  "intervention_topology": {
+    "accessions": 559,
+    "assays": 23569,
+    "available_ligand_intervention_fields": [],
+    "available_protein_intervention_fields": [],
+    "bilateral_factorial_contrasts_identifiable": false,
+    "directed_ligand_edit_edges_identifiable": false,
+    "documents": 9587,
+    "endpoints": [
+      "pKd",
+      "pKi"
+    ],
+    "homology_components": 517,
+    "interpretation": "Dense observational target-ligand groups do not identify canonical WT-to-mutation and directed ligand-edit interventions.",
+    "ligand_parents": 121401,
+    "protein_intervention_edges_identifiable": false,
+    "required_ligand_intervention_fields": [
+      "directed_ligand_edit"
+    ],
+    "required_protein_intervention_fields": [
+      "base_protein",
+      "construct_sequence",
+      "directed_substitution"
+    ],
+    "rows": 201827,
+    "same_target_endpoint_identical_assay_bundle_groups_with_at_least_16_ligands": 3363,
+    "scaffolds": 48234,
+    "targets": 559,
+    "verdict": "TAU_G0_BILATERAL_INTERVENTION_TOPOLOGY_NOT_IDENTIFIABLE_STOP"
+  },
+  "schema": "tau-feasibility-a0-t0-v1",
+  "source": {
+    "affinity_column_materialized": false,
+    "affinity_column_read": false,
+    "columns_read": [
+      "target",
+      "conn",
+      "endpoint",
+      "scaffold",
+      "assays",
+      "docs",
+      "accession",
+      "hcluster",
+      "dual_cold_split"
+    ],
+    "registry": "dataset/public/chembl_37/processed/dualcold/registry.parquet",
+    "registry_contains_affinity_column": true,
+    "registry_schema_inspected": true,
+    "registry_sha256": "0e754f73f5d75913d61791d6ccd08e05662cd8015fc608ba370d4ee303e6b784",
+    "row_filter": "dual_cold_split == train",
+    "teacher_manifest": "manifests/tau_teacher_admissibility.v1.json",
+    "teacher_manifest_sha256": "2191cf76654a466ff92db6de783e42255408ffd182f6354d1be95e61070519cf"
+  },
+  "study": "TAU_A0_T0",
+  "synthetic_stage_authorized": false,
+  "teacher_admissibility": {
+    "candidates": [
+      {
+        "admitted": false,
+        "blockers": [
+          "Exact training membership and released training files are unavailable.",
+          "The input contract depends on a reference co-crystal, Glide docking, and MCS-aligned poses.",
+          "Pretraining overlap and legal fold-local pose construction cannot be excluded."
+        ],
+        "evidence": "reports/active/recent_interaction_paper_audit_2026-07-28.md",
+        "failed_requirements": [
+          "training_lineage_resolved",
+          "rights_frozen",
+          "compatible_inputs_without_privileged_test_entities",
+          "fold_local_construction",
+          "pretraining_overlap_excludable",
+          "destruction_controls_possible"
+        ],
+        "id": "pbcnet2_0",
+        "role": "candidate"
+      },
+      {
+        "admitted": false,
+        "blockers": [
+          "No single frozen, rights-cleared teacher and legal pose-generation contract has been selected.",
+          "Historical docking, holo, native-complex, and physics-increment framings failed matched interaction controls.",
+          "A new physical teacher would require genuinely new pair-specific evidence before reopening."
+        ],
+        "evidence": "reports/active/protein_conditioned_signal_audit_2026-07-27.md",
+        "failed_requirements": [
+          "frozen_version",
+          "weights_or_deterministic_engine_available",
+          "training_lineage_resolved",
+          "rights_frozen",
+          "compatible_inputs_without_privileged_test_entities",
+          "fold_local_construction",
+          "pretraining_overlap_excludable"
+        ],
+        "id": "physical_pose_contact_teacher",
+        "role": "candidate"
+      },
+      {
+        "admitted": false,
+        "blockers": [
+          "MC0 failed exact quotation, schema, and registered-slot checks.",
+          "The language-model pretraining corpus cannot be excluded from evaluation documents.",
+          "LEXOR does not emit a quantitative pair-specific interaction state or affinity label."
+        ],
+        "evidence": "lexor/docs/mc0-pmc10879502-v2-failure.md",
+        "failed_requirements": [
+          "training_lineage_resolved",
+          "compatible_inputs_without_privileged_test_entities",
+          "fold_local_construction",
+          "pretraining_overlap_excludable",
+          "pair_specific_output",
+          "destruction_controls_possible"
+        ],
+        "id": "lexor_mc",
+        "role": "candidate"
+      },
+      {
+        "admitted": false,
+        "blockers": [
+          "A target-only plus ligand-only embedding projection is separable by construction.",
+          "It is a required null, not evidence of a pair-specific teacher."
+        ],
+        "evidence": "reports/active/recent_interaction_paper_audit_2026-07-28.md",
+        "failed_requirements": [
+          "training_lineage_resolved",
+          "pretraining_overlap_excludable",
+          "pair_specific_output"
+        ],
+        "id": "generic_separable_embeddings",
+        "role": "negative_control"
+      },
+      {
+        "admitted": false,
+        "blockers": [
+          "This is a capacity-matched negative control and cannot qualify as a semantic teacher."
+        ],
+        "evidence": "Preregistered matched random control.",
+        "failed_requirements": [
+          "pair_specific_output"
+        ],
+        "id": "random_pair_teacher",
+        "role": "negative_control"
+      },
+      {
+        "admitted": false,
+        "blockers": [
+          "This is an exact no-information control and cannot qualify as a semantic teacher."
+        ],
+        "evidence": "Preregistered exact null control.",
+        "failed_requirements": [
+          "pair_specific_output"
+        ],
+        "id": "constant_teacher",
+        "role": "negative_control"
+      }
+    ],
+    "eligible_pair_specific_teacher_count": 0,
+    "eligible_pair_specific_teachers": [],
+    "missing_negative_controls": [],
+    "negative_control_battery_complete": true,
+    "next_stage_authorized": false,
+    "required_negative_controls": [
+      "constant_teacher",
+      "generic_separable_embeddings",
+      "random_pair_teacher"
+    ],
+    "verdict": "TAU_T0_NO_ADMISSIBLE_PAIR_SPECIFIC_TEACHER_STOP"
+  },
+  "verdict": "TAU_CONCEPT_TRANSFERABLE__PAIR_SPECIFIC_TEACHER_ABSENT__NO_TRAIN"
+}

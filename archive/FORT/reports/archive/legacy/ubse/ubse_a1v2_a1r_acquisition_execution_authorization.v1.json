@@ -1,0 +1,86 @@
+{
+  "schema": "ubse-a1v2-a1r-acquisition-execution-authorization-v1",
+  "status": "AUTHORIZED",
+  "phase": "A",
+  "issued_date": "2026-07-30",
+  "decision": "EXECUTE_EXACT_A1R_COORDINATE_AND_CCD_GET_WITHOUT_PARSE",
+  "binding_inputs": [
+    {
+      "id": "stage1_parent_contract",
+      "path": "manifests/ubse_a1v2_stage1_extractor_contract.v1.json",
+      "sha256": "e2e66f1143c93ce886af86a976abe4dcb28f5677ab332451998b9d301e638c92"
+    },
+    {
+      "id": "mask_statistic_closure_amendment",
+      "path": "reports/active/ubse_a1v2_mask_statistic_closure_amendment_2026-07-30.md",
+      "sha256": "42e0684792595067d703f9b01ef347246ec153caed134ddff32f6d54293b7b76"
+    },
+    {
+      "id": "prepared_acquisition_packet",
+      "path": "reports/active/ubse_a1v2_coordinate_acquisition_authorization.v1.json",
+      "sha256": "0b650526ba64160355e1da92d18219239bffbc7f44800b804f7744c26d37e7a2"
+    },
+    {
+      "id": "user_execution_instruction",
+      "path": "C:/Users/59964/.codex/attachments/8550da0c-2e86-4103-a207-e9258545854d/pasted-text.txt",
+      "sha256": "e06b32c7f6f8d99252ffb160e57bdbc92458e81dd089d4aee4a543ab92083983"
+    },
+    {
+      "id": "selected_url_manifest",
+      "path": "reports/active/ubse_a1v2_selected_urls.parquet",
+      "sha256": "284fdb770b5539476facc8a3e873dac676d1df5f836060735eac6fb1979adbd7"
+    },
+    {
+      "id": "a1r_locator_manifest",
+      "path": "dataset/public/biolip2/processed/ubse_a1v2_a1r_locator_manifest.parquet",
+      "sha256": "da788694eaf0f072752a8b7dfbaac6c9ddcd9bf57fcf9709364a1dc7902f0083"
+    },
+    {
+      "id": "strict_head_ledger",
+      "path": "reports/active/ubse_a1v2_head_firewall_verification_ledger.parquet",
+      "sha256": "2b115f71536a779e343a94dc60d47c7be023ddde1d5477bd65fceebb155d6b20"
+    },
+    {
+      "id": "acquisition_runner",
+      "path": "research/ubse_a1v2_a1r_acquisition.py",
+      "sha256": "03cd399099c1c4d973a2ac83e11fcca58846f05dcfe04ef6a8195bb0ea723485"
+    },
+    {
+      "id": "acquisition_tests",
+      "path": "tests/test_ubse_a1v2_a1r_acquisition.py",
+      "sha256": "b370af3a01c19ee192a536bead1e4068bf54775aa9bd048650dfe0cc19ca1936"
+    }
+  ],
+  "preflight": {
+    "focused_tests": "22 passed",
+    "stage1_related_tests": "121 passed, 1 warning",
+    "pip_check": "No broken requirements found",
+    "raw_coordinate_root_absent": true,
+    "ccd_root_absent": true,
+    "acquisition_record_root_absent": true
+  },
+  "scope": {
+    "role": "a1r_only",
+    "unique_coordinate_bodies": 421,
+    "coordinate_instances": 459,
+    "ccd_snapshots": 1,
+    "ccd_url": "https://files.wwpdb.org/pub/pdb/data/monomers/components.cif.gz"
+  },
+  "effective_authorizations": {
+    "coordinate_get": true,
+    "coordinate_parse": false,
+    "ccd_snapshot_get": true,
+    "event_extraction": false,
+    "a1r_event_read": false,
+    "a1s_event_read": false,
+    "a1c_event_read": false,
+    "a1c_scoring": false,
+    "affinity_read": false,
+    "student_training": false,
+    "p0a_v2_training": false,
+    "stage4a": false,
+    "stage4b_kernel": false,
+    "confirmation_read": false,
+    "sealed_access": false
+  }
+}

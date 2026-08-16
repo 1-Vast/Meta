@@ -1,0 +1,31 @@
+program: SIMA_DTA
+stage: W1_STOP_BELOW_LIGAND_AND_GRADIENT
+execution:
+  device: cuda
+  numericalpaths: cuda
+task:
+  primary_support: 5
+  secondary_supports: [0, 1, 3, 5, 10]
+  primary_endpoint: pKi
+  secondary_endpoint: pKd
+protocol:
+  target_homology_cold: true
+  support_query_scaffold_cold: true
+  chemical_component_cap: 1
+  support_selection: frozen_query_span
+  train_role: train
+  development_role: development
+  confirmation_role: forbidden
+architecture:
+  primary_adapter: finite_rank_bayesian_reordering
+  maml_adapter: baseline_only
+  protein_backbone: true_bimamba_landmark
+  ligand_backbone: frozen_morgan_descriptor
+  ambient_dimension: 8
+  posterior_rank: 2
+  ranking_inclusion_prior: 0.05
+  evaluation_gate_threshold: 0.0
+  exact_null: evaluation_log_bf_at_or_below_zero_returns_calibration
+evaluation:
+  unit: homology_component
+  metrics: [rmse, mae, spearman, concordance, pairwise_accuracy, nll, coverage]

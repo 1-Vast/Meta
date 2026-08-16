@@ -1,0 +1,107 @@
+{
+  "schema": "lexor-l0cr0-calibration-source-manifest-v1",
+  "scope": "local_reinecke_mechanical_observability_calibration_only",
+  "source_document": {
+    "document_id": "10.1038/s41589-023-01459-3",
+    "citation": "Reinecke et al., Chemical proteomics reveals the target landscape of 1,000 kinase inhibitors",
+    "provenance_family_hypothesis": "Reinecke2024_10.1038_s41589-023-01459-3"
+  },
+  "role": {
+    "calibration_only_already_development_seen": true,
+    "new_l0c_acquisition_eligible": false,
+    "l0_countable_source": false,
+    "reason": "Historical exact supplementary-file URLs were not retained in the prior acquisition record. This manifest binds known local bytes only and cannot certify a new-source L0C acquisition."
+  },
+  "entries": [
+    {
+      "source_id": "reinecke2024_s1",
+      "path": "dataset/public/reinecke_2024/raw/41589_2023_1459_MOESM2_ESM.xlsx",
+      "sha256": "9c13b2c95e2cd31de46b74fc9ecc25a2f3c72e0b101d0720bd6e917c3cecf5bb",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_verified": true,
+      "document_id": "10.1038/s41589-023-01459-3",
+      "provenance_family_key": "Reinecke2024_10.1038_s41589-023-01459-3",
+      "retrieved_utc": "2026-07-26T01:58:00+00:00",
+      "origin_url": null,
+      "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes_len": 681059,
+      "notes": "Historical local calibration byte; exact file URL was not retained and this entry is not eligible for new L0C acquisition."
+    },
+    {
+      "source_id": "reinecke2024_s2",
+      "path": "dataset/public/reinecke_2024/raw/41589_2023_1459_MOESM3_ESM.xlsx",
+      "sha256": "aa62105218abe10c6c1eb3584a13a87769c4dd1d96cd9cc496cf6c2743d36606",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_verified": true,
+      "document_id": "10.1038/s41589-023-01459-3",
+      "provenance_family_key": "Reinecke2024_10.1038_s41589-023-01459-3",
+      "retrieved_utc": "2026-07-26T01:58:00+00:00",
+      "origin_url": null,
+      "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes_len": 718492,
+      "notes": "Historical local calibration byte; exact file URL was not retained and this entry is not eligible for new L0C acquisition."
+    },
+    {
+      "source_id": "reinecke2024_s3",
+      "path": "dataset/public/reinecke_2024/raw/41589_2023_1459_MOESM4_ESM.xlsx",
+      "sha256": "ee0f24baf1134b051ca93238b821c39a06a58205a547a3cea944df4a74a7a21f",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_verified": true,
+      "document_id": "10.1038/s41589-023-01459-3",
+      "provenance_family_key": "Reinecke2024_10.1038_s41589-023-01459-3",
+      "retrieved_utc": "2026-07-26T01:58:00+00:00",
+      "origin_url": null,
+      "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes_len": 2201186,
+      "notes": "Historical local calibration byte; exact file URL was not retained and this entry is not eligible for new L0C acquisition."
+    }
+  ],
+  "tables": [
+    {
+      "source_id": "reinecke2024_s1",
+      "sheet": "Tool compounds",
+      "required_headers": ["Compound", "SMILES"]
+    },
+    {
+      "source_id": "reinecke2024_s1",
+      "sheet": "Duplicates",
+      "required_headers": ["Name duplicate", "SMILES"]
+    },
+    {
+      "source_id": "reinecke2024_s1",
+      "sheet": "Clinical KIs",
+      "required_headers": ["Drug", "SMILES"]
+    },
+    {
+      "source_id": "reinecke2024_s2",
+      "sheet": "Target annotation",
+      "required_headers": ["Gene"]
+    },
+    {
+      "source_id": "reinecke2024_s2",
+      "sheet": "Kinobeads Drugmatrix - all",
+      "required_headers": ["Gene Name"],
+      "endpoint": "Kd_app",
+      "raw_unit": "nM",
+      "qualifier": "="
+    },
+    {
+      "source_id": "reinecke2024_s3",
+      "sheet": "CATDS target",
+      "required_headers": ["Compound", "Gene name", "apparent Kd"],
+      "endpoint": "Kd_app",
+      "raw_unit": "nM",
+      "qualifier": "="
+    }
+  ],
+  "firewall_contract": {
+    "no_llm_api": true,
+    "no_external_network": true,
+    "no_model_training": true,
+    "no_l0_or_l1_authorization": true,
+    "new_raw_source_bytes_opened": false
+  }
+}

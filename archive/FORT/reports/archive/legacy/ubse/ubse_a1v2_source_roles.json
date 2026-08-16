@@ -1,0 +1,200 @@
+{
+  "schema": "ubse-a1v2-source-roles-v1",
+  "wall_clock_s": 87.299,
+  "files": {
+    "source_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\closed_registry.parquet",
+    "source_sha256": "7905e4edf88073f564baa4b2d4fb50d496432bc4e15e97cccbfa0766b1b0638d",
+    "a0_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a0c_3d_event_sources_v2.parquet",
+    "a0_sha256": "adc72f142e515c47ea18d20d7af08f6a434a30202a1483dcb362115062a068d5",
+    "panel_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_g0pb_panels.parquet",
+    "panel_sha256": "4fea01e332eb3c60e41d76d5062d33cc95b13bc2e96b01df226532f78fe1b371",
+    "a1r_manifest_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a1v2_a1r_metadata_manifest.parquet",
+    "a1r_manifest_sha256": "e6eca57f15975340540d2c2c0afd4e2775f7026ca8af8375c9b3ef3e4299fee9",
+    "a1c_manifest_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a1v2_a1c_metadata_manifest.parquet",
+    "a1c_manifest_sha256": "6e9b2e24246db1b0853f6f6714bb2f6f2cc9e9bfd22fbbb0d665e586e67add24",
+    "a1s_manifest_path": "D:\\FORT\\dataset\\public\\biolip2\\processed\\ubse_a1v2_a1s_metadata_roles.parquet",
+    "a1s_manifest_sha256": "e56020d2e656f6d63fe29d93757e4d77e3adad2d9b8683eeb0e508171258c9ab"
+  },
+  "firewall": {
+    "allowed_source_columns": [
+      "target_key",
+      "sequence",
+      "accession",
+      "pdb_id",
+      "receptor_chain",
+      "ligand_ccd",
+      "ligand_chain",
+      "ligand_serial",
+      "pubmed",
+      "conn",
+      "scaffold",
+      "heavy_atoms"
+    ],
+    "forbidden_source_columns": [
+      "binding_residues_pdb",
+      "binding_residues_reindexed",
+      "affinity_presence"
+    ],
+    "binding_residue_fields_loaded": false,
+    "event_fields_loaded": false,
+    "coordinate_files_read": false,
+    "affinity_fields_loaded": false,
+    "affinity_values_decoded": false,
+    "confirmation_labels_loaded": false,
+    "sealed_test_consumed": false
+  },
+  "versions": {
+    "rdkit": "2023.09.6",
+    "morgan_radius": 2,
+    "morgan_bits": 2048,
+    "use_chirality": false,
+    "use_features": false,
+    "homology_kmer": 4,
+    "homology_containment_conflict": 0.4,
+    "tanimoto_conflict": 0.5,
+    "seed": 1729,
+    "a1r_salt": "UBSE-A1R-V2",
+    "a1c_salt": "UBSE-A1C-V2"
+  },
+  "source": {
+    "rows": 66660,
+    "targets": 40969,
+    "ligands": 25648,
+    "disconnected_ligands": 51,
+    "unparseable_ligands": 0
+  },
+  "a0_closure": {
+    "a0_targets": 957,
+    "a0_pdb": 2833,
+    "a0_pubmed": 871,
+    "a0_conn": 2668,
+    "a0_scaffold": 897,
+    "homolog_targets_excluded": 10849,
+    "exact_closed_rows": 39057,
+    "exact_closed_targets": 28841,
+    "ecfp_closed_rows": 33373,
+    "ecfp_closed_targets": 24670,
+    "ecfp_closed_max_tanimoto": 0.496
+  },
+  "a1r": {
+    "eligible_correct_units": 222,
+    "eligible_targets": 155,
+    "primary_targets": 153,
+    "instances": 459
+  },
+  "a1c_pool": {
+    "reference_targets": 1110,
+    "homolog_targets_excluded": 12328,
+    "exact_resource_closed_rows": 18344,
+    "eligible_instances": 14522,
+    "eligible_targets": 12262,
+    "eligible_min_heavy_atoms": 6,
+    "eligible_max_heavy_atoms": 152,
+    "reference_max_tanimoto": 0.496
+  },
+  "a1c_pack": {
+    "requested": 576,
+    "selected": 576,
+    "rejected": {
+      "target_containment": 133,
+      "ligand_tanimoto": 8
+    },
+    "candidates_scanned": 717
+  },
+  "a1c_pairwise": {
+    "rows": 576,
+    "primary": 512,
+    "reserve": 64,
+    "exact_duplicate_rows": {
+      "target_key": 0,
+      "pdb_id": 0,
+      "pubmed": 0,
+      "conn": 0,
+      "scaffold": 0
+    },
+    "target_containment_conflicting_pairs": 0,
+    "target_max_containment": 0.3898916967509025,
+    "target_nearest_pair": [
+      "9c5ab7622e6c542428b45c53194deee8bd7f4cebf1245fe0107eac430106256e",
+      "38db3424e4d430e7e43ddbc35f9f6583ecb57912fff20e7ee4169e29c2591dd5"
+    ],
+    "ligand_tanimoto_conflicting_pairs": 0,
+    "ligand_max_tanimoto": 0.48,
+    "ligand_nearest_pair": [
+      "O=C1CCC(N2Cc3c(OCc4ccc(CN5CCOCC5)cc4)cccc3C2=O)C(=O)N1",
+      "O=C1CCC(N2Cc3cc(C4CCN(Cc5ccccc5)CC4)ccc3C2=O)C(=O)N1"
+    ]
+  },
+  "a1s_remediation": {
+    "validation": {
+      "panels": 64,
+      "dropped_panels": 5,
+      "retained_panels": 59,
+      "max_similarity": 0.6984126984126984
+    },
+    "legacy_audit": {
+      "panels": 88,
+      "dropped_panels": 7,
+      "retained_panels": 81,
+      "max_similarity": 0.7767857142857143
+    },
+    "exact_overlap": {
+      "fit_vs_development_target_key": 0,
+      "fit_vs_development_pdb_id": 0,
+      "fit_vs_development_pubmed": 0,
+      "fit_vs_development_conn": 0,
+      "fit_vs_development_scaffold": 0,
+      "fit_vs_legacy_audit_target_key": 0,
+      "fit_vs_legacy_audit_pdb_id": 0,
+      "fit_vs_legacy_audit_pubmed": 0,
+      "fit_vs_legacy_audit_conn": 0,
+      "fit_vs_legacy_audit_scaffold": 0,
+      "development_vs_legacy_audit_target_key": 0,
+      "development_vs_legacy_audit_pdb_id": 0,
+      "development_vs_legacy_audit_pubmed": 0,
+      "development_vs_legacy_audit_conn": 0,
+      "development_vs_legacy_audit_scaffold": 0
+    },
+    "by_role": {
+      "fit": {
+        "rows": 3130,
+        "panels": 1260,
+        "targets": 805
+      },
+      "development": {
+        "rows": 129,
+        "panels": 59,
+        "targets": 59
+      },
+      "legacy_audit": {
+        "rows": 179,
+        "panels": 81,
+        "targets": 81
+      }
+    }
+  },
+  "inherited_model_membership": {
+    "current_p0a_training_rows": 62849,
+    "current_p0a_training_targets": 38781,
+    "a1r_target_overlap": 153,
+    "a1c_primary_target_overlap": 512,
+    "current_p0a_primary_admissible": false,
+    "required_action": "retrain P0A-v2 after full A1-C closure and retain a no-P0A primary control"
+  },
+  "pending_gates": {
+    "SR5_locator_and_extractor_readiness": false,
+    "SR6_freshness_and_power": false,
+    "pocket_template_and_structure_model_membership": false
+  },
+  "gate": {
+    "SR0_identity_and_firewall": true,
+    "SR1_a1r_topology": true,
+    "SR2_a1c_topology": true,
+    "SR3_a1s_remediation": true,
+    "SR4_inherited_model_membership": false,
+    "metadata_pass": true,
+    "pass": false,
+    "decision": "FREEZE_A1V2_METADATA_ROLES_RETRAIN_P0A_AND_COMPLETE_MEMBERSHIP_GATES"
+  },
+  "compute": "CPU-only safe-column projection, exact k-mer containment, RDKit ECFP4 similarity, deterministic packing, manifest hashing, and metadata-only inherited-membership audit"
+}

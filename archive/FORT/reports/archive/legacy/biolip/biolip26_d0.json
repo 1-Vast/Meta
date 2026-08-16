@@ -1,0 +1,97 @@
+{
+  "schema": "biolip26-d0-v1",
+  "date": "2026-07-29",
+  "source": {
+    "url": "https://zhanggroup.org/BioLiP/data/all_affinity.tsv",
+    "release": "2026-06-29",
+    "content_length": 44925681,
+    "sha256": "eea56333b650bb900d175e673cafe938cb04a647d2fea20c52ab7346175320a",
+    "physical_rows": 68890,
+    "columns": 23,
+    "llm_rule_rows": 23502,
+    "affinity_fields_byte_skipped": 4,
+    "affinity_field_bytes_decoded": 0
+  },
+  "strict_safe_triples": {
+    "definition": "single exact UniProt, full 27-character InChIKey, single numeric PMID, curation source; duplicate triple collapsed",
+    "rows": 17679,
+    "targets": 4190,
+    "ligands": 5850,
+    "pubmed_ids": 9903,
+    "llm": 14316,
+    "rule": 3363
+  },
+  "chembl_train_target_domain": {
+    "exact_accessions": 291,
+    "train_accessions": 559,
+    "exact_accession_fraction": 0.5205724508050089,
+    "hclusters": 279,
+    "train_hclusters": 517,
+    "hcluster_fraction": 0.5396518375241779,
+    "exact_ligands": 768,
+    "train_ligands": 121401,
+    "exact_ligand_fraction": 0.006326142288778511,
+    "scaffolds": 499
+  },
+  "strict_new_matrix_edges": {
+    "joint_exact_target_ligand_rows": 557,
+    "existing_train_pairs": 299,
+    "new_edges": 258,
+    "targets": 94,
+    "hclusters": 91,
+    "ligands": 157,
+    "scaffolds": 103,
+    "pubmed_ids": 141
+  },
+  "strict_topology": {
+    "components": 18,
+    "largest_component_fraction": 0.8876,
+    "conflict_free_resource_ceiling": 91,
+    "deterministic_greedy_packing": 59
+  },
+  "concentration": {
+    "largest_pubmed_share": 0.1047,
+    "largest_target_share": 0.1047,
+    "largest_hcluster_share": 0.1047,
+    "largest_scaffold_share": 0.0969,
+    "largest_curation_share": 0.6279
+  },
+  "exploratory_target_exact_novel_ligand_upper_bound": {
+    "rows": 1979,
+    "targets": 279,
+    "hclusters": 268,
+    "ligands": 1315,
+    "pubmed_ids": 848,
+    "deterministic_greedy_packing": 259,
+    "resource_ceiling": 268,
+    "largest_component_fraction": 0.8656,
+    "unknown_scaffolds_treated_as_unique_singletons": true,
+    "overrides_frozen_gate": false
+  },
+  "evidence_and_rights": {
+    "database_level_bsd_basis_in_biolip2_paper": true,
+    "all_affinity_file_level_license_or_readme": false,
+    "row_evidence_span": false,
+    "extraction_confidence": false,
+    "llm_model_prompt_version": false,
+    "rule_set_version": false,
+    "row_validation_status": false
+  },
+  "gate": {
+    "A_source_and_target_domain_scale": true,
+    "B_strict_new_matrix_edges": false,
+    "C_independent_topology_and_packing": false,
+    "D_concentration": false,
+    "E_evidence_version_rights_auditability": false,
+    "F_firewall": true,
+    "pass": false,
+    "decision": "STOP_BL26_D0_STRICT_MATRIX_ADOPTION"
+  },
+  "affinity_fields_loaded": false,
+  "affinity_values_decoded": false,
+  "structure_coordinates_loaded": false,
+  "development_or_confirmation_features_loaded": false,
+  "development_or_confirmation_labels_loaded": false,
+  "sealed_test_consumed": false,
+  "compute": "CPU/network byte-level safe schema and metadata audit"
+}

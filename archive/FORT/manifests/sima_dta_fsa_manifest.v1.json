@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "program": "SIMA_DTA_FSA_D0",
+  "working_name": "SIMA-DTA",
+  "scientific_status": "FSA_D0_OUTCOME_SAFE_ONLY",
+  "permissions": {
+    "affinity_training_authorized": false,
+    "confirmation_authorized": false,
+    "sealed_authorized": false,
+    "fsa_d0_topology_power_audit": true,
+    "new_numeric_affinity_read": false
+  },
+  "environment": {
+    "cuda_python": "D:\\anaconda\\envs\\drug\\python.exe",
+    "cuda_required_for": [
+      "admitted_jacobian_proxy",
+      "future_training_after_authorization"
+    ],
+    "cpu_only_allowed": [
+      "metadata_closure",
+      "topology",
+      "role_manifest",
+      "power_bookkeeping"
+    ]
+  },
+  "primary_task": {
+    "support_k": 5,
+    "secondary_k": [0, 1, 3, 5, 10],
+    "meta_test": "target_and_homology_cold",
+    "query": "support_query_scaffold_cold_and_training_chemical_neighbour_cold",
+    "endpoints": ["pKd", "pKi"]
+  },
+  "modules": [
+    {
+      "id": "M1",
+      "name": "long_context_support_conditioned_hybrid_adapter",
+      "exact_null": "c_t=0",
+      "meta_test_updates": ["a_t", "b_t", "c_t"],
+      "forbidden_updates": ["protein_encoder", "ligand_encoder"]
+    },
+    {
+      "id": "M2",
+      "name": "query_span_support_design",
+      "label_free": true
+    },
+    {
+      "id": "M3",
+      "name": "counterfactual_support_identifiability_objective",
+      "conditions": ["correct", "wrong_target", "label_permuted", "calibration_only"]
+    }
+  ],
+  "stages": [
+    {"id": "FSA-D0", "status": "active", "authorization": "outcome_safe_audit_only"},
+    {"id": "FSA-B0", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-M1", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-M2", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-M3", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-E0", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-E1", "status": "pending", "authorization": "separate"},
+    {"id": "FSA-C0", "status": "pending", "authorization": "separate"}
+  ],
+  "pass_requirements": {
+    "FSA-D0": [
+      "strict_k5_targets",
+      "independent_components",
+      "support_scaffolds",
+      "query_scaffolds",
+      "query_depth",
+      "adaptation_rank_proxy",
+      "paired_arm_power"
+    ],
+    "incremental": [
+      "M1_gt_intercept_plus_scale",
+      "M1_M2_gt_M1_random_support",
+      "M1_M2_M3_gt_M1_M2"
+    ]
+  },
+  "stop_conditions": [
+    "wrong_target_support_matches_correct",
+    "protein_free_matches_protein_conditioned",
+    "calibration_matches_full",
+    "chemical_neighbour_only_gain",
+    "rmse_only_without_reordering",
+    "family_scaffold_document_or_provenance_dominance",
+    "mamba_no_performance_or_efficiency_value",
+    "any_protected_outcome_access"
+  ],
+  "a1v2": {
+    "status": "closed",
+    "verdict": "STOP_C1_A1R_STRUCTURE_COVERAGE_BELOW_FROZEN_MINIMUM",
+    "exact_entity_sequence_instances": "143/459",
+    "complete_units": "32/153",
+    "frozen_minimum_complete_units": 128,
+    "reopening": "new_route_only_no_a1v2_rule_or_membership_relaxation"
+  },
+  "artifacts": {
+    "architecture": "reports/active/sima_dta_architecture_blueprint_2026-07-30.md",
+    "fsa_d0_preregistration": "reports/active/sima_dta_fsa_d0_preregistration_draft_2026-07-30.md",
+    "novelty_matrix": "reports/active/sima_dta_novelty_matrix_2026-07-30.md"
+  }
+}

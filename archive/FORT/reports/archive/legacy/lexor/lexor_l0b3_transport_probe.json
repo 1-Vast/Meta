@@ -1,0 +1,47 @@
+{
+  "candidate_metadata_accepted": false,
+  "external_metadata_network_called": true,
+  "fort_labels_read": false,
+  "inputs": {
+    "plan_sha256": "a4d2717b0525cc80bec10ea3ba764ad827b284b6bf19b355efe90496e5d652e7",
+    "preregistration_sha256": "1105b8a1c6f534ff46d8ad3f080511369f4005dc544b624ea2bf7c8e4d04bd2c"
+  },
+  "llm_api_called": false,
+  "mode": "transport_compatibility_only",
+  "model_trained": false,
+  "raw_measurement_files_read": false,
+  "requests": [
+    {
+      "probe_id": "openalex_base",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://api.openalex.org/works?search=zzlexortransportprobenomatchqzq20260727"
+    },
+    {
+      "probe_id": "openalex_per_page",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://api.openalex.org/works?search=zzlexortransportprobenomatchqzq20260727&per-page=1"
+    },
+    {
+      "probe_id": "openalex_filter",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://api.openalex.org/works?search=zzlexortransportprobenomatchqzq20260727&per-page=1&filter=is_oa%3Atrue%2Cfrom_publication_date%3A2010-01-01"
+    },
+    {
+      "probe_id": "openalex_sort",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://api.openalex.org/works?search=zzlexortransportprobenomatchqzq20260727&per-page=1&filter=is_oa%3Atrue%2Cfrom_publication_date%3A2010-01-01&sort=cited_by_count%3Adesc"
+    },
+    {
+      "probe_id": "openalex_select",
+      "protocol_error": null,
+      "status": 200,
+      "url": "https://api.openalex.org/works?search=zzlexortransportprobenomatchqzq20260727&per-page=1&filter=is_oa%3Atrue%2Cfrom_publication_date%3A2010-01-01&sort=cited_by_count%3Adesc&select=id%2Cdoi%2Ctitle"
+    }
+  ],
+  "schema": "lexor-l0b-transport-probe-result.v1",
+  "sealed_test_consumed": false
+}
