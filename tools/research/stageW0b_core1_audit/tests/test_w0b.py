@@ -57,3 +57,11 @@ def test_censored_recensus_updates_support_map():
     metz=d['datasets']['metz']['layers']['all_pairs']
     assert metz['cross_component_D_rows'] > 500
     assert d['datasets']['metz']['components'] >= 10
+
+def test_crossplatform_is_transfer_gate_only():
+    d=json.loads((STAGE/'W0B_CROSSPLATFORM.json').read_text(encoding='utf-8'))
+    mk=d['platforms']['metz_vs_klaeger']
+    assert mk['spearman'] > 0.4
+    md=d['platforms']['metz_vs_davis']
+    assert md['spearman'] < 0.0
+    assert md['interpretation'] == 'cross-platform transfer gate only'

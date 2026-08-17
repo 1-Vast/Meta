@@ -410,3 +410,10 @@ W1 训练，也不把冷蛋白 null 解释为生物学缺失。
 （Davis 7 classes / EIU 7；Metz 480 / EIU 9；Klaeger 37 / EIU 9）。因此
 未来 W0-P 通过后，W1 screen 应预注册在 all-pairs/similarity 层，strict MMP
 仅作高解释性确认层。NO-GO 与 W0-P blocker 不变。
+
+## W0b cross-platform residual（round 26）
+
+删失排除后：Metz↔Klaeger residual Spearman +0.642 [0.482,0.777]（n=100,35
+kinases）；Metz↔Davis −0.666；Klaeger↔Davis −0.625。按规则仅为跨平台迁移门：
+关闭“直接跨平台共享含 Davis 的 residual”，不否定单平台蛋白条件信号，也不
+作为生物学缺失证据。W0-P blocker 与 W1 NO-GO 不变。

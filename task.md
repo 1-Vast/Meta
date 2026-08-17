@@ -433,3 +433,8 @@ W0b censored re-census (round 25): broad all-pairs layers survive censoring
 on Davis/Metz/Klaeger (support GO if W0-P passes); strict MMP remains small.
 Future W1 screen target = all-pairs/similarity layer; strict MMP as
 confirmation layer. W0-P blocker and W1 NO-GO unchanged.
+
+W0b cross-platform residual (round 26): Metz-Klaeger +0.642 [0.482,0.777];
+Metz-Davis -0.666; Klaeger-Davis -0.625. Interpreted only as cross-platform
+transfer gate: direct residual sharing with Davis is closed; single-platform
+signal is not killed. W0-P blocker and W1 NO-GO unchanged.

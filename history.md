@@ -1711,3 +1711,11 @@ After detection-floor exclusion, all-pairs layers pass support on Davis
 334,822 cross-D, EIU 10). Strict MMP layers remain EIU 7/9/9. Future W1
 screen should use all-pairs/similarity as primary if W0-P passes; strict MMP
 is confirmation only. NO-GO and external W0-P blocker unchanged.
+
+## W0b cross-platform residual reproducibility (round 26)
+
+Censored rows excluded; kinase-cluster bootstrap. Metz vs Klaeger Spearman
++0.642 [0.482,0.777] (n=100); Metz vs Davis -0.666 [-0.848,-0.354] (n=40);
+Klaeger vs Davis -0.625 [-0.671,-0.572] (n=1,041). Interpretation: direct
+cross-platform residual sharing with Davis is closed; single-platform
+protein-conditioned signal is not killed. W0-P blocker / W1 NO-GO unchanged.

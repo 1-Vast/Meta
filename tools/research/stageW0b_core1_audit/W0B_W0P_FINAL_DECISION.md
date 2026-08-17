@@ -66,3 +66,17 @@ confirmation layer — not as the default primary surface.
 
 The NO-GO verdict is unchanged: W0-P has not passed and no W1 training is
 authorized.
+
+## Cross-platform residual reproducibility (round 26, read-only)
+
+`W0B_CROSSPLATFORM.json` (detection-floor rows excluded; kinase-cluster
+bootstrap, 1,000 draws):
+
+- Metz vs Klaeger: Spearman **+0.642 [0.482, 0.777]** (n=100, 35 kinases);
+- Metz vs Davis: **-0.666 [-0.848, -0.354]** (n=40, 28 kinases);
+- Klaeger vs Davis: **-0.625 [-0.671, -0.572]** (n=1,041, 96 kinases).
+
+Per the frozen interpretation rule, this is a **cross-platform transfer gate
+only**. It closes direct cross-platform residual sharing involving Davis; it
+does not kill single-platform protein-conditioned signal, and it must not be
+quoted as evidence of biological absence.
