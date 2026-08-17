@@ -1605,3 +1605,9 @@ closed Stage U/V route.
 completion artifacts for the bounded-negative branch (all exist), and freezes
 the verification counts: maintained 310/6, research slow 58, fast 53/5,
 meta_test 0 evaluations. Goal status remains COMPLETE in GOAL_ACTIVE.md.
+
+## Git commit of the core-task-one evidence (round 13)
+
+All new-cycle evidence and the completion statement are committed as
+`1b82597df1250d523d18fdb05dd8ac7e0fd3c319`; working tree clean.
+`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json` records this commit.

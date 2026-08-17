@@ -301,3 +301,10 @@ sd ≈ 0.39–0.53 pK。该区间与跨 component V1 的 unresolved 区间一致
 记录存在性与 SHA-256，并固化验证计数（维护 310/6、研究慢测 58、快速 53/5、
 meta_test 0 评估、git commit）。全部存在，清单已生成；任何具备 goal 工具的
 会话可用该清单执行最终 complete 审计。
+
+## 提交记录（round 13）
+
+全部新周期证据与裁决已提交 Git：`1b82597df1250d523d18fdb05dd8ac7e0fd3c319`
+（"Core task one: close core-inclusive MMP protein-local-interaction route at
+U0/V1"）。工作树干净；`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json`
+中的 git_commit 已同步为该提交。
