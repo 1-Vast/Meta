@@ -1635,3 +1635,13 @@ change category of R_a/R_b. W0 per dataset, independently:
 Next: W1 preregistration for KIBA-only local interaction representation; no W1
 training metric has been read. `tools/research/GOAL_ACTIVE.md` now records the
 new active goal.
+
+## Stage W W1 (round 19): preregistration and split admission PASS
+
+W1 prereg SHA-256 `038f4d97f74841023c48a2e9b3bab5592a0bad2bb9fa54a464d5290641549082`.
+KIBA component split: 103 fit / 24 heldout. Primary `heldout_repeated` surface:
+**186,673 D rows / 23 components / 2,040 repeated families** (admission
+thresholds 500 / 10 / 50 all pass). `heldout_cold` = 0 rows, so the cold
+surface is not evaluable and gate 10 will be recorded as such if training
+proceeds. No training metric has been read; the local operator and ESM protein
+bank are the next implementation step.

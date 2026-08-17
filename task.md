@@ -381,3 +381,11 @@ freeze a W1 preregistration for KIBA-only local interaction representation
 (multi-pocket residue states x ligand pharmacophore subgraphs, local
 cross-attention, independent level/shape heads, full protein counterfactuals),
 then execute W1 gates exactly as frozen.
+
+Stage W W1 update: preregistration frozen
+(`tools/research/stageW_soft_mmp/W1_PREREGISTRATION.md`, SHA-256
+`038f4d97…49082`). W1 split admission **PASSES**: KIBA fit 103 / heldout 24
+components; heldout_repeated 186,673 rows / 23 components / 2,040 families.
+Next: build the KIBA ESM-2 150M protein token bank, implement the local
+interaction operator, run structural tests, then train arms A-F exactly under
+the frozen gates.

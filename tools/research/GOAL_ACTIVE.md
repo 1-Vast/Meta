@@ -325,3 +325,12 @@ Stage W W0（预注册 SHA-256 `ae96762e…45dc71`，冻结后读取）已执行
   局部 cross-attention、独立 level/shape head、correct/shuffled/matched-wrong/
   residue-permuted/protein-blind/random-branch/label-shuffle 全对照），
   W1 预注册必须在任何训练指标读取前冻结；W1 未开始。
+
+## Stage W W1 状态（round 19）
+
+W1 预注册冻结：SHA-256 `038f4d97f74841023c48a2e9b3bab5592a0bad2bb9fa54a464d5290641549082`。
+W1 数据与 split admission 已执行并**通过**：KIBA fit 103 / heldout 24 组件；
+heldout_repeated = **186,673 rows / 23 components / 2,040 families**（门槛
+500/10/50）；heldout_cold = 0（每个 family 都出现在 fit）。下一步：构建 KIBA
+ESM-2 150M 蛋白 token bank，实现 W1 局部交互算子与六臂训练；在任何训练指标
+读取前所有结构测试须通过。

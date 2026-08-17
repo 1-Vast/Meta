@@ -48,3 +48,16 @@ def test_stage_w_source_has_no_hash_or_forbidden_split_name():
                 raise AssertionError(f"{path.name}:{node.lineno} hash()")
             if isinstance(node, ast.Constant) and node.value == forbidden:
                 raise AssertionError(f"{path.name}:{node.lineno} forbidden split")
+
+
+def test_w1_preregistration_and_split_admission_pass():
+    prereg_sha = "038f4d97f74841023c48a2e9b3bab5592a0bad2bb9fa54a464d5290641549082"
+    actual = hashlib.sha256(
+        (STAGE / "W1_PREREGISTRATION.md").read_bytes()).hexdigest()
+    assert actual == prereg_sha
+    d = json.loads((STAGE / "W1_DATA.json").read_text(encoding="utf-8"))
+    assert d["w1_preregistration_sha256"] == prereg_sha
+    assert d["all_pass"] is True
+    assert d["counts"]["heldout_repeated_rows"] >= 500
+    assert d["counts"]["heldout_repeated_components"] >= 10
+    assert d["counts"]["repeated_families"] >= 50
