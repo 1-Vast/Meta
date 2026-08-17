@@ -401,3 +401,12 @@ W0-P panel（>=20 mutation pairs / >=100 rows / median >=5 shared ligands /
 删失 <=25% / mutation position + isomeric SMILES + 单一单位制），并列出
 可接受来源与 provenance 契约。在获得该资产前，按阶段门保持 NO-GO，不开展
 W1 训练，也不把冷蛋白 null 解释为生物学缺失。
+
+## W0b 删失后 re-census（round 25）
+
+排除地板删失后，broad all-pairs 层在三个单平台 panel 上仍满足 support
+（Davis 87k pairs / 1,988 rich / 3.94M cross-D / EIU 205；Metz 851k /
+13.55M / EIU 10；Klaeger 64k / 335k / EIU 10）；strict MMP 层仍小
+（Davis 7 classes / EIU 7；Metz 480 / EIU 9；Klaeger 37 / EIU 9）。因此
+未来 W0-P 通过后，W1 screen 应预注册在 all-pairs/similarity 层，strict MMP
+仅作高解释性确认层。NO-GO 与 W0-P blocker 不变。

@@ -1702,3 +1702,12 @@ re-preregistration are authorized next.
 asset and its acceptance contract (>=20 mutation pairs, >=100 rows, median
 >=5 shared ligands/pair, censored <=0.25, per-pair positions, single label
 unit). Status stays NO-GO; no W1 training until the asset is present.
+
+## W0b censored re-census (round 25)
+
+After detection-floor exclusion, all-pairs layers pass support on Davis
+(87,371 pairs, 1,988 rich, 3,935,561 cross-component D rows, EIU 205), Metz
+(851,357 pairs, 13,552,707 cross-D, EIU 10) and Klaeger (63,823 pairs,
+334,822 cross-D, EIU 10). Strict MMP layers remain EIU 7/9/9. Future W1
+screen should use all-pairs/similarity as primary if W0-P passes; strict MMP
+is confirmation only. NO-GO and external W0-P blocker unchanged.

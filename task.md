@@ -428,3 +428,8 @@ re-preregistration — not W1 training.
 Blocker recorded: `stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md`. Current
 status is NO-GO until a standard W0-P panel matching the acquisition spec is
 present and provenance-recorded. No W1 training is authorized meanwhile.
+
+W0b censored re-census (round 25): broad all-pairs layers survive censoring
+on Davis/Metz/Klaeger (support GO if W0-P passes); strict MMP remains small.
+Future W1 screen target = all-pairs/similarity layer; strict MMP as
+confirmation layer. W0-P blocker and W1 NO-GO unchanged.

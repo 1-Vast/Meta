@@ -45,3 +45,24 @@ No neural W1 model was trained and none is authorized on current assets.
    interval-censoring.
 3. Re-preregister W0-P and W1 thresholds from the effective sample size of the
    enlarged panel, then rerun.
+
+## Censored re-census update (round 25)
+
+`W0B_CENSORED_RECENSUS.json`: after excluding detection-floor rows, the broad
+all-ligand-pair layer still has ample support on all three single-platform
+panels:
+- Davis all_pairs: 87,371 pairs / 2,192 classes / 1,988 rich classes /
+  3,935,561 cross-component D rows / EIU 205;
+- Metz all_pairs: 851,357 pairs / 24,500 classes / 13,552,707 cross-component
+  D rows / EIU 10;
+- Klaeger all_pairs: 63,823 pairs / 11,910 classes / 334,822 cross-component
+  D rows / EIU 10.
+
+Strict MMP layers remain small after censoring (Davis 7 classes / EIU 7;
+Metz 480 classes / EIU 9; Klaeger 37 classes / EIU 9). Therefore, when a
+passing W0-P panel exists, the W1 screen should be preregistered on the
+all-pairs / similarity layer, with strict MMP retained as the high-explainability
+confirmation layer — not as the default primary surface.
+
+The NO-GO verdict is unchanged: W0-P has not passed and no W1 training is
+authorized.

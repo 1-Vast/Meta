@@ -48,3 +48,12 @@ def test_final_decision_no_go():
     d=json.loads((STAGE/'W0B_W0P_FINAL_DECISION.json').read_text(encoding='utf-8'))
     assert d['decision'].startswith('NO-GO')
     assert d['evidence']['w0p_result']['verdict'].startswith('FAIL')
+
+def test_censored_recensus_updates_support_map():
+    d=json.loads((STAGE/'W0B_CENSORED_RECENSUS.json').read_text(encoding='utf-8'))
+    davis=d['datasets']['davis']['layers']['all_pairs']
+    assert davis['cross_component_D_rows'] > 500
+    assert d['datasets']['davis']['components'] >= 10
+    metz=d['datasets']['metz']['layers']['all_pairs']
+    assert metz['cross_component_D_rows'] > 500
+    assert d['datasets']['metz']['components'] >= 10
