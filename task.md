@@ -400,3 +400,11 @@ Stage W W1 is PAUSED (no training artifact, no training metric). Immediate next
 action: acquire an admissible mutation/ortholog positive-control panel, then
 re-census support after censored exclusion/interval-censoring before any W1
 training decision.
+
+Stage W0-P panel update: local positive-control candidates found.
+`stageW0P_positive_control/W0P_PANEL.json`: 6 near-identical BindingDB
+sequence pairs (1–5 mismatches, >=3 shared ligands, 32 total rows), sufficient
+by frozen rule. W0-P is now runnable; the gradient-trained positive-control
+test with correct/random/BLOSUM-approximate/global/random-protein controls is
+the next step. W1 remains NO-GO until W0-P passes and censoring re-census
+passes.

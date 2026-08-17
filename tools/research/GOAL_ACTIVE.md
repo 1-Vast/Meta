@@ -363,3 +363,13 @@ W0b 预注册 SHA-256 `ff23c408d20cc79b1bd5fcd20854a0443280d32d6fc3dbb8abf0733a9
 **裁决：W1 生物学解释 NO-GO**。下一步（按优先级）：(a) 获取/构建可入的 W0-P
 panel；(b) 排除或区间删失后重做 support census；(c) 从有效样本量预注册 W1
 门槛。当前目标保持 ACTIVE（Stage W0b）。
+
+## Stage W0-P 面板（round 21）：本地正控候选已建立，W0-P 可运行
+
+W0-P 预注册 SHA-256 `ba0b51ec419b0275a129e69e4cb45db1bccbdd138000893ee7daf881e7bacbf1`。
+从本地 BindingDB-Ki 499 条序列做 CD-HIT98，找到 **6 个等长、1–5 个残基差异、
+共享 >=3 配体**的点突变/亚型候选对，共 **32 行**（门槛 3 对/20 行：通过）。
+其中一对 7 配体全部同号（mean ΔpK +1.42, sign consistency 1.0），是强候选
+正控；其余 5 对接近零（mean −0.03…+0.05）。W0-P 可运行；下一步运行冻结的
+低容量双线性正控测试与正确/随机/BLOSUM近似/global/random-protein 对照。
+W1 仍为 NO-GO，直到 W0-P 通过且 W0b 删失后重新 census 通过。

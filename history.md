@@ -1667,3 +1667,13 @@ floor-dominated, Davis MMP 7 classes, Metz MMP 480, Klaeger MMP 38. Stage W
 W1 paused, original preregistrations retained. Decision: NO-GO for W1
 biological interpretation until a positive-control panel exists and censored
 labels are excluded/modelled with a re-census.
+
+## Stage W0-P panel (round 21)
+
+Prereg SHA `ba0b51ec…cbf1`. CD-HIT98 over 499 BindingDB sequences yielded 6
+equal-length point-mutant/isoform pairs with 1–5 mismatches and >=3 shared
+ligands (32 rows total): 2059fc/82df (pos596, 7 ligands, all-positive mean
++1.42 pK), 6ae582/bddc (pos177, 5), 6ae582/c75d (pos27, 5), bddc/c75d
+(pos27+177, 5), 18cfc/bebf (pos174, 6), 18620c/c260 (pos34+59, 4). W0-P is
+now runnable; W1 remains NO-GO until the positive-control test and censoring
+re-census pass.
