@@ -417,3 +417,12 @@ W1 训练，也不把冷蛋白 null 解释为生物学缺失。
 kinases）；Metz↔Davis −0.666；Klaeger↔Davis −0.625。按规则仅为跨平台迁移门：
 关闭“直接跨平台共享含 Davis 的 residual”，不否定单平台蛋白条件信号，也不
 作为生物学缺失证据。W0-P blocker 与 W1 NO-GO 不变。
+
+## Core Task 1 终结状态（round 28）：COMPLETE（UNRESOLVED on current local assets）
+
+`report/CORE_TASK1_UNRESOLVED_TERMINAL_20260817.md/json` 是本目标的终结证据：
+按 Core Task 1 定义，当前本地资产下达不到 SOLVED，也因 W0-P 缺失/失败与严重
+删失不能写成 FALSIFIED-AS-TESTED，因此裁决为 **UNRESOLVED**。这不是生物学
+缺失声明。**当前目标状态 = COMPLETE（UNRESOLVED terminal）**。重新开启路径
+已冻结：获取符合 W0P_ACQUISITION_SPEC 的标准正控 panel → 删失处理 re-census
+→ 新预注册周期。在外部资产注入前，不再开展内部实验。

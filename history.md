@@ -1719,3 +1719,12 @@ Censored rows excluded; kinase-cluster bootstrap. Metz vs Klaeger Spearman
 Klaeger vs Davis -0.625 [-0.671,-0.572] (n=1,041). Interpretation: direct
 cross-platform residual sharing with Davis is closed; single-platform
 protein-conditioned signal is not killed. W0-P blocker / W1 NO-GO unchanged.
+
+## Core Task 1 terminal verdict: UNRESOLVED (round 28)
+
+`report/CORE_TASK1_UNRESOLVED_TERMINAL_20260817.md/json`: SOLVED false,
+UNRESOLVED true, FALSIFIED-AS-TESTED false on current local assets. W0-P
+failed and is not locally repairable; Davis/Metz/Klaeger censored 71/60/94%;
+Metz-Klaeger cross-platform residual positive, Davis pairs negative. W1 never
+trained. Goal state marked COMPLETE (UNRESOLVED terminal) in GOAL_ACTIVE.md;
+reopening requires external W0-P panel + censored re-census + new prereg.

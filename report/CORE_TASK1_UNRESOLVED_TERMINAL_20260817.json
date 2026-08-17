@@ -1,0 +1,34 @@
+{
+ "authorized_reopening": [
+  "acquisition of a standard W0-P panel per W0P_ACQUISITION_SPEC.md",
+  "then censored exclusion/interval-censoring re-census",
+  "then a new preregistered W0-P and W1 cycle"
+ ],
+ "date": "2026-08-17",
+ "definitions": {
+  "FALSIFIED_AS_TESTED": false,
+  "SOLVED": false,
+  "UNRESOLVED": true
+ },
+ "reasons": [
+  "W0-P positive control FAILED: local 6-pair point-mutant surrogate did not recover signed changes with position specificity (correct sign 0.240 vs random 0.156 / BLOSUM 0.125; global pooled 0.760 under-powered and unexplained)",
+  "No standard gatekeeper/resistance/ortholog positive-control panel exists locally; acquisition spec frozen in tools/research/stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md",
+  "Single-platform affinity panels are heavily detection-floor censored: Davis 71.2%, Metz 60.4%, Klaeger 93.5%; after censored exclusion broad pair layers survive but strict MMP layers are small",
+  "Cross-platform residual transfer is positive only Metz-Klaeger (+0.642 [0.482,0.777]); pairs involving Davis are negative, closing direct cross-platform residual sharing with Davis"
+ ],
+ "schema": "MetaSieve.CoreTask1.TerminalVerdict.v1",
+ "verdict": "UNRESOLVED_ON_CURRENT_LOCAL_ASSETS",
+ "verification": {
+  "git_commit": "854618b216795a5e000abed75e720d419aa03601",
+  "maintained_suite": "310 passed / 6 skipped",
+  "meta_test_evaluated": 0,
+  "stage_w_tests": "7 passed",
+  "w0b_tests": "7 passed",
+  "w0p_tests": "2 passed",
+  "w1_training_metrics_read": 0
+ },
+ "what_this_is_not": [
+  "not evidence that protein-conditioned local interaction is biologically absent",
+  "not a falsification of any representation family beyond the specific tested operators"
+ ]
+}

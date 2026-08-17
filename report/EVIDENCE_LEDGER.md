@@ -162,3 +162,11 @@ the authority.
 `report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json`: 15 completion artifacts
 exist and SHA-256 hashes recorded; verification counts frozen. Goal status
 COMPLETE (bounded-negative branch) in `tools/research/GOAL_ACTIVE.md`.
+
+## Core Task 1 terminal verdict (2026-08-17)
+
+`report/CORE_TASK1_UNRESOLVED_TERMINAL_20260817.md/json`: UNRESOLVED on
+current local assets. W0-P positive control FAILED and not locally repairable;
+Davis/Metz/Klaeger detection-floor censoring 71.2/60.4/93.5%; Metz-Klaeger
+cross-platform residual +0.642 [0.482,0.777], Davis pairs negative; W1 never
+trained. Reopening path frozen in W0P_ACQUISITION_SPEC.md.

@@ -438,3 +438,9 @@ W0b cross-platform residual (round 26): Metz-Klaeger +0.642 [0.482,0.777];
 Metz-Davis -0.666; Klaeger-Davis -0.625. Interpreted only as cross-platform
 transfer gate: direct residual sharing with Davis is closed; single-platform
 signal is not killed. W0-P blocker and W1 NO-GO unchanged.
+
+Core Task 1 terminal verdict: **UNRESOLVED on current local assets**
+(`report/CORE_TASK1_UNRESOLVED_TERMINAL_20260817.md/json`). Not SOLVED; not
+FALSIFIED-AS-TESTED; not biological absence. Reopening requires the frozen
+W0-P acquisition spec, censored re-census and a new preregistered cycle.
+No further internal experiments before external asset injection.
