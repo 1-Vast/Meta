@@ -69,3 +69,11 @@ def test_csc_antisymmetry_identity_reference():
         return (y_l_p - y_l_q) - ref
     assert csc(1.0,2.0,0.0) == -csc(2.0,1.0,0.0)
     assert csc(1.0,1.0,0.0) == 0.0
+
+def test_representation_capability_identifies_global_pooling_failure():
+    d=json.loads((STAGE/'X0_INSTRUMENTS.json').read_text(encoding='utf-8'))
+    cap=d['representation_capability']
+    assert cap['global_esm']['ratio'] < 0.05
+    assert cap['mutation_token']['pass_capability'] is True
+    assert cap['local_window']['pass_capability'] is True
+    assert cap['esm_local_window']['pass_capability'] is True
