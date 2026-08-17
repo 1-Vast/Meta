@@ -1014,8 +1014,8 @@ verdict.
 # 2026-08-18 (night) — round 17: seal-phrasing correction (maintained test caught the overstatement)
 
 The maintained research-record test (test_research_record.py) failed on the
-round-12 edit to CURRENT_MODEL_EVIDENCE.md: "meta_test never opened"
-overstates a logical-exclusion seal whose labels were parsed in process.
+round-12 edit to CURRENT_MODEL_EVIDENCE.md, which overstated a
+logical-exclusion seal whose labels were parsed in process.
 Corrected in all three authorities (CURRENT_MODEL_EVIDENCE.md,
 FINAL_STATE_20260818.md, BOUNDARY_20260817_NIGHT.md) and in GOAL_ACTIVE.md
 to the supportable claim: no sealed meta_test label entered any fitting,
