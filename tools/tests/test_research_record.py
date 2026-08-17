@@ -64,9 +64,14 @@ def test_both_audit_invocations_reach_the_audit_and_fail_for_the_right_reason():
     import sys as _sys
     for command in (["-m", "scripts.audit_research_record"],
                     ["scripts/audit_research_record.py"]):
+        # Decode explicitly as UTF-8: the audit prints em dashes, and on a
+        # CJK-locale Windows console `text=True` would decode the pipe as
+        # cp936 and drop the captured output entirely, failing this test for a
+        # reason that has nothing to do with the record.
         finished = subprocess.run(
             [_sys.executable, *command], cwd=str(ROOT),
-            capture_output=True, text=True, timeout=900)
+            capture_output=True, text=True, encoding="utf-8",
+            errors="replace", timeout=900)
         assert "OPEN INCIDENT" in finished.stdout, (
             f"{command} did not reach the seal report:\n"
             f"{finished.stderr[-2000:]}")
@@ -105,16 +110,30 @@ def test_no_recorded_artifact_asserts_a_physical_label_seal():
         f"{offenders}")
 
 
-def test_the_split_isolation_specification_is_present_and_unimplemented():
-    """The honest state: specified, not built, not authorized."""
+def test_the_split_isolation_specification_describes_the_implementation():
+    """The honest state: built, and not retroactive.
+
+    Until 2026-08-18 this test asserted the opposite — that the specification
+    was a proposal — and required it to be rewritten once an isolated artifact
+    appeared. It has appeared: `scripts/build_governed_split_views.py` produced
+    the development surface and `QPSMPData(split_view=…)` mounts it. What the
+    test now guards is the half that must never drift: the implementation is
+    the surface a *future* run may mount, and no recorded artifact was produced
+    on it.
+    """
     spec = ROOT / "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md"
     assert spec.exists()
     text = spec.read_text(encoding="utf-8")
-    assert "Not implemented" in text and "Not authorized" in text
-    assert not (ROOT / "dataset/processed/meta_fewshot"
-                / "bindingdb_ki_double_cold_v1_sealed").exists(), (
-        "a sealed artifact exists; the specification must be updated to "
-        "describe the implementation rather than a proposal")
+    assert "IMPLEMENTED" in text, "the specification still reads as a proposal"
+    assert "not retroactive" in text.lower(), (
+        "the specification must state that recorded artifacts were produced "
+        "on the weaker all-label surface")
+    builder = ROOT / "scripts/build_governed_split_views.py"
+    assert builder.is_file(), "the specification claims a builder that is absent"
+    for contract in ("tools/tests/test_governed_split_views.py",
+                     "tools/tests/test_physical_meta_test_seal.py"):
+        assert (ROOT / contract).is_file(), contract
+        assert contract in text, f"{contract} is not cited by the specification"
 
 
 def test_process_unsealed_artifacts_carry_their_correction():
@@ -210,6 +229,18 @@ def test_documents_carry_the_current_cycle_scope(path, expected):
     assert expected in (ROOT / path).read_text(encoding="utf-8")
 
 
+CLOSING_AUTHORITIES = [
+    "report/POST_COMPLETION_REVIEW_20260818.md",
+    "report/BOUNDARY_20260817_NIGHT.md",
+    "report/FINAL_STATE_20260818.md",
+    "report/COMPLETION_STATEMENT_20260818.md",
+    "report/CURRENT_MODEL_EVIDENCE.md",
+    "report/EVIDENCE_LEDGER.md",
+    "task.md",
+    "history.md",
+]
+
+
 @pytest.mark.parametrize("document", [
     "report/BOUNDARY_20260816.md",
     "report/CURRENT_MODEL_EVIDENCE.md",
@@ -241,3 +272,83 @@ def test_authorities_do_not_call_meta_test_unopened_or_physically_sealed(documen
                  "instead of", "rather than")):
             offending.append(f"{document}:{number}: {line.strip()[:100]}")
     assert offending == [], offending
+
+
+# --- the post-completion narrowing, pinned so it cannot drift back --------
+
+@pytest.mark.parametrize("document", CLOSING_AUTHORITIES)
+def test_no_authority_turns_a_measured_failure_into_a_bound(document):
+    """Four overstatements the post-completion review retired.
+
+    Each is a claim the experiments cannot support: a measured probe result
+    stated as a ceiling, an unreached target stated as impossible, a
+    trade-off seen four times stated as a property of every architecture, and
+    a proxy experiment stated as a falsification of the method it stood in
+    for. The measurements behind all four are unchanged and still recorded;
+    only the quantifier was wrong.
+
+    As with the seal guard above, prose *about* the overstatement is allowed:
+    a passage that negates, quotes or corrects the phrase is exempt. The scan
+    is per paragraph rather than per line, because these documents are
+    hard-wrapped and a negation routinely lands on the line above its claim.
+    """
+    banned = (
+        "at most 26%", "at most ~26%", "<=26%", "at most 26 %",
+        "is not achievable", "is not reachable", "remains unreachable",
+        "mathematically impossible",
+        "fundamental to single-stage", "fundamental to all",
+    )
+    exempt = ("not ", "never write", "do not", "n't", "overstate",
+              "instead of", "rather than", "originally read", "corrected",
+              "no longer", "superseded", "was wrong", "retired", "banned",
+              "replace", "must become", "overstatement")
+    text = (ROOT / document).read_text(encoding="utf-8")
+    offending = []
+    for paragraph in text.split("\n\n"):
+        lowered = paragraph.lower()
+        if any(marker in lowered for marker in exempt):
+            continue
+        for phrase in banned:
+            if phrase in lowered:
+                offending.append(
+                    f"{document}: {phrase!r} in: "
+                    f"{' '.join(paragraph.split())[:140]}")
+    assert offending == [], offending
+
+
+@pytest.mark.parametrize("document", [
+    "report/BOUNDARY_20260817_NIGHT.md",
+    "report/FINAL_STATE_20260818.md",
+    "report/COMPLETION_STATEMENT_20260818.md",
+    "task.md",
+])
+def test_closing_authorities_record_the_oracle_level_floor(document):
+    """The decomposition makes MSE <= 1.00 arithmetically possible; say so.
+
+    Omitting it is how "no tested candidate reached 1.00" silently becomes
+    "1.00 cannot be reached". The centered term at k=0 is 0.8648, so an oracle
+    level predictor lands near 0.865 — below the target.
+    """
+    text = (ROOT / document).read_text(encoding="utf-8")
+    assert "0.865" in text, (
+        f"{document} omits the oracle-level k=0 floor (~0.865)")
+    assert "arithmetically possible" in text, (
+        f"{document} does not state that the target is arithmetically "
+        "possible")
+
+
+def test_the_closure_map_separates_proxies_from_direct_implementations():
+    """A named method is only falsified if its defining operator was built."""
+    text = (ROOT / "tools/research/method_ladder/CLOSURE_MAP.md").read_text(
+        encoding="utf-8")
+    assert "proxy negative; direct method not instantiated" in text
+    for method in ("OGM", "Gradient Blending", "Disentangled Gradient "
+                   "Learning", "Set Transformer", "DrugBAN", "FS-CAP"):
+        assert method in text, method
+    # No *table row* may claim measurement closure. The phrase may still
+    # appear in the prose that explains why the earlier version was wrong.
+    rows = [line for line in text.splitlines()
+            if line.startswith("|") and "closed by measurement" in line.lower()]
+    assert rows == [], (
+        "the closure map still claims measurement closure for families whose "
+        f"defining operator was never implemented: {rows}")

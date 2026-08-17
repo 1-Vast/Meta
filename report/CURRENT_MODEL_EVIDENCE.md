@@ -1,7 +1,17 @@
 # Current model evidence
 
-Authority date: 2026-08-16. This file is the compact scientific state; leaf
+Authority date: 2026-08-18. This file is the compact scientific state; leaf
 artifacts live under `report/meta_fewshot/stageR0_*` through `stageR14_*`.
+
+Interpretation note: `POST_COMPLETION_REVIEW_20260818.md` controls where the
+closing documents use broader language than the measured experiments. In
+particular, measured probe coverage is not an information-theoretic upper
+bound, repeated level/ranking conflict is not a universal theorem, and proxy
+experiments do not directly close their named external method families.
+
+Scope: every conclusion in this file is **BindingDB-Ki double-cold
+development evidence**. It does not extend to other DTA datasets, to
+architectures that were not run, or to what is achievable in principle.
 
 ## Protocol
 
@@ -217,10 +227,12 @@ none is promoted. The level/shape anatomy is quantified in
 tools/research/stageD_level_panel/D0_REPORT.md and D0b_DOC_TRANSFER.json:
 within-document assay history transfers 45% of level variance across targets,
 the double-cold split makes that signal unavailable at inference, and the
-legal transferring inputs (panel composition + protein sequence) cover at
-most ~26%. k=0 MSE <= 1.00 remains unreachable with every representation and
-framework family tested to date; k=5 sits at the 1.00 boundary in
-development. See report/BOUNDARY_20260817_NIGHT.md.
+tested governed probes (panel composition + protein sequence) explain up to
+25.9%. No tested candidate reached k=0 MSE <= 1.00 with any representation or
+framework family run to date; k=5 sits at the 1.00 boundary in development.
+The target remains arithmetically possible: the measured centered term is
+0.8648, so an oracle level predictor would put k=0 near 0.865. See
+report/BOUNDARY_20260817_NIGHT.md.
 
 ## 2026-08-18 update: cycle completed (I through Q) - final state
 
@@ -244,10 +256,14 @@ development. See report/BOUNDARY_20260817_NIGHT.md.
 - Stage Q (decoupled frozen-feature level head): REJECTED; Q0 joint frozen
   probe 1.3416 (best frozen predictor on record) but the trained composition
   degrades k=0/2/3 ranking with resolved intervals - the level/ordering
-  conflict on one shared trunk is fundamental (four compositions failed).
-- Final boundary audit (stageN_audit): every load-bearing number re-derives
-  bitwise from the raw rows; 104 seal artifacts, 0 evaluations; 7/7 stages
-  preregistered. External validation: Nelen et al., J Cheminform 17:8, 2025.
+  conflict on one shared trunk was reproduced across four tested compositions
+  (E, J, L, Q). That is evidence about those compositions, not a theorem
+  about single-stage training in general.
+- Final boundary audit (stageN_audit, regenerated 2026-08-18): every
+  load-bearing number re-derives bitwise from the raw rows; 106 seal
+  artifacts, 0 evaluations; 11 retained trained stages discovered from the
+  filesystem, all preregistered (one mtime ordering exception disclosed in
+  AUDIT_REPORT.md). External validation: Nelen et al., J Cheminform 17:8, 2025.
 
 No candidate passed all promotion gates; no sealed meta_test label entered
 any fitting, selection or reported metric (0 evaluations in the audited

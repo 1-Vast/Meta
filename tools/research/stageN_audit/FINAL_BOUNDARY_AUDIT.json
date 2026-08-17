@@ -1,10 +1,16 @@
 {
+ "completion_inventory_consistency": {
+  "agree": true,
+  "audit_stages": 11,
+  "inventory_stages": 11
+ },
  "doc_transfer": {
   "mse": 1.0103464067733894,
   "r2": 0.4514794196838211,
   "targets_sharing_document": 210,
   "variance": 1.8419480381046127
  },
+ "generated": "2026-08-17",
  "k2_matches_stored_authority": {
   "0": true,
   "1": true,
@@ -44,62 +50,316 @@
    "mean": -0.01222066733046258
   }
  },
- "preregistration_order": [
-  {
-   "preregistered": true,
-   "result_files": 4,
-   "stage": "stageD_level_panel"
-  },
-  {
-   "preregistered": true,
-   "result_files": 2,
-   "stage": "stageF_pairwise"
-  },
-  {
-   "preregistered": true,
-   "result_files": 7,
-   "stage": "stageG_esm650"
-  },
-  {
-   "preregistered": true,
-   "result_files": 2,
-   "stage": "stageI_lm"
-  },
-  {
-   "preregistered": true,
-   "result_files": 3,
-   "stage": "stageJ_assay"
-  },
-  {
-   "preregistered": true,
-   "result_files": 4,
-   "stage": "stageK_contrastive"
-  },
-  {
-   "preregistered": true,
-   "result_files": 1,
-   "stage": "stageL_gated"
-  }
- ],
+ "schema": "MetaSieve.FinalBoundaryAudit.v2",
  "seals": {
-  "artifacts": 104,
+  "artifacts": 106,
+  "evaluated": 0,
+  "logical": {
+   "artifacts_claiming_physical_isolation": 0,
+   "holds_for_recorded_artifacts": true,
+   "level": "logical_exclusion_after_parsing",
+   "note": "every recorded artifact was produced against the all-label bindingdb_ki_double_cold_v1 corpus, so its sealed labels were decompressed and parsed on every construction and then discarded"
+  },
   "opened": {
    "report\\meta_fewshot\\stageR14_diagnostics_20260816\\RESULT.json": {
     "evaluated": false,
     "included": true,
+    "isolation_level": null,
+    "physically_isolated": null,
     "withheld": null
    },
    "report\\meta_fewshot\\stageR14_screening_20260816\\RESULT.json": {
     "evaluated": false,
     "included": true,
+    "isolation_level": null,
+    "physically_isolated": null,
     "withheld": null
    }
+  },
+  "physical": {
+   "builder": "scripts/build_governed_split_views.py",
+   "loader": "QPSMPData(split_view=...)",
+   "meta_test_label_artifact_emitted_in_development_surface": false,
+   "note": "the isolated surface exists and is mountable; no recorded artifact was produced on it and none may be relabelled to claim it",
+   "recorded_artifacts_produced_on_it": 0,
+   "surface": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views",
+   "surface_built": true
   }
  },
+ "stage_counts": {
+  "discovered_directories": 17,
+  "discovery_rule": "a directory under tools/research/ is a retained trained stage when it carries PREREGISTRATION*.md and at least one evaluation row artifact (*.rows.jsonl)",
+  "preregistered_not_run": [
+   "stageR_daviskiba"
+  ],
+  "supersedes": "the 2026-08-18 audit hard-coded 7 stages and the completion inventory hard-coded 8; both lists omitted trained stages that record rows without a *.rows.summary.json sidecar",
+  "trained_and_preregistered": 11,
+  "trained_stages_retained": 11
+ },
+ "stages": [
+  {
+   "json_artifacts": 4,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 1,
+   "row_artifacts": 1,
+   "stage": "stageA_innerloop",
+   "summary_artifacts": 0,
+   "trained": true
+  },
+  {
+   "json_artifacts": 4,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 1,
+   "row_artifacts": 3,
+   "stage": "stageB_complementary",
+   "summary_artifacts": 0,
+   "trained": true
+  },
+  {
+   "json_artifacts": 3,
+   "preregistered": false,
+   "preregistration_files": [],
+   "preregistration_precedes_results": null,
+   "reports": [],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageC_level_shape",
+   "summary_artifacts": 0,
+   "trained": false
+  },
+  {
+   "json_artifacts": 11,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 4,
+   "stage": "stageD_level_panel",
+   "summary_artifacts": 4,
+   "trained": true
+  },
+  {
+   "json_artifacts": 5,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 2,
+   "stage": "stageF_pairwise",
+   "summary_artifacts": 2,
+   "trained": true
+  },
+  {
+   "json_artifacts": 9,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md",
+    "PREREGISTRATION_G2.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md",
+    "REPORT_G2.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 7,
+   "stage": "stageG_esm650",
+   "summary_artifacts": 7,
+   "trained": true
+  },
+  {
+   "json_artifacts": 3,
+   "preregistered": false,
+   "preregistration_files": [],
+   "preregistration_precedes_results": null,
+   "reports": [],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageH_pocket",
+   "summary_artifacts": 0,
+   "trained": false
+  },
+  {
+   "json_artifacts": 5,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": false,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 2,
+   "stage": "stageI_lm",
+   "summary_artifacts": 2,
+   "trained": true
+  },
+  {
+   "json_artifacts": 5,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 3,
+   "stage": "stageJ_assay",
+   "summary_artifacts": 3,
+   "trained": true
+  },
+  {
+   "json_artifacts": 6,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md",
+    "PREREGISTRATION_K2.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 4,
+   "stage": "stageK_contrastive",
+   "summary_artifacts": 4,
+   "trained": true
+  },
+  {
+   "json_artifacts": 2,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 1,
+   "stage": "stageL_gated",
+   "summary_artifacts": 1,
+   "trained": true
+  },
+  {
+   "json_artifacts": 1,
+   "preregistered": false,
+   "preregistration_files": [],
+   "preregistration_precedes_results": null,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageM_chemberta",
+   "summary_artifacts": 0,
+   "trained": false
+  },
+  {
+   "json_artifacts": 2,
+   "preregistered": false,
+   "preregistration_files": [],
+   "preregistration_precedes_results": null,
+   "reports": [],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageN_audit",
+   "summary_artifacts": 0,
+   "trained": false
+  },
+  {
+   "json_artifacts": 1,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 1,
+   "row_artifacts": 1,
+   "stage": "stageP_cpc",
+   "summary_artifacts": 0,
+   "trained": true
+  },
+  {
+   "json_artifacts": 1,
+   "preregistered": false,
+   "preregistration_files": [],
+   "preregistration_precedes_results": null,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageP_go",
+   "summary_artifacts": 0,
+   "trained": false
+  },
+  {
+   "json_artifacts": 4,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "result_artifacts": 0,
+   "row_artifacts": 2,
+   "stage": "stageQ_frozenhead",
+   "summary_artifacts": 2,
+   "trained": true
+  },
+  {
+   "json_artifacts": 0,
+   "preregistered": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": null,
+   "reports": [],
+   "result_artifacts": 0,
+   "row_artifacts": 0,
+   "stage": "stageR_daviskiba",
+   "summary_artifacts": 0,
+   "trained": false
+  }
+ ],
  "t2_k0": {
   "centered_mse": 0.864780396829945,
   "level_share": 0.6668984343813907,
   "level_squared": 1.7313656815576484,
-  "mse": 2.5961459681092944
+  "mse": 2.5961459681092944,
+  "oracle_level_k0_mse": 0.864780396829945
  }
 }

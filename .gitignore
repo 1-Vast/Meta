@@ -46,6 +46,11 @@ dataset/**
 !dataset/**/DO_NOT_USE_FOR_STRICT_EVALUATION.txt
 !dataset/**/*manifest*.json
 
+# Bytecode caches are never evidence. The `!tools/**` re-includes above would
+# otherwise re-admit them (a later pattern wins), so exclude them again here.
+tools/**/__pycache__/
+tools/**/*.py[cod]
+
 # Generic local residue
 *.log
 *.tmp

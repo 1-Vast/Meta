@@ -1,18 +1,56 @@
 # MetaSieve research history
 
-This is the compact authoritative chronology after the 2026-08-16 cleanup.
-The pre-consolidation full log remains recoverable from Git commit `361c342`
-and earlier history. Deleted legacy implementations are indexed in
+This is the chronological evidence record after the 2026-08-16 cleanup. Read
+the executive state below before the chronology: older sections preserve the
+rule and interpretation that governed each experiment and may be superseded.
+The compact current contract is `task.md`. The pre-consolidation log remains
+recoverable from Git commit `361c342`; deleted implementations are indexed in
 `archive/README.md`.
+
+## Executive state for the next agent (2026-08-18)
+
+- The BindingDB-Ki cycle ended as a **scope-bounded negative result**, not a
+  universal impossibility theorem. No tested candidate met the full excellence
+  gates. The retained model is a baseline and falsification platform.
+- The leak-free T2 MSE at k=0/1/2/3/5 is
+  2.5961/1.7712/1.3245/1.2197/0.9859. k=0 decomposes exactly into level^2
+  1.7314 plus centered 0.8648. An oracle level would put k=0 near 0.865, so
+  MSE <= 1.00 is arithmetically possible but was not reached with tested inputs.
+- The strongest k>=2 query-specific comparator is fixed Morgan/Tanimoto
+  residual weighting. It is ligand-only. `occupancy` has a small resolved
+  within-target signal (r about +0.218), but the endpoint underuses it.
+- The principal measured obstacles are missing assay/document-level
+  calibration information, weak protein-conditioned interaction shape,
+  representation collapse before the readout, and repeated level/ranking
+  gradient conflict. Output adapters usually became level shifts or were inert.
+- The old trainer's meta-val checkpoint selection created about 0.62 pK^2 of
+  optimistic k=0 development performance. New experiments must select only on
+  a meta-train internal component split. Meta-test has zero recorded
+  evaluations but was logically excluded after parsing, not physically sealed.
+- Inner/outer loops are now permitted. Ridge, pseudoinverse and other
+  closed-form adaptation remain prohibited. The partial inner loop was weak and
+  unresolved; its AdaMBind-inspired task selector was rejected because it
+  selected redundant high-gradient-agreement tasks.
+- Direct implementations were not run for every named method in the method
+  ladder. Proxy negatives must not be described as universal falsifications of
+  OGM, Set Transformer, DrugBAN, FS-CAP or related methods.
+- The highest-potential untested family is a new sequence/2D interaction basis,
+  not another endpoint adapter: PSICHIC/DrugBAN-inspired functional-group to
+  protein-region interaction tokens, coupled to a training innovation that
+  separates absolute level from signed within-target relative/cliff learning.
+  `task.md` defines the identifiability gates and four-arm attribution design.
+- Interpretation authority is `report/POST_COMPLETION_REVIEW_20260818.md`;
+  numerical boundary is `report/BOUNDARY_20260817_NIGHT.md`; leaf evidence is
+  indexed by `report/EVIDENCE_LEDGER.md`.
 
 ## Governing task
 
 Predict BindingDB Ki for unseen protein targets at k=0/1/2/3/5 support sizes.
 Episodes contain one recipient target; support and query ligands are disjoint.
-The active development protocol is protein-component-hard CD-HIT40 with a
-sealed double-cold meta_test (logical exclusion after parsing). No query labels, closed-form adaptation,
-inner-loop optimization, test-time gradients, or fabricated protein-ligand 3D
-coordinates are allowed.
+The development protocol is protein-component-hard CD-HIT40 with a double-cold
+meta-test population. Query-label adaptation, closed-form solvers and fabricated
+protein-ligand 3D coordinates are prohibited. As of 2026-08-17, support-driven
+inner/outer-loop adaptation is permitted; later sections document the change.
 
 ## Legacy cycle, through 2026-08-14
 
@@ -929,9 +967,13 @@ degradation at k=0/2/3 (Spearman -0.059/-0.050/-0.050). The decoupling
 hypothesis is falsified: even a head with zero trunk-coupled features, gated
 to k=0 only, reshapes the shared trunk through the k=0 training signal
 itself. Four compositions (E, J, L, Q) have now failed this gate; the
-level/ranking conflict on one shared trunk is fundamental to single-stage
-end-to-end training, and the only escape (a separately trained inference
-calibrator) is excluded as a multi-stage regime. Q-UNGATED confirms the
+level/ranking conflict on one shared trunk was reproduced across four tested
+compositions. *(Interpretation corrected 2026-08-18 post-completion: this
+entry originally read "is fundamental to single-stage end-to-end training",
+which asserts a property of every such architecture from four tested
+compositions. The measurements are unchanged.)* The one escape identified
+(a separately trained inference calibrator) is excluded as a multi-stage
+regime and was therefore not measured either. Q-UNGATED confirms the
 gate is necessary but insufficient (k=1 MSE 2.3095 while k=5 Spearman
 0.3445/CI 0.635 are record-best). The bounded conclusion stands.
 
@@ -1032,3 +1074,89 @@ condition is met, the evidence chain with artifact paths, the exact scope
 of the conclusion, and the marking status (goal tools were not registered
 in the originating session). Full maintained suite re-verified green:
 268 passed / 6 skipped.
+
+---
+
+# 2026-08-18 — independent post-completion review
+
+`report/POST_COMPLETION_REVIEW_20260818.md` is now the interpretation
+authority for the closed BindingDB cycle. The review accepts the numerical
+boundary and the second goal terminal condition as scope-bounded development
+evidence, while correcting four overextensions: the measured +0.259 level R2
+is not an information-theoretic ceiling; MSE <= 1.00 was not proved
+mathematically impossible; the level/ranking trade-off was reproduced in four
+tested compositions but is not universal; and several method-ladder entries
+are proxy negatives rather than direct implementations. It also records three
+required repository repairs: physical meta-test isolation, a final audit that
+reconciles seven versus eight trained stages, and committing the outstanding
+`GOAL_ACTIVE.md` completion update. `report/README.md` now points to the
+post-completion hierarchy; old A2 handoffs remain historical evidence only.
+
+---
+
+# 2026-08-17/18 — post-completion governance repair (no training, no meta_test)
+
+Executed against report/POST_COMPLETION_REVIEW_20260818.md. No stored
+numerical result, prediction row, hash or checkpoint was altered; no model
+was trained; meta_test was not evaluated.
+
+**Wording narrowed to the measurements.** "At most 26% of level variance is
+predictable" -> "the tested governed probes explain up to 25.9%". "MSE <= 1.00
+is not achievable" -> "no tested candidate reached it under the stated
+protocol and legal-input families", with the arithmetic stated: k=0 MSE =
+level^2 + centered, the measured centered term is 0.8648, so an oracle level
+predictor lands near 0.865 and the target is arithmetically possible — what no
+tested model did was move both terms together. "Fundamental to single-stage
+training" -> "reproduced across four tested compositions (E, J, L, Q)". Two
+new maintained tests pin all of this so it cannot drift back.
+
+**Method-ladder closure repaired.** CLOSURE_MAP.md now records what was
+actually built per family: 0 direct, 3 partial, 5 proxy. OGM, Gradient
+Blending, Disentangled Gradient Learning, Set Transformer / attention MIL,
+DrugBAN and FS-CAP were never instantiated and are not falsified; their rows
+read "proxy negative; direct method not instantiated". Stage E's panel head is
+fixed mean/max pooling plus an MLP, and Stage F's kernel is a ligand-ligand
+edge MLP, neither of which is the named operator it stood in for.
+
+**Physical meta_test seal implemented.** QPSMPData gains `split_view`, mounting
+the governed split view instead of the all-label corpus: cells.jsonl.gz stays
+off the read path and the meta_test label artifact is out of tree. Row order is
+restored from the identity-only governance.jsonl, so the mounted cells, task
+indices and component maps are element-for-element identical to the corpus
+construction (verified) — the migration changes no recorded number. Evidence:
+a file-access spy over builtins/io/gzip/os `open`, with a negative control
+proving the spy fires on the default surface; fail-closed tests for missing,
+blank, non-textual and placeholder authorization, in-tree sealed paths, absent
+and malformed manifests, tampered governance and mismatched corpus/assignment
+bindings. 29 tests, tools/tests/test_physical_meta_test_seal.py.
+
+**meta_val checkpoint-selection reuse eliminated.** Stage B's fit/internal-
+validation component partition is promoted to scripts/internal_validation.py
+and is now the maintained trainer's default (`--selection internal`); the
+legacy rule survives only as the disclosed diagnostic. Every figure recorded
+before this change carries the ~0.62 pK^2 optimism at k=0 that Stage B
+measured, and is not directly comparable with anything trained after it.
+
+**Audit regenerated, stage count reconciled.** The seven-versus-eight
+discrepancy was two stale hard-coded lists that both selected on
+*.rows.summary.json, which Stages A, B and P_cpc never emit. Both audits now
+call one filesystem discovery rule: **11 retained trained stages**, all
+preregistered, plus stageR_daviskiba preregistered and not run.
+FINAL_BOUNDARY_AUDIT.json, AUDIT_REPORT.md and COMPLETION_INVENTORY.json are
+generated from the artifacts. Disclosed finding: stageI_lm's frozen-control
+rows (06:45) predate its PREREGISTRATION.md (07:30) on disk while the
+candidate arm's rows (07:50) follow it; the mtime check is weak and is
+reported as evidence to inspect, not as a verdict.
+
+**Verification.** Maintained suite `python main.py verify tests` 310 passed /
+6 skipped, exit 0 (2026-08-17T04:24Z). Complete research suite
+`RUN_SLOW=1 pytest tools/research -q` 255 passed / 2 skipped, exit 0
+(04:26Z). Environment: conda env `drug`, Python 3.11.15, torch 2.6.0+cu124,
+CUDA available. The historical counts are reconciled and both retained: 147
+was RUN_SLOW over stageA+stageB only; 151 was that pair plus
+test_research_record.py without RUN_SLOW; 135 was the pair alone. All three
+were subsets, never the complete suite.
+
+**Repository hygiene.** 98 Python bytecode caches were tracked because
+`!tools/**` re-admitted them; they are re-excluded and removed from the index,
+with the files left on disk. No historical evidence was deleted.

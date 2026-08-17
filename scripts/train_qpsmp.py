@@ -24,6 +24,10 @@ if __package__ in {None, ""}:
 from model.interaction_grammar import InteractionGrammarModel
 from model.qpsmp_meta import QPSMPBioModel
 from model.similarity_grammar import SimilarityGrammarModel
+from scripts.internal_validation import (
+    draw_fit_episode, internal_validation_specs, partition_components,
+    selection_record,
+)
 from scripts.qpsmp_data import EpisodeBatch, EpisodeSpec, QPSMPData
 
 
@@ -98,6 +102,13 @@ class TrainConfig:
     # report/meta_fewshot/stageR14_diagnostics_20260816/.
     ranking_loss_form: str = "ranknet"
     representation_warmup_fraction: float = 0.0
+    # Checkpoint-selection rule. "internal" (the default since 2026-08-18)
+    # trains on the fit components of meta_train and selects on the withheld
+    # internal-validation components, so meta_val is never read during
+    # training. "meta_val" is the legacy rule, retained only as the disclosed
+    # leakage diagnostic Stage B used to measure it (~0.62 pK^2 optimism at
+    # k=0); an artifact produced under it says so in its selection record.
+    selection: str = "internal"
     admission_binding_margin_pk: float = 0.01
     zero_support_only: bool = False
     pretrained_checkpoint: str | None = None
@@ -725,8 +736,14 @@ def train(data: QPSMPData, config: TrainConfig,
     val_targets_per_component = (config.eval_targets_per_component
                                  if config.val_targets_per_component is None
                                  else config.val_targets_per_component)
+    if config.selection not in ("internal", "meta_val"):
+        raise ValueError(f"unknown selection rule: {config.selection}")
+    fit_components, internal_components = partition_components(data)
+    selection = selection_record(fit_components, internal_components,
+                                 config.selection)
     cache_contract = {
         "schema": "MetaSieve.QPSMPValidationCache.v2",
+        "selection": config.selection,
         "seed": config.evaluation_seed,
         "support_sizes": list(train_support_sizes),
         "query_size": config.query_size,
@@ -741,10 +758,18 @@ def train(data: QPSMPData, config: TrainConfig,
             raise ValueError("episode cache contract does not match training configuration")
         val_banks = cached["val"]
     else:
-        val_specs = data.fixed_nested_episode_banks(
-            "meta_val", tuple(train_support_sizes), config.query_size,
-            config.val_draws_per_target, config.evaluation_seed,
-            val_targets_per_component)
+        # The selection bank. Under the leak-free default it is drawn from the
+        # withheld meta_train components, so no meta_val label is read while a
+        # checkpoint is being chosen.
+        val_specs = (
+            internal_validation_specs(
+                data, internal_components, config.query_size,
+                config.val_draws_per_target, tuple(train_support_sizes))
+            if config.selection == "internal" else
+            data.fixed_nested_episode_banks(
+                "meta_val", tuple(train_support_sizes), config.query_size,
+                config.val_draws_per_target, config.evaluation_seed,
+                val_targets_per_component))
         val_banks = {
             k: tuple(compact_episode(normalized_episode(data.materialize(spec), label_scale))
                      for spec in specs)
@@ -771,8 +796,11 @@ def train(data: QPSMPData, config: TrainConfig,
         for _ in range(config.episodes_per_step):
             requested_query = int(rng.integers(
                 config.min_query_size, config.query_size + 1))
-            spec = data.draw_episode(
-                "meta_train", support_size, requested_query, rng)
+            spec = (draw_fit_episode(data, fit_components, support_size,
+                                     requested_query, rng)
+                    if config.selection == "internal" else
+                    data.draw_episode("meta_train", support_size,
+                                      requested_query, rng))
             selected.append(compact_episode(
                 normalized_episode(data.materialize(spec), label_scale)))
         for item in selected:
@@ -902,6 +930,7 @@ def train(data: QPSMPData, config: TrainConfig,
         raise RuntimeError("training produced no validation checkpoint")
     model.load_state_dict(best_state)
     return model, {"best_val_admission_score": best_value,
+                   "checkpoint_selection": selection,
                    "best_step": best_step, "loss_trace": trace,
                    "loss_trace_units": "standardized_squared_error",
                    "label_scale": asdict(label_scale),
@@ -975,6 +1004,14 @@ def main() -> None:
                         default=TrainConfig.binding_temperature)
     parser.add_argument("--protein-contrast-loss-weight", type=float,
                         default=TrainConfig.protein_contrast_loss_weight)
+    parser.add_argument("--selection", default=TrainConfig.selection,
+                        choices=("internal", "meta_val"),
+                        help="checkpoint-selection rule. 'internal' (default) "
+                             "trains on the fit components of meta_train and "
+                             "selects on the withheld internal-validation "
+                             "components, so meta_val is never read during "
+                             "training. 'meta_val' is the legacy rule, kept "
+                             "only as the disclosed leakage diagnostic")
     parser.add_argument("--protein-contrast-form",
                         default=TrainConfig.protein_contrast_form,
                         choices=("uncentered", "centered"),
@@ -999,6 +1036,17 @@ def main() -> None:
                         help="enable optional common-frame Cartesian inputs; the active BindingDB banks provide none")
     parser.add_argument("--episode-cache", type=Path)
     parser.add_argument("--split-directory", type=Path, default=None)
+    parser.add_argument("--split-view", type=Path, default=None,
+                        help="governed split-view directory built by "
+                             "scripts/build_governed_split_views.py. Mounting "
+                             "it loads separately hashed meta_train/meta_val "
+                             "label artifacts and never opens the all-label "
+                             "cells.jsonl.gz, so no meta_test label is "
+                             "decompressed or parsed by this process")
+    parser.add_argument("--sealed-meta-test-directory", type=Path, default=None,
+                        help="out-of-tree directory holding the meta_test "
+                             "label artifact; only meaningful with "
+                             "--split-view and --include-meta-test")
     parser.add_argument("--include-meta-test", action="store_true",
                         help="physically unseal the meta_test cells in QPSMPData "
                              "(contract 2026-08-16: off by default)")
@@ -1048,6 +1096,7 @@ def main() -> None:
         binding_temperature=args.binding_temperature,
         protein_contrast_loss_weight=args.protein_contrast_loss_weight,
         protein_contrast_form=args.protein_contrast_form,
+        selection=args.selection,
         representation_warmup_fraction=args.representation_warmup_fraction,
         zero_support_only=args.zero_support_only,
         pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
@@ -1073,10 +1122,18 @@ def main() -> None:
     if args.include_meta_test and not (args.meta_test_authorization or "").strip():
         parser.error("--include-meta-test requires a written "
                      "--meta-test-authorization (contract 2026-08-16)")
+    if args.sealed_meta_test_directory is not None and args.split_view is None:
+        parser.error("--sealed-meta-test-directory requires --split-view")
+    if (args.split_view is not None and args.include_meta_test
+            and args.sealed_meta_test_directory is None):
+        parser.error("opening meta_test on the isolated surface requires an "
+                     "explicit out-of-tree --sealed-meta-test-directory")
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
                      split_directory=args.split_directory,
                      include_meta_test=args.include_meta_test,
-                     meta_test_authorization=args.meta_test_authorization)
+                     meta_test_authorization=args.meta_test_authorization,
+                     split_view=args.split_view,
+                     sealed_meta_test_directory=args.sealed_meta_test_directory)
     model, training, label_scale = train(
         data, config, progress_path=args.output / "progress.jsonl")
     checkpoint = args.output / "checkpoint.pt"

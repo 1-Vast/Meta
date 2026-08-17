@@ -61,6 +61,16 @@ if __package__ in {None, ""}:
 SCHEMA = "MetaSieve.GovernedSplitSeal.v1"
 DEVELOPMENT_SPLITS = ("meta_train", "meta_val")
 SEALED_SPLIT = "meta_test"
+ALL_SPLITS = (*DEVELOPMENT_SPLITS, SEALED_SPLIT)
+
+# A written reason, not a token. The 2026-08-16 incident was a seal opened by a
+# bare flag, so "authorized" has to cost a sentence a reviewer can read back.
+AUTHORIZATION_MIN_CHARS = 16
+
+REQUIRED_MANIFEST_FIELDS = (
+    "artifacts", "cell_id_index_sha256", "counts", "governance_jsonl_sha256",
+    "source_manifest_sha256", "split_assignment_sha256",
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -69,6 +79,45 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: handle.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def check_authorization(authorization: object) -> str:
+    """Fail closed on a missing or malformed meta_test authorization.
+
+    Three distinct rejections, because they are three distinct mistakes:
+    a caller that forgot the argument, a caller that passed something that is
+    not written text, and a caller that passed a placeholder.
+    """
+    if authorization is None:
+        raise ValueError(
+            "mounting meta_test requires a written authorization; none given")
+    if not isinstance(authorization, str):
+        raise ValueError(
+            "malformed meta_test authorization: expected written text, got "
+            f"{type(authorization).__name__}")
+    text = authorization.strip()
+    if not text:
+        raise ValueError(
+            "mounting meta_test requires a written authorization; the value "
+            "given is blank")
+    if len(text) < AUTHORIZATION_MIN_CHARS:
+        raise ValueError(
+            "malformed meta_test authorization: a written reason of at least "
+            f"{AUTHORIZATION_MIN_CHARS} characters is required, got "
+            f"{len(text)}")
+    return text
+
+
+def read_governance(directory: Path) -> list[dict]:
+    """Identity-only ordering record: cell_id -> split/target/component, no pK."""
+    rows = [json.loads(line) for line
+            in (Path(directory) / "governance.jsonl").read_text(
+                encoding="utf-8").splitlines() if line.strip()]
+    for row in rows:
+        if set(row) != {"cell_id", "split", "target_id", "protein_group_40"}:
+            raise ValueError("governance.jsonl carries unexpected fields; "
+                             "it must contain no labels")
+    return rows
 
 
 def write_cells(path: Path, rows: list[dict]) -> None:
@@ -93,27 +142,31 @@ class GovernedSplitView:
                  authorization: str | None = None,
                  sealed_directory: Path | None = None):
         self.directory = Path(directory).resolve()
-        self.manifest = json.loads(
-            (self.directory / "manifest.json").read_text(encoding="utf-8"))
-        if self.manifest.get("schema") != SCHEMA:
-            raise ValueError("unsupported governed-split-view schema")
+        self.manifest = self._read_manifest(self.directory)
         visible = tuple(visible)
         if not visible:
             raise ValueError("a view must make at least one split visible")
+        unknown = [split for split in visible if split not in ALL_SPLITS]
+        if unknown:
+            raise ValueError(f"unknown split(s) requested: {unknown}")
         if SEALED_SPLIT in visible:
-            if not (authorization or "").strip():
-                raise ValueError(
-                    "mounting meta_test requires a written authorization")
+            authorization = check_authorization(authorization)
             if sealed_directory is None:
                 raise ValueError(
                     "mounting meta_test requires an explicit out-of-tree "
                     "sealed_directory; it is not part of the development "
                     "surface")
+            sealed_directory = Path(sealed_directory).resolve()
+            if (sealed_directory == self.directory
+                    or self.directory in sealed_directory.parents):
+                raise ValueError(
+                    "the sealed_directory must be outside the development "
+                    "surface; a path inside it is not an out-of-tree artifact")
             if set(visible) & set(DEVELOPMENT_SPLITS):
                 raise ValueError(
                     "refusing to mount meta_test alongside a development "
                     "split in one process")
-        elif authorization:
+        elif authorization is not None:
             raise ValueError(
                 "authorization supplied without requesting meta_test; "
                 "refusing an ambiguous mount")
@@ -125,10 +178,26 @@ class GovernedSplitView:
 
         self.visible = visible
         self.authorization = authorization
+        self.sealed_directory = sealed_directory
+
+        # Identity-only ordering record. Reading it restores the row order the
+        # all-label loader produces, so mounting the view renumbers nothing and
+        # every recorded episode index stays valid. It carries no label.
+        governance = read_governance(self.directory)
+        recorded_governance = self.manifest["governance_jsonl_sha256"]
+        actual_governance = sha256_file(self.directory / "governance.jsonl")
+        if recorded_governance != actual_governance:
+            raise ValueError(
+                f"governance.jsonl hash mismatch: {actual_governance} != "
+                f"{recorded_governance}")
+        corpus_order = {row["cell_id"]: index
+                        for index, row in enumerate(governance)}
+        governed_split = {row["cell_id"]: row["split"] for row in governance}
+
         self.cells: list[dict] = []
         for split in visible:
-            root = (Path(sealed_directory).resolve()
-                    if split == SEALED_SPLIT else self.directory)
+            root = (sealed_directory if split == SEALED_SPLIT
+                    else self.directory)
             path = root / split / "cells.jsonl.gz"
             recorded = self.manifest["artifacts"].get(f"{split}/cells.jsonl.gz")
             actual = sha256_file(path)
@@ -139,7 +208,70 @@ class GovernedSplitView:
                 rows = [json.loads(line) for line in handle if line.strip()]
             if any(row["split"] != split for row in rows):
                 raise ValueError(f"{split} artifact contains another split")
+            if any(governed_split.get(row["cell_id"]) != split for row in rows):
+                raise ValueError(
+                    f"{split} artifact disagrees with governance.jsonl on "
+                    f"cell membership")
+            self._check_bindings(split, rows)
             self.cells.extend(rows)
+        self.cells.sort(key=lambda row: corpus_order[row["cell_id"]])
+
+    @staticmethod
+    def _read_manifest(directory: Path) -> dict:
+        """Fail closed on an absent, unparseable or incomplete manifest."""
+        path = directory / "manifest.json"
+        try:
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+        except FileNotFoundError as error:
+            raise ValueError(
+                f"no governed-split-view manifest at {path}") from error
+        except json.JSONDecodeError as error:
+            raise ValueError(
+                f"malformed governed-split-view manifest at {path}: "
+                f"{error}") from error
+        if not isinstance(manifest, dict):
+            raise ValueError("malformed governed-split-view manifest: "
+                             "expected an object")
+        if manifest.get("schema") != SCHEMA:
+            raise ValueError("unsupported governed-split-view schema")
+        missing = [field for field in REQUIRED_MANIFEST_FIELDS
+                   if field not in manifest]
+        if missing:
+            raise ValueError(
+                f"governed-split-view manifest is missing binding(s): {missing}")
+        return manifest
+
+    def _check_bindings(self, split: str, rows: list[dict]) -> None:
+        """Count- and index-equivalence against the recorded governed source."""
+        joined = "\n".join(sorted(row["cell_id"] for row in rows))
+        recorded_index = self.manifest["cell_id_index_sha256"].get(split)
+        actual_index = hashlib.sha256(joined.encode("utf-8")).hexdigest()
+        if recorded_index != actual_index:
+            raise ValueError(
+                f"{split} cell_id index mismatch: {actual_index} != "
+                f"{recorded_index}")
+        recorded_counts = self.manifest["counts"].get(split, {})
+        actual_counts = {
+            "rows": len(rows),
+            "targets": len({row["target_id"] for row in rows}),
+            "components": len({row["protein_group_40"] for row in rows}),
+        }
+        if any(recorded_counts.get(key) != value
+               for key, value in actual_counts.items()):
+            raise ValueError(
+                f"{split} count mismatch: {actual_counts} != {recorded_counts}")
+
+    @property
+    def sealed_cell_count(self) -> int:
+        """Rows withheld from this mount, read from the manifest count only.
+
+        This is the row count the builder recorded; no sealed label is opened
+        to produce it, and it is the only meta_test quantity the development
+        surface carries.
+        """
+        if SEALED_SPLIT in self.visible:
+            return 0
+        return int(self.manifest["counts"][SEALED_SPLIT]["rows"])
 
     def isolation_record(self) -> dict:
         return {
@@ -168,8 +300,10 @@ def main() -> int:
                         help="written reason, recorded in the sealing record")
     arguments = parser.parse_args()
 
-    if not arguments.authorization.strip():
-        parser.error("--authorization must be a written reason")
+    try:
+        check_authorization(arguments.authorization)
+    except ValueError as error:
+        parser.error(str(error))
     output = arguments.output.resolve()
     sealed = arguments.sealed_output.resolve()
     if sealed == output or output in sealed.parents:

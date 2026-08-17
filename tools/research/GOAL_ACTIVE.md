@@ -156,3 +156,68 @@ Git 共 5 个提交（361c342 → 59fae9e）可恢复。
 
 研究状态不变：终结条件一达成、四轴否证、审计与清单、独立文献验证、封存表述合规。
 目标记录保持 active，仅在新数据或新授权出现时继续。
+## 完成声明（2026-08-18 夜，round 19 末）
+
+report/COMPLETION_STATEMENT_20260818.md 已写入并提交（910983c）：
+它是将目标标记为 complete 的证据权威——指明达成的是终结条件二（经多类框架否证的
+适用边界明确结论）、完整证据链（边界/台账/审计/清单/文献/治理/测试）、结论的精确
+适用范围与可推翻条件，以及标记状态说明（原会话未注册 goal 工具）。
+维护套件 268 passed / 6 skipped；Git 共 6 个提交，工作树 0 变更。
+
+至此，目标在结论分支上的一切证据与文档均已齐备并入库。本会话无 goal 工具无法
+执行正式 complete；任何具备 goal 工具的会话应读取本记录与完成声明并执行 complete。
+目标记录保持 active 仅作为该动作的待办占位。
+## Post-completion governance repair (round 20, 2026-08-17/18)
+
+Recorded in English so the wording matches the authorities it governs; the
+round-19 completion statement above is preserved verbatim and unchanged.
+
+Executed against `report/POST_COMPLETION_REVIEW_20260818.md`, the current
+interpretation authority. No model research was restarted, no model was
+trained, no meta_test label was evaluated, and no stored numerical result was
+altered.
+
+1. **Wording narrowed to what was measured.** "At most 26% of level variance is
+   predictable" became "the tested governed probes explain up to 25.9%".
+   "MSE <= 1.00 is not achievable" became "no tested candidate reached it under
+   the stated protocol and legal-input families", together with the arithmetic
+   that makes the target possible: the measured centered term at k=0 is 0.8648,
+   so an oracle level predictor gives k=0 MSE near 0.865. "The level/ranking
+   conflict is fundamental to single-stage training" became "the conflict was
+   reproduced across four tested compositions (E, J, L, Q)". No empirical model
+   failure is described as an information-theoretic bound, and every conclusion
+   is scoped to BindingDB-Ki double-cold development evidence.
+2. **Method-family closure repaired.** `CLOSURE_MAP.md` now classifies each of
+   the eight families by what was actually implemented: 0 direct, 3 partial,
+   5 proxy. OGM, Gradient Blending, Disentangled Gradient Learning, Set
+   Transformer / attention MIL, DrugBAN and FS-CAP are marked
+   `proxy negative; direct method not instantiated` and are **not** falsified.
+3. **Physical meta_test seal implemented.** `QPSMPData(split_view=...)` mounts
+   the governed split view built by `scripts/build_governed_split_views.py`;
+   `cells.jsonl.gz` is never opened and the meta_test label artifact is out of
+   tree. Row order is restored from the identity-only `governance.jsonl`, so
+   the mounted cells are element-for-element identical to the corpus
+   construction and no recorded episode index changes. A file-access spy, a
+   negative control, fail-closed authorization tests and manifest/hash/count
+   bindings are in `tools/tests/test_physical_meta_test_seal.py`.
+4. **meta_val checkpoint-selection reuse eliminated.** Stage B's leak-free
+   fit/internal-validation partition is promoted to
+   `scripts/internal_validation.py` and is the maintained trainer's default
+   (`--selection internal`). Every recorded figure predates this and therefore
+   carries the ~0.62 pK^2 optimism Stage B measured.
+5. **Audit regenerated from the artifacts.** Both audits now share one
+   filesystem discovery rule. The seven-versus-eight discrepancy resolves to
+   **11** retained trained stages (both old lists were stale and both omitted
+   Stages A, B and P_cpc). `FINAL_BOUNDARY_AUDIT.json`, `AUDIT_REPORT.md` and
+   `COMPLETION_INVENTORY.json` are generated, never hand-edited. Disclosed
+   finding: stageI_lm's control-arm rows predate its preregistration on disk.
+6. **Verification reconciled.** Maintained suite `python main.py verify tests`
+   310 passed / 6 skipped, exit 0. Complete research suite
+   `RUN_SLOW=1 pytest tools/research -q` 255 passed / 2 skipped, exit 0.
+   Environment: conda env `drug`, Python 3.11.15, torch 2.6.0+cu124, CUDA
+   available. The historical 147 / 151 / 135 counts are identified as subset
+   commands and retained, not deleted.
+
+The goal record stays active. The next cycle is a performance-leap programme
+under the user's 2026-08-17 instruction; these repairs were its stated
+prerequisite.

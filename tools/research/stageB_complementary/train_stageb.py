@@ -33,7 +33,15 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.qpsmp_data import EpisodeSpec, QPSMPData, stable_seed    # noqa: E402
+from scripts import internal_validation                              # noqa: E402
+# Re-exported for the stage lineage: Stages D/E, F, I, J, K, L and Q all
+# import `draw_fit_episode`, `internal_validation_bank` and
+# `partition_components` from this module.
+from scripts.internal_validation import (                            # noqa: E402,F401
+    draw_fit_episode, eligible_targets, internal_validation_specs,
+    partition_components,
+)
+from scripts.qpsmp_data import QPSMPData                              # noqa: E402
 from scripts.train_qpsmp import (                                     # noqa: E402
     COMPACT_LIGAND_BANK, CORPUS, LIGAND_BANK, PROTEIN_BANK, TrainConfig,
     centered_task_error, compact_episode, learning_rate_factor,
@@ -49,11 +57,14 @@ from tools.research.stageB_complementary.arms import (                # noqa: E4
 
 SPLIT = ROOT / "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1"
 
-# Frozen before any Stage B training.
-INTERNAL_VAL_FRACTION = 0.12
-PARTITION_SEED = 20260818
-INTERNAL_BANK_SEED = 20260819
-SUPPORT_SIZES = (0, 1, 2, 3, 5)
+# The rule below was promoted verbatim into `scripts/internal_validation.py` on
+# 2026-08-18 and is now the maintained trainer's default. Stage B imports it
+# from there so the two cannot drift; the constants and bank seeds are
+# unchanged, so a rebuilt Stage B bank is bit-identical to the recorded one.
+INTERNAL_VAL_FRACTION = internal_validation.INTERNAL_VAL_FRACTION
+PARTITION_SEED = internal_validation.PARTITION_SEED
+INTERNAL_BANK_SEED = internal_validation.INTERNAL_BANK_SEED
+SUPPORT_SIZES = internal_validation.SUPPORT_SIZES
 
 
 @dataclass(frozen=True)
@@ -80,87 +91,15 @@ class StageBConfig:
             max_step=self.max_step)
 
 
-def partition_components(data: QPSMPData) -> tuple[tuple[str, ...], tuple[str, ...]]:
-    """Split meta_train components into fit / internal-validation, by component."""
-    components = sorted(data.components["meta_train"])
-    order = np.random.default_rng(PARTITION_SEED).permutation(len(components))
-    held = max(2, int(round(INTERNAL_VAL_FRACTION * len(components))))
-    internal = tuple(sorted(components[int(i)] for i in order[:held]))
-    fit = tuple(sorted(components[int(i)] for i in order[held:]))
-    return fit, internal
-
-
-def eligible_targets(data: QPSMPData, components: tuple[str, ...],
-                     needed: int) -> dict[str, tuple[str, ...]]:
-    out: dict[str, tuple[str, ...]] = {}
-    for component in components:
-        targets = tuple(
-            target for target in data.components["meta_train"][component]
-            if data._unique_ligand_count(data.tasks["meta_train"][target]) >= needed)
-        if targets:
-            out[component] = targets
-    return out
-
-
-def draw_fit_episode(data: QPSMPData, components: tuple[str, ...],
-                     support_size: int, query_size: int,
-                     rng: np.random.Generator) -> EpisodeSpec:
-    """`draw_episode` restricted to the fit components.
-
-    Component-uniform then target-uniform, matching the incumbent sampler, so
-    the only difference from production sampling is the withheld internal-
-    validation components.
-    """
-    pool = eligible_targets(data, components, support_size + 1)
-    if not pool:
-        raise ValueError("no fit task can provide the requested episode")
-    keys = sorted(pool)
-    component = keys[int(rng.integers(len(keys)))]
-    targets = pool[component]
-    target = targets[int(rng.integers(len(targets)))]
-    order = data._unique_ligand_order(data.tasks["meta_train"][target], rng)
-    support = order[:support_size]
-    query = order[support_size:support_size + min(query_size,
-                                                  len(order) - support_size)]
-    donors = [key for key in keys if key != component]
-    donor_component = donors[int(rng.integers(len(donors)))]
-    donor = pool[donor_component][int(rng.integers(len(pool[donor_component])))]
-    return EpisodeSpec("meta_train", component, target, tuple(map(int, support)),
-                       tuple(map(int, query)), donor)
-
-
 def internal_validation_bank(data: QPSMPData, components: tuple[str, ...],
                              label_scale, query_size: int = 16,
                              draws: int = 1) -> dict[int, tuple]:
-    """A fixed nested bank over the withheld meta_train components."""
-    max_support = max(SUPPORT_SIZES)
-    pool = eligible_targets(data, components, max_support + 1)
-    keys = sorted(pool)
-    if len(keys) < 2:
-        raise ValueError("internal validation needs at least two components")
-    banks: dict[int, list] = {size: [] for size in SUPPORT_SIZES}
-    for index, component in enumerate(keys):
-        donor_component = keys[(index + 1) % len(keys)]
-        for target in pool[component]:
-            for draw in range(draws):
-                rng = np.random.default_rng(stable_seed(
-                    "stageb-internal", INTERNAL_BANK_SEED, target, draw))
-                order = data._unique_ligand_order(
-                    data.tasks["meta_train"][target], rng)
-                query = tuple(map(int, order[
-                    max_support:max_support + min(
-                        query_size, len(order) - max_support)]))
-                if len(query) < 2:
-                    continue
-                donor_targets = pool[donor_component]
-                donor = donor_targets[int(rng.integers(len(donor_targets)))]
-                for size in SUPPORT_SIZES:
-                    banks[size].append(EpisodeSpec(
-                        "meta_train", component, target,
-                        tuple(map(int, order[:size])), query, donor))
+    """Materialize the promoted internal-validation specs for Stage B's arms."""
+    specs = internal_validation_specs(data, components, query_size, draws,
+                                      SUPPORT_SIZES)
     return {size: tuple(compact_episode(normalized_episode(
-        data.materialize(spec), label_scale)) for spec in specs)
-        for size, specs in banks.items()}
+        data.materialize(spec), label_scale)) for spec in group)
+        for size, group in specs.items()}
 
 
 def internal_score(model, banks, adaptation, steps, device, label_scale) -> float:

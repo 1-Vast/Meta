@@ -3,6 +3,11 @@
 Date: 2026-08-18 (night). This statement is the evidence authority for
 marking the objective recorded in tools/research/GOAL_ACTIVE.md complete.
 
+Interpretation authority: `POST_COMPLETION_REVIEW_20260818.md`, which is
+narrower than this statement wherever the two differ. The conclusion recorded
+here is **BindingDB-Ki double-cold development evidence** and does not extend
+to other DTA datasets or to architectures that were not run.
+
 ## The objective's two terminal conditions
 
 1. A reproducible performance leap (MSE <= 1.00 pK^2 at k=0/1/2/3/5 with
@@ -12,23 +17,30 @@ marking the objective recorded in tools/research/GOAL_ACTIVE.md complete.
 
 ## Which condition is met
 
-**Condition 2 is met.** Condition 1 was not achieved by any candidate;
-the measured evidence establishes why under this protocol:
+**Condition 2 is met.** Condition 1 was not achieved by any candidate that
+was run; the measured evidence records what happened under this protocol:
 
 - k=0 MSE = level^2 + centered; the level term is assay-history-dominated
   (within-document transfer R^2 +0.451; the split's document closure makes
-  that signal unavailable at inference; legal transferring inputs cover at
-  most ~26% of level variance). The best trained zero-shot level^2 on
+  that signal unavailable at inference; the tested governed probes explain
+  up to 25.9% of level variance). The best trained zero-shot level^2 on
   record is 1.2151 against a 0.1239 budget; per-seed k=0 MSE never went
   below 2.10.
+- **The target is arithmetically possible.** The measured centered term at
+  k=0 is 0.8648, so an oracle level predictor would put k=0 MSE near 0.865.
+  No tested model approached the target jointly — every arm that improved
+  level degraded ordering, and every arm that preserved ordering left level
+  where it was. That is an empirical result about the tested candidates, not
+  an information-theoretic bound.
 - k>=1 approaches the target (k=5 at 0.939-1.007 across seeds with honest
   controls) and K-REG produced the first all-k resolved MSE improvement
   across three seeds, but its shape gain did not survive pooling, so
   nothing was promoted.
-- The level/ranking conflict on one shared trunk is fundamental to
-  single-stage end-to-end training (compositions E, J, L, Q all failed the
-  ranking gate), and the only escape is a multi-stage calibrator the
-  governing contract excludes.
+- The level/ranking conflict on one shared trunk was **reproduced across four
+  tested compositions** (E, J, L, Q all failed the ranking gate). The one
+  escape identified — a multi-stage inference calibrator — is excluded by the
+  governing contract and was therefore not measured either. This is not a
+  theorem about every single-stage architecture.
 
 ## Evidence chain (all artifacts exist; completion inventory verified)
 

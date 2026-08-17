@@ -3,6 +3,12 @@
 Compact authority after the 2026-08-16 cleanup. Deleted pre-R0 evidence is
 summarized in `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` and recoverable from Git.
 
+Interpretation authority: `POST_COMPLETION_REVIEW_20260818.md`. Every verdict
+below is **BindingDB-Ki double-cold development evidence** about the arm that
+was run. A rejected stage is a rejected implementation, not a closed research
+question, and a proxy experiment does not falsify the named method it stands
+in for.
+
 | Cycle | Retained evidence | Decision |
 |---|---|---|
 | Legacy through 2026-08-14 | `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` | Solver, HyperSAR, D-MEMT, CIPF/TERM and K3/ELMT families closed |
@@ -39,8 +45,9 @@ summarized in `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` and recoverable from Git.
 | Stage M0 | `tools/research/stageM_chemberta/` | ChemBERTa-77M ligand embeddings: ordering r +0.147 (below occupancy), level probe = grand mean -> ligand-LM family falsified; external-representation ledger complete |
 | Stage N (audit) | `tools/research/stageN_audit/` | final boundary audit: all load-bearing numbers re-derive bitwise from raw rows; 104 seal artifacts audited, none evaluated; 7/7 stages preregistered |
 | Stage P0 | `tools/research/stageP_go/` | ProteinKG25 GO annotations (313/387 matched): level probe 2.27 vs 1.43 constant -> protein-function-annotation family falsified; external-representation ledger complete |
-| Stage Q | `tools/research/stageQ_frozenhead/` | decoupled frozen-feature level head: Q0 probe 1.3416 (best frozen predictor) but trained composition degrades k=0/2/3 ranking with resolved intervals -> the level/ranking conflict on one shared trunk is fundamental (4th composition to fail) |
-| Boundary | `report/BOUNDARY_20260817_NIGHT.md` | k=0 <= 1.00 protocol-conditioned with the measured legal-input families; k=5 at 0.944-1.007 across seeds |
+| Stage Q | `tools/research/stageQ_frozenhead/` | decoupled frozen-feature level head: Q0 probe 1.3416 (best frozen predictor) but trained composition degrades k=0/2/3 ranking with resolved intervals -> the level/ranking conflict on one shared trunk was **reproduced across four tested compositions** (E, J, L, Q); not a universal property of single-stage training |
+| Boundary | `report/BOUNDARY_20260817_NIGHT.md` | no tested candidate reached k=0 <= 1.00 under the stated protocol and legal-input families; the target stays arithmetically possible (oracle level gives k=0 ~0.865); k=5 at 0.944-1.007 across seeds |
+| Method-ladder closure | `tools/research/method_ladder/CLOSURE_MAP.md` | eight named families mapped to their **actually implemented** successors: 0 direct, 3 partial, 5 proxy. OGM, Gradient Blending, Disentangled Gradient Learning, Set Transformer / attention MIL, DrugBAN and FS-CAP are **not falsified** — their defining operators were never instantiated |
 
 Only `RESULT.json`, formal reports, necessary prediction tables and loadable
 admitted checkpoints are authoritative. Progress logs and short smokes are not

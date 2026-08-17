@@ -161,14 +161,19 @@ class _CompactLigandBank:
 class QPSMPData:
     """Read-only main-v0 corpus with lazy, schema-checked biological banks.
 
-    `include_meta_test` provides **logical exclusion after parsing**, which is
-    strictly weaker than a physical label seal and must never be described as
-    one. `cells.jsonl.gz` is a single all-label artifact: this constructor
-    decompresses and parses every row, including every `meta_test` label, and
-    then discards the sealed ones. The labels are in process memory for the
-    duration of `_governed_cells`.
+    The class has **two label surfaces**, and `seal_record()` always reports
+    which one was mounted.
 
-    What the contract does guarantee, and what it does not:
+    **Default surface — the all-label corpus.** `include_meta_test` provides
+    **logical exclusion after parsing**, which is strictly weaker than a
+    physical label seal and must never be described as one. `cells.jsonl.gz` is
+    a single all-label artifact: this constructor decompresses and parses every
+    row, including every `meta_test` label, and then discards the sealed ones.
+    The labels are in process memory for the duration of `_governed_cells`.
+    Every recorded R0-R14 and Stage A-Q artifact was produced on this surface,
+    which is why it is kept unchanged.
+
+    What that contract does guarantee, and what it does not:
 
     * ✅ **fail-closed** — the default excludes, so a caller cannot admit the
       sealed split by omission;
@@ -181,12 +186,16 @@ class QPSMPData:
       parsed on every construction. A process that never asks for them still
       holds them transiently.
 
-    `scripts/seal_compiled_dataset.py` shows what a real physical seal looks
-    like on the other corpus lineage: separate per-split label artifacts, and
-    no recipient-label file emitted at all. Applying that pattern to this
-    lineage is specified in
-    `tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md` and is **not yet
-    authorized**.
+    **Isolated surface — `split_view`.** Passing the governed split-view
+    directory built by `scripts/build_governed_split_views.py` mounts separately
+    hashed per-split label artifacts instead. `cells.jsonl.gz` is then never
+    opened, and the `meta_test` label artifact lives outside the development
+    tree entirely, so a development process has no filesystem path to it. On
+    this surface `seal_record()["isolation"]["physically_isolated"]` is `True`.
+    The row order is restored from the view's identity-only `governance.jsonl`,
+    so `cells` is element-for-element identical to the corpus construction and
+    no recorded episode index changes. Opening `meta_test` from this surface
+    additionally requires an explicit out-of-tree `sealed_meta_test_directory`.
 
     `seal_record()` reports the constructed object's *actual* state and is the
     only sanctioned source for the `meta_test` block of a result artifact.
@@ -198,7 +207,9 @@ class QPSMPData:
                  compact_ligand_bank: Path | None = None,
                  split_directory: Path | None = None,
                  include_meta_test: bool = False,
-                 meta_test_authorization: str | None = None):
+                 meta_test_authorization: str | None = None,
+                 split_view: Path | None = None,
+                 sealed_meta_test_directory: Path | None = None):
         if include_meta_test and not (meta_test_authorization or "").strip():
             raise ValueError(
                 "including meta_test requires an explicit written "
@@ -208,6 +219,11 @@ class QPSMPData:
             raise ValueError(
                 "meta_test_authorization was supplied without "
                 "include_meta_test=True; refusing an ambiguous seal state")
+        if sealed_meta_test_directory is not None and split_view is None:
+            raise ValueError(
+                "sealed_meta_test_directory is only meaningful with a "
+                "split_view; the all-label corpus has no separate meta_test "
+                "artifact")
         self.include_meta_test = bool(include_meta_test)
         self.meta_test_authorization = (
             meta_test_authorization if self.include_meta_test else None)
@@ -238,17 +254,27 @@ class QPSMPData:
             if recorded != actual:
                 raise ValueError(
                     f"split assignment hash mismatch: {actual} != {recorded}")
-        # The seal is applied in the same pass that assigns the split, so
-        # `self.cells` is never bound to a list containing a sealed cell. Every
-        # downstream structure — task indices, component maps, `materialize` —
-        # is built from this attribute, so none of them can reach meta_test
-        # while the seal holds. The sealed rows are still *parsed* out of the
-        # gzip stream here; the defensible claim is that they are discarded
-        # during construction and are unreachable afterwards, not that the file
-        # is never decompressed.
-        self.cells = self._governed_cells(
-            corpus / "cells.jsonl.gz", assignment, self.include_meta_test)
-        self.sealed_cell_count = self._sealed_cell_count
+        self.split_view = None
+        if split_view is not None:
+            # Isolated surface: mount exactly the per-split label artifacts
+            # named. `cells.jsonl.gz` is never opened, so no meta_test label is
+            # decompressed or parsed by a development construction.
+            self.split_view = self._mount_split_view(
+                Path(split_view), sealed_meta_test_directory, assignment)
+            self.cells = list(self.split_view.cells)
+            self.sealed_cell_count = self.split_view.sealed_cell_count
+        else:
+            # The seal is applied in the same pass that assigns the split, so
+            # `self.cells` is never bound to a list containing a sealed cell.
+            # Every downstream structure — task indices, component maps,
+            # `materialize` — is built from this attribute, so none of them can
+            # reach meta_test while the seal holds. The sealed rows are still
+            # *parsed* out of the gzip stream here; the defensible claim is that
+            # they are discarded during construction and are unreachable
+            # afterwards, not that the file is never decompressed.
+            self.cells = self._governed_cells(
+                corpus / "cells.jsonl.gz", assignment, self.include_meta_test)
+            self.sealed_cell_count = self._sealed_cell_count
         proteins = self._read_jsonl(corpus / "proteins.jsonl")
         self._protein_sequences = {
             row["sequence_sha256"]: row["sequence"] for row in proteins}
@@ -272,7 +298,7 @@ class QPSMPData:
         self._validate_manifests(proteins, ligands)
         self.tasks, self.components = self._build_tasks()
         target_keys = {cell["target_id"] for cell in self.cells}
-        if self.split_manifest is None:
+        if self.split_manifest is None and self.split_view is None:
             if target_keys != protein_keys:
                 raise ValueError(
                     "target IDs do not equal the governed protein-bank keys")
@@ -315,6 +341,41 @@ class QPSMPData:
         self._sealed_cell_count = sealed
         return kept
 
+    def _mount_split_view(self, directory: Path,
+                          sealed_directory: Path | None,
+                          assignment: dict[str, str] | None):
+        """Mount the governed split view and bind it to this corpus and split.
+
+        The view carries the source-corpus manifest hash and the frozen split
+        assignment hash, so provenance is verified from the manifest rather than
+        from a re-read of the all-label artifact.
+        """
+        from scripts.build_governed_split_views import (  # local: optional path
+            DEVELOPMENT_SPLITS, GovernedSplitView, SEALED_SPLIT,
+        )
+
+        visible = ((SEALED_SPLIT,) if self.include_meta_test
+                   else DEVELOPMENT_SPLITS)
+        view = GovernedSplitView(
+            directory, visible=visible,
+            authorization=self.meta_test_authorization,
+            sealed_directory=sealed_directory)
+        corpus_manifest_sha256 = hashlib.sha256(
+            (self.corpus / "manifest.json").read_bytes()).hexdigest()
+        if view.manifest["source_manifest_sha256"] != corpus_manifest_sha256:
+            raise ValueError(
+                "split view was cut from a different corpus: "
+                f"{view.manifest['source_manifest_sha256']} != "
+                f"{corpus_manifest_sha256}")
+        if assignment is not None:
+            recorded = hashlib.sha256(
+                json.dumps(assignment, sort_keys=True).encode("utf-8")).hexdigest()
+            if view.manifest["split_assignment_sha256"] != recorded:
+                raise ValueError(
+                    "split view does not match the governed split assignment: "
+                    f"{view.manifest['split_assignment_sha256']} != {recorded}")
+        return view
+
     def seal_record(self, evaluated: bool | None = None) -> dict:
         """The truthful `meta_test` block for a result artifact.
 
@@ -330,6 +391,8 @@ class QPSMPData:
             raise ValueError(
                 "an open meta_test run must state evaluated=True/False "
                 "explicitly; the dataset cannot infer it")
+        if self.split_view is not None:
+            return self._isolated_seal_record(evaluated)
         return {
             "evaluated": bool(evaluated) if self.include_meta_test else False,
             "included": self.include_meta_test,
@@ -364,6 +427,43 @@ class QPSMPData:
                      "construction; they are unreachable from cells, tasks, "
                      "components and materialize afterwards. This is NOT a "
                      "physical label seal."),
+        }
+
+    def _isolated_seal_record(self, evaluated: bool | None) -> dict:
+        """The `meta_test` block for a construction on the isolated surface.
+
+        The difference from the default surface is one provable fact: this
+        process never opened the `meta_test` label artifact, because the
+        artifact is not in the mounted directory at all. The wording stays
+        specific — "physically isolated (governed split view)" — so a reader
+        can tell which surface produced any given artifact.
+        """
+        isolation = self.split_view.isolation_record()
+        return {
+            "evaluated": bool(evaluated) if self.include_meta_test else False,
+            "included": self.include_meta_test,
+            "authorization": self.meta_test_authorization,
+            "sealed_cells_withheld": self.sealed_cell_count,
+            "isolation": {
+                "level": isolation["level"],
+                "labels_parsed_in_process": isolation["labels_parsed_in_process"],
+                "physically_isolated": isolation["physically_isolated"],
+                "surface": "governed_split_view",
+                "view_directory": str(self.split_view.directory),
+                "source_manifest_sha256": isolation["source_manifest_sha256"],
+                "split_assignment_sha256": isolation["split_assignment_sha256"],
+                "builder": "scripts/build_governed_split_views.py",
+                "specification": ("tools/research/a2_readiness_v2/"
+                                  "SPLIT_ISOLATION_SPEC.md"),
+            },
+            "seal": ("OPEN: authorized meta_test mount from an out-of-tree "
+                     f"artifact — authorization: {self.meta_test_authorization}"
+                     if self.include_meta_test else
+                     "physically isolated (governed split view): this process "
+                     "mounted only the meta_train/meta_val label artifacts. "
+                     "The meta_test label artifact is not present in the "
+                     "development surface, so no sealed label was opened, "
+                     "decompressed or parsed."),
         }
 
     def _validate_manifests(self, proteins: list[dict], ligands: list[dict]) -> None:

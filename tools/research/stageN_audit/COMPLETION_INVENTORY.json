@@ -2,6 +2,10 @@
  "checked": [
   {
    "exists": true,
+   "path": "report/POST_COMPLETION_REVIEW_20260818.md"
+  },
+  {
+   "exists": true,
    "path": "report/BOUNDARY_20260817_NIGHT.md"
   },
   {
@@ -18,6 +22,10 @@
   },
   {
    "exists": true,
+   "path": "report/COMPLETION_STATEMENT_20260818.md"
+  },
+  {
+   "exists": true,
    "path": "task.md"
   },
   {
@@ -31,11 +39,31 @@
   {
    "exists": true,
    "path": "tools/research/stageN_audit/FINAL_BOUNDARY_AUDIT.json",
-   "schema": "n/a"
+   "schema": "MetaSieve.FinalBoundaryAudit.v2"
   },
   {
    "exists": true,
    "path": "tools/research/stageN_audit/AUDIT_REPORT.md"
+  },
+  {
+   "exists": true,
+   "path": "tools/research/method_ladder/CLOSURE_MAP.md"
+  },
+  {
+   "exists": true,
+   "path": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md"
+  },
+  {
+   "exists": true,
+   "path": "scripts/build_governed_split_views.py"
+  },
+  {
+   "exists": true,
+   "path": "tools/tests/test_physical_meta_test_seal.py"
+  },
+  {
+   "exists": true,
+   "path": "scripts/internal_validation.py"
   },
   {
    "exists": true,
@@ -90,63 +118,159 @@
    "path": "tools/research/stageR_daviskiba/PREREGISTRATION.md"
   }
  ],
+ "generated": "2026-08-17",
  "missing": [],
+ "schema": "MetaSieve.CompletionInventory.v2",
+ "stage_summary": {
+  "discovery_rule": "stage_inventory.discover_stages",
+  "measurement_only_directories": [
+   "stageC_level_shape",
+   "stageH_pocket",
+   "stageM_chemberta",
+   "stageN_audit",
+   "stageP_go"
+  ],
+  "preregistered_not_run": [
+   "stageR_daviskiba"
+  ],
+  "trained_and_preregistered": 11,
+  "trained_stages_retained": 11
+ },
  "stages": {
+  "stageA_innerloop": {
+   "json_artifacts": 4,
+   "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "row_artifacts": 1
+  },
+  "stageB_complementary": {
+   "json_artifacts": 4,
+   "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "row_artifacts": 3
+  },
   "stageD_level_panel": {
    "json_artifacts": 11,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 4
   },
   "stageF_pairwise": {
    "json_artifacts": 5,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 2
   },
   "stageG_esm650": {
    "json_artifacts": 9,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md",
+    "PREREGISTRATION_G2.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
-    "REPORT.md"
-   ]
+    "REPORT.md",
+    "REPORT_G2.md"
+   ],
+   "row_artifacts": 7
   },
   "stageI_lm": {
    "json_artifacts": 5,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": false,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 2
   },
   "stageJ_assay": {
    "json_artifacts": 5,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 3
   },
   "stageK_contrastive": {
    "json_artifacts": 6,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md",
+    "PREREGISTRATION_K2.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 4
   },
   "stageL_gated": {
    "json_artifacts": 2,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 1
+  },
+  "stageP_cpc": {
+   "json_artifacts": 1,
+   "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
+   "reports": [
+    "REPORT.md"
+   ],
+   "row_artifacts": 1
   },
   "stageQ_frozenhead": {
    "json_artifacts": 4,
    "preregistration": true,
+   "preregistration_files": [
+    "PREREGISTRATION.md"
+   ],
+   "preregistration_precedes_results": true,
    "reports": [
     "REPORT.md"
-   ]
+   ],
+   "row_artifacts": 2
   }
  }
 }

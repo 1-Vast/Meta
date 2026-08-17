@@ -343,6 +343,15 @@ def main() -> None:
                              "requires --include-meta-test (contract 2026-08-16)")
     parser.add_argument("--split-directory", type=Path, default=None,
                         help="governed split directory (double-cold protocol)")
+    parser.add_argument("--split-view", type=Path, default=None,
+                        help="governed split-view directory built by "
+                             "scripts/build_governed_split_views.py; mounting "
+                             "it means no meta_test label is opened, "
+                             "decompressed or parsed by this process")
+    parser.add_argument("--sealed-meta-test-directory", type=Path, default=None,
+                        help="out-of-tree directory holding the meta_test "
+                             "label artifact; only meaningful with "
+                             "--split-view and --include-meta-test")
     parser.add_argument("--include-meta-test", action="store_true",
                         help="physically unseal meta_test cells in QPSMPData; "
                              "required to evaluate the sealed split")
@@ -407,10 +416,18 @@ def main() -> None:
     if args.include_meta_test and not (args.meta_test_authorization or "").strip():
         parser.error("--include-meta-test requires a written "
                      "--meta-test-authorization (contract 2026-08-16)")
+    if args.sealed_meta_test_directory is not None and args.split_view is None:
+        parser.error("--sealed-meta-test-directory requires --split-view")
+    if (args.split_view is not None and args.include_meta_test
+            and args.sealed_meta_test_directory is None):
+        parser.error("opening meta_test on the isolated surface requires an "
+                     "explicit out-of-tree --sealed-meta-test-directory")
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
                      split_directory=args.split_directory,
                      include_meta_test=args.include_meta_test,
-                     meta_test_authorization=args.meta_test_authorization)
+                     meta_test_authorization=args.meta_test_authorization,
+                     split_view=args.split_view,
+                     sealed_meta_test_directory=args.sealed_meta_test_directory)
     if args.manifest:
         payload, records = load_manifest(args.manifest)
         if tuple(payload["support_sizes"]) != SUPPORT_SIZES:

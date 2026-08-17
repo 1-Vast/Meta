@@ -15,8 +15,11 @@ governed BindingDB-Ki double-cold protocol; meta_test remains sealed
 - The double-cold split has document_overlap = 0, so exactly this signal is
   unavailable at inference. What remains transferable: panel composition
   (held-out R^2 +0.239), protein sequence embedding (+0.119), jointly
-  +0.259 (D0_LEVEL_ANATOMY.json). At most ~26% of level variance is
-  predictable from legal inputs — before any model or training method.
+  +0.259 (D0_LEVEL_ANATOMY.json). **The tested governed probes explain up to
+  25.9% of level variance.** That is the largest result among the probes
+  actually run — it is a measurement, not an information-theoretic ceiling.
+  An untested representation or a newly governed legal input could explain
+  more, and nothing here bounds what is knowable in principle.
 - Best legitimate level predictors on frozen meta_val banks: ESM-650M linear
   probe 1.6875, panel-feature MLP 1.8868, trained panel head 1.438
   (panel-shuffled control 1.539); meta_train-only constant 2.15-2.17;
@@ -92,11 +95,15 @@ calibrator has a measured ceiling below L. A fourth composition (Stage Q:
 a level head over FROZEN features — ESM bank vector, handcrafted panel
 statistics, journal table — gated to k=0) was then falsified: the best
 frozen joint probe on record (1.3416) does not survive training, and the
-trunk's ranking still degrades with resolved intervals at k=0/2/3. The
+trunk's ranking still degrades with resolved intervals at k=0/2/3. **The
 conflict between zero-shot level and within-target ordering on one shared
-trunk is therefore fundamental to single-stage end-to-end training: the only
-escape is a separately trained inference calibrator, which the governing
-contract excludes as a multi-stage regime. Independent external validation:
+trunk was reproduced across four tested compositions (E, J, L, Q)**, every
+one of them on the same trunk, budget and protocol. That is strong empirical
+evidence about the tested compositions; it is not a theorem about every
+single-stage end-to-end architecture, and an untested trunk or routing
+scheme could behave differently. The one escape identified here — a
+separately trained inference calibrator — is excluded by the governing
+contract as a multi-stage regime, so it was not measured either. Independent external validation:
 Nelen et al. (J Cheminform 17:8, 2025, PMID 39833966) measured on ChEMBL
 that absolute values from different assays are rarely comparable while
 potency differences between matched pairs are robust — the same
@@ -114,14 +121,34 @@ conclusion is final for this machine and protocol.
 
 ## 3. The conclusion, and exactly where it applies
 
-**Under the governed double-cold protocol with sequence + 2D ligand inputs,
-ordinary end-to-end training, and the legal-input families above, k=0 MSE
-<= 1.00 pK^2 is not achievable**: the best trained model's level^2 alone
-(1.52-1.56) exceeds the entire 1.00 budget, and the strongest legitimate
-level predictor signal (within-document assay history) is structurally
-unavailable at inference by the split's document closure. This is a
-protocol-and-input conditional conclusion, not a claim about all conceivable
-models or datasets.
+**Under the governed BindingDB-Ki double-cold development protocol with
+sequence + 2D ligand inputs, ordinary end-to-end training, and the
+legal-input families above, no tested candidate reached k=0 MSE <= 1.00 pK^2**:
+the best trained model's level^2 alone (1.52-1.56) exceeds the entire 1.00
+budget, and the strongest legitimate level predictor signal (within-document
+assay history) is structurally unavailable at inference by the split's
+document closure. This is a protocol-and-input conditional statement about
+the candidates that were run. It is **not** a claim that the target is
+unreachable, and it is not a claim about other datasets, other input regimes
+or untested architectures.
+
+### The target is arithmetically possible
+
+k=0 MSE decomposes exactly as `level^2 + centered`. The measured centered
+term at k=0 is **0.8648** (T2, component-weighted). An oracle level
+predictor — one that made `level^2` vanish while leaving the centered term
+where it is measured today — would therefore put k=0 MSE at about **0.865**,
+below the 1.00 target. Nothing in this record forbids MSE <= 1.00; the
+arithmetic permits it.
+
+What no tested model did was reach it **jointly**. The 0.1239 level budget
+quoted below is derived *holding the current centered error fixed*; a model
+that improved both terms at once would face a different budget. Every
+composition that pushed level^2 down (J to 1.30, L to 1.2151, Q's frozen
+probe to 1.3416) degraded within-target ordering with resolved intervals, and
+the arms that preserved ordering did not move level. The obstacle measured
+here is that no tested candidate moved the two terms in the same direction —
+which is an empirical result about those candidates, not a bound.
 
 What remains reachable in development: k=5 at 0.944-1.007 across three seeds
 with clean label/protein controls; k=3 at 1.178-1.251; k=2 at 1.272-1.363.

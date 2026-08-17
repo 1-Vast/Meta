@@ -1,34 +1,52 @@
 # Specification: a genuine physical label seal for the QPSMP lineage
 
-Status: **specification only. Not implemented. Not authorized.**
-Requires explicit user authorization before any artifact is created, because
-executing it means writing a new `meta_test`-labelled shard.
+Status: **IMPLEMENTED (2026-08-18). Migration optional and not retroactive.**
 
-## 1. What is wrong today, stated exactly
+* builder: `scripts/build_governed_split_views.py` (run once, 2026-08-16, under
+  the written authorization recorded in the out-of-tree `SEALING_RECORD.json`);
+* development surface:
+  `dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views`;
+* loader: `QPSMPData(..., split_view=<surface>)`;
+* contracts: `tools/tests/test_governed_split_views.py` (artifact) and
+  `tools/tests/test_physical_meta_test_seal.py` (process, including the
+  file-access spy).
 
-`QPSMPData` provides **logical exclusion after parsing**. Three properties are
-routinely conflated and only two hold:
+**Every recorded R0-R14 and Stage A-Q artifact was produced on the default
+all-label surface and therefore carries the weaker guarantee described in §1.**
+The implementation does not change that and does not change any recorded
+number; it is the surface a future run mounts, not a relabelling of past ones.
 
-| property | holds? | evidence |
-|---|---|---|
-| **fail-closed** — a caller cannot admit the sealed split by omission | ✅ | default `include_meta_test=False`; a bare `True` raises |
-| **unreachable after construction** — no index, map or `materialize` call can reach a sealed row | ✅ | `tools/tests/test_meta_test_seal_contract.py`, 18 tests |
-| **metric-unconsumed** — no sealed value entered a recorded computation | ✅ | verified bit-identical re-run, 105/105 fields |
-| **physically isolated** — the labels were never on this process's read path | ❌ | `cells.jsonl.gz` is one all-label artifact; every sealed label is decompressed and parsed on **every** construction |
+## 1. What was wrong, and what the two surfaces now guarantee
 
-So the current guarantee is: *the sealed labels pass through process memory on
+`QPSMPData` on the **default (all-label corpus) surface** provides **logical
+exclusion after parsing**. Three properties are routinely conflated and only
+two hold:
+
+| property | default surface | governed split view | evidence |
+|---|---|---|---|
+| **fail-closed** — a caller cannot admit the sealed split by omission | ✅ | ✅ | default `include_meta_test=False`; a bare `True` raises |
+| **unreachable after construction** — no index, map or `materialize` call can reach a sealed row | ✅ | ✅ | `tools/tests/test_meta_test_seal_contract.py`, 18 tests |
+| **metric-unconsumed** — no sealed value entered a recorded computation | ✅ | ✅ | verified bit-identical re-run, 105/105 fields |
+| **physically isolated** — the labels were never on this process's read path | ❌ | ✅ | default: `cells.jsonl.gz` is one all-label artifact, so every sealed label is decompressed and parsed on **every** construction. View: the sealed artifact is not in the mounted directory, proved by the file-access spy |
+
+So the default guarantee is: *the sealed labels pass through process memory on
 every load and are discarded before anything can reach them.* A bug in
 `_governed_cells`, an exception traceback carrying a frame reference, a memory
 dump, or a future refactor that keeps the pre-filter list would all breach it.
 None of those has happened. That is not the same as them being impossible.
+On the governed split view none of those breaches is available, because the
+label file is not on the process's path at all.
 
 **The words to use, and the words never to use again:**
 
-* say "logical exclusion after parsing" — accurate;
+* say "logical exclusion after parsing" of the default surface and of **every
+  recorded artifact in this repository** — accurate;
+* say "physically isolated (governed split view)" **only** of a process that
+  actually mounted `split_view=`, and let `QPSMPData.seal_record()` say it;
 * say "population sealed, process unsealed" for the R14 incident artifacts;
 * say "metric-unconsumed, verified" for the numerical claim;
-* **do not** say "physical seal", "physically sealed", or "physically excluded"
-  of this lineage until this specification is implemented.
+* **do not** relabel an existing artifact: no stored `RESULT.json` was produced
+  on the isolated surface, and none may be edited to claim it was.
 
 ## 2. The pattern already exists in this repository
 

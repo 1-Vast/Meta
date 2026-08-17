@@ -1,7 +1,8 @@
 # Current task contract
 
-Updated: 2026-08-18 (night). Status: **final state — bounded conclusion
-established across the full mechanism and covariate space.** Stage L
+Updated: 2026-08-18 (post-completion review). Status: **BindingDB research
+cycle complete with a scope-bounded negative result; governance repairs are
+required before archival.** Stage L
 (support-gated assay-aware level head) closed the last composition: the gate
 preserved k>=1 MSE but ordering degraded with resolved intervals (k=2/3/5
 Spearman), because the zero-shot level objective and within-target ordering
@@ -12,11 +13,92 @@ candidate passed all promotion gates; meta_test stays sealed; nothing moved
 to model/ or scripts/. Stage M0 (ChemBERTa-77M ligand embeddings,
 `tools/research/stageM_chemberta/`) closed the last locally testable legal
 input family (ordering r +0.147 below occupancy; level probe = grand mean).
-Authority: `report/BOUNDARY_20260817_NIGHT.md` (final),
+Interpretation authority: `report/POST_COMPLETION_REVIEW_20260818.md`.
+Numerical authority: `report/BOUNDARY_20260817_NIGHT.md`,
 `tools/research/stageL_gated/REPORT.md`,
 `tools/research/stageM_chemberta/REPORT.md`. Closing summary:
 `report/FINAL_STATE_20260818.md`; verification:
 `tools/research/stageN_audit/AUDIT_REPORT.md`.
+
+## Read this first: condensed agent authority
+
+The detailed stage sections below are a retained evidence appendix. They do not
+authorize reviving a rejected mechanism or training a new variant. The next
+agent must anchor its analysis on the following compact state.
+
+**Measured boundary.** Leak-free T2 MSE at k=0/1/2/3/5 is
+2.5961/1.7712/1.3245/1.2197/0.9859. At k=0,
+`MSE = level^2 1.7314 + centered 0.8648`; the level term is about 66.7% of the
+error. An oracle level gives about 0.865 MSE, so MSE <= 1.00 is arithmetically
+possible. The best tested transferable probes explain about 25.9% of level
+variance; this is a measured frontier, not a universal ceiling. Fixed
+Morgan/Tanimoto residual weighting is the strongest reproducible k>=2
+query-specific comparator, but it is ligand-only. `occupancy` retains a small
+resolved within-target signal (r about +0.218) that the endpoint underuses.
+
+**Dominant failure mechanisms.** The target level partly reflects assay,
+document and panel history unavailable across the governed split. The learned
+interaction endpoint has weak protein-conditioned ordering: within-target
+ligand states were nearly collinear, wrong-protein swaps often preserved
+centered ordering, and protein information was strongly attenuated at fusion
+and pooling. Consequently, output adapters and partial inner loops mostly
+became scalar level shifts, were support-label insensitive, or harmed
+calibration. The AdaMBind-inspired task selector selected redundant
+high-gradient-agreement tasks and was worse than uniform episodic training.
+Level/ranking conflict was reproduced in four tested shared-trunk designs, but
+it is empirical and not a theorem about all architectures.
+
+**Governance defects.** The old production trainer selected checkpoints on
+meta-val labels; a controlled experiment measured about 0.62 pK^2 optimistic
+k=0 performance. All new selection must use a meta-train-only internal
+component split. Meta-test has zero recorded evaluations but was logically
+excluded only after parsing, not physically sealed. Stable hashes, distinct-arm
+paired tests and explicit gradient scope for inference-time adaptation are
+mandatory regressions. Several method-ladder entries are proxy negatives, not
+direct implementations; do not claim that OGM, Set Transformer, DrugBAN or
+FS-CAP has been universally falsified here.
+
+**Literature synthesis.** PSICHIC provides the most compatible architectural
+lesson: learn physicochemical functional-group/protein-region interaction
+fingerprints from sequence and 2D ligand inputs. DrugBAN supports explicit
+local bilinear interaction and domain alignment, not generic attention. FS-CAP
+binds measured support activity to molecular context before set aggregation and
+therefore addresses k>=1 only. AdaMBind permits target-task support adaptation,
+but the current partial inner loop is only a weak unresolved result and its task
+selector is rejected. PBCNet/PBCNet2.0 support relative reference-query
+training; their common-frame 3D complex assumptions do not hold here.
+Interaction-aware biological language-model composition is an untested new
+information regime and must be separated from external-data gain.
+
+Primary sources:
+
+- PSICHIC: https://www.nature.com/articles/s42256-024-00847-1
+- DrugBAN: https://www.nature.com/articles/s42256-022-00605-1
+- FS-CAP: https://pubs.acs.org/doi/10.1021/acs.jcim.4c00485
+- AdaMBind: https://www.nature.com/articles/s41467-026-70554-5
+- task-similarity constraint: https://pubmed.ncbi.nlm.nih.gov/38682398/
+- PBCNet: https://www.nature.com/articles/s43588-023-00529-9
+- PBCNet2.0: https://www.nature.com/articles/s41589-026-02241-x
+- biological LM composition: https://www.nature.com/articles/s42004-025-01883-7
+
+**Highest-potential next hypothesis.** Do not patch the current endpoint
+adapter. Test one focused pair of innovations: (1) a sequence/2D
+functional-group-to-protein-region interaction trunk that preserves local
+interaction tokens; and (2) a training method with explicit ownership of
+absolute level versus signed within-target relative/cliff supervision. A
+support mechanism may modulate stable interaction tokens only after frozen
+identifiability tests show that real proteins outperform shuffled and
+similarity-matched wrong proteins on centered ordering. It must be exactly
+inactive at k=0.
+
+If the identifiability gate passes, preregister four matched arms: incumbent;
+new trunk with incumbent training; incumbent trunk with new training; full new
+trunk plus new training. This separates representation, training and interaction
+effects. A single seed may reject; promotion requires three seeds, component-
+paired intervals, no ranking regression at k=0, superiority to level-only and
+Tanimoto at k>=2, and resolved degradation under permuted labels,
+matched-wrong support and wrong-protein controls. Finish the physical meta-test
+seal and post-completion inventory repair before any final confirmation.
 
 ## Objective
 
@@ -29,9 +111,23 @@ labels and the recipient protein rather than scalar calibration or ligand recall
 
 - Data/evaluation: use the governed BindingDB Ki double-cold protocol. An episode
   contains one target; support/query ligands are unique. Keep current meta_test
-  sealed until a frozen candidate passes all development gates. The seal is
-  logical exclusion after parsing plus written authorization, not physical
-  isolation; see tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md.
+  sealed until a frozen candidate passes all development gates. Two surfaces
+  exist and an artifact must say which it used: the default all-label corpus
+  gives **logical exclusion after parsing** plus written authorization (this
+  is what every recorded artifact used), while
+  `QPSMPData(split_view=dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views)`
+  gives **physical isolation** — the meta_test label artifact is out of tree,
+  so it is not on the development process's read path at all. New work must
+  mount the view
+  (`train_qpsmp.py/evaluate_qpsmp.py --split-view`). See
+  tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md and
+  tools/tests/test_physical_meta_test_seal.py.
+- Checkpoint selection: `--selection internal` is the default and the only
+  rule admissible as evidence. It trains on the fit components of meta_train
+  and selects on withheld internal-validation components, so meta_val is never
+  read during training (`scripts/internal_validation.py`). The legacy
+  `--selection meta_val` survives only as the disclosed leakage diagnostic
+  Stage B used to measure it at ~0.62 pK^2 optimism at k=0.
 - Learning: ordinary end-to-end forward/backward training. **Inner/outer loops
   and differentiable support adaptation are permitted as of 2026-08-17** (user
   instruction; supersedes the previous blanket prohibition on inner loops and
@@ -63,11 +159,15 @@ labels and the recipient protein rather than scalar calibration or ligand recall
   checkpoint selection) k=0 2.5961 / k=1 1.7712 / k=2 1.3245 / k=3 1.2197 /
   k=5 0.9859, three-seed k=0 band 2.458-2.981 and k=5 band 0.946-1.007;
   ESM-650M lane G k=0 2.239-2.790, k=5 0.944-0.987 (not confirmed).
-- The k=0 <= 1.00 target is protocol-conditioned: level is assay-history
-  dominated (within-document transfer R^2 +0.451; 0% across documents), the
-  legal transferring inputs cover <=26% of level variance, and the best
-  trained level^2 (1.52) alone exceeds the whole 1.00 budget. Full ledger:
-  `report/BOUNDARY_20260817_NIGHT.md`.
+- No tested candidate reached the k=0 <= 1.00 target under the stated protocol
+  and legal-input families: level is assay-history dominated (within-document
+  transfer R^2 +0.451; 0% across documents), the tested governed probes
+  explain up to 25.9% of level variance, and the best trained level^2 (1.52)
+  alone exceeds the whole 1.00 budget. The target is nonetheless
+  **arithmetically possible**: the measured centered term at k=0 is 0.8648, so
+  an oracle level predictor would put k=0 near 0.865. No tested model
+  approached it jointly. Full ledger: `report/BOUNDARY_20260817_NIGHT.md`;
+  interpretation: `report/POST_COMPLETION_REVIEW_20260818.md`.
 - A0 is the retained incumbent and zero-shot ordering reference.
 - B3 and C2 join A0 on the k0 MSE/CI Pareto frontier; none dominates.
 - Fixed Morgan/Tanimoto residual weighting is the comparator to beat at k>=2.
@@ -254,6 +354,15 @@ families now has a measured successor stage with a verdict — see
 `tools/research/method_ladder/CLOSURE_MAP.md`. The shared M3 discriminator
 harness (`tools/research/method_ladder/_shared/`, 25 structural tests) is
 built and reusable; no family remains pending.
+
+**The closure is not a falsification of the named methods.** The repaired map
+classifies each family by what was actually implemented: 0 direct, 3 partial,
+5 proxy. OGM, Gradient Blending, Disentangled Gradient Learning, Set
+Transformer / attention MIL, DrugBAN and FS-CAP were **never instantiated** —
+their entries record `proxy negative; direct method not instantiated`.
+Reopening any of them is a new experiment, and the bar for reopening is to
+state the new function class or information source that makes the test
+materially different from the proxy that failed.
 
 Eight named method families are tested sequentially under
 `tools/research/method_ladder/<family>/`, each through the ladder

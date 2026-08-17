@@ -379,11 +379,14 @@ def main() -> int:
           "bindingdb_ki_double_cold_v1, a single all-label corpus, so every "
           "meta_test label is decompressed and parsed on every construction. "
           "This is not a physical label seal. A physically isolated surface "
-          "now exists (scripts/build_governed_split_views.py -> "
-          "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views, "
-          "spec: tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md), but "
-          "the trainers still load the all-label corpus, so no recorded "
-          "artifact yet claims physical isolation.")
+          "exists and is now mountable (scripts/build_governed_split_views.py "
+          "-> dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views;"
+          " QPSMPData(split_view=...), train_qpsmp/evaluate_qpsmp "
+          "--split-view; spec: "
+          "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md), but every "
+          "artifact audited here was produced before that surface was wired "
+          "in, so none of them claims physical isolation and none may be "
+          "relabelled to.")
     if seals["process_unsealed"]:
         print(f"\n*** OPEN INCIDENT: {len(seals['process_unsealed'])} artifact(s) "
               f"were produced by a process that parsed AND INDEXED the sealed "
@@ -428,7 +431,12 @@ def main() -> int:
                             "cells.jsonl.gz"),
                 "specification": ("tools/research/a2_readiness_v2/"
                                   "SPLIT_ISOLATION_SPEC.md"),
-                "specification_status": "implemented, trainers not migrated",
+                "specification_status": (
+                    "implemented and mountable; no artifact audited here was "
+                    "produced on the isolated surface"),
+                "isolated_surface_loader": (
+                    "QPSMPData(split_view=...); train_qpsmp.py and "
+                    "evaluate_qpsmp.py --split-view"),
                 "isolated_surface": ("dataset/processed/meta_fewshot/"
                                      "bindingdb_ki_double_cold_v1_views"),
                 "isolated_surface_builder": (

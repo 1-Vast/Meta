@@ -137,24 +137,28 @@ def test_development_mount_works_with_the_sealed_artifact_physically_absent(tmp_
 
 # --- mounting the sealed split is gated -----------------------------------
 
+AUTHORIZED = ("contract test: mount-gate assertions only, "
+              "no meta_test label read and no metric computed")
+
+
 def test_mounting_meta_test_requires_authorization_and_an_out_of_tree_path():
     with pytest.raises(ValueError, match="written authorization"):
         GovernedSplitView(VIEWS, visible=(SEALED_SPLIT,))
     with pytest.raises(ValueError, match="out-of-tree"):
         GovernedSplitView(VIEWS, visible=(SEALED_SPLIT,),
-                          authorization="test")
+                          authorization=AUTHORIZED)
 
 
 def test_meta_test_cannot_be_mounted_beside_a_development_split():
     with pytest.raises(ValueError, match="alongside a development split"):
         GovernedSplitView(VIEWS, visible=("meta_train", SEALED_SPLIT),
-                          authorization="test", sealed_directory=SEALED)
+                          authorization=AUTHORIZED, sealed_directory=SEALED)
 
 
 def test_authorization_without_requesting_meta_test_is_refused():
     with pytest.raises(ValueError, match="ambiguous mount"):
         GovernedSplitView(VIEWS, visible=DEVELOPMENT_SPLITS,
-                          authorization="test")
+                          authorization=AUTHORIZED)
 
 
 def test_a_tampered_artifact_fails_the_mount(tmp_path):
