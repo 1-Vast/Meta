@@ -1021,3 +1021,14 @@ FINAL_STATE_20260818.md, BOUNDARY_20260817_NIGHT.md) and in GOAL_ACTIVE.md
 to the supportable claim: no sealed meta_test label entered any fitting,
 selection or reported metric (0 evaluations in the audited artifacts).
 Full maintained suite green again: 268 passed / 6 skipped.
+
+---
+
+# 2026-08-18 (night) — round 19: completion statement written
+
+report/COMPLETION_STATEMENT_20260818.md is the evidence authority for
+marking the objective complete on the conclusion branch: which terminal
+condition is met, the evidence chain with artifact paths, the exact scope
+of the conclusion, and the marking status (goal tools were not registered
+in the originating session). Full maintained suite re-verified green:
+268 passed / 6 skipped.
