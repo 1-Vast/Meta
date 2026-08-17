@@ -1677,3 +1677,12 @@ ligands (32 rows total): 2059fc/82df (pos596, 7 ligands, all-positive mean
 (pos27+177, 5), 18cfc/bebf (pos174, 6), 18620c/c260 (pos34+59, 4). W0-P is
 now runnable; W1 remains NO-GO until the positive-control test and censoring
 re-census pass.
+
+## Stage W0-P test FAIL (round 22)
+
+Leave-one-pair-out, 3 seeds, low-capacity bilinear. Correct mutation positions
+sign accuracy 0.240 vs random 0.156 and BLOSUM-approximate 0.125; global pooled
+0.760 and random protein 0.625 (unexplained, under-powered; not positive).
+Frozen rule: positive control FAILED; pipeline does not recover point-mutant
+signed change with required specificity; W1 stays NO-GO and no cold null may be
+read as biological absence.

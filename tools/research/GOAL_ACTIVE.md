@@ -373,3 +373,13 @@ W0-P 预注册 SHA-256 `ba0b51ec419b0275a129e69e4cb45db1bccbdd138000893ee7daf881
 正控；其余 5 对接近零（mean −0.03…+0.05）。W0-P 可运行；下一步运行冻结的
 低容量双线性正控测试与正确/随机/BLOSUM近似/global/random-protein 对照。
 W1 仍为 NO-GO，直到 W0-P 通过且 W0b 删失后重新 census 通过。
+
+## Stage W0-P 测试结果（round 22）：FAIL
+
+W0-P 预注册冻结后，以 leave-one-pair-out + 3 seeds 运行低容量双线性正控。
+正确突变位置 sign accuracy **0.240**，未击败 random positions（0.156）、
+BLOSUM 近似位置（0.125）；global ESM pooled difference 反而 0.760（记录为
+6-pair 下的未解释观测，不是正结论）。按冻结规则 W0-P **FAIL**：管线未能以
+要求特异性恢复点突变 signed change，后续冷蛋白 null 不得解释为生物学缺失。
+W1 保持 NO-GO。下一步：扩充点突变 panel 并重新预注册，或获取外部标准
+W0-P panel；不得把 global-pooled 0.760 当作通过。

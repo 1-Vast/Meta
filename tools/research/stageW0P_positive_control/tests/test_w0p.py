@@ -19,3 +19,11 @@ def test_prereg_and_panel():
     for p in d['pairs']:
         assert 1 <= len(p['mutation_positions']) <= 5
         assert p['n_shared_ligands'] >= 3
+
+def test_w0p_result_records_failure():
+    import json
+    d=json.loads((STAGE/'W0P_RESULT.json').read_text(encoding='utf-8'))
+    correct=d['controls']['correct']
+    assert correct['sign_accuracy'] < 0.5
+    assert d['controls']['ligand_only']['pearson'] == 0.0
+    assert d['controls']['global_pooled']['sign_accuracy'] > correct['sign_accuracy']

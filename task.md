@@ -408,3 +408,10 @@ by frozen rule. W0-P is now runnable; the gradient-trained positive-control
 test with correct/random/BLOSUM-approximate/global/random-protein controls is
 the next step. W1 remains NO-GO until W0-P passes and censoring re-census
 passes.
+
+Stage W0-P result: **FAIL** (leave-one-pair-out, 3 seeds). Correct positions
+sign accuracy 0.240 does not beat corrupted positions; global ESM pooled
+difference reaches 0.760 but is recorded as unexplained under n=6 pairs, not a
+positive. W1 remains NO-GO. Next authorized action: enlarge the point-mutant
+panel or acquire a standard positive-control panel, then re-preregister the
+W0-P pass rule from effective sample size.
