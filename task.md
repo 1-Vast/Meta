@@ -424,3 +424,7 @@ beat corrupted positions); local panel cannot be enlarged beyond 7 pairs;
 Davis/Metz/Klaeger censoring 60-94%. W1 remains PAUSED/NO-GO. Next action is
 external W0-P panel acquisition with provenance, then censored re-census and
 re-preregistration — not W1 training.
+
+Blocker recorded: `stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md`. Current
+status is NO-GO until a standard W0-P panel matching the acquisition spec is
+present and provenance-recorded. No W1 training is authorized meanwhile.

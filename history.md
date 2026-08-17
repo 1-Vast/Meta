@@ -1695,3 +1695,10 @@ assets. W0-P FAIL (correct positions sign 0.240 vs random 0.156 / BLOSUM
 panel not enlargeable (7 pairs max); Davis/Metz/Klaeger censored 71/60/94%.
 W1 paused/NO-GO. Only external W0-P panel acquisition + censored re-census +
 re-preregistration are authorized next.
+
+## W0-P acquisition spec (round 24)
+
+`stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md` records the blocking external
+asset and its acceptance contract (>=20 mutation pairs, >=100 rows, median
+>=5 shared ligands/pair, censored <=0.25, per-pair positions, single label
+unit). Status stays NO-GO; no W1 training until the asset is present.

@@ -393,3 +393,11 @@ global pooled 0.760 为 6-pair 欠功效观测，不作正结论）；本地 pan
 已授权下一步仅限：获取标准 W0-P panel（记录来源/许可/校验和）→ 删失排除或
 区间删失后重 census → 基于有效样本量重新预注册 W0-P/W1。W1 保持 PAUSED/NO-GO；
 不得把未来冷蛋白 null 解释为生物学缺失。
+
+## Blocker 记录（round 24）
+
+`stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md` 固化阻塞资产规格：标准
+W0-P panel（>=20 mutation pairs / >=100 rows / median >=5 shared ligands /
+删失 <=25% / mutation position + isomeric SMILES + 单一单位制），并列出
+可接受来源与 provenance 契约。在获得该资产前，按阶段门保持 NO-GO，不开展
+W1 训练，也不把冷蛋白 null 解释为生物学缺失。
