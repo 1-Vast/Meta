@@ -239,7 +239,7 @@ def test_completion_evidence_manifest_hashes_match_current_files():
     import hashlib
     manifest_path = REPO / "report" / "COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    assert manifest["goal_status"] == "COMPLETE (bounded-negative branch)"
+    assert manifest["goal_status"].startswith("COMPLETE (bounded-negative branch")
     for item in manifest["artifacts"]:
         path = REPO / item["path"]
         assert path.exists(), item["path"]

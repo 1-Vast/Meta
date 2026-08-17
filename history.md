@@ -1611,3 +1611,27 @@ meta_test 0 evaluations. Goal status remains COMPLETE in GOAL_ACTIVE.md.
 All new-cycle evidence and the completion statement are committed as
 `1b82597df1250d523d18fdb05dd8ac7e0fd3c319`; working tree clean.
 `report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json` records this commit.
+
+---
+
+# 2026-08-17 — Stage W W0: redirected soft-MMP surfaces (Davis FAIL, KIBA PASS)
+
+User redirect: exact-MMP negative closes only that branch; build transferable
+local protein-ligand signal on independent open datasets before meta-learning.
+`tools/research/stageW_soft_mmp/PREREGISTRATION.md` frozen before any W0
+statistic (SHA-256 `ae96762e…45dc71`).
+
+Soft family = murcko core + attachment environment + quantized pharmacophore
+change category of R_a/R_b. W0 per dataset, independently:
+- **Davis FAIL**: 68 ligands yield only **7** exact/soft families (rich
+  families 7 < 20) and the same-core residual is unidentifiable. Davis is
+  closed for this surface.
+- **KIBA PASS**: 349,100 same-target MMP observations / 229 targets / 127
+  CD-HIT40 components / 10,565 exact keys / 2,420 rich soft families /
+  5,504,678 cross-component D rows; concentration gates all pass; same-core
+  residual median 0.667 <= 1.0; between-component MS 0.511 vs
+  component-permuted null median 0.304 (p=0).
+
+Next: W1 preregistration for KIBA-only local interaction representation; no W1
+training metric has been read. `tools/research/GOAL_ACTIVE.md` now records the
+new active goal.

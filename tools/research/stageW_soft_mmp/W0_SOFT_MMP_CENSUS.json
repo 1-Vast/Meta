@@ -1,0 +1,199 @@
+{
+ "datasets": {
+  "davis": {
+   "all_pass": false,
+   "census": {
+    "components": 206,
+    "cross_component_D_rows": 498967,
+    "exact_keys": 7,
+    "family_keys": 7,
+    "observations": 2653,
+    "rich_families": 7,
+    "targets": 379,
+    "top10_family_share": 1.0,
+    "top1_family_share": 0.14285714285714285,
+    "top1_target_share": 0.002638522427440633,
+    "top5_target_share": 0.013192612137203167
+   },
+   "file": "D:\\MetaSieve\\dataset\\raw\\dta\\davis.tab",
+   "file_sha256": "6d4c6809dcb7c5da2b91a32d594d6935b75484940bde4d18055eb5e1059262f4",
+   "gate": {
+    "components": {
+     "measured": 206,
+     "pass": true,
+     "threshold": 10
+    },
+    "cross_component_D_rows": {
+     "measured": 498967,
+     "pass": true,
+     "threshold": 500
+    },
+    "rich_families": {
+     "measured": 7,
+     "pass": false,
+     "threshold": 20
+    },
+    "same_core_residual_median": {
+     "measured": null,
+     "pass": false,
+     "threshold": 1.0
+    },
+    "same_target_observations": {
+     "measured": 2653,
+     "pass": true,
+     "threshold": 1000
+    },
+    "targets": {
+     "measured": 379,
+     "pass": true,
+     "threshold": 30
+    },
+    "top10_family_share": {
+     "measured": 1.0,
+     "pass": false,
+     "threshold": 0.3
+    },
+    "top1_family_share": {
+     "measured": 0.14285714285714285,
+     "pass": false,
+     "threshold": 0.1
+    },
+    "top1_target_share": {
+     "measured": 0.002638522427440633,
+     "pass": true,
+     "threshold": 0.2
+    },
+    "top5_target_share": {
+     "measured": 0.013192612137203167,
+     "pass": true,
+     "threshold": 0.6
+    }
+   },
+   "ligands_with_no_cut": 0,
+   "random_protein_null": {
+    "definition": "pooled within-family between-component variance of delta_y; null permutes protein-component labels",
+    "draws": 500,
+    "null_MS_median": 6429207.0722161075,
+    "null_MS_q05": 5966443.162649366,
+    "null_MS_q95": 6899151.696258549,
+    "observed_between_component_MS": 8338836.754106609,
+    "p_permutation_upper": 0.0,
+    "seed": 20260820
+   },
+   "same_core_residual": {
+    "groups": 0,
+    "median": null,
+    "p95": null
+   },
+   "unique_ligand_smiles": 68,
+   "unique_rows": 25772,
+   "unique_target_sequences": 379
+  },
+  "kiba": {
+   "all_pass": true,
+   "census": {
+    "components": 127,
+    "cross_component_D_rows": 5504678,
+    "exact_keys": 10565,
+    "family_keys": 2428,
+    "observations": 349100,
+    "rich_families": 2420,
+    "targets": 225,
+    "top10_family_share": 0.13706387854482957,
+    "top1_family_share": 0.03118017759954168,
+    "top1_target_share": 0.02088799770839301,
+    "top5_target_share": 0.09096533944428531
+   },
+   "file": "D:\\MetaSieve\\dataset\\raw\\dta\\kiba.tab",
+   "file_sha256": "eb77bed3ba64cc0cd07e05ff7f4b94f94a866a54cf673bb2c798cfeb0ebe2322",
+   "gate": {
+    "components": {
+     "measured": 127,
+     "pass": true,
+     "threshold": 10
+    },
+    "cross_component_D_rows": {
+     "measured": 5504678,
+     "pass": true,
+     "threshold": 500
+    },
+    "rich_families": {
+     "measured": 2420,
+     "pass": true,
+     "threshold": 20
+    },
+    "same_core_residual_median": {
+     "measured": 0.666888736999999,
+     "pass": true,
+     "threshold": 1.0
+    },
+    "same_target_observations": {
+     "measured": 349100,
+     "pass": true,
+     "threshold": 1000
+    },
+    "targets": {
+     "measured": 225,
+     "pass": true,
+     "threshold": 30
+    },
+    "top10_family_share": {
+     "measured": 0.13706387854482957,
+     "pass": true,
+     "threshold": 0.3
+    },
+    "top1_family_share": {
+     "measured": 0.03118017759954168,
+     "pass": true,
+     "threshold": 0.1
+    },
+    "top1_target_share": {
+     "measured": 0.02088799770839301,
+     "pass": true,
+     "threshold": 0.2
+    },
+    "top5_target_share": {
+     "measured": 0.09096533944428531,
+     "pass": true,
+     "threshold": 0.6
+    }
+   },
+   "ligands_with_no_cut": 1021,
+   "random_protein_null": {
+    "definition": "pooled within-family between-component variance of delta_y; null permutes protein-component labels",
+    "draws": 500,
+    "null_MS_median": 0.30360848324213996,
+    "null_MS_q05": 0.30062557580041205,
+    "null_MS_q95": 0.30642230763702255,
+    "observed_between_component_MS": 0.5106243745733818,
+    "p_permutation_upper": 0.0,
+    "seed": 20260820
+   },
+   "same_core_residual": {
+    "groups": 51478,
+    "max": 8.531833588000001,
+    "median": 0.666888736999999,
+    "p95": 2.950651239999999,
+    "pairs": 5852581
+   },
+   "unique_ligand_smiles": 2068,
+   "unique_rows": 117657,
+   "unique_target_sequences": 229
+  }
+ },
+ "gates": {
+  "components": 10,
+  "cross_component_D_rows": 500,
+  "rich_families": 20,
+  "same_core_residual_median": 1.0,
+  "same_target_observations": 1000,
+  "targets": 30,
+  "top10_family_share": 0.3,
+  "top1_family_share": 0.1,
+  "top1_target_share": 0.2,
+  "top5_target_share": 0.6
+ },
+ "preregistration_sha256": "ae96762e319521f30aa09eb1a79fb8bb0e3ea324b21d4b40868aa6826a45dc71",
+ "schema": "MetaSieve.StageW.W0SoftMMPCensus.v1",
+ "stage": "stageW_soft_mmp"
+}

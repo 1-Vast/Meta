@@ -367,3 +367,17 @@ are to be started until one of the three reopening conditions appears.
 Goal status: **COMPLETE** on the bounded-negative branch as recorded in
 `tools/research/GOAL_ACTIVE.md` (round 10). No further internal work until an
 external asset or governance change opens a new cycle.
+
+## Active direction update (2026-08-17 user redirect)
+
+The exact-MMP branch is closed. The new active goal is Stage W
+(`tools/research/stageW_soft_mmp/`): build a transferable local
+protein-ligand signal on independent open datasets before any meta-learning.
+W0 is complete: **Davis FAIL** (only 7 rich soft families; closed for this
+surface), **KIBA PASS** (2,420 rich families / 127 components / 5.5M
+cross-component D rows; same-core residual median 0.667 <= 1.0;
+between-component MS outside component-permuted null). Immediate next action:
+freeze a W1 preregistration for KIBA-only local interaction representation
+(multi-pocket residue states x ligand pharmacophore subgraphs, local
+cross-attention, independent level/shape heads, full protein counterfactuals),
+then execute W1 gates exactly as frozen.

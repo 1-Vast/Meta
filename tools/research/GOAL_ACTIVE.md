@@ -308,3 +308,20 @@ meta_test 0 评估、git commit）。全部存在，清单已生成；任何具�
 （"Core task one: close core-inclusive MMP protein-local-interaction route at
 U0/V1"）。工作树干净；`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json`
 中的 git_commit 已同步为该提交。
+
+## 新目标周期（2026-08-17 用户重定向，Stage W soft-MMP / 局部交互表示）
+
+用户明确：Harness 的 exact-MMP 负结论只关闭“继续扩大 exact-MMP 模型”这一支；
+新目标是在独立开放数据集上先建立可迁移的局部蛋白-配体信号，再做元学习。
+**当前目标状态 = ACTIVE（Stage W）。**
+
+Stage W W0（预注册 SHA-256 `ae96762e…45dc71`，冻结后读取）已执行：
+- Davis：**W0 FAIL**（68 配体只形成 7 个 rich families <20；同核心残差不可识别），
+  该表面对 Davis 关闭。
+- KIBA：**W0 PASS**（349,100 observations / 127 components / 2,420 rich
+  families / 5.5M cross-component D rows；同核心残差 median 0.667 ≤ 1.0；
+  between-component MS 0.511 vs component-permuted null 0.304, p=0）。
+- 下一步：仅对 KIBA 做 W1 局部交互表示（多口袋残基状态 × 配体药效团子结构、
+  局部 cross-attention、独立 level/shape head、correct/shuffled/matched-wrong/
+  residue-permuted/protein-blind/random-branch/label-shuffle 全对照），
+  W1 预注册必须在任何训练指标读取前冻结；W1 未开始。
