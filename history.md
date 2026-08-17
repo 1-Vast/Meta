@@ -1686,3 +1686,12 @@ sign accuracy 0.240 vs random 0.156 and BLOSUM-approximate 0.125; global pooled
 Frozen rule: positive control FAILED; pipeline does not recover point-mutant
 signed change with required specificity; W1 stays NO-GO and no cold null may be
 read as biological absence.
+
+## Core Task 1 W0/W0-P final decision (round 23)
+
+`stageW0b_core1_audit/W0B_W0P_FINAL_DECISION.json`: NO-GO on current local
+assets. W0-P FAIL (correct positions sign 0.240 vs random 0.156 / BLOSUM
+0.125; global pooled 0.760 unexplained under n=6 pairs); local positive-control
+panel not enlargeable (7 pairs max); Davis/Metz/Klaeger censored 71/60/94%.
+W1 paused/NO-GO. Only external W0-P panel acquisition + censored re-census +
+re-preregistration are authorized next.

@@ -415,3 +415,12 @@ difference reaches 0.760 but is recorded as unexplained under n=6 pairs, not a
 positive. W1 remains NO-GO. Next authorized action: enlarge the point-mutant
 panel or acquire a standard positive-control panel, then re-preregister the
 W0-P pass rule from effective sample size.
+
+## Core Task 1 W0/W0-P final decision
+
+`stageW0b_core1_audit/W0B_W0P_FINAL_DECISION.md/json`: **NO-GO on current local
+assets.** W0-P FAILED (leave-one-pair-out, 3 seeds; correct positions do not
+beat corrupted positions); local panel cannot be enlarged beyond 7 pairs;
+Davis/Metz/Klaeger censoring 60-94%. W1 remains PAUSED/NO-GO. Next action is
+external W0-P panel acquisition with provenance, then censored re-census and
+re-preregistration — not W1 training.

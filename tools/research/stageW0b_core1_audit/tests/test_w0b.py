@@ -42,3 +42,9 @@ def test_no_hash_or_forbidden_split_name_in_source():
                 raise AssertionError(f"{path.name}:{node.lineno} hash()")
             if isinstance(node, ast.Constant) and node.value == forbidden:
                 raise AssertionError(f"{path.name}:{node.lineno}")
+
+def test_final_decision_no_go():
+    import json
+    d=json.loads((STAGE/'W0B_W0P_FINAL_DECISION.json').read_text(encoding='utf-8'))
+    assert d['decision'].startswith('NO-GO')
+    assert d['evidence']['w0p_result']['verdict'].startswith('FAIL')

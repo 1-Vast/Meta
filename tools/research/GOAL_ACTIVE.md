@@ -383,3 +383,13 @@ BLOSUM 近似位置（0.125）；global ESM pooled difference 反而 0.760（记
 要求特异性恢复点突变 signed change，后续冷蛋白 null 不得解释为生物学缺失。
 W1 保持 NO-GO。下一步：扩充点突变 panel 并重新预注册，或获取外部标准
 W0-P panel；不得把 global-pooled 0.760 当作通过。
+
+## Core Task 1 W0/W0-P 最终裁决（round 23）
+
+`stageW0b_core1_audit/W0B_W0P_FINAL_DECISION.md/json`：**NO-GO——当前本地资产
+无法解决 Core Task 1**。W0-P 正控 FAIL（correct 0.240 未击败损坏位置臂；
+global pooled 0.760 为 6-pair 欠功效观测，不作正结论）；本地 panel 无法扩充
+（>=1 shared ligand 仅 7 对/34 行）；Davis/Metz/Klaeger 删失 60–94%。
+已授权下一步仅限：获取标准 W0-P panel（记录来源/许可/校验和）→ 删失排除或
+区间删失后重 census → 基于有效样本量重新预注册 W0-P/W1。W1 保持 PAUSED/NO-GO；
+不得把未来冷蛋白 null 解释为生物学缺失。

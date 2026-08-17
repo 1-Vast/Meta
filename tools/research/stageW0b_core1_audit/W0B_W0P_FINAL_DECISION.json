@@ -1,0 +1,49 @@
+{
+ "authorized_next_actions": [
+  "Acquire a standard W0-P panel (gatekeeper/resistance mutations or ortholog panels with matched ligand panels) from a licensed public source and record provenance",
+  "Re-census support after censored exclusion or interval-censoring",
+  "Then re-preregister W0-P and W1 thresholds from the effective sample size"
+ ],
+ "date": "2026-08-17",
+ "decision": "NO-GO: Core Task 1 cannot be resolved with current local assets",
+ "evidence": {
+  "censoring": {
+   "davis": 0.7117414248021108,
+   "kiba": 0.0,
+   "klaeger": 0.9351145546281134,
+   "metz": 0.6040901672786617
+  },
+  "estimand_hierarchy": {
+   "davis_mmp_classes": 7,
+   "klaeger_mmp_classes": 38,
+   "metz_mmp_classes": 480
+  },
+  "w0b_preregistration_sha256": "ff23c408d20cc79b1bd5fcd20854a0443280d32d6fc3dbb8abf0733a9a70631f",
+  "w0p_panel": {
+   "pairs": 6,
+   "rows": 32
+  },
+  "w0p_preregistration_sha256": "ba0b51ec419b0275a129e69e4cb45db1bccbdd138000893ee7daf881e7bacbf1",
+  "w0p_result": {
+   "blosum_positions_sign_accuracy": 0.125,
+   "correct_sign_accuracy": 0.23958333333333334,
+   "global_pooled_sign_accuracy": 0.7604166666666666,
+   "random_positions_sign_accuracy": 0.15625,
+   "scheme": "leave-one-pair-out, 3 seeds",
+   "verdict": "FAIL: correct positions do not beat corrupted-position controls"
+  }
+ },
+ "forbidden": [
+  "Interpreting any future cold-protein null as biological absence until W0-P passes",
+  "Training W1 on current assets as a biological signal claim",
+  "Moving Stage W/W0b/W0P thresholds or retrofitting their preregistrations"
+ ],
+ "reasons_no_go": [
+  "W0-P positive control FAILED; the pipeline does not recover signed point-mutant changes with position specificity",
+  "W0-P local panel cannot be meaningfully enlarged (7 pairs with >=1 shared ligand; 34 rows max)",
+  "Davis/Metz/Klaeger labels are 60-94% detection-floor censored",
+  "Davis strict MMP layer has only 7 classes; Klaeger 38",
+  "KIBA has no censoring but score semantics differ and cannot be sole positive evidence"
+ ],
+ "schema": "MetaSieve.CoreTask1.W0W0PFinalDecision.v1"
+}
