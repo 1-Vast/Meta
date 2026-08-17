@@ -389,3 +389,14 @@ components; heldout_repeated 186,673 rows / 23 components / 2,040 families.
 Next: build the KIBA ESM-2 150M protein token bank, implement the local
 interaction operator, run structural tests, then train arms A-F exactly under
 the frozen gates.
+
+## Stage W0b audit update
+
+Preregistration frozen (`stageW0b_core1_audit/PREREGISTRATION.md`, SHA-256
+`ff23c408…70631f`). Verdict: **W1 GO/NO-GO = NO-GO on current local assets**.
+Reasons: W0-P positive control not runnable; Davis/Metz/Klaeger censored at
+71.2%/60.4%/93.5%; Davis strict MMP only 7 classes; KIBA descriptive only.
+Stage W W1 is PAUSED (no training artifact, no training metric). Immediate next
+action: acquire an admissible mutation/ortholog positive-control panel, then
+re-census support after censored exclusion/interval-censoring before any W1
+training decision.

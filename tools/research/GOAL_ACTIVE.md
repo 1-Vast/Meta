@@ -344,3 +344,22 @@ manifest 已生成）。W1 局部交互算子已实现并通过结构测试：li
 component-id/assay-id 输入，无 dropout 随机性。W1_ROWS 已落盘：train
 3,259,545 / fit_unsampled 362,171 / heldout_repeated 186,673。下一步：实现
 六臂 trainer 与全部蛋白反事实评估，单 seed 训练。
+
+## Stage W0b 审计（新用户指令，round 21）：W1 GO/NO-GO = NO-GO
+
+W0b 预注册 SHA-256 `ff23c408d20cc79b1bd5fcd20854a0443280d32d6fc3dbb8abf0733a9a70631f`。
+审计发现：
+- **W0-P 正控不可运行**：本地无 HIV 耐药、gatekeeper/mutation、ortholog
+  point-mutant panel（含匹配配体活性）。按冻结规则，任何生物 null/正信号解释
+  均未授权。
+- **删失灾难**：Davis 71.2%、Metz 60.4%、Klaeger 93.5% 的标签在地板值
+  （10000 nM / pKi 4.0 / pKd 5.0）。Stage W W0 未报告这一点。
+- **层次 census**：broad all/similar pair 层有海量 support，但地板主导；
+  Davis strict MMP 仅 7 classes（top1 share 54%）；Metz MMP 480 classes /
+  EIU 10；Klaeger MMP 38 classes。
+- Stage W W1 **PAUSED**：无 trained artifacts、无训练指标；W0/W1 预注册原件
+  保留，未追溯修改。
+
+**裁决：W1 生物学解释 NO-GO**。下一步（按优先级）：(a) 获取/构建可入的 W0-P
+panel；(b) 排除或区间删失后重做 support census；(c) 从有效样本量预注册 W1
+门槛。当前目标保持 ACTIVE（Stage W0b）。

@@ -1656,3 +1656,14 @@ R, and exact `D_hat = R(p1)-R(p2)` with bitwise identity/antisymmetry and cycle
 consistency (7 Stage W tests pass). W1 rows materialized: train 3,259,545 /
 fit_unsampled 362,171 / heldout_repeated 186,673. Trainer and arms A-F are the
 next step.
+
+## Stage W0b (new user instruction): W1 GO/NO-GO = NO-GO
+
+`tools/research/stageW0b_core1_audit/` prereg SHA-256
+`ff23c408d20cc79b1bd5fcd20854a0443280d32d6fc3dbb8abf0733a9a70631f`.
+Audit: W0-P positive control NOT RUNNABLE locally; censoring Davis 71.2% /
+Metz 60.4% / Klaeger 93.5%; hierarchy shows broad pair layers huge but
+floor-dominated, Davis MMP 7 classes, Metz MMP 480, Klaeger MMP 38. Stage W
+W1 paused, original preregistrations retained. Decision: NO-GO for W1
+biological interpretation until a positive-control panel exists and censored
+labels are excluded/modelled with a re-census.

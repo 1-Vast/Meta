@@ -1,0 +1,261 @@
+{
+ "assets": {
+  "davis": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\dta\\davis.tab",
+   "sha256": "6d4c6809dcb7c5da2b91a32d594d6935b75484940bde4d18055eb5e1059262f4"
+  },
+  "kiba": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\dta\\kiba.tab",
+   "sha256": "eb77bed3ba64cc0cd07e05ff7f4b94f94a866a54cf673bb2c798cfeb0ebe2322"
+  },
+  "klaeger": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\crossed_panels\\kinase_panels\\klaeger_matrix.csv",
+   "sha256": "cdf66c7d4e7c1e3a35aeb6995abbfdaf15be80f3e07715524b2bb4449d871010"
+  },
+  "klaeger_smiles": {
+   "path": "D:\\MetaSieve\\dataset\\processed\\crossed_panels_xp2\\klaeger_smiles.json",
+   "sha256": "8a1e7b60e78fec08f17cd068b131360da05d20e183d22751585bc73cb1315a81"
+  },
+  "klifs_groups": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\crossed_panels\\protein_annotation\\klifs_kinase_groups.json",
+   "sha256": "096f716e6227e1a090e2886d018fd3dff9259eaa098675df280fe2154806fd21"
+  },
+  "klifs_info": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\crossed_panels\\protein_annotation\\klifs_kinase_information_human.json",
+   "sha256": "479e8c3ad148f73765bbb7d60aea8415b38a1836ff39bb8d3c30dcf95c4435ea"
+  },
+  "metz_matrix": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\crossed_panels\\kinase_panels\\metz_matrix.csv",
+   "sha256": "abe1e3c580478775a352ec5ee78ca565d4c863f0e3e642fdb21d956d8f9d4375"
+  },
+  "metz_xls": {
+   "path": "D:\\MetaSieve\\dataset\\raw\\crossed_panels\\kinase_panels\\metz.xls",
+   "sha256": "81731c4004823bd45fa3898e25d6491d799dfd0e0486fcc8c9c821f9419dd591"
+  }
+ },
+ "censoring": {
+  "davis": {
+   "cells": 25772,
+   "censored_cells": 18343,
+   "censored_fraction": 0.7117414248021108,
+   "per_target_censored_fraction_quantiles": {
+    "median": 0.7352941176470589,
+    "p95": 0.9132352941176466
+   },
+   "value_quantiles": {
+    "max": 10000.0,
+    "median": 10000.0,
+    "min": 0.016,
+    "p05": 47.55000000000018,
+    "p95": 10000.0
+   }
+  },
+  "kiba": {
+   "cells": 117657,
+   "censored_cells": 0,
+   "censored_fraction": 0.0,
+   "per_target_censored_fraction_quantiles": {
+    "median": 0.0,
+    "p95": 0.0
+   },
+   "value_quantiles": {
+    "max": 17.200179498,
+    "median": 11.520216403,
+    "min": 0.0,
+    "p05": 10.700000075,
+    "p95": 13.500007822
+   }
+  },
+  "klaeger": {
+   "cells": 75117,
+   "censored_cells": 70243,
+   "censored_fraction": 0.9351145546281134,
+   "per_target_censored_fraction_quantiles": {
+    "median": 0.9497716894977168,
+    "p95": 0.9954337899543378
+   },
+   "value_quantiles": {
+    "max": 9.91749654433168,
+    "median": 5.0,
+    "min": 4.003349071057585,
+    "p05": 5.0,
+    "p95": 5.663119466490998
+   }
+  },
+  "metz": {
+   "cells": 39216,
+   "censored_cells": 23690,
+   "censored_fraction": 0.6040901672786617,
+   "per_target_censored_fraction_quantiles": {
+    "median": 0.6052631578947368,
+    "p95": 0.956140350877193
+   },
+   "value_quantiles": {
+    "max": 10.1,
+    "median": 4.0,
+    "min": 4.0,
+    "p05": 4.0,
+    "p95": 7.5
+   }
+  }
+ },
+ "go_no_go": {
+  "per_dataset": {
+   "davis": "AUDITED",
+   "kiba": "AUDITED",
+   "klaeger": "AUDITED",
+   "metz": "AUDITED"
+  },
+  "reason": "W0-P positive control is NOT RUNNABLE from local assets; support/censoring statistics alone cannot authorize a biological-null or signal claim.",
+  "w1_biological_interpretation": "NO-GO"
+ },
+ "hierarchy": {
+  "davis": {
+   "all_pairs": {
+    "classes": 2278,
+    "classes_ge3_targets_ge3_components": 2278,
+    "cross_component_D_rows": 162378118,
+    "effective_independent_units": 206,
+    "top1_class_share": 0.16637401229148377,
+    "within_target_pairs": 863362
+   },
+   "mmp": {
+    "classes": 7,
+    "classes_ge3_targets_ge3_components": 7,
+    "cross_component_D_rows": 498967,
+    "effective_independent_units": 7,
+    "top1_class_share": 54.142857142857146,
+    "within_target_pairs": 2653
+   },
+   "similar_pairs": {
+    "classes": 2278,
+    "classes_ge3_targets_ge3_components": 2278,
+    "cross_component_D_rows": 162378118,
+    "effective_independent_units": 206,
+    "top1_class_share": 0.16637401229148377,
+    "within_target_pairs": 863362
+   },
+   "strict_mmp": {
+    "classes": 7,
+    "classes_ge3_targets_ge3_components": 7,
+    "cross_component_D_rows": 498967,
+    "effective_independent_units": 7,
+    "top1_class_share": 54.142857142857146,
+    "within_target_pairs": 2653
+   }
+  },
+  "klaeger": {
+   "all_pairs": {
+    "classes": 23871,
+    "classes_ge3_targets_ge3_components": 23871,
+    "cross_component_D_rows": 1138837668,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.01436889950148716,
+    "within_target_pairs": 8187753
+   },
+   "mmp": {
+    "classes": 38,
+    "classes_ge3_targets_ge3_components": 38,
+    "cross_component_D_rows": 1812904,
+    "effective_independent_units": 10,
+    "top1_class_share": 9.026315789473685,
+    "within_target_pairs": 13034
+   },
+   "similar_pairs": {
+    "classes": 23871,
+    "classes_ge3_targets_ge3_components": 23871,
+    "cross_component_D_rows": 1138837668,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.01436889950148716,
+    "within_target_pairs": 8187753
+   },
+   "strict_mmp": {
+    "classes": 38,
+    "classes_ge3_targets_ge3_components": 38,
+    "cross_component_D_rows": 1812904,
+    "effective_independent_units": 10,
+    "top1_class_share": 9.026315789473685,
+    "within_target_pairs": 13034
+   }
+  },
+  "metz": {
+   "all_pairs": {
+    "classes": 24531,
+    "classes_ge3_targets_ge3_components": 24531,
+    "cross_component_D_rows": 304576896,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.007011536423301129,
+    "within_target_pairs": 4219332
+   },
+   "mmp": {
+    "classes": 480,
+    "classes_ge3_targets_ge3_components": 480,
+    "cross_component_D_rows": 5959680,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.35833333333333334,
+    "within_target_pairs": 82560
+   },
+   "similar_pairs": {
+    "classes": 24531,
+    "classes_ge3_targets_ge3_components": 24531,
+    "cross_component_D_rows": 304576896,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.007011536423301129,
+    "within_target_pairs": 4219332
+   },
+   "strict_mmp": {
+    "classes": 480,
+    "classes_ge3_targets_ge3_components": 480,
+    "cross_component_D_rows": 5959680,
+    "effective_independent_units": 10,
+    "top1_class_share": 0.35833333333333334,
+    "within_target_pairs": 82560
+   }
+  }
+ },
+ "positive_control_audit": {
+  "found_files": [
+   "D:\\MetaSieve\\dataset\\raw\\open_structures\\pilot20k\\mmcif\\1hiv.cif.gz"
+  ],
+  "reason": "No HIV-resistance, gatekeeper/mutation or ortholog point-mutant panel with matching ligand affinities was found locally. W0-P cannot be executed from local assets.",
+  "runnable": false,
+  "searched_tokens": [
+   "hiv",
+   "mutant",
+   "variant",
+   "ortholog",
+   "resistance",
+   "gatekeeper",
+   "anastassiadis"
+  ]
+ },
+ "preregistration_sha256": "ff23c408d20cc79b1bd5fcd20854a0443280d32d6fc3dbb8abf0733a9a70631f",
+ "schema": "MetaSieve.StageW0b.CoreTask1Audit.v1",
+ "stage": "stageW0b_core1_audit",
+ "stage_w_audit": {
+  "files": [
+   "tools\\research\\stageW_soft_mmp\\PREREGISTRATION.md",
+   "tools\\research\\stageW_soft_mmp\\W0_REPORT.md",
+   "tools\\research\\stageW_soft_mmp\\W0_SOFT_MMP_CENSUS.json",
+   "tools\\research\\stageW_soft_mmp\\W1_DATA.json",
+   "tools\\research\\stageW_soft_mmp\\W1_OBSERVATIONS.jsonl.gz",
+   "tools\\research\\stageW_soft_mmp\\W1_PREREGISTRATION.md",
+   "tools\\research\\stageW_soft_mmp\\W1_ROWS.jsonl.gz",
+   "tools\\research\\stageW_soft_mmp\\build_kiba_protein_bank.py",
+   "tools\\research\\stageW_soft_mmp\\kiba_esm2_t30_slots128\\manifest.json",
+   "tools\\research\\stageW_soft_mmp\\kiba_esm2_t30_slots128\\shard_000000.npz",
+   "tools\\research\\stageW_soft_mmp\\kiba_esm2_t30_slots128\\shard_000128.npz",
+   "tools\\research\\stageW_soft_mmp\\kiba_targets_records.jsonl",
+   "tools\\research\\stageW_soft_mmp\\soft_mmp.py",
+   "tools\\research\\stageW_soft_mmp\\tests\\test_stage_w.py",
+   "tools\\research\\stageW_soft_mmp\\w0_census.py",
+   "tools\\research\\stageW_soft_mmp\\w1_data.py",
+   "tools\\research\\stageW_soft_mmp\\w1_model.py",
+   "tools\\research\\stageW_soft_mmp\\w1_rows.py"
+  ],
+  "preregistration_sha256": "ae96762e319521f30aa09eb1a79fb8bb0e3ea324b21d4b40868aa6826a45dc71",
+  "trained_artifacts": [],
+  "w1_preregistration_sha256": "038f4d97f74841023c48a2e9b3bab5592a0bad2bb9fa54a464d5290641549082",
+  "w1_training_status": "PAUSED; no training metric read"
+ }
+}
