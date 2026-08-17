@@ -12,7 +12,7 @@ def main() -> int:
         print("usage: python main.py verify tests [pytest arguments]")
         print("\nRuns pytest with -q when no pytest arguments are supplied.")
         return 0
-    return int(pytest.main(args or ["-q"]))
+    return int(pytest.main(args or ["tools/tests", "-q"]))
 
 
 if __name__ == "__main__":

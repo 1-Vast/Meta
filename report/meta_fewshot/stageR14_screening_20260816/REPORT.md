@@ -1,5 +1,15 @@
 # Stage R14 screening: the regression-compatible ranking term is inert — claim withdrawn
 
+> **Correction (2026-08-16, repaired and verified).** The dispersion artifacts
+> in this directory originally carried a
+> `"seal": "physical: QPSMPData include_meta_test=False"` claim that was false —
+> the flag was never passed and the class default admitted the sealed split. No
+> number here is affected, and that is now demonstrated: re-running the audit
+> under the repaired fail-closed seal reproduces **105 of 105 numeric A0 fields
+> bit-identically**. The seal blocks have been corrected in place with no
+> numeric field touched. Full scope and verification:
+> `tools/research/a2_readiness_v2/GOVERNANCE_INCIDENT.md`.
+
 Numerical authority: `DISPERSION_R14_3seed.json` (+ `.rows.jsonl`),
 `CONTRAST_R14_k0.json`, `ALIGNMENT_OPERATING_POINT.json`, and the nine per-run
 `RESULT.json` files. Population: double-cold `meta_val`, 41 targets / 19
@@ -135,4 +145,4 @@ representation-side probe — how much within-target ordering is extractable
 from the trunk's ligand embeddings under a `meta_train`-only fit — which is a
 separate, unstarted line and a diagnostic, not a model change.
 
-`meta_test` remains sealed and unopened.
+`meta_test` labels were used for no fitting, selection or reported metric. A historical process-isolation incident remains open: some processes parsed and indexed the split.

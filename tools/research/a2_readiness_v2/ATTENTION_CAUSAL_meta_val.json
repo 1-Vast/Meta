@@ -1,0 +1,637 @@
+{
+ "schema": "MetaSieve.A2ReadinessV2.AttentionCausalAudit.v1",
+ "split": "meta_val",
+ "k": 0,
+ "frozen_design": {
+  "schema": "MetaSieve.A2ReadinessV2.FrozenDesign.v1",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "a0_checkpoints": {
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt": "1a40c5646263a3e3f244d6b2f47e29513f02c3ffb166d2fbfca93931e0d448f8",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt": "c55116af9727970e22b81bd01f3eda322dbe7ff7cb7bc0ff8e69e45d7e783413"
+  },
+  "random_init_seeds": [
+   20260901,
+   20260902,
+   20260903,
+   20260904,
+   20260905,
+   20260906,
+   20260907,
+   20260908,
+   20260909,
+   20260910
+  ],
+  "bank": {
+   "evaluation_seed": 73101,
+   "query_size": 16,
+   "support_sizes": [
+    0,
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "donors": {
+   "pool": "meta_val",
+   "whitening_pool": "meta_train",
+   "strata": [
+    "nearest",
+    "q25",
+    "median",
+    "q75",
+    "farthest"
+   ]
+  },
+  "controls": {
+   "seed": 20260817,
+   "repeated_forward_passes": 2
+  },
+  "statistics": {
+   "bootstrap_draws": 9999,
+   "bootstrap_seed": 20260816,
+   "model_fold_seed": 20260818
+  },
+  "thresholds": {
+   "resolved_rule": "component-paired 95% bootstrap interval excludes zero",
+   "smallest_effect_of_interest_r": 0.05,
+   "decisive_null_half_width_r": 0.05
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "seal": "physical: QPSMPData(include_meta_test=False); sealed cells dropped during construction, absent from cells, tasks, components and materialize"
+ },
+ "interventions": {
+  "both": "routing and content from the donor protein",
+  "routing_only": "residue_key from the donor, residue_value correct",
+  "content_only": "residue_value from the donor, residue_key correct"
+ },
+ "arms": {
+  "A0": {
+   "stages": {
+    "weight": {
+     "both": {
+      "differential_relative_change": 1.4629826302105222,
+      "level_relative_change": 1.363708558054278,
+      "differential_ci": {
+       "mean": 1.4629826302105222,
+       "lo": 1.4049069038909145,
+       "hi": 1.5249701597243992,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 1.4629826302105222,
+      "level_relative_change": 1.363708558054278,
+      "differential_ci": {
+       "mean": 1.4629826302105222,
+       "lo": 1.4049069038909145,
+       "hi": 1.5249701597243992,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.0,
+      "level_relative_change": 0.0,
+      "differential_ci": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "components": 19
+      }
+     }
+    },
+    "context": {
+     "both": {
+      "differential_relative_change": 0.4740064411414851,
+      "level_relative_change": 0.07382274083657565,
+      "differential_ci": {
+       "mean": 0.4740064411414851,
+       "lo": 0.3765222338024407,
+       "hi": 0.5790508798254947,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 1.0389120996234653,
+      "level_relative_change": 0.11660833338863823,
+      "differential_ci": {
+       "mean": 1.0389120996234653,
+       "lo": 0.9311543119981172,
+       "hi": 1.1408944797203509,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.9620622701290693,
+      "level_relative_change": 0.11437809557584618,
+      "differential_ci": {
+       "mean": 0.9620622701290693,
+       "lo": 0.8696888900054711,
+       "hi": 1.048333291717212,
+       "components": 19
+      }
+     }
+    },
+    "occupancy": {
+     "both": {
+      "differential_relative_change": 0.0051694356237936435,
+      "level_relative_change": 0.002727062554040352,
+      "differential_ci": {
+       "mean": 0.0051694356237936435,
+       "lo": 0.0029580074782510554,
+       "hi": 0.008142890115783988,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.011778451224482839,
+      "level_relative_change": 0.004486773997689325,
+      "differential_ci": {
+       "mean": 0.011778451224482839,
+       "lo": 0.005242962039463875,
+       "hi": 0.020805637563741597,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.010041438223717088,
+      "level_relative_change": 0.0034275575922913717,
+      "differential_ci": {
+       "mean": 0.010041438223717088,
+       "lo": 0.0047185192996979245,
+       "hi": 0.018210722009888325,
+       "components": 19
+      }
+     }
+    },
+    "mean_state": {
+     "both": {
+      "differential_relative_change": 0.0031069000295203555,
+      "level_relative_change": 0.002122707210308375,
+      "differential_ci": {
+       "mean": 0.0031069000295203555,
+       "lo": 0.002252404844079377,
+       "hi": 0.004149772226804619,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.00430603212047808,
+      "level_relative_change": 0.0031751173918716387,
+      "differential_ci": {
+       "mean": 0.00430603212047808,
+       "lo": 0.0032361150550238,
+       "hi": 0.005521306628729029,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.004448942700204799,
+      "level_relative_change": 0.0027472894837417814,
+      "differential_ci": {
+       "mean": 0.004448942700204799,
+       "lo": 0.0036377704127945076,
+       "hi": 0.005359792284846663,
+       "components": 19
+      }
+     }
+    },
+    "max_state": {
+     "both": {
+      "differential_relative_change": 0.05029697393378443,
+      "level_relative_change": 0.0016302703076857949,
+      "differential_ci": {
+       "mean": 0.05029697393378443,
+       "lo": 0.03716045457247044,
+       "hi": 0.0639288782558025,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.0931446968071491,
+      "level_relative_change": 0.0023576574115464046,
+      "differential_ci": {
+       "mean": 0.0931446968071491,
+       "lo": 0.05779053924540661,
+       "hi": 0.1408632502319696,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.09029151654228791,
+      "level_relative_change": 0.0024613403822410567,
+      "differential_ci": {
+       "mean": 0.09029151654228791,
+       "lo": 0.06790965709796615,
+       "hi": 0.11434459556503947,
+       "components": 19
+      }
+     }
+    },
+    "embed": {
+     "both": {
+      "differential_relative_change": 0.014559889282494494,
+      "level_relative_change": 0.0010652659746821975,
+      "differential_ci": {
+       "mean": 0.014559889282494494,
+       "lo": 0.010645305208748386,
+       "hi": 0.019250704501073343,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.01814705048506455,
+      "level_relative_change": 0.0010795543020422336,
+      "differential_ci": {
+       "mean": 0.01814705048506455,
+       "lo": 0.014414421436265201,
+       "hi": 0.022657301524264782,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.009122262604351769,
+      "level_relative_change": 0.00016819654900240844,
+      "differential_ci": {
+       "mean": 0.009122262604351769,
+       "lo": 0.007046076508661546,
+       "hi": 0.011385486974000956,
+       "components": 19
+      }
+     }
+    },
+    "section": {
+     "both": {
+      "differential_relative_change": 0.015620475931278913,
+      "level_relative_change": 0.0005865750711823815,
+      "differential_ci": {
+       "mean": 0.015620475931278913,
+       "lo": 0.011401285114212558,
+       "hi": 0.02059682119296141,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.020326026352865054,
+      "level_relative_change": 0.0005968593324283595,
+      "differential_ci": {
+       "mean": 0.020326026352865054,
+       "lo": 0.016262692585993145,
+       "hi": 0.025060336564373415,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.010602506447992112,
+      "level_relative_change": 0.00010765172769108941,
+      "differential_ci": {
+       "mean": 0.010602506447992112,
+       "lo": 0.0078878512061011,
+       "hi": 0.013577362698376682,
+       "components": 19
+      }
+     }
+    },
+    "interaction": {
+     "both": {
+      "differential_relative_change": 0.0044187062648928035,
+      "level_relative_change": 0.02194914411873819,
+      "differential_ci": {
+       "mean": 0.0044187062648928035,
+       "lo": 0.0023394793596975823,
+       "hi": 0.007345659271871466,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.0095449171127565,
+      "level_relative_change": 0.05690588404194032,
+      "differential_ci": {
+       "mean": 0.0095449171127565,
+       "lo": 0.004199580951328636,
+       "hi": 0.016964161287914368,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.008351179782157788,
+      "level_relative_change": 0.03022798570000453,
+      "differential_ci": {
+       "mean": 0.008351179782157788,
+       "lo": 0.0037667432393855157,
+       "hi": 0.015044800208197337,
+       "components": 19
+      }
+     }
+    }
+   },
+   "jacobian": {
+    "context__differential": 113.44642239316406,
+    "context__level": 11.977842979780979,
+    "embed__differential": 0.010126470045270976,
+    "embed__level": 7.620987987343053e-05,
+    "interaction__differential": 0.012553493929503348,
+    "interaction__level": 0.03017474899429334,
+    "max_state__differential": 1.8252844758377877,
+    "max_state__level": 0.20073253902158128,
+    "mean_state__differential": 0.5477645711399234,
+    "mean_state__level": 0.6703106262343954,
+    "occupancy__differential": 0.03364921340094701,
+    "occupancy__level": 0.046963955088541225,
+    "protein_value__differential": 0.0,
+    "protein_value__level": 0.18133431519732196,
+    "section__differential": 0.0056067055887575505,
+    "section__level": 1.6378920412211804e-05,
+    "weight__differential": 91.27860361854464,
+    "weight__level": 30.211885853105503
+   }
+  },
+  "randinit": {
+   "stages": {
+    "weight": {
+     "both": {
+      "differential_relative_change": 1.412588853527912,
+      "level_relative_change": 1.0332530460113885,
+      "differential_ci": {
+       "mean": 1.412588853527912,
+       "lo": 1.2889320144847551,
+       "hi": 1.5834421275052042,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 1.412588853527912,
+      "level_relative_change": 1.0332530460113885,
+      "differential_ci": {
+       "mean": 1.412588853527912,
+       "lo": 1.2889320144847551,
+       "hi": 1.5834421275052042,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.0,
+      "level_relative_change": 0.0,
+      "differential_ci": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "components": 19
+      }
+     }
+    },
+    "context": {
+     "both": {
+      "differential_relative_change": 1.0775086203529947,
+      "level_relative_change": 0.334032305710299,
+      "differential_ci": {
+       "mean": 1.0775086203529947,
+       "lo": 0.9016764993288418,
+       "hi": 1.3429057597110887,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 1.090930547677669,
+      "level_relative_change": 0.17566967051614393,
+      "differential_ci": {
+       "mean": 1.090930547677669,
+       "lo": 1.0309414140014437,
+       "hi": 1.1444084783770354,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 1.0934523897367627,
+      "level_relative_change": 0.3552702744360858,
+      "differential_ci": {
+       "mean": 1.0934523897367627,
+       "lo": 1.020557239403243,
+       "hi": 1.1604244954986327,
+       "components": 19
+      }
+     }
+    },
+    "occupancy": {
+     "both": {
+      "differential_relative_change": 0.23224043939575717,
+      "level_relative_change": 0.029826610469521706,
+      "differential_ci": {
+       "mean": 0.23224043939575717,
+       "lo": 0.1950402422696456,
+       "hi": 0.2701833269654926,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.1791272222559769,
+      "level_relative_change": 0.021464364473305936,
+      "differential_ci": {
+       "mean": 0.1791272222559769,
+       "lo": 0.14847332271934435,
+       "hi": 0.21012311555608032,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.24954185074062965,
+      "level_relative_change": 0.03286244553337432,
+      "differential_ci": {
+       "mean": 0.24954185074062965,
+       "lo": 0.21984864584768896,
+       "hi": 0.28092637810351223,
+       "components": 19
+      }
+     }
+    },
+    "mean_state": {
+     "both": {
+      "differential_relative_change": 0.32246267747358387,
+      "level_relative_change": 0.22957699262406722,
+      "differential_ci": {
+       "mean": 0.32246267747358387,
+       "lo": 0.27274776381477406,
+       "hi": 0.3734822381814541,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.2519205210443976,
+      "level_relative_change": 0.15532324894726218,
+      "differential_ci": {
+       "mean": 0.2519205210443976,
+       "lo": 0.2097453842873788,
+       "hi": 0.2945276171900235,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.34655571341188424,
+      "level_relative_change": 0.25735576137513627,
+      "differential_ci": {
+       "mean": 0.34655571341188424,
+       "lo": 0.2975924678145357,
+       "hi": 0.39876441114022654,
+       "components": 19
+      }
+     }
+    },
+    "max_state": {
+     "both": {
+      "differential_relative_change": 0.46749530421287816,
+      "level_relative_change": 0.21238346853111065,
+      "differential_ci": {
+       "mean": 0.46749530421287816,
+       "lo": 0.4071588234128874,
+       "hi": 0.5295681745596351,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.3804731359848262,
+      "level_relative_change": 0.1418335108430841,
+      "differential_ci": {
+       "mean": 0.3804731359848262,
+       "lo": 0.3198771960746022,
+       "hi": 0.4433371306438084,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.5032869787733718,
+      "level_relative_change": 0.23410707096675853,
+      "differential_ci": {
+       "mean": 0.5032869787733718,
+       "lo": 0.44302609699033674,
+       "hi": 0.5663665058784783,
+       "components": 19
+      }
+     }
+    },
+    "embed": {
+     "both": {
+      "differential_relative_change": 0.39838767709962397,
+      "level_relative_change": 0.25689376458513824,
+      "differential_ci": {
+       "mean": 0.39838767709962397,
+       "lo": 0.34160187106326945,
+       "hi": 0.45747496553926414,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.33542956806877205,
+      "level_relative_change": 0.22314865966847716,
+      "differential_ci": {
+       "mean": 0.33542956806877205,
+       "lo": 0.2873147884169128,
+       "hi": 0.3865308466929908,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.3979640379945435,
+      "level_relative_change": 0.16968353050159948,
+      "differential_ci": {
+       "mean": 0.3979640379945435,
+       "lo": 0.34478719640404304,
+       "hi": 0.45682817668941766,
+       "components": 19
+      }
+     }
+    },
+    "section": {
+     "both": {
+      "differential_relative_change": 0.4105696713239126,
+      "level_relative_change": 0.2503497206049036,
+      "differential_ci": {
+       "mean": 0.4105696713239126,
+       "lo": 0.3533440366657128,
+       "hi": 0.46907123760224084,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.3485582851401432,
+      "level_relative_change": 0.21595802255973234,
+      "differential_ci": {
+       "mean": 0.3485582851401432,
+       "lo": 0.30133153315330224,
+       "hi": 0.3983871060374551,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.4005742053940132,
+      "level_relative_change": 0.16711343434559014,
+      "differential_ci": {
+       "mean": 0.4005742053940132,
+       "lo": 0.34983631813804267,
+       "hi": 0.4543722788893137,
+       "components": 19
+      }
+     }
+    },
+    "interaction": {
+     "both": {
+      "differential_relative_change": 0.443303662924036,
+      "level_relative_change": 0.18931347815611094,
+      "differential_ci": {
+       "mean": 0.443303662924036,
+       "lo": 0.346938869229696,
+       "hi": 0.542641346598174,
+       "components": 19
+      }
+     },
+     "routing_only": {
+      "differential_relative_change": 0.3637580815814911,
+      "level_relative_change": 0.17968404656498496,
+      "differential_ci": {
+       "mean": 0.3637580815814911,
+       "lo": 0.29596310885349425,
+       "hi": 0.43235123418722443,
+       "components": 19
+      }
+     },
+     "content_only": {
+      "differential_relative_change": 0.39174348709266027,
+      "level_relative_change": 0.14827523655047903,
+      "differential_ci": {
+       "mean": 0.39174348709266027,
+       "lo": 0.32248666486820166,
+       "hi": 0.4699107844908868,
+       "components": 19
+      }
+     }
+    }
+   },
+   "jacobian": {
+    "context__differential": 50.58923015171117,
+    "context__level": 10.917726267553634,
+    "embed__differential": 1.4663071262311131,
+    "embed__level": 0.05521524684686599,
+    "interaction__differential": 0.886496031723099,
+    "interaction__level": 1.3731222313855356,
+    "max_state__differential": 1.8763688686226434,
+    "max_state__level": 1.7408360413005561,
+    "mean_state__differential": 0.865741821667588,
+    "mean_state__level": 1.8813298105104552,
+    "occupancy__differential": 0.16121666850904556,
+    "occupancy__level": 0.15490181226580033,
+    "protein_value__differential": 0.0,
+    "protein_value__level": 0.7730242634785044,
+    "section__differential": 1.4586637679594765,
+    "section__level": 0.0527116309651476,
+    "weight__differential": 11.65755193686145,
+    "weight__level": 5.030453146691416
+   }
+  }
+ }
+}

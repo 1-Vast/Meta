@@ -1,0 +1,46 @@
+{
+ "date": "2026-08-18",
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "q1_within_target_ordering": {
+  "fold_table": {
+   "0.0001": 0.11813949037454316,
+   "0.001": 0.11814533207594222,
+   "0.01": 0.11820397271264048,
+   "0.1": 0.11880178360909226,
+   "1.0": 0.12001881454841641
+  },
+  "meta_val_within_target_r": {
+   "components": 19,
+   "hi": 0.3178688528353954,
+   "lo": -0.026130239374208053,
+   "mean": 0.1471846223132129
+  },
+  "selected_weight_decay": 1.0
+ },
+ "q2_level": {
+  "fold_table": {
+   "0.0001": 2.298367488299479,
+   "0.001": 2.298367488299479,
+   "0.01": 2.298367488299479,
+   "0.1": 2.298367488299479,
+   "1.0": 2.298367488299479
+  },
+  "grand_mean_baseline": 2.1546735970960698,
+  "level_mse": 2.1546735970960698,
+  "selected_weight_decay": 0.0001
+ },
+ "schema": "MetaSieve.StageM.ChemBERTaProbes.v1"
+}

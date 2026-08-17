@@ -23,35 +23,21 @@ if __package__ in {None, ""}:
 
 from model.interaction_grammar import InteractionGrammarModel
 from model.qpsmp_meta import QPSMPBioModel
-from model.relative_grammar import RelativeGrammarModel
-from model.locality_grammar import LocalityGrammarModel
 from model.similarity_grammar import SimilarityGrammarModel
 from scripts.qpsmp_data import EpisodeBatch, EpisodeSpec, QPSMPData
-
-
-def _relative_no_reliability(*args, **kwargs):
-    return RelativeGrammarModel(*args, use_reliability=False, **kwargs)
 
 
 def _similarity_only(*args, **kwargs):
     return SimilarityGrammarModel(*args, use_learned_key=False, **kwargs)
 
 
-def _locality(*args, **kwargs):
-    return LocalityGrammarModel(*args, use_learned_key=False, **kwargs)
-
-
 ARCHITECTURES = {
     "bpsf": QPSMPBioModel,
     "grammar": InteractionGrammarModel,
-    "relative": RelativeGrammarModel,
-    "relative_noreliability": _relative_no_reliability,
     "similarity": SimilarityGrammarModel,
     "similarity_only": _similarity_only,
-    "locality": _locality,
 }
-RELATIVE_ARCHITECTURES = {"relative", "relative_noreliability"}
-FINGERPRINT_ARCHITECTURES = {"similarity", "similarity_only", "locality"}
+FINGERPRINT_ARCHITECTURES = {"similarity", "similarity_only"}
 
 
 def resolve_architecture(name: str):
@@ -101,6 +87,9 @@ class TrainConfig:
     binding_loss_weight: float = 0.25
     binding_temperature: float = 0.1
     protein_contrast_loss_weight: float = 0.5
+    # "uncentered" reproduces the incumbent exactly; "centered" is Stage P's
+    # single training change. Default keeps every recorded arm unchanged.
+    protein_contrast_form: str = "uncentered"
     ranking_temperature: float = 1.0
     # Form of the within-target ranking term. "ranknet" is the incumbent
     # pairwise softplus; "listce" is the R14 regression-compatible listwise
@@ -127,7 +116,6 @@ class TrainConfig:
     # default keeps the retained CD-HIT40 protocol exactly as it was.
     split_directory: str | None = None
     arch: str = "bpsf"
-    difference_loss_weight: float = 0.0
     lr_schedule: str = "constant"
     lr_warmup_fraction: float = 0.05
     lr_final_fraction: float = 0.1
@@ -323,7 +311,8 @@ def forward(model: QPSMPBioModel, episode: EpisodeBatch, *, adapt: bool = True,
         geometry_coordinates = torch.cat(
             (episode.support_coordinates, episode.query_coordinates), pair_axis)
     extra = {}
-    if getattr(model, "transport", None).__class__.__name__ == "SimilarityTransport":
+    if getattr(model, "transport", None).__class__.__name__ in (
+            "SimilarityTransport", "PairwiseTransport"):
         extra = {"support_fingerprint": episode.support_fingerprint,
                  "query_fingerprint": episode.query_fingerprint}
     return model(
@@ -412,28 +401,35 @@ def ranking_term(prediction: torch.Tensor, truth: torch.Tensor,
                      "expected 'ranknet' or 'listce'")
 
 
-def relative_difference_loss(output, query_y: torch.Tensor) -> torch.Tensor:
-    """Per-(query, support) supervision of the signed difference operator.
+def centered_protein_contrast(correct: torch.Tensor, wrong: torch.Tensor,
+                              truth: torch.Tensor,
+                              temperature: float) -> torch.Tensor:
+    """Protein counterfactual on the within-target *centered* prediction.
 
-    The prediction is exact when `delta(k->q) == rho_q - r_k`, where
-    `rho_q = y_q - f0(q)` and `r_k = y_k - f0(L_k)`.  Supervising every entry of
-    the difference tensor rather than only its weighted sum is what gives the
-    relative operator a direct training signal.  Query labels are used as a loss
-    target only; they are never a model input, and both sides of the target are
-    detached so the operator stays label locked.
+    `softplus((correct_centered_error - wrong_centered_error) / T)`.
+
+    The incumbent computes the same contrast on uncentered error, which the
+    additive `protein_value(P)` branch satisfies on its own: it is constant
+    across the queries of one target, so it moves both errors by a per-target
+    amount and separates them without the ligand-varying path contributing
+    anything. Subtracting the query mean removes that branch **exactly**, so
+    `d(loss)/d(protein_head)` is identically zero and the only route to the
+    objective is the interaction path.
+
+    A one-query panel centers to zero and the term is inert rather than NaN.
+    Verified on the real model class by
+    `tools/research/a2_readiness/tests/test_centering_excludes_the_level.py`.
     """
-    delta = output.support_evidence
-    if delta.ndim < 2 or delta.shape[-1] == 0:
-        return delta.new_zeros(())
-    residual = output.support_residual_quotient + output.level_adjustment
-    query_y = query_y.to(device=delta.device, dtype=delta.dtype)
-    query_residual = query_y - output.zero_shot
-    target = (query_residual.unsqueeze(-1) - residual.unsqueeze(-2)).detach()
-    if target.shape != delta.shape:
-        raise ValueError(
-            f"difference target {tuple(target.shape)} does not match "
-            f"operator {tuple(delta.shape)}")
-    return (delta - target).square().mean()
+    if correct.shape[-1] < 2:
+        return correct.new_zeros(())
+
+    def centered(values: torch.Tensor) -> torch.Tensor:
+        return values - values.mean(-1, keepdim=True)
+
+    target = centered(truth)
+    correct_error = (centered(correct) - target).square().mean()
+    wrong_error = (centered(wrong) - target).square().mean()
+    return F.softplus((correct_error - wrong_error) / temperature)
 
 
 def binding_contrastive_loss(errors: list[torch.Tensor], temperature: float) -> torch.Tensor:
@@ -706,9 +702,6 @@ def train(data: QPSMPData, config: TrainConfig,
     trainable_parameters = [parameter for parameter in model.parameters()
                             if parameter.requires_grad]
     fast_prefixes = ("meta.term.", "transport.")
-    if config.difference_loss_weight and config.arch not in RELATIVE_ARCHITECTURES:
-        raise ValueError(
-            "difference_loss_weight requires a relative-transport architecture")
     fast_parameters = [parameter for name, parameter in model.named_parameters()
                        if parameter.requires_grad
                        and name.startswith(fast_prefixes)]
@@ -813,6 +806,29 @@ def train(data: QPSMPData, config: TrainConfig,
                 correct_error = centered_task_error(full.prediction, query_y)
                 loss_binding = loss_full.new_zeros(())
                 loss_protein = loss_full.new_zeros(())
+                if config.protein_contrast_form == "centered":
+                    # Stage P. The incumbent's protein contrast is computed on
+                    # *uncentered* error, which a per-target level shift
+                    # satisfies completely — `protein_value(P)` is constant
+                    # across a target's queries, so a 0.215 pK level move
+                    # already separates correct from donor and the gradient is
+                    # extinguished by `protein_head` alone (DATAFLOW_AUDIT F6).
+                    # Centering removes that branch exactly, so
+                    # d(loss)/d(protein_head) is identically zero and the term
+                    # can only be satisfied by the ligand-varying interaction
+                    # path.
+                    #
+                    # Two deliberate differences from the incumbent form:
+                    #   * it fires on EVERY episode, including k=0. The term
+                    #     supervises `zero_shot`, a k=0 quantity; gating it on
+                    #     `support_size > 0` was incidental coupling, not design.
+                    #   * it is applied outside the `adapt` branch for the same
+                    #     reason.
+                    wrong_zero = wrong_protein_zero_shot(
+                        model, data, episode, episode.spec.donor_target)
+                    loss_protein = centered_protein_contrast(
+                        full.zero_shot, wrong_zero, query_y,
+                        config.binding_temperature)
                 if adapt and support_size > 0:
                     binding_errors = [(full.prediction - query_y).square().mean()]
                     assignments = counterfactual_label_assignments(
@@ -826,13 +842,15 @@ def train(data: QPSMPData, config: TrainConfig,
                         (wrong.prediction - wrong_truth).square().mean(-1).unbind())
                     loss_binding = binding_contrastive_loss(
                         binding_errors, config.binding_temperature)
-                    wrong_zero = wrong_protein_zero_shot(
-                        model, data, episode, episode.spec.donor_target)
-                    correct_zero_error = (full.zero_shot - query_y).square().mean()
-                    wrong_zero_error = (wrong_zero - query_y).square().mean()
-                    loss_protein = binding_contrastive_loss(
-                        [correct_zero_error, wrong_zero_error],
-                        config.binding_temperature)
+                    if config.protein_contrast_form == "uncentered":
+                        wrong_zero = wrong_protein_zero_shot(
+                            model, data, episode, episode.spec.donor_target)
+                        correct_zero_error = (
+                            full.zero_shot - query_y).square().mean()
+                        wrong_zero_error = (wrong_zero - query_y).square().mean()
+                        loss_protein = binding_contrastive_loss(
+                            [correct_zero_error, wrong_zero_error],
+                            config.binding_temperature)
                 if phase_a:
                     episode_loss = (
                         loss_zero
@@ -847,10 +865,6 @@ def train(data: QPSMPData, config: TrainConfig,
                         + config.support_match_loss_weight * full.support_match_loss
                         + config.binding_loss_weight * loss_binding
                         + config.protein_contrast_loss_weight * loss_protein)
-                    if config.difference_loss_weight and adapt and support_size > 0:
-                        episode_loss = episode_loss + (
-                            config.difference_loss_weight
-                            * relative_difference_loss(full, query_y))
                 loss_value += float(episode_loss.detach())
                 scaler.scale(episode_loss / len(selected)).backward()
         scaler.unscale_(optimizer)
@@ -961,6 +975,12 @@ def main() -> None:
                         default=TrainConfig.binding_temperature)
     parser.add_argument("--protein-contrast-loss-weight", type=float,
                         default=TrainConfig.protein_contrast_loss_weight)
+    parser.add_argument("--protein-contrast-form",
+                        default=TrainConfig.protein_contrast_form,
+                        choices=("uncentered", "centered"),
+                        help="uncentered reproduces the incumbent; centered "
+                             "removes the additive protein level from the "
+                             "contrast and fires on every episode (Stage P)")
     parser.add_argument("--representation-warmup-fraction", type=float,
                         default=TrainConfig.representation_warmup_fraction)
     parser.add_argument("--zero-support-only", action="store_true")
@@ -982,13 +1002,15 @@ def main() -> None:
     parser.add_argument("--include-meta-test", action="store_true",
                         help="physically unseal the meta_test cells in QPSMPData "
                              "(contract 2026-08-16: off by default)")
+    parser.add_argument("--meta-test-authorization", default=None,
+                        help="written reason recorded in the artifact; "
+                             "mandatory with --include-meta-test "
+                             "(contract 2026-08-16)")
     parser.add_argument("--eval-meta-test", action="store_true",
                         help="evaluate meta_test after training; requires "
                              "--include-meta-test (off by default)")
     parser.add_argument("--arch", default=TrainConfig.arch,
                         choices=sorted(ARCHITECTURES))
-    parser.add_argument("--difference-loss-weight", type=float,
-                        default=TrainConfig.difference_loss_weight)
     parser.add_argument("--lr-schedule", default=TrainConfig.lr_schedule,
                         choices=("constant", "cosine"))
     parser.add_argument("--lr-warmup-fraction", type=float,
@@ -1025,6 +1047,7 @@ def main() -> None:
         binding_loss_weight=args.binding_loss_weight,
         binding_temperature=args.binding_temperature,
         protein_contrast_loss_weight=args.protein_contrast_loss_weight,
+        protein_contrast_form=args.protein_contrast_form,
         representation_warmup_fraction=args.representation_warmup_fraction,
         zero_support_only=args.zero_support_only,
         pretrained_checkpoint=(str(args.pretrained_checkpoint.resolve())
@@ -1041,15 +1064,19 @@ def main() -> None:
         episode_cache=(str(args.episode_cache.resolve()) if args.episode_cache else None),
         split_directory=(str(args.split_directory.resolve())
                          if args.split_directory else None),
-        arch=args.arch, difference_loss_weight=args.difference_loss_weight,
+        arch=args.arch,
         lr_schedule=args.lr_schedule,
         lr_warmup_fraction=args.lr_warmup_fraction,
         lr_final_fraction=args.lr_final_fraction, device=args.device)
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory,
-                     include_meta_test=args.include_meta_test)
     if args.eval_meta_test and not args.include_meta_test:
         parser.error("--eval-meta-test requires --include-meta-test")
+    if args.include_meta_test and not (args.meta_test_authorization or "").strip():
+        parser.error("--include-meta-test requires a written "
+                     "--meta-test-authorization (contract 2026-08-16)")
+    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
+                     split_directory=args.split_directory,
+                     include_meta_test=args.include_meta_test,
+                     meta_test_authorization=args.meta_test_authorization)
     model, training, label_scale = train(
         data, config, progress_path=args.output / "progress.jsonl")
     checkpoint = args.output / "checkpoint.pt"
@@ -1074,12 +1101,7 @@ def main() -> None:
         "data": {"corpus": str(CORPUS), "protein_bank_records": len(data.protein_bank),
                  "ligand_bank_records": len(data.ligand_bank)},
         "config": asdict(config), "training": training,
-        "meta_test": {
-            "included": bool(args.include_meta_test),
-            "evaluated": bool(args.eval_meta_test),
-            "seal": "physical: QPSMPData include_meta_test flag "
-                    "(contract 2026-08-16)",
-        },
+        "meta_test": data.seal_record(evaluated=bool(args.eval_meta_test)),
         "checkpoint_sha256": file_sha256(checkpoint),
         "test": metrics,
         "evaluation_population": "fixed hash-selected targets within every eligible component",

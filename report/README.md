@@ -1,16 +1,16 @@
-# Evidence Reports
+# Reports
 
-`RESULT.json` in an experiment leaf is numerical authority. Narrative reports,
-console logs, and this index provide navigation only.
+Read in this order:
 
-- `meta_fewshot/`: complete zero/few-shot model lineage. The retained
-  incumbent is the Stage R3/R4 `similarity_only` grammar (three seeds,
-  `stageR3R4_level_shape_20260815/A0_incumbent_seed*/`); the R5-R8
-  relative-transport cycle is summarized in `meta_fewshot/README.md`.
-- `crossed_interaction/`: protein-specific C/Q, SAR-delta, localization, and
-  rectangle controls.
-- `source_affinity/`: source-assay experiments.
-- `mechanism/`: implementation/geometry diagnostics.
+1. `CURRENT_MODEL_EVIDENCE.md` — current scientific state.
+2. `BOUNDARY_20260816.md` — measured development boundary.
+3. `EVIDENCE_LEDGER.md` — R0-R14 decisions and leaf locations.
+4. `NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md` — next executable plan.
+5. `AGENT_HANDOFF_A2_MOMENT.md` — concise execution handoff.
 
-Start with `CURRENT_MODEL_EVIDENCE.md`, then `EVIDENCE_LEDGER.md`, then the
-relevant subtree README. No current Cold Target performance claim is admitted.
+Literature context is consolidated in `LITERATURE_RESEARCH_SYNTHESIS_20260815.md`;
+`LITERATURE_R14_20260816.md` is the narrower R14 decision supplement.
+
+`meta_fewshot/` retains formal R-series evidence and the independent M0 proposal.
+Pre-R0 experiments are summarized once in `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md`.
+Git, not duplicated archive folders, preserves removed details.

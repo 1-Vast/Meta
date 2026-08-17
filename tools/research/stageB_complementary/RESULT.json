@@ -1,0 +1,155 @@
+{
+ "schema": "MetaSieve.StageB.Complementary.StageResult.v1",
+ "stage": "stageB_complementary",
+ "date": "2026-08-17",
+ "training": true,
+ "verdict": "REJECTED_FOR_PRODUCTION",
+ "decision": {
+  "framework": "AdaMBind-inspired target-task partial meta-adaptation is NOT admitted to the production model",
+  "complementary_arm_C": "REJECTED — its adapter is inert; what advantage it shows over T is a zero-shot trunk effect, not a few-shot mechanism",
+  "naive_hybrid_H": "REJECTED — improves MSE while degrading ranking at every k, the preregistered stop pattern; its correction is 99.7% level",
+  "meta_only_M": "REJECTED — a learned level-transporter that is worse than fixed Tanimoto at k>=3 and whose ranking collapses at k=5",
+  "promotion": "none. No code moved to model/ or scripts/."
+ },
+ "framework_attribution": "Framework inspiration only. NOT a reproduction of AdaMBind, MAML, ANIL, Meta-SGD or FS-CAP, and nothing here evaluates those methods.",
+ "evidence_grade": "development, single seed, directional screening. Not a performance claim. meta_test not read.",
+ "dataset": "governed BindingDB-Ki bindingdb_ki_double_cold_v1 only; no Davis/KIBA/ChEMBL/structural merge; no cross-dataset support, retrieval, normalization, label or checkpoint",
+ "population": {
+  "split": "meta_val", "episodes_per_k": 82, "targets": 41, "components": 19,
+  "query_size": 16, "draws": 2, "evaluation_seed": 73101,
+  "support_sizes": [0, 1, 2, 3, 5], "training_seed": 20260815, "seeds": 1
+ },
+ "checkpoint_selection": {
+  "rule": "meta_train internal-validation components only (227 fit / 31 internal)",
+  "meta_val_reads": 1,
+  "note": "partitioned by homology component, never by target"
+ },
+
+ "headline_finding_leakage": {
+  "statement": "Selecting checkpoints on meta_val — the rule Stage A and the incumbent trainer use — is worth about 0.62 pK^2 at k=0 on the very population it then reports.",
+  "diagnostic": "Tleak: identical arm, identical 227 fit components, meta_val selection",
+  "k0_mse": {"leak_free_T": 2.7425, "meta_val_selected_Tleak": 2.1246},
+  "paired_contrast_Tleak_minus_T": {
+   "0": {"mean": -0.6180, "lo": -1.6622, "hi": 0.1625},
+   "2": {"mean": -0.1741, "lo": -0.3875, "hi": -0.0092, "resolved": true},
+   "3": {"mean": -0.1086, "lo": -0.2398, "hi": -0.0016, "resolved": true},
+   "5": {"mean": -0.0839, "lo": -0.1638, "hi": -0.0133, "resolved": true}},
+  "k0_pearson": {"leak_free": 0.0561, "meta_val_selected": 0.1557},
+  "decomposition_vs_stage_A": {
+   "stage_A_A0_k0_mse": 2.0753, "stage_B_T_k0_mse": 2.7425,
+   "total_gap": 0.6672,
+   "attributable_to_selection_leak": 0.6180,
+   "attributable_to_12pct_smaller_training_set": 0.0492,
+   "selection_share": 0.93},
+  "scale_comparison": "the leak (0.618) is 5.6x the largest mechanism effect measured in this cycle (0.111) and 10.7x the recorded same-config retraining spread (0.058)",
+  "consequence": "every meta_val figure produced by the standard trainer, including the recorded incumbent band, is an optimistic development estimate by roughly this margin"
+ },
+
+ "root_cause": {
+  "statement": "The readout's ligand representation is nearly constant within a target, so a 97-parameter partial inner loop can only express a level shift.",
+  "mean_pairwise_cosine_between_query_ligand_hidden_vectors": {
+   "T": 0.99859, "M": 0.99784, "H": 0.96309, "C": 0.99659},
+  "relative_spread_h": {"T": 0.03408, "M": 0.04080, "H": 0.17903, "C": 0.05221},
+  "relative_spread_of_the_readout_input_embed": {
+   "T": 0.03292, "M": 0.03292, "H": 0.03172, "C": 0.03383},
+  "algebra": "a weight update dw = -lr * sum_i c_i h_i moves query q by <dw, h_q>; with h_i ~ h_j this is the same for every query (a level shift), and if c is mean-zero then sum_i c_i h_i ~ (sum_i c_i) hbar = 0 and the adapter produces nothing",
+  "explains": [
+   "H's correction being 99.7% level (|meta| 0.15-0.18 vs |centered shape| 0.0004-0.0006)",
+   "M's correction being 99.7% level (0.65 vs 0.0021)",
+   "C's adapter being inert once the level is removed from its target",
+   "why the collapse is not created by the readout MLP: embed's spread (0.033) already equals h's (0.034)"
+  ]
+ },
+
+ "arm_metrics_k0": {
+  "T": {"mse": 2.7425, "pearson": 0.0561, "spearman": 0.0231, "ci": 0.5156},
+  "M": {"mse": 2.7878, "pearson": 0.1224, "spearman": 0.1256, "ci": 0.5398},
+  "H": {"mse": 2.5173, "pearson": 0.0401, "spearman": -0.0045, "ci": 0.5032},
+  "C": {"mse": 2.5206, "pearson": 0.1090, "spearman": 0.1151, "ci": 0.5519}
+ },
+ "mean_mse_over_k1235": {"T": 1.3688, "M": 1.3292, "H": 1.2058, "C": 1.3019},
+
+ "gates_C_vs_T": {
+  "G1_mean_mse_gain_ge_5pct": {"passes": false, "value": 0.0489},
+  "G2_non_decreasing_with_support": {"passes": false,
+   "value": "gain shrinks 0.1364 -> 0.0754 -> 0.0304 -> 0.0256"},
+  "G3_k0_degradation_le_1pct": {"passes": true, "value": -0.0809},
+  "G4_no_material_ranking_loss": {"passes": true,
+   "spearman": [0.0920, 0.0618, 0.0627, 0.0495],
+   "note": "C IMPROVES ranking, resolved at every k"},
+  "G5_beats_transport_only_and_meta_only": {"passes": false,
+   "vs_T": [-0.1364, -0.0754, -0.0304, -0.0256],
+   "vs_M": [0.0769, 0.0054, -0.0679, -0.1238],
+   "note": "C loses to M on MSE at k=1 and k=2"},
+  "G6_depends_on_correct_support_more_than_T": {"passes": false,
+   "incremental_matched_wrong": {"1": -0.2109, "2": -0.4189, "3": -0.6465,
+                                 "5": -0.7929},
+   "note": "C depends on correct support LESS than the baseline"},
+  "G7_survives_low_recall_stratum": {"passes": true,
+   "value": [-0.2227, -0.1160, -0.0606, -0.0287], "note": "none resolved"},
+  "G8_no_adaptation_overshoot": {"passes": true,
+   "alpha": {"M": 0.8802, "H": 0.2385, "C": 0.2706},
+   "fraction_overshooting": 0.0,
+   "note": "corrected formula alpha = 2*lr*(||h||^2 + bias)"},
+  "overall": "FAIL"
+ },
+
+ "why_C_fails_is_not_what_it_looks_like": {
+  "observation": "C beats T on MSE at k=1 (resolved) and k=2 (resolved) and improves Spearman at every k (all resolved)",
+  "but": "C's meta correction is inert — |meta| is 0.0000 at k=1, 0.0006 at k=2, 0.0434 at k=3, 0.0389 at k=5 (normalized units), and its no-adaptation control is +0.0004 / -0.0360 / -0.0159, i.e. removing the adapter changes nothing or helps",
+  "proof": "the C-minus-T ranking contrast is bitwise identical at k=0 and k=1 (+0.052852 pearson, +0.092001 spearman, +0.036328 CI) because at k=1 C's meta is exactly zero and the transport is a pure level shift, which cannot reorder queries",
+  "conclusion": "C's entire advantage over T is a ZERO-SHOT TRUNK difference produced by training with the complementary objective, not by the few-shot mechanism it deploys. It is a training-time regularization effect and must not be reported as evidence for meta-adaptation."
+ },
+
+ "H_triggers_the_stop_pattern": {
+  "mse": {"0": -0.2252, "1": -0.2802, "2": -0.2077, "3": -0.1049, "5": -0.0593},
+  "mse_resolved_at": ["2"],
+  "spearman": {"0": -0.0277, "1": -0.0263, "2": -0.0377, "3": -0.0203, "5": -0.0235},
+  "ci": {"0": -0.0124, "1": -0.0118, "2": -0.0159, "3": -0.0052, "5": -0.0054},
+  "statement": "MSE improves while ranking degrades at every k — the preregistered stop condition. The mechanism explains it: a 99.7%-level correction improves squared error by recalibrating the target mean and cannot help ordering."
+ },
+
+ "counterfactuals_note": {
+  "correct_support_matters_for_every_arm_including_the_baseline": true,
+  "T_matched_wrong_minus_correct": {"1": 2.4051, "2": 4.0165, "3": 4.8025, "5": 5.8874},
+  "interpretation": "the incumbent Tanimoto transport is label-driven by construction, so a large correct-vs-wrong gap is expected and is NOT evidence for the inner loop. Stage A reported this gap for A1 only and attributed it to adaptation; the corrected difference-of-differences shows C's incremental dependence is negative."
+ },
+
+ "stop_rules_triggered": [
+  "the complementary arm does not beat both constituent mechanisms (loses to M on MSE at k=1, k=2)",
+  "improvement is only level calibration (H: 99.7% level; M: 99.7% level)",
+  "ranking degrades while MSE improves (H at every k)"
+ ],
+ "not_triggered": [
+  "k=0 is not harmed — C and H both improve it",
+  "no leakage or bank mismatch in Stage B itself",
+  "improvement is not confined to high-similarity recall (low-recall stratum favours C and H)"
+ ],
+
+ "cost": {
+  "optimization_steps": 1200,
+  "encoder_forward_passes": {"T": 3600, "M": 3600, "H": 3600, "C": 3600},
+  "wall_time_seconds": {"T": 199, "M": 276, "H": 243, "C": 304, "Tleak": 250},
+  "peak_cuda_memory_mb": 521,
+  "added_parameters": 0
+ },
+
+ "what_is_worth_keeping": [
+  "the leakage measurement: meta_val checkpoint selection is worth ~0.62 pK^2 at k=0 and must be removed from any future comparison",
+  "the root-cause measurement: within-target ligand representations are nearly identical (cosine 0.997), which bounds what ANY partial-head adaptation can do",
+  "the observation that training with a complementary-residual objective improved the ZERO-SHOT trunk (C vs T: Spearman +0.092 at k=0, resolved) — a training-time effect worth its own preregistered test, and explicitly NOT evidence for meta-adaptation"
+ ],
+ "next_step": "Do not add attention blocks, full-backbone MAML, learned selectors or extra datasets. The measured obstacle is representational collapse within a target at the readout input, which no adaptation rule downstream of it can repair.",
+
+ "meta_test": {
+  "used_for_fitting_selection_or_metrics": false,
+  "isolation": "logical exclusion after parsing; process-isolation incident remains open",
+  "note": "not 'untouched' and not 'unread' — see CORRECTION_AUDIT.md item 6"
+ },
+ "artifacts": ["PREREGISTRATION.md", "CORRECTION_AUDIT.md", "REPORT.md",
+               "STAGE1_meta_val.json", "STAGE2_meta_val.json",
+               "LEAKAGE_meta_val.json", "CONDITIONING_STAGEB.json",
+               "residual.py", "arms.py", "train_stageb.py",
+               "evaluate_stageb.py", "summarize_stageb.py",
+               "conditioning_stageb.py", "tests/"]
+}

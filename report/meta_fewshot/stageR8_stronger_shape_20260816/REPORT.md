@@ -35,7 +35,7 @@ sign accuracy 0.768 is the best cliff-ordering result recorded (A0: 0.675).
 
 Under the preregistered decision rule (Z1' and Z5' both required to
 advance), **the model family is closed for the double-cold zero-shot target
-as a claimed core innovation.** `meta_test` remains sealed and unopened, and
+as a claimed core innovation.** `meta_test` labels were used for no fitting, selection or reported metric. A historical process-isolation incident remains open: some processes parsed and indexed the split, and
 is explicitly not opened on the strength of these results.
 
 The positive findings are retained, not discarded: the shape-first training

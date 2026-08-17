@@ -905,11 +905,7 @@ def main() -> None:
             "criterion": "most similar target from a different homology "
                          "component",
         },
-        "meta_test": {
-            "included": False,
-            "evaluated": False,
-            "seal": "physical: QPSMPData include_meta_test=False",
-        },
+        "meta_test": data.seal_record(),
         "checkpoint_sha256": file_sha256(checkpoint_path),
         "training": {k: v for k, v in result.items()
                      if k not in {"scale", "donors_train", "donors_eval"}},

@@ -1,0 +1,101 @@
+{
+ "schema": "MetaSieve.A2ExactProbe.LigandFeatures.v1",
+ "split": "meta_train",
+ "checkpoint": "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt",
+ "checkpoint_sha256": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+ "checkpoint_seed": 20260815,
+ "targets": 230,
+ "components": 185,
+ "ligand_rows": 3489,
+ "max_ligands_per_target": 24,
+ "min_ligands_required": 6,
+ "conditions": [
+  "correct",
+  "wrong",
+  "reference"
+ ],
+ "representations": [
+  "embed",
+  "max_state",
+  "ligand"
+ ],
+ "reference_protein_target": "011682eeec1e5f5d2a9355c67b6a7dfbd1c24d656bebeb764cb401fd287bf9c6",
+ "label_scale": {
+  "mean": 6.386893854998303,
+  "scale": 1.6282670074275054,
+  "fitted_on": "meta_train"
+ },
+ "labels_are_pk": true,
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ },
+ "frozen_design": {
+  "schema": "MetaSieve.A2ReadinessV2.FrozenDesign.v1",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "a0_checkpoints": {
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt": "1a40c5646263a3e3f244d6b2f47e29513f02c3ffb166d2fbfca93931e0d448f8",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt": "c55116af9727970e22b81bd01f3eda322dbe7ff7cb7bc0ff8e69e45d7e783413"
+  },
+  "random_init_seeds": [
+   20260901,
+   20260902,
+   20260903,
+   20260904,
+   20260905,
+   20260906,
+   20260907,
+   20260908,
+   20260909,
+   20260910
+  ],
+  "bank": {
+   "evaluation_seed": 73101,
+   "query_size": 16,
+   "support_sizes": [
+    0,
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "donors": {
+   "pool": "meta_val",
+   "whitening_pool": "meta_train",
+   "strata": [
+    "nearest",
+    "q25",
+    "median",
+    "q75",
+    "farthest"
+   ]
+  },
+  "controls": {
+   "seed": 20260817,
+   "repeated_forward_passes": 2
+  },
+  "statistics": {
+   "bootstrap_draws": 9999,
+   "bootstrap_seed": 20260816,
+   "model_fold_seed": 20260818
+  },
+  "thresholds": {
+   "resolved_rule": "component-paired 95% bootstrap interval excludes zero",
+   "smallest_effect_of_interest_r": 0.05,
+   "decisive_null_half_width_r": 0.05
+  }
+ }
+}

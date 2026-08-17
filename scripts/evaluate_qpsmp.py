@@ -346,6 +346,10 @@ def main() -> None:
     parser.add_argument("--include-meta-test", action="store_true",
                         help="physically unseal meta_test cells in QPSMPData; "
                              "required to evaluate the sealed split")
+    parser.add_argument("--meta-test-authorization", default=None,
+                        help="written reason recorded in the artifact; "
+                             "mandatory with --include-meta-test "
+                             "(contract 2026-08-16)")
     parser.add_argument("--steps", type=int, default=TrainConfig.steps)
     parser.add_argument("--episodes-per-step", type=int,
                         default=TrainConfig.episodes_per_step)
@@ -400,9 +404,13 @@ def main() -> None:
     if args.split == "meta_test" and not args.include_meta_test:
         parser.error("evaluating the sealed meta_test split requires "
                      "--include-meta-test")
+    if args.include_meta_test and not (args.meta_test_authorization or "").strip():
+        parser.error("--include-meta-test requires a written "
+                     "--meta-test-authorization (contract 2026-08-16)")
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
                      split_directory=args.split_directory,
-                     include_meta_test=args.include_meta_test)
+                     include_meta_test=args.include_meta_test,
+                     meta_test_authorization=args.meta_test_authorization)
     if args.manifest:
         payload, records = load_manifest(args.manifest)
         if tuple(payload["support_sizes"]) != SUPPORT_SIZES:
@@ -486,12 +494,8 @@ def main() -> None:
         "model_seeds": list(model_seeds), "support_sizes": list(SUPPORT_SIZES),
         "split": args.split,
         "split_directory": str(args.split_directory),
-        "meta_test": {
-            "included": bool(args.include_meta_test),
-            "evaluated": bool(args.split == "meta_test"),
-            "seal": "physical: QPSMPData include_meta_test flag "
-                    "(contract 2026-08-16)",
-        },
+        "meta_test": data.seal_record(
+            evaluated=bool(args.split == "meta_test")),
         "training_config": {
             "steps": args.steps,
             "episodes_per_step": args.episodes_per_step,

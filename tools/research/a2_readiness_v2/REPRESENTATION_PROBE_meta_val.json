@@ -1,0 +1,829 @@
+{
+ "schema": "MetaSieve.A2ReadinessV2.RepresentationProbe.v1",
+ "frozen_design": {
+  "schema": "MetaSieve.A2ReadinessV2.FrozenDesign.v1",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "a0_checkpoints": {
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt": "1a40c5646263a3e3f244d6b2f47e29513f02c3ffb166d2fbfca93931e0d448f8",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt": "c55116af9727970e22b81bd01f3eda322dbe7ff7cb7bc0ff8e69e45d7e783413"
+  },
+  "random_init_seeds": [
+   20260901,
+   20260902,
+   20260903,
+   20260904,
+   20260905,
+   20260906,
+   20260907,
+   20260908,
+   20260909,
+   20260910
+  ],
+  "bank": {
+   "evaluation_seed": 73101,
+   "query_size": 16,
+   "support_sizes": [
+    0,
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "donors": {
+   "pool": "meta_val",
+   "whitening_pool": "meta_train",
+   "strata": [
+    "nearest",
+    "q25",
+    "median",
+    "q75",
+    "farthest"
+   ]
+  },
+  "controls": {
+   "seed": 20260817,
+   "repeated_forward_passes": 2
+  },
+  "statistics": {
+   "bootstrap_draws": 9999,
+   "bootstrap_seed": 20260816,
+   "model_fold_seed": 20260818
+  },
+  "thresholds": {
+   "resolved_rule": "component-paired 95% bootstrap interval excludes zero",
+   "smallest_effect_of_interest_r": 0.05,
+   "decisive_null_half_width_r": 0.05
+  }
+ },
+ "probe": {
+  "representations": [
+   "embed",
+   "mean_state",
+   "ligand",
+   "max_state"
+  ],
+  "ranks": [
+   4,
+   8,
+   16
+  ],
+  "steps": 400,
+  "learning_rate": 0.003,
+  "folds": 5,
+  "optimiser": "Adam, ordinary gradient descent; no closed form, no pseudoinverse, no inner loop"
+ },
+ "part_a_differential_geometry": {
+  "occupancy": {
+   "wrong": {
+    "level_relative_shift": 0.002727062554040352,
+    "differential_cosine": 0.999980239540209,
+    "differential_relative_shift": 0.0051694356237936435,
+    "differential_norm_ratio": 1.0003861003091852,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.999980239540209,
+     "lo": 0.9999573525848383,
+     "hi": 0.9999958098782594,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.0021571898074315638,
+    "differential_cosine": 0.9999828225197497,
+    "differential_relative_shift": 0.004787821638827044,
+    "differential_norm_ratio": 1.000595916138476,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9999828225197497,
+     "lo": 0.9999637350027413,
+     "hi": 0.9999960002629606,
+     "components": 19
+    }
+   },
+   "width": 24
+  },
+  "mean_state": {
+   "wrong": {
+    "level_relative_shift": 0.002122707210308375,
+    "differential_cosine": 0.9999948645439131,
+    "differential_relative_shift": 0.0031069000295203555,
+    "differential_norm_ratio": 0.9996113481335189,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9999948645439131,
+     "lo": 0.999991537338824,
+     "hi": 0.9999975497720621,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.0018676736726997401,
+    "differential_cosine": 0.9999932440541525,
+    "differential_relative_shift": 0.003263254727509536,
+    "differential_norm_ratio": 0.9993875830150115,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9999932440541525,
+     "lo": 0.9999889429866675,
+     "hi": 0.9999968610960713,
+     "components": 19
+    }
+   },
+   "width": 192
+  },
+  "max_state": {
+   "wrong": {
+    "level_relative_shift": 0.0016302703076857949,
+    "differential_cosine": 0.9984112943786833,
+    "differential_relative_shift": 0.05029697393378443,
+    "differential_norm_ratio": 1.00295088349598,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9984112943786833,
+     "lo": 0.9976410316911775,
+     "hi": 0.9990943482938036,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.0018108868490957198,
+    "differential_cosine": 0.9979346855902922,
+    "differential_relative_shift": 0.053908396488713484,
+    "differential_norm_ratio": 1.0081639408286027,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9979346855902922,
+     "lo": 0.9962137362158648,
+     "hi": 0.9990988753430136,
+     "components": 19
+    }
+   },
+   "width": 192
+  },
+  "embed": {
+   "wrong": {
+    "level_relative_shift": 0.0010652659746821975,
+    "differential_cosine": 0.9998384036820677,
+    "differential_relative_shift": 0.014559889282494494,
+    "differential_norm_ratio": 1.0008819535313478,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9998384036820677,
+     "lo": 0.9997259309772996,
+     "hi": 0.9999220238047476,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.001181777130211087,
+    "differential_cosine": 0.9998264975339408,
+    "differential_relative_shift": 0.015747199000489237,
+    "differential_norm_ratio": 1.001987398603309,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9998264975339408,
+     "lo": 0.9996986557726569,
+     "hi": 0.9999143512920481,
+     "components": 19
+    }
+   },
+   "width": 96
+  },
+  "section": {
+   "wrong": {
+    "level_relative_shift": 0.0005865750711823815,
+    "differential_cosine": 0.9998192204115292,
+    "differential_relative_shift": 0.015620475931278913,
+    "differential_norm_ratio": 1.0014213846277098,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9998192204115292,
+     "lo": 0.9996994880412851,
+     "hi": 0.9999107668969985,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.0006413556889159057,
+    "differential_cosine": 0.999807078152338,
+    "differential_relative_shift": 0.01687994481379139,
+    "differential_norm_ratio": 1.0026843501105576,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.999807078152338,
+     "lo": 0.999668485810966,
+     "hi": 0.9999050946206551,
+     "components": 19
+    }
+   },
+   "width": 48
+  },
+  "interaction": {
+   "wrong": {
+    "level_relative_shift": 0.021949145160042104,
+    "differential_cosine": 0.9999918903980317,
+    "differential_relative_shift": 0.00441870957808008,
+    "differential_norm_ratio": 1.0007572560739963,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9999918903980317,
+     "lo": 0.9999813490395795,
+     "hi": 0.9999981709043662,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.020756568257804517,
+    "differential_cosine": 0.9999913265230346,
+    "differential_relative_shift": 0.004022594546148658,
+    "differential_norm_ratio": 1.0008417095358266,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 0.9999913265230346,
+     "lo": 0.9999807210750741,
+     "hi": 0.9999983355873452,
+     "components": 19
+    }
+   },
+   "width": 1
+  },
+  "ligand": {
+   "wrong": {
+    "level_relative_shift": 0.0,
+    "differential_cosine": 1.0000000028688332,
+    "differential_relative_shift": 0.0,
+    "differential_norm_ratio": 1.0,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 1.0000000028688332,
+     "lo": 0.9999999760760454,
+     "hi": 1.00000002987021,
+     "components": 19
+    }
+   },
+   "reference": {
+    "level_relative_shift": 0.0,
+    "differential_cosine": 1.0000000028688332,
+    "differential_relative_shift": 0.0,
+    "differential_norm_ratio": 1.0,
+    "targets": 41,
+    "differential_cosine_ci": {
+     "mean": 1.0000000028688332,
+     "lo": 0.9999999760760454,
+     "hi": 1.00000002987021,
+     "components": 19
+    }
+   },
+   "width": 192
+  }
+ },
+ "part_b_trained_probes": {
+  "embed": {
+   "rank_selection_on_meta_train_folds": {
+    "protein_conditioned": {
+     "4": 0.06832848912861375,
+     "8": 0.05439253308007626,
+     "16": 0.09943484668972578
+    },
+    "shared_direction": {
+     "4": 0.18109945495054133,
+     "8": 0.18379005764628437,
+     "16": 0.17997336567500397
+    }
+   },
+   "selected_rank": 16,
+   "selected_rank_shared_direction": 8,
+   "width": 96,
+   "arms": {
+    "protein_conditioned": {
+     "delta_r": 0.10523822306188199,
+     "delta_r_ci": {
+      "mean": 0.10523822306188199,
+      "lo": -0.052629652373658346,
+      "hi": 0.27150926760515315,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.039556768068297686,
+     "sign_accuracy": 0.522239665096808,
+     "rank": 16,
+     "trainable_parameters": 43601
+    },
+    "shared_direction": {
+     "delta_r": 0.2614062051144308,
+     "delta_r_ci": {
+      "mean": 0.2614062051144308,
+      "lo": 0.1248679066647462,
+      "hi": 0.40849186398517473,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.18324197070645715,
+     "sign_accuracy": 0.5599162742019885,
+     "rank": 8,
+     "trainable_parameters": 777
+    },
+    "wrong_protein": {
+     "delta_r": 0.09821892438181462,
+     "delta_r_ci": {
+      "mean": 0.09821892438181462,
+      "lo": -0.07956358920481633,
+      "hi": 0.271199652079875,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.049766350659687306,
+     "sign_accuracy": 0.5285190999476713,
+     "rank": 16,
+     "trainable_parameters": 43601
+    },
+    "reference_protein": {
+     "delta_r": -0.1784330166024274,
+     "delta_r_ci": {
+      "mean": -0.1784330166024274,
+      "lo": -0.31720329607463743,
+      "hi": -0.053086897434853994,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.08343549448523906,
+     "sign_accuracy": 0.456305599162742,
+     "rank": 16,
+     "trainable_parameters": 43601
+    },
+    "label_shuffled": {
+     "delta_r": -0.015905334547571412,
+     "delta_r_ci": {
+      "mean": -0.015905334547571412,
+      "lo": -0.17717419421605923,
+      "hi": 0.13833447856286152,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.12164671083105918,
+     "sign_accuracy": 0.4725274725274725,
+     "rank": 16,
+     "trainable_parameters": 43601
+    },
+    "random_feature": {
+     "delta_r": 0.01763804692800528,
+     "delta_r_ci": {
+      "mean": 0.01763804692800528,
+      "lo": -0.020780405287141125,
+      "hi": 0.05946813207063504,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.06465364399720791,
+     "sign_accuracy": 0.5264259549973835,
+     "rank": 16,
+     "trainable_parameters": 43601
+    },
+    "random_projection": {
+     "delta_r": 0.07043580016560147,
+     "delta_r_ci": {
+      "mean": 0.07043580016560147,
+      "lo": -0.102462377213473,
+      "hi": 0.2431282705206128,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.06848075035184191,
+     "sign_accuracy": 0.5379382522239665,
+     "rank": 16,
+     "trainable_parameters": 42065
+    },
+    "protein_permuted": {
+     "delta_r": 0.1336213918063203,
+     "delta_r_ci": {
+      "mean": 0.1336213918063203,
+      "lo": -0.0030453266058739956,
+      "hi": 0.2658680075162123,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.03789699027339951,
+     "sign_accuracy": 0.5159602302459445,
+     "rank": 16,
+     "trainable_parameters": 43601
+    }
+   },
+   "protein_conditioning_gain": {
+    "vs_shared_direction": -0.1561679820525488,
+    "vs_permuted_protein": -0.028383168744438303,
+    "note": "positive means knowing the recipient protein buys transferable within-target SAR ordering that a protein-independent direction does not already provide"
+   }
+  },
+  "mean_state": {
+   "rank_selection_on_meta_train_folds": {
+    "protein_conditioned": {
+     "4": 0.1066831443528978,
+     "8": 0.09126752014414338,
+     "16": 0.08689600313898274
+    },
+    "shared_direction": {
+     "4": 0.06483367304254214,
+     "8": 0.05281038964941087,
+     "16": 0.054240604091766155
+    }
+   },
+   "selected_rank": 4,
+   "selected_rank_shared_direction": 4,
+   "width": 192,
+   "arms": {
+    "protein_conditioned": {
+     "delta_r": -0.04342588742234879,
+     "delta_r_ci": {
+      "mean": -0.04342588742234879,
+      "lo": -0.18594663581460213,
+      "hi": 0.08953035143350267,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.18896823261320436,
+     "sign_accuracy": 0.4835164835164835,
+     "rank": 4,
+     "trainable_parameters": 42053
+    },
+    "shared_direction": {
+     "delta_r": -0.0694235364135444,
+     "delta_r_ci": {
+      "mean": -0.0694235364135444,
+      "lo": -0.22125978222635473,
+      "hi": 0.08567354086475039,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.08130009659158338,
+     "sign_accuracy": 0.46886446886446886,
+     "rank": 4,
+     "trainable_parameters": 773
+    },
+    "wrong_protein": {
+     "delta_r": 0.02371443368363584,
+     "delta_r_ci": {
+      "mean": 0.02371443368363584,
+      "lo": -0.1293214750111576,
+      "hi": 0.16808822155834355,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.009666386256277758,
+     "sign_accuracy": 0.510727367870225,
+     "rank": 4,
+     "trainable_parameters": 42053
+    },
+    "reference_protein": {
+     "delta_r": -0.0653662459769635,
+     "delta_r_ci": {
+      "mean": -0.0653662459769635,
+      "lo": -0.23733855742543383,
+      "hi": 0.11038449945368366,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.02434440487096343,
+     "sign_accuracy": 0.47671376242804814,
+     "rank": 4,
+     "trainable_parameters": 42053
+    },
+    "label_shuffled": {
+     "delta_r": 0.10693543993533616,
+     "delta_r_ci": {
+      "mean": 0.10693543993533616,
+      "lo": -0.06295912812156605,
+      "hi": 0.2761663854585882,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.07490599040838053,
+     "sign_accuracy": 0.5253793825222397,
+     "rank": 4,
+     "trainable_parameters": 42053
+    },
+    "random_feature": {
+     "delta_r": 0.056757208118571996,
+     "delta_r_ci": {
+      "mean": 0.056757208118571996,
+      "lo": -0.06537723033706343,
+      "hi": 0.17007863965566233,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.0013005272978532183,
+     "sign_accuracy": 0.510727367870225,
+     "rank": 4,
+     "trainable_parameters": 42053
+    },
+    "random_projection": {
+     "delta_r": -0.05509558323645029,
+     "delta_r_ci": {
+      "mean": -0.05509558323645029,
+      "lo": -0.22014737576230214,
+      "hi": 0.10636073619270656,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.035823852397447606,
+     "sign_accuracy": 0.47671376242804814,
+     "rank": 4,
+     "trainable_parameters": 41285
+    },
+    "protein_permuted": {
+     "delta_r": 0.004270155226662009,
+     "delta_r_ci": {
+      "mean": 0.004270155226662009,
+      "lo": -0.13855348150666202,
+      "hi": 0.14897390250631573,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.055351153585919854,
+     "sign_accuracy": 0.4725274725274725,
+     "rank": 4,
+     "trainable_parameters": 42053
+    }
+   },
+   "protein_conditioning_gain": {
+    "vs_shared_direction": 0.02599764899119561,
+    "vs_permuted_protein": -0.0476960426490108,
+    "note": "positive means knowing the recipient protein buys transferable within-target SAR ordering that a protein-independent direction does not already provide"
+   }
+  },
+  "ligand": {
+   "rank_selection_on_meta_train_folds": {
+    "protein_conditioned": {
+     "4": 0.020642092626064323,
+     "8": 0.10566853408159582,
+     "16": 0.020995990421722014
+    },
+    "shared_direction": {
+     "4": 0.13688801425277156,
+     "8": 0.1364352999793139,
+     "16": 0.1356422089310521
+    }
+   },
+   "selected_rank": 8,
+   "selected_rank_shared_direction": 4,
+   "width": 192,
+   "arms": {
+    "protein_conditioned": {
+     "delta_r": 0.02156422848351541,
+     "delta_r_ci": {
+      "mean": 0.02156422848351541,
+      "lo": -0.12256747080471955,
+      "hi": 0.16118642868636557,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.015102429830018782,
+     "sign_accuracy": 0.5023547880690737,
+     "rank": 8,
+     "trainable_parameters": 43081
+    },
+    "shared_direction": {
+     "delta_r": 0.10614471211334314,
+     "delta_r_ci": {
+      "mean": 0.10614471211334314,
+      "lo": -0.060695326831518355,
+      "hi": 0.27797999217728164,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.08394288649264031,
+     "sign_accuracy": 0.5122972265829409,
+     "rank": 4,
+     "trainable_parameters": 773
+    },
+    "wrong_protein": {
+     "delta_r": 0.0073158387993095845,
+     "delta_r_ci": {
+      "mean": 0.0073158387993095845,
+      "lo": -0.14933069013094766,
+      "hi": 0.1558883695641762,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.04501993890406909,
+     "sign_accuracy": 0.5018315018315018,
+     "rank": 8,
+     "trainable_parameters": 43081
+    },
+    "reference_protein": {
+     "delta_r": -0.11058765369705752,
+     "delta_r_ci": {
+      "mean": -0.11058765369705752,
+      "lo": -0.2340754916248695,
+      "hi": 0.020531315094947995,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.15928449921002985,
+     "sign_accuracy": 0.4484563055991627,
+     "rank": 8,
+     "trainable_parameters": 43081
+    },
+    "label_shuffled": {
+     "delta_r": 0.12148549563643095,
+     "delta_r_ci": {
+      "mean": 0.12148549563643095,
+      "lo": -0.03752997778132781,
+      "hi": 0.2775668207368827,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.05367818365595682,
+     "sign_accuracy": 0.5185766614338043,
+     "rank": 8,
+     "trainable_parameters": 43081
+    },
+    "random_feature": {
+     "delta_r": -0.03857618030672552,
+     "delta_r_ci": {
+      "mean": -0.03857618030672552,
+      "lo": -0.15080031109126263,
+      "hi": 0.07742891969600568,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.08328897613216397,
+     "sign_accuracy": 0.4641548927263213,
+     "rank": 8,
+     "trainable_parameters": 43081
+    },
+    "random_projection": {
+     "delta_r": 0.12308541772655764,
+     "delta_r_ci": {
+      "mean": 0.12308541772655764,
+      "lo": -0.02002477021143824,
+      "hi": 0.269090442069386,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.0656110081991783,
+     "sign_accuracy": 0.5232862375719518,
+     "rank": 8,
+     "trainable_parameters": 41545
+    },
+    "protein_permuted": {
+     "delta_r": -0.08111866596175384,
+     "delta_r_ci": {
+      "mean": -0.08111866596175384,
+      "lo": -0.21721125373872996,
+      "hi": 0.04449690409045955,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.11140451056162906,
+     "sign_accuracy": 0.4845630559916274,
+     "rank": 8,
+     "trainable_parameters": 43081
+    }
+   },
+   "protein_conditioning_gain": {
+    "vs_shared_direction": -0.08458048362982773,
+    "vs_permuted_protein": 0.10268289444526925,
+    "note": "positive means knowing the recipient protein buys transferable within-target SAR ordering that a protein-independent direction does not already provide"
+   }
+  },
+  "max_state": {
+   "rank_selection_on_meta_train_folds": {
+    "protein_conditioned": {
+     "4": 0.0313396583828762,
+     "8": 0.02702692574926145,
+     "16": 0.04550238230258834
+    },
+    "shared_direction": {
+     "4": 0.13464306632778258,
+     "8": 0.14009242902578095,
+     "16": 0.1365332395349959
+    }
+   },
+   "selected_rank": 16,
+   "selected_rank_shared_direction": 8,
+   "width": 192,
+   "arms": {
+    "protein_conditioned": {
+     "delta_r": 0.04589483340846821,
+     "delta_r_ci": {
+      "mean": 0.04589483340846821,
+      "lo": -0.06481623802467794,
+      "hi": 0.17092597335552331,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.04161257193253079,
+     "sign_accuracy": 0.4924123495552067,
+     "rank": 16,
+     "trainable_parameters": 45137
+    },
+    "shared_direction": {
+     "delta_r": 0.07833833475176467,
+     "delta_r_ci": {
+      "mean": 0.07833833475176467,
+      "lo": -0.08973349217971305,
+      "hi": 0.25427469205722014,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.00621451019095274,
+     "sign_accuracy": 0.48874934589220304,
+     "rank": 8,
+     "trainable_parameters": 1545
+    },
+    "wrong_protein": {
+     "delta_r": -0.021558127274330884,
+     "delta_r_ci": {
+      "mean": -0.021558127274330884,
+      "lo": -0.18678419661107146,
+      "hi": 0.1467844789312523,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.08965478146506446,
+     "sign_accuracy": 0.5159602302459445,
+     "rank": 16,
+     "trainable_parameters": 45137
+    },
+    "reference_protein": {
+     "delta_r": -0.1040678311372366,
+     "delta_r_ci": {
+      "mean": -0.1040678311372366,
+      "lo": -0.2510944002847989,
+      "hi": 0.03076207871723062,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.017251433354233542,
+     "sign_accuracy": 0.45682888540031397,
+     "rank": 16,
+     "trainable_parameters": 45137
+    },
+    "label_shuffled": {
+     "delta_r": 0.06497535415864013,
+     "delta_r_ci": {
+      "mean": 0.06497535415864013,
+      "lo": -0.10370848740504858,
+      "hi": 0.23726664234665332,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.02660504796960923,
+     "sign_accuracy": 0.4861329147043433,
+     "rank": 16,
+     "trainable_parameters": 45137
+    },
+    "random_feature": {
+     "delta_r": -0.0055074551531432495,
+     "delta_r_ci": {
+      "mean": -0.0055074551531432495,
+      "lo": -0.093190360328279,
+      "hi": 0.08055692789908853,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.02456200237412698,
+     "sign_accuracy": 0.4908424908424908,
+     "rank": 16,
+     "trainable_parameters": 45137
+    },
+    "random_projection": {
+     "delta_r": -0.16854667934342576,
+     "delta_r_ci": {
+      "mean": -0.16854667934342576,
+      "lo": -0.27366246674758565,
+      "hi": -0.04234868820435277,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": -0.1221050907936192,
+     "sign_accuracy": 0.44636316064887493,
+     "rank": 16,
+     "trainable_parameters": 42065
+    },
+    "protein_permuted": {
+     "delta_r": 0.08597373545010871,
+     "delta_r_ci": {
+      "mean": 0.08597373545010871,
+      "lo": -0.07120373918609108,
+      "hi": 0.2347767188988679,
+      "components": 19
+     },
+     "targets": 41,
+     "pair_level_r": 0.07567605706525256,
+     "sign_accuracy": 0.5081109366823653,
+     "rank": 16,
+     "trainable_parameters": 45137
+    }
+   },
+   "protein_conditioning_gain": {
+    "vs_shared_direction": -0.03244350134329647,
+    "vs_permuted_protein": -0.0400789020416405,
+    "note": "positive means knowing the recipient protein buys transferable within-target SAR ordering that a protein-independent direction does not already provide"
+   }
+  }
+ }
+}

@@ -24,6 +24,18 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sys
+
+# Both invocations must work and must fail for the same reasons:
+#   python scripts/audit_research_record.py
+#   python -m scripts.audit_research_record
+# Direct invocation puts `scripts/` on `sys.path`, not the repository root, so
+# `check_strict_loading`'s lazy `from scripts.stageR6_compare_arms import ...`
+# raised ModuleNotFoundError and the process exited 1 — the same exit code the
+# open governance incident produces. A green-looking failure and a real finding
+# were indistinguishable from the shell.
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "report"
@@ -31,6 +43,10 @@ FEWSHOT = REPORT / "meta_fewshot"
 
 # The double-cold protocol. Absolute numbers are only comparable within it.
 DOUBLE_COLD = "bindingdb_ki_double_cold_v1"
+
+# The older, already-consumed protein-only-cold corpus. An artifact must *name*
+# this to be called older-protocol; silence is not evidence of it.
+MAIN_V0 = "bindingdb_ki_main_v0"
 
 # Arm summaries live in these comparison authorities. Each entry maps a stage
 # label to the COMPARE file that carries the three-seed arm means.
@@ -125,8 +141,11 @@ def check_seals() -> dict:
     Three states, and only the third is a violation:
 
     ``sealed_explicit``
-        a double-cold run carrying ``meta_test.evaluated == False`` — the
-        physical seal introduced by Stage R5.
+        a double-cold run carrying ``meta_test.evaluated == False``. This is
+        **logical exclusion after parsing**, not a physical label seal: the
+        corpus is a single all-label artifact and every sealed row is
+        decompressed and parsed before being discarded. See
+        `QPSMPData.seal_record()["isolation"]`.
     ``sealed_implicit``
         a double-cold run from before R5 that records only ``meta_val`` and
         never mentions ``meta_test`` at all.
@@ -135,49 +154,86 @@ def check_seals() -> dict:
         metrics before the seal was authorised, with those numbers moved into
         a `SEALED_meta_test_DO_NOT_OPEN.json` sidecar and the `test` field
         replaced by a pointer. The values exist on disk. They are never read
-        and were used for no decision, but the honest claim is "never opened",
-        not "never computed".
+        and were used for no decision, but the honest claim is
+        "metric-unconsumed", not "never computed" and not "never read".
+    ``process_unsealed``
+        a double-cold run whose *population* was sealed — no `meta_test` value
+        entered any recorded metric — but whose *process* was not: the
+        producing script omitted `include_meta_test`, so the sealed cells were
+        parsed **and indexed** in memory, and an episode could in principle have
+        been drawn from them. Corrected on 2026-08-16 and carrying a
+        `meta_test.seal_correction` block. This is tracked separately because
+        folding it into `sealed_explicit` would overstate the seal, and folding
+        it into `violations` would overstate the damage: the numbers are
+        verified unchanged (`SEAL_REPAIR_REPRODUCTION.json`).
+
+        **A non-empty `process_unsealed` list is a standing open incident.**
+        `violations == 0` does not clear it and must never be reported as
+        though it did; `main()` prints it as an explicit banner and returns a
+        non-zero status while any entry remains.
     ``older_protocol``
-        an artifact on the pre-double-cold `bindingdb_ki_main_v0` population.
-        Stages 4/6/7 legitimately report a `meta_test` there; it is a
-        *different, consumed* population and must never be conflated with the
+        an artifact that **names** the pre-double-cold `bindingdb_ki_main_v0`
+        population. Stages 4/6/7 legitimately report a `meta_test` there; it is
+        a *different, consumed* population and must never be conflated with the
         sealed double-cold confirmation split.
+    ``split_undeclared``
+        an artifact that names neither. Until 2026-08-16 these were swept into
+        `older_protocol`, which asserted a consumed population the file never
+        claimed — every one of them is in fact a double-cold stage summary that
+        records `population.split = "meta_val"` and no directory. They are
+        reported as their own state rather than assigned a protocol the
+        evidence does not support.
     """
     explicit, implicit, quarantined, older, violations = [], [], [], [], []
+    process_unsealed, undeclared = [], []
     for path in sorted(FEWSHOT.rglob("RESULT.json")):
         name = str(path.relative_to(ROOT))
+        raw = path.read_text(encoding="utf-8")
         try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
+            payload = json.loads(raw)
         except (json.JSONDecodeError, UnicodeDecodeError) as error:
             violations.append({"artifact": name, "problem": f"unreadable: {error}"})
             continue
-        # Trainers record the split in different places: train_reltransport
-        # puts `split_directory` at the top level, train_qpsmp puts it inside
-        # `config`. Missing one silently classifies a sealed double-cold run
-        # as older-protocol and skips its seal check.
-        declared = " ".join(str(payload.get(key, "")) for key in
-                            ("split_directory", "split"))
-        config = payload.get("config")
-        if isinstance(config, dict):
-            declared += " " + str(config.get("split_directory", ""))
-        if DOUBLE_COLD not in declared:
-            older.append(name)
+        # Artifacts record the split in at least four places: top level
+        # (train_reltransport), inside `config` (train_qpsmp), inside
+        # `population` (the hand-written stage summaries), or not at all.
+        # Scanning the whole document is the only detection that cannot
+        # silently skip an artifact's seal check by missing a nesting level.
+        if DOUBLE_COLD not in raw:
+            (older if MAIN_V0 in raw else undeclared).append(name)
             continue
         seal = payload.get("meta_test")
         sidecars = sorted(path.parent.glob("SEALED_meta_test*"))
-        if isinstance(seal, dict) and seal.get("evaluated") is False:
-            explicit.append(name)
+        if isinstance(seal, dict) and seal.get("seal_correction"):
+            process_unsealed.append({
+                "artifact": name,
+                "incident": seal["seal_correction"].get("incident"),
+                "numerical_impact": seal["seal_correction"].get("numerical_impact")})
+        elif isinstance(seal, dict) and seal.get("evaluated") is False:
+            if seal.get("included"):
+                violations.append({
+                    "artifact": name,
+                    "problem": "meta_test included without a seal_correction "
+                               f"or authorization: {seal!r}"})
+            else:
+                explicit.append(name)
         elif sidecars and str(payload.get("test", "")).startswith("SEALED"):
             quarantined.append({"artifact": name,
                                 "sidecar": str(sidecars[0].relative_to(ROOT))})
-        elif seal is None and "meta_test" not in path.read_text(encoding="utf-8"):
+        elif seal is None and "meta_test" not in raw:
             implicit.append(name)
+        elif isinstance(seal, dict) and seal.get("opened") is False and (
+                seal.get("evaluated") is False):
+            # The hand-written stage summaries use `opened`/`evaluated` rather
+            # than the trainer's `included`/`evaluated` vocabulary.
+            explicit.append(name)
         else:
             violations.append({"artifact": name,
                                "problem": f"double-cold meta_test not sealed: {seal!r}"})
     return {"sealed_explicit": explicit, "sealed_implicit": implicit,
-            "sealed_quarantined": quarantined, "older_protocol": older,
-            "violations": violations}
+            "sealed_quarantined": quarantined,
+            "process_unsealed": process_unsealed, "older_protocol": older,
+            "split_undeclared": undeclared, "violations": violations}
 
 
 def check_checkpoint_hashes() -> dict:
@@ -304,6 +360,9 @@ def main() -> int:
 
     print(f"\ndouble-cold meta_test seal: {len(seals['sealed_explicit'])} explicit, "
           f"{len(seals['sealed_implicit'])} implicit (pre-R5), "
+          f"{len(seals['process_unsealed'])} population-sealed but "
+          f"process-unsealed (2026-08-16 incident), "
+          f"{len(seals['split_undeclared'])} split-undeclared, "
           f"{len(seals['sealed_quarantined'])} quarantined "
           f"(computed pre-authorisation, moved to a sidecar, never read), "
           f"{len(seals['older_protocol'])} older-protocol artifacts "
@@ -311,6 +370,33 @@ def main() -> int:
           f"{len(seals['violations'])} violation(s)")
     for violation in seals["violations"]:
         print(f"  {violation['artifact']}: {violation['problem']}")
+
+    # `violations == 0` is not a clean bill of health while an incident stands.
+    # Print the open states as their own banner so a reader who skims the
+    # violation count cannot conclude the seal was never breached.
+    print("\nseal isolation level for the artifacts audited here: LOGICAL "
+          "EXCLUSION AFTER PARSING — they were produced against "
+          "bindingdb_ki_double_cold_v1, a single all-label corpus, so every "
+          "meta_test label is decompressed and parsed on every construction. "
+          "This is not a physical label seal. A physically isolated surface "
+          "now exists (scripts/build_governed_split_views.py -> "
+          "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views, "
+          "spec: tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md), but "
+          "the trainers still load the all-label corpus, so no recorded "
+          "artifact yet claims physical isolation.")
+    if seals["process_unsealed"]:
+        print(f"\n*** OPEN INCIDENT: {len(seals['process_unsealed'])} artifact(s) "
+              f"were produced by a process that parsed AND INDEXED the sealed "
+              f"split. Population sealed, process unsealed. `violations=0` "
+              f"does not clear this. ***")
+        for row in seals["process_unsealed"]:
+            print(f"  {row['artifact']}  ->  {row['incident']}")
+    if seals["split_undeclared"]:
+        print(f"\nrecord defect: {len(seals['split_undeclared'])} artifact(s) "
+              f"declare no corpus, so their protocol cannot be verified from "
+              f"the file:")
+        for name in seals["split_undeclared"]:
+            print(f"  {name}")
 
     print(f"checkpoint sha256: {hashes['verified']} verified, "
           f"{len(hashes['mismatched'])} mismatched, "
@@ -330,17 +416,39 @@ def main() -> int:
 
     if arguments.json is not None:
         arguments.json.write_text(json.dumps({
-            "schema": "MetaSieve.RecordAudit.v1",
+            "schema": "MetaSieve.RecordAudit.v2",
             "arms": arms,
             "k0_pareto_frontier": frontier,
             "meta_test_seal": seals,
+            "seal_isolation": {
+                "level": "logical_exclusion_after_parsing",
+                "physically_isolated": False,
+                "why_not": ("the audited artifacts were produced against "
+                            "bindingdb_ki_double_cold_v1, a single all-label "
+                            "cells.jsonl.gz"),
+                "specification": ("tools/research/a2_readiness_v2/"
+                                  "SPLIT_ISOLATION_SPEC.md"),
+                "specification_status": "implemented, trainers not migrated",
+                "isolated_surface": ("dataset/processed/meta_fewshot/"
+                                     "bindingdb_ki_double_cold_v1_views"),
+                "isolated_surface_builder": (
+                    "scripts/build_governed_split_views.py"),
+            },
+            "open_incidents": {
+                "process_unsealed": seals["process_unsealed"],
+                "note": ("population sealed, process unsealed; "
+                         "violations==0 does not clear this"),
+            },
+            "record_defects": {"split_undeclared": seals["split_undeclared"]},
             "checkpoint_hashes": hashes,
             "strict_loading": loading,
         }, indent=1), encoding="utf-8")
         print(f"\nwrote {arguments.json}")
 
+    # Exit non-zero while the incident stands. A green audit must mean the
+    # record is clean, not merely that no *new* violation was found.
     return 1 if (seals["violations"] or hashes["mismatched"]
-                 or loading.get("broken")) else 0
+                 or loading.get("broken") or seals["process_unsealed"]) else 0
 
 
 if __name__ == "__main__":

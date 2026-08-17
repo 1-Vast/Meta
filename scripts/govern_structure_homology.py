@@ -166,7 +166,8 @@ def main() -> int:
     parser.add_argument("davis_rows")
     parser.add_argument("kiba_tab")
     parser.add_argument("output")
-    parser.add_argument("--mmseqs", default="tools/mmseqs2/mmseqs/bin/mmseqs.exe")
+    parser.add_argument("--mmseqs",
+                        default="tools/runtime/mmseqs2/mmseqs/bin/mmseqs.exe")
     args = parser.parse_args()
     result = govern_structure_homology(args.complexes, args.davis_rows,
                                        args.kiba_tab, args.output,

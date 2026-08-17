@@ -1,0 +1,22 @@
+{
+ "schema": "MetaSieve.StageE.PanelShuffleAudit.v1",
+ "checkpoint": "D:\\MetaSieve\\report\\meta_fewshot\\stageD_level_panel_20260817\\LSP\\checkpoint.pt",
+ "n_episodes": 82,
+ "mean_level_move_pk": 0.1595969490888642,
+ "own_level_error_pk2": 1.4380887076727298,
+ "shuffled_level_error_pk2": 1.5385739867267658,
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

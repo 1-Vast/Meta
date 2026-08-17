@@ -1,0 +1,51 @@
+{
+ "schema": "MetaSieve.StageA.Conditioning.v1",
+ "date": "2026-08-17",
+ "inner_lr": 0.1,
+ "support_size": 1,
+ "episodes": 82,
+ "definition": "alpha = 2 * inner_lr * |h|^2; residual multiplier = |1 - alpha|",
+ "arms": {
+  "A0": {
+   "alpha_mean": 1.514361545806978,
+   "alpha_median": 1.511299192905426,
+   "alpha_p10": 1.4750836968421936,
+   "alpha_p90": 1.5597010254859924,
+   "residual_multiplier_at_mean": 0.5143615458069779,
+   "fraction_overshooting": 1.0,
+   "fraction_oscillating": 0.0
+  },
+  "A1": {
+   "alpha_mean": 0.24123810431579265,
+   "alpha_median": 0.24051081389188766,
+   "alpha_p10": 0.23685202896595,
+   "alpha_p90": 0.24462004750967026,
+   "residual_multiplier_at_mean": 0.7587618956842074,
+   "fraction_overshooting": 0.0,
+   "fraction_oscillating": 0.0
+  },
+  "A2": {
+   "alpha_mean": 0.21554860327301956,
+   "alpha_median": 0.21526812762022018,
+   "alpha_p10": 0.2096254974603653,
+   "alpha_p90": 0.22145638316869737,
+   "residual_multiplier_at_mean": 0.7844513967269804,
+   "fraction_overshooting": 0.0,
+   "fraction_oscillating": 0.0
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

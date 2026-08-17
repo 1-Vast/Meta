@@ -111,7 +111,8 @@ def main() -> None:
     args = parser.parse_args()
 
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory)
+                     split_directory=args.split_directory,
+                     include_meta_test=False)
     scale = training_label_scale(data)
     donors = matched_donors(data, "meta_val", donor_pool="meta_val",
                             whitening_pool="meta_train")

@@ -93,7 +93,21 @@ def main() -> None:
     if args.output.exists():
         raise FileExistsError(f"refusing to overwrite {args.output}")
 
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
+    # The split builder is the one legitimate consumer of the whole corpus: it
+    # *creates* the double-cold assignment, so it must see every cell of the
+    # older main_v0 partition — including that partition's own `meta_test`,
+    # which is a different, already-consumed population from the sealed
+    # double-cold confirmation split this script goes on to define. The
+    # assignment is label-blind (scaffolds, fingerprints, panel documents and
+    # counts only; no `pK` is read), and re-running is blocked by the
+    # `FileExistsError` guard above.
+    data = QPSMPData(
+        CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
+        include_meta_test=True,
+        meta_test_authorization=(
+            "build_double_cold_split: label-blind reassignment of the entire "
+            "main_v0 corpus into a new governed split; no pK is read and no "
+            "double-cold meta_test exists yet at this point"))
     cells = data.cells
     scaffolds = murcko_scaffolds(data._ligand_smiles)
     fingerprints = data.fingerprints

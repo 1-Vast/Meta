@@ -1,4 +1,8 @@
-"""Unified command-line entry point for retained MetaSieve capabilities."""
+"""Orchestrate admitted model capabilities through the scripts package.
+
+Research code under tools/research is intentionally absent from this command
+surface until it passes its gates and is promoted into model and scripts.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

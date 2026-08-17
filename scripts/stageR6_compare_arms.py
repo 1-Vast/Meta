@@ -321,7 +321,8 @@ def main() -> None:
     args = parser.parse_args()
 
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory)
+                     split_directory=args.split_directory,
+                     include_meta_test=False)
     scale = training_label_scale(data)
     # Donors from the evaluation split (identity alone varies); whitening
     # fitted on meta_train only (contract 2026-08-16).

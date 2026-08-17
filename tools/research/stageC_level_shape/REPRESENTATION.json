@@ -1,0 +1,125 @@
+{
+ "schema": "MetaSieve.StageC.Representation.v1",
+ "date": "2026-08-17",
+ "checkpoint": "report\\meta_fewshot\\stageB_complementary_20260817\\T\\checkpoint.pt",
+ "panels": {
+  "meta_train": 230,
+  "meta_val": 41
+ },
+ "representations": {
+  "embed": {
+   "width": 96,
+   "protein_constant_variance": 0.5816208720207214,
+   "ligand_varying_variance": 0.1352447271347046,
+   "ligand_varying_share": 0.1886612041281419,
+   "within_target_effective_rank_mean": 4.114469121142132,
+   "within_target_effective_rank_max_possible": 24.0,
+   "relative_euclidean_separation": 0.03272856960481987,
+   "within_target_probe": {
+    "fold_table": {
+     "0.0001": 0.23471702286769924,
+     "0.001": 0.23472730666875807,
+     "0.01": 0.2348304150490434,
+     "0.1": 0.23577978490881712,
+     "1": 0.23826967600819043
+    },
+    "selected_weight_decay": 1.0,
+    "meta_val_within_target_r": {
+     "mean": 0.007386186127133449,
+     "lo": -0.15495195532674624,
+     "hi": 0.17179475451763526,
+     "components": 19
+    }
+   }
+  },
+  "readout_hidden": {
+   "width": 96,
+   "protein_constant_variance": 0.03705363720655441,
+   "ligand_varying_variance": 0.007647286634892225,
+   "ligand_varying_share": 0.1710767021732484,
+   "within_target_effective_rank_mean": 3.8522789362000256,
+   "within_target_effective_rank_max_possible": 24.0,
+   "relative_euclidean_separation": 0.03171876104684865,
+   "within_target_probe": {
+    "fold_table": {
+     "0.0001": 0.23005892755650817,
+     "0.001": 0.2300582872484037,
+     "0.01": 0.23005246747381294,
+     "0.1": 0.22998313501788697,
+     "1": 0.22867698927591237
+    },
+    "selected_weight_decay": 0.0001,
+    "meta_val_within_target_r": {
+     "mean": 0.025607535854356205,
+     "lo": -0.1375164777260756,
+     "hi": 0.19363660707346886,
+     "components": 19
+    }
+   }
+  },
+  "occupancy": {
+   "width": 24,
+   "protein_constant_variance": 0.1434512436389923,
+   "ligand_varying_variance": 0.06936132162809372,
+   "ligand_varying_share": 0.3259268151814402,
+   "within_target_effective_rank_mean": 2.063997082593964,
+   "within_target_effective_rank_max_possible": 24.0,
+   "relative_euclidean_separation": 0.05331845654220116,
+   "within_target_probe": {
+    "fold_table": {
+     "0.0001": 0.20129383856832173,
+     "0.001": 0.2012957992067672,
+     "0.01": 0.20131605972885008,
+     "0.1": 0.201512044490236,
+     "1": 0.20294266084508794
+    },
+    "selected_weight_decay": 1.0,
+    "meta_val_within_target_r": {
+     "mean": 0.2181921180020043,
+     "lo": 0.07514428140310497,
+     "hi": 0.3670052309318153,
+     "components": 19
+    }
+   }
+  },
+  "section": {
+   "width": 48,
+   "protein_constant_variance": 0.20026040077209473,
+   "ligand_varying_variance": 0.04409848898649216,
+   "ligand_varying_share": 0.18046607197331366,
+   "within_target_effective_rank_mean": 4.1123660075955275,
+   "within_target_effective_rank_max_possible": 24.0,
+   "relative_euclidean_separation": 0.026655556475062195,
+   "within_target_probe": {
+    "fold_table": {
+     "0.0001": 0.21742595550678173,
+     "0.001": 0.21742272763941523,
+     "0.01": 0.21739086107346572,
+     "0.1": 0.21706094662017703,
+     "1": 0.21312412128306443
+    },
+    "selected_weight_decay": 0.0001,
+    "meta_val_within_target_r": {
+     "mean": 0.06025969457321511,
+     "lo": -0.10260278194686774,
+     "hi": 0.22499925669314513,
+     "components": 19
+    }
+   }
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

@@ -1,0 +1,155 @@
+{
+ "components": {
+  "meta_train": 258,
+  "meta_val": 19
+ },
+ "date": "2026-08-16",
+ "episode_contract": {
+  "draws": 400,
+  "query_size_range": [
+   1,
+   16
+  ],
+  "support_sizes_seen": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "violations": {
+   "cell_overlap": 0,
+   "ligand_overlap": 0,
+   "multi_target": 0,
+   "query_duplicate_ligand": 0,
+   "support_duplicate_ligand": 0
+  }
+ },
+ "nested_bank_contract": {
+  "components": 19,
+  "episodes_per_k": {
+   "0": 19,
+   "1": 19,
+   "2": 19,
+   "3": 19,
+   "5": 19
+  },
+  "query_panel_identical_across_k": true,
+  "support_is_nested_prefix": true,
+  "support_query_ligand_disjoint": true,
+  "support_sizes": [
+   0,
+   1,
+   2,
+   3,
+   5
+  ],
+  "targets": 19
+ },
+ "parameter_scopes": {
+  "by_branch": {
+   "contact_weight": 24,
+   "embed": 170784,
+   "embed_norm": 192,
+   "grammar": 417264,
+   "interaction_head": 14017,
+   "ligand_encoder": 684292,
+   "ligand_head": 37249,
+   "protein_encoder": 433152,
+   "protein_head": 37249,
+   "section": 4608,
+   "transport": 2
+  },
+  "candidate_scopes": {
+   "contact_weight": {
+    "count": 24,
+    "fraction_of_trainable": 1.3341983385895189e-05,
+    "missing": [],
+    "parameters": [
+     "contact_weight.weight"
+    ]
+   },
+   "interaction_head_full": {
+    "count": 14017,
+    "fraction_of_trainable": 0.007792274213337202,
+    "missing": [],
+    "parameters": [
+     "interaction_head.0.weight",
+     "interaction_head.0.bias",
+     "interaction_head.2.weight",
+     "interaction_head.2.bias"
+    ]
+   },
+   "interaction_head_last": {
+    "count": 97,
+    "fraction_of_trainable": 5.392384951799305e-05,
+    "missing": [],
+    "parameters": [
+     "interaction_head.2.weight",
+     "interaction_head.2.bias"
+    ]
+   },
+   "interaction_head_last_bias_only": {
+    "count": 1,
+    "fraction_of_trainable": 5.559159744122995e-07,
+    "missing": [],
+    "parameters": [
+     "interaction_head.2.bias"
+    ]
+   },
+   "interaction_head_last_plus_contact": {
+    "count": 121,
+    "fraction_of_trainable": 6.726583290388825e-05,
+    "missing": [],
+    "parameters": [
+     "interaction_head.2.weight",
+     "interaction_head.2.bias",
+     "contact_weight.weight"
+    ]
+   }
+  },
+  "frozen_parameters": [
+   "transport.key.weight",
+   "transport.log_temperature"
+  ],
+  "trainable_total": 1798833
+ },
+ "schema": "MetaSieve.StageA.DataflowAudit.v1",
+ "selection_and_leakage": {
+  "cells": {
+   "meta_test_withheld": 768,
+   "meta_train": 5643,
+   "meta_val": 1411
+  },
+  "checkpoint_selection_note": "train() evaluates val_banks built from meta_val every val_interval steps and keeps the state with the best admission score. meta_val labels therefore inform model selection, though never the training gradient. This is matched across all arms of this experiment, so it cannot manufacture a between-arm difference, but it does make every reported meta_val number an optimistic development estimate rather than a held-out one.",
+  "checkpoint_selection_split": "meta_val",
+  "checkpoint_selection_uses_meta_val_labels": true,
+  "label_scale": {
+   "mean": 6.386893854998303,
+   "scale": 1.6282670074275054
+  },
+  "label_scale_excludes_meta_val": true,
+  "label_scale_fitted_on": "meta_train",
+  "meta_test": {
+   "authorization": null,
+   "evaluated": false,
+   "included": false,
+   "isolation": {
+    "labels_parsed_in_process": true,
+    "level": "logical_exclusion_after_parsing",
+    "physically_isolated": false,
+    "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+    "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+   },
+   "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+   "sealed_cells_withheld": 768
+  },
+  "training_episode_split": "meta_train (scripts/train_qpsmp.py::train)"
+ },
+ "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+ "targets": {
+  "meta_train": 346,
+  "meta_val": 41
+ }
+}

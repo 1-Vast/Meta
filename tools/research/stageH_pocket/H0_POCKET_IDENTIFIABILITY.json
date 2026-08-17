@@ -1,0 +1,86 @@
+{
+ "date": "2026-08-17",
+ "grand_mean_mse_on_covered": 2.6179018105377545,
+ "grand_mean_pk": 5.928657856791518,
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "methods": {
+  "pocket": {
+   "component_bootstrap": {
+    "components": 13,
+    "hi": 3.1864822648031597,
+    "lo": 0.7123592661751882,
+    "mean": 1.8014081943236964
+   },
+   "fold_table": {
+    "0.0001": 2.728271770921327,
+    "0.001": 2.7258987322254127,
+    "0.01": 2.7054453092269055,
+    "0.1": 2.703615012979688,
+    "1.0": 2.5539560083606676
+   },
+   "level_mse": 2.439767354381314,
+   "level_rmse": 1.5619754653583116,
+   "linear_level_mse": 2.9446258771486495,
+   "selected_weight_decay": 1.0,
+   "shuffled_pocket_control_mse": 2.494128208233436
+  },
+  "pocket_plus_protein": {
+   "component_bootstrap": {
+    "components": 13,
+    "hi": 2.7063052461124877,
+    "lo": 0.698701025579399,
+    "mean": 1.6200468311612657
+   },
+   "fold_table": {
+    "0.0001": 2.9866046059655744,
+    "0.001": 2.940166537944939,
+    "0.01": 2.9614811339026472,
+    "0.1": 2.821124208277644,
+    "1.0": 2.340842334451781
+   },
+   "level_mse": 2.3447414137785882,
+   "level_rmse": 1.5312548493894111,
+   "linear_level_mse": 2.632282134444534,
+   "selected_weight_decay": 1.0,
+   "shuffled_pocket_control_mse": null
+  },
+  "protein_esm150": {
+   "component_bootstrap": {
+    "components": 13,
+    "hi": 6.715579765257475,
+    "lo": 1.3974754357179329,
+    "mean": 3.5362177143389393
+   },
+   "fold_table": {
+    "0.0001": 4.344701225966689,
+    "0.001": 4.335883410524792,
+    "0.01": 4.31541566802472,
+    "0.1": 4.185993978189105,
+    "1.0": 3.562404388312494
+   },
+   "level_mse": 3.511477731298881,
+   "level_rmse": 1.8738937353272946,
+   "linear_level_mse": 2.3462472000325385,
+   "selected_weight_decay": 1.0,
+   "shuffled_pocket_control_mse": null
+  }
+ },
+ "schema": "MetaSieve.StageH.PocketIdentifiability.v1",
+ "verdict": {
+  "best_method": "pocket_plus_protein",
+  "best_mse": 2.3447414137785882
+ }
+}

@@ -227,7 +227,8 @@ def main() -> None:
         default=ROOT / "dataset/processed/open_structures/pilot20k_governance_v2/work/benchmark.fasta",
     )
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--mmseqs", type=Path, default=ROOT / "tools/mmseqs2/mmseqs/bin/mmseqs.exe")
+    parser.add_argument("--mmseqs", type=Path,
+                        default=ROOT / "tools/runtime/mmseqs2/mmseqs/bin/mmseqs.exe")
     parser.add_argument("--threads", type=int, default=8)
     args = parser.parse_args()
     result = govern(

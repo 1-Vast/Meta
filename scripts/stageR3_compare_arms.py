@@ -138,7 +138,8 @@ def main() -> None:
     args = parser.parse_args()
 
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory)
+                     split_directory=args.split_directory,
+                     include_meta_test=False)
     scale = training_label_scale(data)
     # Donors come from the evaluation split, not meta_train, so the control
     # varies protein identity alone and not seen-versus-unseen; the whitening

@@ -1,8 +1,11 @@
-# Local Third-Party Tools
+# Tools workspace
 
-- `cdhit/`: local CD-HIT binaries used by homology governance.
-- `mmseqs2/`: local MMseqs2 distribution.
-- `downloads/`: downloaded installers or archives.
+`tools/` groups development infrastructure outside the admitted model runtime:
 
-Only this index is source-controlled. Tool binaries are local, replaceable,
-and never experimental evidence; record tool versions in generated manifests.
+- `research/`: unadmitted experiments. Passing work is promoted into `model/`
+  and `scripts/`; failed code is summarized and removed.
+- `tests/`: maintained pytest contracts and test-only fixtures.
+- `runtime/`: ignored local executables/downloads such as CD-HIT and MMseqs2.
+
+`main.py` orchestrates only admitted code from `model/` through entry points in
+`scripts/`. It never dispatches code directly from `tools/research/`.

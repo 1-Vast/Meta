@@ -1,0 +1,68 @@
+{
+ "schema": "MetaSieve.StageB.Conditioning.v1",
+ "date": "2026-08-17",
+ "definition": "alpha = 2*lr*(||h_support||^2 + bias_term)",
+ "note": "governs the support residual only; the query effect is -2*lr*r_s*(h_q . h_s + bias) and varies per query",
+ "arms": {
+  "T": {
+   "mode": "T",
+   "adapts": [],
+   "note": "no inner loop; alpha undefined"
+  },
+  "M": {
+   "mode": "M",
+   "adapts": [
+    "interaction_head.2.weight",
+    "interaction_head.2.bias"
+   ],
+   "effective_lr": 0.1,
+   "bias_adapted": true,
+   "alpha_mean": 0.8801975097598099,
+   "alpha_max": 0.9289132952690125,
+   "fraction_overshooting": 0.0,
+   "fraction_oscillating": 0.0,
+   "query_delta_per_unit_residual": 0.8790873456292037
+  },
+  "H": {
+   "mode": "H",
+   "adapts": [
+    "interaction_head.2.weight",
+    "interaction_head.2.bias"
+   ],
+   "effective_lr": 0.1,
+   "bias_adapted": true,
+   "alpha_mean": 0.23853844458737025,
+   "alpha_max": 0.25347086787223816,
+   "fraction_overshooting": 0.0,
+   "fraction_oscillating": 0.0,
+   "query_delta_per_unit_residual": 0.23742296964657017
+  },
+  "C": {
+   "mode": "C",
+   "adapts": [
+    "interaction_head.2.weight"
+   ],
+   "effective_lr": 0.1,
+   "bias_adapted": false,
+   "alpha_mean": 0.27060591447644117,
+   "alpha_max": 0.29692959785461426,
+   "fraction_overshooting": 0.0,
+   "fraction_oscillating": 0.0,
+   "query_delta_per_unit_residual": 0.26981123664030215
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

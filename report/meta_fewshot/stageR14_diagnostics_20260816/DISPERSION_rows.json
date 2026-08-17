@@ -5,8 +5,18 @@
  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
  "meta_test": {
   "evaluated": false,
-  "included": false,
-  "seal": "physical: QPSMPData include_meta_test=False"
+  "included": true,
+  "authorization": null,
+  "seal": "population sealed, process not sealed: scripts/r14_dispersion_audit.py constructed QPSMPData without include_meta_test, so meta_test cells were parsed and indexed in this process. No meta_test value entered any recorded computation \u2014 every bank is fixed_nested_episode_banks('meta_val', ...), donors are meta_val, the label scale is meta_train-only. Verified by re-running the identical audit under the repaired fail-closed seal: 105/105 numeric A0 fields bit-identical.",
+  "seal_correction": {
+   "date": "2026-08-16",
+   "incident": "tools/research/a2_readiness_v2/GOVERNANCE_INCIDENT.md",
+   "original_claim": "physical: QPSMPData include_meta_test=False",
+   "why_it_was_false": "the producing script never passed include_meta_test, and the class default at the time admitted the sealed split",
+   "numerical_impact": "none; no field in this artifact was modified",
+   "verification": "tools/research/a2_readiness_v2/SEAL_REPAIR_REPRODUCTION.json",
+   "repair": "QPSMPData now defaults to include_meta_test=False, requires a written meta_test_authorization to open, and emits seal_record() so an artifact cannot contradict its constructor; contracts in tools/tests/test_meta_test_seal_contract.py"
+  }
  },
  "population": {
   "targets": 41,

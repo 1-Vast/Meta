@@ -1,0 +1,347 @@
+{
+ "schema": "MetaSieve.StagePCPC.v1",
+ "split": "meta_val",
+ "seeds": [
+  20260815,
+  20260816,
+  20260817
+ ],
+ "arms": [
+  "A0repro",
+  "CPCoverdrive"
+ ],
+ "frozen_design": {
+  "schema": "MetaSieve.A2ReadinessV2.FrozenDesign.v1",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "a0_checkpoints": {
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt": "1a40c5646263a3e3f244d6b2f47e29513f02c3ffb166d2fbfca93931e0d448f8",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt": "c55116af9727970e22b81bd01f3eda322dbe7ff7cb7bc0ff8e69e45d7e783413"
+  },
+  "random_init_seeds": [
+   20260901,
+   20260902,
+   20260903,
+   20260904,
+   20260905,
+   20260906,
+   20260907,
+   20260908,
+   20260909,
+   20260910
+  ],
+  "bank": {
+   "evaluation_seed": 73101,
+   "query_size": 16,
+   "support_sizes": [
+    0,
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "donors": {
+   "pool": "meta_val",
+   "whitening_pool": "meta_train",
+   "strata": [
+    "nearest",
+    "q25",
+    "median",
+    "q75",
+    "farthest"
+   ]
+  },
+  "controls": {
+   "seed": 20260817,
+   "repeated_forward_passes": 2
+  },
+  "statistics": {
+   "bootstrap_draws": 9999,
+   "bootstrap_seed": 20260816,
+   "model_fold_seed": 20260818
+  },
+  "thresholds": {
+   "resolved_rule": "component-paired 95% bootstrap interval excludes zero",
+   "smallest_effect_of_interest_r": 0.05,
+   "decisive_null_half_width_r": 0.05
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ },
+ "arm_matching": {
+  "20260815": {
+   "differing_fields": [
+    "protein_contrast_form",
+    "protein_contrast_loss_weight"
+   ],
+   "A0repro": {
+    "form": "uncentered",
+    "weight": 0.5
+   },
+   "CPCoverdrive": {
+    "form": "centered",
+    "weight": 2.0
+   }
+  },
+  "20260816": {
+   "differing_fields": [
+    "protein_contrast_form",
+    "protein_contrast_loss_weight"
+   ],
+   "A0repro": {
+    "form": "uncentered",
+    "weight": 0.5
+   },
+   "CPCoverdrive": {
+    "form": "centered",
+    "weight": 2.0
+   }
+  },
+  "20260817": {
+   "differing_fields": [
+    "protein_contrast_form",
+    "protein_contrast_loss_weight"
+   ],
+   "A0repro": {
+    "form": "uncentered",
+    "weight": 0.5
+   },
+   "CPCoverdrive": {
+    "form": "centered",
+    "weight": 2.0
+   }
+  }
+ },
+ "arm_metrics": {
+  "A0repro": {
+   "0": {
+    "mse_correct": 2.0016158259627015,
+    "centered_mse_correct": 0.8901483222169982,
+    "r_correct": 0.15559643702146395,
+    "ci_correct": 0.5447990193551074,
+    "spearman_correct": 0.14316256284135542,
+    "mse_wrong": 1.9657879518274977,
+    "centered_mse_wrong": 0.8909644891621517,
+    "r_wrong": 0.15609993456561258,
+    "ci_wrong": 0.5472658707308244,
+    "spearman_wrong": 0.1445054451052903,
+    "calibration": 1.111467550790569,
+    "shift_alignment": -0.006991550348112771
+   },
+   "1": {
+    "mse_correct": 1.557245934990514,
+    "centered_mse_correct": 0.8901483344498464,
+    "r_correct": 0.15559641140050684,
+    "ci_correct": 0.5447990193551074,
+    "spearman_correct": 0.14316256284135542,
+    "mse_wrong": 1.5351323557514995,
+    "centered_mse_wrong": 0.890964523937752,
+    "r_wrong": 0.15609988296569918,
+    "ci_wrong": 0.5472658707308244,
+    "spearman_wrong": 0.1445054451052903,
+    "calibration": 0.6670976419244156
+   },
+   "2": {
+    "mse_correct": 1.1640199171184695,
+    "centered_mse_correct": 0.8152899865816527,
+    "r_correct": 0.23832452759446446,
+    "ci_correct": 0.5656484330884348,
+    "spearman_correct": 0.19968642683425966,
+    "mse_wrong": 1.150280232112559,
+    "centered_mse_wrong": 0.8160102664062765,
+    "r_wrong": 0.23868677241977018,
+    "ci_wrong": 0.5657321228967458,
+    "spearman_wrong": 0.1988461143259905,
+    "calibration": 0.348729966180295
+   },
+   "3": {
+    "mse_correct": 1.1608318156106032,
+    "centered_mse_correct": 0.8049000946664054,
+    "r_correct": 0.2800695538872537,
+    "ci_correct": 0.5881976037706949,
+    "spearman_correct": 0.2542898192278997,
+    "mse_wrong": 1.155291660957244,
+    "centered_mse_wrong": 0.8056135091797582,
+    "r_wrong": 0.2797688293771457,
+    "ci_wrong": 0.5909671770019054,
+    "spearman_wrong": 0.2578225846221202,
+    "calibration": 0.35593180868770796
+   },
+   "5": {
+    "mse_correct": 0.8955770236445451,
+    "centered_mse_correct": 0.6971584813729234,
+    "r_correct": 0.3342846820085715,
+    "ci_correct": 0.6226756858663138,
+    "spearman_correct": 0.3379566447484404,
+    "mse_wrong": 0.8940387897118741,
+    "centered_mse_wrong": 0.6978318569784921,
+    "r_wrong": 0.33354994183240744,
+    "ci_wrong": 0.6222776824375957,
+    "spearman_wrong": 0.33690055429606514,
+    "calibration": 0.19841859457078356
+   }
+  },
+  "CPCoverdrive": {
+   "0": {
+    "mse_correct": 2.0196369636738507,
+    "centered_mse_correct": 0.8801792391280994,
+    "r_correct": 0.1489585004922762,
+    "ci_correct": 0.526166134440437,
+    "spearman_correct": 0.1082516210999183,
+    "mse_wrong": 1.9578248479324971,
+    "centered_mse_wrong": 0.8805459183699132,
+    "r_wrong": 0.14824735171454334,
+    "ci_wrong": 0.5237440648014092,
+    "spearman_wrong": 0.10415846193709973,
+    "calibration": 1.139457811369644,
+    "shift_alignment": 0.022146312742847594
+   },
+   "1": {
+    "mse_correct": 1.5742304260681446,
+    "centered_mse_correct": 0.8801792470688498,
+    "r_correct": 0.14895855162252192,
+    "ci_correct": 0.526166134440437,
+    "spearman_correct": 0.1082516210999183,
+    "mse_wrong": 1.5202448094230996,
+    "centered_mse_wrong": 0.880545941741675,
+    "r_wrong": 0.14824724991074134,
+    "ci_wrong": 0.5237440648014092,
+    "spearman_wrong": 0.10415846193709973,
+    "calibration": 0.6940511064568595
+   },
+   "2": {
+    "mse_correct": 1.1627825223307813,
+    "centered_mse_correct": 0.8074335470051042,
+    "r_correct": 0.2498709799075711,
+    "ci_correct": 0.5557458207024707,
+    "spearman_correct": 0.18575903800362004,
+    "mse_wrong": 1.131758000983319,
+    "centered_mse_wrong": 0.8077463435764605,
+    "r_wrong": 0.2506842597855499,
+    "ci_wrong": 0.5573944587122363,
+    "spearman_wrong": 0.18983742220971322,
+    "calibration": 0.35534896976475566
+   },
+   "3": {
+    "mse_correct": 1.1464279316079393,
+    "centered_mse_correct": 0.7969906743018326,
+    "r_correct": 0.2722141986487578,
+    "ci_correct": 0.570586935452314,
+    "spearman_correct": 0.2199093282878113,
+    "mse_wrong": 1.1303073544827047,
+    "centered_mse_wrong": 0.7969135845495496,
+    "r_wrong": 0.2732118570163028,
+    "ci_wrong": 0.5710459083692909,
+    "spearman_wrong": 0.21848923780038335,
+    "calibration": 0.3494373152051787
+   },
+   "5": {
+    "mse_correct": 0.8927618457516384,
+    "centered_mse_correct": 0.6951177167074416,
+    "r_correct": 0.33054098754743305,
+    "ci_correct": 0.6117455922656841,
+    "spearman_correct": 0.31584933384468994,
+    "mse_wrong": 0.8848984740525112,
+    "centered_mse_wrong": 0.6941525538645704,
+    "r_wrong": 0.3306424324681948,
+    "ci_wrong": 0.6109658165997179,
+    "spearman_wrong": 0.31593966533982015,
+    "calibration": 0.19764417071319648
+   }
+  }
+ },
+ "gates": {
+  "P1_correct_ordering_improvement": {
+   "mean": -0.006637936529187734,
+   "lo": -0.05445012585655381,
+   "hi": 0.04170292653133684,
+   "components": 19,
+   "minimum_effect": 0.05,
+   "passes": false
+  },
+  "donor_change_r_wrong": {
+   "mean": -0.007852582851069224,
+   "lo": -0.057122654719264344,
+   "hi": 0.04091016489488042,
+   "components": 19
+  },
+  "gap_decomposition": {
+   "improvement_term": -0.006637936529187734,
+   "degradation_term": 0.007852582851069224,
+   "degradation_share": 0.5419117593375025,
+   "note": "a wider correct-minus-wrong gap produced mainly by the degradation term is donor damage, not specificity"
+  },
+  "k0_mse_change": {
+   "mean": 0.018021137711149316,
+   "lo": -0.0822242094127581,
+   "hi": 0.1293375138887387,
+   "components": 19
+  },
+  "k0_ci_change": {
+   "mean": -0.018632884914670488,
+   "lo": -0.049545064482774445,
+   "hi": 0.006680006455918772,
+   "components": 19
+  },
+  "k0_spearman_change": {
+   "mean": -0.0349109417414371,
+   "lo": -0.10334136451783509,
+   "hi": 0.0232692024178092,
+   "components": 19
+  },
+  "k0_calibration_change": {
+   "mean": 0.027990260579075027,
+   "lo": -0.07241924924138801,
+   "hi": 0.1368584506433353,
+   "components": 19
+  },
+  "seed_cosine": {
+   "A0repro": {
+    "mean": -0.05908366818417521,
+    "sd": 0.5764318341002774,
+    "pairs": 123
+   },
+   "CPCoverdrive": {
+    "mean": 0.3161123858625512,
+    "sd": 0.5986976520918119,
+    "pairs": 123
+   }
+  }
+ },
+ "gradients": {
+  "A0repro": {
+   "protein_encoder": 0.1669788769422245,
+   "grammar": 0.12309350791341027,
+   "ligand_encoder": 0.14020626547812148,
+   "embed": 0.05109843762768914,
+   "interaction_head": 0.03483509440167626,
+   "protein_head": 8.497209719197343e-07,
+   "contact_weight": 0.019200146556411505,
+   "transport": 0.0
+  },
+  "CPCoverdrive": {
+   "protein_encoder": 0.32030291174769415,
+   "grammar": 0.23747217657096198,
+   "ligand_encoder": 0.35452515097234905,
+   "embed": 0.23547632781388098,
+   "interaction_head": 0.125135308152415,
+   "protein_head": 8.060990774582707e-07,
+   "contact_weight": 0.036856791084978295,
+   "transport": 0.0
+  }
+ }
+}

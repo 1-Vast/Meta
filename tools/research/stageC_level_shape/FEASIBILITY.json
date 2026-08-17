@@ -1,0 +1,102 @@
+{
+ "schema": "MetaSieve.StageC.Feasibility.v1",
+ "date": "2026-08-17",
+ "checkpoint": "report\\meta_fewshot\\stageB_complementary_20260817\\T\\checkpoint.pt",
+ "arm_mode": "T",
+ "target_mse_pk": 1.0,
+ "population": {
+  "split": "meta_val",
+  "episodes_per_k": 82,
+  "targets": 41,
+  "components": 19
+ },
+ "by_k": {
+  "0": {
+   "actual_mse": 2.7425411056568447,
+   "actual_level_squared": 1.8664218239992152,
+   "actual_centered_mse": 0.8761191575048038,
+   "oracle_level_mse": 0.8761191429257543,
+   "oracle_shape_mse": 1.8664218602500302,
+   "constant_mse": 2.718929991079378,
+   "within_target_variance": 0.852508192949632,
+   "level_share": 0.6805447036507418,
+   "reaches_target_with_perfect_level": true,
+   "reaches_target_with_perfect_shape": false,
+   "level_budget_if_shape_unchanged": 0.12388084249519615
+  },
+  "1": {
+   "actual_mse": 1.8549173867661402,
+   "actual_level_squared": 0.9787982765513521,
+   "actual_centered_mse": 0.8761191422097563,
+   "oracle_level_mse": 0.8761191339328896,
+   "oracle_shape_mse": 0.978798270690782,
+   "constant_mse": 1.8313064565205186,
+   "within_target_variance": 0.852508192949632,
+   "level_share": 0.5276775577902083,
+   "reaches_target_with_perfect_level": true,
+   "reaches_target_with_perfect_shape": true,
+   "level_budget_if_shape_unchanged": 0.12388085779024371
+  },
+  "2": {
+   "actual_mse": 1.3627639691156328,
+   "actual_level_squared": 0.5559592195707044,
+   "actual_centered_mse": 0.8068047323226836,
+   "oracle_level_mse": 0.8068047353127191,
+   "oracle_shape_mse": 0.5559592055771947,
+   "constant_mse": 1.4084673832943266,
+   "within_target_variance": 0.852508192949632,
+   "level_share": 0.4079644253667014,
+   "reaches_target_with_perfect_level": true,
+   "reaches_target_with_perfect_shape": true,
+   "level_budget_if_shape_unchanged": 0.19319526767731643
+  },
+  "3": {
+   "actual_mse": 1.2481062441158637,
+   "actual_level_squared": 0.45004613683924144,
+   "actual_centered_mse": 0.798060122509732,
+   "oracle_level_mse": 0.7980601189665049,
+   "oracle_shape_mse": 0.4500461488625163,
+   "constant_mse": 1.3025542929124339,
+   "within_target_variance": 0.852508192949632,
+   "level_share": 0.36058319470875344,
+   "reaches_target_with_perfect_level": true,
+   "reaches_target_with_perfect_shape": true,
+   "level_budget_if_shape_unchanged": 0.20193987749026798
+  },
+  "5": {
+   "actual_mse": 1.0095918465914544,
+   "actual_level_squared": 0.275396546180427,
+   "actual_centered_mse": 0.7341952833894378,
+   "oracle_level_mse": 0.7341952895515721,
+   "oracle_shape_mse": 0.27539652942227905,
+   "constant_mse": 1.1279047283677752,
+   "within_target_variance": 0.852508192949632,
+   "level_share": 0.2727800814856126,
+   "reaches_target_with_perfect_level": true,
+   "reaches_target_with_perfect_shape": true,
+   "level_budget_if_shape_unchanged": 0.26580471661056215
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ },
+ "verdict": {
+  "k0_level_share": 0.6805447036507418,
+  "k0_perfect_level_mse": 0.8761191429257543,
+  "k0_target_reachable_by_level_alone": true,
+  "k0_shape_budget_needed": null,
+  "statement": "with a PERFECT target-level predictor the k=0 MSE would be 0.8761; the target is reachable by level calibration alone",
+  "k0_centered_mse_over_within_variance": 1.027695879934572
+ }
+}

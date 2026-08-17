@@ -1,56 +1,40 @@
 # MetaSieve-DTA
 
-MetaSieve investigates trainable meta-learning for few-shot drug-target affinity prediction on
-proteins absent from source training.
+MetaSieve studies trainable meta-learning for zero- and few-shot affinity
+prediction on protein targets absent from training.
 
-## Current Candidate
+## Current state
 
-The active candidate (`--arch grammar`, `model/interaction_grammar.py`) pairs a
-protein-conditioned interaction trunk — atom-to-residue cross attention onto a
-globally shared contact-type dictionary — with a label-locked residual transport
-whose per-support coefficient depends on the query. The formal zero-shot output
-is read only from the protein-ligand interaction endpoint. Few-shot support
-labels enter through residual values only. Ridge, closed-form adapters, inner
-loops, and test-time gradients are excluded. The previous BPSF model is retained
-unchanged as `--arch bpsf`.
+No model has yet met the governed excellence threshold. The retained development
+Pareto set is A0/B3/C2; fixed Morgan/Tanimoto residual weighting is the strongest
+k>=2 query-specific comparator. R14 closed the ranking-loss axis and localized
+the next question to representation identifiability.
 
-Three-seed development results reduce MSE by 12-18% at every k in {0,1,2,3,5}
-against the retained baseline, but the governed admission gate was **refused**:
-the gain is attributable to the zero-shot trunk and target-level calibration
-rather than query-specific transfer, and within-target ranking degrades. See
-[report/CURRENT_MODEL_EVIDENCE.md](report/CURRENT_MODEL_EVIDENCE.md).
+The next authorized family is a protein-conditioned, low-rank SAR moment update,
+followed conditionally by correlation-preserving counterfactual meta-training.
+It is preregistered but not implemented. Ridge, closed-form adaptation, inner
+loops, test-time gradients and query-label inputs are excluded.
 
-An optional sparse Cartesian scalar/vector/rank-2 encoder feeds the same slot
-contract only when legal common-frame coordinates are supplied. The active
-BindingDB bank has no coordinates, so current results validate the sequence+2D
-fallback rather than atomic 3D recognition.
+The optional Cartesian module is tested algebraically but not a performance path:
+none of the 17,717 current DTA cells has a legal common-frame protein-ligand pose.
 
-The interface is trainable and unit/integration tested. Current three-seed
-results are development-only; confirmatory Cold Target utility and Cartesian
-performance remain unadmitted.
+## Read first
 
-## Canonical Reading Order
+1. [Current task](task.md)
+2. [Current evidence](report/CURRENT_MODEL_EVIDENCE.md)
+3. [Measured boundary](report/BOUNDARY_20260816.md)
+4. [Next research plan](report/NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md)
+5. [Repository organization](docs/PROJECT_FILE_ORGANIZATION.md)
 
-1. [Project file organization](docs/PROJECT_FILE_ORGANIZATION.md).
-2. [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md): current status and authority map.
-3. [Active protocol](task.md).
-4. [Current model evidence](report/CURRENT_MODEL_EVIDENCE.md).
-5. [Evidence ledger](report/EVIDENCE_LEDGER.md).
-
-`history.md`, dated reports, `archive/theory/`, and the rest of `archive/` are
-provenance, not current authority. Failed results are retained and must not be
-interpreted as function-class impossibility proofs.
-
-## Inputs
-
-Deployment inputs are protein sequence or a legal cached sequence/structure representation, ligand
-molecular graph, declared context, and the unseen target's disjoint support observations. Target IDs
-are lookup keys only. Query labels and persistent target-specific parameter memory are prohibited.
+Historical details removed from the working tree remain recoverable through
+[the archive index](archive/README.md) and Git history.
 
 ## Verification
 
 ```powershell
-conda run -n drug python main.py verify tests
+conda run -n drug python -m pytest tools/tests -q
+conda run -n drug python -m scripts.audit_research_record --skip-loading
 ```
 
-Large data and embedding assets are described in [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
+Local data availability and dataset governance are documented in
+[dataset/README.md](dataset/README.md).

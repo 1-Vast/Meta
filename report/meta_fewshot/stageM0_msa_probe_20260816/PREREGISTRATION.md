@@ -1,10 +1,12 @@
-# Stage M0 preregistration: MSA protein-side prior — diagnostic probes, no training
+# Stage M0 preregistration: MSA protein-side prior — diagnostic probes, no model training
 
 Status: **preregistered, not run** (2026-08-16). This stage is the governed
 entry point for the MSA/evolutionary-prior direction ratified in the
 2026-08-16 adjudication. It produces diagnostics and named baselines only.
-No model is trained, no checkpoint is modified, `meta_test` is not read and
-no MSA is built for a `meta_test` target.
+No production model is trained, no checkpoint is modified, `meta_test` is not
+read and no MSA is built for a `meta_test` target. A small, fixed-budget
+diagnostic probe may be optimized on `meta_train` only; it is not a candidate
+model and cannot be promoted to deployment.
 
 ## Standing and non-goals
 
@@ -49,6 +51,9 @@ Established by adjudication and binding on this stage:
   recorded in the sidecar manifest. A target with fewer than 10 hits after
   filtering is recorded as `depth=0` and retained (depth is itself a
   stratification variable in M0-C, not an exclusion).
+- **Hard prerequisite:** D0 cannot start until the executable, database path,
+  database version/SHA256, query count, hit count and failed-query count are
+  recorded. A historical `mmseqs40` directory is not a UniRef database.
 - **Pooled target-level features (exactly eight, fixed before any probe):**
   1. `log_neff` — log10 of the effective alignment depth (N_eff);
   2. `gap_fraction` — mean gap/insertion rate over query positions;
@@ -70,15 +75,16 @@ Established by adjudication and binding on this stage:
 **Question.** Does MSA explain part of the incumbent's per-target k=0
 calibration error that the frozen ESM representation does not?
 
-- **Response.** Per-target residual `r_t = mean_cells(y − ŷ_k=0)` of the
-  incumbent A0 (`similarity_only`), averaged over its three retained
-  checkpoints (per-seed spread reported). Residuals are recomputed by forward
-  pass if not retained in the existing artifacts — training-split forward
-  passes are legal and deterministic; `meta_test` is excluded by
-  `QPSMPData(include_meta_test=False)`.
-- **Fitting.** Ridge regression (alpha grid {0.1, 1, 10, 100}, selected by
-  leave-one-component-out cross-validation **inside `meta_train`**) on the
-  346 train targets. One final evaluation on the 41 `meta_val` targets.
+- **Response.** Per-target residual `r_t = mean_cells(y − ŷ_k=0)` of each
+  retained A0 seed separately. Do not average checkpoints before fitting or
+  call the resulting ensemble the incumbent. Report the three paired seed
+  deltas and their median; an ensemble is a separate named baseline.
+- **Fitting.** Use a fixed low-capacity `torch.nn.Linear` diagnostic probe,
+  standardized with `meta_train` statistics and optimized for a fixed 256
+  AdamW steps inside leave-one-component-out folds on `meta_train`. No Ridge,
+  matrix solve, pseudoinverse or closed-form adaptation is allowed, even in
+  the diagnostic implementation. The probe is not a production model.
+  One final evaluation is made on the 41 `meta_val` targets.
   Three feature arms: `ESM` (pooled ESM-2 embedding, the incumbent's own
   protein representation), `MSA` (the eight scalars), `ESM+MSA`.
 - **Primary metric.** `meta_val` residual MSE against the constant-residual
@@ -116,10 +122,11 @@ ligand-Tanimoto), so nothing is "replaced"; these are standalone named
 baselines for target-level label-mean prediction on `meta_val`:
 
 - `global_mean` — mean of train-target label means;
-- `esm_kernel` — Gaussian kernel on train-centred pooled ESM embeddings
-  (train-centring per the R0 lesson on near-uniform softmax weights);
+- `esm_kernel` — Gaussian kernel on train-centred pooled ESM embeddings;
 - `msa_kernel` — Gaussian kernel on standardized MSA scalars;
-- `esm_msa_kernel` — product of the two;
+- `esm_msa_kernel` — product of the two. Kernel bandwidth is selected only
+  inside `meta_train` by fixed leave-one-component-out validation; no
+  `meta_val` tuning is permitted;
 - `coarse_family` — CD-HIT 60% and 80% clusterings built **on `meta_train`
   targets only**; a val target inherits the mean of its cluster's train
   label means, falling back to `global_mean` when its cluster is empty;

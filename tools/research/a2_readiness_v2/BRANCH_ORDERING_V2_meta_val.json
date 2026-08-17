@@ -1,0 +1,383 @@
+{
+ "schema": "MetaSieve.A2ReadinessV2.BranchOrdering.v1",
+ "split": "meta_val",
+ "k": 0,
+ "arms": {
+  "A0": {
+   "seeds": [
+    20260815,
+    20260816,
+    20260817
+   ],
+   "targets": 41,
+   "components": 19,
+   "r_full": 0.21277805988008625,
+   "r_ligand_only": 0.027248236537829918,
+   "r_interaction": 0.22062848858441184,
+   "ci_full": 0.5799083757142687,
+   "ci_interaction": 0.5824600998379433,
+   "sd_ligand_only": 0.014727122555189256,
+   "sd_interaction": 0.12421054528834913,
+   "sd_truth": 0.883689360165581,
+   "floor_identical_protein_centered_pk": 0.0,
+   "floor_identical_protein_level_pk": 0.0,
+   "floor_repeated_forward_centered_pk": 0.0,
+   "level_shift_pk__scrambled": 2.4300188392921137e-08,
+   "interaction_centered_shift_pk__scrambled": 3.314857225228026e-08,
+   "r_full__shuffled_label": -0.008159398384550052,
+   "r_interaction__shuffled_label": -0.013207216517370873,
+   "r_full__foreign_ligands": -0.009682177746196818,
+   "interaction_centered_shift_pk__foreign_ligands": 0.0006829016324705551,
+   "mean_novelty": 0.3364602051288581,
+   "seen_scaffold_fraction": 0.0,
+   "interaction_ordering_increment": {
+    "mean": 0.18552982334225632,
+    "lo": 0.05662380788714602,
+    "hi": 0.3236414727808547,
+    "components": 19
+   },
+   "strata": {
+    "nearest": {
+     "donor_similarity": 0.33506040255490105,
+     "level_shift_pk": 0.2150026807473271,
+     "interaction_centered_shift_pk": 0.0006791877200400672,
+     "interaction_uncentered_shift_pk": 0.0036317972281043097,
+     "shift_alignment_with_truth": -0.014203898102560187,
+     "r_interaction_minus_wrong": {
+      "mean": -0.00021466800097853415,
+      "lo": -0.001465179706274996,
+      "hi": 0.0008339212811501068,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "q25": {
+     "donor_similarity": 0.04721642687407913,
+     "level_shift_pk": 0.28431997898530187,
+     "interaction_centered_shift_pk": 0.0008633874250194268,
+     "interaction_uncentered_shift_pk": 0.003988705911263787,
+     "shift_alignment_with_truth": -0.009206048165005485,
+     "r_interaction_minus_wrong": {
+      "mean": -0.0010602727996884263,
+      "lo": -0.003134438827386274,
+      "hi": 0.0008146432895590162,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "median": {
+     "donor_similarity": -0.0020618470277570717,
+     "level_shift_pk": 0.29483072986508607,
+     "interaction_centered_shift_pk": 0.0008970253166352523,
+     "interaction_uncentered_shift_pk": 0.004571143778001155,
+     "shift_alignment_with_truth": 0.021445301458419136,
+     "r_interaction_minus_wrong": {
+      "mean": 0.00043416693815629277,
+      "lo": -0.0021924591284743808,
+      "hi": 0.0033496396128630816,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "q75": {
+     "donor_similarity": -0.03602257855793807,
+     "level_shift_pk": 0.28808583517423303,
+     "interaction_centered_shift_pk": 0.001125502008401375,
+     "interaction_uncentered_shift_pk": 0.005518855288399952,
+     "shift_alignment_with_truth": 0.04597628469774807,
+     "r_interaction_minus_wrong": {
+      "mean": -0.00020349871709863629,
+      "lo": -0.002266293425511823,
+      "hi": 0.0017401105649069504,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "farthest": {
+     "donor_similarity": -0.11891641360905984,
+     "level_shift_pk": 0.3421386119516153,
+     "interaction_centered_shift_pk": 0.0010760903602262532,
+     "interaction_uncentered_shift_pk": 0.004775257870139414,
+     "shift_alignment_with_truth": 0.06456814623389669,
+     "r_interaction_minus_wrong": {
+      "mean": 0.0015836644896631822,
+      "lo": 8.077851340052089e-05,
+      "hi": 0.0033566916093958135,
+      "components": 19
+     },
+     "verdict": "RESOLVED_NEGLIGIBLE"
+    }
+   },
+   "variability": {
+    "between_component_sd": 0.34659892018969013,
+    "between_target_within_component_sd": 0.15325692269190277,
+    "between_seed_within_target_sd": 0.09808741538150895,
+    "n_components": 19,
+    "n_targets": 41
+   },
+   "variability_shift": {
+    "between_component_sd": 0.0004745038622407065,
+    "between_target_within_component_sd": 0.0002580920823149832,
+    "between_seed_within_target_sd": 0.0004970095463160273,
+    "n_components": 19,
+    "n_targets": 41
+   }
+  },
+  "randinit": {
+   "seeds": [
+    20260901,
+    20260902,
+    20260903,
+    20260904,
+    20260905,
+    20260906,
+    20260907,
+    20260908,
+    20260909,
+    20260910
+   ],
+   "targets": 41,
+   "components": 19,
+   "r_full": 0.004822644974777662,
+   "r_ligand_only": -0.011665372810281516,
+   "r_interaction": 0.022513049403887164,
+   "ci_full": 0.5038562437332962,
+   "ci_interaction": 0.5022891143963221,
+   "sd_ligand_only": 0.1692004526799596,
+   "sd_interaction": 0.17733948177454953,
+   "sd_truth": 0.883689360165581,
+   "floor_identical_protein_centered_pk": 0.0,
+   "floor_identical_protein_level_pk": 0.0,
+   "floor_repeated_forward_centered_pk": 0.0,
+   "level_shift_pk__scrambled": 2.0081253105707618e-07,
+   "interaction_centered_shift_pk__scrambled": 5.158256157723015e-07,
+   "r_full__shuffled_label": -0.008571063678759542,
+   "r_interaction__shuffled_label": -0.012774276183760707,
+   "r_full__foreign_ligands": 0.02096480427197514,
+   "interaction_centered_shift_pk__foreign_ligands": 0.06860980567208862,
+   "mean_novelty": 0.3364602051288581,
+   "seen_scaffold_fraction": 0.0,
+   "interaction_ordering_increment": {
+    "mean": 0.016488017785059175,
+    "lo": -0.021466572737221946,
+    "hi": 0.05584419983106724,
+    "components": 19
+   },
+   "strata": {
+    "nearest": {
+     "donor_similarity": 0.33506040255490105,
+     "level_shift_pk": 0.3333327020254877,
+     "interaction_centered_shift_pk": 0.07357890228312884,
+     "interaction_uncentered_shift_pk": 0.290028822167672,
+     "shift_alignment_with_truth": 0.033075987561940856,
+     "r_interaction_minus_wrong": {
+      "mean": 0.018311901304976272,
+      "lo": -0.010237093456776305,
+      "hi": 0.04949783226667971,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "q25": {
+     "donor_similarity": 0.04721642687407913,
+     "level_shift_pk": 0.45468777776523295,
+     "interaction_centered_shift_pk": 0.08982974253603634,
+     "interaction_uncentered_shift_pk": 0.41384335800747885,
+     "shift_alignment_with_truth": 0.04621188377061578,
+     "r_interaction_minus_wrong": {
+      "mean": 0.019467331290916646,
+      "lo": -0.0088768797016915,
+      "hi": 0.04700758956954254,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "median": {
+     "donor_similarity": -0.0020618470277570717,
+     "level_shift_pk": 0.48608962451520965,
+     "interaction_centered_shift_pk": 0.09266205208124707,
+     "interaction_uncentered_shift_pk": 0.43298367965598905,
+     "shift_alignment_with_truth": 0.010104496553216132,
+     "r_interaction_minus_wrong": {
+      "mean": -0.00532527606453784,
+      "lo": -0.03457490610543059,
+      "hi": 0.023687287520609186,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "q75": {
+     "donor_similarity": -0.03602257855793807,
+     "level_shift_pk": 0.5050507789148415,
+     "interaction_centered_shift_pk": 0.09421632748368589,
+     "interaction_uncentered_shift_pk": 0.42906985914624873,
+     "shift_alignment_with_truth": 0.044512089223435074,
+     "r_interaction_minus_wrong": {
+      "mean": 0.026025115657508247,
+      "lo": -0.002416213766658689,
+      "hi": 0.056143060048950984,
+      "components": 19
+     },
+     "verdict": "DECISIVE_NULL"
+    },
+    "farthest": {
+     "donor_similarity": -0.11891641360905984,
+     "level_shift_pk": 0.5257035783941019,
+     "interaction_centered_shift_pk": 0.09703631011908619,
+     "interaction_uncentered_shift_pk": 0.42290996083435917,
+     "shift_alignment_with_truth": 0.02819990853280958,
+     "r_interaction_minus_wrong": {
+      "mean": 0.028307580157829748,
+      "lo": 0.00045792674410440433,
+      "hi": 0.05892399717411457,
+      "components": 19
+     },
+     "verdict": "RESOLVED_NEGLIGIBLE"
+    }
+   },
+   "variability": {
+    "between_component_sd": 0.09680106215757558,
+    "between_target_within_component_sd": 0.05953130967915169,
+    "between_seed_within_target_sd": 0.3800293015280344,
+    "n_components": 19,
+    "n_targets": 41
+   },
+   "variability_shift": {
+    "between_component_sd": 0.02913287299338848,
+    "between_target_within_component_sd": 0.011569791087666797,
+    "between_seed_within_target_sd": 0.027798279941444556,
+    "n_components": 19,
+    "n_targets": 41
+   }
+  }
+ },
+ "random_init_reproducibility": {
+  "nearest": {
+   "mean_pairwise_shift_cosine": -0.0024812236157139337,
+   "sd_pairwise_shift_cosine": 0.47312766976931453,
+   "pairs": 1845,
+   "mean_shift_magnitude_pk": 0.07419842246566431,
+   "note": "cosine ~0 means each initialisation moves in its own arbitrary direction; the sensitivity is a draw property, not an architectural capability"
+  },
+  "farthest": {
+   "mean_pairwise_shift_cosine": -0.011565623774029306,
+   "sd_pairwise_shift_cosine": 0.4735361613622024,
+   "pairs": 1845,
+   "mean_shift_magnitude_pk": 0.09330995297639849,
+   "note": "cosine ~0 means each initialisation moves in its own arbitrary direction; the sensitivity is a draw property, not an architectural capability"
+  }
+ },
+ "novelty_strata": {
+  "A0": {
+   "low_novelty_most_similar_to_train": {
+    "targets": 14,
+    "mean_max_tanimoto_to_meta_train": 0.3963618568144739,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": 0.28896839457088647,
+    "interaction_centered_shift_pk_nearest": 0.0007872205918074652
+   },
+   "mid": {
+    "targets": 14,
+    "mean_max_tanimoto_to_meta_train": 0.3251758426442624,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": 0.29490120887048854,
+    "interaction_centered_shift_pk_nearest": 0.0008657429241365045
+   },
+   "high_novelty_least_similar": {
+    "targets": 13,
+    "mean_max_tanimoto_to_meta_train": 0.2788852391925503,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": 0.05146019825297548,
+    "interaction_centered_shift_pk_nearest": 0.00044532165829669855
+   }
+  },
+  "randinit": {
+   "low_novelty_most_similar_to_train": {
+    "targets": 14,
+    "mean_max_tanimoto_to_meta_train": 0.3963618568144739,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": 0.030423283121295393,
+    "interaction_centered_shift_pk_nearest": 0.08183764504445804
+   },
+   "mid": {
+    "targets": 14,
+    "mean_max_tanimoto_to_meta_train": 0.32517584264426247,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": -0.03227370093003822,
+    "interaction_centered_shift_pk_nearest": 0.07479156162050839
+   },
+   "high_novelty_least_similar": {
+    "targets": 13,
+    "mean_max_tanimoto_to_meta_train": 0.2788852391925503,
+    "seen_scaffold_fraction": 0.0,
+    "r_interaction": 0.04328336269550852,
+    "interaction_centered_shift_pk_nearest": 0.06401396918839733
+   }
+  }
+ },
+ "frozen_design": {
+  "schema": "MetaSieve.A2ReadinessV2.FrozenDesign.v1",
+  "split_directory": "dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "a0_checkpoints": {
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt": "d07d957c9919a9c26a69546ae1314928435a1505dc5b65350ca22fcbd9757be7",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260816\\checkpoint.pt": "1a40c5646263a3e3f244d6b2f47e29513f02c3ffb166d2fbfca93931e0d448f8",
+   "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260817\\checkpoint.pt": "c55116af9727970e22b81bd01f3eda322dbe7ff7cb7bc0ff8e69e45d7e783413"
+  },
+  "random_init_seeds": [
+   20260901,
+   20260902,
+   20260903,
+   20260904,
+   20260905,
+   20260906,
+   20260907,
+   20260908,
+   20260909,
+   20260910
+  ],
+  "bank": {
+   "evaluation_seed": 73101,
+   "query_size": 16,
+   "support_sizes": [
+    0,
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "donors": {
+   "pool": "meta_val",
+   "whitening_pool": "meta_train",
+   "strata": [
+    "nearest",
+    "q25",
+    "median",
+    "q75",
+    "farthest"
+   ]
+  },
+  "controls": {
+   "seed": 20260817,
+   "repeated_forward_passes": 2
+  },
+  "statistics": {
+   "bootstrap_draws": 9999,
+   "bootstrap_seed": 20260816,
+   "model_fold_seed": 20260818
+  },
+  "thresholds": {
+   "resolved_rule": "component-paired 95% bootstrap interval excludes zero",
+   "smallest_effect_of_interest_r": 0.05,
+   "decisive_null_half_width_r": 0.05
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "seal": "physical: QPSMPData(include_meta_test=False); sealed cells dropped during construction, absent from cells, tasks, components and materialize"
+ }
+}

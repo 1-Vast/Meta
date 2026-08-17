@@ -116,7 +116,8 @@ def main() -> None:
     args = parser.parse_args()
 
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory)
+                     split_directory=args.split_directory,
+                     include_meta_test=False)
     fingerprints = data.fingerprints
 
     train_cells = [c for c in data.cells if c["split"] == "meta_train"]

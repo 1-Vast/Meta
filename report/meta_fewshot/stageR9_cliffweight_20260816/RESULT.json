@@ -1,31 +1,87 @@
 {
-  "schema": "MetaSieve.StageR9CliffWeight.v1",
-  "stage": "R9 (pair-level diagnosis + activity-cliff pair-weight dose response)",
-  "date": "2026-08-16",
-  "population": {"split": "meta_val", "targets": 41, "components": 19, "evaluation_seed": 73101, "query_size": 16},
-  "meta_test": {"opened": false, "evaluated": false},
-  "pair_audit_k0_b1_vs_a0": {
-    "resolved_stratum": "mid_sim (0.4<=Tanimoto<0.6)",
-    "resolved_effect": 0.119,
-    "resolved_ci": [0.022, 0.220],
-    "cliff_effect": -0.049,
-    "cliff_ci": [-0.190, 0.096]
-  },
-  "dose_response_3seed": {
-    "B1_w4": {"k0_mse": 2.167, "k0_ci": 0.535, "k0_calib": 1.271, "k0_shape": 0.896, "k5_cliff_sign": 0.768},
-    "C1_w1": {"k0_mse": 2.235, "k0_ci": 0.562, "k0_calib": 1.332, "k0_shape": 0.903, "k5_cliff_sign": 0.782},
-    "C2_w2": {"k0_mse": 2.119, "k0_ci": 0.548, "k0_calib": 1.218, "k0_shape": 0.901, "k5_cliff_sign": 0.775}
-  },
-  "gates": {
-    "Z1_prime": {"C1": "fail", "C2": "pass_point_estimate_unresolved", "B1": "fail"},
-    "Z5_prime": {"C1": "pass", "C2": "fail", "B1": "fail"},
-    "both_simultaneously": "none"
-  },
-  "findings": [
-    "the x4 cliff weight is a net negative for the ranking: C1 beats B1 on global CI (+0.027) AND on cliff pairs (0.606 vs 0.577 pooled)",
-    "cliff-ordering ability comes from the shape-first training itself, not the cliff emphasis",
-    "cliff-weight removal closed the resolved mid-similarity band; the remaining CI gap is diffuse with compressed margins (C1 0.097 vs A0 0.121)"
+ "schema": "MetaSieve.StageR9CliffWeight.v1",
+ "stage": "R9 (pair-level diagnosis + activity-cliff pair-weight dose response)",
+ "date": "2026-08-16",
+ "population": {
+  "split": "meta_val",
+  "targets": 41,
+  "components": 19,
+  "evaluation_seed": 73101,
+  "query_size": 16,
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "split_declaration": {
+   "status": "resolved_from_leaf_runs",
+   "reason": "the summary declared no corpus; every per-seed run it aggregates declares this split directory unanimously",
+   "evidence": [
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C1_cliffw1_seed20260815\\RESULT.json",
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C1_cliffw1_seed20260816\\RESULT.json",
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C1_cliffw1_seed20260817\\RESULT.json",
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260815\\RESULT.json",
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260816\\RESULT.json",
+    "report\\meta_fewshot\\stageR9_cliffweight_20260816\\C2_cliffw2_seed20260817\\RESULT.json"
+   ],
+   "recorded": "2026-08-16"
+  }
+ },
+ "meta_test": {
+  "opened": false,
+  "evaluated": false
+ },
+ "pair_audit_k0_b1_vs_a0": {
+  "resolved_stratum": "mid_sim (0.4<=Tanimoto<0.6)",
+  "resolved_effect": 0.119,
+  "resolved_ci": [
+   0.022,
+   0.22
   ],
-  "verdict": "cliff_weight_axis_partially_resolved; next single variable = shape_variance_weight 1.5 -> 0.5 on the C1 base (R10)",
-  "meta_test_opened": false
+  "cliff_effect": -0.049,
+  "cliff_ci": [
+   -0.19,
+   0.096
+  ]
+ },
+ "dose_response_3seed": {
+  "B1_w4": {
+   "k0_mse": 2.167,
+   "k0_ci": 0.535,
+   "k0_calib": 1.271,
+   "k0_shape": 0.896,
+   "k5_cliff_sign": 0.768
+  },
+  "C1_w1": {
+   "k0_mse": 2.235,
+   "k0_ci": 0.562,
+   "k0_calib": 1.332,
+   "k0_shape": 0.903,
+   "k5_cliff_sign": 0.782
+  },
+  "C2_w2": {
+   "k0_mse": 2.119,
+   "k0_ci": 0.548,
+   "k0_calib": 1.218,
+   "k0_shape": 0.901,
+   "k5_cliff_sign": 0.775
+  }
+ },
+ "gates": {
+  "Z1_prime": {
+   "C1": "fail",
+   "C2": "pass_point_estimate_unresolved",
+   "B1": "fail"
+  },
+  "Z5_prime": {
+   "C1": "pass",
+   "C2": "fail",
+   "B1": "fail"
+  },
+  "both_simultaneously": "none"
+ },
+ "findings": [
+  "the x4 cliff weight is a net negative for the ranking: C1 beats B1 on global CI (+0.027) AND on cliff pairs (0.606 vs 0.577 pooled)",
+  "cliff-ordering ability comes from the shape-first training itself, not the cliff emphasis",
+  "cliff-weight removal closed the resolved mid-similarity band; the remaining CI gap is diffuse with compressed margins (C1 0.097 vs A0 0.121)"
+ ],
+ "verdict": "cliff_weight_axis_partially_resolved; next single variable = shape_variance_weight 1.5 -> 0.5 on the C1 base (R10)",
+ "meta_test_opened": false
 }

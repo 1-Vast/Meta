@@ -1,0 +1,314 @@
+{
+ "schema": "MetaSieve.StageE.Evaluation.v1",
+ "checkpoint": "D:\\MetaSieve\\report\\meta_fewshot\\stageI_lm_20260817\\I-FROZEN\\checkpoint.pt",
+ "arm": "I-FROZEN",
+ "split": "meta_val",
+ "episodes_per_k": {
+  "0": 164,
+  "1": 410,
+  "2": 492,
+  "3": 492,
+  "5": 492
+ },
+ "aggregates": {
+  "0": {
+   "correct": {
+    "mse_pk": 2.33712560952382,
+    "rmse_pk": 1.3810217483412652,
+    "level_squared": 1.5117900448153063,
+    "centered_mse_pk": 0.825335658909893,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127106572731229,
+    "r_squared": -12.173804981008855,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "zero_shot": {
+    "mse_pk": 2.33712560952382,
+    "rmse_pk": 1.3810217483412652,
+    "level_squared": 1.5117900448153063,
+    "centered_mse_pk": 0.825335658909893,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127106572731229,
+    "r_squared": -12.173804981008855,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   }
+  },
+  "1": {
+   "correct": {
+    "mse_pk": 1.6595185835446629,
+    "rmse_pk": 1.2071621574853595,
+    "level_squared": 0.8341829718116807,
+    "centered_mse_pk": 0.825335695710556,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127102581879105,
+    "r_squared": -6.626553246468074,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "matched_wrong_support": {
+    "mse_pk": 3.5174882387868447,
+    "rmse_pk": 1.621066052681372,
+    "level_squared": 2.6921525623082254,
+    "centered_mse_pk": 0.825335693504792,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127089378380168,
+    "r_squared": -20.134222115011294,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "no_adaptation": {
+    "mse_pk": 2.337125696820723,
+    "rmse_pk": 1.3810217782182803,
+    "level_squared": 1.511789981640898,
+    "centered_mse_pk": 0.8253356957554883,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127082879371803,
+    "r_squared": -12.173805571869904,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "wrong_protein": {
+    "mse_pk": 2.049978515184613,
+    "rmse_pk": 1.34958765655756,
+    "level_squared": 1.2247524563967938,
+    "centered_mse_pk": 0.8252258087008874,
+    "spearman": 0.089561090354434,
+    "pearson": 0.10434843661659185,
+    "r_squared": -9.001075780228406,
+    "ci": 0.5299447823611918,
+    "cliff_sign": 0.6227119272421572
+   },
+   "zero_shot": {
+    "mse_pk": 2.337125696820723,
+    "rmse_pk": 1.3810217782182803,
+    "level_squared": 1.511789981640898,
+    "centered_mse_pk": 0.8253356957554883,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127082879371803,
+    "r_squared": -12.173805571869904,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   }
+  },
+  "2": {
+   "correct": {
+    "mse_pk": 1.2457064952337205,
+    "rmse_pk": 1.0549977551725573,
+    "level_squared": 0.4791822154044842,
+    "centered_mse_pk": 0.7665243069005239,
+    "spearman": 0.1737775962427665,
+    "pearson": 0.20566546909303385,
+    "r_squared": -3.327927714591016,
+    "ci": 0.5629331982852727,
+    "cliff_sign": 0.6320462391551814
+   },
+   "matched_wrong_support": {
+    "mse_pk": 4.426666479977898,
+    "rmse_pk": 1.8069842476444435,
+    "level_squared": 3.475903563864936,
+    "centered_mse_pk": 0.9507629358493269,
+    "spearman": -0.08104938469683051,
+    "pearson": -0.07316671049933036,
+    "r_squared": -27.169379812286095,
+    "ci": 0.4594633388517366,
+    "cliff_sign": 0.5366599284230614
+   },
+   "no_adaptation": {
+    "mse_pk": 2.3371256560012514,
+    "rmse_pk": 1.381021754167283,
+    "level_squared": 1.511790043967758,
+    "centered_mse_pk": 0.8253356849880922,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127112664531683,
+    "r_squared": -12.173804694990125,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "permuted_support": {
+    "mse_pk": 1.7833026075796377,
+    "rmse_pk": 1.210493846700753,
+    "level_squared": 0.8443124551845657,
+    "centered_mse_pk": 0.9389902021599358,
+    "spearman": -0.05954821752035371,
+    "pearson": -0.0570502759969296,
+    "r_squared": -7.21371807199082,
+    "ci": 0.466587072563057,
+    "cliff_sign": 0.5558315809777639
+   },
+   "wrong_protein": {
+    "mse_pk": 1.4625165311148145,
+    "rmse_pk": 1.1495314996157375,
+    "level_squared": 0.6962274756941673,
+    "centered_mse_pk": 0.7662890867340637,
+    "spearman": 0.18164480965371058,
+    "pearson": 0.20840842279083277,
+    "r_squared": -4.636050875895189,
+    "ci": 0.5656318778250955,
+    "cliff_sign": 0.6281425783318778
+   },
+   "zero_shot": {
+    "mse_pk": 2.3371256560012514,
+    "rmse_pk": 1.381021754167283,
+    "level_squared": 1.511790043967758,
+    "centered_mse_pk": 0.8253356849880922,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127112664531683,
+    "r_squared": -12.173804694990125,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   }
+  },
+  "3": {
+   "correct": {
+    "mse_pk": 1.1542833207973413,
+    "rmse_pk": 1.0127923319438346,
+    "level_squared": 0.38973125445692836,
+    "centered_mse_pk": 0.7645520989381636,
+    "spearman": 0.22965254237506558,
+    "pearson": 0.2365771936837823,
+    "r_squared": -2.613345752274307,
+    "ci": 0.5836510611193623,
+    "cliff_sign": 0.6068634888967895
+   },
+   "matched_wrong_support": {
+    "mse_pk": 4.986730108639799,
+    "rmse_pk": 1.9295188812048811,
+    "level_squared": 3.9484397027284546,
+    "centered_mse_pk": 1.0382905488251417,
+    "spearman": -0.1310618915398327,
+    "pearson": -0.13395268216598627,
+    "r_squared": -30.20633468435313,
+    "ci": 0.4453221056788531,
+    "cliff_sign": 0.5507304308170138
+   },
+   "no_adaptation": {
+    "mse_pk": 2.337125642855365,
+    "rmse_pk": 1.3810217626635592,
+    "level_squared": 1.5117899713756455,
+    "centered_mse_pk": 0.825335665765851,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127100450926749,
+    "r_squared": -12.173805392231081,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "permuted_support": {
+    "mse_pk": 1.5667631706003482,
+    "rmse_pk": 1.1466654115694954,
+    "level_squared": 0.6557463869722627,
+    "centered_mse_pk": 0.9110168824637576,
+    "spearman": 0.006397375843970268,
+    "pearson": 0.02338383149003315,
+    "r_squared": -5.591499539884505,
+    "ci": 0.4961971429685105,
+    "cliff_sign": 0.4844476993789969
+   },
+   "wrong_protein": {
+    "mse_pk": 1.3483982721068208,
+    "rmse_pk": 1.1010189754584976,
+    "level_squared": 0.5840612597344914,
+    "centered_mse_pk": 0.7643370320226875,
+    "spearman": 0.22938554286271,
+    "pearson": 0.23780048165600254,
+    "r_squared": -3.4934078991805686,
+    "ci": 0.5836073160086094,
+    "cliff_sign": 0.6011680796944613
+   },
+   "zero_shot": {
+    "mse_pk": 2.337125642855365,
+    "rmse_pk": 1.3810217626635592,
+    "level_squared": 1.5117899713756455,
+    "centered_mse_pk": 0.825335665765851,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127100450926749,
+    "r_squared": -12.173805392231081,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   }
+  },
+  "5": {
+   "correct": {
+    "mse_pk": 0.944066163362529,
+    "rmse_pk": 0.9158164648278464,
+    "level_squared": 0.23734995093853692,
+    "centered_mse_pk": 0.7067162741674693,
+    "spearman": 0.2901601011217884,
+    "pearson": 0.29765601330604774,
+    "r_squared": -1.3961675183312003,
+    "ci": 0.6042319543547192,
+    "cliff_sign": 0.6610913565357599
+   },
+   "matched_wrong_support": {
+    "mse_pk": 5.713439746346689,
+    "rmse_pk": 2.0667817747981325,
+    "level_squared": 4.520618091311644,
+    "centered_mse_pk": 1.1928220919915766,
+    "spearman": -0.2416586348378144,
+    "pearson": -0.25433940181753495,
+    "r_squared": -35.254062525547646,
+    "ci": 0.4113853834092361,
+    "cliff_sign": 0.3910846816061494
+   },
+   "no_adaptation": {
+    "mse_pk": 2.337125648793421,
+    "rmse_pk": 1.3810217539805518,
+    "level_squared": 1.511789980059367,
+    "centered_mse_pk": 0.8253356850236878,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127120752720128,
+    "r_squared": -12.17380482147246,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   },
+   "permuted_support": {
+    "mse_pk": 1.377603789067881,
+    "rmse_pk": 1.0877531020806397,
+    "level_squared": 0.35514942350697565,
+    "centered_mse_pk": 1.022454358120904,
+    "spearman": -0.0853631082539751,
+    "pearson": -0.06681556950341659,
+    "r_squared": -2.9124655514536206,
+    "ci": 0.4569648948373951,
+    "cliff_sign": 0.4750878109893981
+   },
+   "wrong_protein": {
+    "mse_pk": 1.0220922727539277,
+    "rmse_pk": 0.9595280558543097,
+    "level_squared": 0.3153765771362475,
+    "centered_mse_pk": 0.7067157200042784,
+    "spearman": 0.29633617801187456,
+    "pearson": 0.29872192815272114,
+    "r_squared": -1.850015001501001,
+    "ci": 0.6067003285938332,
+    "cliff_sign": 0.6610913565357599
+   },
+   "zero_shot": {
+    "mse_pk": 2.337125648793421,
+    "rmse_pk": 1.3810217539805518,
+    "level_squared": 1.511789980059367,
+    "centered_mse_pk": 0.8253356850236878,
+    "spearman": 0.08595525024511091,
+    "pearson": 0.10127120752720128,
+    "r_squared": -12.17380482147246,
+    "ci": 0.5269260496378025,
+    "cliff_sign": 0.6220954306435178
+   }
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

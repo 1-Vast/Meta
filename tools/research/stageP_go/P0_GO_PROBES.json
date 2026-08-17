@@ -1,0 +1,40 @@
+{
+ "component_bootstrap": {
+  "components": 17,
+  "hi": 4.532205357805809,
+  "lo": 0.9620945622730894,
+  "mean": 2.5234586900749685
+ },
+ "date": "2026-08-18",
+ "episodes_train": 384,
+ "episodes_val": 62,
+ "fold_table": {
+  "0.001": 2.546190892290698,
+  "0.01": 2.5444231632445513,
+  "0.1": 2.5271911852290994,
+  "1.0": 2.387386230298288
+ },
+ "go_terms_kg": 47229,
+ "go_vocab_train": 3580,
+ "grand_mean_baseline": 1.4328703597979244,
+ "kg_proteins": 477262,
+ "level_mse": 2.2698645711459267,
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "schema": "MetaSieve.StageP.GOProbes.v1",
+ "selected_weight_decay": 1.0,
+ "targets_matched": 313,
+ "targets_total": 387
+}

@@ -1,16 +1,61 @@
 {
-  "schema": "MetaSieve.StageR11GrammarShape.v1",
-  "stage": "R11 (shape-first training on the incumbent grammar trunk)",
-  "date": "2026-08-16",
-  "population": {"split": "meta_val", "targets": 41, "components": 19},
-  "meta_test": {"opened": false, "evaluated": false},
-  "summary_3seed_mean": {
-    "A0": {"k0_mse": 2.149, "k0_ci": 0.580, "k0_spearman": 0.223, "k0_calib": 1.236, "k0_shape": 0.913, "k5_mse": 0.915, "k5_cliff_sign": 0.675},
-    "G1": {"k0_mse": 2.405, "k0_ci": 0.525, "k0_spearman": 0.073, "k0_calib": 1.488, "k0_shape": 0.917, "k5_mse": 0.920, "k5_cliff_sign": 0.650}
+ "schema": "MetaSieve.StageR11GrammarShape.v1",
+ "stage": "R11 (shape-first training on the incumbent grammar trunk)",
+ "date": "2026-08-16",
+ "population": {
+  "split": "meta_val",
+  "targets": 41,
+  "components": 19,
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "split_declaration": {
+   "status": "resolved_from_leaf_runs",
+   "reason": "the summary declared no corpus; every per-seed run it aggregates declares this split directory unanimously",
+   "evidence": [
+    "report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260815\\RESULT.json",
+    "report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260816\\RESULT.json",
+    "report\\meta_fewshot\\stageR11_grammar_shape_20260816\\G1_seed20260817\\RESULT.json"
+   ],
+   "recorded": "2026-08-16"
+  }
+ },
+ "meta_test": {
+  "opened": false,
+  "evaluated": false
+ },
+ "summary_3seed_mean": {
+  "A0": {
+   "k0_mse": 2.149,
+   "k0_ci": 0.58,
+   "k0_spearman": 0.223,
+   "k0_calib": 1.236,
+   "k0_shape": 0.913,
+   "k5_mse": 0.915,
+   "k5_cliff_sign": 0.675
   },
-  "g1_vs_a0_bootstrap_k0_mse": [-0.256, [-0.677, 0.130]],
-  "gates": {"H1": "fail", "H2": "fail", "H3": "fail"},
-  "verdict": "shape_first_routing_breaks_the_incumbent_calibration; the level/shape routing trades calibration for shape on every architecture tested",
-  "engineering": "GPU smoke caught two device/shape bugs the CPU smoke missed; runner first-failure discipline exercised twice",
-  "meta_test_opened": false
+  "G1": {
+   "k0_mse": 2.405,
+   "k0_ci": 0.525,
+   "k0_spearman": 0.073,
+   "k0_calib": 1.488,
+   "k0_shape": 0.917,
+   "k5_mse": 0.92,
+   "k5_cliff_sign": 0.65
+  }
+ },
+ "g1_vs_a0_bootstrap_k0_mse": [
+  -0.256,
+  [
+   -0.677,
+   0.13
+  ]
+ ],
+ "gates": {
+  "H1": "fail",
+  "H2": "fail",
+  "H3": "fail"
+ },
+ "verdict": "shape_first_routing_breaks_the_incumbent_calibration; the level/shape routing trades calibration for shape on every architecture tested",
+ "engineering": "GPU smoke caught two device/shape bugs the CPU smoke missed; runner first-failure discipline exercised twice",
+ "meta_test_opened": false
 }

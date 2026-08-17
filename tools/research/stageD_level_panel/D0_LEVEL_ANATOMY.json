@@ -1,0 +1,95 @@
+{
+ "between_target_variance_meta_train": 2.3618977323725825,
+ "components": 258,
+ "date": "2026-08-17",
+ "documents": 466,
+ "grand_mean_pk": 5.977455346420167,
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "methods": {
+  "component_onehot": {
+   "fold_table": {
+    "0.001": 2.3995655139338314,
+    "0.01": 2.39938840288085,
+    "0.1": 2.397727293436284,
+    "1": 2.388359152378687
+   },
+   "held_out_mse": 2.388359152378687,
+   "held_out_r2": -0.011203457136784278,
+   "in_fold_mse": 1.2686634160972943,
+   "in_fold_r2": 0.462862680839745,
+   "selected_weight_decay": 1.0,
+   "shared_variance_vs_constant": -0.011203457136784278
+  },
+  "document_onehot": {
+   "fold_table": {
+    "0.001": 2.2007459505765503,
+    "0.01": 2.200698787396793,
+    "0.1": 2.200561616885426,
+    "1": 2.2167945784246665
+   },
+   "held_out_mse": 2.200561616885426,
+   "held_out_r2": 0.0683078328396085,
+   "in_fold_mse": 0.7049583903450227,
+   "in_fold_r2": 0.7015288254513563,
+   "selected_weight_decay": 0.1,
+   "shared_variance_vs_constant": 0.0683078328396085
+  },
+  "joint": {
+   "fold_table": {
+    "0.001": 1.7624070398083034,
+    "0.01": 1.7620609356697787,
+    "0.1": 1.758927529705597,
+    "1": 1.750125517077975
+   },
+   "held_out_mse": 1.750125517077975,
+   "held_out_r2": 0.25901723301121415,
+   "in_fold_mse": 0.3183284519422051,
+   "in_fold_r2": 0.865223439787786,
+   "selected_weight_decay": 1.0,
+   "shared_variance_vs_constant": 0.25901723301121415
+  },
+  "panel_composition": {
+   "fold_table": {
+    "0.001": 1.7979766850025976,
+    "0.01": 1.7987460933414876,
+    "0.1": 1.8065078502940728,
+    "1": 1.8825322846645942
+   },
+   "held_out_mse": 1.7979766850025976,
+   "held_out_r2": 0.23875760564938298,
+   "in_fold_mse": 1.716527979198162,
+   "in_fold_r2": 0.27324203936896585,
+   "selected_weight_decay": 0.001,
+   "shared_variance_vs_constant": 0.23875760564938298
+  },
+  "protein_esm150_len": {
+   "fold_table": {
+    "0.001": 2.1402207592874047,
+    "0.01": 2.1392829547681185,
+    "0.1": 2.1304755692531216,
+    "1": 2.0810207035848443
+   },
+   "held_out_mse": 2.0810207035848443,
+   "held_out_r2": 0.11892006370046793,
+   "in_fold_mse": 1.3494482986451006,
+   "in_fold_r2": 0.42865930215803727,
+   "selected_weight_decay": 1.0,
+   "shared_variance_vs_constant": 0.11892006370046793
+  }
+ },
+ "schema": "MetaSieve.StageD.LevelAnatomy.v1",
+ "targets": 346
+}

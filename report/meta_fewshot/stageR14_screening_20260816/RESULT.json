@@ -7,38 +7,148 @@
   "split": "meta_val",
   "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
-  "targets": 41, "components": 19, "evaluation_seed": 73101, "query_size": 16
+  "targets": 41,
+  "components": 19,
+  "evaluation_seed": 73101,
+  "query_size": 16
  },
  "meta_test": {
-  "evaluated": false, "included": false,
-  "seal": "physical: QPSMPData include_meta_test=False"
+  "evaluated": false,
+  "included": true,
+  "authorization": null,
+  "seal": "population sealed, process not sealed: scripts/r14_dispersion_audit.py constructed QPSMPData without include_meta_test, so meta_test cells were parsed and indexed in this process. No meta_test value entered any recorded computation \u2014 every bank is fixed_nested_episode_banks('meta_val', ...), donors are meta_val, the label scale is meta_train-only. Verified by re-running the identical audit under the repaired fail-closed seal: 105/105 numeric A0 fields bit-identical.",
+  "seal_correction": {
+   "date": "2026-08-16",
+   "incident": "tools/research/a2_readiness_v2/GOVERNANCE_INCIDENT.md",
+   "original_claim": "physical: QPSMPData include_meta_test=False",
+   "why_it_was_false": "the producing script never passed include_meta_test, and the class default at the time admitted the sealed split",
+   "numerical_impact": "none; no field in this artifact was modified",
+   "verification": "tools/research/a2_readiness_v2/SEAL_REPAIR_REPRODUCTION.json",
+   "repair": "QPSMPData now defaults to include_meta_test=False, requires a written meta_test_authorization to open, and emits seal_record() so an artifact cannot contradict its constructor; contracts in tools/tests/test_meta_test_seal_contract.py"
+  }
  },
  "single_variable": "form of the within-target ranking term at fixed weight 0.5: ranknet -> regression-compatible ListCE; the incumbent already carried RankNet at that weight, so it is the matched misaligned control",
- "seeds": [20260815, 20260816, 20260817],
+ "seeds": [
+  20260815,
+  20260816,
+  20260817
+ ],
  "steps": 1200,
  "arms_k0_3seed": {
-  "A0frozen": {"mse_pk": 2.1488, "ordering_floor": 0.6922, "pearson_r": 0.213, "shape_pk": 0.9130, "calibration_pk": 1.2358, "ci": 0.580, "sd_pred": 0.132, "note": "retained R3R4 incumbent checkpoints"},
-  "A0repro": {"mse_pk": 2.0911, "ordering_floor": 0.6850, "pearson_r": 0.162, "shape_pk": 0.9032, "calibration_pk": 1.1879, "ci": 0.552, "sd_pred": 0.147, "note": "same configuration retrained here; the run-to-run control"},
-  "R1listce": {"mse_pk": 2.0700, "ordering_floor": 0.6931, "pearson_r": 0.186, "shape_pk": 0.9005, "calibration_pk": 1.1695, "ci": 0.544, "sd_pred": 0.124, "note": "the candidate"},
-  "R3norank": {"mse_pk": 2.0924, "ordering_floor": 0.6951, "pearson_r": 0.178, "shape_pk": 0.9049, "calibration_pk": 1.1875, "ci": 0.543, "sd_pred": 0.121, "note": "necessity control: ranking term deleted"}
+  "A0frozen": {
+   "mse_pk": 2.1488,
+   "ordering_floor": 0.6922,
+   "pearson_r": 0.213,
+   "shape_pk": 0.913,
+   "calibration_pk": 1.2358,
+   "ci": 0.58,
+   "sd_pred": 0.132,
+   "note": "retained R3R4 incumbent checkpoints"
+  },
+  "A0repro": {
+   "mse_pk": 2.0911,
+   "ordering_floor": 0.685,
+   "pearson_r": 0.162,
+   "shape_pk": 0.9032,
+   "calibration_pk": 1.1879,
+   "ci": 0.552,
+   "sd_pred": 0.147,
+   "note": "same configuration retrained here; the run-to-run control"
+  },
+  "R1listce": {
+   "mse_pk": 2.07,
+   "ordering_floor": 0.6931,
+   "pearson_r": 0.186,
+   "shape_pk": 0.9005,
+   "calibration_pk": 1.1695,
+   "ci": 0.544,
+   "sd_pred": 0.124,
+   "note": "the candidate"
+  },
+  "R3norank": {
+   "mse_pk": 2.0924,
+   "ordering_floor": 0.6951,
+   "pearson_r": 0.178,
+   "shape_pk": 0.9049,
+   "calibration_pk": 1.1875,
+   "ci": 0.543,
+   "sd_pred": 0.121,
+   "note": "necessity control: ranking term deleted"
+  }
  },
  "contrasts_vs_A0repro_k0": {
-  "A0frozen": {"ordering_floor": {"mean": -0.0072, "lo": -0.0716, "hi": 0.0648}, "pearson_r": {"mean": 0.0503, "lo": -0.0461, "hi": 0.1509}},
-  "R1listce": {"ordering_floor": {"mean": -0.0081, "lo": -0.0300, "hi": 0.0137}, "pearson_r": {"mean": 0.0231, "lo": -0.0300, "hi": 0.0750}},
-  "R3norank": {"ordering_floor": {"mean": -0.0101, "lo": -0.0250, "hi": 0.0038}, "pearson_r": {"mean": 0.0153, "lo": -0.0242, "hi": 0.0605}}
+  "A0frozen": {
+   "ordering_floor": {
+    "mean": -0.0072,
+    "lo": -0.0716,
+    "hi": 0.0648
+   },
+   "pearson_r": {
+    "mean": 0.0503,
+    "lo": -0.0461,
+    "hi": 0.1509
+   }
+  },
+  "R1listce": {
+   "ordering_floor": {
+    "mean": -0.0081,
+    "lo": -0.03,
+    "hi": 0.0137
+   },
+   "pearson_r": {
+    "mean": 0.0231,
+    "lo": -0.03,
+    "hi": 0.075
+   }
+  },
+  "R3norank": {
+   "ordering_floor": {
+    "mean": -0.0101,
+    "lo": -0.025,
+    "hi": 0.0038
+   },
+   "pearson_r": {
+    "mean": 0.0153,
+    "lo": -0.0242,
+    "hi": 0.0605
+   }
+  }
  },
  "gates": {
-  "O1": {"requirement": "k=0 ordering floor / r beats A0 with a positive component lower bound", "measured": "floor 0.6931 worse than A0repro 0.6850 and A0frozen 0.6922; r 0.186 < 0.213; interval crosses zero", "outcome": "fail"},
-  "O2": {"requirement": "calibration no worse than 1.236 + 0.02", "measured": 1.1695, "outcome": "pass"},
-  "O3": {"requirement": "k=0 MSE improves AND CI >= 0.570", "measured": "MSE 2.0700 improves but CI 0.544", "outcome": "fail"},
-  "O4": {"requirement": "R1 r exceeds R3 (necessity) with a positive lower bound", "measured": "floor 0.6931 vs 0.6951 (delta 0.002); r 0.186 vs 0.178; both inside the same-config noise band", "outcome": "fail"},
-  "O5": {"requirement": "3/3 seed direction", "outcome": "not_reached"}
+  "O1": {
+   "requirement": "k=0 ordering floor / r beats A0 with a positive component lower bound",
+   "measured": "floor 0.6931 worse than A0repro 0.6850 and A0frozen 0.6922; r 0.186 < 0.213; interval crosses zero",
+   "outcome": "fail"
+  },
+  "O2": {
+   "requirement": "calibration no worse than 1.236 + 0.02",
+   "measured": 1.1695,
+   "outcome": "pass"
+  },
+  "O3": {
+   "requirement": "k=0 MSE improves AND CI >= 0.570",
+   "measured": "MSE 2.0700 improves but CI 0.544",
+   "outcome": "fail"
+  },
+  "O4": {
+   "requirement": "R1 r exceeds R3 (necessity) with a positive lower bound",
+   "measured": "floor 0.6931 vs 0.6951 (delta 0.002); r 0.186 vs 0.178; both inside the same-config noise band",
+   "outcome": "fail"
+  },
+  "O5": {
+   "requirement": "3/3 seed direction",
+   "outcome": "not_reached"
+  }
  },
  "measured_cause": {
   "claim": "the regression-compatible ListCE is inert by construction at this model's operating point",
   "gradient_norm_at_operating_point_r0.2_dispersion0.2": {
-   "squared_error": 0.393, "hinge": 0.228, "ranknet": 0.151, "list_ce": 0.00653,
-   "listce_over_ranknet": 0.043, "listce_over_squared_error": 0.017
+   "squared_error": 0.393,
+   "hinge": 0.228,
+   "ranknet": 0.151,
+   "list_ce": 0.00653,
+   "listce_over_ranknet": 0.043,
+   "listce_over_squared_error": 0.017
   },
   "mechanism": "the gradient scales as 1/T(p); the same factor that makes the term stationary at T(p) proportional to w damps it everywhere else, worst where predictions are under-dispersed and T(p) is nearly constant across the panel",
   "general_lesson": "exact regression-compatibility and useful ranking pressure are in tension; the pre-implementation alignment check probed only s=y and could not expose this",

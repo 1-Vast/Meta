@@ -6,12 +6,25 @@
  "real_data_training": false,
  "population": {
   "split": null,
-  "note": "no real-data run: the family failed its own preregistered Stage 1 gates"
+  "note": "no real-data run: the family failed its own preregistered Stage 1 gates",
+  "split_directory": null,
+  "split_declaration": {
+   "status": "unresolvable",
+   "reason": "the family failed its own preregistered Stage 1 gates before any real-data run; population.split is already explicitly null",
+   "recorded": "2026-08-16"
+  }
  },
  "meta_test": {
   "evaluated": false,
   "included": false,
-  "seal": "physical: QPSMPData include_meta_test=False (never reached; no training run)"
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal. (never reached; no training run)",
+  "seal_relabel": {
+   "date": "2026-08-16",
+   "was": "physical: QPSMPData include_meta_test=False (never reached; no training run)",
+   "why": "the producing script did pass include_meta_test=False, so the substance of the claim was true, but 'physical' overstated it: cells.jsonl.gz is a single all-label artifact and every meta_test label is decompressed and parsed on every construction",
+   "numerical_impact": "none; no field in this artifact was modified",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md"
+  }
  },
  "gate_suite": {
   "path": "tests/test_shape_direct_synthetic.py",
@@ -25,14 +38,26 @@
  "xfail_gates": [
   {
    "name": "test_interaction_task_ordering_dies_without_the_interaction_branch",
-   "measured": {"mean_full_ci": 0.60, "branch_gap": 0.14},
-   "gate": {"mean_full_ci": 0.70, "branch_gap": 0.20},
+   "measured": {
+    "mean_full_ci": 0.6,
+    "branch_gap": 0.14
+   },
+   "gate": {
+    "mean_full_ci": 0.7,
+    "branch_gap": 0.2
+   },
    "cause": "the MLP shape branch collapses to near-zero spread under the shape variance term (shape std 0.00-0.06 in the standard recipe); with the variance removed the branch survives but still underperforms the bilinear readout on this task"
   },
   {
    "name": "test_matched_wrong_support_is_clearly_worse",
-   "measured": {"gap": -0.030, "correct": 1.463, "wrong": 1.433},
-   "gate": {"gap": "> 0"},
+   "measured": {
+    "gap": -0.03,
+    "correct": 1.463,
+    "wrong": 1.433
+   },
+   "gate": {
+    "gap": "> 0"
+   },
    "cause": "the k=1 transport (retained Tanimoto baseline) is mildly harmful on the synthetic task, matching the neutrality/harm signature of every query-specific channel tested in this project"
   }
  ],

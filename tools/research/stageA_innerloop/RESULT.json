@@ -1,0 +1,138 @@
+{
+ "schema": "MetaSieve.StageA.InnerLoop.StageResult.v1",
+ "stage": "stageA_innerloop",
+ "date": "2026-08-17",
+ "training": true,
+ "verdict": "NOT_PROMISING",
+ "decision": {
+  "inner_loop_A1": "WEAK_POSITIVE_UNRESOLVED — retained as a multi-seed candidate",
+  "task_selector_A2": "REJECTED — worse than A1 on every metric at every k"
+ },
+ "framework_attribution": "AdaMBind-inspired framework test. NOT a reproduction of AdaMBind, and no result here reproduces or evaluates that method.",
+ "evidence_grade": "development, single seed, directional screening only. Not a performance claim. meta_test unread.",
+ "population": {
+  "split": "meta_val",
+  "dataset": "bindingdb_ki_double_cold_v1 (the only dataset used; no Davis/KIBA/ChEMBL/structural merge)",
+  "episodes_per_k": 82, "targets": 41, "components": 19,
+  "query_size": 16, "draws": 2, "evaluation_seed": 73101,
+  "support_sizes": [0, 1, 2, 3, 5], "training_seed": 20260815, "seeds": 1
+ },
+ "arms": {
+  "A0": {"inner_steps": 0, "task_selection": false, "role": "accepted baseline"},
+  "A1": {"inner_steps": 1, "inner_lr": 0.1, "task_selection": false},
+  "A2": {"inner_steps": 1, "inner_lr": 0.1, "task_selection": true}
+ },
+ "arm_matching": {
+  "verified": "configs differ in exactly {arm, inner_steps, inner_lr, task_selection}",
+  "baseline_equivalence": "A0 at inner_steps=0 reproduces the production episode loss to 2e-5 on all seven terms at every k, each term verified non-zero",
+  "readout_identity": "the re-implemented readout equals InteractionGrammarModel.encode's endpoint bitwise"
+ },
+ "adaptable_scope": {
+  "parameters": ["interaction_head.2.weight", "interaction_head.2.bias"],
+  "count": 97, "trainable_total": 1798833, "fraction": 5.4e-05,
+  "inner_lr_selection": "meta_train component folds against the frozen A0 checkpoint; meta_val not read"
+ },
+ "gates": {
+  "G1_A1_beats_A0_at_k_gt_0_without_k0_damage": {
+   "passes": true, "strength": "unresolved",
+   "k0_mse_change": -0.0175, "k0_change_percent": -0.84,
+   "mse_change_by_k": {"1": -0.1111, "2": -0.0980, "3": -0.0443, "5": -0.0206},
+   "all_intervals_cross_zero": true,
+   "exceeds_retraining_noise_0p058": {"1": true, "2": true, "3": false, "5": false}
+  },
+  "G2_A2_beats_A1": {
+   "passes": false,
+   "mse_change_by_k": {"0": 0.0827, "1": 0.0270, "2": 0.0106, "3": 0.0195, "5": 0.0114},
+   "pearson_change_by_k": {"0": -0.1031, "1": -0.1032, "2": -0.0455, "3": -0.0315, "5": -0.0102},
+   "note": "A2 is worse than A1 on MSE, Pearson, Spearman and CI at every k. Uniform direction, no interval resolved."
+  },
+  "G3_mse_and_ranking_same_direction": {"passes": true},
+  "G4_correct_support_beats_permuted_and_matched_wrong": {
+   "passes": true, "strength": "resolved",
+   "A1_permuted_minus_correct": {"2": 0.4296, "3": 0.3616, "5": 0.3905},
+   "A1_matched_wrong_minus_correct": {"1": 0.8099, "2": 1.4868, "3": 1.6088, "5": 2.0516},
+   "note": "every one of these intervals excludes zero"
+  },
+  "G5_improvement_grows_with_support": {
+   "passes": false,
+   "observed": "shrinks monotonically: 0.1111 -> 0.0980 -> 0.0443 -> 0.0206 across k=1,2,3,5",
+   "cause": "the inner loop competes with the incumbent Tanimoto residual transport for the same support information; as k rises transport already captures it"
+  },
+  "G6_no_leakage": {
+   "passes": true,
+   "query_labels": "structurally excluded; tested by perturbing query labels and asserting bitwise-identical predictions",
+   "evaluation_banks": "identical specs across arms",
+   "extra_data": "none",
+   "meta_val_checkpoint_selection": "present but identical in all three arms, so it cannot create a between-arm difference"
+  }
+ },
+ "k1_shape_versus_level": {
+  "question": "is the k=1 gain task-specific shape adaptation or a scalar level shift?",
+  "no_adaptation_mse": 1.5377, "full_adaptation_mse": 1.4242,
+  "bias_only_mse": 1.4456, "weight_only_mse": 1.4364,
+  "total_gain": 0.1135, "bias_only_gain": 0.0921,
+  "bias_only_share_of_gain": 0.81,
+  "full_minus_bias_only": {"mean": 0.0214, "lo": -0.0913, "hi": 0.1446},
+  "answer": "NOT DISTINGUISHABLE FROM A LEVEL SHIFT. A pure scalar bias update recovers 81% of the k=1 gain, and the shape residual is unresolved.",
+  "shape_share_grows_with_k": {"1": 0.19, "2": 0.39, "3": 0.36, "5": 0.41}
+ },
+ "protein_specificity": {
+  "A1_wrong_protein_minus_correct_mse": {
+   "1": {"mean": 0.0253, "lo": -0.0009, "hi": 0.0513},
+   "2": {"mean": 0.0188, "lo": 0.0052, "hi": 0.0327},
+   "3": {"mean": 0.0177, "lo": 0.0079, "hi": 0.0282},
+   "5": {"mean": 0.0085, "lo": 0.0037, "hi": 0.0137}},
+  "A2_wrong_protein_minus_correct_mse": {
+   "1": {"mean": -0.0178}, "2": {"mean": 0.0004},
+   "3": {"mean": 0.0002}, "5": {"mean": 0.0005}},
+  "note": "A1 shows small but RESOLVED protein specificity at k=2,3,5 — the first resolved wrong-protein gap in this project's record. A2 destroys it: its gaps are zero to four decimals."
+ },
+ "inner_loop_conditioning": {
+  "definition": "alpha = 2 * inner_lr * ||h||^2 at k=1; post-step residual is (1 - alpha) times the pre-step residual",
+  "A0": {"alpha_mean": 1.514, "fraction_overshooting": 1.00, "fraction_oscillating": 0.00},
+  "A1": {"alpha_mean": 0.241, "fraction_overshooting": 0.00},
+  "A2": {"alpha_mean": 0.216, "fraction_overshooting": 0.00},
+  "explains": "A0 overshoots on 100% of episodes, so each inner step flips the residual sign with magnitude 0.514. Its k=1 sweep alternates exactly as predicted: steps0 1.5352, steps1 2.8626, steps2 1.4349, steps3 2.2049 — odd bad, even good, decaying. Training with the loop pushed alpha 6.3x down into the stable contraction region.",
+  "consequence": "the inner loop cannot be bolted onto an already-trained model; it must be trained with."
+ },
+ "task_selection_diagnosis": {
+  "selection_steps": 960, "candidates_per_step": 9,
+  "effective_tasks_per_step": 5.29,
+  "selected_gradient_cosine_mean": 0.9897,
+  "all_candidate_gradient_cosine_mean": 0.6555,
+  "cosine_fraction_positive": 0.828, "cosine_fraction_exactly_zero": 0.000,
+  "diagnosis": "The selector worked as designed and that is why it failed. It concentrated on tasks whose support and query gradients almost perfectly agree (0.99 against a 0.66 population mean) — the easy, redundant tasks where support already predicts query. Training on them cost task diversity, cost 2.33x the encoder forwards, and eliminated the protein specificity A1 had."
+ },
+ "cost": {
+  "optimization_steps": {"A0": 1200, "A1": 1200, "A2": 1200},
+  "encoder_forward_passes": {"A0": 6480, "A1": 6480, "A2": 15120},
+  "wall_time_seconds": {"A0": 1793, "A1": 1100, "A2": 1138},
+  "wall_time_note": "A0's wall time is inflated by a concurrent test-suite run; forward count is the clean cost measure",
+  "peak_cuda_memory_mb": {"A0": 1030, "A1": 1030, "A2": 1020},
+  "added_parameters": 0,
+  "inner_loop_encoder_cost": "zero — the adapted scope is downstream of the encoder, so A1 uses exactly as many encoder passes as A0"
+ },
+ "k0_sanity": {
+  "A0": 2.0753, "A1": 2.0579, "A2": 2.1405,
+  "recorded_incumbent_frozen": 2.1488, "recorded_A0repro": 2.0911,
+  "retraining_spread": 0.058,
+  "note": "A0 lands inside the recorded incumbent band, so the baseline reproduced"
+ },
+ "bugs_found_and_fixed": [
+  "the inner loop could not run under torch.no_grad(), which is how evaluation calls it — support adaptation at inference was structurally impossible until an explicit enable_grad scope was added",
+  "the first trainer silently dropped three auxiliary loss terms, which would have turned any A1 gain into 'the inner loop recovers what we deleted'",
+  "Python's built-in hash() was reintroduced for a permutation seed (the PYTHONHASHSEED defect repaired in Stage R); caught before any run",
+  "paired() compared each condition against itself, making every counterfactual an exact zero that looked like a clean null",
+  "two trainers wrote to one output directory after a killed shell wrapper walked on to the next arm; a fail-closed guard now prevents it"
+ ],
+ "next_step_if_pursued": "A1 is a weak unresolved positive worth three matched seeds. Do not add architectural complexity: the measured obstacles are (a) competition with the existing Tanimoto transport, which explains the shrinking gain with k, and (b) a k=1 effect that is 81% a level shift.",
+ "meta_test": {
+  "used_for_fitting_selection_or_metrics": false,
+  "isolation": "logical exclusion after parsing; process-isolation incident remains open"
+ },
+ "artifacts": ["PREREGISTRATION.md", "REPORT.md", "AUDIT_DATAFLOW.json",
+               "INNER_LR_SELECTION.json", "CONDITIONING.json",
+               "STAGE_A_meta_val.json", "STAGE_A_meta_val.rows.jsonl",
+               "inner_loop.py", "train_meta.py", "evaluate.py",
+               "summarize.py", "diagnose_conditioning.py", "tests/"]
+}

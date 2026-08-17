@@ -1,0 +1,116 @@
+{
+ "checkpoint": "report\\meta_fewshot\\stageB_complementary_20260817\\T\\checkpoint.pt",
+ "date": "2026-08-17",
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "meta_train_fold_strata": {
+  "recall_high": {
+   "mean_r": 0.17274674023460074,
+   "n": 87
+  },
+  "recall_low": {
+   "mean_r": 0.2213136055521675,
+   "n": 143
+  },
+  "scaffold_novel": {
+   "mean_r": 0.15393633167284043,
+   "n": 93
+  },
+  "scaffold_shared": {
+   "mean_r": 0.23620973101310996,
+   "n": 137
+  }
+ },
+ "meta_val_overall_r": 0.20292984563696223,
+ "meta_val_per_component": {
+  "16e28403daba5ff2b7133bd7257130a9c6da9fd84a9260f75905f55941d153e5": {
+   "mean_r": -0.0031403987504687266,
+   "n": 1
+  },
+  "36409b5a274cbf4af71c66ee0e4ba91e99ed37f5ba02f6a4ba5b70af986adee1": {
+   "mean_r": 0.18577432271031336,
+   "n": 2
+  },
+  "42dacdcaa17f8a837152beced38c1c698833147a29f2ca4f7d1083d184585906": {
+   "mean_r": 0.5454767324885381,
+   "n": 2
+  },
+  "58d4fbe181ff602984e2e57bfb44e826ddd250d3858f57ab127111e0b275214e": {
+   "mean_r": 0.3670194321030254,
+   "n": 2
+  },
+  "5ac3381059bb7723903ec2d97a9ff69c8c1d4b2eb2b083bcda7b446f7162b1c8": {
+   "mean_r": 0.6311456232659283,
+   "n": 2
+  },
+  "5dbf165962f6f12d1432d3d2c9beba3767b85e747c5a113902208f9734272cc3": {
+   "mean_r": 0.4163034412417226,
+   "n": 2
+  },
+  "99fa84f12dec33f1ba44a7673819be3ed26f60318aec717ef8f1dc84eb538b1e": {
+   "mean_r": 0.03064793572093684,
+   "n": 4
+  },
+  "bb3b97636dde21268c996d84064f2555f9bd3ea2b2ab1ab3d5055108211a250d": {
+   "mean_r": 0.19104209990428092,
+   "n": 2
+  },
+  "c4202af77b0f6e82bbaa175265c1abd670bd2eef0231a926a5d3934a619b4c11": {
+   "mean_r": 0.8906332281283296,
+   "n": 1
+  },
+  "ca9da1ec6c6629a20c96fe1983e182fd11e458fdb00a6f234ece8d7a25cc89d0": {
+   "mean_r": 0.029474152657390777,
+   "n": 7
+  },
+  "d3014b5147947cf87e217c7263143f363fb8e719f240cf4cfb9b381b6ac1c98e": {
+   "mean_r": -0.1457091781930221,
+   "n": 2
+  },
+  "d3a0d318d11b5d541d38e99021ba729c0e5e58a29d1396fac6b5b9d5000854d6": {
+   "mean_r": -0.014790766535377142,
+   "n": 2
+  },
+  "d75b772db4534986116d0369286ddca6a79ce07b9092cc3216dd28d39a0c4f3a": {
+   "mean_r": 0.252072939788238,
+   "n": 2
+  },
+  "e4126a9f4cf6fe33f6cb0061ee6398e3b9b246628356a73c485b4afdc44e82cf": {
+   "mean_r": -0.2734684594095723,
+   "n": 1
+  },
+  "e71332f4621e530f3c58cc47e80460af21550ff8d19063b4852b0edca674046e": {
+   "mean_r": 0.3096246618239413,
+   "n": 3
+  },
+  "e975735178491836a90e247d9ac3ca27f6260c616b415357fc2a027038a2e2d3": {
+   "mean_r": 0.04815191988399203,
+   "n": 2
+  },
+  "ef984c6f661217278b0e755a2a5370be9f7c123380d02bfdc02f879313c79875": {
+   "mean_r": -0.3217662035507156,
+   "n": 1
+  },
+  "f1f002ace5bc98012e92d0b3305041e9649ca28275f69e600c4793e2c3c0f958": {
+   "mean_r": 0.8099488156646902,
+   "n": 2
+  },
+  "f8e5e76618fd3ac6c1348b33a130f43b9c64d13cf429d77bef309c3f2468a3c4": {
+   "mean_r": 0.1972099430959098,
+   "n": 1
+  }
+ },
+ "schema": "MetaSieve.StageD.OccupancyStrata.v1"
+}

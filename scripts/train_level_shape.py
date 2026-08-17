@@ -760,8 +760,10 @@ def main() -> None:
         learning_rate=args.learning_rate, anchors=args.anchors,
         routing=not args.no_routing, counterfactual=not args.no_counterfactual,
         val_interval=args.val_interval, device=args.device)
-    # The sealed confirmation split is dropped physically: this script cannot
-    # read meta_test (contract 2026-08-16).
+    # The sealed confirmation split is excluded logically after parsing: this
+    # script cannot reach meta_test (contract 2026-08-16). See
+    # tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md for why that is
+    # weaker than a physical label seal.
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
                      split_directory=args.split_directory,
                      include_meta_test=False)
@@ -797,11 +799,7 @@ def main() -> None:
             "criterion": "most similar target from a different homology "
                          "component",
         },
-        "meta_test": {
-            "included": False,
-            "evaluated": False,
-            "seal": "physical: QPSMPData include_meta_test=False",
-        },
+        "meta_test": data.seal_record(),
         "checkpoint_sha256": file_sha256(checkpoint_path),
         "training": {k: v for k, v in result.items()
                      if k not in {"scale", "donors_train", "donors_eval"}},

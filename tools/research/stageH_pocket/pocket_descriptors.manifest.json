@@ -1,0 +1,25 @@
+{
+ "schema": "MetaSieve.StageH.PocketDescriptors.v1",
+ "source": "pilot20k_holo_governed_v2 (local BioLiP2-derived corpus)",
+ "radius_angstrom": 6.0,
+ "min_pident": 30.0,
+ "min_qcov": 0.5,
+ "targets_total": 387,
+ "targets_covered": 209,
+ "vector_dim": 30,
+ "descriptor_order": "pocket_atoms, pocket_volume_a3, holo_ligand_heavy_atoms, 20x aa_fraction, 4x elem_fraction(C,N,O,S), best_pident, best_qcov, n_complexes",
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

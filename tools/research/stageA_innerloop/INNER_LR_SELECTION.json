@@ -1,0 +1,280 @@
+{
+ "schema": "MetaSieve.StageA.InnerLrSelection.v1",
+ "date": "2026-08-17",
+ "selection_population": "meta_train only, component folds",
+ "meta_val_read": false,
+ "reference_checkpoint": "report\\meta_fewshot\\stageR3R4_level_shape_20260815\\A0_incumbent_seed20260815\\checkpoint.pt",
+ "reference_kind": "similarity_only",
+ "reference_seed": 20260815,
+ "tasks": 120,
+ "components": 101,
+ "folds": 5,
+ "support": 5,
+ "held_out_ligands": 8,
+ "baseline_no_adaptation_mse_pk": 0.9611933461737486,
+ "sweep": {
+  "steps1_lr0.003": {
+   "inner_steps": 1,
+   "inner_lr": 0.003,
+   "held_out_mse_pk": 0.9592191481737236,
+   "per_fold_mse_pk": [
+    1.0841985273871595,
+    1.0204469147203696,
+    1.0758469501162928,
+    0.8542871694198721,
+    0.7713473455539075
+   ],
+   "folds_improved": 5
+  },
+  "steps1_lr0.01": {
+   "inner_steps": 1,
+   "inner_lr": 0.01,
+   "held_out_mse_pk": 0.9548491348601587,
+   "per_fold_mse_pk": [
+    1.0786641943798632,
+    1.0154371979587915,
+    1.074515406126188,
+    0.8534721331301663,
+    0.7625220093857586
+   ],
+   "folds_improved": 5
+  },
+  "steps1_lr0.03": {
+   "inner_steps": 1,
+   "inner_lr": 0.03,
+   "held_out_mse_pk": 0.9441876042399232,
+   "per_fold_mse_pk": [
+    1.0646030489119207,
+    1.0028126572346465,
+    1.0724091524380996,
+    0.8528033388102066,
+    0.7396021812829859
+   ],
+   "folds_improved": 5
+  },
+  "steps1_lr0.1": {
+   "inner_steps": 1,
+   "inner_lr": 0.1,
+   "held_out_mse_pk": 0.9281537753210222,
+   "per_fold_mse_pk": [
+    1.0358171420739455,
+    0.9783290028462146,
+    1.084849418627243,
+    0.8698273291713656,
+    0.6861625957068683
+   ],
+   "folds_improved": 3
+  },
+  "steps1_lr0.3": {
+   "inner_steps": 1,
+   "inner_lr": 0.3,
+   "held_out_mse_pk": 1.0647566022280852,
+   "per_fold_mse_pk": [
+    1.1286723801584289,
+    1.0772536223202573,
+    1.2902107270447025,
+    1.0844502690884388,
+    0.7630198507957157
+   ],
+   "folds_improved": 1
+  },
+  "steps1_lr1": {
+   "inner_steps": 1,
+   "inner_lr": 1.0,
+   "held_out_mse_pk": 3.6710271822151066,
+   "per_fold_mse_pk": [
+    3.4965057864441382,
+    3.393731430148285,
+    3.9901822824176163,
+    3.7721005570019046,
+    3.7100075379059154
+   ],
+   "folds_improved": 0
+  },
+  "steps2_lr0.003": {
+   "inner_steps": 2,
+   "inner_lr": 0.003,
+   "held_out_mse_pk": 0.9573401070799871,
+   "per_fold_mse_pk": [
+    1.081831226923838,
+    1.0183017159602894,
+    1.075249098955681,
+    0.8539075636204746,
+    0.7675832762617513
+   ],
+   "folds_improved": 5
+  },
+  "steps2_lr0.01": {
+   "inner_steps": 2,
+   "inner_lr": 0.01,
+   "held_out_mse_pk": 0.9495057719672915,
+   "per_fold_mse_pk": [
+    1.0717378134034192,
+    1.009196999512188,
+    1.073212790366967,
+    0.8528519273862599,
+    0.7513350350599469
+   ],
+   "folds_improved": 5
+  },
+  "steps2_lr0.03": {
+   "inner_steps": 2,
+   "inner_lr": 0.03,
+   "held_out_mse_pk": 0.934800650899012,
+   "per_fold_mse_pk": [
+    1.0508980876554512,
+    0.990744428304318,
+    1.0732595512277725,
+    0.8553412185936636,
+    0.7161338056403659
+   ],
+   "folds_improved": 4
+  },
+  "steps2_lr0.1": {
+   "inner_steps": 2,
+   "inner_lr": 0.1,
+   "held_out_mse_pk": 0.9336338677698038,
+   "per_fold_mse_pk": [
+    1.0335700371595293,
+    0.9780029621857352,
+    1.1052715181590647,
+    0.892532226699647,
+    0.6744290685866521
+   ],
+   "folds_improved": 3
+  },
+  "steps2_lr0.3": {
+   "inner_steps": 2,
+   "inner_lr": 0.3,
+   "held_out_mse_pk": 0.9352233345142474,
+   "per_fold_mse_pk": [
+    1.0515582767416136,
+    0.9913656565673175,
+    1.0729566586271218,
+    0.8551338929048957,
+    0.7174086617591899
+   ],
+   "folds_improved": 4
+  },
+  "steps2_lr1": {
+   "inner_steps": 2,
+   "inner_lr": 1.0,
+   "held_out_mse_pk": 59.866820885607744,
+   "per_fold_mse_pk": [
+    58.40008714309741,
+    56.1209524141866,
+    54.332266064082155,
+    52.64438990140449,
+    76.80507780246421
+   ],
+   "folds_improved": 0
+  },
+  "steps3_lr0.003": {
+   "inner_steps": 3,
+   "inner_lr": 0.003,
+   "held_out_mse_pk": 0.9555523279071615,
+   "per_fold_mse_pk": [
+    1.0795617973347797,
+    1.0162484013238835,
+    1.0747152767578843,
+    0.8535867388312707,
+    0.7639595235063489
+   ],
+   "folds_improved": 5
+  },
+  "steps3_lr0.01": {
+   "inner_steps": 3,
+   "inner_lr": 0.01,
+   "held_out_mse_pk": 0.945029837473596,
+   "per_fold_mse_pk": [
+    1.065753153365321,
+    1.0038384690224087,
+    1.072494538988842,
+    0.8527633398668973,
+    0.7415108928653686
+   ],
+   "folds_improved": 5
+  },
+  "steps3_lr0.03": {
+   "inner_steps": 3,
+   "inner_lr": 0.03,
+   "held_out_mse_pk": 0.9301457086235357,
+   "per_fold_mse_pk": [
+    1.0425912545350497,
+    0.9836731073585269,
+    1.0767656937133743,
+    0.8601652094300936,
+    0.7007458488188832
+   ],
+   "folds_improved": 3
+  },
+  "steps3_lr0.1": {
+   "inner_steps": 3,
+   "inner_lr": 0.1,
+   "held_out_mse_pk": 0.9386156247890033,
+   "per_fold_mse_pk": [
+    1.035409144555774,
+    0.980498382316874,
+    1.1159069626917448,
+    0.9040154263616454,
+    0.673398127716333
+   ],
+   "folds_improved": 3
+  },
+  "steps3_lr0.3": {
+   "inner_steps": 3,
+   "inner_lr": 0.3,
+   "held_out_mse_pk": 1.0118995067331236,
+   "per_fold_mse_pk": [
+    1.0863033129698783,
+    1.0343545186880307,
+    1.2239111152046913,
+    1.0166809285060683,
+    0.7171962448019847
+   ],
+   "folds_improved": 2
+  },
+  "steps3_lr1": {
+   "inner_steps": 3,
+   "inner_lr": 1.0,
+   "held_out_mse_pk": 1578.439179304867,
+   "per_fold_mse_pk": [
+    1510.4763752508984,
+    1458.686367875527,
+    1478.773813999452,
+    1447.4196559444772,
+    1974.045448380783
+   ],
+   "folds_improved": 0
+  }
+ },
+ "best_overall": "steps1_lr0.1",
+ "selected_for_training": {
+  "inner_steps": 1,
+  "inner_lr": 0.1,
+  "held_out_mse_pk": 0.9281537753210222,
+  "per_fold_mse_pk": [
+   1.0358171420739455,
+   0.9783290028462146,
+   1.084849418627243,
+   0.8698273291713656,
+   0.6861625957068683
+  ],
+  "folds_improved": 3
+ },
+ "selection_rule": "lowest held-out MSE at the preregistered inner_steps=1; the multi-step rows are recorded for the evaluation-time sweep and did not choose the training value",
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ }
+}

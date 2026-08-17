@@ -1,15 +1,57 @@
 {
-  "schema": "MetaSieve.StageR10Variance.v1",
-  "stage": "R10 (shape-variance reduction on the C1 base)",
-  "date": "2026-08-16",
-  "population": {"split": "meta_val", "targets": 41, "components": 19},
-  "meta_test": {"opened": false, "evaluated": false},
-  "summary_3seed_mean": {
-    "A0": {"k0_mse": 2.149, "k0_ci": 0.580, "k0_calib": 1.236, "k0_shape": 0.913, "k5_cliff_sign": 0.675},
-    "C1": {"k0_mse": 2.235, "k0_ci": 0.562, "k0_calib": 1.332, "k0_shape": 0.903, "k5_cliff_sign": 0.782},
-    "D1": {"k0_mse": 2.285, "k0_ci": 0.552, "k0_calib": 1.358, "k0_shape": 0.927, "k5_cliff_sign": 0.694}
+ "schema": "MetaSieve.StageR10Variance.v1",
+ "stage": "R10 (shape-variance reduction on the C1 base)",
+ "date": "2026-08-16",
+ "population": {
+  "split": "meta_val",
+  "targets": 41,
+  "components": 19,
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+  "split_declaration": {
+   "status": "resolved_from_leaf_runs",
+   "reason": "the summary declared no corpus; every per-seed run it aggregates declares this split directory unanimously",
+   "evidence": [
+    "report\\meta_fewshot\\stageR10_variance_20260816\\D1_var05_seed20260815\\RESULT.json",
+    "report\\meta_fewshot\\stageR10_variance_20260816\\D1_var05_seed20260816\\RESULT.json",
+    "report\\meta_fewshot\\stageR10_variance_20260816\\D1_var05_seed20260817\\RESULT.json"
+   ],
+   "recorded": "2026-08-16"
+  }
+ },
+ "meta_test": {
+  "opened": false,
+  "evaluated": false
+ },
+ "summary_3seed_mean": {
+  "A0": {
+   "k0_mse": 2.149,
+   "k0_ci": 0.58,
+   "k0_calib": 1.236,
+   "k0_shape": 0.913,
+   "k5_cliff_sign": 0.675
   },
-  "gates": {"G1": "fail", "G2": "fail", "G3": "fail", "G4": "fail"},
-  "verdict": "variance_term_hypothesis_falsified; next variable = shape parameterization (R11 grammar-trunk shape-first)",
-  "meta_test_opened": false
+  "C1": {
+   "k0_mse": 2.235,
+   "k0_ci": 0.562,
+   "k0_calib": 1.332,
+   "k0_shape": 0.903,
+   "k5_cliff_sign": 0.782
+  },
+  "D1": {
+   "k0_mse": 2.285,
+   "k0_ci": 0.552,
+   "k0_calib": 1.358,
+   "k0_shape": 0.927,
+   "k5_cliff_sign": 0.694
+  }
+ },
+ "gates": {
+  "G1": "fail",
+  "G2": "fail",
+  "G3": "fail",
+  "G4": "fail"
+ },
+ "verdict": "variance_term_hypothesis_falsified; next variable = shape parameterization (R11 grammar-trunk shape-first)",
+ "meta_test_opened": false
 }

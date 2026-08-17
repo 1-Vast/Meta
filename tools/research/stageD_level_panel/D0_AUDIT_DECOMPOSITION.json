@@ -1,0 +1,43 @@
+{
+ "audit_answers": {
+  "q1_decomposition_granularity": "Stage C (FEASIBILITY.json) decomposes PER EPISODE (one draw of a 16-query panel), then aggregates with equal weight per target and per component. It is therefore NOT the canonical cross-target level error: the drawn-panel mean differs from the target's own mean, and that sampling variance is inside the level term.",
+  "q2_calibrated_constant": "The calibrated constant (LEVEL_CEILING.json, calibrated_constant_REFERENCE) is the meta_val target-level mean: it READS meta_val labels. It is disclosed as a REFERENCE, not a legitimate predictor. The meta_train-only constant is global_mean_meta_train (2.1703), which the ESM MLP probe (1.6357) and the incumbent (1.7078) both beat.",
+  "q3_4_5_panel_mixing": "The level term is a joint property of protein, assay and the drawn query panel: it equals (drawn-panel prediction mean - drawn-panel truth mean)^2. The panel-sampling variance of the truth means and the drawn-vs-canonical target-mean error are measured below; if they are large, part of 'target level' is panel composition, not protein."
+ },
+ "checkpoint": "report\\meta_fewshot\\stageB_complementary_20260817\\T\\checkpoint.pt",
+ "date": "2026-08-17",
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "per_episode": {
+  "centered_mse": 0.9661879168323627,
+  "level_share": 0.6496830633381527,
+  "level_squared": 1.791851615818681,
+  "mse": 2.7580395995116813
+ },
+ "per_target": {
+  "draw_prediction_mean_spread": 0.0011782055818937297,
+  "level_squared_of_target_means": 1.758153937606211,
+  "mean_draw_level_squared": 1.791851615818681,
+  "panel_sampling_variance_of_truth_means": 0.033601099314791286,
+  "truth_mean_error_vs_canonical_target_mean": 0.018083908512191545
+ },
+ "population": {
+  "components": 19,
+  "episodes": 82,
+  "split": "meta_val",
+  "targets": 41
+ },
+ "schema": "MetaSieve.StageD.AuditDecomposition.v1"
+}

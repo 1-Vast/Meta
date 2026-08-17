@@ -1,5 +1,26 @@
 # Stage R14 diagnostics: the within-target ordering coefficient is the only lever
 
+> **Correction (2026-08-16, repaired and verified).** The artifacts in this
+> directory originally recorded
+> `"seal": "physical: QPSMPData include_meta_test=False"`. **That claim was
+> false**: `scripts/r14_dispersion_audit.py` constructed `QPSMPData` without
+> the flag while the class default admitted the sealed split, so `meta_test`
+> cells were parsed and indexed in the process.
+>
+> **No number in this stage is affected, and that is now demonstrated rather
+> than argued.** The identical audit was re-run under the repaired fail-closed
+> seal against the same frozen checkpoints and fixed bank: **105 of 105 numeric
+> A0 fields are bit-identical** (`tools/research/a2_readiness_v2/
+> SEAL_REPAIR_REPRODUCTION.json`). Every bank is
+> `fixed_nested_episode_banks("meta_val", …)`, donors are `meta_val`, and the
+> label scale is `meta_train`-only.
+>
+> The seal is now fail-closed and requires a written authorization to open; the
+> `meta_test` block of each artifact here has been replaced with a truthful
+> record plus a `seal_correction` pointer, with no numeric field touched. Full
+> scope, verification and residual exposures:
+> `tools/research/a2_readiness_v2/GOVERNANCE_INCIDENT.md`.
+
 No training. Frozen checkpoints, the identical fixed `meta_val` bank, forward
 passes only. `meta_test` never read.
 
@@ -202,4 +223,4 @@ The model-side candidate is **dropped**, not replaced. Phase 2 falsified it,
 and substituting an unmeasured alternative to keep a two-innovation shape
 would be exactly the auxiliary decoration the mandate forbids.
 
-`meta_test` remains sealed and unopened.
+`meta_test` labels were used for no fitting, selection or reported metric. A historical process-isolation incident remains open: some processes parsed and indexed the split.

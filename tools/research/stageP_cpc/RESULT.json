@@ -1,0 +1,95 @@
+{
+ "schema": "MetaSieve.StagePCPC.StageResult.v1",
+ "stage": "stageP_cpc",
+ "date": "2026-08-16",
+ "training": true,
+ "verdict": "P1_FAIL",
+ "conclusion": "centered-objective training on the current ContactGrammar, at a 1200-step budget on the double-cold protocol with sequence + 2D inputs, does not produce protein-conditioned within-target ordering",
+ "not_concluded": [
+  "that protein-conditioned architectures in general are impossible",
+  "that the data cannot support protein conditioning under any method",
+  "anything about meta_test"
+ ],
+ "population": {
+  "split": "meta_val",
+  "split_directory": "dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1",
+  "targets": 41, "components": 19, "query_size": 16,
+  "support_sizes": [0, 1, 2, 3, 5], "seeds": [20260815, 20260816, 20260817]
+ },
+ "arms": {
+  "A0repro": {"protein_contrast_form": "uncentered", "weight": 0.5,
+              "fires_on": "k>0 episodes"},
+  "CPCoverdrive": {"protein_contrast_form": "centered", "weight": 2.0,
+                   "fires_on": "every episode"}
+ },
+ "arm_matching_verified": "configs differ in exactly protein_contrast_form and protein_contrast_loss_weight",
+ "gates": {
+  "P1_correct_ordering_improvement": {
+   "measured": -0.0066, "lo": -0.0545, "hi": 0.0417,
+   "requirement": "lower bound above zero and mean >= 0.05",
+   "passes": false
+  },
+  "secondary_gates": "not formally evaluated; the preregistration evaluates them only if P1 passes"
+ },
+ "key_measurement": {
+  "statement": "correct and wrong protein give the same within-target ordering in both arms at every k",
+  "A0repro":      {"k0": {"r_correct": 0.156, "r_wrong": 0.156},
+                   "k2": {"r_correct": 0.238, "r_wrong": 0.239},
+                   "k5": {"r_correct": 0.334, "r_wrong": 0.334}},
+  "CPCoverdrive": {"k0": {"r_correct": 0.149, "r_wrong": 0.148},
+                   "k2": {"r_correct": 0.250, "r_wrong": 0.251},
+                   "k5": {"r_correct": 0.331, "r_wrong": 0.331}}
+ },
+ "mechanism_observations": {
+  "note": "recorded because they name the cause; not gate evaluations",
+  "level_branch_excluded_as_designed": {
+   "protein_head_gradient_A0repro": 8.4972e-07,
+   "protein_head_gradient_CPCoverdrive": 8.0610e-07,
+   "interpretation": "float32 zero; centering removes protein_value(P) identically"
+  },
+  "gradient_amplification_into_the_interaction_path": {
+   "protein_encoder": {"A0repro": 0.16698, "CPCoverdrive": 0.32030},
+   "ligand_encoder": {"A0repro": 0.14021, "CPCoverdrive": 0.35453},
+   "grammar": {"A0repro": 0.12309, "CPCoverdrive": 0.23747},
+   "embed": {"A0repro": 0.051098, "CPCoverdrive": 0.23548},
+   "interaction_head": {"A0repro": 0.034835, "CPCoverdrive": 0.12514}
+  },
+  "protein_shift_seed_reproducibility": {
+   "A0repro": {"mean_cosine": -0.0591, "sd": 0.576, "pairs": 123},
+   "CPCoverdrive": {"mean_cosine": 0.3161, "sd": 0.599, "pairs": 123},
+   "interpretation": "the objective made the protein response consistent across independently seeded runs"
+  },
+  "protein_shift_alignment_with_truth": {
+   "A0repro": -0.007, "CPCoverdrive": 0.022,
+   "interpretation": "the consistent response carries no affinity information; this is the preregistered P3 failure mode"
+  }
+ },
+ "no_material_regression": {
+  "k0_mse_change": {"mean": 0.0180, "lo": -0.0822, "hi": 0.1293},
+  "k0_ci_change": {"mean": -0.0186, "lo": -0.0495, "hi": 0.0067},
+  "k0_spearman_change": {"mean": -0.0349, "lo": -0.1033, "hi": 0.0233},
+  "k0_calibration_change": {"mean": 0.0280, "lo": -0.0724, "hi": 0.1369},
+  "interpretation": "all unresolved; the change is neither harmful nor useful"
+ },
+ "what_this_resolves": {
+  "question": "did no objective ever ask (a), or does the data not contain the signal (b)?",
+  "outcome": "(a) is excluded. The objective asked at 4x weight on every episode through a verified gradient route, the model complied with a reproducible protein response, and the response carried no ordering information. Evidence shifts toward (b) without proving it."
+ },
+ "cost": {
+  "runs": 6, "steps_per_run": 1200,
+  "measured_rate_s_per_step": 1.14,
+  "calibration_rate_s_per_step": 0.70,
+  "calibration_error": "the 40-step probe excluded periodic validation passes",
+  "wall_time_per_run_min": 23, "wall_time_total_h": 2.3,
+  "peak_cuda_memory_mb": 2697.16,
+  "added_parameters": 0
+ },
+ "stop_rule_applied": "P1 failed; the admission stage does not run and CPCpos/CPCwrong/CPCrand/A3perm were not trained",
+ "meta_test": {
+  "used_for_fitting_selection_or_metrics": false,
+  "isolation": "logical exclusion after parsing; process-isolation incident remains open"
+ },
+ "artifacts": ["PREREGISTRATION.md", "REPORT.md", "STAGE_P_meta_val.json",
+               "STAGE_P_meta_val.rows.jsonl", "evaluate.py",
+               "tests/test_centered_contrast.py"]
+}

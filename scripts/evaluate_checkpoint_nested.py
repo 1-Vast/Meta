@@ -38,11 +38,18 @@ def main() -> None:
                         help="governed split directory (double-cold protocol)")
     parser.add_argument("--include-meta-test", action="store_true",
                         help="physically unseal meta_test cells in QPSMPData")
+    parser.add_argument("--meta-test-authorization", default=None,
+                        help="written reason recorded in the artifact; "
+                             "mandatory with --include-meta-test "
+                             "(contract 2026-08-16)")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.split == "meta_test" and not args.include_meta_test:
         parser.error("evaluating the sealed meta_test split requires "
                      "--include-meta-test")
+    if args.include_meta_test and not (args.meta_test_authorization or "").strip():
+        parser.error("--include-meta-test requires a written "
+                     "--meta-test-authorization (contract 2026-08-16)")
 
     payload = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
     valid = {field.name for field in fields(TrainConfig)}
@@ -53,7 +60,8 @@ def main() -> None:
     config = TrainConfig(**values)
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
                      split_directory=args.split_directory,
-                     include_meta_test=args.include_meta_test)
+                     include_meta_test=args.include_meta_test,
+                     meta_test_authorization=args.meta_test_authorization)
     model = resolve_architecture(config.arch)(
         protein_dim=int(data.protein_bank.manifest["hidden_dim"]),
         hidden_dim=config.hidden_dim, task_dim=config.task_dim,

@@ -80,7 +80,7 @@ evaluable** given T3.
 ## Verdict
 
 **Admission refused.** Z1, Z2, Z3, Z4, Z5 and Z6 fail at k=0; F2 and G1/G2/G4
-fail. `meta_test` remains sealed and unopened. All artifacts (checkpoints,
+fail. `meta_test` labels were used for no fitting, selection or reported metric. A historical process-isolation incident remains open: some processes parsed and indexed the split. All artifacts (checkpoints,
 per-target predictions, gradient diagnostics, coverage censuses, resource
 records) are retained in this directory.
 

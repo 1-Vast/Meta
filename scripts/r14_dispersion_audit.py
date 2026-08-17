@@ -146,7 +146,8 @@ def main() -> None:
     args = parser.parse_args()
 
     data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
-                     split_directory=args.split_directory)
+                     split_directory=args.split_directory,
+                     include_meta_test=False)
     scale = training_label_scale(data)
     donors = matched_donors(data, "meta_val", donor_pool="meta_val",
                             whitening_pool="meta_train")
@@ -184,8 +185,7 @@ def main() -> None:
         "split": "meta_val",
         "split_directory": str(args.split_directory),
         "split_assignment_sha256": data.split_manifest["assignment_sha256"],
-        "meta_test": {"evaluated": False, "included": False,
-                      "seal": "physical: QPSMPData include_meta_test=False"},
+        "meta_test": data.seal_record(),
         "population": {"targets": len(banks[0]), "query_size": args.query_size,
                        "evaluation_seed": args.evaluation_seed},
         "arms": {},

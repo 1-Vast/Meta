@@ -111,7 +111,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("complexes")
     parser.add_argument("output")
-    parser.add_argument("--mmseqs", default="tools/mmseqs2/mmseqs/bin/mmseqs.exe")
+    parser.add_argument("--mmseqs",
+                        default="tools/runtime/mmseqs2/mmseqs/bin/mmseqs.exe")
     args = parser.parse_args()
     result = split_structure_corpus(args.complexes, args.output, mmseqs=args.mmseqs)
     print(json.dumps(result, indent=2))

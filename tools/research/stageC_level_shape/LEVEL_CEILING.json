@@ -1,0 +1,154 @@
+{
+ "schema": "MetaSieve.StageC.LevelCeiling.v1",
+ "date": "2026-08-17",
+ "question": "how well can an unseen protein's mean affinity be predicted?",
+ "selection": "weight decay on meta_train component folds; meta_val read once",
+ "grand_mean_pk": 5.977455346420167,
+ "between_target_sd": {
+  "meta_train": 1.5368466847322744,
+  "meta_val": 1.1606464774614953
+ },
+ "weight_decay_folds": {
+  "0.0001": 4.210593796954556,
+  "0.001": 4.20946062627516,
+  "0.01": 4.198084226480982,
+  "0.1": 4.091300997942532,
+  "1": 3.452175367973834
+ },
+ "selected_weight_decay": 1.0,
+ "targets": {
+  "meta_train": 346,
+  "meta_val": 41
+ },
+ "methods": {
+  "global_mean_meta_train": {
+   "level_mse": 2.1702950912681795,
+   "level_rmse": 1.4731921433635802,
+   "relative_to_global_mean": 1.0,
+   "relative_to_calibrated_constant": 1.6110865529766112,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 1.7833842040888617,
+    "lo": 0.9770030858697206,
+    "hi": 2.723807983305744,
+    "components": 19
+   }
+  },
+  "esm_knn": {
+   "level_mse": 5.12917494132793,
+   "level_rmse": 2.2647681871061174,
+   "relative_to_global_mean": 2.3633537033578107,
+   "relative_to_calibrated_constant": 3.8075673714072438,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 3.9539596500935406,
+    "lo": 2.1238175479482964,
+    "hi": 6.112685161805663,
+    "components": 19
+   }
+  },
+  "esm_probe_linear": {
+   "level_mse": 6.536797355872606,
+   "level_rmse": 2.5567161273541115,
+   "relative_to_global_mean": 3.011939428040141,
+   "relative_to_calibrated_constant": 4.852495110895536,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 3.344776816350478,
+    "lo": 1.0400166609406667,
+    "hi": 6.817141126671064,
+    "components": 19
+   }
+  },
+  "esm_probe_mlp": {
+   "level_mse": 1.6357221314403207,
+   "level_rmse": 1.2789535298205017,
+   "relative_to_global_mean": 0.7536865092776444,
+   "relative_to_calibrated_constant": 1.2142542002570946,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 1.8446714600213199,
+    "lo": 0.7933724759001228,
+    "hi": 3.1245202988501815,
+    "components": 19
+   }
+  },
+  "sequence_length_probe": {
+   "level_mse": 2.5283149247716232,
+   "level_rmse": 1.5900675849697783,
+   "relative_to_global_mean": 1.1649636655143703,
+   "relative_to_calibrated_constant": 1.8768572962165446,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 2.0689400368634705,
+    "lo": 1.1789603649054605,
+    "hi": 3.0714224605287157,
+    "components": 19
+   }
+  },
+  "incumbent_model": {
+   "level_mse": 1.7077745580136685,
+   "level_rmse": 1.3068184870186328,
+   "relative_to_global_mean": 0.7868858778166226,
+   "relative_to_calibrated_constant": 1.2677412564775572,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 1.7030288226250856,
+    "lo": 0.7122287151374151,
+    "hi": 3.1019873506779683,
+    "components": 19
+   }
+  },
+  "calibrated_constant_REFERENCE": {
+   "level_mse": 1.3471002456437775,
+   "level_rmse": 1.1606464774614953,
+   "relative_to_global_mean": 0.6206991164766537,
+   "relative_to_calibrated_constant": 1.0,
+   "beats_calibrated_constant": false,
+   "component_bootstrap": {
+    "mean": 1.3720116480776874,
+    "lo": 0.8249102483227605,
+    "hi": 2.0595129602319515,
+    "components": 19
+   }
+  },
+  "oracle": {
+   "level_mse": 0.0,
+   "level_rmse": 0.0,
+   "relative_to_global_mean": 0.0,
+   "relative_to_calibrated_constant": 0.0,
+   "beats_calibrated_constant": true,
+   "component_bootstrap": {
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "components": 19
+   }
+  }
+ },
+ "meta_test": {
+  "evaluated": false,
+  "included": false,
+  "authorization": null,
+  "sealed_cells_withheld": 768,
+  "isolation": {
+   "level": "logical_exclusion_after_parsing",
+   "labels_parsed_in_process": true,
+   "physically_isolated": false,
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded",
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal."
+ },
+ "implied_k0_mse_holding_shape_fixed": {
+  "global_mean_meta_train": 3.0463950912681796,
+  "esm_knn": 6.00527494132793,
+  "esm_probe_linear": 7.412897355872606,
+  "esm_probe_mlp": 2.511822131440321,
+  "sequence_length_probe": 3.4044149247716233,
+  "incumbent_model": 2.5838745580136684,
+  "calibrated_constant_REFERENCE": 2.2232002456437776,
+  "oracle": 0.8761
+ },
+ "shape_term_used": 0.8761
+}

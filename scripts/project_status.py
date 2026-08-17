@@ -1,4 +1,4 @@
-"""Read-only status view over the governed project and archive manifests."""
+"""Read-only status view over the governed cold-target DTA project."""
 from __future__ import annotations
 
 import argparse
@@ -7,11 +7,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVE = ROOT / "archive/retired_research_20260811/ARCHIVE_MANIFEST.json"
-
 STATE = {
-    "schema_version": "6.0",
-    "updated": "2026-08-15",
+    "schema_version": "7.0",
+    "updated": "2026-08-16",
     "core_task": {
         "name": "cold-target few-shot drug-target affinity prediction",
         "target_is_meta_task": True,
@@ -19,48 +17,35 @@ STATE = {
         "query_labels_forbidden": True,
     },
     "current_stage": {
-        "name": "QPSMP_BPSF_DEVELOPMENT",
-        "status": "TRAINABLE_INTERFACE_NOT_ADMITTED",
+        "name": "A2_MOMENT_META_PREREGISTRATION",
+        "status": "R14_BOUNDARY_ESTABLISHED_NEXT_FAMILY_NOT_RUN",
         "training_authorized": True,
         "confirmation_labels_open": False,
     },
     "unresolved": [
-        "PREREGISTERED_COMPONENT_LEVEL_DEVELOPMENT_GAIN",
-        "CORRECT_PROTEIN_AND_SAR_SPECIFICITY",
-        "UNTOUCHED_CONFIRMATION_COMPONENTS",
-        "CARTESIAN_PERFORMANCE_WITH_LEGAL_COMMON_FRAME_COORDINATES",
+        "PROTEIN_CONDITIONED_SAR_COORDINATE_IDENTIFIABILITY",
+        "K1_NON_SCALAR_ADAPTATION",
+        "IMPROVEMENT_OVER_FIXED_TANIMOTO",
+        "UNTOUCHED_DOUBLE_COLD_CONFIRMATION",
     ],
-    "archive_manifest": "archive/retired_research_20260811/ARCHIVE_MANIFEST.json",
+    "cleanup_record": "docs/REPOSITORY_CLEANUP_20260816.md",
+    "recovery_index": "archive/README.md",
 }
 
 
 def load_status(*, archive_only: bool = False) -> dict:
-    archive = json.loads(ARCHIVE.read_text(encoding="utf-8"))
     if archive_only:
-        return {
-            "archive_manifest": ARCHIVE.relative_to(ROOT).as_posix(),
-            "created": archive["created"],
-            "purpose": archive["purpose"],
-            "policy": archive["policy"],
-            "production_impact": archive["production_impact"],
-        }
-    return {
-        "schema_version": STATE["schema_version"],
-        "updated": STATE["updated"],
-        "core_task": STATE["core_task"],
-        "current_stage": STATE["current_stage"],
-        "unresolved": STATE["unresolved"],
-        "archive_manifest": STATE["archive_manifest"],
-    }
+        return {"cleanup_record": STATE["cleanup_record"],
+                "recovery_index": STATE["recovery_index"],
+                "policy": "recovery records are not active entry points"}
+    return dict(STATE)
 
 
 def _human_status(value: dict, *, archive_only: bool) -> str:
     if archive_only:
         return "\n".join((
-            f"Archive: {value['archive_manifest']}",
-            f"Created: {value['created']}",
-            f"Policy: {value['policy']}",
-            f"Production impact: {value['production_impact']}",
+            f"Cleanup: {value['cleanup_record']}",
+            f"Recovery: {value['recovery_index']}",
         ))
     stage = value["current_stage"]
     return "\n".join((
@@ -69,7 +54,7 @@ def _human_status(value: dict, *, archive_only: bool) -> str:
         f"Status: {stage['status']}",
         f"Development training authorized: {str(stage['training_authorized']).lower()}",
         f"Unresolved items: {len(value['unresolved'])}",
-        f"Archive: {value['archive_manifest']}",
+        f"Recovery: {value['recovery_index']}",
     ))
 
 

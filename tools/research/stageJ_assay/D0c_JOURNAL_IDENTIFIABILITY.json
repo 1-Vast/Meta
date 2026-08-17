@@ -1,0 +1,36 @@
+{
+ "component_bootstrap": {
+  "components": 19,
+  "hi": 2.3125463741987478,
+  "lo": 0.7410816640950397,
+  "mean": 1.461558104334175
+ },
+ "date": "2026-08-18",
+ "fold_table": {
+  "0.001": 2.150502649958659,
+  "0.01": 2.150082962912252,
+  "0.1": 2.146491713766066,
+  "1.0": 2.146831092104212
+ },
+ "grand_mean_baseline_mse": 2.1546735970960698,
+ "level_mse": 1.6193912766446918,
+ "level_rmse": 1.2725530545500616,
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "labels_parsed_in_process": true,
+   "level": "logical_exclusion_after_parsing",
+   "physically_isolated": false,
+   "specification_for_a_real_seal": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md (not authorized, not implemented)",
+   "why_not": "cells.jsonl.gz is a single all-label artifact; every meta_test label is decompressed and parsed on construction before the sealed rows are discarded"
+  },
+  "seal": "logical exclusion after parsing: QPSMPData(include_meta_test=False). Sealed rows are parsed from the all-label corpus and discarded during construction; they are unreachable from cells, tasks, components and materialize afterwards. This is NOT a physical label seal.",
+  "sealed_cells_withheld": 768
+ },
+ "schema": "MetaSieve.StageD.JournalIdentifiability.v1",
+ "selected_weight_decay": 0.1,
+ "shuffled_control_mse": 2.5215698886275018,
+ "vocabulary": 99
+}

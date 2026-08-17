@@ -230,7 +230,10 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
-    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK)
+    if args.split == "meta_test":
+        parser.error("this diagnostic never evaluates a sealed split")
+    data = QPSMPData(CORPUS, PROTEIN_BANK, LIGAND_BANK, COMPACT_LIGAND_BANK,
+                     include_meta_test=False)
     fingerprints = data.fingerprints
     scaffolds = murcko_scaffolds(data._ligand_smiles)
 
