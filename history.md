@@ -996,3 +996,15 @@ schemas; all 8 trained stages carry PREREGISTRATION.md + REPORT.md + JSON
 artifacts; zero missing paths. The objective's terminal condition
 (scope-bounded conclusion after multi-family falsification) is evidenced,
 verified and inventoried.
+
+---
+
+# 2026-08-18 (night) — round 16: method-ladder cycle formally closed
+
+tools/research/method_ladder/CLOSURE_MAP.md maps each of the eight named
+ladder families to its measured successor stage and verdict (families 1-8
+all closed by Stages A/B, E, F, J, K, Q measurements). task.md's
+method-ladder section is updated from paused to CLOSED. No open research
+item from the pre-session plan remains: every named family, every locally
+available input family and every level-head composition has a recorded
+verdict.

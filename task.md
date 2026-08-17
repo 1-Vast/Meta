@@ -247,11 +247,13 @@ adapter, no architecture growth. In priority order:
    re-establish the incumbent band under a leak-free rule (Stage B measured the
    leak at ~0.62 pK² at k=0).
 
-## Method-ladder cycle (opened 2026-08-16, paused)
+## Method-ladder cycle (opened 2026-08-16, CLOSED 2026-08-18)
 
-*Paused 2026-08-17 in favour of Stage A.* The shared M3 discriminator harness
-(`tools/research/method_ladder/_shared/`, 25 structural tests) is built and
-reusable; the eight family ladders were not run.
+The 2026-08-17/18 cycle superseded the ladder. Every one of the eight named
+families now has a measured successor stage with a verdict — see
+`tools/research/method_ladder/CLOSURE_MAP.md`. The shared M3 discriminator
+harness (`tools/research/method_ladder/_shared/`, 25 structural tests) is
+built and reusable; no family remains pending.
 
 Eight named method families are tested sequentially under
 `tools/research/method_ladder/<family>/`, each through the ladder

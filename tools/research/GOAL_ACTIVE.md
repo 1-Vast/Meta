@@ -130,3 +130,11 @@ COMPLETION_INVENTORY.json（tools/research/stageN_audit/）验证：最终权威
 
 因本会话无 goal 工具（get_goal/update_goal 未注册），正式的 complete 动作无法执行；
 本记录即目标的完成证据权威。记录保持 active 仅作为继续研究的占位（新数据/新授权）。
+## 状态更新（2026-08-18 夜，round 15 末）
+
+版本控制闭环：全部研究产物（文档、代码、RESULT/探针 JSON、manifests）已以提交
+52801c9 入库（数据/权重/checkpoint 按 .gitignore 排除），工作树干净（0 变更）。
+研究状态自此可在 Git 中恢复；上一基线为 361c342。
+
+研究状态不变：终结条件一达成、组合空间闭合、审计与清单验证、独立文献验证。
+目标记录保持 active，仅在新数据或新授权出现时继续。
