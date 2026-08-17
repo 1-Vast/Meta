@@ -164,6 +164,9 @@ def build_observations(rows, targets, ligands, components):
                         "family_key": soft.family_key,
                         "core": core,
                         "delta_y": delta,
+                        "murcko_core": soft.murcko_core,
+                        "category_a": list(soft.category_a),
+                        "category_b": list(soft.category_b),
                     })
     return observations, no_cut
 

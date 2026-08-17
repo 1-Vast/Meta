@@ -334,3 +334,13 @@ heldout_repeated = **186,673 rows / 23 components / 2,040 families**（门槛
 500/10/50）；heldout_cold = 0（每个 family 都出现在 fit）。下一步：构建 KIBA
 ESM-2 150M 蛋白 token bank，实现 W1 局部交互算子与六臂训练；在任何训练指标
 读取前所有结构测试须通过。
+
+## Stage W W1 实现进展（round 20）
+
+KIBA ESM-2 150M 蛋白 token bank 已构建（229 targets / 128 slots / 640-d，
+manifest 已生成）。W1 局部交互算子已实现并通过结构测试：ligand 药效团 tokens
+→ 8 个 latent pocket states → 局部 cross-attention → scalar R；
+`D_hat = R(p1)-R(p2)` 的 identity/antisymmetry/cycle 逐位成立，无 target-id/
+component-id/assay-id 输入，无 dropout 随机性。W1_ROWS 已落盘：train
+3,259,545 / fit_unsampled 362,171 / heldout_repeated 186,673。下一步：实现
+六臂 trainer 与全部蛋白反事实评估，单 seed 训练。

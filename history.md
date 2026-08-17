@@ -1645,3 +1645,14 @@ thresholds 500 / 10 / 50 all pass). `heldout_cold` = 0 rows, so the cold
 surface is not evaluable and gate 10 will be recorded as such if training
 proceeds. No training metric has been read; the local operator and ESM protein
 bank are the next implementation step.
+
+## Stage W W1 implementation (round 20)
+
+KIBA ESM-2 150M protein bank built locally (229 targets, 128 slots x 640-d,
+manifest recorded). `w1_model.py` implements the local interaction operator:
+pharmacophore atom tokens for the soft family context, 8 learned latent pocket
+states attending ordered protein slots, ligand x pocket cross-attention, scalar
+R, and exact `D_hat = R(p1)-R(p2)` with bitwise identity/antisymmetry and cycle
+consistency (7 Stage W tests pass). W1 rows materialized: train 3,259,545 /
+fit_unsampled 362,171 / heldout_repeated 186,673. Trainer and arms A-F are the
+next step.

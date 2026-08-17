@@ -61,3 +61,42 @@ def test_w1_preregistration_and_split_admission_pass():
     assert d["counts"]["heldout_repeated_rows"] >= 500
     assert d["counts"]["heldout_repeated_components"] >= 10
     assert d["counts"]["repeated_families"] >= 50
+
+
+def test_w1_model_identity_antisymmetry_cycle_and_gradients():
+    import torch
+    from tools.research.stageW_soft_mmp.w1_model import (
+        DoubleDifferenceModel, ligand_tokens,
+    )
+    torch.manual_seed(20260821)
+    ligand, ligand_mask = ligand_tokens("c1ccccc1", [1, 0, 1, 0, 0, 1],
+                                        [2, 1, 1, 0, 1, 1])
+    ligand = ligand.unsqueeze(0)
+    ligand_mask = ligand_mask.unsqueeze(0)
+    p1 = torch.randn(1, 128, 640)
+    p2 = torch.randn(1, 128, 640)
+    p3 = torch.randn(1, 128, 640)
+    mask = torch.ones(1, 128, dtype=torch.bool)
+    for mode in ("zero", "global", "local"):
+        model = DoubleDifferenceModel(mode)
+        out_identity = model(ligand, ligand_mask, p1, mask, p1, mask)
+        assert torch.equal(out_identity, torch.zeros_like(out_identity))
+        ab = model(ligand, ligand_mask, p1, mask, p2, mask)
+        ba = model(ligand, ligand_mask, p2, mask, p1, mask)
+        assert torch.equal(ab, -ba)
+        cycle = (ab + model(ligand, ligand_mask, p2, mask, p3, mask)
+                 + model(ligand, ligand_mask, p3, mask, p1, mask))
+        assert float(cycle.abs().max()) < 1e-5
+    model = DoubleDifferenceModel("local")
+    loss = model(ligand, ligand_mask, p1, mask, p2, mask).pow(2).mean()
+    loss.backward()
+    dead = [name for name, param in model.named_parameters()
+            if param.grad is None or float(param.grad.abs().sum()) == 0.0]
+    assert not dead, dead
+
+
+def test_w1_model_source_has_no_target_or_component_id():
+    source = (STAGE / "w1_model.py").read_text(encoding="utf-8")
+    for token in ("target_id", "component_id", "assay_id", "panel_id",
+                  "nn.Embedding"):
+        assert token not in source, token
