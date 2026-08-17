@@ -1728,3 +1728,12 @@ failed and is not locally repairable; Davis/Metz/Klaeger censored 71/60/94%;
 Metz-Klaeger cross-platform residual positive, Davis pairs negative. W1 never
 trained. Goal state marked COMPLETE (UNRESOLVED terminal) in GOAL_ACTIVE.md;
 reopening requires external W0-P panel + censored re-census + new prereg.
+
+## Stage X new independent cycle (2026-08-17)
+
+Old Core Task 1 cycle is UNRESOLVED and read-only. New stage
+`tools/research/stageX_csc_signal/` is authorized and active. X0 prereg frozen
+before primary results (`03cdc907df3e778f5fe79fb1a238d35ebb6ece5e9e743db181728ba6b25e9683`).
+Public data acquired and audited in X0D_DATA_AUDIT.json: Duong-Ly 2016
+(5 supplements), Anastassiadis 2011 (Table S3 + PDF), Davis 2011 original
+supplementary tables, PKIS2 (s001-s008). Six X0 instruments are the next gate.

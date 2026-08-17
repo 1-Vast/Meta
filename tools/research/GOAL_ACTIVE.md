@@ -2,10 +2,10 @@
 
 max_goal_rounds: 256
 
-current_status: COMPLETE
-terminal_verdict: UNRESOLVED_ON_CURRENT_LOCAL_ASSETS
-authority: report/CORE_TASK1_UNRESOLVED_TERMINAL_20260817.json
-reopening_condition: external standard W0-P panel per stageW0b_core1_audit/W0P_ACQUISITION_SPEC.md
+current_status: ACTIVE (Stage X, new independent cycle)
+terminal_verdict: NONE (old cycle UNRESOLVED, not a stop condition)
+authority: tools/research/stageX_csc_signal/STAGE_X0_PREREGISTRATION.md
+reopening_condition: Stage X0 -> X0-P -> X1 gates as frozen in Stage X preregistrations
 
 
 Goal：
@@ -432,3 +432,14 @@ kinases）；Metz↔Davis −0.666；Klaeger↔Davis −0.625。按规则仅为�
 缺失声明。**当前目标状态 = COMPLETE（UNRESOLVED terminal）**。重新开启路径
 已冻结：获取符合 W0P_ACQUISITION_SPEC 的标准正控 panel → 删失处理 re-census
 → 新预注册周期。在外部资产注入前，不再开展内部实验。
+
+## 新独立周期（Stage X，2026-08-17 用户授权）
+
+目标：完成 Core Task 1，通过外部合法公开数据、修复管线、正控与 centred
+selectivity contrast。Stage X0 预注册已冻结，SHA-256
+`03cdc907df3e778f5fe79fb1a238d35ebb6ece5e9e743db181728ba6b25e9683`。
+X0-D 已实际下载并审计：Duong-Ly 2016（5 个 supplement xlsx）、
+Anastassiadis 2011（表3 xls + PDF）、Davis 2011 原始补充（MOESM2-6）、
+PKIS2（s001-s008）。下一步：实现六个 X0 仪器（I1 planted signal、I2
+representation capability、I3 ID-equivalence、I4 censoring、I5 cluster
+bootstrap、I6 integrity）并运行 X0 gate。

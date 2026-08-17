@@ -444,3 +444,11 @@ Core Task 1 terminal verdict: **UNRESOLVED on current local assets**
 FALSIFIED-AS-TESTED; not biological absence. Reopening requires the frozen
 W0-P acquisition spec, censored re-census and a new preregistered cycle.
 No further internal experiments before external asset injection.
+
+## Stage X new independent cycle (2026-08-17 user authorization)
+
+New work in `tools/research/stageX_csc_signal/`; old S-W records read-only.
+X0 prereg frozen (SHA-256 `03cdc907…9683`). X0-D downloaded and audited:
+Duong-Ly 2016 mutant panel, Anastassiadis 2011 complete matrix, Davis 2011 raw
+supplementary tables, PKIS2 supplements. Next: implement and pass the six X0
+instruments before X0-P/X1.
