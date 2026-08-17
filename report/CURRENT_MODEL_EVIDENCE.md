@@ -249,6 +249,7 @@ development. See report/BOUNDARY_20260817_NIGHT.md.
   bitwise from the raw rows; 104 seal artifacts, 0 evaluations; 7/7 stages
   preregistered. External validation: Nelen et al., J Cheminform 17:8, 2025.
 
-No candidate passed all promotion gates; meta_test never opened; nothing
-moved to model/ or scripts/. Closing summary:
+No candidate passed all promotion gates; no sealed meta_test label entered
+any fitting, selection or reported metric (0 evaluations in the audited
+artifacts); nothing moved to model/ or scripts/. Closing summary:
 report/FINAL_STATE_20260818.md.

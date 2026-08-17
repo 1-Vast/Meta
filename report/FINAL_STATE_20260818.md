@@ -23,9 +23,10 @@ or a scope-bounded final conclusion after multi-family falsification.
   honest controls, and K-REG produced the first all-k resolved MSE
   improvement across three seeds — but its shape gain did not survive
   pooling, so nothing was promoted.
-- No candidate passed the full promotion gates; meta_test was never opened
-  (logical exclusion after parsing; 768 cells withheld; 0 evaluations in
-  104 audited artifacts); nothing moved to model/ or scripts/.
+- No candidate passed the full promotion gates; no sealed meta_test label
+  entered any fitting, selection or reported metric (logical exclusion after
+  parsing; 768 cells withheld; 0 evaluations in 104 audited artifacts);
+  nothing moved to model/ or scripts/.
 
 ## Falsification ledger (all leak-free, preregistered stages)
 

@@ -136,7 +136,8 @@ current protocol and none authorized by this document.
 
 Every stage in this cycle preregistered before training; single-seed screens
 gated by stop rules; the one promising lane (G) went to a preregistered
-three-seed confirmation and was not confirmed; meta_test was never opened;
-query labels stayed loss-and-metric-only; no closed-form solvers, no
+three-seed confirmation and was not confirmed; no sealed meta_test label
+entered any fitting, selection or reported metric; query labels stayed
+loss-and-metric-only; no closed-form solvers, no
 cross-dataset support, no transduction. Davis/KIBA independent training was
 not authorized because no candidate passed the promotion gates.
