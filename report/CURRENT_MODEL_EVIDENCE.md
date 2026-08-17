@@ -269,3 +269,18 @@ No candidate passed all promotion gates; no sealed meta_test label entered
 any fitting, selection or reported metric (0 evaluations in the audited
 artifacts); nothing moved to model/ or scripts/. Closing summary:
 report/FINAL_STATE_20260818.md.
+
+## 2026-08-17 update: Phase 1 protein-conditioned interaction decision
+
+`tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md` is the bounded
+negative for the tested protein-conditioned interaction mechanisms under the
+current BindingDB-Ki double-cold protocol: Stage S global FiLM rejected;
+Stage T core-blind pooled discriminator rejected with its closure withdrawn;
+Stage U U0 degree-concentration fail; Stage V primary repeated-key surface
+not evaluable (32 rows/4 components; 0 exact keys shared with the
+development-validation split) and interaction variance not identifiable above
+the defensible noise envelope (`theta = -0.406 [-0.704, -0.073]` with the
+preregistered noise; direct pair-level noise 0.303 [0.200, 0.427] leaves
+cross-component V1 unresolved at +0.391 [-0.327, +0.368]). This is not a
+biological impossibility claim; MSA/coevolution is externally blocked, and
+Davis/KIBA remain promotion-gated.

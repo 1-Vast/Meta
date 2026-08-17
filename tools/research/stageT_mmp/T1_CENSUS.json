@@ -1,0 +1,520 @@
+{
+ "admission": {
+  "all_pass": true,
+  "checks": {
+   "fit_targets": {
+    "measured": 243,
+    "pass": true,
+    "threshold": 50
+   },
+   "internal_components": {
+    "measured": 25,
+    "pass": true,
+    "threshold": 10
+   },
+   "internal_observations": {
+    "measured": 5035,
+    "pass": true,
+    "threshold": 300
+   },
+   "keys_with_3_targets_and_3_components": {
+    "measured": 1112,
+    "pass": true,
+    "threshold": 30
+   },
+   "same_panel_fit_observations": {
+    "measured": 37945,
+    "pass": true,
+    "threshold": 2000
+   }
+  },
+  "coarse_key_reference": {
+   "keys_with_3_targets_and_3_components": 1154,
+   "note": "reported for coverage only; a coarse-only pass does NOT admit T2"
+  },
+  "granularity_for_thresholds": "exact key",
+  "thresholds_frozen_in": "PREREGISTRATION.md section 3"
+ },
+ "construction": {
+  "canonical_direction": "canonical SMILES sort of the two R groups; delta_y = y(r_b ligand) - y(r_a ligand)",
+  "cliff_definition": "tanimoto >= 0.6 and |delta_y| >= 1.0",
+  "deduplication": "one row per (target, core, r_a, r_b); the lower cell index wins, never the label",
+  "ligand_slots_considered": 5643,
+  "ligands_with_no_admissible_cut": 118,
+  "ligands_without_smiles": 0,
+  "machinery": "rdkit.Chem.rdMMPA.FragmentMol (Hussain-Rea), single cut",
+  "targets_considered": 346
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "overlap": {
+  "coarse_key_reuse_fraction": 0.16698975353087786,
+  "coarse_keys_shared": 603,
+  "core_reuse_fraction": 0.2681564245810056,
+  "cores_shared": 96,
+  "exact_key_reuse_fraction": 0.1604702022963368,
+  "exact_keys_internal_only": 3071,
+  "exact_keys_shared": 587
+ },
+ "populations": {
+  "fit": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 0.7147504014005581,
+    "median": 0.4890204780193699,
+    "n": 39198,
+    "p95": 2.221848749616356,
+    "sd": 0.7116348023989333
+   },
+   "activity_cliffs": 6024,
+   "charge_changing": 336,
+   "coarse_key": {
+    "component_degree": {
+     "max": 31.0,
+     "mean": 1.1930631617378604,
+     "median": 1.0,
+     "n": 27390,
+     "p95": 2.0,
+     "sd": 0.8568563795569774
+    },
+    "keys": 27390,
+    "keys_with_ge2_targets": 4691,
+    "keys_with_ge3_targets": 2322,
+    "keys_with_ge3_targets_and_ge3_components": 1160,
+    "observations": 39198,
+    "singleton_key_share": 0.7890470974808325,
+    "target_degree": {
+     "max": 37.0,
+     "mean": 1.316940489229646,
+     "median": 1.0,
+     "n": 27390,
+     "p95": 3.0,
+     "sd": 1.0664106719450817
+    },
+    "top10_key_share": 0.014439512220011224,
+    "top_key_share": 0.002117454972192459
+   },
+   "components": 188,
+   "cross_panel": 1253,
+   "exact_key": {
+    "component_degree": {
+     "max": 31.0,
+     "mean": 1.1818606657559854,
+     "median": 1.0,
+     "n": 27818,
+     "p95": 2.0,
+     "sd": 0.8181306150443434
+    },
+    "keys": 27818,
+    "keys_with_ge2_targets": 4649,
+    "keys_with_ge3_targets": 2291,
+    "keys_with_ge3_targets_and_ge3_components": 1118,
+    "observations": 39198,
+    "singleton_key_share": 0.7924724998202602,
+    "target_degree": {
+     "max": 37.0,
+     "mean": 1.3038679991372493,
+     "median": 1.0,
+     "n": 27818,
+     "p95": 3.0,
+     "sd": 1.0217887917869777
+    },
+    "top10_key_share": 0.013878259094851778,
+    "top_key_share": 0.002117454972192459
+   },
+   "graph_coarse": {
+    "components": 32,
+    "largest_component_nodes": 27089,
+    "largest_component_share": 0.9802424461733309,
+    "nodes": 27635,
+    "size_distribution": [
+     27089,
+     176,
+     117,
+     52,
+     27,
+     19,
+     17,
+     13,
+     11,
+     10
+    ]
+   },
+   "graph_exact": {
+    "components": 40,
+    "largest_component_nodes": 27389,
+    "largest_component_share": 0.975982610554823,
+    "nodes": 28063,
+    "size_distribution": [
+     27389,
+     176,
+     117,
+     53,
+     34,
+     27,
+     24,
+     19,
+     17,
+     16
+    ]
+   },
+   "label": "fit",
+   "ligands": 2594,
+   "observations": 39198,
+   "same_panel": 37945,
+   "stereo_edits": 1,
+   "strata": {
+    "S1_same_panel_single": 37259,
+    "S2_same_panel_multi": 686,
+    "S3_cross_panel": 1253
+   },
+   "targets": 245
+  },
+  "fit_same_panel": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 0.7115128685867199,
+    "median": 0.48311161840884953,
+    "n": 37945,
+    "p95": 2.22345908279853,
+    "sd": 0.7140639247195333
+   },
+   "activity_cliffs": 5848,
+   "charge_changing": 326,
+   "coarse_key": {
+    "component_degree": {
+     "max": 30.0,
+     "mean": 1.19947466595607,
+     "median": 1.0,
+     "n": 26269,
+     "p95": 2.0,
+     "sd": 0.8672938355409215
+    },
+    "keys": 26269,
+    "keys_with_ge2_targets": 4665,
+    "keys_with_ge3_targets": 2317,
+    "keys_with_ge3_targets_and_ge3_components": 1154,
+    "observations": 37945,
+    "singleton_key_share": 0.7820625071376908,
+    "target_degree": {
+     "max": 36.0,
+     "mean": 1.3284479805093456,
+     "median": 1.0,
+     "n": 26269,
+     "p95": 3.0,
+     "sd": 1.0810773060348053
+    },
+    "top10_key_share": 0.014837264461720913,
+    "top_key_share": 0.0021610225326129926
+   },
+   "components": 187,
+   "cross_panel": 0,
+   "exact_key": {
+    "component_degree": {
+     "max": 30.0,
+     "mean": 1.1877505150777299,
+     "median": 1.0,
+     "n": 26695,
+     "p95": 2.0,
+     "sd": 0.828407433177608
+    },
+    "keys": 26695,
+    "keys_with_ge2_targets": 4621,
+    "keys_with_ge3_targets": 2286,
+    "keys_with_ge3_targets_and_ge3_components": 1112,
+    "observations": 37945,
+    "singleton_key_share": 0.7857651245551601,
+    "target_degree": {
+     "max": 36.0,
+     "mean": 1.314703127926578,
+     "median": 1.0,
+     "n": 26695,
+     "p95": 3.0,
+     "sd": 1.0361196026082842
+    },
+    "top10_key_share": 0.014231123995256292,
+    "top_key_share": 0.0021610225326129926
+   },
+   "graph_coarse": {
+    "components": 32,
+    "largest_component_nodes": 25985,
+    "largest_component_share": 0.9801222088111045,
+    "nodes": 26512,
+    "size_distribution": [
+     25985,
+     176,
+     117,
+     51,
+     27,
+     15,
+     13,
+     11,
+     10,
+     10
+    ]
+   },
+   "graph_exact": {
+    "components": 40,
+    "largest_component_nodes": 26283,
+    "largest_component_share": 0.9756849060806296,
+    "nodes": 26938,
+    "size_distribution": [
+     26283,
+     176,
+     117,
+     52,
+     34,
+     27,
+     24,
+     16,
+     15,
+     15
+    ]
+   },
+   "label": "fit_same_panel",
+   "ligands": 2544,
+   "observations": 37945,
+   "same_panel": 37945,
+   "stereo_edits": 1,
+   "strata": {
+    "S1_same_panel_single": 37259,
+    "S2_same_panel_multi": 686
+   },
+   "targets": 243
+  },
+  "internal": {
+   "abs_delta_y": {
+    "max": 4.267171728403014,
+    "mean": 0.6947037844993723,
+    "median": 0.5300573299074607,
+    "n": 5035,
+    "p95": 1.8750612633917,
+    "sd": 0.61866082743667
+   },
+   "activity_cliffs": 953,
+   "charge_changing": 2,
+   "coarse_key": {
+    "component_degree": {
+     "max": 6.0,
+     "mean": 1.0841872057601771,
+     "median": 1.0,
+     "n": 3611,
+     "p95": 2.0,
+     "sd": 0.32885560381053525
+    },
+    "keys": 3611,
+    "keys_with_ge2_targets": 740,
+    "keys_with_ge3_targets": 44,
+    "keys_with_ge3_targets_and_ge3_components": 24,
+    "observations": 5035,
+    "singleton_key_share": 0.7294378288562725,
+    "target_degree": {
+     "max": 8.0,
+     "mean": 1.2262531154804763,
+     "median": 1.0,
+     "n": 3611,
+     "p95": 2.0,
+     "sd": 0.5043168783157485
+    },
+    "top10_key_share": 0.021052631578947368,
+    "top_key_share": 0.004568023833167826
+   },
+   "components": 25,
+   "cross_panel": 446,
+   "exact_key": {
+    "component_degree": {
+     "max": 6.0,
+     "mean": 1.0814652815746308,
+     "median": 1.0,
+     "n": 3658,
+     "p95": 2.0,
+     "sd": 0.320532160261277
+    },
+    "keys": 3658,
+    "keys_with_ge2_targets": 742,
+    "keys_with_ge3_targets": 39,
+    "keys_with_ge3_targets_and_ge3_components": 21,
+    "observations": 5035,
+    "singleton_key_share": 0.7367413887370148,
+    "target_degree": {
+     "max": 8.0,
+     "mean": 1.2217058501913614,
+     "median": 1.0,
+     "n": 3658,
+     "p95": 2.0,
+     "sd": 0.4942094433378204
+    },
+    "top10_key_share": 0.019860973187686197,
+    "top_key_share": 0.004568023833167826
+   },
+   "graph_coarse": {
+    "components": 7,
+    "largest_component_nodes": 3455,
+    "largest_component_share": 0.9478737997256516,
+    "nodes": 3645,
+    "size_distribution": [
+     3455,
+     163,
+     12,
+     9,
+     2,
+     2,
+     2
+    ]
+   },
+   "graph_exact": {
+    "components": 7,
+    "largest_component_nodes": 3502,
+    "largest_component_share": 0.948537378114843,
+    "nodes": 3692,
+    "size_distribution": [
+     3502,
+     163,
+     12,
+     9,
+     2,
+     2,
+     2
+    ]
+   },
+   "label": "internal",
+   "ligands": 499,
+   "observations": 5035,
+   "same_panel": 4589,
+   "stereo_edits": 0,
+   "strata": {
+    "S1_same_panel_single": 4314,
+    "S2_same_panel_multi": 275,
+    "S3_cross_panel": 446
+   },
+   "targets": 34
+  },
+  "internal_same_panel": {
+   "abs_delta_y": {
+    "max": 4.267171728403014,
+    "mean": 0.7106705110368198,
+    "median": 0.5415792439465807,
+    "n": 4589,
+    "p95": 1.9315994965073473,
+    "sd": 0.6318927598332424
+   },
+   "activity_cliffs": 933,
+   "charge_changing": 2,
+   "coarse_key": {
+    "component_degree": {
+     "max": 6.0,
+     "mean": 1.0906110283159463,
+     "median": 1.0,
+     "n": 3355,
+     "p95": 2.0,
+     "sd": 0.3403207330873294
+    },
+    "keys": 3355,
+    "keys_with_ge2_targets": 557,
+    "keys_with_ge3_targets": 44,
+    "keys_with_ge3_targets_and_ge3_components": 24,
+    "observations": 4589,
+    "singleton_key_share": 0.7645305514157973,
+    "target_degree": {
+     "max": 8.0,
+     "mean": 1.1889716840536513,
+     "median": 1.0,
+     "n": 3355,
+     "p95": 2.0,
+     "sd": 0.4884448787891835
+    },
+    "top10_key_share": 0.022880801917629114,
+    "top_key_share": 0.005011985181956853
+   },
+   "components": 25,
+   "cross_panel": 0,
+   "exact_key": {
+    "component_degree": {
+     "max": 6.0,
+     "mean": 1.0875955320399764,
+     "median": 1.0,
+     "n": 3402,
+     "p95": 2.0,
+     "sd": 0.3315678416156707
+    },
+    "keys": 3402,
+    "keys_with_ge2_targets": 559,
+    "keys_with_ge3_targets": 39,
+    "keys_with_ge3_targets_and_ge3_components": 21,
+    "observations": 4589,
+    "singleton_key_share": 0.7718988830099941,
+    "target_degree": {
+     "max": 8.0,
+     "mean": 1.1845972957084068,
+     "median": 1.0,
+     "n": 3402,
+     "p95": 2.0,
+     "sd": 0.4770760503985701
+    },
+    "top10_key_share": 0.02157332752233602,
+    "top_key_share": 0.005011985181956853
+   },
+   "graph_coarse": {
+    "components": 7,
+    "largest_component_nodes": 3199,
+    "largest_component_share": 0.9439362643847743,
+    "nodes": 3389,
+    "size_distribution": [
+     3199,
+     163,
+     12,
+     9,
+     2,
+     2,
+     2
+    ]
+   },
+   "graph_exact": {
+    "components": 7,
+    "largest_component_nodes": 3246,
+    "largest_component_share": 0.9447031431897556,
+    "nodes": 3436,
+    "size_distribution": [
+     3246,
+     163,
+     12,
+     9,
+     2,
+     2,
+     2
+    ]
+   },
+   "label": "internal_same_panel",
+   "ligands": 496,
+   "observations": 4589,
+   "same_panel": 4589,
+   "stereo_edits": 0,
+   "strata": {
+    "S1_same_panel_single": 4314,
+    "S2_same_panel_multi": 275
+   },
+   "targets": 34
+  }
+ },
+ "schema": "MetaSieve.StageT.T1Census.v1",
+ "stage": "stageT_mmp"
+}

@@ -1,0 +1,861 @@
+{
+ "admission": {
+  "all_pass": false,
+  "checks": {
+   "fit_targets": {
+    "measured": 243,
+    "pass": true,
+    "threshold": 50
+   },
+   "internal_components": {
+    "measured": 25,
+    "pass": true,
+    "threshold": 10
+   },
+   "internal_observations": {
+    "measured": 4589,
+    "pass": true,
+    "threshold": 300
+   },
+   "keys_with_3_targets_and_3_components": {
+    "measured": 1001,
+    "pass": true,
+    "threshold": 30
+   },
+   "same_panel_fit_observations": {
+    "measured": 37945,
+    "pass": true,
+    "threshold": 2000
+   },
+   "top10_key_share": {
+    "measured": 0.004348398998550534,
+    "pass": true,
+    "threshold": 0.2
+   },
+   "top1_component_share": {
+    "measured": 0.29629727236790093,
+    "pass": false,
+    "threshold": 0.25
+   },
+   "top1_key_share": {
+    "measured": 0.0005007247331664251,
+    "pass": true,
+    "threshold": 0.05
+   },
+   "top1_target_share": {
+    "measured": 0.29629727236790093,
+    "pass": false,
+    "threshold": 0.25
+   },
+   "top5_component_share": {
+    "measured": 0.5116089076294636,
+    "pass": true,
+    "threshold": 0.75
+   },
+   "top5_target_share": {
+    "measured": 0.4726314402424562,
+    "pass": true,
+    "threshold": 0.75
+   }
+  },
+  "coarse_key_reference": {
+   "keys_with_3_targets_and_3_components": 1001,
+   "note": "reported for coverage only; a coarse-only pass does NOT admit U1/U2"
+  },
+  "granularity_for_thresholds": "exact key",
+  "thresholds_frozen_in": "PREREGISTRATION.md section 2.5"
+ },
+ "construction": {
+  "cache": "D:\\MetaSieve\\tools\\research\\stageU_mmp_interaction\\U0_OBSERVATIONS.jsonl.gz",
+  "cache_sha256": "d7e5282df55187706e3d96eb32b72c9e7541dbcd9e858761a65549973b07311f",
+  "canonical_direction": "canonical SMILES sort of the two R groups; delta_y = y(r_b ligand) - y(r_a ligand)",
+  "cliff_definition": "tanimoto >= 0.6 and |delta_y| >= 1.0",
+  "coarse_key": "SHA-256 of stereo-stripped core | (element, aromatic) | stereo-stripped R_a >> R_b",
+  "deduplication": "one row per (target, core, R_a, R_b); the lower cell index wins, never the label",
+  "exact_key": "SHA-256 of core | full attachment context | R_a >> R_b; includes shared core",
+  "ligand_slots_considered": 2970,
+  "ligands_with_no_admissible_cut": null,
+  "ligands_without_smiles": null,
+  "machinery": "rdkit.Chem.rdMMPA.FragmentMol (Hussain-Rea), single cut, isomeric SMILES",
+  "targets_considered": 279
+ },
+ "deployment_coverage": {
+  "bank": {
+   "constructor": "QPSMPData.fixed_nested_episode_banks",
+   "draws": 1,
+   "query_size": 16,
+   "seed": 20260820,
+   "support_sizes": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  "coverage": {
+   "1": {
+    "C_k_coarse": 0.23865231633130557,
+    "C_k_exact": 0.22601778193729527,
+    "C_k_exact_component_equal_weight": 0.24194587356701525,
+    "by_novelty": {
+     "novelty_high": 0.21271143003587903,
+     "novelty_low": 0.40186915887850466,
+     "novelty_mid": 0.31645569620253167
+    },
+    "by_population": {
+     "fit": 0.20792616720955484,
+     "internal": 0.3389830508474576
+    },
+    "components": 185,
+    "queries_scored": 2137
+   },
+   "2": {
+    "C_k_coarse": 0.3687412260177819,
+    "C_k_exact": 0.36172204024333177,
+    "C_k_exact_component_equal_weight": 0.3881239806036624,
+    "by_novelty": {
+     "novelty_high": 0.3511019989748847,
+     "novelty_low": 0.5327102803738317,
+     "novelty_mid": 0.3924050632911392
+    },
+    "by_population": {
+     "fit": 0.3496199782844734,
+     "internal": 0.43728813559322033
+    },
+    "components": 185,
+    "queries_scored": 2137
+   },
+   "3": {
+    "C_k_coarse": 0.45016378100140386,
+    "C_k_exact": 0.44174075807206364,
+    "C_k_exact_component_equal_weight": 0.47304189805443403,
+    "by_novelty": {
+     "novelty_high": 0.4351614556637622,
+     "novelty_low": 0.5887850467289719,
+     "novelty_mid": 0.4050632911392405
+    },
+    "by_population": {
+     "fit": 0.43268186753528776,
+     "internal": 0.49830508474576274
+    },
+    "components": 185,
+    "queries_scored": 2137
+   },
+   "5": {
+    "C_k_coarse": 0.5315863359850257,
+    "C_k_exact": 0.5259709873654657,
+    "C_k_exact_component_equal_weight": 0.5642857369820269,
+    "by_novelty": {
+     "novelty_high": 0.5166581240389544,
+     "novelty_low": 0.5981308411214953,
+     "novelty_mid": 0.6582278481012658
+    },
+    "by_population": {
+     "fit": 0.512486427795874,
+     "internal": 0.6101694915254238
+    },
+    "components": 185,
+    "queries_scored": 2137
+   }
+  },
+  "definition": "C_k = P(at least one support-query pair forms a valid single-cut MMP), on the frozen nested episode banks",
+  "interpretation": {
+   "max_C_k": 0.5259709873654657,
+   "verdict": "MMP can serve as a reference-based inference mechanism for at most 52.6% of governed queries at k<=5. Below that share it is a TRAINING signal, not a universal deployment mechanism, and no artifact may present it as one."
+  },
+  "query_labels_read": false
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "overlap": {
+  "coarse_key_reuse_fraction": 0.1153399860756556,
+  "coarse_keys_shared": 497,
+  "core_reuse_fraction": 0.2681564245810056,
+  "cores_shared": 96,
+  "exact_key_reuse_fraction": 0.1153399860756556,
+  "exact_keys_internal_only": 3812,
+  "exact_keys_shared": 497
+ },
+ "populations": {
+  "fit": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 0.7147504014005581,
+    "median": 0.4890204780193699,
+    "n": 39198,
+    "p95": 2.221848749616356,
+    "sd": 0.7116348023989333
+   },
+   "activity_cliffs": 6024,
+   "charge_changing": 336,
+   "coarse_key": {
+    "component_degree": {
+     "max": 12.0,
+     "mean": 1.1277656787551684,
+     "median": 1.0,
+     "n": 31683,
+     "p95": 2.0,
+     "sd": 0.5229655611103026
+    },
+    "keys": 31683,
+    "keys_with_ge2_targets": 4675,
+    "keys_with_ge3_targets": 2210,
+    "keys_with_ge3_targets_and_ge3_components": 1002,
+    "observations": 39198,
+    "singleton_key_share": 0.8523814032762049,
+    "target_degree": {
+     "max": 19.0,
+     "mean": 1.2371303222548369,
+     "median": 1.0,
+     "n": 31683,
+     "p95": 3.0,
+     "sd": 0.7171336420729032
+    },
+    "top10_key_share": 0.004209398438695852,
+    "top_key_share": 0.0004847186080922496
+   },
+   "components": 188,
+   "cross_panel": 1253,
+   "degree_concentration": {
+    "top10_key_share": 0.004209398438695852,
+    "top1_component_share": 0.28682585846216646,
+    "top1_key_share": 0.0004847186080922496,
+    "top1_target_share": 0.28682585846216646,
+    "top5_component_share": 0.49808663707332007,
+    "top5_target_share": 0.46321240879636716
+   },
+   "exact_key": {
+    "component_degree": {
+     "max": 12.0,
+     "mean": 1.12775761401294,
+     "median": 1.0,
+     "n": 31685,
+     "p95": 2.0,
+     "sd": 0.5229500403299429
+    },
+    "keys": 31685,
+    "keys_with_ge2_targets": 4675,
+    "keys_with_ge3_targets": 2210,
+    "keys_with_ge3_targets_and_ge3_components": 1002,
+    "observations": 39198,
+    "singleton_key_share": 0.8524538425122298,
+    "target_degree": {
+     "max": 19.0,
+     "mean": 1.2371153542685813,
+     "median": 1.0,
+     "n": 31685,
+     "p95": 3.0,
+     "sd": 0.7171134824625627
+    },
+    "top10_key_share": 0.004209398438695852,
+    "top_key_share": 0.0004847186080922496
+   },
+   "graph_coarse": {
+    "components": 142,
+    "largest_component_nodes": 11244,
+    "largest_component_share": 0.35216737659734404,
+    "nodes": 31928,
+    "size_distribution": [
+     11244,
+     2806,
+     2052,
+     1889,
+     1729,
+     1371,
+     953,
+     931,
+     744,
+     691
+    ]
+   },
+   "graph_exact": {
+    "components": 142,
+    "largest_component_nodes": 11244,
+    "largest_component_share": 0.3521453178828688,
+    "nodes": 31930,
+    "size_distribution": [
+     11244,
+     2806,
+     2052,
+     1889,
+     1729,
+     1373,
+     953,
+     931,
+     744,
+     691
+    ]
+   },
+   "incidence_spectrum_coarse": {
+    "condition_number_sigma1_over_sigma_rank": 336.8133390639949,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 121.88179073893998,
+    "identifiable": true,
+    "keys": 31683,
+    "numerical_rank": 218,
+    "stable_rank": 70.53698615155729,
+    "targets": 245,
+    "top_singular_values_normalized": [
+     1.0,
+     0.47475894210545316,
+     0.4630749084128885,
+     0.4271119522600672,
+     0.4097886161826085,
+     0.39204034593164977,
+     0.34169491878977004,
+     0.34031103950807823,
+     0.29602085585245047,
+     0.29098953388766563
+    ]
+   },
+   "incidence_spectrum_exact": {
+    "condition_number_sigma1_over_sigma_rank": 336.81333906398396,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 121.86821330069864,
+    "identifiable": true,
+    "keys": 31685,
+    "numerical_rank": 218,
+    "stable_rank": 70.52302295888211,
+    "targets": 245,
+    "top_singular_values_normalized": [
+     1.0,
+     0.4747589421054536,
+     0.4630749084128896,
+     0.4271119522600681,
+     0.40978861618260937,
+     0.39204034593165027,
+     0.3416949187897715,
+     0.3402943336340136,
+     0.2960208558524512,
+     0.29098953388766674
+    ]
+   },
+   "label": "fit",
+   "ligands": 2594,
+   "observations": 39198,
+   "same_panel": 37945,
+   "stereo_edits": 1,
+   "strata": {
+    "S1_same_panel_single": 37259,
+    "S2_same_panel_multi": 686,
+    "S3_cross_panel": 1253
+   },
+   "targets": 245
+  },
+  "fit_same_panel": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 0.7115128685867199,
+    "median": 0.48311161840884953,
+    "n": 37945,
+    "p95": 2.22345908279853,
+    "sd": 0.7140639247195333
+   },
+   "activity_cliffs": 5848,
+   "charge_changing": 326,
+   "coarse_key": {
+    "component_degree": {
+     "max": 12.0,
+     "mean": 1.1322674895768359,
+     "median": 1.0,
+     "n": 30461,
+     "p95": 2.0,
+     "sd": 0.5308627959203902
+    },
+    "keys": 30461,
+    "keys_with_ge2_targets": 4651,
+    "keys_with_ge3_targets": 2209,
+    "keys_with_ge3_targets_and_ge3_components": 1001,
+    "observations": 37945,
+    "singleton_key_share": 0.847247299826007,
+    "target_degree": {
+     "max": 19.0,
+     "mean": 1.2456255539870655,
+     "median": 1.0,
+     "n": 30461,
+     "p95": 3.0,
+     "sd": 0.7283813444642295
+    },
+    "top10_key_share": 0.004348398998550534,
+    "top_key_share": 0.0005007247331664251
+   },
+   "components": 187,
+   "cross_panel": 0,
+   "degree_concentration": {
+    "top10_key_share": 0.004348398998550534,
+    "top1_component_share": 0.29629727236790093,
+    "top1_key_share": 0.0005007247331664251,
+    "top1_target_share": 0.29629727236790093,
+    "top5_component_share": 0.5116089076294636,
+    "top5_target_share": 0.4726314402424562
+   },
+   "exact_key": {
+    "component_degree": {
+     "max": 12.0,
+     "mean": 1.1322588057643699,
+     "median": 1.0,
+     "n": 30463,
+     "p95": 2.0,
+     "sd": 0.530846450393943
+    },
+    "keys": 30463,
+    "keys_with_ge2_targets": 4651,
+    "keys_with_ge3_targets": 2209,
+    "keys_with_ge3_targets_and_ge3_components": 1001,
+    "observations": 37945,
+    "singleton_key_share": 0.8473229819781374,
+    "target_degree": {
+     "max": 19.0,
+     "mean": 1.2456094278304828,
+     "median": 1.0,
+     "n": 30463,
+     "p95": 3.0,
+     "sd": 0.7283601519602593
+    },
+    "top10_key_share": 0.004348398998550534,
+    "top_key_share": 0.0005007247331664251
+   },
+   "graph_coarse": {
+    "components": 140,
+    "largest_component_nodes": 11244,
+    "largest_component_share": 0.3662063574778531,
+    "nodes": 30704,
+    "size_distribution": [
+     11244,
+     2637,
+     1955,
+     1875,
+     1729,
+     1233,
+     931,
+     744,
+     691,
+     681
+    ]
+   },
+   "graph_exact": {
+    "components": 140,
+    "largest_component_nodes": 11244,
+    "largest_component_share": 0.36618250504787336,
+    "nodes": 30706,
+    "size_distribution": [
+     11244,
+     2637,
+     1955,
+     1875,
+     1729,
+     1235,
+     931,
+     744,
+     691,
+     681
+    ]
+   },
+   "incidence_spectrum_coarse": {
+    "condition_number_sigma1_over_sigma_rank": 336.8219930957881,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 120.2193894430511,
+    "identifiable": true,
+    "keys": 30461,
+    "numerical_rank": 215,
+    "stable_rank": 69.1216755282969,
+    "targets": 243,
+    "top_singular_values_normalized": [
+     1.0,
+     0.47475894210545244,
+     0.4621602574517911,
+     0.4168897087511893,
+     0.4082664457254922,
+     0.39204034593165177,
+     0.3416949187897716,
+     0.32281185479796065,
+     0.2959249136086656,
+     0.28036147071336487
+    ]
+   },
+   "incidence_spectrum_exact": {
+    "condition_number_sigma1_over_sigma_rank": 336.8219930958013,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 120.2007487836585,
+    "identifiable": true,
+    "keys": 30463,
+    "numerical_rank": 215,
+    "stable_rank": 69.1047973871121,
+    "targets": 243,
+    "top_singular_values_normalized": [
+     1.0,
+     0.4747589421054574,
+     0.462160257451796,
+     0.4168897087511929,
+     0.40826644572549786,
+     0.3920403459316543,
+     0.34169491878977487,
+     0.3227912216165242,
+     0.29592491360866885,
+     0.2803614707133679
+    ]
+   },
+   "label": "fit_same_panel",
+   "ligands": 2544,
+   "observations": 37945,
+   "same_panel": 37945,
+   "stereo_edits": 1,
+   "strata": {
+    "S1_same_panel_single": 37259,
+    "S2_same_panel_multi": 686
+   },
+   "targets": 243
+  },
+  "internal": {
+   "abs_delta_y": {
+    "max": 4.267171728403014,
+    "mean": 0.6947037844993723,
+    "median": 0.5300573299074607,
+    "n": 5035,
+    "p95": 1.8750612633917,
+    "sd": 0.61866082743667
+   },
+   "activity_cliffs": 953,
+   "charge_changing": 2,
+   "coarse_key": {
+    "component_degree": {
+     "max": 2.0,
+     "mean": 1.050127639823625,
+     "median": 1.0,
+     "n": 4309,
+     "p95": 1.599999999999909,
+     "sd": 0.21823361842163647
+    },
+    "keys": 4309,
+    "keys_with_ge2_targets": 723,
+    "keys_with_ge3_targets": 3,
+    "keys_with_ge3_targets_and_ge3_components": 0,
+    "observations": 5035,
+    "singleton_key_share": 0.8322116500348109,
+    "target_degree": {
+     "max": 3.0,
+     "mean": 1.1684845671849617,
+     "median": 1.0,
+     "n": 4309,
+     "p95": 2.0,
+     "sd": 0.37619515650896845
+    },
+    "top10_key_share": 0.004568023833167826,
+    "top_key_share": 0.0005958291956305859
+   },
+   "components": 25,
+   "cross_panel": 446,
+   "degree_concentration": {
+    "top10_key_share": 0.004568023833167826,
+    "top1_component_share": 0.3312810327706058,
+    "top1_key_share": 0.0005958291956305859,
+    "top1_target_share": 0.22621648460774577,
+    "top5_component_share": 0.6754716981132075,
+    "top5_target_share": 0.6099304865938431
+   },
+   "exact_key": {
+    "component_degree": {
+     "max": 2.0,
+     "mean": 1.050127639823625,
+     "median": 1.0,
+     "n": 4309,
+     "p95": 1.599999999999909,
+     "sd": 0.21823361842163647
+    },
+    "keys": 4309,
+    "keys_with_ge2_targets": 723,
+    "keys_with_ge3_targets": 3,
+    "keys_with_ge3_targets_and_ge3_components": 0,
+    "observations": 5035,
+    "singleton_key_share": 0.8322116500348109,
+    "target_degree": {
+     "max": 3.0,
+     "mean": 1.1684845671849617,
+     "median": 1.0,
+     "n": 4309,
+     "p95": 2.0,
+     "sd": 0.37619515650896845
+    },
+    "top10_key_share": 0.004568023833167826,
+    "top_key_share": 0.0005958291956305859
+   },
+   "graph_coarse": {
+    "components": 23,
+    "largest_component_nodes": 1249,
+    "largest_component_share": 0.2875892240386829,
+    "nodes": 4343,
+    "size_distribution": [
+     1249,
+     564,
+     481,
+     363,
+     249,
+     238,
+     237,
+     219,
+     197,
+     154
+    ]
+   },
+   "graph_exact": {
+    "components": 23,
+    "largest_component_nodes": 1249,
+    "largest_component_share": 0.2875892240386829,
+    "nodes": 4343,
+    "size_distribution": [
+     1249,
+     564,
+     481,
+     363,
+     249,
+     238,
+     237,
+     219,
+     197,
+     154
+    ]
+   },
+   "incidence_spectrum_coarse": {
+    "condition_number_sigma1_over_sigma_rank": 36.79498794509086,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 22.99498344807349,
+    "identifiable": true,
+    "keys": 4309,
+    "numerical_rank": 34,
+    "stable_rank": 18.298792770256824,
+    "targets": 34,
+    "top_singular_values_normalized": [
+     1.0,
+     0.6448601388541852,
+     0.5973883149109429,
+     0.5954317020813085,
+     0.481687366095445,
+     0.42799350203686404,
+     0.4159448417746436,
+     0.40127267013287093,
+     0.38048660379756627,
+     0.3536059453839098
+    ]
+   },
+   "incidence_spectrum_exact": {
+    "condition_number_sigma1_over_sigma_rank": 36.79498794509083,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 22.99498344807349,
+    "identifiable": true,
+    "keys": 4309,
+    "numerical_rank": 34,
+    "stable_rank": 18.29879277025683,
+    "targets": 34,
+    "top_singular_values_normalized": [
+     1.0,
+     0.644860138854185,
+     0.5973883149109434,
+     0.5954317020813081,
+     0.4816873660954455,
+     0.42799350203686404,
+     0.4159448417746435,
+     0.401272670132871,
+     0.3804866037975664,
+     0.3536059453839098
+    ]
+   },
+   "label": "internal",
+   "ligands": 499,
+   "observations": 5035,
+   "same_panel": 4589,
+   "stereo_edits": 0,
+   "strata": {
+    "S1_same_panel_single": 4314,
+    "S2_same_panel_multi": 275,
+    "S3_cross_panel": 446
+   },
+   "targets": 34
+  },
+  "internal_same_panel": {
+   "abs_delta_y": {
+    "max": 4.267171728403014,
+    "mean": 0.7106705110368198,
+    "median": 0.5415792439465807,
+    "n": 4589,
+    "p95": 1.9315994965073473,
+    "sd": 0.6318927598332424
+   },
+   "activity_cliffs": 933,
+   "charge_changing": 2,
+   "coarse_key": {
+    "component_degree": {
+     "max": 2.0,
+     "mean": 1.0533860603064755,
+     "median": 1.0,
+     "n": 4046,
+     "p95": 2.0,
+     "sd": 0.2248298964047704
+    },
+    "keys": 4046,
+    "keys_with_ge2_targets": 540,
+    "keys_with_ge3_targets": 3,
+    "keys_with_ge3_targets_and_ge3_components": 0,
+    "observations": 4589,
+    "singleton_key_share": 0.8665348492338112,
+    "target_degree": {
+     "max": 3.0,
+     "mean": 1.134206623826001,
+     "median": 1.0,
+     "n": 4046,
+     "p95": 2.0,
+     "sd": 0.34308489374650925
+    },
+    "top10_key_share": 0.005011985181956853,
+    "top_key_share": 0.0006537371976465461
+   },
+   "components": 25,
+   "cross_panel": 0,
+   "degree_concentration": {
+    "top10_key_share": 0.005011985181956853,
+    "top1_component_share": 0.31924166485073,
+    "top1_key_share": 0.0006537371976465461,
+    "top1_target_share": 0.248202222706472,
+    "top5_component_share": 0.6480714752669426,
+    "top5_target_share": 0.5761603835258227
+   },
+   "exact_key": {
+    "component_degree": {
+     "max": 2.0,
+     "mean": 1.0533860603064755,
+     "median": 1.0,
+     "n": 4046,
+     "p95": 2.0,
+     "sd": 0.2248298964047704
+    },
+    "keys": 4046,
+    "keys_with_ge2_targets": 540,
+    "keys_with_ge3_targets": 3,
+    "keys_with_ge3_targets_and_ge3_components": 0,
+    "observations": 4589,
+    "singleton_key_share": 0.8665348492338112,
+    "target_degree": {
+     "max": 3.0,
+     "mean": 1.134206623826001,
+     "median": 1.0,
+     "n": 4046,
+     "p95": 2.0,
+     "sd": 0.34308489374650925
+    },
+    "top10_key_share": 0.005011985181956853,
+    "top_key_share": 0.0006537371976465461
+   },
+   "graph_coarse": {
+    "components": 23,
+    "largest_component_nodes": 1229,
+    "largest_component_share": 0.3012254901960784,
+    "nodes": 4080,
+    "size_distribution": [
+     1229,
+     481,
+     354,
+     349,
+     249,
+     238,
+     223,
+     218,
+     197,
+     154
+    ]
+   },
+   "graph_exact": {
+    "components": 23,
+    "largest_component_nodes": 1229,
+    "largest_component_share": 0.3012254901960784,
+    "nodes": 4080,
+    "size_distribution": [
+     1229,
+     481,
+     354,
+     349,
+     249,
+     238,
+     223,
+     218,
+     197,
+     154
+    ]
+   },
+   "incidence_spectrum_coarse": {
+    "condition_number_sigma1_over_sigma_rank": 34.692189807565185,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 23.36575665915251,
+    "identifiable": true,
+    "keys": 4046,
+    "numerical_rank": 34,
+    "stable_rank": 18.78374343180119,
+    "targets": 34,
+    "top_singular_values_normalized": [
+     1.0,
+     0.6315226113351039,
+     0.6271662880181713,
+     0.5415712969481924,
+     0.46608405143122383,
+     0.45393547756358477,
+     0.4277844325333679,
+     0.4246177581861355,
+     0.40354904310327144,
+     0.3750390670028029
+    ]
+   },
+   "incidence_spectrum_exact": {
+    "condition_number_sigma1_over_sigma_rank": 34.69218980756515,
+    "diagnostic_only": "empirical sufficient-richness diagnostics; not a proof of persistent excitation",
+    "entropy_effective_rank": 23.36575665915251,
+    "identifiable": true,
+    "keys": 4046,
+    "numerical_rank": 34,
+    "stable_rank": 18.7837434318012,
+    "targets": 34,
+    "top_singular_values_normalized": [
+     1.0,
+     0.6315226113351042,
+     0.6271662880181721,
+     0.5415712969481927,
+     0.46608405143122417,
+     0.45393547756358515,
+     0.42778443253336834,
+     0.42461775818613595,
+     0.40354904310327205,
+     0.37503906700280376
+    ]
+   },
+   "label": "internal_same_panel",
+   "ligands": 496,
+   "observations": 4589,
+   "same_panel": 4589,
+   "stereo_edits": 0,
+   "strata": {
+    "S1_same_panel_single": 4314,
+    "S2_same_panel_multi": 275
+   },
+   "targets": 34
+  }
+ },
+ "preregistration_sha256": "fdc0a830aa92882d07b9aea50f22a4c72fc6d93f92c55a3be6bc15cd6a645c11",
+ "schema": "MetaSieve.StageU.U0Census.v1",
+ "stage": "stageU_mmp_interaction"
+}

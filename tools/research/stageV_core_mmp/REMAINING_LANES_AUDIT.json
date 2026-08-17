@@ -1,0 +1,70 @@
+{
+ "conclusion": "With current local assets and standing governance, no route remains that could change the Phase-1 bounded-negative verdict into an admissible positive claim. The negative branch is therefore complete; reopening requires an external governed MSA/coevolution asset, a new corpus with cross-component repeated complete transformations, or a governance change authorizing external datasets.",
+ "date": "2026-08-17",
+ "purpose": "Inventory of every remaining legal route toward a positive Phase-1 claim and its current status, so the bounded-negative decision can be checked for completeness.",
+ "routes": {
+  "MSA_coevolution": {
+   "evidence": {
+    "governed_uniref_snapshot_found": false,
+    "historical_mmseqs40_directories": [
+     "dataset/processed/crossed_panels/mmseqs_40",
+     "dataset/processed/multipanel/mmseqs40",
+     "dataset/processed/ssl_b2/mmseqs40"
+    ],
+    "local_sequence_sets": {
+     "crossed_panels_uniprot_sequences": 82,
+     "crossed_panels_xp2": 147,
+     "pdsp_uniprot": 45
+    },
+    "reading": "No governed UniRef/UniClust snapshot exists; the historical mmseqs40 directories are tiny clustering outputs of local sequence sets (not UniRef), and the largest local sequence JSON holds 147 proteins. Deep MSA/coevolution features cannot be built for the 387 governed targets with current assets; network downloads are outside the local tool policy.",
+    "sidecar_exists": false,
+    "stageM0_preregistered": "report/meta_fewshot/stageM0_msa_probe_20260816/PREREGISTRATION.md"
+   },
+   "status": "BLOCKED_ON_EXTERNAL_ASSET"
+  },
+  "external_datasets_Davis_KIBA": {
+   "evidence": {
+    "stageR": "tools/research/stageR_daviskiba/PREREGISTRATION.md"
+   },
+   "reading": "The standing governance authorizes Davis/KIBA training only after a BindingDB candidate passes promotion. No candidate passed; the frozen Davis plan is NOT AUTHORIZED, NOT RUN, and no Davis/KIBA label has been read.",
+   "status": "PROMOTION_GATED"
+  },
+  "functional_site_annotations": {
+   "evidence": {
+    "artifact": "tools/research/stageP_go/P0_GO_PROBES.json",
+    "stageP_go_report": "tools/research/stageP_go/REPORT.md"
+   },
+   "reading": "ProteinKG25 GO-bag probes covered 313/387 targets and were worse than the calibrated constant (2.27 vs 1.43). GO function annotations carry no measured transferable cross-component level signal; no ordering-positive was recorded.",
+   "status": "FALSIFIED_AT_IDENTIFIABILITY"
+  },
+  "looser_transformation_equivalence_classes": {
+   "evidence": {
+    "stage_v_report_section_7": "tools/research/stageV_core_mmp/REPORT.md"
+   },
+   "reading": "A looser-but-principled class would reintroduce the measured mu_tau residual (median 0.269 pK) and needs its own preregistration and cancellation analysis. Per the frozen rules it could only be an identification screen, never the strict core/context positive gate required by the objective.",
+   "status": "UNREGISTERED_AND_SCREEN_ONLY_BY_RULE"
+  },
+  "sealed_confirmation_split": {
+   "evidence": {
+    "meta_test_evaluated": 0,
+    "sealed_cells_withheld": 768
+   },
+   "reading": "The physically isolated meta_test surface remains sealed; a positive claim cannot be manufactured by opening it outside a frozen promotion protocol.",
+   "status": "SEALED_ZERO_EVALUATIONS"
+  },
+  "structure_pocket_priors": {
+   "evidence": {
+    "stageH0": "tools/research/stageH_pocket/H0_POCKET_IDENTIFIABILITY.json"
+   },
+   "reading": "Homology-transferred pocket descriptors are not sequence-derived-only inputs and are therefore outside the objective's admissible feature family; even so, their level identifiability was rejected (pocket MLP 2.4398 vs 2.6179 constant on covered subset, barely above shuffled control 2.4941).",
+   "status": "NOT_ADMISSIBLE_AS_SEQUENCE_ONLY_AND_REJECTED_FOR_LEVEL"
+  }
+ },
+ "schema": "MetaSieve.Phase1.RemainingLanesAudit.v1",
+ "verification": {
+  "git_commit": "5bb373668969985ada9f1e208fc3fcfe886b3123",
+  "meta_test_evaluated": 0,
+  "phase1_final_decision_sha256": "121bdad2f45639ab36edeb45bda874f354d766e7cdfdc7d69f048f46af961b78",
+  "stage_v_preregistration_sha256": "c567f66066c301fefe293048a4643fe4f65158077c3540ce1bbb0beb5d5844d4"
+ }
+}

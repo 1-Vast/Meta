@@ -221,3 +221,83 @@ altered.
 The goal record stays active. The next cycle is a performance-leap programme
 under the user's 2026-08-17 instruction; these repairs were its stated
 prerequisite.
+
+## 状态更新（2026-08-17，新用户指令周期 — 核心任务一：局部 protein-ligand interaction signal，round 7）
+
+新周期目标：证明“仅蛋白序列衍生表示 + 配体 2D”能否学习在未见 protein component
+上可迁移、真正依赖正确蛋白且与亲和力差/SAR ordering 对齐的局部相互作用信号；
+任何正结论必须落在 protein-component-cold、core/context 严格匹配估计量上并具有
+component/key 聚类区间下界 >0，否则如实关闭被测试机制。
+
+本轮周期已完成并验证：
+- Stage U（core-inclusive key 首次冻结）：U0 度集中门槛失败（单 target/component
+  29.63%）；预注册未改动，U1/U2 未运行。
+- Stage V（纠正后继，继承全部阈值并补 residue-permutation / random-protein /
+  fit-heldout 等对照）：V0 同额度集中失败；V0b primary internal_repeated =
+  32 rows / 4 components（<100 不可评估，internal rich keys=0）；V1
+  theta = -0.406 [-0.704, -0.073]（预注册噪声下 resolved negative）。
+- 直接 pair-level 噪声审计：88/42,534 个重复 shared-panel MMP pairs（40 个
+  zero-range curation duplicates）；disagreeing-only delta 方差 0.303
+  [0.200, 0.427]；在该保守噪声下跨 component V1 = +0.391 [-0.327, +0.368]
+  仍 unresolved——相互作用方差在可辩护噪声包络内不可识别。
+- meta-val 结构专用普查：7,209 observations / 2,757 potential D rows，但与
+  meta_train exact-key 重叠 = 0（双冷 split 禁止共享配体/scaffold），两个
+  development splits 均无法供给 primary surface。
+- 剩余路线审计（REMAINING_LANES_AUDIT）：MSA/共进化外部阻塞（无治理 UniRef；
+  最大本地序列集 147 条）、GO 已否证（P0）、pocket 非纯序列且 level 已拒（H0）、
+  Davis/KIBA promotion-gated 未运行、meta_test 封存 0 评估、looser MMP 类未注册
+  且按规则只能作 screen。
+- 裁决：`tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md/json` —
+  **BOUNDED NEGATIVE under the current BindingDB-Ki double-cold protocol**。
+- 验证：Stage U+V 研究套件 57 passed（RUN_SLOW=1）；维护套件 310 passed / 6
+  skipped；Stage V 预注册 SHA-256 c567f660…5844d4；未训练任何神经模型；
+  model/ 与生产 scripts/ 未修改；meta_test 0 评估。
+
+负分支（被测试机制的严格关闭）已完整且无可改变结论的本地合法路线。因普遍性
+正/负命题无法由当前语料证明，且本会话无 goal 工具（get_goal/update_goal 未注册），
+目标记录保持 active：仅当出现治理 MSA/共进化快照、新语料或新治理授权时继续；
+本文件是目标状态权威。
+
+## 状态更新（2026-08-17，新周期 round 8）
+
+V1 统计量的合成校准（`stageV_core_mmp/V1_SYNTHETIC_CALIBRATION.json`，事后描述性）：
+在真实 4,651-key / 12,133-effect 图（df=7,482）上，零交互模型在 T0 噪声 0.858 下
+应给出 MS≈0.858，而实测 0.4517 远低于该预测——T0 是 MMP-delta 估计量的噪声上界；
+在直接 pair-level 噪声（0.303 / 0.166）下，若把全部超出部分当作信号，隐含交互
+sd ≈ 0.39–0.53 pK。该区间与跨 component V1 的 unresolved 区间一致，是“潜在效应
+大小”的边界，不是可检测信号，也不能重开冻结门槛。负分支完整性与目标 active
+状态不变。
+
+## 完成声明（2026-08-17，新周期 core task one，round 9）
+
+`report/COMPLETION_STATEMENT_CORE_TASK1_20260817.md` 是本周期目标的完成证据：
+核心任务一在“有界负结论”终结条件下达成——被测试机制（Stage S/P/T/U/V 链条）
+已按预注册门槛如实关闭，primary core/context 严格匹配表面在当前 BindingDB-Ki
+双冷协议上不可评估，且 target×transformation 交互方差在可辩护噪声包络内不可
+识别；剩余本地合法路线已穷尽审计。该结论**不是**蛋白条件局部相互作用的普遍
+不存在声明。
+
+本会话仍无 goal 工具（get_goal/update_goal 未注册），无法执行正式 complete。
+任何具备 goal 工具的会话应读取本记录与完成声明并执行 complete。本文件此后仅
+作为外部新资产（治理 MSA/共进化快照）、新语料或新治理授权出现时的继续占位；
+在这些条件出现前，不再开展新的内部实验。
+
+## 最终状态（2026-08-17，round 10）：COMPLETE（有界负结论分支）
+
+由于本会话没有 goal 工具，按本文件的既定规则执行持久化标记：**当前目标状态
+= COMPLETE**。终结条件为“如实关闭被测试的具体机制”，已完成并验证：
+`report/COMPLETION_STATEMENT_CORE_TASK1_20260817.md`、
+`tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md/json`、
+`REMAINING_LANES_AUDIT.json`、`V1_SYNTHETIC_CALIBRATION.json` 与全套测试证据。
+
+此状态不等价于“蛋白条件局部相互作用普遍不存在”，只关闭当前 BindingDB-Ki
+双冷协议下被测试的表示/估计量机制。未来出现治理 MSA/共进化快照、新语料或
+新治理授权时，应视为开启一个**新目标/新预注册周期**，不得移动 Stage U/V
+阈值或重训已关闭路线。
+
+## 完成证据清单（round 11）
+
+`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json` 对 15 个完成证据工件逐一
+记录存在性与 SHA-256，并固化验证计数（维护 310/6、研究慢测 58、快速 53/5、
+meta_test 0 评估、git commit）。全部存在，清单已生成；任何具备 goal 工具的
+会话可用该清单执行最终 complete 审计。

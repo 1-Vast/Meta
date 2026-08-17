@@ -1,0 +1,242 @@
+{
+ "census": {
+  "fit_same_panel": {
+   "activity_cliffs": 5848,
+   "charge_changing": 326,
+   "coarse_keys": 30461,
+   "components": 187,
+   "domination": {
+    "top10_key_share": 0.004348398998550534,
+    "top1_component_share": 0.29629727236790093,
+    "top1_key_share": 0.0005007247331664251,
+    "top1_target_share": 0.29629727236790093,
+    "top5_component_share": 0.5116089076294636,
+    "top5_target_share": 0.4726314402424562
+   },
+   "exact_keys": 30463,
+   "keys_with_ge2_targets": 4651,
+   "observations": 37945,
+   "rich_exact_keys": 1001,
+   "stereo_edits": 1,
+   "targets": 243
+  },
+  "internal_same_panel": {
+   "activity_cliffs": 933,
+   "charge_changing": 2,
+   "coarse_keys": 4046,
+   "components": 25,
+   "domination": {
+    "top10_key_share": 0.005011985181956853,
+    "top1_component_share": 0.31924166485073,
+    "top1_key_share": 0.0006537371976465461,
+    "top1_target_share": 0.248202222706472,
+    "top5_component_share": 0.6480714752669426,
+    "top5_target_share": 0.5761603835258227
+   },
+   "exact_keys": 4046,
+   "keys_with_ge2_targets": 540,
+   "observations": 4589,
+   "rich_exact_keys": 0,
+   "stereo_edits": 0,
+   "targets": 34
+  }
+ },
+ "construction": {
+  "canonical_direction": "delta_y = y(R_b ligand) - y(R_a ligand)",
+  "coarse_key": "sha256(core_stereo_stripped | element | aromatic | R_a_stripped >> R_b_stripped)",
+  "descriptor_width": 60,
+  "edit_feature_width": 828,
+  "exact_key": "sha256(core_isomeric | repr(attachment environment) | R_a >> R_b)",
+  "ligands_with_no_admissible_cut": 118,
+  "machinery": "rdkit.Chem.rdMMPA.FragmentMol (Hussain-Rea), single cut",
+  "targets_considered": 346
+ },
+ "double_difference_surfaces": {
+  "fit_all": {
+   "cross_component_rows": 8048,
+   "effective_independent_units": 99,
+   "evaluable": true,
+   "protein_components": 99,
+   "rows": 12740,
+   "transformation_keys": 4651
+  },
+  "internal_all": {
+   "cross_component_rows": 216,
+   "effective_independent_units": 10,
+   "evaluable": true,
+   "protein_components": 10,
+   "rows": 546,
+   "transformation_keys": 540
+  },
+  "internal_disjoint": {
+   "cross_component_rows": 210,
+   "effective_independent_units": 7,
+   "evaluable": true,
+   "protein_components": 7,
+   "rows": 514,
+   "transformation_keys": 510
+  },
+  "internal_repeated": {
+   "cross_component_rows": 6,
+   "effective_independent_units": 4,
+   "evaluable": false,
+   "protein_components": 4,
+   "rows": 32,
+   "transformation_keys": 30
+  }
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "schema": "MetaSieve.StageV.V0V1.v1",
+ "stage": "stageV_core_mmp",
+ "supersedes": {
+  "stage_t_defect": "tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md",
+  "stage_u_decision": "STAGE_U_GOVERNANCE_AUDIT.md"
+ },
+ "v0_gate": {
+  "all_pass": false,
+  "checks": {
+   "fit_targets": {
+    "measured": 243,
+    "pass": true,
+    "threshold": 50
+   },
+   "internal_components": {
+    "measured": 25,
+    "pass": true,
+    "threshold": 10
+   },
+   "internal_same_panel_observations": {
+    "measured": 4589,
+    "pass": true,
+    "threshold": 300
+   },
+   "rich_exact_keys": {
+    "measured": 1001,
+    "pass": true,
+    "threshold": 30
+   },
+   "same_panel_fit_observations": {
+    "measured": 37945,
+    "pass": true,
+    "threshold": 2000
+   },
+   "top10_key_share": {
+    "cap": 0.2,
+    "measured": 0.004348398998550534,
+    "pass": true
+   },
+   "top1_component_share": {
+    "cap": 0.25,
+    "measured": 0.29629727236790093,
+    "pass": false
+   },
+   "top1_key_share": {
+    "cap": 0.05,
+    "measured": 0.0005007247331664251,
+    "pass": true
+   },
+   "top1_target_share": {
+    "cap": 0.25,
+    "measured": 0.29629727236790093,
+    "pass": false
+   },
+   "top5_component_share": {
+    "cap": 0.75,
+    "measured": 0.5116089076294636,
+    "pass": true
+   },
+   "top5_target_share": {
+    "cap": 0.75,
+    "measured": 0.4726314402424562,
+    "pass": true
+   }
+  },
+  "thresholds_inherited_from": "Stage U PREREGISTRATION.md section 2.5"
+ },
+ "v0b_evaluability": {
+  "evaluable_internal_surfaces": [
+   "internal_disjoint",
+   "internal_all"
+  ],
+  "min_rows": 100,
+  "primary_surface_internal_repeated_evaluable": false,
+  "rule_inherited_from": "Stage U PREREGISTRATION.md section 4.3 / gate 10"
+ },
+ "v1_gate": {
+  "fit": {
+   "MS_effect": 0.45168040420690786,
+   "MS_effect_interval": [
+    0.21044239373333654,
+    0.7509225460365229
+   ],
+   "components": 99,
+   "draws": 2000,
+   "identifiable": true,
+   "keys_with_ge2_targets": 4651,
+   "pass": false,
+   "ratio_MS_over_noise": 0.5266610817826894,
+   "sigma2_noise": 0.8576301151359423,
+   "sigma2_noise_interval": [
+    0.6864444020726695,
+    1.0271517292034198
+   ],
+   "target_effects_used": 12133,
+   "theta": -0.4059497109290345,
+   "theta_hi": -0.05765008579996625,
+   "theta_lo": -0.6889019571143238
+  },
+  "internal_descriptive_only": {
+   "MS_effect": 0.2609934352738628,
+   "MS_effect_interval": [
+    0.1846525851030335,
+    0.4620064396937331
+   ],
+   "components": 10,
+   "draws": 500,
+   "identifiable": true,
+   "keys_with_ge2_targets": 540,
+   "pass": false,
+   "ratio_MS_over_noise": 0.3043193454470672,
+   "sigma2_noise": 0.8576301151359423,
+   "sigma2_noise_interval": [
+    0.7035269565761407,
+    1.0445268099598315
+   ],
+   "target_effects_used": 1083,
+   "theta": -0.5966366798620795,
+   "theta_hi": -0.37316158827803175,
+   "theta_lo": -0.8174202232152107
+  },
+  "noise_reference": {
+   "disclosure": "supervision reliability on a small selected subset; NOT an MSE floor",
+   "groups": 99,
+   "sigma2_same_recomputed": 0.8576301151359423,
+   "source": "tools/research/stageT_mmp T0 provenance cache, L1 groups"
+  }
+ },
+ "verdict": {
+  "v0_pass": false,
+  "v0b_primary_surface_evaluable": false,
+  "v1_pass": false
+ }
+}

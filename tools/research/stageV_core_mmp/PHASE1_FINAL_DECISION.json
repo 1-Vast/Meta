@@ -1,0 +1,38 @@
+{
+ "artifacts": {
+  "metaval_census": "tools/research/stageV_core_mmp/METAVAL_STRUCTURE_CENSUS.json",
+  "pair_noise": "tools/research/stageV_core_mmp/PAIR_LEVEL_NOISE_AUDIT.json",
+  "stageS": "tools/research/stageS_sar_field/REPORT.md",
+  "stageT_correction": "tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md",
+  "stageU": "tools/research/stageU_mmp_interaction/REPORT.md",
+  "stageV": "tools/research/stageV_core_mmp/REPORT.md"
+ },
+ "conclusion": "The tested protein-conditioned interaction mechanisms are closed as NOT ESTIMABLE / negative on this corpus and protocol. This is a bounded answer: it does not prove that protein-conditioned local interaction is biologically impossible, and it does not extend to other datasets, other representations, or untested equivalence classes.",
+ "date": "2026-08-17",
+ "future_positive_would_require": [
+  "a corpus in which a complete core/context-matched transformation recurs across many protein components, or",
+  "a governed MSA/coevolution snapshot (currently absent) plus a new preregistered stage, or",
+  "a preregistered looser-but-principled transformation equivalence class with its own cancellation analysis; such a result alone could only be an identification screen, not the objective's strict positive gate."
+ ],
+ "question": "With protein sequence-derived features and ligand 2D features only, can a model learn a protein-conditioned local interaction signal that transfers to unseen protein components and aligns with affinity-difference / SAR ordering?",
+ "schema": "MetaSieve.Phase1.FinalDecision.v1",
+ "scope": "governed BindingDB-Ki double-cold v1, same-panel Ki supervision, single-cut core-inclusive MMP transformations, physical split view; meta_test sealed and never evaluated.",
+ "summary": [
+  "Stage S: whole-molecule pair global FiLM field failed controls (correct +0.0065 vs ligand-only; shuffled protein reproduced gain; large misaligned protein shift).",
+  "Stage P: centered objective made protein response reproducible but truth-unaligned (+0.022 alignment).",
+  "Stage T: core-blind MMP key + pooled protein discriminator rejected; forensic correction showed 40.4% of training D rows had disjoint cores, so its exact-cancellation claim and global closure were withdrawn.",
+  "Stage U: core-inclusive key frozen; U0 admission failed on degree concentration (one target/component 29.63% of primary observations).",
+  "Stage V: V0 degree-concentration fail; V0b primary repeated-key internal surface 32 rows/4 components (<100 evaluability floor); V1 interaction MS 0.452 vs preregistered noise 0.858, theta -0.406 [-0.704,-0.073].",
+  "Pair-level direct delta noise: 0.303 [0.200,0.427] disagreeing-only vs 0.858 cell-level; V1 cross-component theta +0.391 [-0.327,+0.368] unresolved. Interaction variance is not identifiable above the defensible noise envelope.",
+  "Meta-val structure-only census: 7,209 same-panel MMP observations / 2,757 potential D rows, but 0 exact keys shared with meta_train; repeated-key primary surface is unsuppliable on both development splits."
+ ],
+ "verdict": "BOUNDED_NEGATIVE_UNDER_CURRENT_BINDINGDB_KI_PROTOCOL",
+ "verification": {
+  "git_commit": "5bb373668969985ada9f1e208fc3fcfe886b3123",
+  "maintained_suite": "310 passed / 6 skipped",
+  "meta_test_evaluated": false,
+  "neural_models_trained_for_phase1_verdict": false,
+  "stage_tests_run_slow": "Stage V structural 31 passed; Stage U+V combined 55 passed",
+  "stage_v_preregistration_sha256": "c567f66066c301fefe293048a4643fe4f65158077c3540ce1bbb0beb5d5844d4"
+ }
+}

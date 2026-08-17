@@ -1,0 +1,165 @@
+{
+ "arm": {
+  "mode": "protein",
+  "name": "D_protein_shuffled",
+  "protein_source": "shuffled",
+  "shuffle_labels": false
+ },
+ "banks": {
+  "fit_components": 227,
+  "fit_unsampled": {
+   "effective_independent_units": 128,
+   "note": "rows sharing a component or a key are correlated; the binding constraint on power is the smaller of the two cluster counts",
+   "protein_components": 128,
+   "rows": 1985,
+   "transformation_keys": 1034
+  },
+  "internal_all": {
+   "effective_independent_units": 20,
+   "note": "rows sharing a component or a key are correlated; the binding constraint on power is the smaller of the two cluster counts",
+   "protein_components": 20,
+   "rows": 759,
+   "transformation_keys": 559
+  },
+  "internal_components": 31,
+  "internal_disjoint": {
+   "effective_independent_units": 14,
+   "note": "rows sharing a component or a key are correlated; the binding constraint on power is the smaller of the two cluster counts",
+   "protein_components": 14,
+   "rows": 489,
+   "transformation_keys": 478
+  },
+  "internal_repeated": {
+   "effective_independent_units": 17,
+   "note": "rows sharing a component or a key are correlated; the binding constraint on power is the smaller of the two cluster counts",
+   "protein_components": 17,
+   "rows": 270,
+   "transformation_keys": 81
+  },
+  "train": {
+   "effective_independent_units": 162,
+   "note": "rows sharing a component or a key are correlated; the binding constraint on power is the smaller of the two cluster counts",
+   "protein_components": 162,
+   "rows": 17866,
+   "transformation_keys": 4372
+  }
+ },
+ "device": {
+  "cuda_available": true,
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "note": "this discriminator is small enough to be CPU-feasible; the device is recorded, not required",
+  "torch": "2.6.0+cu124"
+ },
+ "elapsed_seconds": 22.594011783599854,
+ "history": [
+  {
+   "loss": 0.3459230363368988,
+   "lr": 0.0009999997258443472,
+   "step": 0
+  },
+  {
+   "loss": 0.1901940107345581,
+   "lr": 0.0009828271310201597,
+   "step": 250
+  },
+  {
+   "loss": 0.13138733804225922,
+   "lr": 0.0009327506651265095,
+   "step": 500
+  },
+  {
+   "loss": 0.08276096731424332,
+   "lr": 0.0008531829565587755,
+   "step": 750
+  },
+  {
+   "loss": 0.06464351713657379,
+   "lr": 0.0007495464131639914,
+   "step": 1000
+  },
+  {
+   "loss": 0.05960911512374878,
+   "lr": 0.0006289036941070287,
+   "step": 1250
+  },
+  {
+   "loss": 0.05581776797771454,
+   "lr": 0.0004994764013200984,
+   "step": 1500
+  },
+  {
+   "loss": 0.0438745841383934,
+   "lr": 0.000370084790917917,
+   "step": 1750
+  },
+  {
+   "loss": 0.04560243338346481,
+   "lr": 0.0002495466873196446,
+   "step": 2000
+  },
+  {
+   "loss": 0.06376467645168304,
+   "lr": 0.00014607656308686953,
+   "step": 2250
+  },
+  {
+   "loss": 0.04418559372425079,
+   "lr": 6.672573619359055e-05,
+   "step": 2500
+  },
+  {
+   "loss": 0.023732425644993782,
+   "lr": 1.690183435914265e-05,
+   "step": 2750
+  },
+  {
+   "loss": 0.034526050090789795,
+   "lr": 0.0,
+   "step": 2999
+  }
+ ],
+ "hyperparameters": {
+  "batch": 256,
+  "gradient_clip": 5.0,
+  "huber_beta": 1.0,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "parameters": {
+  "head": 33408,
+  "mode": "protein",
+  "protein_branch": 86144,
+  "total": 126721,
+  "transformation_branch": 7168
+ },
+ "schema": "MetaSieve.StageT.T2Arm.v1",
+ "seed": 20260820,
+ "selection": {
+  "disclosure": "no checkpoint selection of any kind; every arm trains the same fixed number of steps",
+  "internal_validation_read_during_training": false,
+  "leak_free": true,
+  "rule": "fixed_budget_final_checkpoint"
+ },
+ "steps": 3000
+}

@@ -1,0 +1,208 @@
+{
+ "census_comparison": {
+  "fit_same_panel": {
+   "requested_core_inclusive_key": {
+    "components": 187,
+    "keys": 30463,
+    "keys_with_ge2_targets": 4651,
+    "keys_with_ge3_targets_and_ge3_components": 1001,
+    "observations": 37945,
+    "observations_in_rich_keys": 3616,
+    "singleton_key_share": 0.8473229819781374,
+    "targets": 243,
+    "top_key_share": 0.0005007247331664251
+   },
+   "stage_t_core_blind_key": {
+    "components": 187,
+    "keys": 26695,
+    "keys_with_ge2_targets": 4621,
+    "keys_with_ge3_targets_and_ge3_components": 1112,
+    "observations": 37945,
+    "observations_in_rich_keys": 5676,
+    "singleton_key_share": 0.7857651245551601,
+    "targets": 243,
+    "top_key_share": 0.0021610225326129926
+   }
+  },
+  "internal_same_panel": {
+   "requested_core_inclusive_key": {
+    "components": 25,
+    "keys": 4046,
+    "keys_with_ge2_targets": 540,
+    "keys_with_ge3_targets_and_ge3_components": 0,
+    "observations": 4589,
+    "observations_in_rich_keys": 0,
+    "singleton_key_share": 0.8665348492338112,
+    "targets": 34,
+    "top_key_share": 0.0006537371976465461
+   },
+   "stage_t_core_blind_key": {
+    "components": 25,
+    "keys": 3402,
+    "keys_with_ge2_targets": 559,
+    "keys_with_ge3_targets_and_ge3_components": 21,
+    "observations": 4589,
+    "observations_in_rich_keys": 139,
+    "singleton_key_share": 0.7718988830099941,
+    "targets": 34,
+    "top_key_share": 0.005011985181956853
+   }
+  }
+ },
+ "cores_per_stage_t_key": {
+  "fit_same_panel": {
+   "cores_per_key": {
+    "max": 57.0,
+    "mean": 1.141150028095149,
+    "median": 1.0,
+    "n": 26695,
+    "p95": 2.0,
+    "sd": 1.036064783225084
+   },
+   "keys": 26695,
+   "keys_with_multiple_cores": 1848,
+   "keys_with_multiple_cores_fraction": 0.06922644690016858,
+   "observations": 37945,
+   "observations_under_a_multicore_key": 7130,
+   "observations_under_a_multicore_key_fraction": 0.18790354460403216
+  },
+  "internal_same_panel": {
+   "cores_per_key": {
+    "max": 22.0,
+    "mean": 1.1893004115226338,
+    "median": 1.0,
+    "n": 3402,
+    "p95": 2.0,
+    "sd": 0.8291390047885894
+   },
+   "keys": 3402,
+   "keys_with_multiple_cores": 290,
+   "keys_with_multiple_cores_fraction": 0.08524397413286303,
+   "observations": 4589,
+   "observations_under_a_multicore_key": 990,
+   "observations_under_a_multicore_key_fraction": 0.21573327522336022
+  }
+ },
+ "double_difference_availability": {
+  "fit_same_panel": {
+   "requested_core_inclusive_key": {
+    "components": 99,
+    "cross_component_rows": 8048,
+    "effective_independent_units": 99,
+    "keys": 4651,
+    "rows": 12740
+   },
+   "stage_t_core_blind_key": {
+    "components": 162,
+    "cross_component_rows": 15248,
+    "effective_independent_units": 162,
+    "keys": 4621,
+    "rows": 19851
+   }
+  },
+  "internal_same_panel": {
+   "requested_core_inclusive_key": {
+    "components": 10,
+    "cross_component_rows": 216,
+    "effective_independent_units": 10,
+    "keys": 540,
+    "rows": 546
+   },
+   "stage_t_core_blind_key": {
+    "components": 20,
+    "cross_component_rows": 416,
+    "effective_independent_units": 20,
+    "keys": 559,
+    "rows": 759
+   }
+  }
+ },
+ "double_difference_core_mismatch": {
+  "fit_same_panel": {
+   "double_difference_rows": 19851,
+   "fraction_with_disjoint_core_sets": 0.40350612059845853,
+   "keys_contributing_a_disjoint_row": 671,
+   "rows_with_disjoint_core_sets": 8010
+  },
+  "internal_same_panel": {
+   "double_difference_rows": 759,
+   "fraction_with_disjoint_core_sets": 0.2885375494071146,
+   "keys_contributing_a_disjoint_row": 57,
+   "rows_with_disjoint_core_sets": 219
+  }
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "purpose": "quantify the effect of Stage T's core-blind transformation key on the crossed double difference",
+ "requested_key_definition": "sha256(core_isomeric | attachment_context | R_a>>R_b)",
+ "schema": "MetaSieve.StageV.Stage0Forensics.v1",
+ "stage_t_artifacts_read_only": true,
+ "stage_t_key_definition": "f'{attachment_context}|{R_a}>>{R_b}'  (no core)",
+ "target_effects": {
+  "fit_same_panel": {
+   "cores_within_an_aggregated_effect": {
+    "max": 36.0,
+    "mean": 2.5818989450305385,
+    "median": 2.0,
+    "n": 1801,
+    "p95": 4.0,
+    "sd": 1.6845985188709565
+   },
+   "effects": 35096,
+   "effects_aggregating_multiple_cores": 1801,
+   "fraction": 0.05131638933211762
+  },
+  "internal_same_panel": {
+   "cores_within_an_aggregated_effect": {
+    "max": 8.0,
+    "mean": 3.003584229390681,
+    "median": 2.0,
+    "n": 279,
+    "p95": 6.0,
+    "sd": 1.3289748520751756
+   },
+   "effects": 4030,
+   "effects_aggregating_multiple_cores": 279,
+   "fraction": 0.06923076923076923
+  }
+ },
+ "within_target_core_effect": {
+  "definition": "for one target and one Stage T key realised on >= 2 cores, the spread of delta_y across cores. The protein is identical, so this is pure generic chemical context",
+  "interpretation": "this is the magnitude of the nuisance term that Stage T's D carried whenever two targets realised the same nominal edit on different cores; under the requested core-inclusive key it is exactly zero by construction",
+  "pairs": {
+   "max": 3.4011868003257026,
+   "mean": 0.4148912106686089,
+   "median": 0.26900984894236224,
+   "n": 7317,
+   "p95": 1.267705365766769,
+   "sd": 0.41981294374347355
+  },
+  "ranges": {
+   "max": 3.4011868003257026,
+   "mean": 0.5693766900215204,
+   "median": 0.45416450824042087,
+   "n": 2080,
+   "p95": 1.5486008262583002,
+   "sd": 0.5065758025423637
+  }
+ }
+}

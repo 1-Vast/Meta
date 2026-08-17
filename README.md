@@ -5,15 +5,17 @@ prediction on protein targets absent from training.
 
 ## Current state
 
-No model has yet met the governed excellence threshold. The retained development
-Pareto set is A0/B3/C2; fixed Morgan/Tanimoto residual weighting is the strongest
-k>=2 query-specific comparator. R14 closed the ranking-loss axis and localized
-the next question to representation identifiability.
+No model has yet met the governed excellence threshold. Fixed Morgan/Tanimoto
+residual weighting is the strongest reproducible k>=2 query-specific comparator,
+but it is ligand-only. Stage S rejected a global protein-conditioned SAR field:
+a shuffled protein reproduced the complete measured protein gain.
 
-The next authorized family is a protein-conditioned, low-rank SAR moment update,
-followed conditionally by correlation-preserving counterfactual meta-training.
-It is preregistered but not implemented. Ridge, closed-form adaptation, inner
-loops, test-time gradients and query-label inputs are excluded.
+Work now follows a five-phase gated programme. Stage T is the active Phase-1
+test of whether true matched molecular-pair transformations expose transferable,
+affinity-relevant protein conditioning. Relative SAR, level/shape training,
+few-shot adaptation and final confirmation remain blocked in that order.
+Ridge, closed-form adaptation, test-time query labels and ungoverned data mixing
+are excluded.
 
 The optional Cartesian module is tested algebraically but not a performance path:
 none of the 17,717 current DTA cells has a legal common-frame protein-ligand pose.
@@ -22,8 +24,8 @@ none of the 17,717 current DTA cells has a legal common-frame protein-ligand pos
 
 1. [Current task](task.md)
 2. [Current evidence](report/CURRENT_MODEL_EVIDENCE.md)
-3. [Measured boundary](report/BOUNDARY_20260816.md)
-4. [Next research plan](report/NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md)
+3. [Measured boundary](report/BOUNDARY_20260817_NIGHT.md)
+4. [Evidence ledger](report/EVIDENCE_LEDGER.md)
 5. [Repository organization](docs/PROJECT_FILE_ORGANIZATION.md)
 
 Historical details removed from the working tree remain recoverable through

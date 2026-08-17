@@ -1,0 +1,54 @@
+{
+ "disclosure": "post-hoc descriptive census; excluded from every gate; structure-only \u2014 no pK value is accessed or bound by this module (QPSMPData parses the development cells on construction)",
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "overlap": {
+  "exact_key_reuse_fraction": 0.0,
+  "exact_keys_shared_train_to_development": 0,
+  "potential_repeated_key_D_rows_in_development": 0
+ },
+ "reading": "the development-validation split carries 7,209 same-panel MMP observations and 2,757 potential D rows across 19 components, so it could serve a transformation-cold surface. It shares ZERO exact keys with meta_train (the double-cold split forbids shared ligand identities and scaffolds), so it cannot supply the repeated-key protein-cold surface either. The Stage V primary surface remains unsuppliable on both development splits.",
+ "schema": "MetaSieve.StageV.MetaValStructureCensus.v1",
+ "splits": {
+  "development_validation": {
+   "coarse_keys": 4968,
+   "components": 19,
+   "exact_keys": 4968,
+   "observations": 7209,
+   "potential_D_rows": 2757,
+   "potential_D_rows_cross_component": 501,
+   "rich_exact_keys": 115,
+   "targets": 41
+  },
+  "meta_train": {
+   "coarse_keys": 34011,
+   "components": 258,
+   "exact_keys": 34013,
+   "observations": 42534,
+   "potential_D_rows": 14273,
+   "potential_D_rows_cross_component": 9251,
+   "rich_exact_keys": 1008,
+   "targets": 346
+  }
+ },
+ "stage": "stageV_core_mmp"
+}

@@ -1,0 +1,108 @@
+{
+ "bank": {
+  "constructor": "QPSMPData.fixed_nested_episode_banks",
+  "draws": 1,
+  "query_size": 16,
+  "seed": 20260820,
+  "support_sizes": [
+   1,
+   2,
+   3,
+   5
+  ]
+ },
+ "coverage": {
+  "1": {
+   "C_k_coarse": 0.22601778193729527,
+   "C_k_exact": 0.22601778193729527,
+   "C_k_exact_component_equal_weight": 0.24194587356701525,
+   "by_novelty": {
+    "novelty_high": 0.21271143003587903,
+    "novelty_low": 0.40186915887850466,
+    "novelty_mid": 0.31645569620253167
+   },
+   "by_population": {
+    "fit": 0.20792616720955484,
+    "internal": 0.3389830508474576
+   },
+   "components": 185,
+   "queries_scored": 2137
+  },
+  "2": {
+   "C_k_coarse": 0.36172204024333177,
+   "C_k_exact": 0.36172204024333177,
+   "C_k_exact_component_equal_weight": 0.3881239806036624,
+   "by_novelty": {
+    "novelty_high": 0.3511019989748847,
+    "novelty_low": 0.5327102803738317,
+    "novelty_mid": 0.3924050632911392
+   },
+   "by_population": {
+    "fit": 0.3496199782844734,
+    "internal": 0.43728813559322033
+   },
+   "components": 185,
+   "queries_scored": 2137
+  },
+  "3": {
+   "C_k_coarse": 0.44174075807206364,
+   "C_k_exact": 0.44174075807206364,
+   "C_k_exact_component_equal_weight": 0.47304189805443403,
+   "by_novelty": {
+    "novelty_high": 0.4351614556637622,
+    "novelty_low": 0.5887850467289719,
+    "novelty_mid": 0.4050632911392405
+   },
+   "by_population": {
+    "fit": 0.43268186753528776,
+    "internal": 0.49830508474576274
+   },
+   "components": 185,
+   "queries_scored": 2137
+  },
+  "5": {
+   "C_k_coarse": 0.5259709873654657,
+   "C_k_exact": 0.5259709873654657,
+   "C_k_exact_component_equal_weight": 0.5642857369820269,
+   "by_novelty": {
+    "novelty_high": 0.5166581240389544,
+    "novelty_low": 0.5981308411214953,
+    "novelty_mid": 0.6582278481012658
+   },
+   "by_population": {
+    "fit": 0.512486427795874,
+    "internal": 0.6101694915254238
+   },
+   "components": 185,
+   "queries_scored": 2137
+  }
+ },
+ "definition": "C_k = P(at least one support-query pair forms a valid single-cut MMP), on the frozen nested episode banks",
+ "interpretation": {
+  "max_C_k": 0.5259709873654657,
+  "verdict": "MMP can serve as a reference-based inference mechanism for at most 52.6% of governed queries at k<=5. Below that share it is a TRAINING signal, not a universal deployment mechanism, and no artifact may present it as one."
+ },
+ "labels_read": false,
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "schema": "MetaSieve.StageT.T1Coverage.v1"
+}

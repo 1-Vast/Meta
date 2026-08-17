@@ -1,0 +1,116 @@
+{
+ "cross_component_D_scale": {
+  "null_variance_2sigma2_same": 1.7152602302718847,
+  "reading": "the observed cross-component D variance is compared to the null expectation 2*sigma2_same; a ratio near or below one is consistent with D being dominated by supervision noise",
+  "rows": 8048,
+  "sd": 1.1387983918852955,
+  "variance": 1.2968617773605349,
+  "variance_over_null": 0.756072900468852
+ },
+ "cross_component_interaction_ms_minus_noise": {
+  "MS_bootstrap": {
+   "draws": 1000,
+   "hi": 0.8981386073646073,
+   "lo": 0.35777190431364286,
+   "median": 0.6876881719068441,
+   "seed": 20260820,
+   "unit": "two-way: transformation keys x protein components"
+  },
+  "MS_effect": 0.6939146208039492,
+  "conservative_theta_hi": 0.04050849222866493,
+  "point_theta": -0.16371549433199317,
+  "reading": "the cross-component between-target MS is also below the supervision-noise reference, so the negative is not an artefact of same-component pairs; it is the population-level reading",
+  "sigma2_noise": 0.8576301151359423
+ },
+ "disclosure": "computed after the frozen V0/V1 gates had already fired; purely descriptive sensitivity analysis; excluded from every gate and cannot change the Stage V verdict",
+ "evaluation_surfaces": {
+  "internal_repeated_coarse_reference": {
+   "components": 4,
+   "keys": 30,
+   "note": "coarse key is NOT the strict core/context-matched estimand and can never substitute for it",
+   "rows": 32
+  },
+  "internal_repeated_exact": {
+   "components": 4,
+   "keys": 30,
+   "rows": 32
+  }
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "noise_reference_sigma2_same": 0.8576301151359423,
+ "schema": "MetaSieve.StageV.PosthocForensics.v1",
+ "sensitivity_degree_domination": {
+  "after_removing_top_target": {
+   "components": 186,
+   "exact_keys": 19220,
+   "observations": 26702,
+   "rich_exact_keys": 1001,
+   "targets": 242,
+   "top1_component_share": 0.09722118193393753,
+   "top1_target_share": 0.0731780390981949,
+   "top5_component_share": 0.3565276009287694,
+   "top5_target_share": 0.29230020223204256
+  },
+  "reading": "if the single dominating target is removed, the remaining fit bank still carries the same scientific reading: rich keys remain, and the interaction variance statistic is recomputed below on the reduced bank",
+  "top_component": "a04d9e0d7fa1cd056d8e542653b07026422d32fd5c6c712cd3cdf545530b0d0c",
+  "top_target": {
+   "count": 11243,
+   "share": 0.29629727236790093
+  }
+ },
+ "sensitivity_interaction_variance": {
+  "after_removing_top_target": {
+   "MS_effect": 0.45168040420690786,
+   "components": 99,
+   "effects": 12133,
+   "keys": 4651
+  },
+  "all_keys_ge2_targets": {
+   "MS_effect": 0.45168040420690786,
+   "components": 99,
+   "effects": 12133,
+   "keys": 4651
+  },
+  "cross_component_effects_only": {
+   "MS_effect": 0.6939146208039492,
+   "bootstrap": {
+    "draws": 1000,
+    "hi": 0.8981386073646073,
+    "lo": 0.35777190431364286,
+    "median": 0.6876881719068441,
+    "seed": 20260820,
+    "unit": "two-way: transformation keys x protein components"
+   },
+   "components": 91,
+   "effects": 6892,
+   "keys": 2616
+  },
+  "keys_with_distinct_components": {
+   "MS_effect": 0.6939146208039492,
+   "components": 91,
+   "effects": 6892,
+   "keys": 2616
+  }
+ },
+ "stage": "stageV_core_mmp"
+}

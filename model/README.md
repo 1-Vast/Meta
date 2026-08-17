@@ -17,5 +17,6 @@ Removed families include analytic/frozen operators, relative grammar, locality
 grammar and direct shape. Their scientific verdicts remain in the R-series report
 and Git history; they are not valid CLI choices.
 
-The next model family is not implemented yet. Its exact contract is in
-`report/NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md`.
+No research-stage family is admitted. The sequential admission contract is in
+`task.md`; experimental implementations remain under `tools/research/` until a
+phase passes its preregistered gates.

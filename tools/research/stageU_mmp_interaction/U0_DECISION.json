@@ -1,0 +1,111 @@
+{
+ "admission": {
+  "all_pass": false,
+  "checks": {
+   "fit_targets": {
+    "measured": 243,
+    "pass": true,
+    "threshold": 50
+   },
+   "internal_components": {
+    "measured": 25,
+    "pass": true,
+    "threshold": 10
+   },
+   "internal_observations": {
+    "measured": 4589,
+    "pass": true,
+    "threshold": 300
+   },
+   "keys_with_3_targets_and_3_components": {
+    "measured": 1001,
+    "pass": true,
+    "threshold": 30
+   },
+   "same_panel_fit_observations": {
+    "measured": 37945,
+    "pass": true,
+    "threshold": 2000
+   },
+   "top10_key_share": {
+    "measured": 0.004348398998550534,
+    "pass": true,
+    "threshold": 0.2
+   },
+   "top1_component_share": {
+    "measured": 0.29629727236790093,
+    "pass": false,
+    "threshold": 0.25
+   },
+   "top1_key_share": {
+    "measured": 0.0005007247331664251,
+    "pass": true,
+    "threshold": 0.05
+   },
+   "top1_target_share": {
+    "measured": 0.29629727236790093,
+    "pass": false,
+    "threshold": 0.25
+   },
+   "top5_component_share": {
+    "measured": 0.5116089076294636,
+    "pass": true,
+    "threshold": 0.75
+   },
+   "top5_target_share": {
+    "measured": 0.4726314402424562,
+    "pass": true,
+    "threshold": 0.75
+   }
+  },
+  "coarse_key_reference": {
+   "keys_with_3_targets_and_3_components": 1001,
+   "note": "reported for coverage only; a coarse-only pass does NOT admit U1/U2"
+  },
+  "granularity_for_thresholds": "exact key",
+  "thresholds_frozen_in": "PREREGISTRATION.md section 2.5"
+ },
+ "claim_boundary": "U0 failure is a statement about the sufficiency and balance of the transformation graph under the frozen thresholds. It is NOT evidence that protein x transformation interaction variance is absent, and it is NOT a biological falsification.",
+ "decision": "STOP_AT_U0_NEGATIVE",
+ "environment": {
+  "cuda_available": true,
+  "git_commit": "5bb373668969985ada9f1e208fc3fcfe886b3123",
+  "numpy": "1.26.4",
+  "python": "3.11.15",
+  "rdkit": "2023.09.6",
+  "scipy": "1.17.1",
+  "torch": "2.6.0+cu124"
+ },
+ "key_numbers": {
+  "coverage_k1": 0.22601778193729527,
+  "coverage_k2": 0.36172204024333177,
+  "coverage_k3": 0.44174075807206364,
+  "coverage_k5": 0.5259709873654657,
+  "exact_keys": 30463,
+  "exact_keys_ge3_targets_ge3_components": 1001,
+  "fit_targets": 243,
+  "incidence_condition_number": 336.8219930958013,
+  "incidence_numerical_rank": 215,
+  "incidence_stable_rank": 69.1047973871121,
+  "internal_components": 25,
+  "internal_same_panel_observations": 4589,
+  "largest_graph_component_share": 0.36618250504787336,
+  "same_panel_delta_variance": 0.8576301151359423,
+  "same_panel_fit_observations": 37945,
+  "top1_component_observation_share": 0.29629727236790093,
+  "top1_target_observation_share": 0.29629727236790093,
+  "top5_target_observation_share": 0.4726314402424562,
+  "top_key_observation_share": 0.0005007247331664251
+ },
+ "neural_models_trained": false,
+ "preregistration_sha256": "fdc0a830aa92882d07b9aea50f22a4c72fc6d93f92c55a3be6bc15cd6a645c11",
+ "reason": "The frozen U0 degree-concentration gate failed: one target and one protein component each account for 29.63% of same-panel fit MMP observations, above the frozen 25% cap. No threshold was moved; no U1 variance test and no U2 model were run.",
+ "schema": "MetaSieve.StageU.U0Decision.v1",
+ "stage": "stageU_mmp_interaction",
+ "tests": {
+  "stageU_tests": "22 passed (RUN_SLOW=1)"
+ },
+ "u0_admission_all_pass": false,
+ "u1_run": false,
+ "u2_run": false
+}

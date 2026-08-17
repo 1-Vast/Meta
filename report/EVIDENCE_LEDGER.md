@@ -1,7 +1,10 @@
 # Evidence ledger
 
-Compact authority after the 2026-08-16 cleanup. Deleted pre-R0 evidence is
-summarized in `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` and recoverable from Git.
+Compact evidence authority after the 2026-08-17 five-phase consolidation.
+Deleted pre-R0 evidence is summarized in
+`meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` and recoverable from Git. Active work is
+governed by `../task.md`; this file records evidence rather than authorizing a
+new model.
 
 Interpretation authority: `POST_COMPLETION_REVIEW_20260818.md`. Every verdict
 below is **BindingDB-Ki double-cold development evidence** about the arm that
@@ -31,7 +34,7 @@ in for.
 | A2 exact (R, L2) | `tools/research/a2_exact_probe/` | **A2 closed on its own operator and gates**: loses to parameter-free Tanimoto at every k with resolved intervals; its protein and label controls are **inert**, not inverted (the earlier "inverted" reading came from non-nested banks and is withdrawn). `embed` carries a signed-SAR direction, +0.212 +/- 0.011, but it is **negative on activity cliffs** (-0.118) and near zero on novel ligands |
 | Stage P | `tools/research/stageP_cpc/` | **P1 fails** (-0.0066 [-0.0545,+0.0417]). Correct and wrong protein give identical ordering at every k in both arms. The centered objective excluded the level branch as designed and made the protein response reproducible across seeds (+0.316) but unaligned with truth (+0.022). Objective-only protein conditioning is closed for this architecture and budget |
 | M0 | `meta_fewshot/stageM0_msa_probe_20260816/PREREGISTRATION.md` | Independent diagnostic, not run |
-| Next | `tools/research/a2_readiness_v2/PREREGISTRATION_V2.md` | Stage P: frozen, costed (~3.75 h), **not run**. The only untested protein-conditioning question. `NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md` is closed |
+| Active programme | `../task.md` | Five sequential gates: transferable protein interaction -> relative SAR -> level/shape ownership -> few-shot target state -> causal confirmation. Only Phase 1 is open |
 | Stage A/B | `tools/research/stageA_innerloop/`, `stageB_complementary/` | AdaMBind-inspired inner/outer-loop meta-adaptation NOT PROMISING then REJECTED; meta_val checkpoint selection measured at ~0.62 pK^2 (k=0); ligand representation collapse quantified |
 | Stage C | `tools/research/stageC_level_shape/` | level/shape decomposition: k=0 is 68% level; boundary measured, not trained |
 | Stage D0/D/E | `tools/research/stageD_level_panel/` | Five governing questions answered (D0_REPORT.md); panel-set level head + orthogonal routing REJECTED (G1/G2); attribution ablations complete; document-transfer R^2 +0.451 measured |
@@ -46,6 +49,10 @@ in for.
 | Stage N (audit) | `tools/research/stageN_audit/` | final boundary audit: all load-bearing numbers re-derive bitwise from raw rows; 104 seal artifacts audited, none evaluated; 7/7 stages preregistered |
 | Stage P0 | `tools/research/stageP_go/` | ProteinKG25 GO annotations (313/387 matched): level probe 2.27 vs 1.43 constant -> protein-function-annotation family falsified; external-representation ledger complete |
 | Stage Q | `tools/research/stageQ_frozenhead/` | decoupled frozen-feature level head: Q0 probe 1.3416 (best frozen predictor) but trained composition degrades k=0/2/3 ranking with resolved intervals -> the level/ranking conflict on one shared trunk was **reproduced across four tested compositions** (E, J, L, Q); not a universal property of single-stage training |
+| Stage S | `tools/research/stageS_sar_field/` | global protein-conditioned signed-SAR field REJECTED: protein minus ligand-only Pearson +0.0065 with unresolved interval, shuffled protein reproduces the gain, and the counterfactual arm passes by exploding hard-wrong MSE to 12.62. Ligand-only signed SAR remains a comparator |
+| Stage T | `tools/research/stageT_mmp/` | true-MMP crossed-double-difference test, **COMPLETE**. T0: 100% provenance recovery, hash-verified; same-panel difference variance ~0.858 pK^2 vs cross-panel ~1.221; technical-vs-condition split and single-measurement error recorded as **not identifiable**; not an MSE floor. T1 **PASSED** all five thresholds (1,112 exact keys over >=3 targets and >=3 components), so coverage does not explain the outcome; deployment C_k = 0.226/0.362/0.442/0.526 at k=1/2/3/5. T2 **FAILED 3/10**: a zero predictor beats protein conditioning 2.4x on MSE (0.660 vs 1.578), correct minus shuffled Pearson +0.0186 [-0.214, +0.251], substituting a shuffled protein **improves** the trained model (+0.149 vs +0.059), a label-shuffled arm generalises better (+0.184) with the real arm resolvedly worse on MSE, and both correct and permuted-protein arms memorise fit rows equally (0.912 vs 0.919). **SCOPE CORRECTED 2026-08-17** (`stageT_mmp/CORRECTION_20260817_CORE_KEY.md`): the `exact_key` omitted the shared core, so 40.4% of fit `D` rows and 28.9% of internal rows compared targets with **disjoint cores**, carrying an uncancelled generic residual of median 0.269 pK (p95 1.268) against a `D` truth sd of 0.804. The "cancels mu_tau exactly" claim is false for those rows and the **global closure claim is WITHDRAWN**. What stands: the coarsened-key pooled-protein discriminator is rejected, and the defect explains its own inverted controls. T0 unaffected; the 1,112-key figure must not be reused (core-inclusive count 1,001) |
+| Stage U | `tools/research/stageU_mmp_interaction/` | **STOPPED, superseded, no number used as evidence.** Preregistration frozen 17:12, four minutes after Stage T's gate metrics were read at 17:08 — an adaptive correction, not an independent confirmation. Chemistry was correct (core-inclusive key, core-consuming descriptor, interaction-variance gate, local region operator), but four load-bearing requirements were missing after metrics had been read: no residue-token permutation control, no capacity-matched random protein, a `fit_unsampled` bank retaining the same targets and keys (cannot detect target-key memorisation), and no identical-init / identical-minibatch-order rule. Preregistration not edited, thresholds not retrofitted. Audit: `stageV_core_mmp/STAGE_U_GOVERNANCE_AUDIT.md` |
+| Stage V | `tools/research/stageV_core_mmp/` | corrected core-inclusive Phase-1 test, **STOPPED BEFORE TRAINING; no model built**. Inherits every Stage U threshold verbatim and adds the four missing controls plus two repairs; nothing loosened. **V0**: five admission thresholds pass (37,945 fit obs, 243 targets, **1,001** core-inclusive rich keys, 4,589 internal obs, 25 internal components) but two concentration caps **FAIL** — one target, alone in its component, carries **29.63%** of fit observations vs a 25% cap. **V0b**: the designated primary surface (internal `D` rows with a key repeated in fit) has **32 rows / 4 components**, below the inherited 100-row evaluability rule, and **internal rich exact keys = 0**. **V1 interaction variance FAILS resolved**: `MS_effect` **0.4517** vs supervision noise 0.8576, `theta` **-0.4059 [-0.6889, -0.0577]**, ratio 0.527 (internal descriptive 0.2610, ratio 0.304). Scoped verdict: the requested estimand is **NOT ESTIMABLE** on this corpus — a statement about support, **not** biological absence. `MS_effect` bounds protein-attributable interaction variance at sd <= 0.67 pK before any noise subtraction; the noise reference is itself inflated by T0's non-identifiable technical-vs-condition split. 31 structural/leakage tests pass |
 | Boundary | `report/BOUNDARY_20260817_NIGHT.md` | no tested candidate reached k=0 <= 1.00 under the stated protocol and legal-input families; the target stays arithmetically possible (oracle level gives k=0 ~0.865); k=5 at 0.944-1.007 across seeds |
 | Method-ladder closure | `tools/research/method_ladder/CLOSURE_MAP.md` | eight named families mapped to their **actually implemented** successors: 0 direct, 3 partial, 5 proxy. OGM, Gradient Blending, Disentangled Gradient Learning, Set Transformer / attention MIL, DrugBAN and FS-CAP are **not falsified** — their defining operators were never instantiated |
 
@@ -83,3 +90,75 @@ These override any earlier phrasing wherever it survives:
    artifacts remain `process_unsealed` and `audit_research_record` exits
    non-zero while they do. See `GOVERNANCE_INCIDENT.md` and
    `SPLIT_ISOLATION_SPEC.md`.
+
+## Update 2026-08-17 (Stage V pair-level noise audit)
+
+`tools/research/stageV_core_mmp/PAIR_LEVEL_NOISE_AUDIT.json` (post-hoc,
+descriptive, excluded from every gate) measures the supervision of the
+estimand directly: only **88 / 42,534** same-panel MMP pairs have repeated
+shared-panel deltas, and **40 are zero-range curation duplicates**. Direct
+pair-level delta variance is **0.166 [0.098, 0.241]** all groups and
+**0.303 [0.200, 0.427]** disagreeing-only, versus the preregistered T0
+cell-level **0.858 [0.686, 1.040]**. Against the conservative disagreeing-only
+reference, V1 on cross-component keys is **+0.391 [-0.327, +0.368]** —
+unresolved; only the downward-biased all-group reference yields a positive
+lower bound. Recorded conclusion: interaction variance is **not identifiable
+above the defensible noise envelope**; this refines but does not overturn the
+frozen V1 failure.
+
+**Stage V meta-val structure census (post-hoc, descriptive).**
+`tools/research/stageV_core_mmp/METAVAL_STRUCTURE_CENSUS.json`: development
+validation has 7,209 same-panel MMP observations / 41 targets / 19 components /
+4,968 exact keys / 115 rich keys / 2,757 potential D rows, but **0 exact keys
+shared with meta_train** (double-cold ligand/scaffold closure), so it cannot
+supply the repeated-key protein-cold primary surface; it could only serve a
+transformation-cold surface.
+
+## Phase 1 final decision (2026-08-17)
+
+`tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md` +
+`PHASE1_FINAL_DECISION.json`: **BOUNDED NEGATIVE under the current
+BindingDB-Ki double-cold protocol.** Evidence chain: Stage S global FiLM
+rejected; Stage T core-blind pooled discriminator rejected with closure
+withdrawn; Stage U U0 degree-concentration fail; Stage V V0/V0b/V1 fail
+(primary repeated-key surface 32 rows/4 components, 0 internal rich keys,
+`theta = -0.406 [-0.704, -0.073]`); direct pair-level noise 0.303
+[0.200, 0.427] leaves cross-component V1 unresolved (+0.391 [-0.327, +0.368]);
+development-validation split shares 0 exact keys with meta_train. Closed =
+the tested mechanisms on this corpus/protocol; not biological impossibility;
+MSA/coevolution externally blocked, Davis/KIBA promotion-gated; meta_test
+evaluated 0; no neural model trained for the decision.
+
+## Remaining-lanes audit (2026-08-17)
+
+`tools/research/stageV_core_mmp/REMAINING_LANES_AUDIT.md/json`: with current
+local assets and standing governance no remaining legal route can turn the
+Phase 1 bounded negative into an admissible positive. MSA/coevolution blocked
+(no governed UniRef snapshot; largest local sequence JSON = 147 proteins); GO
+falsified (P0); pocket priors non-sequence-only and level-rejected (H0);
+Davis/KIBA promotion-gated, not run (R); meta_test sealed 0 evaluations;
+looser MMP classes unregistered and screen-only. Reopening requires an
+external governed MSA asset, a new corpus, or a governance change.
+
+**Stage V V1 synthetic calibration (post-hoc, descriptive).**
+`tools/research/stageV_core_mmp/V1_SYNTHETIC_CALIBRATION.json`: observed
+MS 0.4517 implies interaction sd 0.39 pK under pair-level disagreeing-only
+noise (0.303) and 0.53 pK under all-pair noise (0.166), assuming all excess is
+signal; the T0 noise null predicts 0.858. Consistent with the unresolved
+cross-component V1 interval; not detectable signal; gate remains failed.
+
+## Core task one completion statement (2026-08-17)
+
+`report/COMPLETION_STATEMENT_CORE_TASK1_20260817.md`: bounded-negative terminal
+reached for the tested protein-conditioned local-interaction mechanisms;
+evidence chain = measurement reliability, identifiability/support,
+interaction-variance, predecessor closures, remaining-lanes audit; controls and
+governance verified; no further internal experiments until external assets or a
+governance change. Goal tool unavailable; `tools/research/GOAL_ACTIVE.md` is
+the authority.
+
+## Completion evidence manifest (round 11)
+
+`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json`: 15 completion artifacts
+exist and SHA-256 hashes recorded; verification counts frozen. Goal status
+COMPLETE (bounded-negative branch) in `tools/research/GOAL_ACTIVE.md`.

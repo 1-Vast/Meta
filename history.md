@@ -1,5 +1,28 @@
 # MetaSieve research history
 
+## Active five-phase programme consolidation (2026-08-17)
+
+`task.md` was reduced from a chronological stage dump to the single active
+contract. Historical results remain here, in `report/EVIDENCE_LEDGER.md`, and in
+their frozen leaf artifacts. The active dependency chain is now explicit:
+transferable protein-conditioned interaction signal -> protein-conditioned
+relative SAR -> level/shape ownership -> few-shot target-state identification ->
+factorial attribution and independent replication.
+
+Stage T (`tools/research/stageT_mmp/`) is registered as the in-progress Phase-1
+test. Its frozen true-MMP protocol addresses Stage S's global-field failure by
+using crossed transformation differences that cancel target level and generic
+chemical effect. T0 reliability and T1 census/coverage exist, but there is no
+promotion decision until the trained controls and report complete. Phases 2-5
+remain blocked.
+
+The original five-phase proposal's naive correct-vs-wrong protein training
+margin was not adopted: Stage S demonstrated a degenerate solution that passed
+by exploding the wrong branch. Wrong/shuffled proteins remain mandatory matched
+controls; such a training loss requires its own non-degeneracy proof. Historical
+A2 plan/handoff files remain because tests and exact operator definitions cite
+them, but they are explicitly non-authoritative.
+
 This is the chronological evidence record after the 2026-08-16 cleanup. Read
 the executive state below before the chronology: older sections preserve the
 rule and interpretation that governed each experiment and may be superseded.
@@ -24,9 +47,12 @@ recoverable from Git commit `361c342`; deleted implementations are indexed in
   representation collapse before the readout, and repeated level/ranking
   gradient conflict. Output adapters usually became level shifts or were inert.
 - The old trainer's meta-val checkpoint selection created about 0.62 pK^2 of
-  optimistic k=0 development performance. New experiments must select only on
-  a meta-train internal component split. Meta-test has zero recorded
-  evaluations but was logically excluded after parsing, not physically sealed.
+  optimistic k=0 development performance. Commit `5bb3736` promotes the
+  meta-train internal component split as the maintained default. Historical
+  artifacts retain that optimism and are not directly comparable with new runs.
+- Historical meta-test handling has zero recorded evaluations but used logical
+  exclusion after parsing. Commit `5bb3736` adds a separately hashed, physically
+  isolated split-view surface for future runs; the seal is not retroactive.
 - Inner/outer loops are now permitted. Ridge, pseudoinverse and other
   closed-form adaptation remain prohibited. The partial inner loop was weak and
   unresolved; its AdaMBind-inspired task selector was rejected because it
@@ -34,6 +60,19 @@ recoverable from Git commit `361c342`; deleted implementations are indexed in
 - Direct implementations were not run for every named method in the method
   ladder. Proxy negatives must not be described as universal falsifications of
   OGM, Set Transformer, DrugBAN, FS-CAP or related methods.
+- **Stage S (2026-08-17) closed the pairwise protein-conditioned SAR-field
+  family.** A conservative potential-difference field with exact antisymmetry,
+  identity and cycle consistency was trained on signed within-target dpK. The
+  protein arm beat the ligand-only arm by +0.0065 Pearson [-0.0761, +0.0865] and
+  a **shuffled-protein control reproduced the whole difference**. The protein
+  path was not inert: it moved the prediction by 62% of the label spread with
+  +0.093 alignment to truth, and it bought +0.109 Pearson in-distribution
+  whether the protein identity was correct or permuted -- it was learned as a
+  target key. The ligand-only arm is the surviving positive (Pearson +0.160 out
+  of component, +0.400 on the most novel tercile), independently reproducing
+  Stage L2's protein-independent directional signal by end-to-end training.
+  A resolved wrong-protein degradation is **not** on its own evidence of
+  transferable protein information; pair it with a shuffled-protein arm.
 - The highest-potential untested family is a new sequence/2D interaction basis,
   not another endpoint adapter: PSICHIC/DrugBAN-inspired functional-group to
   protein-region interaction tokens, coupled to a training innovation that
@@ -42,6 +81,10 @@ recoverable from Git commit `361c342`; deleted implementations are indexed in
 - Interpretation authority is `report/POST_COMPLETION_REVIEW_20260818.md`;
   numerical boundary is `report/BOUNDARY_20260817_NIGHT.md`; leaf evidence is
   indexed by `report/EVIDENCE_LEDGER.md`.
+- The repaired filesystem audit agrees on 11 retained trained stages. Verified
+  suites at the repair commit: maintained 310 passed/6 skipped; complete
+  research 255 passed/2 skipped. Stage I preregistration file times remain a
+  disclosed weak-evidence ordering concern, not a hidden or resolved verdict.
 
 ## Governing task
 
@@ -1160,3 +1203,405 @@ were subsets, never the complete suite.
 **Repository hygiene.** 98 Python bytecode caches were tracked because
 `!tools/**` re-admitted them; they are re-excluded and removed from the index,
 with the files left on disk. No historical evidence was deleted.
+
+---
+
+# 2026-08-17 — Stage S: cross-target protein-conditioned SAR field REJECTED
+
+`tools/research/stageS_sar_field/`. Preregistration frozen after Phase 0 and
+Phase 1 and before any arm trained (SHA-256 recorded inside `RESULT.json`).
+First stage in the record to run on the **physical split view** with **no
+checkpoint selection of any kind** — every arm trains a fixed 4,000 steps and
+the final parameters are evaluated, because the reporting population is the
+withheld internal-validation components and the development-validation split is
+not read at any point.
+
+## The construction and what it guaranteed
+
+`dy_hat(P,a,b) = V(P,L_b) - V(P,L_a)` with a protein-free ligand coordinate
+`phi(L)`, protein response coefficients `alpha(P)` and a FiLM-modulated
+nonlinear potential. Being the difference of a scalar potential makes it a
+curl-free field, so antisymmetry and identity are **bitwise exact** in IEEE-754
+and cycle consistency closes at `< 1e-12` in float64 — for every parameter
+setting, before and after training. The rejected `e^T H e` term is absent
+structurally (the potential is a function of one coordinate and never receives a
+difference); protein conditioning happens exactly once. 24 structural tests,
+including a cross-process bank-stability check under three `PYTHONHASHSEED`
+values.
+
+## Phase 0
+
+138,695 within-target fit pairs (42,195 same-panel) and 13,279
+internal-validation pairs (6,775 same-panel) over the frozen 227/31 component
+partition. Same-panel `|dpK|` averages 0.943 against cross-panel 1.286, so
+cross-panel differences were **excluded from the training loss** and reported as
+their own stratum. Pairs per target run median 36 / max 26,335, which is why all
+banks are target- and stratum-balanced. Disclosure carried by every number: the
+internal partition is protein-hard but **not ligand-cold** (28.7% shared ligand
+identity, 51.4% shared scaffold), so absolute values are not comparable with the
+double-cold protocol.
+
+## Verdict: 1 of 6 gates for the protein arm, 0 of 6 for the counterfactual arm
+
+Five matched arms, seed 20260819. On the internal same-panel bank
+(4,270 pairs / 42 targets / 29 components), Pearson: ligand-only **0.1599**,
+protein **0.1664**, protein+counterfactual 0.0739, **shuffled protein 0.1684**,
+shuffled labels −0.0355.
+
+- **G1 fails**: protein minus ligand-only is **+0.0065 [−0.0761, +0.0865]**,
+  eight times below the +0.05 threshold and unresolved.
+- **G4 fails decisively**: the **shuffled-protein arm reproduces the entire
+  gain** (+0.0085 against the candidate's +0.0065) on identical rows.
+- G2, G3, G5 fail; G6 (cliffs) is the only pass. Stop rules S1 and S2 fire.
+
+## The failure mechanism is loud-and-misaligned, not inert
+
+Unlike the A2 exact operator (0.0028 pK of query-specific content), the protein
+path here is fully alive: swapping the protein moves the prediction by
+**0.7044 pK, 62% of the 1.1288 pK label spread**, while its alignment with the
+signed truth is **+0.093** and with the ligand-only residual **−0.051**. The
+ligand-only arm's constant response is genuinely constant (spread 3.6e-08,
+pairwise cosine 1.000), so the contrast is clean. This is Stage P's failure mode
+reproduced in a different function class — a conservative potential field
+trained directly on signed pair differences with the level term algebraically
+removed.
+
+**What the protein encoder actually learned is a target key.** On a
+training-health bank of unsampled fit pairs (same targets, unseen pairs,
+diagnostic only), the protein input buys **+0.109 Pearson in-distribution**
+(0.8282 vs 0.7190) and **+0.0065 out of component** — and a protein permuted
+across components buys the same +0.108 (0.8205). A permuted protein is still a
+unique per-target vector, so the potential used the key, not the biology.
+
+This also explains the one contrast that resolves in the protein arm's favour:
+correct minus hard-wrong equal-component MSE **−0.4123 [−0.8708, −0.0104]**. The
+hard-wrong donor comes from the *fit* components and injects a strongly fitted
+foreign response, while the correct unseen protein behaves closer to a mean.
+**A resolved wrong-protein degradation is therefore not by itself evidence of
+transferable protein information**, and any future wrong-protein control in this
+repository should be paired with a shuffled-protein arm before being read as
+one.
+
+## The counterfactual loss found the degenerate solution
+
+Arm C satisfied "correct must beat hard-wrong" by inflating the wrong branch:
+hard-wrong MSE **12.6204** against its own correct 4.0894, a correct-vs-wrong
+equal-component gap of **−22.93 [−50.82, −3.17] resolved**, and protein-induced
+spread at **176% of the label spread** with alignment still +0.059. The
+preregistered 0.25 pK² hinge bounded the reward but not the direction. Cost on
+the real task: same-panel MSE **+1.8353 [+0.3116, +4.5365]** and, on the
+high-novelty stratum, Pearson **−0.2407**, Spearman −0.1683, CI −0.0619, sign
+−0.0666, all resolved.
+
+## What survives
+
+The **ligand-only** arm is the positive result: a signed-difference potential
+field trained end to end transfers to unseen protein components at Pearson
++0.1599, Spearman +0.1633, sign accuracy 0.5648, and **+0.4003 Pearson on the
+most chemically novel tercile** — where it is the best arm of the five. That is
+consistent with, and independent of, Stage L2's frozen-probe finding of a
+**protein-independent** directional SAR signal, now reached by end-to-end
+training of a different function class. It is a ligand-side result and is not
+protein-conditioned meta-learning.
+
+The conditional geometry lane (offline RDKit conformer ensembles, a
+ligand-intrinsic O(3) encoder, then a low-capacity few-shot field adapter) was
+gated on a pass and is **not authorized**; no part of it was designed or run.
+Nothing promoted; `model/` and `scripts/` unmodified; `meta_test` never mounted
+(physically isolated view, 0 evaluations); the development-validation split was
+not read at any point, enforced by a parsed-AST test that fails the suite if its
+name appears as a string constant in the stage. Maintained suite re-verified:
+310 passed / 6 skipped.
+
+---
+
+# 2026-08-17 — Stage T: true-MMP transformation space closes the family
+
+`tools/research/stageT_mmp/`. Preregistration frozen after T0's provenance
+counts and before any census statistic or trained-arm metric. Three sub-stages;
+29 structural tests; the physical split view throughout.
+
+## T0 — measurement reliability, and what is not identifiable
+
+Both pre-aggregation artifacts were located and **hash-verified against the
+corpus manifest** (`exact_labels.jsonl.gz` = `labels_sha256`,
+`metadata_projection.jsonl.gz` = `projection_sha256`); **100% of `meta_train`
+source rows recovered**. The corpus rule is within-panel median, then
+equal-panel median across panels.
+
+Same-panel repeats disagree by a median range of **1.019 pK** (98 disagreeing
+groups, p95 2.11, max 3.06). Across panels the median range is 0.429 but
+**59.4% of apparent cross-panel repeats have exactly zero range** — one physical
+measurement curated under two DOIs — so the pooled figure is duplication-
+deflated. Under the actual aggregation rule the difference-label variance is
+about **0.858 pK^2 same-panel** against **1.221 pK^2 cross-panel**, which is why
+cross-panel is the weak stratum and never pooled.
+
+Three things are recorded as **not identifiable** rather than estimated: the
+technical-versus-condition split (the assay protocol hash never splits a
+`meta_train` panel, so L2 has zero groups); the error of the 96% of cells with a
+single source row; and the raw disagreement rate, since the corpus dropped 333
+conflicting ligands at admission, making every figure here a lower bound. **None
+of this is a universal MSE floor and it is not reported as one.**
+
+## T1 — the transformation graph IS identifiable
+
+Built with `rdkit.Chem.rdMMPA.FragmentMol` (Hussain-Rea, single cut), explicit
+core/attachment context, retained stereochemistry, recorded charge change, and a
+canonical direction that is a function of structure alone. **All five frozen
+admission thresholds pass by wide margins**: 37,945 same-panel fit observations
+(threshold 2,000), 243 fit targets (50), **1,112 exact transformation keys
+spanning >=3 targets and >=3 components (30)**, 5,035 internal observations
+(300), 25 internal components (10). Degree concentration is healthy (top key
+0.2%), the evidence graph is well connected (largest component 97.6%), and the
+double-difference sets are 19,851 fit pairs and 759 internal pairs over 20
+components.
+
+**This matters independently of the verdict: "not enough MMP data" is excluded
+as an explanation for what follows.** Two dimensions are nonetheless
+**unmeasured**: stereo edits (1 fit, 0 internal) and charge-changing edits (326
+fit, 2 internal).
+
+Deployment coverage `C_k` = 0.226 / 0.362 / 0.442 / **0.526** at k=1/2/3/5, so
+MMP is a training signal and a partial inference mechanism, never a universal
+reference-based one.
+
+## T2 — the gate fails, 3 of 10, and the controls invert
+
+The estimand is the crossed double difference
+`D(tau,t1,t2) = delta_y(t1,tau) - delta_y(t2,tau)`, which cancels the target
+level **and** the generic effect `mu_tau` exactly — removing all three shortcuts
+that explained every earlier apparent positive here. Six matched arms, one seed,
+shared batch sequence, no checkpoint selection, 126,721 parameters each.
+
+**The estimand verified itself**: the zero arm and the transformation-only arm
+produce bitwise identical predictions and identical training loss, because a
+protein-free model is structurally incapable of expressing `D`.
+
+Decisive measurements on the withheld internal components (759 rows, 20
+components, effective independent units 20):
+
+- **predicting `D = 0` scores MSE 0.6603 against the protein-conditioned arm's
+  1.5775** — the trivial null is 2.4x more accurate than protein conditioning;
+- correct minus shuffled protein Pearson **+0.0186 [-0.2142, +0.2512]**;
+- substituting a **shuffled** protein into the trained model **improves** it:
+  Pearson +0.1490 against +0.0588 correct, on identical rows. The falsification
+  control is inverted, the A2 signature;
+- an arm trained on labels permuted **inside each transformation key**
+  generalises **better** (+0.1836), and the real arm is **resolvedly worse** on
+  MSE (+0.7770 [+0.2714, +1.3543]) and MAE (+0.2838 [+0.1267, +0.4620]);
+- both the correct and the cross-component-permuted protein arms memorise the
+  fit double differences equally — Pearson **0.9121 vs 0.9192** in distribution,
+  collapsing to 0.0588 vs 0.0402 out of component. The protein vector is a
+  per-target key and a permuted key serves marginally better;
+- removing a single protein component moves the whole effect by **4.66x** its
+  own magnitude;
+- the protein-induced shift has sd 1.025 against a truth sd of 0.804 (**127%**)
+  with alignment +0.139 — loud and uninformative, the Stage P and Stage S
+  signature now reproduced in a third function class.
+
+Two engineering defects were found and fixed **before** any arm trained, both of
+which would have manufactured a false negative: `rdMMPA.FragmentMol` mis-binds
+four positional integers and segfaults when fully named, and returning an RDKit
+`Atom` from a helper outlives its parent `Mol` and crashes on the next attribute
+read. Both are pinned by tests. One methodological repair was made after
+training and **before** reading any evaluation metric and is disclosed: the
+per-arm batch seed included the arm name, so arms drew different rows; it was
+changed to a shared sequence and all six arms retrained.
+
+## Consequence
+
+**Protein-conditioned SAR latent space is formally closed under the current
+BindingDB protocol.** It is not reopened by DrugBAN, PSICHIC-style attention,
+Cartesian tensors, conformers, MSA, more capacity, more seeds, meta-learning or
+threshold changes. The conditional next stage (edit tokens querying residue-level
+protein regions) was gated on a pass and is not authorized; no part of it was
+designed or run. Nothing promoted; `model/` and `scripts/` unmodified;
+`meta_test` never mounted; the development-validation split not read.
+
+Surviving, and neither of them protein-conditioned: the MMP transformation graph
+is identifiable on this corpus, and the generic transformation effect `mu_tau`
+is the whole of the measured signal. Suites re-verified: stage 29 passed,
+maintained 310 passed / 6 skipped.
+
+---
+
+# 2026-08-17 — Stage U: core-inclusive MMP interaction attempt stops at U0
+
+`tools/research/stageU_mmp_interaction/`. A corrected estimand attempt after the
+Stage T core-key correction: `tau = (shared core, R_a -> R_b, attachment
+environment, stereochemistry, charge change)` with a core-inclusive SHA-256
+exact key and the crossed double difference
+`D(tau,t1,t2) = delta_y(t1,tau) - delta_y(t2,tau)`. Preregistration frozen
+before any Stage U statistic (SHA-256
+`fdc0a830aa92882d07b9aea50f22a4c72fc6d93f92c55a3be6bc15cd6a645c11`).
+
+## U0 reliability
+
+Both provenance artifacts hash-match the corpus manifest; 5,983/5,983 (100%)
+`meta_train` source rows recovered. Same-panel delta-pK reliability is
+**0.858 pK²** (bootstrap 95% CI [0.688, 1.040]) against **1.221 pK²**
+cross-panel; L2 remains non-identifiable. These are supervision-reliability
+estimates on a selected repeated-measure subset and **not** an MSE floor.
+
+## U0 census and admission: FAIL
+
+Primary same-panel fit bank: **37,945 observations / 243 targets / 187
+components / 30,463 exact keys**, with **1,001** exact keys spanning >=3
+targets and >=3 components. Internal same-panel: 4,589 observations / 34
+targets / 25 components. Incidence stable rank 69.1 (numerical rank 215,
+condition 336.8); largest bipartite connected component 36.6%; exact-key reuse
+fit->internal 11.53%; deployment coverage C_k = 0.226/0.362/0.442/0.526 at
+k=1/2/3/5.
+
+The frozen admission gate fails on degree concentration: one target (in a
+one-target CD-HIT40 component) contributes **11,243 / 37,945 (29.63%)** of
+same-panel fit observations, above the frozen 25% cap; the same target and
+component are the two failing checks of the eleven-check gate. Per the frozen
+stop rule U1 was not run and no neural model was trained. The result is a
+**negative admission decision about graph balance/sufficiency, not evidence
+about biological absence of interaction signal**.
+
+A governance audit in `tools/research/stageV_core_mmp/` records that Stage U
+was an adaptive correction of Stage T and supersedes it with a corrected
+preregistration; Stage U's frozen artifacts are retained read-only.
+
+
+---
+
+# 2026-08-17 — Stage V: core-inclusive MMP × local protein-region route closed at V0/V1
+
+`tools/research/stageV_core_mmp/`. Supersedes Stage U with a corrected
+preregistration (SHA-256
+`c567f66066c301fefe293048a4643fe4f65158077c3540ce1bbb0beb5d5844d4`) that
+inherits every Stage U threshold verbatim and adds residue-permutation and
+capacity-matched random-protein controls, a nested zero predictor, identical
+init/batch discipline and a fit-target-held-out shortcut bank.
+
+**V0 fails.** The primary same-panel fit bank has 37,945 observations / 243
+targets / 187 components / 30,463 exact keys, with 1,001 rich keys; but one
+target in a one-target CD-HIT40 component contributes **29.63%** of all primary
+observations, above the frozen 25% cap.
+
+**V0b fails.** The primary `internal_repeated` surface (same complete
+core-inclusive transformation repeated across fit and internal components) has
+**32 rows / 4 components / EIU 4**, below the frozen 100-row evaluability
+floor. `internal_disjoint` has 514 rows / 7 components.
+
+**V1 is a resolved negative.** On fit, pooled between-target MS within one
+complete transformation is **0.452 pK²** against supervision noise
+**0.858 pK²**; `theta = -0.406 [-0.689, -0.058]`, the entire clustered
+bootstrap interval below zero. There is no identifiable target × transformation
+interaction variance above supervision noise for a protein model to explain,
+and no larger network is a rescue.
+
+**Post-hoc sensitivity (gates already fired, descriptive only).** The dominant
+target contributes only singleton-key effects, so removing it changes the V1
+statistic not at all (MS 0.452) while degree concentration drops to 7.3% /
+9.7%; restricting to keys spanning distinct components gives MS 0.694
+[0.358, 0.898], still below the 0.858 noise reference in point estimate;
+cross-component D variance is 1.297 pK² against the 1.715 pK² null. The
+negative is not an artefact of the dominating target or of same-component
+pairs.
+
+**Decision.** No V2 operator or arm was implemented or trained; no threshold
+was moved. The specific core-inclusive exact-MMP protein × transformation route
+is closed on the current BindingDB-Ki protocol. The claim is bounded: it is not
+evidence of absence for other representations, other datasets or other
+mechanisms. Stage S/T/U artifacts are retained unmodified.
+
+**Framing correction (independent re-verification of the sensitivity run).**
+The precise reading is **not estimable**, not "no interaction exists". Two
+verified points: the dominant target contributes only singleton keys, so
+removing it leaves `MS_effect` at 0.4517 exactly while top-1 share falls to
+7.32% — the V0 concentration failure and the V1 negative are independent. But
+on the subset that actually bears on a protein-cold question, keys spanning
+**>=2 distinct protein components**, `theta` is **-0.164 [-0.509, +0.122]** —
+negative in point estimate and **unresolved**. The strong resolved-negative
+holds on the pooled fit set, which is partly carried by within-component key
+repetitions, the least informative rows for this question. `MS_effect` there is
+0.694, bounding protein-attributable interaction variance at sd <= 0.83 pK
+before any noise subtraction, and the noise reference is itself inflated by
+T0's non-identifiable technical-versus-condition split. Authority for the
+scoped wording: `tools/research/stageV_core_mmp/REPORT.md`.
+
+
+**Pair-level noise audit (post-hoc, descriptive).** `tools/research/stageV_core_mmp/PAIR_LEVEL_NOISE_AUDIT.json`: only 88/42,534 same-panel MMP pairs have repeated shared-panel deltas, 40 are zero-range curation duplicates. Disagreeing-only pair delta variance is **0.303 [0.200, 0.427]** vs the preregistered T0 **0.858 [0.686, 1.040]**. Against that lower reference, V1 on cross-component keys is **+0.391 [-0.327, +0.368]** — unresolved; only the downward-biased all-group reference (0.166) yields a positive lower bound (+0.014). Conclusion recorded: interaction variance is **not identifiable above the defensible noise envelope**; this refines but does not overturn the frozen V1 failure.
+
+**Meta-val structure-only census (post-hoc, descriptive).**
+`tools/research/stageV_core_mmp/METAVAL_STRUCTURE_CENSUS.json`: the
+development-validation split carries 7,209 same-panel MMP observations / 41
+targets / 19 components / 4,968 exact keys / 115 rich keys / 2,757 potential
+D rows, but its exact-key overlap with `meta_train` is **0** — the double-cold
+split forbids shared ligand identities and scaffolds. It could only serve a
+transformation-cold surface, not the repeated-key protein-cold primary
+surface. The primary surface is unsuppliable on both development splits.
+
+---
+
+# 2026-08-17 — Phase 1 final decision: bounded negative under current protocol
+
+Authorities: `tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md` and
+`PHASE1_FINAL_DECISION.json`. The tested mechanisms are closed in dependency
+order: Stage S (whole-molecule global FiLM), Stage P (centered
+correct-vs-wrong objective), Stage T (core-blind MMP pooled discriminator,
+global closure withdrawn), Stage U (U0 degree-concentration fail) and Stage V
+(core-inclusive exact-MMP: primary repeated-key surface 32 rows/4 components,
+0 exact keys shared with the development-validation split, interaction variance
+not identifiable above the defensible noise envelope). Pair-level direct delta
+noise 0.303 [0.200, 0.427] vs preregistered 0.858; V1 cross-component remains
+unresolved (+0.391 [-0.327, +0.368]). Verdict: **BOUNDED NEGATIVE under the
+current BindingDB-Ki double-cold protocol** — a statement about estimability
+and measured controls, not biological impossibility. MSA/coevolution remains
+externally blocked (no governed UniRef snapshot); Davis/KIBA remain
+promotion-gated. No neural model was trained for this decision; meta_test
+evaluated 0.
+
+**Remaining-lanes audit (2026-08-17).**
+`tools/research/stageV_core_mmp/REMAINING_LANES_AUDIT.md/json` verifies that no
+legal local route can change the Phase 1 bounded negative into an admissible
+positive: MSA/coevolution blocked (no governed UniRef snapshot; largest local
+sequence JSON 147 proteins), GO annotations falsified (Stage P0), pocket priors
+non-sequence-only and level-rejected (Stage H0), Davis/KIBA promotion-gated and
+not run (Stage R), meta_test sealed with 0 evaluations, and looser MMP classes
+unregistered and screen-only by rule. The negative branch is therefore
+complete; reopening requires an external governed MSA asset, a new corpus, or a
+governance change.
+
+**V1 synthetic calibration (post-hoc, descriptive).**
+`tools/research/stageV_core_mmp/V1_SYNTHETIC_CALIBRATION.json`: exact
+chi-square null on the real graph (df 7,482). Observed MS 0.4517 is far below
+the T0-noise null mean 0.858, and under the direct pair-level references would
+imply an interaction sd of 0.39 pK (disagreeing-only) to 0.53 pK (all repeated
+pairs) **if all excess were signal**. This quantifies the latent effect
+consistent with the unresolved cross-component interval; it is not detectable
+signal and cannot reopen the frozen gate.
+
+---
+
+# 2026-08-17 — Core task one completion statement (bounded negative branch)
+
+`report/COMPLETION_STATEMENT_CORE_TASK1_20260817.md` is the completion evidence
+for the current objective's negative terminal: the Stage S/P/T/U/V mechanism
+chain is closed as not estimable / negative under the current BindingDB-Ki
+double-cold protocol, with all required measurement, identifiability and
+control evidence recorded. Goal-tool unavailable; `tools/research/GOAL_ACTIVE.md`
+records the complete-on-negative-branch state. No further internal experiments
+are started until an external governed MSA/coevolution asset, a new corpus, or
+a governance change appears.
+
+## Goal status mark (round 10)
+
+`tools/research/GOAL_ACTIVE.md` now records the persistent goal state as
+**COMPLETE (bounded-negative branch)**: terminal condition "honestly close the
+tested mechanisms" achieved and verified. This does not claim biological
+impossibility; any future governed MSA/coevolution asset, new corpus or
+governance change opens a new preregistered cycle, not a continuation of the
+closed Stage U/V route.
+
+## Completion evidence manifest (round 11)
+
+`report/COMPLETION_EVIDENCE_MANIFEST_CORE_TASK1.json` hashes and verifies all 15
+completion artifacts for the bounded-negative branch (all exist), and freezes
+the verification counts: maintained 310/6, research slow 58, fast 53/5,
+meta_test 0 evaluations. Goal status remains COMPLETE in GOAL_ACTIVE.md.

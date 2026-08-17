@@ -1,0 +1,275 @@
+{
+ "aggregation_rule_actually_used": {
+  "cross_panel_pair_aggregation": "equal-panel median",
+  "endpoint": "exact positive uncensored Ki",
+  "max_atoms": 128,
+  "max_molecular_weight": 1000.0,
+  "panel_id_role": "BindingDB assay proxy",
+  "transform": "pKi=9-log10(Ki[nM])",
+  "within_panel_aggregation": "median"
+ },
+ "confidence_strata": {
+  "S1_same_panel_single": "both cells share a panel and each has panel_count == 1",
+  "S2_same_panel_multi": "both cells share a panel, at least one has panel_count > 1",
+  "S3_cross_panel": "no shared panel; weak/noise stratum, never pooled into the primary bank",
+  "rule": "defined by provenance only, so no label value can move a pair between strata"
+ },
+ "corpus_admission_filters": {
+  "conflicting_ligands": 333,
+  "conflicting_targets": 0,
+  "cross_panel_pairs": 618,
+  "exact_ki_rows": 21695,
+  "invalid_required_input": 326,
+  "pair_observations": 18331
+ },
+ "difference_label_uncertainty": {
+  "between_assay_variance_per_cell": {
+   "bootstrap_ci": {
+    "draws": 2000,
+    "hi": 0.29414480987675395,
+    "identifiable": true,
+    "lo": 0.09395757883336348,
+    "median": 0.17924509798077348,
+    "note": "bootstrap unit is the repeated-measure group; residual rows are not treated as independent"
+   },
+   "point": 0.18167545980021652
+  },
+  "caveat": "both terms are estimated on small, selected subsets; the cross-panel figure is the one that matters for the S3 stratum and it is the weaker of the two estimates",
+  "cross_panel_difference_variance": {
+   "bootstrap_ci": {
+    "draws": 2000,
+    "hi": 1.6281615254527826,
+    "lo": 0.8756907263889105,
+    "median": 1.2153396716553115,
+    "seed": 20260820,
+    "unit": "repeated-measure group"
+   },
+   "identifiable": true,
+   "point": 1.2209810347363754
+  },
+  "model": "delta_y = y_b - y_a with each y an aggregated median. A between-assay offset shared by both cells of a same-panel pair cancels in the difference; it does not cancel for a cross-panel pair.",
+  "same_panel_difference_variance": {
+   "bootstrap_ci": {
+    "draws": 2000,
+    "hi": 1.0398719056992747,
+    "lo": 0.6877755687221836,
+    "median": 0.8568494756937647,
+    "seed": 20260820,
+    "unit": "repeated-measure group"
+   },
+   "identifiable": true,
+   "point": 0.8576301151359423
+  },
+  "within_assay_variance_per_cell": {
+   "bootstrap_ci": {
+    "draws": 2000,
+    "hi": 0.5199359528496373,
+    "identifiable": true,
+    "lo": 0.3438877843610918,
+    "median": 0.42842473784688234,
+    "note": "bootstrap unit is the repeated-measure group; residual rows are not treated as independent"
+   },
+   "point": 0.42881505756797117
+  }
+ },
+ "identifiability_limits": {
+  "curation_duplication": "a large zero-range share means one physical measurement curated under two article DOIs; the pooled dispersion is deflated by them.",
+  "not_an_mse_floor": "None of this bounds achievable model error. It bounds how much of the supervision is reproducible on the compounds that happen to be measured twice.",
+  "single_measurement_cells": "96% of meta_train cells carry exactly one source row, so their measurement error is not observable at all. Every number here is conditional on the repeated-measure subset.",
+  "technical_vs_condition_variation": "NOT IDENTIFIABLE. If the projection's assay protocol_sha256 never splits a meta_train panel into two protocols (L2 groups = 0), the provenance cannot separate a technical replicate from the same paper reporting two measurements under different conditions."
+ },
+ "levels": {
+  "L1_same_panel_same_protocol": {
+   "definition": "rows sharing (panel_id, assay protocol_sha256)",
+   "duplication": {
+    "disagreeing_groups": 98,
+    "exact_duplicate_groups": 1,
+    "exact_duplicate_share": 0.010101010101010102,
+    "groups": 99,
+    "note": "a zero-range group is one physical measurement curated more than once; it is evidence of duplication, not of agreement, and it biases the pooled dispersion downwards",
+    "range_on_disagreeing_only": {
+     "groups": 98,
+     "identifiable": true,
+     "iqr": 1.3263713004326776,
+     "max_abs": 3.0625213328096015,
+     "median_abs": 1.0187284558921958,
+     "p95_abs": 2.111501731540176,
+     "robust_sd": 1.00765482690566,
+     "sd": 0.7359474264561855,
+     "variance": 0.5416186145074825
+    },
+    "residuals_on_disagreeing_only": {
+     "groups": 244,
+     "identifiable": true,
+     "iqr": 0.5739785234788524,
+     "max_abs": 2.2455126678141504,
+     "median_abs": 0.23375000350988095,
+     "p95_abs": 1.5907601944525445,
+     "robust_sd": 0.3465577552037495,
+     "sd": 0.6573781183862922,
+     "variance": 0.432145990533102
+    }
+   },
+   "group_range": {
+    "groups": 99,
+    "identifiable": true,
+    "iqr": 1.333757843339515,
+    "max_abs": 3.0625213328096015,
+    "median_abs": 1.008600171761918,
+    "p95_abs": 2.1010989531657818,
+    "robust_sd": 1.019547470027068,
+    "sd": 0.7399560803514117,
+    "variance": 0.5475350008490248
+   },
+   "groups": 99,
+   "residuals_from_group_median": {
+    "groups": 246,
+    "identifiable": true,
+    "iqr": 0.5629853322074522,
+    "max_abs": 2.2455126678141504,
+    "median_abs": 0.2315552701384238,
+    "p95_abs": 1.5905572527365743,
+    "robust_sd": 0.3433038435072271,
+    "sd": 0.6548397189908163,
+    "variance": 0.42881505756797117
+   },
+   "rows": 246
+  },
+  "L2_same_panel_different_protocol": {
+   "definition": "per-protocol medians inside one panel_id",
+   "group_range": {
+    "groups": 0,
+    "identifiable": false,
+    "minimum_required": 30,
+    "reason": "L2 ranges: only 0 independent groups; the dispersion is not identifiable and no value is invented"
+   },
+   "groups": 0,
+   "residuals_from_group_median": {
+    "groups": 0,
+    "identifiable": false,
+    "minimum_required": 30,
+    "reason": "L2 residuals: only 0 independent groups; the dispersion is not identifiable and no value is invented"
+   }
+  },
+  "L3_across_panels": {
+   "definition": "per-panel medians of one (target, ligand), i.e. the inputs to the corpus's equal-panel median",
+   "duplication": {
+    "disagreeing_groups": 54,
+    "exact_duplicate_groups": 79,
+    "exact_duplicate_share": 0.5939849624060151,
+    "groups": 133,
+    "note": "a zero-range group is one physical measurement curated more than once; it is evidence of duplication, not of agreement, and it biases the pooled dispersion downwards",
+    "range_on_disagreeing_only": {
+     "groups": 54,
+     "identifiable": true,
+     "iqr": 1.0880181583592203,
+     "max_abs": 4.991399828238082,
+     "median_abs": 0.4289480746548717,
+     "p95_abs": 3.0,
+     "robust_sd": 0.5960075881940046,
+     "sd": 1.0820754674617055,
+     "variance": 1.1708873172824683
+    },
+    "residuals_on_disagreeing_only": {
+     "groups": 146,
+     "identifiable": true,
+     "iqr": 0.24408739792720469,
+     "max_abs": 2.495699914119041,
+     "median_abs": 0.134698573897456,
+     "p95_abs": 1.5,
+     "robust_sd": 0.19970410566036823,
+     "sd": 0.637021115778249,
+     "variance": 0.4057959019473653
+    }
+   },
+   "group_range": {
+    "groups": 133,
+    "identifiable": true,
+    "iqr": 0.2571245099648998,
+    "max_abs": 4.991399828238082,
+    "median_abs": 0.0,
+    "p95_abs": 2.186243502794797,
+    "robust_sd": 0.0,
+    "sd": 0.8055285951296013,
+    "variance": 0.6488763175714691
+   },
+   "groups": 133,
+   "residuals_from_group_median": {
+    "groups": 326,
+    "identifiable": true,
+    "iqr": 0.0,
+    "max_abs": 2.495699914119041,
+    "median_abs": 0.0,
+    "p95_abs": 1.1952066007378495,
+    "robust_sd": 0.0,
+    "sd": 0.42623404345525534,
+    "variance": 0.18167545980021652
+   }
+  }
+ },
+ "not_a_claim": "these dispersions are repeated-measure variability on the subset of compounds that happen to be measured more than once. They are NOT a universal benchmark MSE floor, NOT an irreducible prediction error, and must never be quoted as either.",
+ "population": {
+  "cells_with_recovered_rows": 5643,
+  "meta_train_cells": 5643,
+  "meta_train_source_rows": 5983,
+  "recovery_fraction": 1.0,
+  "rows_recovered": 5983
+ },
+ "preregistration_sha256": "fdc0a830aa92882d07b9aea50f22a4c72fc6d93f92c55a3be6bc15cd6a645c11",
+ "provenance": {
+  "authority": {
+   "actual": {
+    "exact_labels": "6a44a1516b0feb7f8fe9b3f034b7c1e1be40eb8c214f4c417205e9632c823dcc",
+    "metadata_projection": "8ac11beb8e058f373b03e7f392c8e993b49d64010012d887aaa43d312ef2ce00"
+   },
+   "admission": {
+    "conflicting_ligands": 333,
+    "conflicting_targets": 0,
+    "cross_panel_pairs": 618,
+    "exact_ki_rows": 21695,
+    "invalid_required_input": 326,
+    "pair_observations": 18331
+   },
+   "aggregation_rule": {
+    "cross_panel_pair_aggregation": "equal-panel median",
+    "endpoint": "exact positive uncensored Ki",
+    "max_atoms": 128,
+    "max_molecular_weight": 1000.0,
+    "panel_id_role": "BindingDB assay proxy",
+    "transform": "pKi=9-log10(Ki[nM])",
+    "within_panel_aggregation": "median"
+   },
+   "corpus_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "expected": {
+    "exact_labels": "6a44a1516b0feb7f8fe9b3f034b7c1e1be40eb8c214f4c417205e9632c823dcc",
+    "metadata_projection": "8ac11beb8e058f373b03e7f392c8e993b49d64010012d887aaa43d312ef2ce00"
+   },
+   "verified": true
+  },
+  "cache": "D:\\MetaSieve\\tools\\research\\stageU_mmp_interaction\\U0_PROVENANCE_meta_train.jsonl.gz",
+  "cache_sha256": "1c85ffa09d900ea353618d2c48b410c93beddab7ce0a2675f90dfedbf3edc646",
+  "isolation": {
+   "allow_list_source": "physically isolated split view, meta_train only",
+   "allow_listed_row_ids": 5983,
+   "development_validation_and_sealed_rows_retained": 0,
+   "label_rows_scanned": 24157,
+   "level": "logical_exclusion_after_parsing",
+   "metadata_rows_scanned": 28423,
+   "physically_isolated": false,
+   "rows_dropped_wrong_endpoint": 3,
+   "rows_retained": 5983,
+   "why": "exact_labels.jsonl.gz is a single all-label artifact; the allow-list is applied in the same pass that parses it, so no non-meta_train value is ever bound to a retained structure. This is weaker than the model path's physical isolation and is reported as such."
+  },
+  "rebuilt": true
+ },
+ "purpose": "measure the reliability of the governed pK supervision at the provenance levels the corpus distinguishes",
+ "schema": "MetaSieve.StageU.U0Reliability.v1",
+ "selection_bias": {
+  "cells_measured_in_more_than_one_panel": 133,
+  "cells_with_more_than_one_row": 230,
+  "distinct_ligands_in_repeated_subset": 196,
+  "share_of_meta_train_cells": 0.04075846181109339,
+  "warning": "a (target, ligand) pair appears twice only if two groups chose to measure it, which favours reference compounds and well-studied targets. The corpus additionally dropped rows at admission, so any disagreement estimate here is a LOWER bound on the disagreement in the raw source."
+ },
+ "stage": "stageU_mmp_interaction"
+}

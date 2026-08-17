@@ -1,0 +1,320 @@
+{
+ "corpus": {
+  "cells_mounted": 7054,
+  "components": {
+   "meta_train": 258,
+   "meta_val": 19
+  },
+  "splits": {
+   "meta_train": 346,
+   "meta_val": 41
+  }
+ },
+ "definitions": {
+  "activity_cliff": "tanimoto >= 0.6 and |delta pK| >= 1.0",
+  "pair": "two distinct ligands measured against ONE target",
+  "same_document": "the two cells share a DOI, possibly across panels",
+  "same_panel": "the two cells share at least one panel_ids entry = same document, same endpoint, same target",
+  "strata": {
+   "cliff": "activity cliff (checked first)",
+   "distant": "tanimoto < 0.25",
+   "local": "tanimoto >= 0.5",
+   "medium": "0.25 <= tanimoto < 0.5"
+  }
+ },
+ "duplicates": {
+  "meta_train": {
+   "duplicate_pk_spread": {
+    "n": 0
+   },
+   "duplicated_keys": 0,
+   "rows_dropped_by_first_occurrence_rule": 0,
+   "target_ligand_keys": 5643
+  }
+ },
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "novelty": {
+  "internal_validation_vs_fit": {
+   "max_tanimoto_to_reference": {
+    "max": 1.0,
+    "mean": 0.5322950416037282,
+    "median": 0.3565375357866287,
+    "n": 638,
+    "p05": 0.24307254925370217,
+    "p95": 1.0,
+    "sd": 0.3126356802697758
+   },
+   "novelty_terciles": [
+    0.30136987566947937,
+    0.5606504082679749
+   ],
+   "query_ligands": 638,
+   "query_ligands_with_shared_scaffold": 328,
+   "reference_ligands": 3370,
+   "shared_ligand_fraction": 0.28683385579937304,
+   "shared_ligand_identities": 183,
+   "shared_scaffold_fraction": 0.5141065830721003
+  }
+ },
+ "partition": {
+  "development_validation_split_read_in_this_stage": false,
+  "fit_components": 227,
+  "fit_targets": 302,
+  "internal_validation_components": 31,
+  "internal_validation_targets": 44,
+  "module": "scripts/internal_validation.py"
+ },
+ "populations": {
+  "meta_train_all": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 1.1813549811664597,
+    "median": 0.9030899869919438,
+    "n": 151974,
+    "p05": 0.06694678963061307,
+    "p95": 3.2174839442139067,
+    "sd": 1.0054567740192029
+   },
+   "abs_delta_y_cross_panel": {
+    "max": 7.004321373782642,
+    "mean": 1.2994296354078108,
+    "median": 1.026328938722349,
+    "n": 103004,
+    "p05": 0.08743993811809199,
+    "p95": 3.3616662048049863,
+    "sd": 1.0446701455786038
+   },
+   "abs_delta_y_same_panel": {
+    "max": 7.787679192515079,
+    "mean": 0.9329955430313525,
+    "median": 0.6726410656136697,
+    "n": 48970,
+    "p05": 0.04219767979445521,
+    "p95": 2.771447871142251,
+    "sd": 0.8665187588037901
+   },
+   "activity_cliffs": 3935,
+   "activity_cliffs_same_panel": 3626,
+   "components": 248,
+   "cross_document": 102397,
+   "cross_panel": 103004,
+   "pairs": 151974,
+   "pairs_per_target": {
+    "max": 26335.0,
+    "mean": 457.7530120481928,
+    "median": 36.0,
+    "n": 332,
+    "p05": 3.0,
+    "p95": 1220.5499999999988,
+    "sd": 2207.424141533598
+   },
+   "same_document": 49577,
+   "same_panel": 48970,
+   "same_panel_fraction": 0.32222617026596656,
+   "strata": {
+    "cliff": 3935,
+    "distant": 87077,
+    "local": 22202,
+    "medium": 38760
+   },
+   "tanimoto": {
+    "max": 1.0,
+    "mean": 0.28763099327623615,
+    "median": 0.21875,
+    "n": 151974,
+    "p05": 0.0746268630027771,
+    "p95": 0.7042253613471985,
+    "sd": 0.1959818598930129
+   },
+   "targets": 332,
+   "targets_eligible_for_pairs": 332,
+   "targets_with_cells": 346,
+   "unique_ligands_per_target": {
+    "max": 230.0,
+    "mean": 16.954819277108435,
+    "median": 9.0,
+    "n": 332,
+    "p05": 3.0,
+    "p95": 49.89999999999998,
+    "sd": 25.435085450427795
+   }
+  },
+  "meta_train_fit": {
+   "abs_delta_y": {
+    "max": 7.787679192515079,
+    "mean": 1.1821147751328926,
+    "median": 0.9030899869919438,
+    "n": 138695,
+    "p05": 0.06694678963061307,
+    "p95": 3.2138798199450807,
+    "sd": 1.0044155584063144
+   },
+   "abs_delta_y_cross_panel": {
+    "max": 7.004321373782642,
+    "mean": 1.286462307642638,
+    "median": 1.012234456417012,
+    "n": 96500,
+    "p05": 0.08656809105788228,
+    "p95": 3.335792101923193,
+    "sd": 1.0366575839765004
+   },
+   "abs_delta_y_same_panel": {
+    "max": 7.787679192515079,
+    "mean": 0.9434718817286881,
+    "median": 0.6770154284479686,
+    "n": 42195,
+    "p05": 0.041476403954354896,
+    "p95": 2.809330329435439,
+    "sd": 0.8812006797829606
+   },
+   "activity_cliffs": 3372,
+   "activity_cliffs_same_panel": 3082,
+   "components": 219,
+   "cross_document": 96013,
+   "cross_panel": 96500,
+   "pairs": 138695,
+   "pairs_per_target": {
+    "max": 26335.0,
+    "mean": 478.2586206896552,
+    "median": 36.0,
+    "n": 290,
+    "p05": 3.0,
+    "p95": 1176.0,
+    "sd": 2347.7659273954296
+   },
+   "same_document": 42682,
+   "same_panel": 42195,
+   "same_panel_fraction": 0.3042287032697646,
+   "strata": {
+    "cliff": 3372,
+    "distant": 80452,
+    "local": 19528,
+    "medium": 35343
+   },
+   "tanimoto": {
+    "max": 1.0,
+    "mean": 0.28388727022781274,
+    "median": 0.21739129722118378,
+    "n": 138695,
+    "p05": 0.0746268630027771,
+    "p95": 0.6984127163887024,
+    "sd": 0.19323426433578522
+   },
+   "targets": 290,
+   "targets_eligible_for_pairs": 290,
+   "targets_with_cells": 302,
+   "unique_ligands_per_target": {
+    "max": 230.0,
+    "mean": 16.879310344827587,
+    "median": 9.0,
+    "n": 290,
+    "p05": 3.0,
+    "p95": 49.0,
+    "sd": 26.284362966352283
+   }
+  },
+  "meta_train_internal_validation": {
+   "abs_delta_y": {
+    "max": 6.113943352306837,
+    "mean": 1.1734191709266437,
+    "median": 0.8893017025063106,
+    "n": 13279,
+    "p05": 0.06694678963061307,
+    "p95": 3.270129976085518,
+    "sd": 1.0162724259244758
+   },
+   "abs_delta_y_cross_panel": {
+    "max": 6.113943352306837,
+    "mean": 1.4918261805091582,
+    "median": 1.273377320514745,
+    "n": 6504,
+    "p05": 0.10856150616499587,
+    "p95": 3.6256131577211246,
+    "sd": 1.1399364978275073
+   },
+   "abs_delta_y_same_panel": {
+    "max": 4.511883360978874,
+    "mean": 0.8677484417274297,
+    "median": 0.6478174818886373,
+    "n": 6775,
+    "p05": 0.045757490560674796,
+    "p95": 2.4476283868876116,
+    "sd": 0.765632727968896
+   },
+   "activity_cliffs": 563,
+   "activity_cliffs_same_panel": 544,
+   "components": 29,
+   "cross_document": 6384,
+   "cross_panel": 6504,
+   "pairs": 13279,
+   "pairs_per_target": {
+    "max": 3570.0,
+    "mean": 316.1666666666667,
+    "median": 36.0,
+    "n": 42,
+    "p05": 3.0,
+    "p95": 1629.149999999998,
+    "sd": 679.624391122133
+   },
+   "same_document": 6895,
+   "same_panel": 6775,
+   "same_panel_fraction": 0.5102040816326531,
+   "strata": {
+    "cliff": 563,
+    "distant": 6625,
+    "local": 2674,
+    "medium": 3417
+   },
+   "tanimoto": {
+    "max": 1.0,
+    "mean": 0.32673300910582304,
+    "median": 0.25,
+    "n": 13279,
+    "p05": 0.07618012651801111,
+    "p95": 0.7292229890823356,
+    "sd": 0.21887598981233813
+   },
+   "targets": 42,
+   "targets_eligible_for_pairs": 42,
+   "targets_with_cells": 44,
+   "unique_ligands_per_target": {
+    "max": 85.0,
+    "mean": 17.476190476190474,
+    "median": 9.0,
+    "n": 42,
+    "p05": 3.0,
+    "p95": 57.54999999999996,
+    "sd": 18.782760771695315
+   }
+  }
+ },
+ "purpose": "quantify eligible within-target ligand pairs and their assay context before any SAR-field code is written",
+ "schema": "MetaSieve.StageS.Phase0Audit.v1",
+ "stage": "stageS_sar_field",
+ "usable_high_confidence_pairs": {
+  "count": 42195,
+  "cross_panel_count": 96500,
+  "definition": "same-panel within-target pairs on the fit components",
+  "policy": "primary supervision uses same-panel pairs; cross-panel differences are trained and reported as a separate stratum and are never pooled into the high-confidence label set"
+ }
+}

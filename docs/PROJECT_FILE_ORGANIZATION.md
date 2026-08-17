@@ -1,7 +1,6 @@
 # Project file organization
 
-Updated 2026-08-16 (A2-readiness v2 stage; the 2026-08-16 consolidation layout
-is otherwise unchanged).
+Updated 2026-08-17 for the five-phase programme and Stage T.
 
 | Directory | Purpose | Authority |
 |---|---|---|
@@ -30,11 +29,10 @@ operator and old config modules were removed with their dedicated trainers/tests
 
 ## Report surface
 
-At root, keep only high-density authorities: `CURRENT_MODEL_EVIDENCE.md`,
-`EVIDENCE_LEDGER.md`, `BOUNDARY_20260816.md`, the next plan and report indexes.
-Under `report/meta_fewshot/`, only formal `stageR0`-`stageR14`, independent
-`stageM0`, and the legacy summary remain. Pre-R0 smokes and exploratory chains
-were deleted after consolidation.
+At root, `task.md` is the active execution authority and `history.md` is the
+chronology. `report/` keeps compact evidence authorities, historical definitions
+still cited by tests/operators, and formal `stageR0`-`stageR14` leaf artifacts.
+A closed proposal is not an active plan even when retained for reproducibility.
 
 ## Research surface
 
@@ -47,6 +45,8 @@ reserved for contracts on admitted or repository-wide behaviour.
 | `a2_readiness/` | consolidated to `SUPERSEDED.md`; retains the literature ledger and the CPC centering probes |
 | `a2_readiness_v2/` | governance incident, noise/leakage audit, causal attention audit, Stage P's frozen design. Its A2 verdict is superseded |
 | `a2_exact_probe/` | **the superseding stage.** `FINAL_DECISION.md` is the single consolidated A2 record; `STAGE_R_EXACT_A2.md` closes A2 on its own operator; `STAGE_L_LIGAND_SAR.md` measures the ligand-side direction against Tanimoto |
+| `stageS_sar_field/` | rejected global protein-conditioned SAR field; retains the decisive shuffled-protein and counterfactual-degeneracy evidence |
+| `stageT_mmp/` | active Phase-1 true-MMP transformation-space test; frozen preregistration, T0 reliability and T1 census/coverage currently present |
 
 Frozen-feature caches (50 MB) were deleted after recording their sha256 in
 `a2_exact_probe/FEATURE_CACHE_MANIFEST.json`; the `*.meta.json` provenance
@@ -55,9 +55,9 @@ Only the `.json` results and the decision reports are evidence.
 
 ## Test surface
 
-`tools/tests/` — 249 collected (6 skipped by default: 3 `slow`, 3
-`research_gate`; enable with `RUN_SLOW=1` / `RUN_RESEARCH_GATES=1`).
-`tools/research/*/tests/` — 53 stage probes. Full sweep: **302 passed**.
+Test counts are reported by each completed stage and must not be copied forward
+as a timeless repository total. Run the maintained and active-stage suites for
+the current count.
 
 ## Recovery
 
@@ -70,8 +70,9 @@ and promoted through a new preregistered stage rather than silently returned.
 
 For each new stage retain only its preregistration, machine result, decision
 report, necessary prediction rows and loadable admitted checkpoint. Delete
-duplicate smokes, progress logs and failed checkpoints after recording the
-verdict. Update `history.md`, `task.md`, `CURRENT_MODEL_EVIDENCE.md` and the ledger.
+generated caches, duplicate smokes, progress logs and failed checkpoints after
+recording the verdict. Update `history.md`, `task.md`,
+`CURRENT_MODEL_EVIDENCE.md` and the ledger.
 
 When research passes, move its reusable modules into `model/`, its commands into
 `scripts/`, and its contracts into `tools/tests/`; then remove the original

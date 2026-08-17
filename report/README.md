@@ -1,14 +1,14 @@
 # Reports
 
-Read the current closing record in this order:
+Read the current record in this order:
 
-1. `POST_COMPLETION_REVIEW_20260818.md` — current interpretation authority and
-   required governance repairs.
-2. `FINAL_STATE_20260818.md` — long-run cycle summary.
+1. `../task.md` — active five-phase execution contract and gates.
+2. `POST_COMPLETION_REVIEW_20260818.md` — interpretation and governance review.
 3. `BOUNDARY_20260817_NIGHT.md` — measured BindingDB development boundary.
 4. `CURRENT_MODEL_EVIDENCE.md` — compact model and mechanism evidence.
 5. `EVIDENCE_LEDGER.md` — stage decisions and leaf artifact locations.
-6. `COMPLETION_STATEMENT_20260818.md` — why the long-run goal was closed.
+6. `FINAL_STATE_20260818.md` and `COMPLETION_STATEMENT_20260818.md` — closure of
+   the preceding method-ladder cycle, not the active plan.
 
 The verification layer under `tools/research/stageN_audit/` is generated, never
 hand-edited: `AUDIT_REPORT.md`, `FINAL_BOUNDARY_AUDIT.json` and
@@ -21,7 +21,8 @@ that were not run, and none converts an empirical model failure into an
 information-theoretic bound.
 
 `BOUNDARY_20260816.md`, the A2 plan/handoff, and R-series plans are historical
-inputs. They are not active execution authorities. Literature context remains
+inputs retained because tests and exact operator definitions cite them. They are
+not active execution authorities. Literature context remains
 in `LITERATURE_RESEARCH_SYNTHESIS_20260815.md` and
 `LITERATURE_R14_20260816.md`.
 

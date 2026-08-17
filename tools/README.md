@@ -3,7 +3,8 @@
 `tools/` groups development infrastructure outside the admitted model runtime:
 
 - `research/`: unadmitted experiments. Passing work is promoted into `model/`
-  and `scripts/`; failed code is summarized and removed.
+  and `scripts/`; failed implementations are removed only after their compact
+  verdict and required reproducibility artifacts are recorded.
 - `tests/`: maintained pytest contracts and test-only fixtures.
 - `runtime/`: ignored local executables/downloads such as CD-HIT and MMseqs2.
 

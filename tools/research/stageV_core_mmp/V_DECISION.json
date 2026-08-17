@@ -1,0 +1,64 @@
+{
+ "claim_boundary": "Bounded falsification of the core-inclusive exact-MMP protein x transformation route on the current BindingDB-Ki protocol. NOT evidence of absence for all protein-conditioned interaction representations, other datasets, or other mechanisms.",
+ "decision": "CLOSED_AT_V0_V1_NEGATIVE",
+ "pair_level_noise_audit": {
+  "conclusion": "Under the preregistered cell-level reference the negative is resolved. The direct pair-level references are lower but heavily selected and duplicated; under the conservative disagreeing-only reference no V1 contrast has a positive lower bound, and only the downward-biased all-group reference would pass cross-component keys. The interaction variance is therefore not identifiable above the defensible noise envelope on this corpus.",
+  "disagreeing_groups": 48,
+  "disagreeing_only_variance_ci": [
+   0.19965848751939713,
+   0.4268312055961224
+  ],
+  "disagreeing_only_variance_point": 0.30323847769409734,
+  "note": "post-hoc; computed after gates fired; excluded from every gate",
+  "repeated_shared_panel_pairs": 88,
+  "v1_cross_component_under_disagreeing_only": {
+   "pass": false,
+   "theta": 0.3906761431098518,
+   "theta_hi": 0.36760341646286604,
+   "theta_lo": -0.32704402234313584
+  },
+  "zero_range_duplicate_groups": 40
+ },
+ "posthoc_sensitivity": {
+  "after_removing_top_target": {
+   "components": 186,
+   "exact_keys": 19220,
+   "observations": 26702,
+   "rich_exact_keys": 1001,
+   "targets": 242,
+   "top1_component_share": 0.09722118193393753,
+   "top1_target_share": 0.0731780390981949,
+   "top5_component_share": 0.3565276009287694,
+   "top5_target_share": 0.29230020223204256
+  },
+  "cross_component_D_variance_over_null": 0.756072900468852,
+  "cross_component_MS": {
+   "MS_effect": 0.6939146208039492,
+   "bootstrap": {
+    "draws": 1000,
+    "hi": 0.8981386073646073,
+    "lo": 0.35777190431364286,
+    "median": 0.6876881719068441,
+    "seed": 20260820,
+    "unit": "two-way: transformation keys x protein components"
+   },
+   "components": 91,
+   "effects": 6892,
+   "keys": 2616
+  },
+  "note": "descriptive; computed after gates fired; excluded from every gate"
+ },
+ "preregistration_sha256": "c567f66066c301fefe293048a4643fe4f65158077c3540ce1bbb0beb5d5844d4",
+ "reason": "V0 fails on frozen degree concentration (one target/component = 29.63% of primary observations); the primary internal_repeated surface has 32 rows (<100, not evaluable); V1 fit interaction MS 0.452 pK^2 is below supervision noise 0.858 pK^2 with bootstrap 95% CI [-0.689,-0.058] entirely below zero.",
+ "schema": "MetaSieve.StageV.Decision.v1",
+ "stage": "stageV_core_mmp",
+ "v0_pass": false,
+ "v0b_primary_surface_evaluable": false,
+ "v1_pass": false,
+ "v2_implemented_or_trained": false,
+ "verification": {
+  "git_commit": "5bb373668969985ada9f1e208fc3fcfe886b3123",
+  "tests": "11 passed (RUN_SLOW=1)",
+  "v0_v1_rerun_canonical_sha256_matches": "2d2e938eda6d81a45c946d7b6b58373c5b344c7c6548a8612276b903e158bca3"
+ }
+}

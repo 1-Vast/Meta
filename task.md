@@ -1,511 +1,369 @@
 # Current task contract
 
-Updated: 2026-08-18 (post-completion review). Status: **BindingDB research
-cycle complete with a scope-bounded negative result; governance repairs are
-required before archival.** Stage L
-(support-gated assay-aware level head) closed the last composition: the gate
-preserved k>=1 MSE but ordering degraded with resolved intervals (k=2/3/5
-Spearman), because the zero-shot level objective and within-target ordering
-conflict on the shared trunk. Record landmarks: K-REG = first all-k resolved
-MSE improvement across 3 seeds (not confirmed on centered); L = best k=0
-calibration ever (MSE 2.0997, level^2 1.2151) but ranking-degraded. No
-candidate passed all promotion gates; meta_test stays sealed; nothing moved
-to model/ or scripts/. Stage M0 (ChemBERTa-77M ligand embeddings,
-`tools/research/stageM_chemberta/`) closed the last locally testable legal
-input family (ordering r +0.147 below occupancy; level probe = grand mean).
-Interpretation authority: `report/POST_COMPLETION_REVIEW_20260818.md`.
-Numerical authority: `report/BOUNDARY_20260817_NIGHT.md`,
-`tools/research/stageL_gated/REPORT.md`,
-`tools/research/stageM_chemberta/REPORT.md`. Closing summary:
-`report/FINAL_STATE_20260818.md`; verification:
-`tools/research/stageN_audit/AUDIT_REPORT.md`.
-
-## Read this first: condensed agent authority
-
-The detailed stage sections below are a retained evidence appendix. They do not
-authorize reviving a rejected mechanism or training a new variant. The next
-agent must anchor its analysis on the following compact state.
-
-**Measured boundary.** Leak-free T2 MSE at k=0/1/2/3/5 is
-2.5961/1.7712/1.3245/1.2197/0.9859. At k=0,
-`MSE = level^2 1.7314 + centered 0.8648`; the level term is about 66.7% of the
-error. An oracle level gives about 0.865 MSE, so MSE <= 1.00 is arithmetically
-possible. The best tested transferable probes explain about 25.9% of level
-variance; this is a measured frontier, not a universal ceiling. Fixed
-Morgan/Tanimoto residual weighting is the strongest reproducible k>=2
-query-specific comparator, but it is ligand-only. `occupancy` retains a small
-resolved within-target signal (r about +0.218) that the endpoint underuses.
-
-**Dominant failure mechanisms.** The target level partly reflects assay,
-document and panel history unavailable across the governed split. The learned
-interaction endpoint has weak protein-conditioned ordering: within-target
-ligand states were nearly collinear, wrong-protein swaps often preserved
-centered ordering, and protein information was strongly attenuated at fusion
-and pooling. Consequently, output adapters and partial inner loops mostly
-became scalar level shifts, were support-label insensitive, or harmed
-calibration. The AdaMBind-inspired task selector selected redundant
-high-gradient-agreement tasks and was worse than uniform episodic training.
-Level/ranking conflict was reproduced in four tested shared-trunk designs, but
-it is empirical and not a theorem about all architectures.
-
-**Governance defects.** The old production trainer selected checkpoints on
-meta-val labels; a controlled experiment measured about 0.62 pK^2 optimistic
-k=0 performance. All new selection must use a meta-train-only internal
-component split. Meta-test has zero recorded evaluations but was logically
-excluded only after parsing, not physically sealed. Stable hashes, distinct-arm
-paired tests and explicit gradient scope for inference-time adaptation are
-mandatory regressions. Several method-ladder entries are proxy negatives, not
-direct implementations; do not claim that OGM, Set Transformer, DrugBAN or
-FS-CAP has been universally falsified here.
-
-**Literature synthesis.** PSICHIC provides the most compatible architectural
-lesson: learn physicochemical functional-group/protein-region interaction
-fingerprints from sequence and 2D ligand inputs. DrugBAN supports explicit
-local bilinear interaction and domain alignment, not generic attention. FS-CAP
-binds measured support activity to molecular context before set aggregation and
-therefore addresses k>=1 only. AdaMBind permits target-task support adaptation,
-but the current partial inner loop is only a weak unresolved result and its task
-selector is rejected. PBCNet/PBCNet2.0 support relative reference-query
-training; their common-frame 3D complex assumptions do not hold here.
-Interaction-aware biological language-model composition is an untested new
-information regime and must be separated from external-data gain.
-
-Primary sources:
-
-- PSICHIC: https://www.nature.com/articles/s42256-024-00847-1
-- DrugBAN: https://www.nature.com/articles/s42256-022-00605-1
-- FS-CAP: https://pubs.acs.org/doi/10.1021/acs.jcim.4c00485
-- AdaMBind: https://www.nature.com/articles/s41467-026-70554-5
-- task-similarity constraint: https://pubmed.ncbi.nlm.nih.gov/38682398/
-- PBCNet: https://www.nature.com/articles/s43588-023-00529-9
-- PBCNet2.0: https://www.nature.com/articles/s41589-026-02241-x
-- biological LM composition: https://www.nature.com/articles/s42004-025-01883-7
-
-**Highest-potential next hypothesis.** Do not patch the current endpoint
-adapter. Test one focused pair of innovations: (1) a sequence/2D
-functional-group-to-protein-region interaction trunk that preserves local
-interaction tokens; and (2) a training method with explicit ownership of
-absolute level versus signed within-target relative/cliff supervision. A
-support mechanism may modulate stable interaction tokens only after frozen
-identifiability tests show that real proteins outperform shuffled and
-similarity-matched wrong proteins on centered ordering. It must be exactly
-inactive at k=0.
-
-If the identifiability gate passes, preregister four matched arms: incumbent;
-new trunk with incumbent training; incumbent trunk with new training; full new
-trunk plus new training. This separates representation, training and interaction
-effects. A single seed may reject; promotion requires three seeds, component-
-paired intervals, no ranking regression at k=0, superiority to level-only and
-Tanimoto at k>=2, and resolved degradation under permuted labels,
-matched-wrong support and wrong-protein controls. Finish the physical meta-test
-seal and post-completion inventory repair before any final confirmation.
-
-## Objective
-
-Produce a trainable, medium-scale model with excellent zero-shot and k=1/2/3/5
-cold-target DTA performance. At least one central innovation must reside in the
-training method, and every claimed few-shot gain must depend on correct support
-labels and the recipient protein rather than scalar calibration or ligand recall.
-
-## Immutable rules
-
-- Data/evaluation: use the governed BindingDB Ki double-cold protocol. An episode
-  contains one target; support/query ligands are unique. Keep current meta_test
-  sealed until a frozen candidate passes all development gates. Two surfaces
-  exist and an artifact must say which it used: the default all-label corpus
-  gives **logical exclusion after parsing** plus written authorization (this
-  is what every recorded artifact used), while
-  `QPSMPData(split_view=dataset/processed/meta_fewshot/bindingdb_ki_double_cold_v1_views)`
-  gives **physical isolation** — the meta_test label artifact is out of tree,
-  so it is not on the development process's read path at all. New work must
-  mount the view
-  (`train_qpsmp.py/evaluate_qpsmp.py --split-view`). See
-  tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md and
-  tools/tests/test_physical_meta_test_seal.py.
-- Checkpoint selection: `--selection internal` is the default and the only
-  rule admissible as evidence. It trains on the fit components of meta_train
-  and selects on withheld internal-validation components, so meta_val is never
-  read during training (`scripts/internal_validation.py`). The legacy
-  `--selection meta_val` survives only as the disclosed leakage diagnostic
-  Stage B used to measure it at ~0.62 pK^2 optimism at k=0.
-- Learning: ordinary end-to-end forward/backward training. **Inner/outer loops
-  and differentiable support adaptation are permitted as of 2026-08-17** (user
-  instruction; supersedes the previous blanket prohibition on inner loops and
-  deployment-time support adaptation). Still prohibited and unchanged: ridge
-  regression, analytic solvers, pseudoinverses, closed-form shortcuts,
-  query-label adaptation at inference, and multi-stage pretrain/finetune
-  regimes disguised as one run. Adaptation at inference may read support
-  **inputs and labels**; query labels remain loss-and-metric-only at every k.
-  A model may jointly consume multiple governed task types, but training stays
-  one ordinary single-stage optimization process.
-- Datasets: one public supervised DTA source per experiment. The governed
-  BindingDB-Ki double-cold protocol is the only one currently authorized. No
-  merging with Davis, KIBA, ChEMBL or structural corpora, and no cross-dataset
-  support, retrieval, normalization statistics, labels or checkpoints. If a
-  candidate passes here, Davis and KIBA must be trained independently from
-  scratch in separate experiments.
-- Information: query labels are loss-only. No test labels, component leakage,
-  donor-label leakage or query-panel transductive centering.
-- Geometry: no atomic protein-ligand 3D claim without a legal common-frame pose.
-  Current DTA coverage is 0/17,717, so Cartesian code is not a performance source.
-- Evidence: smoke tests only find bugs. Promotion needs matched budgets, multiple
-  fixed seeds, nested k, component-paired bootstrap and clean counterfactuals.
-- Scope: one model mechanism and one training mechanism at a time. Stop when a
-  preregistered family gate fails; do not rescue it by unplanned complexity.
-
-## Established baseline and boundary
-
-- Leak-free references (2026-08-17): T2 (incumbent recipe retrain, internal
-  checkpoint selection) k=0 2.5961 / k=1 1.7712 / k=2 1.3245 / k=3 1.2197 /
-  k=5 0.9859, three-seed k=0 band 2.458-2.981 and k=5 band 0.946-1.007;
-  ESM-650M lane G k=0 2.239-2.790, k=5 0.944-0.987 (not confirmed).
-- No tested candidate reached the k=0 <= 1.00 target under the stated protocol
-  and legal-input families: level is assay-history dominated (within-document
-  transfer R^2 +0.451; 0% across documents), the tested governed probes
-  explain up to 25.9% of level variance, and the best trained level^2 (1.52)
-  alone exceeds the whole 1.00 budget. The target is nonetheless
-  **arithmetically possible**: the measured centered term at k=0 is 0.8648, so
-  an oracle level predictor would put k=0 near 0.865. No tested model
-  approached it jointly. Full ledger: `report/BOUNDARY_20260817_NIGHT.md`;
-  interpretation: `report/POST_COMPLETION_REVIEW_20260818.md`.
-- A0 is the retained incumbent and zero-shot ordering reference.
-- B3 and C2 join A0 on the k0 MSE/CI Pareto frontier; none dominates.
-- Fixed Morgan/Tanimoto residual weighting is the comparator to beat at k>=2.
-- R7-R14 closed free query gates, direct shape heads and ranking-loss substitution.
-- The 0.782 cliff-sign record is meta_val development evidence on dominated C1,
-  not a confirmation or overall-performance claim.
-
-See `report/CURRENT_MODEL_EVIDENCE.md` and `report/BOUNDARY_20260816.md`.
-
-## Active plan
-
-`report/NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md` is **closed**. Its exact
-operator was implemented and run on real episodes
-(`tools/research/a2_exact_probe/FINAL_DECISION.md`): 19 structural gates pass,
-then the performance gates fail. Authority: `A2_EXACT_meta_val.json`.
-
-*Corrected 2026-08-16 — the earlier "both falsification controls fail
-inverted" wording here described the superseded pre-repair artifact and is
-withdrawn.* Against the repaired deterministic nested banks, `beats_tanimoto`
-fails with resolved intervals at all four k (-0.042 / -0.173 / -0.217 /
--0.252), while `degrades_under_wrong_protein` (+0.040 to +0.008) and
-`degrades_under_label_shuffle` (-0.146 to -0.129) are **unresolved** — every
-interval crosses zero. The operator fails its controls **by being inert, not by
-being inverted**: query spread at k=5 is 0.0027 pK against Tanimoto's 0.2865
-and a random feature's 0.4521. `SUPERSEDED_A2_EXACT_meta_val.json` retains the
-pre-repair numbers as evidence only; it is not a comparator.
-
-Stage P has run: two matched arms, three seeds, 1,200 steps
-(`tools/research/stageP_cpc/`). P1 fails at -0.0066 [-0.0545, +0.0417]. Correct
-and wrong protein give identical within-target ordering at every k in both
-arms. The centered objective excluded the level branch exactly as designed
-(gradient 8.1e-07) and made the protein response reproducible across seeds
-(+0.316) but unaligned with truth (+0.022). The stop rule was applied; the
-admission stage did not run.
-
-## Stage A: target-task inner/outer-loop meta-learning (opened 2026-08-17)
-
-`tools/research/stageA_innerloop/`. AdaMBind-**inspired** framework only; no
-reproduction claim is made or permitted. Single seed, development evidence,
-directional screening. Preregistration frozen before any arm trained.
-
-Three matched arms at 1,200 steps, seed 20260815: `A0` no inner loop, `A1`
-inner/outer loop with uniform task sampling, `A2` the same plus adaptive task
-selection scored by post-adaptation query loss and support/query gradient
-cosine. One code path serves all three, so `--inner-steps 0` reproduces the
-accepted recipe bitwise and `A0` is matched by construction rather than by
-inspection.
-
-Adaptable scope: `interaction_head.2.{weight,bias}` — **97 parameters, 0.0054%
-of the 1,798,833 trainable**. The smallest subset that can reorder ligands
-rather than only shift their level, and the split is the instrument for the
-k=1 shape-versus-level question. Inner step size 0.1 at 1 step, selected on
-`meta_train` component folds against the frozen A0 checkpoint
-(`INNER_LR_SELECTION.json`); `meta_val` was not read for it.
-
-Stage 0 audit (`AUDIT_DATAFLOW.json`) confirmed the episode contract with 0
-violations in 400 draws and the nested banks across k, and established one
-disclosure that travels with every number: **the trainer selects checkpoints on
-`meta_val` labels.** The rule is identical in all three arms, so it cannot
-manufacture a between-arm difference, but it makes every reported `meta_val`
-figure an optimistic development estimate rather than a held-out one.
-
-### Result: NOT PROMISING on the conjunction (4 of 6 gates)
-
-Authority: `tools/research/stageA_innerloop/RESULT.json` and `REPORT.md`.
-
-- **`A1` (inner loop): weak positive, unresolved.** Better than `A0` at every k
-  on every metric (k=0 MSE 2.0579 vs 2.0753; MSE gains 0.1111 / 0.0980 / 0.0443
-  / 0.0206 at k=1/2/3/5) with **every interval crossing zero**. Only k=1 and k=2
-  exceed the 0.058 retraining spread. Retained as a three-seed candidate.
-- **`A2` (task selector): REJECTED.** Worse than `A1` on MSE, Pearson, Spearman
-  and CI at every k. Cause identified, not noise: it selected candidates with
-  support/query gradient cosine +0.9897 against a +0.6555 population mean — the
-  tasks where support already predicts query. Gradient agreement measures
-  redundancy, not informativeness. A learned bi-level selector is **not**
-  authorized; the preregistration allowed it only on credible evidence.
-- **Support labels are genuinely load-bearing** — every wrong-support
-  counterfactual is resolved (permuted +0.36 to +0.43 pK² at k≥2; matched-wrong
-  +0.81 to +2.05 across k).
-- **`A1` produced the first resolved wrong-protein gap in the record**:
-  +0.0188 [+0.0052, +0.0327] at k=2, +0.0177 [+0.0079, +0.0282] at k=3,
-  +0.0085 [+0.0037, +0.0137] at k=5. Small, but every prior wrong-protein gap in
-  R0-R14 and Stage P crossed zero.
-- **k=1 is a level shift, not shape**: a bias-only update recovers 81% of the
-  k=1 gain and the shape residual is unresolved.
-- **The inner loop is free in encoder cost** (6,480 forwards for both `A0` and
-  `A1`) because the 97-parameter scope is downstream of the encoder.
-- **An inner loop cannot be bolted onto a trained model.** Measured
-  `alpha = 2·lr·‖h‖²`: `A0` 1.514, overshooting on 100% of episodes, which
-  predicts and matches its alternating sweep (1.5352 / 2.8626 / 1.4349 /
-  2.2049); `A1` 0.241, stable. Training with the loop is what conditions it.
-
-## Stage B: complementary meta-adaptation (2026-08-17) — REJECTED
-
-`tools/research/stageB_complementary/`. Corrected Stage A's eight analysis
-defects (`CORRECTION_AUDIT.md`, Stage A artifacts preserved), then ran four
-matched arms — `T` transport-only, `M` meta-only, `H` naive hybrid, `C`
-complementary — with **checkpoint selection that never reads `meta_val`**
-(227 fit / 31 internal-validation components, partitioned by homology
-component).
-
-**Verdict: the AdaMBind-inspired framework is not admitted to production.**
-Nothing promoted. Three stop conditions fired.
-
-Two measurements matter beyond this stage:
-
-1. **`meta_val` checkpoint selection is worth ~0.62 pK² at k=0.** `Tleak`
-   (identical arm, same fit components, `meta_val` selection) scores 2.1246
-   against the leak-free 2.7425, resolved at k=2/3/5. That is **93% of the gap**
-   to Stage A's recorded 2.0753, **5.6× the largest mechanism effect** in the
-   cycle and **10.7× the retraining spread**. Every `meta_val` number from the
-   standard trainer, including the recorded incumbent band, is optimistic by
-   about this margin.
-2. **The ligand representation collapses within a target** — mean pairwise
-   cosine 0.997 between a target's query-ligand readout activations, already
-   present at `embed`. A weight update then moves every query by the same
-   amount (a level shift), and against a mean-zero target it moves them by
-   nothing. This is why `H`'s and `M`'s corrections are 99.7% level and why `C`
-   is inert, and it links Stage R, Stage P and Stage L2 to one upstream cause.
-
-`C` is the only arm on record to improve MSE and ranking together with resolved
-intervals (Spearman +0.049 to +0.092), but **none of it comes from the
-adapter**: the `C`−`T` ranking contrast is bitwise identical at k=0 and k=1,
-where the meta term is exactly zero. It is a zero-shot trunk effect from the
-training objective, not a few-shot mechanism.
-
-## Stage C: the feasibility boundary (2026-08-17) — measurement only
-
-`tools/research/stageC_level_shape/BOUNDARY.md`. No training. Baseline is the
-leak-free Stage B `T` checkpoint.
-
-**MSE decomposes exactly into `level² + centered`, and at k=0 it is 68% level.**
-With a *perfect* level predictor every k lands below 1.00 (0.876 / 0.876 / 0.807
-/ 0.798 / 0.734). Support labels are already the level mechanism — level² falls
-1.87 → 0.28 across k while the shape term barely moves. Every "few-shot gain"
-this project has measured is target-level calibration arriving through labels.
-
-**But target level is not predictable from anything tested.** Against a
-calibrated-constant reference (1.3471), the ESM linear probe is 4.85× worse, kNN
-3.81×, sequence length 1.88×, the `meta_train` grand mean 1.61×, the full
-trained model 1.27×, and the best ESM MLP probe 1.21×. The decay sweep selected
-the largest value, driving the fit toward a constant. Since `centered ≥ 0`:
-
-> **k=0 MSE ≥ 1.6357 with the best legitimate level predictor, even with perfect
-> ordering.** Reaching 1.00 needs a 13.2× reduction in level error.
-
-**The k=0 ≤ 1.00 target is therefore NOT reachable with the current inputs.**
-The missing information is *zero-shot target-level affinity calibration for
-unseen homology components*.
-
-**Stage B's collapse claim was too strong.** Cosine 0.997 was insufficient
-evidence. A frozen probe finds a **resolved** within-target ordering signal in
-`occupancy` — meta_val r = **+0.2182 [+0.0751, +0.3670]** — the only
-representation that survives out of component (`embed` +0.007, `readout_hidden`
-+0.026, `section` +0.060, all unresolved). The model has this signal and does
-not use it: `occupancy` reaches the endpoint only through `contact_weight`, a
-`Linear(24→1)` of the same capacity as the probe, yet the endpoint orders no
-better than a constant (ratio 1.0277). Worth ≈ 0.04 pK² if fully exploited —
-real, resolved, and far too small to change the k=0 verdict.
-
-## Next authorized work
-
-The constraint is **information, not optimization**. No training schedule, no
-adapter, no architecture growth. In priority order:
-
-1. **external protein representation for target level** — run the preregistered
-   M0/MSA lane, or structure-derived pocket descriptors, reported as external
-   data, and test directly against the calibrated-constant reference (1.3471);
-2. **assay/library covariate test** — regress target level on assay covariates
-   within `meta_train`. If level is partly a property of testing history rather
-   than the protein, the zero-shot target itself must be restated;
-3. **the `occupancy` shape lever** — separate the level and shape paths so the
-   24 contact-type parameters are trained on within-target centered supervision
-   rather than level-dominated MSE. It can improve centered MSE, CI and
-   Spearman; it cannot reach MSE ≤ 1.00 and must not be reported as if it could;
-4. **remove `meta_val` checkpoint selection** from the production trainer and
-   re-establish the incumbent band under a leak-free rule (Stage B measured the
-   leak at ~0.62 pK² at k=0).
-
-## Method-ladder cycle (opened 2026-08-16, CLOSED 2026-08-18)
-
-The 2026-08-17/18 cycle superseded the ladder. Every one of the eight named
-families now has a measured successor stage with a verdict — see
-`tools/research/method_ladder/CLOSURE_MAP.md`. The shared M3 discriminator
-harness (`tools/research/method_ladder/_shared/`, 25 structural tests) is
-built and reusable; no family remains pending.
-
-**The closure is not a falsification of the named methods.** The repaired map
-classifies each family by what was actually implemented: 0 direct, 3 partial,
-5 proxy. OGM, Gradient Blending, Disentangled Gradient Learning, Set
-Transformer / attention MIL, DrugBAN and FS-CAP were **never instantiated** —
-their entries record `proxy negative; direct method not instantiated`.
-Reopening any of them is a new experiment, and the bar for reopening is to
-state the new function class or information source that makes the test
-materially different from the proxy that failed.
-
-Eight named method families are tested sequentially under
-`tools/research/method_ladder/<family>/`, each through the ladder
-M0 primary-source reconstruction -> M1 input/identifiability gate ->
-M2 structural/synthetic -> M3 frozen or low-cost discriminator ->
-M4 one-seed training screen -> M5 three-seed admission. A failure stops that
-family at its rung; no post-hoc rescue variants. Every family ends in exactly
-one verdict: `REJECTED_BY_INPUT_CONTRACT`, `REJECTED_BY_STRUCTURAL_GATE`,
-`REJECTED_BY_FROZEN_DISCRIMINATOR`, `REJECTED_BY_TRAINING_SCREEN`,
-`ADMITTED_TO_FULL_EVALUATION`, or `ADMITTED_COMPONENT`.
-
-Families: (1) multimodal representation collapse + basis reallocation;
-(2) Gradient Blending / OGM; (3) Disentangled Gradient Learning;
-(4) attention MIL / Set Transformer / adaptive pooling; (5) DrugBAN-style
-bilinear interaction; (6) FS-CAP-style episodic scale; (7) AdaMBind-style task
-valuation and label-noise robustness; (8) MMP-cliff transformation learning.
-
-The standing measured lead into this cycle is the fusion/pooling localization:
-Phase 3 put the loss of protein-differential at the `atom_context` fusion and
-atom pooling inside `ContactGrammar` (150x attenuation from `context` to
-`mean_state`, ~3,400x in the protein-token Jacobian). **Stage P weakens it**:
-an over-driven centered objective with 4.6x amplified gradient into `embed`
-extracted alignment of only +0.022 against a +0.10 threshold, so the audit
-established attenuation but not *information*. Families 1 and 4 therefore both
-begin by testing whether pre-fusion `atom_context` carries truth-aligned
-protein-ligand information at all. If that shared gate fails, learned pooling
-and basis reallocation are rejected rather than widened.
-
-Standing constraints added 2026-08-16:
-
-- protein counterfactuals must be **centered** to speak to ordering; every
-  uncentered wrong-protein number in R0-R14 measures target level only;
-- no pocket, contact or "biologically localized" language: the protein path is
-  exactly invariant to residue-slot permutation;
-- `include_meta_test` is fail-closed and opening it requires a written
-  authorization recorded in the artifact.
-
-## Independent M0 lane
-
-`report/meta_fewshot/stageM0_msa_probe_20260816/PREREGISTRATION.md` is an independent
-protein-calibration diagnostic. It may run only after recording the local MMseqs2
-executable and a governed UniRef database snapshot. It may not consume meta_test,
-share model-selection decisions with A2, or be represented as DTA improvement.
-
-## Stage D: panel-context level + orthogonal level/shape (opened 2026-08-17)
-
-`tools/research/stageD_level_panel/`. Preregistration frozen before any arm
-trained. The D0 diagnostics re-audited the Stage C boundary and answered the
-five governing re-examination questions (authority: `D0_REPORT.md` plus
-`D0_AUDIT_DECOMPOSITION.json`, `D0_LEVEL_IDENTIFIABILITY.json`,
-`D0_LEVEL_ANATOMY.json`, `D0_OCCUPANCY_STRATA.json`):
-
-1. the level/shape decomposition is per episode (per draw), not per canonical
-   target; the drawn-panel part of "level" is small (0.013-0.034 pK^2);
-2. the calibrated constant reads meta_val labels (disclosed REFERENCE); the
-   meta_train-only constant is 2.15-2.17, which the tested features do beat;
-3-5. level is a joint property of protein, assay and the tested ligand panel:
-   within meta_train, component identity explains 46% in-fold but transfers
-   -1.1%; document identity 70% in-fold but 6.8% out; **panel composition is
-   the best transferring covariate (23.9%)** vs protein sequence 11.9%;
-   the occupancy ordering signal survives scaffold novelty (r +0.154) and low
-   ligand recall (r +0.221); best legal level predictor on meta_val remains
-   ESM-650M linear (1.6875), 13.6x the 0.1239 budget.
-
-Stage E candidate: two innovations only — I1 panel-set level readout
-(framework), I2 orthogonal level/shape routing (training module). Four arms,
-one code path, leak-free internal checkpoint selection (Stage B partition).
-Gates G1-G6 and stop rules S1-S4 are frozen in `PREREGISTRATION.md`.
-GPU verification (torch.cuda.is_available, model/batch devices, nvidia-smi
-utilization) runs before every arm and refuses to train without it.
-
-## Stage F: pairwise learned interaction transport (opened 2026-08-17)
-
-`tools/research/stageF_pairwise/`. Preregistration frozen. Candidate: the
-transport kernel becomes a learned pairwise (query, support) edge operator over
-embed-space with the fixed Tanimoto kernel kept as an additive anchor, trained
-with pairwise signed-gap supervision (query labels loss-only). Arms F / F-ABS
-against the frozen Stage E T2 baseline; same seed, budget, partition and
-leak-free selection. Gates G1-G5 and stop rules S1-S4 in
-`PREREGISTRATION.md`. This is the mechanism family that can consume the
-Stage L pairwise signed-gap direction (r +0.270, orthogonal to Tanimoto),
-which every prior moment-form or fixed-kernel transport could not.
-
-## Stage G / G2: ESM-650M residue-input lane (2026-08-17, night)
-
-`tools/research/stageG_esm650/`. Stage G single-seed screen: the incumbent
-recipe retrained on the local ESM-2 650M protein bank (1280-dim pooled +
-128-slot residues; provenance recorded). First arm in the record to improve
-MSE, level^2, centered MSE, Spearman, Pearson, CI and cliff sign at EVERY k
-against frozen T2; k=0 centered MSE resolves (-0.0396 [-0.0772, -0.0018]);
-k=0/k=5 MSE gains unresolved. Controls clean. Gate G2 (resolved MSE gain at
-k in {2,3,5}) failed, so the lane stopped at the screen; the continuation is
-the newly preregistered multi-seed confirmation (Stage G2,
-`PREREGISTRATION_G2.md`): 3 fixed seeds for both arms, pooled component
-bootstrap, then freeze and a single meta_test open only if every G2 gate
-passes. Davis/KIBA remain a separate later stage.
-
-## Stage H / I: pocket-prior and live-LM lanes (2026-08-17, night)
-
-- Stage H0 (structure/pocket, `tools/research/stageH_pocket/`): local MMseqs2
-  coverage audit — 209/387 targets have a homologous holo structure (>=30%
-  identity, >=50% query coverage; 152 at >=90%); pocket descriptors extracted
-  and probed. Level identifiability: pocket MLP 2.4398 vs 2.6179 constant,
-  shuffled control 2.4941 — REJECTED at the identifiability gate; no Stage H
-  training authorized.
-- Stage I (live ESM-2 150M LoRA lane, `tools/research/stageI_lm/`,
-  preregistered): REJECTED — G2 fails (no resolved MSE gain at any k; k=2
-  -0.0459, k=3 -0.0383, k=5 -0.0182, all intervals cross zero). Two resolved
-  ranking gains recorded as observations (k=2 Spearman vs the frozen live
-  control, k=3 Pearson vs T2). Engineering note: chunked LoRA backward on long
-  proteins silently OOM-killed the process; the first-chunk gradient bound is
-  documented for any future LM lane.
-
-## Stage J: assay-aware level head (2026-08-18, closed)
-
-`tools/research/stageJ_assay/`. D0c measured journal/publisher provenance as
-the strongest single legal level covariate (1.619 vs 2.155 constant; shuffle
-2.522; 100% meta_val share). Three preregistered arms (J / J-NOPAIR /
-J-NOJRNL) vs frozen T2. REJECTED: k=0 level^2 1.73 -> 1.30 (best on record,
-unresolved) but k=2/3 ranking degrades with resolved intervals; the learned
-zero-shot level head cannot beat support-label calibration at k>=1 without
-degrading ordering. See `REPORT.md`.
-
-## Required stage artifacts
-
-Each stage keeps only `PREREGISTRATION.md`, `RESULT.json`, `REPORT.md`, necessary
-prediction rows and a loadable admitted checkpoint. Delete duplicate smokes,
-progress logs and failed checkpoints after consolidating their verdict. Update
-`history.md`, this file, `report/CURRENT_MODEL_EVIDENCE.md` and
-`report/EVIDENCE_LEDGER.md` after every decision.
-
-## Directory lifecycle
-
-- `tools/research/` is the project's `/research` workspace. It contains only
-  unadmitted hypotheses, probes and stage-specific experimental code.
-- Research that passes its preregistered gates must be moved, not copied:
-  reusable model code goes to `model/`, executable workflows go to `scripts/`,
-  and maintained contracts go to `tools/tests/`. Delete the research copy after
-  promotion so that every implementation has one owner.
-- `tools/runtime/` contains ignored local executables, downloads and inspection
-  helpers. It is never an evidence or source-code authority.
-- Root `main.py` is the sole high-level command dispatcher. It may orchestrate
-  admitted capabilities from `model/` through `scripts/`, but it must never
-  import or expose `tools/research/` experiments.
-- Do not recreate root `test/`, `tests/`, `research/` or `LLM/` directories.
-  Tests, research prototypes and local tooling are consolidated under `tools/`.
+Updated: 2026-08-17. This file is the single authority for active work. Detailed
+chronology belongs in `history.md`; numerical evidence belongs in
+`report/EVIDENCE_LEDGER.md` and each stage's frozen artifacts.
+
+## Mission
+
+Build a trainable model that produces a reproducible performance step-change on
+cold-target zero-shot and few-shot DTA. The research target remains MSE <= 1.00
+pK^2 across k in {0, 1, 2, 3, 5}, accompanied by competitive RMSE, CI and
+Spearman rather than an MSE-only calibration shortcut. This is an aspiration,
+not permission to weaken the split, tune on held-out labels or relabel a failed
+gate.
+
+One core innovation must be a training mechanism with a separately attributable
+effect. The second intended innovation is a protein-ligand interaction
+representation. Few-shot adaptation is blocked until that representation is
+shown to carry transferable, affinity-relevant protein information.
+
+## Current scientific state
+
+- The leak-free BindingDB-Ki double-cold T2 baseline has MSE
+  2.5961/1.7712/1.3245/1.2197/0.9859 at k=0/1/2/3/5.
+- At k=0, MSE decomposes as level^2 1.7314 plus centered MSE 0.8648. The target
+  level is the dominant error, while current within-target ordering is also weak.
+  An oracle target level would give approximately 0.865 MSE, so the excellence
+  target is arithmetically possible even though no tested model reaches it.
+- Fixed Morgan/Tanimoto residual weighting is the strongest reproducible k>=2
+  query-specific comparator. It is ligand-only and is not a protein-conditioned
+  meta-learning result.
+- `occupancy` retains a small resolved ligand-side ordering signal. Existing
+  interaction endpoints underuse it.
+- Stage S rejected a global protein-conditioned SAR field. Correct protein gave
+  only +0.0065 Pearson over ligand-only, with an unresolved interval, while a
+  shuffled protein reproduced the gain. The live protein path behaved as a
+  target key rather than transferable biology.
+- Stage S also proved that a correct-vs-wrong protein hinge can cheat by making
+  the wrong branch arbitrarily bad (hard-wrong MSE 12.62). Wrong-protein damage
+  alone is therefore not evidence of protein-conditioned signal.
+- Stage T tested a core-blind MMP key and its pooled-protein discriminator
+  failed decisively (zero predictor wins 2.4x on MSE; shuffled protein improves
+  it). A forensic correction
+  (`tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md`) scoped that
+  verdict: 40.4% of Stage T training D rows compared targets with disjoint
+  cores, so the exact-cancellation claim does not hold for Stage T, and the
+  Stage T closure of the whole family is withdrawn.
+- Stage U (`tools/research/stageU_mmp_interaction/`) froze a core-inclusive key
+  (`tau = shared core + R_a -> R_b + attachment environment + stereochemistry +
+  charge`) and stopped at **U0**: the primary same-panel fit bank has 37,945
+  observations / 243 targets / 30,463 exact keys, but one target in one
+  component contributes **29.63%** of observations, above the frozen 25%
+  degree-concentration cap. Per the frozen stop rule, U1/U2 were not run and no
+  neural model was trained. This is an admission/balance negative, **not**
+  biological absence of interaction signal.
+- Stage V (`tools/research/stageV_core_mmp/`) is the corrected successor and
+  closes the tested mechanism at V0/V1: the primary internal repeated-key
+  surface has **32 rows / 4 components** (<100 evaluability floor), and on fit
+  the between-target interaction MS is **0.452 pK² vs 0.858 pK² supervision
+  noise**, with bootstrap `theta = -0.406 [-0.689, -0.058]` entirely below
+  zero. Internal rich exact keys = **0**. No V2 operator was trained. The
+  correct reading is **not estimable**, not "closed": `MS_effect` is an upper
+  bound on protein-attributable interaction variance (sd <= 0.67 pK) even
+  before any noise subtraction, and the noise reference itself is inflated by
+  T0's non-identifiable technical-versus-condition split. This bounds what the
+  current BindingDB-Ki protocol can *identify*; it is **not** evidence that
+  protein biology fails to modulate SAR, and **not** a universal absence claim.
+- No present DTA cell has a legal common-frame protein-ligand pose. Cartesian or
+  complex-geometry claims are prohibited on this corpus.
+
+Authority for these statements:
+
+1. `report/POST_COMPLETION_REVIEW_20260818.md`
+2. `report/BOUNDARY_20260817_NIGHT.md`
+3. `report/CURRENT_MODEL_EVIDENCE.md`
+4. `report/EVIDENCE_LEDGER.md`
+5. `tools/research/stageS_sar_field/REPORT.md`
+6. `tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md` (scopes Stage T)
+7. `tools/research/stageV_core_mmp/REPORT.md` (corrected Phase-1 test)
+8. `tools/research/stageV_core_mmp/STAGE_U_GOVERNANCE_AUDIT.md` (Stage U stopped)
+
+## Active five-phase programme
+
+The phases are sequential scientific gates. A phase may reject with one seed;
+promotion requires the stated evidence. A failed prerequisite blocks every
+downstream phase. Do not jump from an unidentifiable interaction representation
+to a larger meta-adapter.
+
+### Phase 1 - transferable protein-conditioned interaction signal
+
+**Question.** Using only protein sequence-derived features and ligand 2D
+features, can the model learn a local interaction representation `Z(P,L)` whose
+dependence on the correct protein improves true SAR ordering on unseen protein
+components?
+
+**Representation contract.** Preserve ligand atoms or functional groups,
+protein residues or regions, and their local cross-interaction tokens until the
+readout. Early global pooling is not allowed. A protein embedding changing under
+a swap is insufficient; the change must align with affinity differentials.
+
+**Status: NOT ESTIMABLE on this dataset (2026-08-17). Phase 1 is neither closed
+nor in progress — it is blocked by identifiability, and no model-level verdict
+exists.** This supersedes the earlier "CLOSED" wording, which rested on a
+defective transformation key.
+
+**Stage T (`tools/research/stageT_mmp/`) — scoped to what it tested.** Its
+`exact_key` omitted the shared core, it median-pooled several cores into one
+target effect, and its descriptor never read the core. Forensics
+(`tools/research/stageV_core_mmp/STAGE0_FORENSICS.json`): **40.4% of Stage T fit
+`D` rows and 28.9% of internal rows compared targets with disjoint core sets**,
+carrying an uncancelled generic residual of median **0.269 pK** (p95 1.268)
+against a `D` truth sd of 0.804. So Stage T's "cancels `mu_tau` exactly" claim
+is false for those rows, and its global closure of the family is **withdrawn**.
+What stands: the **coarsened-key pooled-protein discriminator is rejected**, and
+the defect explains its own inverted controls. Correction document:
+`tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md`. T0 stands
+unchanged; the "1,112 rich keys" figure must not be reused.
+
+**Stage U — stopped and superseded.** Its preregistration was frozen at 17:12,
+four minutes after Stage T's gate metrics were read at 17:08, so it is an
+**adaptive correction, not an independent confirmation**. Its chemistry was
+correct (core-inclusive key, core-consuming descriptor, interaction-variance
+gate, local region operator), but four load-bearing requirements were missing
+after metrics had been read: no residue-token permutation control, no
+capacity-matched random protein, a `fit_unsampled` bank that retained the same
+targets and keys (so it cannot detect target-key memorisation), and no
+identical-initialization / identical-minibatch-order rule. Per the governing
+rule it is stopped, its preregistration is **not** edited, and no Stage U number
+is used as evidence. Audit:
+`tools/research/stageV_core_mmp/STAGE_U_GOVERNANCE_AUDIT.md`.
+
+**Stage V (`tools/research/stageV_core_mmp/`) — the corrected test, stopped
+before training.** It inherits every Stage U threshold verbatim (frozen before
+any core-inclusive number existed) and adds the four missing controls plus two
+defect repairs; **no threshold was loosened**. Three frozen gates fail:
+
+- **V0 census**: all five admission thresholds pass (37,945 fit observations,
+  243 targets, **1,001** core-inclusive rich keys, 4,589 internal observations,
+  25 internal components) but **two concentration caps fail** — one target,
+  alone in its component, carries **29.63%** of same-panel fit observations
+  against a 25% cap. This independently reproduces Stage U's U0 stop.
+- **V0b evaluability** (inherited <100-row rule): the designated primary
+  surface, internal `D` rows whose key repeats in fit, has **32 rows over 4
+  protein components**, and **internal rich exact keys = 0**. The primary
+  evaluation surface for the corrected estimand does not exist here.
+- **V1 interaction variance**: within one *complete* transformation, the pooled
+  between-target mean square is `MS_effect` **0.4517** against a supervision
+  noise reference of 0.8576, giving `theta` **-0.4059 [-0.6889, -0.0577]** —
+  resolved below zero, ratio **0.527**; internal agrees descriptively (0.2610,
+  ratio 0.304). Even ignoring the noise reference entirely, `MS_effect` is an
+  **upper bound** on protein-attributable interaction variance: sd <= 0.67 pK
+  before subtracting any noise.
+
+**Consequence.** Per the frozen stop rules, **no neural arm was built or
+trained**. The scoped conclusion is about **estimability, not biology**: on this
+corpus, with same-panel Ki supervision and full-context single-cut MMP
+transformations, the protein x transformation interaction is not identifiable
+above supervision noise and no adequately supported evaluation surface exists on
+the withheld components. **Insufficient support is not biological absence.** It
+may **not** be claimed that protein-conditioned interaction representations are
+impossible, nor that Phase 1 is closed. Authority:
+`tools/research/stageV_core_mmp/REPORT.md`.
+
+**What would unblock Phase 1.** Not a larger model. Either a corpus in which a
+complete transformation recurs across many protein components, or a
+preregistered looser-but-principled transformation equivalence class with its
+own cancellation analysis — since loosening the key reintroduces exactly the
+0.269 pK residual measured above. Stereochemical and charge-changing edits
+remain **unmeasured** (1 and 2 internal observations).
+
+**Required controls.** Correct protein, shuffled protein, similarity-matched
+wrong protein, protein-blind ligand-only, residue permutation, and a
+capacity-matched random protein branch. All comparisons use identical rows.
+
+**Pass gate.** Correct protein must improve signed relative-affinity prediction
+over ligand-only and every wrong/shuffled control, with the component-bootstrap
+lower bound above zero on the preregistered estimand. Report MMP coverage,
+scaffold novelty, protein novelty, ligand similarity and activity cliffs.
+
+**Stop.** If correct protein is statistically indistinguishable from shuffled or
+matched-wrong protein, close the proposed representation family and do not enter
+Phase 2 or few-shot adaptation.
+
+### Phase 2 - protein-conditioned relative SAR
+
+**Question.** Can the admitted representation predict
+`Delta y(P,i,j) = y(P,L_i) - y(P,L_j)` across unseen protein components?
+
+**Model contract.** The relative operator must be antisymmetric under ligand
+exchange and exactly zero for an identity pair. Train directly on signed
+within-target differences with a robust relative loss. Target balance and assay
+or panel provenance are mandatory because raw pair counts are highly skewed.
+
+**Counterfactual rule.** Wrong, shuffled and residue-permuted proteins are
+evaluation controls by default. A protein-counterfactual training loss is
+forbidden unless a preceding synthetic test proves that its bounded objective
+cannot pass by worsening the wrong branch, and the real-data report separately
+shows improvement of the correct branch. This rule supersedes the naive margin
+loss proposed in the original five-phase note.
+
+**Pass gate.** Relative Pearson/Spearman/CI and sign accuracy must beat the
+protein-blind relative model and all protein controls, including in
+high-similarity/high-affinity-gap activity cliffs. Improvement only on familiar
+ligands or within seen components is insufficient.
+
+### Phase 3 - absolute level and SAR-shape ownership
+
+**Question.** Can zero-shot absolute affinity improve without sacrificing the
+relative SAR coordinate established in Phase 2?
+
+**Model contract.** Use an explicit decomposition
+`y_hat(P,L) = mu_hat(P, assay_context) + s_hat(P,L)`. The shape branch is
+centered and cannot cheaply relearn a target constant. Level and shape use
+separate readouts and explicit gradient ownership.
+
+**Required training innovation.** Test a focused trainable mechanism such as
+disentangled gradient routing, gradient projection or independently supervised
+heads. It must be implemented as one forward/backward optimizer step unless a
+separately preregistered inner/outer loop is the experimental variable. Report
+per-loss gradient norms, conflicts and parameter-update coverage so the claimed
+training contribution is observable.
+
+**Pass gate.** Against the Phase-2 model, target-level squared error decreases,
+centered MSE does not increase, and Spearman/CI do not regress. A level gain
+obtained by degrading ordering fails. The training mechanism must show a
+positive effect in the attribution arm with the interaction trunk held fixed.
+
+### Phase 4 - genuine few-shot target-state identification
+
+**Question.** Given support `{(Z(P,L_i), r_i)}`, can a trainable set-conditioned
+operator identify a new target's local SAR state and improve each query beyond
+fixed chemical similarity?
+
+**Contract.** k=0 is exactly the admitted zero-shot model. k=1 may make a
+conservative level update plus a strongly regularized local correction; it
+cannot identify a complete SAR field. At k>=2, use relative support evidence
+such as residual or affinity differences. The correction must vary by query and
+must be support-permutation invariant. Query labels, closed-form solvers, ridge,
+pseudoinverses and deployment-time query gradients are prohibited.
+
+Attention is admissible only as a correspondence mechanism over preserved local
+interaction tokens. Generic attention or a pooled task code is not itself an
+innovation. The support label must be bound to its molecular context before set
+aggregation.
+
+**Pass gate.** Beat level-only adaptation and fixed Morgan/Tanimoto residual
+transport at k>=2 in MSE and ranking, with positive correct-vs-label-permuted and
+correct-vs-matched-wrong support gaps. At k=1, report level and query-specific
+effects separately. A support-independent or label-insensitive adapter fails.
+
+### Phase 5 - causal attribution, confirmation and external replication
+
+Run four matched arms:
+
+1. incumbent trunk + incumbent training;
+2. new interaction trunk + incumbent training;
+3. incumbent trunk + new training mechanism;
+4. new interaction trunk + new training mechanism.
+
+This factorial design attributes representation, training and interaction
+effects. Evaluate k=0/1/2/3/5 with MSE, RMSE, CI, Spearman, centered MSE,
+target-level error, activity-cliff sign accuracy, scaffold novelty and protein
+novelty. Required counterfactuals are correct support, label-permuted support,
+matched wrong-target support, wrong/shuffled protein and ligand-only controls.
+
+Promotion requires three fixed seeds, identical nested episode banks,
+component-paired confidence intervals, no k=0 ranking regression, and a loadable
+checkpoint. Only after BindingDB promotion may Davis and KIBA be trained and
+evaluated as separate single-dataset experiments. Do not merge their labels or
+report cross-dataset training as the BindingDB result.
+
+## Phase status
+
+| Phase | Status | Admission authority |
+|---|---|---|
+| 1 | **BOUNDED NEGATIVE (tested mechanisms closed)** — Stage S/P/T/U/V chain; Phase 1 final decision records the exact-MMP route as not estimable and interaction variance as not identifiable above the defensible noise envelope | `tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md`, `PHASE1_FINAL_DECISION.json` |
+| 2 | BLOCKED pending Phase 1 | this contract |
+| 3 | BLOCKED pending Phase 2 | this contract |
+| 4 | BLOCKED pending Phases 1-3 | this contract |
+| 5 | BLOCKED pending a promoted candidate | this contract |
+
+## Immutable governance
+
+1. BindingDB experiments use the governed double-cold split and physical split
+   view. Protein components and ligand identities/scaffolds must be audited.
+2. Model selection, early stopping and threshold tuning use only a
+   meta-train-derived internal component split. `meta_val` is a development
+   evaluation, not a clean held-out claim after selection. No `meta_test` label
+   may enter fitting, selection or a reported development metric; future Phase-5
+   confirmation must use the repaired physically isolated split-view surface.
+3. Stable SHA-256 seeds are mandatory. Python `hash()` is prohibited for any
+   reproducibility-critical value.
+4. Support and query are disjoint ligands from one recipient target. Query
+   labels are used only in the outer training loss or final evaluation.
+5. Each experiment trains on one named open dataset. Davis/KIBA are independent
+   replications, not silently integrated training data.
+6. No ridge, differentiable ridge, analytic solve, Cholesky, pseudoinverse or
+   search for a strongest closed-form adapter.
+7. Normal trainable inner/outer loops are allowed only when they are the
+   preregistered mechanism. No test-time query labels and no hidden multi-stage
+   pretraining claim.
+8. External representations or labels require a provenance ledger, frozen-data
+   baseline and an attribution arm. Literature inspiration is not evidence that
+   an implementation works.
+9. Common-frame 3D interaction is forbidden without legal coordinates. Ligand
+   conformers and protein structures in separate frames may only produce
+   independently invariant features.
+10. One scientific variable changes per screening stage. A single seed may
+    reject; positive promotion requires three seeds.
+11. Structural tests precede training: shape/mask contracts, permutation
+    invariance/equivariance, k=0 identity, k=1 semantics, label sensitivity,
+    counterfactual distinctness, finite gradients and checkpoint round-trip.
+12. Do not reinterpret a failed preregistered threshold after seeing results.
+
+## Closed directions and retained comparators
+
+- A2 moment adaptation, seven output-side query adapters, the partial MAML lane,
+  adaptive task selection, shared-trunk level heads, global protein-conditioned
+  SAR fields and naive wrong-protein margin training are closed on their tested
+  implementations.
+- These are empirical closures, not universal theorems about MAML, attention,
+  Set Transformers, DrugBAN, FS-CAP, OGM or all protein language models.
+- Retain the leak-free incumbent, fixed Morgan/Tanimoto transport, ligand-only
+  signed SAR field, `occupancy`, and K-REG only as measured comparators or
+  training diagnostics. They are not final candidates.
+
+## File and evidence lifecycle
+
+- `tools/research/<stage>/` is the only location for unadmitted research code,
+  tests and temporary stage artifacts.
+- Every stage needs a frozen `PREREGISTRATION.md`, machine-readable result and
+  compact decision report. Progress logs, generated caches, duplicate smokes and
+  failed checkpoints are removed after the verdict; Git is the recovery layer.
+- A passed implementation moves once into `model/`; its governed workflow moves
+  into `scripts/`; maintained contracts move into `tools/tests/`. Remove the
+  research copy after promotion so there is one implementation.
+- `main.py` orchestrates only admitted `model/` and `scripts/` functionality.
+- `history.md` records decisions chronologically. `task.md` contains only the
+  active contract. `report/EVIDENCE_LEDGER.md` points to numerical leaves.
+- Historical documents still referenced by tests or exact operator definitions
+  remain in place but are explicitly non-authoritative. Do not delete an
+  evidence dependency merely because its proposal is closed.
+
+## Immediate next action
+
+Phase 1 is decided: `tools/research/stageV_core_mmp/PHASE1_FINAL_DECISION.md`
+records the bounded negative. No training is authorized on the Stage U or
+Stage V constructions; keep all Stage S/T/U/V artifacts read-only. A future
+positive claim would require a new preregistered stage and at least one of:
+(a) a corpus where a complete core/context-matched transformation recurs
+across many protein components, (b) a governed MSA/coevolution snapshot
+(currently absent), or (c) a looser-but-principled equivalence class with its
+own cancellation analysis — and (c) alone may only be an identification
+screen, never the strict positive gate. No threshold may be moved to revive
+this route.
+
+The remaining-lanes audit
+(`tools/research/stageV_core_mmp/REMAINING_LANES_AUDIT.json`) records that no
+local legal route can change this verdict; the negative branch is complete
+pending only external assets or a governance change.
+
+Completion evidence: `report/COMPLETION_STATEMENT_CORE_TASK1_20260817.md`;
+goal-tool unavailable, so `tools/research/GOAL_ACTIVE.md` is the authority and
+records the complete-on-negative-branch state. No further internal experiments
+are to be started until one of the three reopening conditions appears.
+
+Goal status: **COMPLETE** on the bounded-negative branch as recorded in
+`tools/research/GOAL_ACTIVE.md` (round 10). No further internal work until an
+external asset or governance change opens a new cycle.

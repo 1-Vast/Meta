@@ -1,0 +1,201 @@
+{
+ "disclosure": "post-hoc descriptive audit computed after V0/V1 fired; excluded from every gate; cannot change the Stage V verdict",
+ "meta_test": {
+  "authorization": null,
+  "evaluated": false,
+  "included": false,
+  "isolation": {
+   "builder": "scripts/build_governed_split_views.py",
+   "labels_parsed_in_process": [
+    "meta_train",
+    "meta_val"
+   ],
+   "level": "physically_isolated",
+   "physically_isolated": true,
+   "source_manifest_sha256": "8f223a276840153c99671cfa64c8195f947e66e9b1d2a455fbc5137976a4f4fa",
+   "specification": "tools/research/a2_readiness_v2/SPLIT_ISOLATION_SPEC.md",
+   "split_assignment_sha256": "9d8c7289c1b6162f0e39c0c7ff2222bb45305fe3193bfee7b0b8214c0baf5684",
+   "surface": "governed_split_view",
+   "view_directory": "D:\\MetaSieve\\dataset\\processed\\meta_fewshot\\bindingdb_ki_double_cold_v1_views"
+  },
+  "seal": "physically isolated (governed split view): this process mounted only the meta_train/meta_val label artifacts. The meta_test label artifact is not present in the development surface, so no sealed label was opened, decompressed or parsed.",
+  "sealed_cells_withheld": 768
+ },
+ "pair_level_variance": {
+  "all_repeated_pairs": {
+   "bootstrap": {
+    "draws": 1000,
+    "groups": 88,
+    "hi": 0.24103300865965677,
+    "identifiable": true,
+    "lo": 0.09825140996006076,
+    "median": 0.16367753767370047,
+    "unit": "repeated MMP pair (both cells in a shared panel)"
+   },
+   "point": 0.16618178668989872
+  },
+  "disagreeing_pairs_only": {
+   "bootstrap": {
+    "draws": 1000,
+    "groups": 48,
+    "hi": 0.4268312055961224,
+    "identifiable": true,
+    "lo": 0.19965848751939713,
+    "median": 0.3028887864273935,
+    "unit": "repeated MMP pair (both cells in a shared panel)"
+   },
+   "point": 0.30323847769409734
+  }
+ },
+ "population": {
+  "disagreeing_groups": 48,
+  "duplication_warning": "zero-range groups are consistent with one physical measurement curated twice, not with independent replication; pooling them deflates the noise estimate",
+  "repeated_shared_panel_pairs": 88,
+  "same_panel_mmp_pairs": 42534,
+  "selection_warning": "only pairs whose two cells were both measured in more than one shared panel can appear here; they are reference-heavy and are NOT a random sample of all same-panel MMP pairs",
+  "zero_range_curation_duplicate_groups": 40
+ },
+ "reading": "Under the preregistered cell-level reference the negative is resolved. The direct pair-level references are lower but heavily selected and duplicated; under the conservative disagreeing-only reference no V1 contrast has a positive lower bound, and only the downward-biased all-group reference would pass cross-component keys. The interaction variance is therefore not identifiable above the defensible noise envelope on this corpus.",
+ "schema": "MetaSieve.StageV.PairLevelNoiseAudit.v1",
+ "stage": "stageV_core_mmp",
+ "v1_against_alternative_noise_references": {
+  "T0_cell_level_preregistered": {
+   "all_keys": {
+    "MS_effect": 0.45168040420690786,
+    "MS_effect_interval": [
+     0.20916355041076223,
+     0.7497041249773985
+    ],
+    "components": 99,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 4651,
+    "pass": false,
+    "ratio_MS_over_noise": 0.5266610817826894,
+    "sigma2_noise": 0.8576301151359423,
+    "sigma2_noise_interval": [
+     0.6802308954602596,
+     1.0273292501297822
+    ],
+    "target_effects_used": 12133,
+    "theta": -0.4059497109290345,
+    "theta_hi": -0.07313217015023404,
+    "theta_lo": -0.7041051369999455
+   },
+   "cross_component_keys_only": {
+    "MS_effect": 0.6939146208039492,
+    "MS_effect_interval": [
+     0.35642331895975266,
+     0.908777933253755
+    ],
+    "components": 91,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 2616,
+    "pass": false,
+    "ratio_MS_over_noise": 0.8091071063822861,
+    "sigma2_noise": 0.8576301151359423,
+    "sigma2_noise_interval": [
+     0.6842810957780042,
+     1.0324089297999317
+    ],
+    "target_effects_used": 6892,
+    "theta": -0.16371549433199317,
+    "theta_hi": 0.10985597911952458,
+    "theta_lo": -0.504472050619722
+   }
+  },
+  "pair_level_all_repeated": {
+   "all_keys": {
+    "MS_effect": 0.45168040420690786,
+    "MS_effect_interval": [
+     0.22492113354081836,
+     0.7501735105337282
+    ],
+    "components": 99,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 4651,
+    "pass": false,
+    "ratio_MS_over_noise": 2.7179898182811093,
+    "sigma2_noise": 0.16618178668989872,
+    "sigma2_noise_interval": [
+     0.20855245032577205,
+     0.4722536081819512
+    ],
+    "target_effects_used": 12133,
+    "theta": 0.2854986175170091,
+    "theta_hi": 0.43387975699928705,
+    "theta_lo": -0.13202872072183985
+   },
+   "cross_component_keys_only": {
+    "MS_effect": 0.6939146208039492,
+    "MS_effect_interval": [
+     0.36245051253639865,
+     0.908601382795279
+    ],
+    "components": 91,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 2616,
+    "pass": true,
+    "ratio_MS_over_noise": 4.175635818014276,
+    "sigma2_noise": 0.16618178668989872,
+    "sigma2_noise_interval": [
+     0.20999640098610917,
+     0.4825841867788101
+    ],
+    "target_effects_used": 6892,
+    "theta": 0.5277328341140505,
+    "theta_hi": 0.6064056302424363,
+    "theta_lo": 0.013948380144052263
+   }
+  },
+  "pair_level_disagreeing_only": {
+   "all_keys": {
+    "MS_effect": 0.45168040420690786,
+    "MS_effect_interval": [
+     0.21692245094563423,
+     0.738007377876648
+    ],
+    "components": 99,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 4651,
+    "pass": false,
+    "ratio_MS_over_noise": 1.489522067389339,
+    "sigma2_noise": 0.30323847769409734,
+    "sigma2_noise_interval": [
+     0.3974181504691511,
+     0.8518633595642577
+    ],
+    "target_effects_used": 12133,
+    "theta": 0.14844192651281052,
+    "theta_hi": 0.21869203811960977,
+    "theta_lo": -0.48813058595874603
+   },
+   "cross_component_keys_only": {
+    "MS_effect": 0.6939146208039492,
+    "MS_effect_interval": [
+     0.3540063895170802,
+     0.9056300152702561
+    ],
+    "components": 91,
+    "draws": 1000,
+    "identifiable": true,
+    "keys_with_ge2_targets": 2616,
+    "pass": false,
+    "ratio_MS_over_noise": 2.2883462088342243,
+    "sigma2_noise": 0.30323847769409734,
+    "sigma2_noise_interval": [
+     0.4061759445848931,
+     0.8646904519064275
+    ],
+    "target_effects_used": 6892,
+    "theta": 0.3906761431098518,
+    "theta_hi": 0.36760341646286604,
+    "theta_lo": -0.32704402234313584
+   }
+  }
+ }
+}
