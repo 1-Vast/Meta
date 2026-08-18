@@ -1,0 +1,787 @@
+{
+ "schema": "MetaSieve.StageQ2d.Q2D1_BILINEAR.v1",
+ "preregistration_sha256": "4f7e80027b9b82564bf1ea262d360813f23ffe77f8378ca54b490cc6752fa3d1",
+ "phases": {
+  "A": {
+   "summary": {
+    "exact_bilinear": {
+     "dz_median": 0.49333333333333335,
+     "sp_median": 0.0719406394327316,
+     "gap_median": -0.036697247706421965
+    },
+    "additive_only": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5302752293577981
+    },
+    "ligand_only": {
+     "dz_median": 0.5088888888888888,
+     "sp_median": 0.05353402786754003,
+     "gap_median": 0.0
+    },
+    "shuffled_protein": {
+     "dz_median": 0.48444444444444446,
+     "sp_median": 0.014745768620765242,
+     "gap_median": -0.022018348623853212
+    },
+    "random_protein": {
+     "dz_median": 0.5075757575757576,
+     "sp_median": 0.0387067669636297,
+     "gap_median": -0.034862385321100864
+    },
+    "oracle_latent": {
+     "dz_median": 0.6616161616161617,
+     "sp_median": 0.41672796993631067,
+     "gap_median": 0.09724770642201841
+    },
+    "no_interaction_head": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5302752293577981
+    }
+   },
+   "per_seed": {
+    "0": {
+     "exact_bilinear": {
+      "dz": 0.4621212121212121,
+      "sp": -0.11599833902023321,
+      "sign_acc": 0.4935779816513762
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5176767676767676,
+      "sp": 0.05353402786754003,
+      "sign_acc": 0.5302752293577981
+     },
+     "shuffled_protein": {
+      "dz": 0.5227272727272727,
+      "sp": 0.06653878300290315,
+      "sign_acc": 0.5339449541284403
+     },
+     "random_protein": {
+      "dz": 0.5075757575757576,
+      "sp": 0.0387067669636297,
+      "sign_acc": 0.4954128440366973
+     },
+     "oracle_latent": {
+      "dz": 0.6616161616161617,
+      "sp": 0.41672796993631067,
+      "sign_acc": 0.6275229357798165
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "1": {
+     "exact_bilinear": {
+      "dz": 0.49333333333333335,
+      "sp": 0.0719406394327316,
+      "sign_acc": 0.45871559633027525
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5088888888888888,
+      "sp": 0.06025704219596529,
+      "sign_acc": 0.4954128440366973
+     },
+     "shuffled_protein": {
+      "dz": 0.48444444444444446,
+      "sp": -0.00894461653339891,
+      "sign_acc": 0.47339449541284406
+     },
+     "random_protein": {
+      "dz": 0.5155555555555555,
+      "sp": 0.05463224748275862,
+      "sign_acc": 0.5027522935779817
+     },
+     "oracle_latent": {
+      "dz": 0.6577777777777778,
+      "sp": 0.4159458876128427,
+      "sign_acc": 0.6458715596330276
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "2": {
+     "exact_bilinear": {
+      "dz": 0.5626477541371159,
+      "sp": 0.28753197317479867,
+      "sign_acc": 0.5724770642201835
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.4988179669030733,
+      "sp": -0.03877750009618624,
+      "sign_acc": 0.5302752293577981
+     },
+     "shuffled_protein": {
+      "dz": 0.47044917257683216,
+      "sp": 0.014745768620765242,
+      "sign_acc": 0.48990825688073397
+     },
+     "random_protein": {
+      "dz": 0.48699763593380613,
+      "sp": -0.04135077753789998,
+      "sign_acc": 0.48990825688073397
+     },
+     "oracle_latent": {
+      "dz": 0.6713947990543735,
+      "sp": 0.42256712258606677,
+      "sign_acc": 0.6256880733944954
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    }
+   },
+   "gate": {
+    "exact_bilinear_pass": false,
+    "negative_arms_all_fail": true
+   }
+  },
+  "B": {
+   "summary": {
+    "exact_bilinear": {
+     "dz_median": 0.5075757575757576,
+     "sp_median": 0.058482967118034426,
+     "gap_median": -0.011009174311926606
+    },
+    "additive_only": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5266055045871559
+    },
+    "ligand_only": {
+     "dz_median": 0.4988179669030733,
+     "sp_median": 0.03989808899808558,
+     "gap_median": 0.0
+    },
+    "shuffled_protein": {
+     "dz_median": 0.4797979797979798,
+     "sp_median": 0.007199845319635142,
+     "gap_median": -0.04403669724770637
+    },
+    "random_protein": {
+     "dz_median": 0.5133333333333333,
+     "sp_median": 0.07231513845648775,
+     "gap_median": -0.016513761467889854
+    },
+    "oracle_latent": {
+     "dz_median": 0.6742424242424242,
+     "sp_median": 0.42541731227068263,
+     "gap_median": 0.11192660550458722
+    },
+    "no_interaction_head": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5266055045871559
+    }
+   },
+   "per_seed": {
+    "0": {
+     "exact_bilinear": {
+      "dz": 0.5075757575757576,
+      "sp": 0.012485999892435882,
+      "sign_acc": 0.5155963302752293
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.51010101010101,
+      "sp": 0.06897756195075211,
+      "sign_acc": 0.5266055045871559
+     },
+     "shuffled_protein": {
+      "dz": 0.4797979797979798,
+      "sp": 0.007199845319635142,
+      "sign_acc": 0.48256880733944957
+     },
+     "random_protein": {
+      "dz": 0.5303030303030303,
+      "sp": 0.07231513845648775,
+      "sign_acc": 0.5100917431192661
+     },
+     "oracle_latent": {
+      "dz": 0.6742424242424242,
+      "sp": 0.40106178609737103,
+      "sign_acc": 0.6165137614678899
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "1": {
+     "exact_bilinear": {
+      "dz": 0.47333333333333333,
+      "sp": 0.058482967118034426,
+      "sign_acc": 0.43853211009174314
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.49777777777777776,
+      "sp": 0.03989808899808558,
+      "sign_acc": 0.4954128440366973
+     },
+     "shuffled_protein": {
+      "dz": 0.45555555555555555,
+      "sp": -0.06630760721083032,
+      "sign_acc": 0.44954128440366975
+     },
+     "random_protein": {
+      "dz": 0.5133333333333333,
+      "sp": 0.07856337125637333,
+      "sign_acc": 0.5045871559633027
+     },
+     "oracle_latent": {
+      "dz": 0.6533333333333333,
+      "sp": 0.42541731227068263,
+      "sign_acc": 0.6458715596330276
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "2": {
+     "exact_bilinear": {
+      "dz": 0.6264775413711584,
+      "sp": 0.29429175903546934,
+      "sign_acc": 0.6146788990825688
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.4988179669030733,
+      "sp": -0.039753969318977525,
+      "sign_acc": 0.5302752293577981
+     },
+     "shuffled_protein": {
+      "dz": 0.5319148936170213,
+      "sp": 0.09874771995904451,
+      "sign_acc": 0.5339449541284403
+     },
+     "random_protein": {
+      "dz": 0.4940898345153664,
+      "sp": 0.00042124625251046795,
+      "sign_acc": 0.4935779816513762
+     },
+     "oracle_latent": {
+      "dz": 0.6784869976359338,
+      "sp": 0.4824494981459274,
+      "sign_acc": 0.6422018348623854
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    }
+   },
+   "gate": {
+    "exact_bilinear_pass": false,
+    "negative_arms_all_fail": true
+   }
+  },
+  "C": {
+   "summary": {
+    "exact_bilinear": {
+     "dz_median": 0.50920245398773,
+     "sp_median": 0.12914501087939662,
+     "gap_median": -0.04568527918781723
+    },
+    "additive_only": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5203045685279187
+    },
+    "ligand_only": {
+     "dz_median": 0.5048543689320388,
+     "sp_median": 0.049909982435063414,
+     "gap_median": 0.0
+    },
+    "shuffled_protein": {
+     "dz_median": 0.5030674846625767,
+     "sp_median": 0.005813312130877243,
+     "gap_median": -0.04568527918781723
+    },
+    "random_protein": {
+     "dz_median": 0.5080906148867314,
+     "sp_median": 0.03503623662308032,
+     "gap_median": -0.005540166204986097
+    },
+    "oracle_latent": {
+     "dz_median": 0.6871165644171779,
+     "sp_median": 0.43111853105514414,
+     "gap_median": 0.1301939058171745
+    },
+    "no_interaction_head": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5203045685279187
+    }
+   },
+   "per_seed": {
+    "0": {
+     "exact_bilinear": {
+      "dz": 0.4444444444444444,
+      "sp": -0.06188811500969935,
+      "sign_acc": 0.4598337950138504
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5019157088122606,
+      "sp": 0.049909982435063414,
+      "sign_acc": 0.5124653739612188
+     },
+     "shuffled_protein": {
+      "dz": 0.44061302681992337,
+      "sp": -0.09726195904843885,
+      "sign_acc": 0.45706371191135736
+     },
+     "random_protein": {
+      "dz": 0.5057471264367817,
+      "sp": 0.03503623662308032,
+      "sign_acc": 0.5069252077562327
+     },
+     "oracle_latent": {
+      "dz": 0.6781609195402298,
+      "sp": 0.43111853105514414,
+      "sign_acc": 0.6426592797783933
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "1": {
+     "exact_bilinear": {
+      "dz": 0.50920245398773,
+      "sp": 0.12914501087939662,
+      "sign_acc": 0.4746192893401015
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5368098159509203,
+      "sp": 0.12241849888327928,
+      "sign_acc": 0.5203045685279187
+     },
+     "shuffled_protein": {
+      "dz": 0.5030674846625767,
+      "sp": 0.005813312130877243,
+      "sign_acc": 0.4746192893401015
+     },
+     "random_protein": {
+      "dz": 0.5245398773006135,
+      "sp": 0.07545425851494315,
+      "sign_acc": 0.5253807106598984
+     },
+     "oracle_latent": {
+      "dz": 0.6871165644171779,
+      "sp": 0.41296816231392697,
+      "sign_acc": 0.6598984771573604
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "2": {
+     "exact_bilinear": {
+      "dz": 0.6051779935275081,
+      "sp": 0.23644945881087173,
+      "sign_acc": 0.585
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5048543689320388,
+      "sp": -0.06130599521790808,
+      "sign_acc": 0.5325
+     },
+     "shuffled_protein": {
+      "dz": 0.5307443365695793,
+      "sp": 0.08535482015300035,
+      "sign_acc": 0.5325
+     },
+     "random_protein": {
+      "dz": 0.5080906148867314,
+      "sp": 0.02309743407708657,
+      "sign_acc": 0.5
+     },
+     "oracle_latent": {
+      "dz": 0.6957928802588996,
+      "sp": 0.4471602887529545,
+      "sign_acc": 0.6475
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    }
+   },
+   "gate": {
+    "exact_bilinear_pass": false,
+    "negative_arms_all_fail": true
+   }
+  },
+  "D": {
+   "summary": {
+    "exact_bilinear": {
+     "dz_median": 0.48737373737373735,
+     "sp_median": 0.09048696189075925,
+     "gap_median": -0.03302752293577976
+    },
+    "additive_only": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5302752293577981
+    },
+    "ligand_only": {
+     "dz_median": 0.5059101654846335,
+     "sp_median": 0.036917292115602185,
+     "gap_median": 0.0
+    },
+    "shuffled_protein": {
+     "dz_median": 0.5106382978723404,
+     "sp_median": 0.03848763736883499,
+     "gap_median": -0.012844036697247652
+    },
+    "random_protein": {
+     "dz_median": 0.5025252525252525,
+     "sp_median": 0.040856994645164,
+     "gap_median": -0.036697247706421965
+    },
+    "oracle_latent": {
+     "dz_median": 0.6717171717171717,
+     "sp_median": 0.4379971991074476,
+     "gap_median": 0.10458715596330281
+    },
+    "no_interaction_head": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5302752293577981
+    }
+   },
+   "per_seed": {
+    "0": {
+     "exact_bilinear": {
+      "dz": 0.48737373737373735,
+      "sp": -0.06562823431349499,
+      "sign_acc": 0.4972477064220184
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5176767676767676,
+      "sp": 0.036917292115602185,
+      "sign_acc": 0.5302752293577981
+     },
+     "shuffled_protein": {
+      "dz": 0.5353535353535354,
+      "sp": 0.08297895120019841,
+      "sign_acc": 0.5486238532110091
+     },
+     "random_protein": {
+      "dz": 0.5025252525252525,
+      "sp": 0.040856994645164,
+      "sign_acc": 0.4935779816513762
+     },
+     "oracle_latent": {
+      "dz": 0.6717171717171717,
+      "sp": 0.44444370725257554,
+      "sign_acc": 0.634862385321101
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "1": {
+     "exact_bilinear": {
+      "dz": 0.47333333333333333,
+      "sp": 0.09048696189075925,
+      "sign_acc": 0.44954128440366975
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5022222222222222,
+      "sp": 0.05497403818325874,
+      "sign_acc": 0.4917431192660551
+     },
+     "shuffled_protein": {
+      "dz": 0.4666666666666667,
+      "sp": -0.04458086340866788,
+      "sign_acc": 0.45871559633027525
+     },
+     "random_protein": {
+      "dz": 0.5177777777777778,
+      "sp": 0.06100902247390741,
+      "sign_acc": 0.5082568807339449
+     },
+     "oracle_latent": {
+      "dz": 0.6555555555555556,
+      "sp": 0.4190558324122862,
+      "sign_acc": 0.6385321100917432
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "2": {
+     "exact_bilinear": {
+      "dz": 0.5933806146572104,
+      "sp": 0.27938445450888433,
+      "sign_acc": 0.5926605504587156
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5059101654846335,
+      "sp": -0.045317500600048244,
+      "sign_acc": 0.5376146788990825
+     },
+     "shuffled_protein": {
+      "dz": 0.5106382978723404,
+      "sp": 0.03848763736883499,
+      "sign_acc": 0.5247706422018349
+     },
+     "random_protein": {
+      "dz": 0.5011820330969267,
+      "sp": -0.017051410779798562,
+      "sign_acc": 0.5009174311926605
+     },
+     "oracle_latent": {
+      "dz": 0.6784869976359338,
+      "sp": 0.4379971991074476,
+      "sign_acc": 0.6330275229357798
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    }
+   },
+   "gate": {
+    "exact_bilinear_pass": false,
+    "negative_arms_all_fail": true
+   }
+  },
+  "E": {
+   "summary": {
+    "exact_bilinear": {
+     "dz_median": 0.4666666666666667,
+     "sp_median": -0.006379679025260036,
+     "gap_median": -0.044036697247706424
+    },
+    "additive_only": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5192660550458715
+    },
+    "ligand_only": {
+     "dz_median": 0.5222222222222223,
+     "sp_median": -0.054368787439301985,
+     "gap_median": 0.0
+    },
+    "shuffled_protein": {
+     "dz_median": 0.4888888888888889,
+     "sp_median": -0.04082582279313044,
+     "gap_median": -0.007339449541284404
+    },
+    "random_protein": {
+     "dz_median": 0.5050505050505051,
+     "sp_median": -0.01675748356621229,
+     "gap_median": -0.025688073394495414
+    },
+    "oracle_latent": {
+     "dz_median": 0.6994949494949495,
+     "sp_median": 0.46139561960509146,
+     "gap_median": 0.16697247706422025
+    },
+    "no_interaction_head": {
+     "dz_median": 0.0,
+     "sp_median": NaN,
+     "gap_median": -0.5192660550458715
+    }
+   },
+   "per_seed": {
+    "0": {
+     "exact_bilinear": {
+      "dz": 0.4494949494949495,
+      "sp": -0.15110694115853524,
+      "sign_acc": 0.43302752293577984
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.494949494949495,
+      "sp": -0.054368787439301985,
+      "sign_acc": 0.47706422018348627
+     },
+     "shuffled_protein": {
+      "dz": 0.4722222222222222,
+      "sp": -0.04082582279313044,
+      "sign_acc": 0.46972477064220186
+     },
+     "random_protein": {
+      "dz": 0.5050505050505051,
+      "sp": -0.01675748356621229,
+      "sign_acc": 0.5082568807339449
+     },
+     "oracle_latent": {
+      "dz": 0.6994949494949495,
+      "sp": 0.46139561960509146,
+      "sign_acc": 0.6642201834862386
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "1": {
+     "exact_bilinear": {
+      "dz": 0.4666666666666667,
+      "sp": -0.006379679025260036,
+      "sign_acc": 0.46238532110091746
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5222222222222223,
+      "sp": 0.06404086043428153,
+      "sign_acc": 0.5192660550458715
+     },
+     "shuffled_protein": {
+      "dz": 0.4888888888888889,
+      "sp": -0.08780665935182498,
+      "sign_acc": 0.48990825688073397
+     },
+     "random_protein": {
+      "dz": 0.4866666666666667,
+      "sp": -0.03529020595899641,
+      "sign_acc": 0.47889908256880737
+     },
+     "oracle_latent": {
+      "dz": 0.7111111111111111,
+      "sp": 0.4579618704844244,
+      "sign_acc": 0.6862385321100918
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    },
+    "2": {
+     "exact_bilinear": {
+      "dz": 0.5886524822695035,
+      "sp": 0.31331563356248093,
+      "sign_acc": 0.6018348623853211
+     },
+     "additive_only": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     },
+     "ligand_only": {
+      "dz": 0.5271867612293144,
+      "sp": -0.08866485886176728,
+      "sign_acc": 0.5284403669724771
+     },
+     "shuffled_protein": {
+      "dz": 0.5200945626477541,
+      "sp": 0.0911420845846373,
+      "sign_acc": 0.5284403669724771
+     },
+     "random_protein": {
+      "dz": 0.5153664302600472,
+      "sp": -0.010964300501660714,
+      "sign_acc": 0.5027522935779817
+     },
+     "oracle_latent": {
+      "dz": 0.6926713947990544,
+      "sp": 0.4643854721425426,
+      "sign_acc": 0.6477064220183486
+     },
+     "no_interaction_head": {
+      "dz": 0.0,
+      "sp": NaN,
+      "sign_acc": 0.0
+     }
+    }
+   },
+   "gate": {
+    "exact_bilinear_pass": false,
+    "negative_arms_all_fail": true
+   }
+  }
+ },
+ "ladder_decision": "see Q2D1_REPORT.md"
+}
