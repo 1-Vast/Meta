@@ -227,6 +227,26 @@ threshold is unreachable at the frozen gate point's SNR even with oracle
 factors; identity-link sensitivity: endpoint not the blocker; pocket_esm at
 chance on the interaction task. Q2c-2 precondition unmet -> NOT STARTED.
 B1/B2/C/D NOT AUTHORIZED; next = Q2d prereg along the measured power curve.
+## Stage Q2d planning corrections (2026-08-18, independent review)
+
+Literature corrections recorded in stageQ2d/Q2D_LITERATURE_CORRECTIONS.md:
+Merget 2017 (J. Med. Chem.) withdrawn as PCM evidence (ligand-side RF per
+kinase, no unseen-kinase transfer); operative PCM evidence = PMC2910025
+(317 WT/mutant kinases x 38 inhibitors x 12,046 Kd cross descriptors),
+PMC3002298 + PMC3578754 (HIV variant PCM), PMC9516689 (active-site sequence
+DTA). Delta-delta is our estimand choice, not a literature consensus. MdrDB
+demoted to external stress test (GDSC/DepMap mixing). Duong-Ly demoted to
+B1-R cross-study replication (its WT values come from Anastassiadis); B1
+primary = Saifudeen same-study panel with the 9 frozen B1 rules.
+
+Stage Q2d (stageQ2d_bilinear_qualification_20260818, frozen prereg SHA
+4f7e8002...fa3d1) implements the corrected order: Q2d-1 isomorphic bilinear
+positive control (truth-generating one-hot pocket is NOT an information-poor
+stand-in; ladder A z-scale -> B sigmoid -> C missingness -> D censoring ->
+E main-effect competition), then Q2d-2 representation matrix (KLIFS
+per-position ESM kept as [position, embedding], not pooled), then Q2d-3
+matched delta training, then B1.
+
 
 - Q3 CENSUS: Saifudeen 2026 (CC BY-NC-ND 4.0): 92 inhibitors, 409 WT,
   349 variants; 313 matched-WT-gene, 272 matched gene+substrate; 21.3%
