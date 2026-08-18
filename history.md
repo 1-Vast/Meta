@@ -1737,3 +1737,78 @@ before primary results (`03cdc907df3e778f5fe79fb1a238d35ebb6ece5e9e743db181728ba
 Public data acquired and audited in X0D_DATA_AUDIT.json: Duong-Ly 2016
 (5 supplements), Anastassiadis 2011 (Table S3 + PDF), Davis 2011 original
 supplementary tables, PKIS2 (s001-s008). Six X0 instruments are the next gate.
+
+## Stage X round-1 independent review (2026-08-18)
+
+`report/STAGE_X_ROUND1_REVIEW_20260818.md` audits X0-D, I2, I6 and the
+uncommitted I1 draft without modifying frozen artifacts. Data acquisition is a
+real advance, and global pooled ESM is measured as mutation-insensitive
+(distance ratio 0.0106). The local I2 pass is withdrawn pending correction:
+WT uses a midpoint window while mutant uses the mutation coordinate;
+mutation-token parent distances are all zero; 4/76 point-mutation annotations
+do not match the downloaded reference residue; KLIFS is absent; Python
+`hash()` makes the random control process-dependent. The current I1 draft has
+a runtime `einsum` failure and, beyond that, evaluates raw fitted endpoints on
+training rows against planted interaction truth without separating main
+effects. X0 status is active/instrumentation correction; no X0-P or X1 claim is
+authorized.
+## Stage X0c corrected successor (2026-08-18, round 2)
+
+Governance: the original Stage X0 is ruled INVALID INSTRUMENT — the distance-
+ratio capability gate is a measurement-definition failure, not repairable in
+place (verdict: `tools/research/stageX_csc_signal/X0_INVALID_INSTRUMENT_VERDICT.md`;
+original artifacts and thresholds untouched). New successor
+`tools/research/stageX_csc_signal/stageX0c_measurement_qualification_20260818/`
+with a frozen preregistration (SHA-256 7de23c8131860ca4426e12c4e88de2b5453f47ca5b4d7b22754226e6309922cd)
+and ordered gates Q0 -> Q1 -> Q2 -> Q3 -> B1 -> B2 -> C -> D.
+
+- Q0-A (ProteinGym external validation): PASS — 45,623 sampled records across
+  217 DMS assays; old-residue agreement 100%, mutated-sequence agreement 100%
+  (frozen threshold >= 99.5%).
+- Q0-B (historical/construct mapping): PASS — BRAF V599E->V600E alias has
+  3-nt sequence evidence (M95712.1 CDS 2298 nt/765 aa vs NM_004333.4 CDS 2301
+  nt/766 aa == P15056) and is not generalized; PDGFRalpha uses human P16234
+  (S1's Q9DE49 is Danio rerio); D842V quarantined (construct 668-1210 exceeds
+  canonical length); all 76 Duong-Ly variants typed (65 admitted point pairs,
+  11 quarantined with reasons); KLIFS gatekeeper maps to pocket index 45;
+  Davis construct census recorded.
+- Q1 (probe + control-task selectivity): PASS — pair_centered_local_esm
+  selectivity +0.189 CI [0.033,0.363], mutation_position_only +0.110
+  CI [0.021,0.230], substitution_type_only +0.209 CI [0.007,0.420] on pocket
+  membership under leave-one-parent-out; global pooled ESM/composition read
+  no such information (0.000); distance ratios kept as diagnostics only.
+- Q3 (Saifudeen 2026 census): 92 inhibitors (86 approved), 409 WT columns,
+  349 variant columns, duplicate at 1 uM, Km ATP, CC BY-NC-ND 4.0, KIRHub
+  portal; 313/349 variants have matched WT gene, 272 matched gene+substrate;
+  21.3% of values exactly 100; 103/349 variants in a responsive window;
+  construct-background equality not assumed.
+- I6 (production-dataflow integrity): 23 contract tests green (antisymmetry,
+  train-only references, gradients, matched arms, permutation controls,
+  cluster bootstrap, restricted-data non-commitment, hard old-residue rule).
+- Q2 (fully synthetic planted harness): grid tau* x {1,4,16} rank; frozen
+  gate at (tau*=1.0, rank 4, dense). Round-1 draft defects reproduced and
+  replaced (einsum crash, unused main effects, real endpoints mixed into
+  truth, train=eval, raw endpoint vs interaction, zero-vector ligand-only,
+  split leakage).
+## Stage X0c Q2 verdict (2026-08-18, later)
+
+Q2_PLANTED.json frozen gate FAILED: gate point (tau*=1.0, rank 4, dense)
+correct-arm Spearman 0.033 (need >= 0.30), dead-zone sign accuracy 0.504
+(need >= 0.70), gap vs ligand_only -0.018 (need >= 0.05), median of 3 seeds.
+Negative controls behaved as designed (label permutation 0.52-0.57 chance;
+tau*=0 no recovery; floor-clamp imputation induces spurious recovery dz
+0.588; shuffled/family/random/no-interaction ~0.50-0.55; free-target-id
+~0.50-0.55). Two design corrections landed before this run: the planted
+interaction is now double-centred (zero protein-conditional and zero
+ligand-conditional mean), which removed the round-1 ligand-separable
+component that let the ligand_only arm cheat (it now reads chance), and the
+init-seed family was unified. Diagnosis: the oracle arm (P@U input)
+recovers the centred interaction at dz 0.68-0.76, so the information exists;
+the correct arm (one-hot pocket input) tops out at dz ~0.58 across 8+6
+restarts and two training protocols - the failure is representation-
+learning/optimization capacity at this sample size, not information absence.
+Consequence: B1/B2/C/D NOT authorized; no real-data biological inference
+from this harness. Next step: new preregistration for the representation
+fix or a revised gate point (the frozen gate cannot be moved retroactively).
+
+

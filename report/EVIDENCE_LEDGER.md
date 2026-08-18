@@ -170,3 +170,55 @@ current local assets. W0-P positive control FAILED and not locally repairable;
 Davis/Metz/Klaeger detection-floor censoring 71.2/60.4/93.5%; Metz-Klaeger
 cross-platform residual +0.642 [0.482,0.777], Davis pairs negative; W1 never
 trained. Reopening path frozen in W0P_ACQUISITION_SPEC.md.
+
+## Stage X round-1 review (2026-08-18)
+
+Stage X is the authorized successor cycle. X0-D acquired official Duong-Ly,
+Anastassiadis, Davis and PKIS2 assets under the frozen X0 preregistration.
+`STAGE_X_ROUND1_REVIEW_20260818.md` records the independent implementation
+audit: global pooled ESM is mutation-insensitive, but the local I2 capability
+claim is not admissible because pair coordinates differ and the mutation-token
+scale is degenerate; mutation numbering, stable random seeds and KLIFS coverage
+remain unresolved. The I1 draft does not run and does not yet implement an
+identifiable planted-interaction recovery test. Evidence status: **data acquired;
+X0 active; no instrument gate or biological gate passed**.
+## Stage X0c corrected successor (2026-08-18)
+
+Original X0 ruled INVALID INSTRUMENT (distance-ratio gate = measurement-
+definition failure): `tools/research/stageX_csc_signal/X0_INVALID_INSTRUMENT_VERDICT.md`.
+Corrected successor `stageX0c_measurement_qualification_20260818/` with own
+frozen prereg (SHA 7de23c8131860ca4426e12c4e88de2b5453f47ca5b4d7b22754226e6309922cd).
+Evidence status by gate (each with machine-readable artifact + prereg SHA):
+
+- Q0-A PASS: ProteinGym v1.3 DMS substitutions, 45,623 sampled records,
+  100% old-residue and 100% mutated-sequence agreement.
+- Q0-B PASS: BRAF alias 3-nt evidence (M95712.1 vs NM_004333.4 == P15056);
+  PDGFRalpha = P16234 (Q9DE49 is Danio rerio); D842V quarantined; 76/76
+  Duong-Ly variants typed; KLIFS gatekeeper = pocket index 45; Davis census.
+- Q1 PASS: probe-selectivity on pocket membership (LOO-parent):
+  pair_centered_local_esm +0.189 [0.033,0.363]; mutation_position_only
+  +0.110 [0.021,0.230]; substitution_type_only +0.209 [0.007,0.420];
+  global pooled ESM and composition read nothing (0.000).
+- Q2 FAIL: planted harness grid; frozen gate at tau*=1.0, rank 4 failed
+  (Spearman 0.033 / dead-zone sign acc 0.504 / gap -0.018 vs 0.30/0.70/0.05);
+  negative controls behaved as designed; oracle arm recovers the centred
+  interaction at dz 0.68-0.76 -> optimization/representation-limited.
+- Q3 CENSUS: Saifudeen 2026 (CC BY-NC-ND 4.0): 92 inhibitors, 409 WT,
+  349 variants; 313 matched-WT-gene, 272 matched gene+substrate; 21.3%
+  saturated at 100; 103/349 responsive-window variants; construct background
+  equality not assumed; functional inhibition only (never pK/pIC50/DTA).
+- I6: 23 production-dataflow contract tests green.
+
+Data-source ledger (first-hand, accessed 2026-08-18):
+- Saifudeen 2026 Nat Biotechnol doi:10.1038/s41587-026-03090-8 + MOESM4 xlsx
+  (SHA in fetch manifest); license CC BY-NC-ND 4.0; local use only; no
+  derivative value matrices in Git.
+- ProteinGym v1.3 (MIT), official benchmark zip + reference file (SHA-256
+  3a83766254ac9ac9984ec25cb73c6e010ea4418f5e35f143933e6b6e6473b921).
+- UniProt P15056/P16234/Q9DE49 canonical sequences (local SHA in artifacts).
+- KLIFS kinase_ID API pocket sequences (local manifest with SHA).
+- Davies 2002 Nature 417:949 doi:10.1038/nature00766 (BRAF V599E historical
+  numbering); NCBI M95712.1 / NM_004333.4 / NP_004324.1 (eutils, 2026-08-18).
+- Duong-Ly 2016 Cell Rep 14:772 doi:10.1016/j.celrep.2015.12.080 (CC BY-NC-ND
+  4.0); Davis 2011 Nat Biotechnol 29:1046 (MOESM3 constructs).
+

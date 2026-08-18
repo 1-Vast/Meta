@@ -450,5 +450,37 @@ No further internal experiments before external asset injection.
 New work in `tools/research/stageX_csc_signal/`; old S-W records read-only.
 X0 prereg frozen (SHA-256 `03cdc907…9683`). X0-D downloaded and audited:
 Duong-Ly 2016 mutant panel, Anastassiadis 2011 complete matrix, Davis 2011 raw
-supplementary tables, PKIS2 supplements. Next: implement and pass the six X0
-instruments before X0-P/X1.
+supplementary tables, PKIS2 supplements.
+
+**Round-1 independent review (2026-08-18): X0 remains active and has not
+passed.** Global pooled ESM and amino-acid composition are measured as mutation
+insensitive, but the claimed local-representation pass is invalid: WT and
+mutant windows were extracted at different coordinates, the mutation-token
+inter-protein denominator is zero, four mutation annotations do not match the
+downloaded reference residue, and KLIFS is not implemented. The current I1
+draft also fails at runtime and does not isolate the planted interaction. I3-I5
+are incomplete and the seven tests are initial integrity smokes, not full I6.
+Authority: `report/STAGE_X_ROUND1_REVIEW_20260818.md`. Required next action is
+instrument correction and X0 qualification, not X0-P/X1 training.
+**Round-2 governance + corrected successor (2026-08-18):** original X0 ruled
+INVALID INSTRUMENT — the distance-ratio capability gate is a measurement-
+definition failure, not repairable in place (verdict
+`tools/research/stageX_csc_signal/X0_INVALID_INSTRUMENT_VERDICT.md`; frozen
+artifacts untouched). New successor
+`tools/research/stageX_csc_signal/stageX0c_measurement_qualification_20260818/`
+with its own frozen preregistration (SHA-256
+`7de23c81…9922cd`) and ordered gates Q0 -> Q1 -> Q2 -> Q3 -> B1 -> B2 -> C -> D.
+Status: Q0-A PASS (ProteinGym 45,623 records, 100% old-residue and 100%
+mutated-sequence agreement), Q0-B PASS (BRAF 3-nt alias evidence; PDGFRalpha
+= P16234; D842V quarantined; 76/76 Duong-Ly variants typed; KLIFS gatekeeper
+= pocket index 45; Davis census), Q1 PASS (probe selectivity:
+pair_centered_local_esm +0.189 [0.033,0.363] on pocket membership under
+LOO-parent), Q3 census delivered (Saifudeen 2026: 313/349 matched WT gene,
+21.3% saturated, CC BY-NC-ND 4.0), I6 23 production contracts + 8 Q0 unit
+tests green. Q2 planted harness FAILED its frozen gate (correct-arm Spearman 0.033 /
+dead-zone sign accuracy 0.504 / gap -0.018 at tau*=1.0, rank 4; needs
+0.30/0.70/0.05). Oracle arm recovers the centred interaction (dz 0.68-0.76),
+so the failure is optimization/representation capacity, not information
+absence. No B1/B2/C/D authorization; next step is a new preregistration for
+the representation fix or a revised gate point.
+

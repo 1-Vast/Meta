@@ -69,5 +69,17 @@ this directory.
   supervision noise 0.8576, `theta` -0.4059 [-0.6889, -0.0577]. Verdict:
   the requested estimand is **NOT ESTIMABLE** on this corpus - a statement about
   support, **not** biological absence. 31 structural/leakage tests pass.
+- `stageW_soft_mmp/` and `stageW0b_core1_audit/` - superseded reopening attempt.
+  It established the severe censoring and external positive-control requirement;
+  W1 was not trained and the terminal verdict was UNRESOLVED on local assets.
+- `stageX_csc_signal/` - **ACTIVE**. Original X0 ruled
+  INVALID INSTRUMENT (distance-ratio gate is a measurement-definition failure;
+  verdict: `X0_INVALID_INSTRUMENT_VERDICT.md`). Corrected successor
+  `stageX0c_measurement_qualification_20260818/` (own frozen prereg, SHA
+  `7de23c81…9922cd`) runs ordered gates Q0 variant-coordinate layer ->
+  Q1 probe-selectivity capability -> Q2 planted harness -> Q3 Saifudeen
+  panel census -> B1 positive control -> B2 -> C -> D. Status: Q0-A PASS
+  (ProteinGym 100% agreement), Q0-B PASS, Q1 PASS, Q3 census delivered,
+  I6 23 tests green, Q2 pending.
 - `GOAL_ACTIVE.md` - durable goal record (goal tools unavailable in the
   originating session).
