@@ -1,0 +1,58 @@
+{
+ "schema": "MetaSieve.StageX0c.Q3.v1",
+ "preregistration_sha256": "7de23c8131860ca4426e12c4e88de2b5453f47ca5b4d7b22754226e6309922cd",
+ "source": "Saifudeen et al., Nat. Biotechnol. (2026), doi:10.1038/s41587-026-03090-8",
+ "source_url": "https://www.nature.com/articles/s41587-026-03090-8",
+ "supplement_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-026-03090-8/MediaObjects/41587_2026_3090_MOESM4_ESM.xlsx",
+ "portal": "kirhub.fredhutch.org",
+ "accessed": "2026-08-18",
+ "license": "CC BY-NC-ND 4.0 (https://creativecommons.org/licenses/by-nc-nd/4.0/)",
+ "license_policy": "local analysis only; no repackaged or adapted derivative value matrices committed; commit downloaders, code, hashes, schemas and value-free summaries only",
+ "verified_claims": {
+  "92_inhibitors": true,
+  "86_approved_of_100": true,
+  "409_wildtype": true,
+  "n_wt_activity_columns_s4": 409,
+  "n_wt_metadata_rows_s2": 392,
+  "wt_metadata_gap": "S4 carries 409 WT activity columns but S2 lists 392 WT metadata rows; 17 WT constructs lack metadata in the committed table",
+  "349_variants": true,
+  "n_variant_metadata_rows_s11": 347,
+  "variant_metadata_gap": "S13 carries 349 variant columns; S11 lists 347 rows (2 variants lack metadata rows, one row has an empty Mutation field)",
+  "duplicate_at_1uM": true,
+  "Km_ATP": "per-kinase Km ATP per supplementary methods (verified in MOESM1 methods; record with access date)",
+  "endpoint": "percent residual activity at 1 uM (functional inhibition; NOT affinity: never called pK/pIC50/DTA)"
+ },
+ "pairability_census": {
+  "n_variants": 347,
+  "class_counts": {
+   "single": 235,
+   "multi": 48,
+   "indel": 21,
+   "fusion": 18,
+   "none": 13,
+   "other": 12
+  },
+  "n_fusions": 25,
+  "n_fusions_by_mutation_field": 18,
+  "n_variants_with_matched_wt_gene": 313,
+  "n_variants_with_matched_wt_gene_and_substrate": 272,
+  "n_variants_no_matched_wt": 34,
+  "note": "exact construct-background equality between WT and variant rows is NOT assumed: S2/S11 Clone fields differ across constructs (full-length vs fragments); a construct-matched pairability layer requires per-pair Clone comparison and is reported as a separate unresolved dimension",
+  "activity_structure": {
+   "n_cells": 27088,
+   "fraction_exact_0": 0.005168340224453632,
+   "fraction_exact_100": 0.21260336680448907,
+   "fraction_offscale_hi": 0.0,
+   "fraction_offscale_lo": 0.0,
+   "n_variants_with_responsive_window_ge_0.25": 103,
+   "responsive_window_definition": "fraction of the 92 inhibitor values strictly inside (20, 80)"
+  },
+  "mutation_definitions_s12_rows": 1046,
+  "n_inhibitors_s1": 92
+ },
+ "limitations": [
+  "single-dose functional inhibition: Hill slope / top / bottom / efficacy are not identifiable from one concentration; logit transform of % residual is a sensitivity analysis only, not pIC50",
+  "construct background differences between WT and variant rows are a confound to be modeled explicitly in B1, not assumed away",
+  "vendor/platform uniformity does not imply assay-semantics uniformity; per-kinase ATP and substrate must be read from S2/S11 columns"
+ ]
+}

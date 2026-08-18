@@ -1,0 +1,500 @@
+{
+ "code_commit": "unavailable",
+ "control_tasks": "same label marginals, shuffled within parent clusters (stable seed)",
+ "frozen_pass_rule": "at least one representation outside {edit_descriptor, random} achieves selectivity >= 0.10 with cluster-bootstrap 2.5% lower bound > 0 on task_A",
+ "input_sha256": {
+  "X0_I2.json": "2a3c2364a57de5350e5147f80883299c0d49282a0d9fbe10675dcba2bc0647d5",
+  "X0_PAIR_TABLE.json": "044c04b1453d4fbd4bcb74c35e382943505765197c8b6b5633224fb6062f82b3",
+  "downloads\\duongly_mmc2.xlsx": "c790e73dcb086dff4fcb182aab9a00056ab6cfea5303186cc06eb6fefbf58de4",
+  "downloads\\duongly_mmc3.xlsx": "7a27e8dd271101eae54ed433d890d96631f44974560cd6d498690d74a2bcb7a4",
+  "klifs\\klifs_kinase_lookup.json": "3384d153fe0f741151041452985161e11c7358855760ee3d176aeceeb56f9ca9",
+  "uniprot\\O60674.fasta": "9230bef469770e9bd3b428b157b8b65959ef5317eed2b3bfcbe6158a2b0d20a8",
+  "uniprot\\O96017.fasta": "95dba5723f9348d6602b69c8a9584cc37e079702568115e2701b85a4e9dcf5d8",
+  "uniprot\\P00519.fasta": "2dfb7334098feccbd2d1ad4c5e0a4149b8ea711c539e5a6504b93a8876ac3435",
+  "uniprot\\P00533.fasta": "6e4b4d9cd163984a944d346faa17ded0bf7ebe39049466c51be5dbe79e78a473",
+  "uniprot\\P07949.fasta": "8e90ec349eb304d417d616d76b1eb404d3323a8ffeb1562a21762224c8af81dc",
+  "uniprot\\P08581.fasta": "afeca1c96f3a6c785d4943ecbb585c5ce46d8ae89b36401113556c8501cda42c",
+  "uniprot\\P10721.fasta": "f382e1ca74f807751db15b6756e287118530d2786850426fb09c1a4aea22d897",
+  "uniprot\\P11362.fasta": "f4a5c2d97f75aaf67da33ad44d4c6258b06b2284c6b36ff31f24cf8eb42bada3",
+  "uniprot\\P12931.fasta": "99e845b9a395b58a204204129ec7f7a388d2548f3485190595ae81ff35763b6e",
+  "uniprot\\P15056.fasta": "258db8949dff63fbd3295f25b2af297a059d181a3d6f717d12be96f5537a192f",
+  "uniprot\\P16234.fasta": "06a658526d6a00942b5dcbebb648b9e8973429bde783b1542880670bd03c0c7e",
+  "uniprot\\P21802.fasta": "e9ebe32abf43ef74c56733420d1a011652061a7213df9771420795268f31a597",
+  "uniprot\\P22455.fasta": "b37a30cd4f33de66db0383d8ddcd563bea02bbc87b7fc6fab56a7acef2a85d66",
+  "uniprot\\P22607.fasta": "9a908c6ac36addc418c04818ec7e1df4e4bc31c5e75d203aea14f91f6f5583f7",
+  "uniprot\\P36888.fasta": "522b8618e966c5cfef5fe48c73ccd126a8424d279562b38a177a2320ac204286",
+  "uniprot\\Q02750.fasta": "0ae812a6becfeb79c2b286478867de5380963a52e2c8dd506693b7c7c99e7d14",
+  "uniprot\\Q02763.fasta": "6a59b318aaeb5d8c839e4deb1efdc17604213702dc905475a7644085ec22f10d",
+  "uniprot\\Q06187.fasta": "ffc096454c678a68ce36d3ef833c4cf1fc61391bf0e86f64d4d33373f8056a1d",
+  "uniprot\\Q16539.fasta": "9c95217a9a3283c3cdddbfa485108ee8185913baddf669b94074d93f5c18dff5",
+  "uniprot\\Q5S007.fasta": "e0ef68cfffc3af1e2220ccaa1057f7f9d7be3494ca18871939beda44a7a7ce7e",
+  "uniprot\\Q9DE49.fasta": "88a03a530431e3cd97857c68134536f7208648616bb4c0e5dc08c33ba71371c9",
+  "uniprot\\Q9UM73.fasta": "5899d6a00cc0db02c26bb1b229126b9b3ff0d31301e43dd89e0f505212f74747"
+ },
+ "preregistration_sha256": "7de23c8131860ca4426e12c4e88de2b5453f47ca5b4d7b22754226e6309922cd",
+ "probes": "linear logistic (SGD, 2000 steps) per fold; capacity curve and MLP-8 reported in the report",
+ "q1_pass": true,
+ "results": {
+  "task_A": {
+   "composition": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.5620370370370371,
+    "n_parents": 21,
+    "note": "amino-acid composition of WT and mutant full sequences",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.5620370370370371
+   },
+   "edit_descriptor": {
+    "bootstrap": {
+     "ci_hi": 0.3926686507936503,
+     "ci_lo": -0.03835978835978835,
+     "draws": 2000,
+     "estimate": 0.1830687830687831,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.47777777777777775,
+    "n_parents": 21,
+    "note": "old+new residue identity one-hot (pair-conditioned edit descriptor)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.18306878306878316,
+    "task_accuracy": 0.6608465608465609
+   },
+   "family_id": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.6096560846560847,
+    "n_parents": 21,
+    "note": "KLIFS family one-hot for WT and mutant (identical)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.6096560846560847
+   },
+   "global_pooled_esm": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 18,
+     "n_values": 18,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.479320987654321,
+    "n_parents": 21,
+    "note": "global mean-pooled ESM-2 150M hidden states (WT and mutant); pairs with mutation position > 1020 are zero rows, excluded by mask",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.479320987654321
+   },
+   "klifs_pocket": {
+    "bootstrap": {
+     "ci_hi": 0.019047619047619042,
+     "ci_lo": -0.22857142857142856,
+     "draws": 2000,
+     "estimate": -0.08571428571428572,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.49060846560846566,
+    "n_parents": 21,
+    "note": "KLIFS 85-position pocket one-hot (WT and mutant, mutated at the mapped pocket index)",
+    "pass_threshold": 0.1,
+    "selectivity": -0.08571428571428585,
+    "task_accuracy": 0.4048941798941798
+   },
+   "label_balance": {
+    "0": 38,
+    "1": 27
+   },
+   "local_onehot_window": {
+    "bootstrap": {
+     "ci_hi": 0.09854497354497356,
+     "ci_lo": -0.054249338624338624,
+     "draws": 2000,
+     "estimate": 0.027116402116402122,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.6793650793650793,
+    "n_parents": 21,
+    "note": "one-hot window radius 6 at the verified mutation coordinate (WT and mutant)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.027116402116402205,
+    "task_accuracy": 0.7064814814814815
+   },
+   "mutation_position_only": {
+    "bootstrap": {
+     "ci_hi": 0.23020833333333307,
+     "ci_lo": 0.021164021164021163,
+     "draws": 2000,
+     "estimate": 0.11044973544973546,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.7121693121693122,
+    "n_parents": 21,
+    "note": "normalized mutation position + pocket index when mapped (2 dims)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.11044973544973535,
+    "task_accuracy": 0.8226190476190476
+   },
+   "n_pairs": 65,
+   "pair_centered_local_esm": {
+    "bootstrap": {
+     "ci_hi": 0.36296296296296293,
+     "ci_lo": 0.033024691358024695,
+     "draws": 2000,
+     "estimate": 0.18858024691358025,
+     "n_clusters": 18,
+     "n_values": 18,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.7655864197530864,
+    "n_parents": 21,
+    "note": "ESM-2 150M hidden-state mean over the radius-6 window at the verified mutation coordinate (WT and mutant); same mask as global",
+    "pass_threshold": 0.1,
+    "selectivity": 0.18858024691358033,
+    "task_accuracy": 0.9541666666666667
+   },
+   "parent_id": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.5620370370370371,
+    "n_parents": 21,
+    "note": "parent kinase one-hot for WT and mutant (identical)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.5620370370370371
+   },
+   "random": {
+    "bootstrap": {
+     "ci_hi": 0.05028108465608456,
+     "ci_lo": -0.48483796296296294,
+     "draws": 2000,
+     "estimate": -0.21891534391534392,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.5834656084656085,
+    "n_parents": 21,
+    "note": "SHA-256-seeded Gaussian (64 dims), same vector for WT and mutant",
+    "pass_threshold": 0.1,
+    "selectivity": -0.21891534391534395,
+    "task_accuracy": 0.3645502645502645
+   },
+   "residue_identity_context": {
+    "bootstrap": {
+     "ci_hi": 0.16666666666666666,
+     "ci_lo": -0.010582010582010587,
+     "draws": 2000,
+     "estimate": 0.05423280423280423,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.674074074074074,
+    "n_parents": 21,
+    "note": "one-hot context window radius 3 at the verified mutation coordinate (WT and mutant)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0542328042328043,
+    "task_accuracy": 0.7283068783068783
+   },
+   "substitution_type_only": {
+    "bootstrap": {
+     "ci_hi": 0.4202546296296295,
+     "ci_lo": 0.006871693121693124,
+     "draws": 2000,
+     "estimate": 0.2085978835978836,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.5448412698412698,
+    "n_parents": 21,
+    "note": "physicochemical class of old and new residue (12 dims)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.20859788359788356,
+    "task_accuracy": 0.7534391534391534
+   }
+  },
+  "task_B": {
+   "composition": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.11825396825396825,
+    "n_parents": 21,
+    "note": "amino-acid composition of WT and mutant full sequences",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.11825396825396825
+   },
+   "edit_descriptor": {
+    "bootstrap": {
+     "ci_hi": 0.48549933862433836,
+     "ci_lo": 0.22139219576719574,
+     "draws": 2000,
+     "estimate": 0.34775132275132276,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.44034391534391526,
+    "n_parents": 21,
+    "note": "old+new residue identity one-hot (pair-conditioned edit descriptor)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.3477513227513227,
+    "task_accuracy": 0.788095238095238
+   },
+   "family_id": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.19497354497354497,
+    "n_parents": 21,
+    "note": "KLIFS family one-hot for WT and mutant (identical)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.19497354497354497
+   },
+   "global_pooled_esm": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 18,
+     "n_values": 18,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.16805555555555554,
+    "n_parents": 21,
+    "note": "global mean-pooled ESM-2 150M hidden states (WT and mutant); pairs with mutation position > 1020 are zero rows, excluded by mask",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.16805555555555554
+   },
+   "klifs_pocket": {
+    "bootstrap": {
+     "ci_hi": 0.09523809523809523,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.041666666666666664,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.16203703703703703,
+    "n_parents": 21,
+    "note": "KLIFS 85-position pocket one-hot (WT and mutant, mutated at the mapped pocket index)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.04166666666666666,
+    "task_accuracy": 0.2037037037037037
+   },
+   "label_balance": {
+    "0": 13,
+    "1": 7,
+    "2": 15,
+    "3": 10,
+    "4": 7,
+    "5": 13
+   },
+   "local_onehot_window": {
+    "bootstrap": {
+     "ci_hi": 0.3336574074074071,
+     "ci_lo": 0.04787698412698413,
+     "draws": 2000,
+     "estimate": 0.18082010582010583,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.29325396825396827,
+    "n_parents": 21,
+    "note": "one-hot window radius 6 at the verified mutation coordinate (WT and mutant)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.18082010582010571,
+    "task_accuracy": 0.474074074074074
+   },
+   "mutation_position_only": {
+    "bootstrap": {
+     "ci_hi": 0.22541666666666657,
+     "ci_lo": 0.021825396825396824,
+     "draws": 2000,
+     "estimate": 0.1123015873015873,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.09523809523809523,
+    "n_parents": 21,
+    "note": "normalized mutation position + pocket index when mapped (2 dims)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.11230158730158726,
+    "task_accuracy": 0.2075396825396825
+   },
+   "n_pairs": 65,
+   "pair_centered_local_esm": {
+    "bootstrap": {
+     "ci_hi": 0.3253086419753086,
+     "ci_lo": 0.01972222222222222,
+     "draws": 2000,
+     "estimate": 0.158641975308642,
+     "n_clusters": 18,
+     "n_values": 18,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.19506172839506172,
+    "n_parents": 21,
+    "note": "ESM-2 150M hidden-state mean over the radius-6 window at the verified mutation coordinate (WT and mutant); same mask as global",
+    "pass_threshold": 0.1,
+    "selectivity": 0.15864197530864196,
+    "task_accuracy": 0.3537037037037037
+   },
+   "parent_id": {
+    "bootstrap": {
+     "ci_hi": 0.0,
+     "ci_lo": 0.0,
+     "draws": 2000,
+     "estimate": 0.0,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.04563492063492063,
+    "n_parents": 21,
+    "note": "parent kinase one-hot for WT and mutant (identical)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.0,
+    "task_accuracy": 0.04563492063492063
+   },
+   "random": {
+    "bootstrap": {
+     "ci_hi": -0.04285714285714285,
+     "ci_lo": -0.3143452380952381,
+     "draws": 2000,
+     "estimate": -0.16428571428571428,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.21812169312169313,
+    "n_parents": 21,
+    "note": "SHA-256-seeded Gaussian (64 dims), same vector for WT and mutant",
+    "pass_threshold": 0.1,
+    "selectivity": -0.1642857142857143,
+    "task_accuracy": 0.053835978835978834
+   },
+   "residue_identity_context": {
+    "bootstrap": {
+     "ci_hi": 0.3193749999999997,
+     "ci_lo": 0.06532738095238094,
+     "draws": 2000,
+     "estimate": 0.18703703703703706,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.31574074074074077,
+    "n_parents": 21,
+    "note": "one-hot context window radius 3 at the verified mutation coordinate (WT and mutant)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.1870370370370369,
+    "task_accuracy": 0.5027777777777777
+   },
+   "substitution_type_only": {
+    "bootstrap": {
+     "ci_hi": 0.5952579365079363,
+     "ci_lo": 0.2745833333333333,
+     "draws": 2000,
+     "estimate": 0.4373015873015873,
+     "n_clusters": 21,
+     "n_values": 21,
+     "seed": 20260820
+    },
+    "control_accuracy": 0.5626984126984128,
+    "n_parents": 21,
+    "note": "physicochemical class of old and new residue (12 dims)",
+    "pass_threshold": 0.1,
+    "selectivity": 0.4373015873015872,
+    "task_accuracy": 1.0
+   }
+  }
+ },
+ "schema": "MetaSieve.StageX0c.Q1.v1",
+ "splits": "leave-one-parent-out (cluster unit = parent kinase)",
+ "tasks": {
+  "task_A": "pocket membership (KLIFS 85-position aligned pocket, from Q0-B)",
+  "task_B": "substitution physicochemical class (6 frozen classes)"
+ },
+ "units": "65 admitted Duong-Ly single-point WT-mutant pairs",
+ "supplement": {
+  "task_A_supplement": {
+   "pair_centered_local_esm": {
+    "linear_task_accuracy": 0.9541666666666667,
+    "mlp8_task_accuracy": 0.9194444444444445,
+    "capacity_delta_mlp8_minus_linear": -0.03472222222222221,
+    "random_label_accuracy_linear": 0.4507716049382716,
+    "random_label_selectivity": -0.31481481481481477,
+    "interpretation": "a probe whose accuracy is unchanged under random labels is reading real structure; the capacity curve shows whether a larger probe inflates the result"
+   },
+   "mutation_position_only": {
+    "linear_task_accuracy": 0.8226190476190476,
+    "mlp8_task_accuracy": 0.5620370370370371,
+    "capacity_delta_mlp8_minus_linear": -0.26058201058201047,
+    "random_label_accuracy_linear": 0.4461640211640211,
+    "random_label_selectivity": -0.26600529100529113,
+    "interpretation": "a probe whose accuracy is unchanged under random labels is reading real structure; the capacity curve shows whether a larger probe inflates the result"
+   },
+   "substitution_type_only": {
+    "linear_task_accuracy": 0.7534391534391534,
+    "mlp8_task_accuracy": 0.5620370370370371,
+    "capacity_delta_mlp8_minus_linear": -0.19140211640211624,
+    "random_label_accuracy_linear": 0.6440476190476191,
+    "random_label_selectivity": 0.0992063492063493,
+    "interpretation": "a probe whose accuracy is unchanged under random labels is reading real structure; the capacity curve shows whether a larger probe inflates the result"
+   }
+  }
+ }
+}
