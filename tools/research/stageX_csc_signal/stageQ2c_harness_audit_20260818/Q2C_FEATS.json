@@ -1,0 +1,564 @@
+{
+ "schema": "MetaSieve.StageQ2c.FEATS.v2",
+ "preregistration_sha256": "1027ccde8c8946aa8314ebd7642af89a6abbc3366afd965e8ab43f0da5a26a5c",
+ "representation": "per-row [wt window mean; mt window mean], radius-6 ESM-2 150M (2x640=1280 dim); WT rows and fallback rows use parent mean twice",
+ "n_rows": 97,
+ "dim": 1280,
+ "n_ok_pair_window": 49,
+ "manifest": [
+  {
+   "row": "ABL1",
+   "status": "wt_parent_global_mean",
+   "parent": "ABL1"
+  },
+  {
+   "row": "ABL1(E255K)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 255
+  },
+  {
+   "row": "ABL1(F317I)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 317
+  },
+  {
+   "row": "ABL1(G250E)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 250
+  },
+  {
+   "row": "ABL1(H396P)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 396
+  },
+  {
+   "row": "ABL1(M351T)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 351
+  },
+  {
+   "row": "ABL1(Q252H)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 252
+  },
+  {
+   "row": "ABL1(T315I)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 315
+  },
+  {
+   "row": "ABL1(Y253F)",
+   "status": "ok_pair_window",
+   "parent": "ABL1",
+   "pos": 253
+  },
+  {
+   "row": "ALK",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "ALK(C1156Y)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "ALK(F1174L)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "ALK(L1196M)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "ALK(R1275Q)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "BRAF",
+   "status": "wt_parent_global_mean",
+   "parent": "BRAF"
+  },
+  {
+   "row": "BRAF(V599E)",
+   "status": "ok_pair_window",
+   "parent": "BRAF",
+   "pos": 600
+  },
+  {
+   "row": "BTK",
+   "status": "wt_parent_global_mean",
+   "parent": "BTK"
+  },
+  {
+   "row": "BTK(E41K)",
+   "status": "ok_pair_window",
+   "parent": "BTK",
+   "pos": 41
+  },
+  {
+   "row": "C-KIT",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "KIT",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "C-KIT(A829P)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 829
+  },
+  {
+   "row": "C-KIT(D816H)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 816
+  },
+  {
+   "row": "C-KIT(D816V)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 816
+  },
+  {
+   "row": "C-KIT(D820E)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 820
+  },
+  {
+   "row": "C-KIT(N822K)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 822
+  },
+  {
+   "row": "C-KIT(T670I)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 670
+  },
+  {
+   "row": "C-KIT(V559D)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 559
+  },
+  {
+   "row": "C-KIT(V559D/T670I)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "KIT",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "C-KIT(V559D/V654A)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "KIT",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "C-KIT(V560G)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 560
+  },
+  {
+   "row": "C-KIT(V654A)",
+   "status": "ok_pair_window",
+   "parent": "KIT",
+   "pos": 654
+  },
+  {
+   "row": "C-MET",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(D1228H)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(D1228N)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(F1200I)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(M1250T)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(Y1230A)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(Y1230C)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(Y1230D)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-MET(Y1230H)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "C-SRC",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "SRC",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "C-SRC(T341M)",
+   "status": "ok_pair_window",
+   "parent": "SRC",
+   "pos": 341
+  },
+  {
+   "row": "CHK2",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "CHEK2",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "CHK2(I157T)",
+   "status": "ok_pair_window",
+   "parent": "CHEK2",
+   "pos": 157
+  },
+  {
+   "row": "EGFR",
+   "status": "wt_parent_global_mean",
+   "parent": "EGFR"
+  },
+  {
+   "row": "EGFR(d746-750)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "EGFR(d747-749/A750P)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "EGFR(d747-752/P753S)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "EGFR(d752-759)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "EGFR(G719C)",
+   "status": "ok_pair_window",
+   "parent": "EGFR",
+   "pos": 719
+  },
+  {
+   "row": "EGFR(G719S)",
+   "status": "ok_pair_window",
+   "parent": "EGFR",
+   "pos": 719
+  },
+  {
+   "row": "EGFR(L858R)",
+   "status": "ok_pair_window",
+   "parent": "EGFR",
+   "pos": 858
+  },
+  {
+   "row": "EGFR(L861Q)",
+   "status": "ok_pair_window",
+   "parent": "EGFR",
+   "pos": 861
+  },
+  {
+   "row": "EGFR(T790M)",
+   "status": "ok_pair_window",
+   "parent": "EGFR",
+   "pos": 790
+  },
+  {
+   "row": "EGFR(d746-750/T790M)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "EGFR(L858R/T790M)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "EGFR",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "FGFR1",
+   "status": "wt_parent_global_mean",
+   "parent": "FGFR1"
+  },
+  {
+   "row": "FGFR1(V561M)",
+   "status": "ok_pair_window",
+   "parent": "FGFR1",
+   "pos": 561
+  },
+  {
+   "row": "FGFR2",
+   "status": "wt_parent_global_mean",
+   "parent": "FGFR2"
+  },
+  {
+   "row": "FGFR2(N549H)",
+   "status": "ok_pair_window",
+   "parent": "FGFR2",
+   "pos": 549
+  },
+  {
+   "row": "FGFR3",
+   "status": "wt_parent_global_mean",
+   "parent": "FGFR3"
+  },
+  {
+   "row": "FGFR3(G697C)",
+   "status": "ok_pair_window",
+   "parent": "FGFR3",
+   "pos": 697
+  },
+  {
+   "row": "FGFR3(K650E)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "FGFR3",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "FGFR3(K650M)",
+   "status": "ok_pair_window",
+   "parent": "FGFR3",
+   "pos": 650
+  },
+  {
+   "row": "FGFR4",
+   "status": "wt_parent_global_mean",
+   "parent": "FGFR4"
+  },
+  {
+   "row": "FGFR4(N535K)",
+   "status": "ok_pair_window",
+   "parent": "FGFR4",
+   "pos": 535
+  },
+  {
+   "row": "FGFR4(V550E)",
+   "status": "ok_pair_window",
+   "parent": "FGFR4",
+   "pos": 550
+  },
+  {
+   "row": "FGFR4(V550L)",
+   "status": "ok_pair_window",
+   "parent": "FGFR4",
+   "pos": 550
+  },
+  {
+   "row": "FLT3",
+   "status": "wt_parent_global_mean",
+   "parent": "FLT3"
+  },
+  {
+   "row": "FLT3(D835Y)",
+   "status": "ok_pair_window",
+   "parent": "FLT3",
+   "pos": 835
+  },
+  {
+   "row": "FLT3(ITD)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "FLT3",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "JAK2",
+   "status": "wt_parent_global_mean",
+   "parent": "JAK2"
+  },
+  {
+   "row": "JAK2(V617F)",
+   "status": "ok_pair_window",
+   "parent": "JAK2",
+   "pos": 617
+  },
+  {
+   "row": "LRRK2",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "LRRK2(G2019S)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "LRRK2(I2020T)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "LRRK2(R1441C)",
+   "status": "missing_wt_cache",
+   "used": "zero"
+  },
+  {
+   "row": "MEK1",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "MAP2K1",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "MEK1(P124L)",
+   "status": "ok_pair_window",
+   "parent": "MAP2K1",
+   "pos": 124
+  },
+  {
+   "row": "P38\u03b1/MAPK14",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "MAPK14",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "P38\u03b1(T106M)",
+   "status": "ok_pair_window",
+   "parent": "MAPK14",
+   "pos": 106
+  },
+  {
+   "row": "PDGFR\u03b1",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "PDGFRA",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "PDGFR\u03b1(D842V)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "PDGFRA",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "PDGFR\u03b1(T674I)",
+   "status": "ok_pair_window",
+   "parent": "PDGFRA",
+   "pos": 674
+  },
+  {
+   "row": "PDGFR\u03b1(V561D)",
+   "status": "ok_pair_window",
+   "parent": "PDGFRA",
+   "pos": 561
+  },
+  {
+   "row": "RET",
+   "status": "wt_parent_global_mean",
+   "parent": "RET"
+  },
+  {
+   "row": "RET(E762Q)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 762
+  },
+  {
+   "row": "RET(G691S)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 691
+  },
+  {
+   "row": "RET(M918T)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 918
+  },
+  {
+   "row": "RET(R749T)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 749
+  },
+  {
+   "row": "RET(R813Q)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 813
+  },
+  {
+   "row": "RET(V804L)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 804
+  },
+  {
+   "row": "RET(V804M)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 804
+  },
+  {
+   "row": "RET(Y791F)",
+   "status": "ok_pair_window",
+   "parent": "RET",
+   "pos": 791
+  },
+  {
+   "row": "TIE2/TEK",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "TEK",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "TIE2(R849W)",
+   "status": "ok_pair_window",
+   "parent": "TEK",
+   "pos": 849
+  },
+  {
+   "row": "TIE2(Y1108F)",
+   "status": "fallback_parent_window_or_mean",
+   "parent": "TEK",
+   "reason": "no mt cache entry or no verified pos"
+  },
+  {
+   "row": "TIE2(Y897S)",
+   "status": "ok_pair_window",
+   "parent": "TEK",
+   "pos": 897
+  }
+ ],
+ "npz_sha256": "969add6664ea642a5e88017de8233208d03cf4dd95a9db927d4e39c5196e98ae"
+}

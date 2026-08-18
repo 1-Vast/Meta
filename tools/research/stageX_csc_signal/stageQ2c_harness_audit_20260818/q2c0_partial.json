@@ -1,0 +1,81 @@
+{
+ "results_so_far": {
+  "correct_protein": {
+   "raw_head": {
+    "spearman": -0.14538106071638665,
+    "pearson": -0.07168124358465336,
+    "dead_zone_sign_accuracy": 0.45454545454545453
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.011384388017407614,
+    "perm_p": 0.7860696517412935,
+    "near_random_bound": 0.15,
+    "passes_negative_control": true
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.6929244995117188
+  },
+  "ligand_only": {
+   "raw_head": {
+    "spearman": 0.0882951605544901,
+    "pearson": 0.11690042554477015,
+    "dead_zone_sign_accuracy": 0.494949494949495
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.11365475543621378,
+    "perm_p": 0.014925373134328358,
+    "near_random_bound": 0.15,
+    "passes_negative_control": false
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.898909091949463
+  },
+  "no_interaction_head_scale_drift": {
+   "inter_scale_after_training": -0.04446132481098175,
+   "note": "no_interaction_head trains with inter_scale=0 at init but the parameter keeps gradients; the artifact zeroed it only at predict time"
+  },
+  "no_interaction_head": {
+   "raw_head": {
+    "spearman": -0.12530319126282832,
+    "pearson": -0.10808706856982321,
+    "dead_zone_sign_accuracy": 0.45707070707070707
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.021166906069594107,
+    "perm_p": 0.6368159203980099,
+    "near_random_bound": 0.15,
+    "passes_negative_control": true
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.762317419052124
+  },
+  "oracle_protein": {
+   "raw_head": {
+    "spearman": 0.3752191174130555,
+    "pearson": 0.3414926030657258,
+    "dead_zone_sign_accuracy": 0.6742424242424242
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.23251326450284443,
+    "perm_p": 0.004975124378109453,
+    "near_random_bound": 0.15,
+    "passes_negative_control": false
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.848283529281616
+  }
+ },
+ "stage": "partial"
+}

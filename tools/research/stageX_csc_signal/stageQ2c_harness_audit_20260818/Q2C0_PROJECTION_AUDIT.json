@@ -1,0 +1,134 @@
+{
+ "schema": "MetaSieve.StageQ2c.Q2C0_PROJECTION_AUDIT.v1",
+ "preregistration_sha256": "1027ccde8c8946aa8314ebd7642af89a6abbc3366afd965e8ab43f0da5a26a5c",
+ "stage": "stageQ2c_harness_audit_20260818",
+ "inputs": {
+  "stageX0c_q2_py_read_only": true,
+  "gate_point": "tau*=1.0, rank 4, dense, seed 0"
+ },
+ "negative_control_bound": 0.15,
+ "arms": {
+  "correct_protein": {
+   "raw_head": {
+    "spearman": -0.14538106071638665,
+    "pearson": -0.07168124358465336,
+    "dead_zone_sign_accuracy": 0.45454545454545453
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.011384388017407614,
+    "perm_p": 0.7860696517412935,
+    "near_random_bound": 0.15,
+    "passes_negative_control": true
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.6929244995117188
+  },
+  "ligand_only": {
+   "raw_head": {
+    "spearman": 0.0882951605544901,
+    "pearson": 0.11690042554477015,
+    "dead_zone_sign_accuracy": 0.494949494949495
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.11365475543621378,
+    "perm_p": 0.014925373134328358,
+    "near_random_bound": 0.15,
+    "passes_negative_control": false
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.898909091949463
+  },
+  "no_interaction_head_scale_drift": {
+   "inter_scale_after_training": -0.04446132481098175,
+   "note": "no_interaction_head trains with inter_scale=0 at init but the parameter keeps gradients; the artifact zeroed it only at predict time"
+  },
+  "no_interaction_head": {
+   "raw_head": {
+    "spearman": -0.12530319126282832,
+    "pearson": -0.10808706856982321,
+    "dead_zone_sign_accuracy": 0.45707070707070707
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.021166906069594107,
+    "perm_p": 0.6368159203980099,
+    "near_random_bound": 0.15,
+    "passes_negative_control": true
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.762317419052124
+  },
+  "oracle_protein": {
+   "raw_head": {
+    "spearman": 0.3752191174130555,
+    "pearson": 0.3414926030657258,
+    "dead_zone_sign_accuracy": 0.6742424242424242
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.23251326450284443,
+    "perm_p": 0.004975124378109453,
+    "near_random_bound": 0.15,
+    "passes_negative_control": false
+   },
+   "post_projection_interior_only": {
+    "pearson": NaN,
+    "n_cells": 0
+   },
+   "best_val_loss": 2.848283529281616
+  },
+  "free_target_id": {
+   "raw_head": {
+    "spearman": 0.015503159375169018,
+    "pearson": 0.009792366325676097,
+    "dead_zone_sign_accuracy": 0.5
+   },
+   "post_projection_all_eval": {
+    "pearson": 0.08061435724282404,
+    "perm_p": 0.06965174129353234,
+    "passes_negative_control": true
+   },
+   "best_val_loss": 2.6882073879241943
+  },
+  "tau0": {
+   "post_projection_all_eval": {
+    "pearson": 0.0,
+    "perm_p": 1.0,
+    "passes_negative_control": true
+   }
+  },
+  "random_bipartite_graph_null": {
+   "post_projection_pearson": -0.06381456828939198,
+   "perm_p": 0.1691542288557214,
+   "passes_negative_control": true
+  },
+  "endpoint_distortion": {
+   "n_determinate_eval": 545,
+   "pearson_latent_vs_implied": 0.5896280907554173,
+   "spearman_latent_vs_implied": 0.5549840472533404
+  },
+  "minimal_linear_no_censoring": {
+   "raw_head": {
+    "spearman": -0.07511389212831177,
+    "pearson": -0.16893540260464585,
+    "dead_zone_sign_accuracy": 0.5202020202020202
+   },
+   "post_projection_pearson": 0.08352943530854022
+  }
+ },
+ "n5_operator_train_only": "verified: operator fit exclusively on train mask; eval labels never enter",
+ "truth_separated_npz": "q2c0_truth_seed0.npz",
+ "truth_sha256": "fc9bb8052d7d6a2a4ad311ebfa73a83a51d865af2b740b0a6798da010426f3f3",
+ "conclusions": {
+  "anova_projection_is_safe_diagnostic": false,
+  "no_interaction_head_projected_pearson": 0.021166906069594107,
+  "oracle_alignment_note": "see ORACLE_ALIGNMENT_TABLE.md; in-artifact oracle arm dz 0.607-0.674 below gate"
+ }
+}
