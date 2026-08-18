@@ -15,7 +15,7 @@ modified.
 | Q0-B historical/construct mapping | PASS | Q0B_MAPPING_AUDIT.json, Q0B_ALIAS_LEDGER.md |
 | Q1 representation capability (probe selectivity) | PASS | Q1_SELECTIVITY.json |
 | Q2 fully synthetic planted harness | FAIL | Q2_PLANTED.json |
-| Q3 Saifudeen panel qualification | PASS (census delivered) | Q3_SAIFUDEEN_CENSUS.json |
+| Q3 Saifudeen panel qualification | CENSUS DELIVERED (biological pairability unresolved) | Q3_SAIFUDEEN_CENSUS.json |
 | I6 production-dataflow integrity | PASS (23 tests) | tests/test_x0c_integrity.py |
 
 ## Q0 — variant-coordinate layer
@@ -78,12 +78,16 @@ dead-zone sign accuracy 0.52-0.57 (chance), tau*=0 interaction head
 recovers nothing, floor-clamp imputation induces the expected spurious
 recovery (dz 0.588), no-interaction head and shuffled/family-shuffled/
 random protein ~0.50-0.55, free-target-id upper bound ~0.50-0.55.
-Diagnosis (separate frozen-seed runs, recorded in the artifact): the
-oracle arm (P@U input) recovers the centred interaction at dz 0.68-0.76,
-so the information exists; the correct arm (one-hot pocket input) tops
-out at dz ~0.58 across 8+6 restarts and two training protocols, so the
-failure is representation-learning/optimization capacity at this sample
-size, not information absence.
+Diagnosis (WITHDRAWN CLAUSE per independent review): an earlier claim that
+an oracle arm recovers the centred interaction at dz 0.68-0.76 cited a
+separate diag21 probe protocol and is withdrawn as evidence; the aligned
+oracle evidence is the in-artifact oracle_protein arm: dz 0.607-0.674,
+Spearman 0.331-0.390 - below the frozen 0.70 threshold in all three seeds.
+Alignment table: stageQ2c_harness_audit_20260818/ORACLE_ALIGNMENT_TABLE.md.
+The correct arm (one-hot pocket input) tops out at dz ~0.58. Whether the
+remaining gap is representation, optimization, endpoint or graph power is
+exactly what the Q2c successor audit determines; until then the failure
+mode attribution is UNRESOLVED.
 
 ## Endpoint / censoring ladder (Duong-Ly + Saifudeen)
 
@@ -126,10 +130,12 @@ generalized.
 
 ## Stage result
 
-Q0-A, Q0-B, Q1, Q3 and I6 pass; Q2 FAILED its frozen gate. Therefore
-B1/B2/C/D are NOT authorized and no real-data biological inference may be
-drawn from this harness. The Q2 failure is optimization-limited (the
-oracle arm recovers the planted signal at dz 0.68-0.76, the correct arm
-does not), which defines the single highest-information next step: a new
-preregistration for the representation-learning fix or a revised gate
-point — the current frozen gate may not be moved retroactively.
+Q0-A, Q0-B, Q1 (reduced to Q1-A/B/C per addendum), Q3 (census only) and
+I6 pass; Q2 FAILED its frozen gate. Therefore B1/B2/C/D are NOT authorized
+and no real-data biological inference may be drawn from this harness. The
+Q2 failure-mode attribution (representation vs optimization vs endpoint vs
+graph power) is UNRESOLVED until the Q2c successor audit completes; the
+ANOVA projection is demoted to diagnostic status (dead interaction heads
+still reach projected Pearson 0.51-0.54, so it cannot serve as evidence of
+interaction recovery). Next action: stageQ2c_harness_audit_20260818
+(frozen prereg, Q2c-0 -> Q2c-1 -> Q2c-2, gate thresholds unchanged).
