@@ -1,0 +1,4453 @@
+{
+ "accession_overrides": {
+  "PDGFRA": "P16234"
+ },
+ "admission_policy": {
+  "admitted_point_pair": "single point mutation, old residue verified at canonical coordinate, construct coordinate resolvable and residue-verified",
+  "excluded_construct_offset_error": "construct residue at mapped construct coordinate differs from expected old residue",
+  "excluded_construct_unresolved": "construct range could not be mapped onto the canonical sequence",
+  "excluded_deletion": "deletion-only construct",
+  "excluded_deletion_plus_point": "deletion combined with point mutation",
+  "excluded_insertion": "internal tandem duplication / insertion construct",
+  "excluded_multi_point": "two or more point mutations in one construct (no single-site window)",
+  "excluded_old_residue_mismatch": "reference residue at canonical coordinate does not equal expected old residue",
+  "excluded_outside_construct": "mutation position not inside the reported construct",
+  "excluded_unknown_notation": "mutation notation could not be parsed"
+ },
+ "census": {
+  "admission_counts": {
+   "admitted_point_pair": 65,
+   "excluded_construct_unresolved": 2,
+   "excluded_deletion": 2,
+   "excluded_deletion_plus_point": 3,
+   "excluded_insertion": 1,
+   "excluded_multi_point": 3
+  },
+  "admitted_point_pairs": 65,
+  "mutant_construct_rows": 76,
+  "total_assay_rows_s2": 97,
+  "wt_parent_rows": 21
+ },
+ "code_commit": "unavailable",
+ "historical_numbering_map": {
+  "BRAF": {
+   "599": {
+    "basis": "historical numbering V599E renumbered to canonical V600E (shorter reference used in Davies 2002); P15056 residue 599 is T, 600 is V",
+    "canonical_pos": 600,
+    "evidence": [
+     "https://doi.org/10.1038/nature00766 (Davies et al. 2002, Nature 417:949, reported BRAF V599E using the shorter reference)",
+     "https://www.uniprot.org/uniprotkb/P15056 (canonical P15056: V600; UniProt variant VAR_018629 p.Val600Glu; residue 599 is T)",
+     "https://klifs.net/api/kinase_ID?kinase_name=BRAF&species=Human (KLIFS BRAF Human -> P15056)"
+    ]
+   }
+  }
+ },
+ "input_sha256": {
+  "downloads\\duongly_mmc2.xlsx": "c790e73dcb086dff4fcb182aab9a00056ab6cfea5303186cc06eb6fefbf58de4",
+  "downloads\\duongly_mmc3.xlsx": "7a27e8dd271101eae54ed433d890d96631f44974560cd6d498690d74a2bcb7a4",
+  "uniprot\\O60674.fasta": "9230bef469770e9bd3b428b157b8b65959ef5317eed2b3bfcbe6158a2b0d20a8",
+  "uniprot\\O96017.fasta": "95dba5723f9348d6602b69c8a9584cc37e079702568115e2701b85a4e9dcf5d8",
+  "uniprot\\P00519.fasta": "2dfb7334098feccbd2d1ad4c5e0a4149b8ea711c539e5a6504b93a8876ac3435",
+  "uniprot\\P00533.fasta": "6e4b4d9cd163984a944d346faa17ded0bf7ebe39049466c51be5dbe79e78a473",
+  "uniprot\\P07949.fasta": "8e90ec349eb304d417d616d76b1eb404d3323a8ffeb1562a21762224c8af81dc",
+  "uniprot\\P08581.fasta": "afeca1c96f3a6c785d4943ecbb585c5ce46d8ae89b36401113556c8501cda42c",
+  "uniprot\\P10721.fasta": "f382e1ca74f807751db15b6756e287118530d2786850426fb09c1a4aea22d897",
+  "uniprot\\P11362.fasta": "f4a5c2d97f75aaf67da33ad44d4c6258b06b2284c6b36ff31f24cf8eb42bada3",
+  "uniprot\\P12931.fasta": "99e845b9a395b58a204204129ec7f7a388d2548f3485190595ae81ff35763b6e",
+  "uniprot\\P15056.fasta": "258db8949dff63fbd3295f25b2af297a059d181a3d6f717d12be96f5537a192f",
+  "uniprot\\P16234.fasta": "06a658526d6a00942b5dcbebb648b9e8973429bde783b1542880670bd03c0c7e",
+  "uniprot\\P21802.fasta": "e9ebe32abf43ef74c56733420d1a011652061a7213df9771420795268f31a597",
+  "uniprot\\P22455.fasta": "b37a30cd4f33de66db0383d8ddcd563bea02bbc87b7fc6fab56a7acef2a85d66",
+  "uniprot\\P22607.fasta": "9a908c6ac36addc418c04818ec7e1df4e4bc31c5e75d203aea14f91f6f5583f7",
+  "uniprot\\P36888.fasta": "522b8618e966c5cfef5fe48c73ccd126a8424d279562b38a177a2320ac204286",
+  "uniprot\\Q02750.fasta": "0ae812a6becfeb79c2b286478867de5380963a52e2c8dd506693b7c7c99e7d14",
+  "uniprot\\Q02763.fasta": "6a59b318aaeb5d8c839e4deb1efdc17604213702dc905475a7644085ec22f10d",
+  "uniprot\\Q06187.fasta": "ffc096454c678a68ce36d3ef833c4cf1fc61391bf0e86f64d4d33373f8056a1d",
+  "uniprot\\Q16539.fasta": "9c95217a9a3283c3cdddbfa485108ee8185913baddf669b94074d93f5c18dff5",
+  "uniprot\\Q5S007.fasta": "e0ef68cfffc3af1e2220ccaa1057f7f9d7be3494ca18871939beda44a7a7ce7e",
+  "uniprot\\Q9DE49.fasta": "88a03a530431e3cd97857c68134536f7208648616bb4c0e5dc08c33ba71371c9",
+  "uniprot\\Q9UM73.fasta": "5899d6a00cc0db02c26bb1b229126b9b3ff0d31301e43dd89e0f505212f74747"
+ },
+ "notation_fixes": {
+  "T6741I": {
+   "basis": "S1 Mutation column typo \"T6741I\"; construct name column reads T674I",
+   "canonical": "T674I"
+  }
+ },
+ "pairs": [
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(E255K)",
+   "assay_row_s2_index": 2,
+   "canonical_accession": "P00519",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 255,
+   "construct_name_notation": "ABL1 (E255K)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 1130,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 255,
+     "construct_coordinate": 255,
+     "construct_residue": "E",
+     "construct_residue_verified": true,
+     "expected_old_residue": "E",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "K",
+     "observed_reference_residue": "E",
+     "old": "E",
+     "pos": 255,
+     "reported": "E255K",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (E255K)",
+   "reported_mutation_notation": "E255K",
+   "s1_reported_genbank": "NP_005148.2",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 0,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(F317I)",
+   "assay_row_s2_index": 3,
+   "canonical_accession": "P00519",
+   "clone_field": "aa 118-535",
+   "confidence": "high",
+   "construct_coordinate": 200,
+   "construct_name_notation": "ABL1 (F317I)",
+   "construct_range": {
+    "end": 535,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 118
+   },
+   "construct_sequence_length": 418,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 317,
+     "construct_coordinate": 200,
+     "construct_residue": "F",
+     "construct_residue_verified": true,
+     "expected_old_residue": "F",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "I",
+     "observed_reference_residue": "F",
+     "old": "F",
+     "pos": 317,
+     "reported": "F317I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (F317I)",
+   "reported_mutation_notation": "F317I",
+   "s1_reported_genbank": "NM_005157.3",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 1,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(G250E)",
+   "assay_row_s2_index": 4,
+   "canonical_accession": "P00519",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 250,
+   "construct_name_notation": "ABL1 (G250E)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 1130,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 250,
+     "construct_coordinate": 250,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "E",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 250,
+     "reported": "G250E",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (G250E)",
+   "reported_mutation_notation": "G250E",
+   "s1_reported_genbank": "NP_005148.2",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 2,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(H396P)",
+   "assay_row_s2_index": 5,
+   "canonical_accession": "P00519",
+   "clone_field": "aa 27-end",
+   "confidence": "high",
+   "construct_coordinate": 370,
+   "construct_name_notation": "ABL1 (H396P)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 27
+   },
+   "construct_sequence_length": 1104,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 396,
+     "construct_coordinate": 370,
+     "construct_residue": "H",
+     "construct_residue_verified": true,
+     "expected_old_residue": "H",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "P",
+     "observed_reference_residue": "H",
+     "old": "H",
+     "pos": 396,
+     "reported": "H396P",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (H396P)",
+   "reported_mutation_notation": "H396P",
+   "s1_reported_genbank": "GenBank U07563",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 3,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(M351T)",
+   "assay_row_s2_index": 6,
+   "canonical_accession": "P00519",
+   "clone_field": "aa 27-end",
+   "confidence": "high",
+   "construct_coordinate": 325,
+   "construct_name_notation": "ABL1 (M351T)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 27
+   },
+   "construct_sequence_length": 1104,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 351,
+     "construct_coordinate": 325,
+     "construct_residue": "M",
+     "construct_residue_verified": true,
+     "expected_old_residue": "M",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "T",
+     "observed_reference_residue": "M",
+     "old": "M",
+     "pos": 351,
+     "reported": "M351T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (M351T)",
+   "reported_mutation_notation": "M351T",
+   "s1_reported_genbank": "GenBank U07563",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 4,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(Q252H)",
+   "assay_row_s2_index": 7,
+   "canonical_accession": "P00519",
+   "clone_field": "aa 27-end",
+   "confidence": "high",
+   "construct_coordinate": 226,
+   "construct_name_notation": "ABL1 (Q252H)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 27
+   },
+   "construct_sequence_length": 1104,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 252,
+     "construct_coordinate": 226,
+     "construct_residue": "Q",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Q",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "H",
+     "observed_reference_residue": "Q",
+     "old": "Q",
+     "pos": 252,
+     "reported": "Q252H",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (Q252H)",
+   "reported_mutation_notation": "Q252H",
+   "s1_reported_genbank": "GenBank U07563",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 5,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(T315I)",
+   "assay_row_s2_index": 8,
+   "canonical_accession": "P00519",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 315,
+   "construct_name_notation": "ABL1 (T315I)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 1130,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 315,
+     "construct_coordinate": 315,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "I",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 315,
+     "reported": "T315I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (T315I)",
+   "reported_mutation_notation": "T315I",
+   "s1_reported_genbank": "NP_005148.2",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 6,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00519 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ABL1(Y253F)",
+   "assay_row_s2_index": 9,
+   "canonical_accession": "P00519",
+   "clone_field": "aa 27-end",
+   "confidence": "high",
+   "construct_coordinate": 227,
+   "construct_name_notation": "ABL1 (Y253F)",
+   "construct_range": {
+    "end": 1130,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 27
+   },
+   "construct_sequence_length": 1104,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 253,
+     "construct_coordinate": 227,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00519"
+     ],
+     "new": "F",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 253,
+     "reported": "Y253F",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ABL1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00519 (local SHA-256 in input_sha256)",
+   "reported_construct": "ABL1 (Y253F)",
+   "reported_mutation_notation": "Y253F",
+   "s1_reported_genbank": "GenBank U07563",
+   "s1_reported_protein_accession": "P00519",
+   "s1_row_index": 7,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q9UM73 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ALK(C1156Y)",
+   "assay_row_s2_index": 11,
+   "canonical_accession": "Q9UM73",
+   "clone_field": "aa 1058-1620 (end)",
+   "confidence": "high",
+   "construct_coordinate": 99,
+   "construct_name_notation": "ALK (C1156Y)",
+   "construct_range": {
+    "end": 1620,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 1058
+   },
+   "construct_sequence_length": 563,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1156,
+     "construct_coordinate": 99,
+     "construct_residue": "C",
+     "construct_residue_verified": true,
+     "expected_old_residue": "C",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q9UM73"
+     ],
+     "new": "Y",
+     "observed_reference_residue": "C",
+     "old": "C",
+     "pos": 1156,
+     "reported": "C1156Y",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ALK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q9UM73 (local SHA-256 in input_sha256)",
+   "reported_construct": "ALK (C1156Y)",
+   "reported_mutation_notation": "C1156Y",
+   "s1_reported_genbank": "BAG10812.1",
+   "s1_reported_protein_accession": "Q9UM73",
+   "s1_row_index": 8,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q9UM73 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ALK(F1174L)",
+   "assay_row_s2_index": 12,
+   "canonical_accession": "Q9UM73",
+   "clone_field": "aa 1058-1620 (end)",
+   "confidence": "high",
+   "construct_coordinate": 117,
+   "construct_name_notation": "ALK (F1174L)",
+   "construct_range": {
+    "end": 1620,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 1058
+   },
+   "construct_sequence_length": 563,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1174,
+     "construct_coordinate": 117,
+     "construct_residue": "F",
+     "construct_residue_verified": true,
+     "expected_old_residue": "F",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q9UM73"
+     ],
+     "new": "L",
+     "observed_reference_residue": "F",
+     "old": "F",
+     "pos": 1174,
+     "reported": "F1174L",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ALK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q9UM73 (local SHA-256 in input_sha256)",
+   "reported_construct": "ALK (F1174L)",
+   "reported_mutation_notation": "F1174L",
+   "s1_reported_genbank": "BAG10812.1",
+   "s1_reported_protein_accession": "Q9UM73",
+   "s1_row_index": 9,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q9UM73 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ALK(L1196M)",
+   "assay_row_s2_index": 13,
+   "canonical_accession": "Q9UM73",
+   "clone_field": "aa 1058-1620 (end)",
+   "confidence": "high",
+   "construct_coordinate": 139,
+   "construct_name_notation": "ALK (L1196M)",
+   "construct_range": {
+    "end": 1620,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 1058
+   },
+   "construct_sequence_length": 563,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1196,
+     "construct_coordinate": 139,
+     "construct_residue": "L",
+     "construct_residue_verified": true,
+     "expected_old_residue": "L",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q9UM73"
+     ],
+     "new": "M",
+     "observed_reference_residue": "L",
+     "old": "L",
+     "pos": 1196,
+     "reported": "L1196M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ALK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q9UM73 (local SHA-256 in input_sha256)",
+   "reported_construct": "ALK (L1196M)",
+   "reported_mutation_notation": "L1196M",
+   "s1_reported_genbank": "BAG10812.1",
+   "s1_reported_protein_accession": "Q9UM73",
+   "s1_row_index": 10,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q9UM73 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "ALK(R1275Q)",
+   "assay_row_s2_index": 14,
+   "canonical_accession": "Q9UM73",
+   "clone_field": "aa 1058-1620 (end)",
+   "confidence": "high",
+   "construct_coordinate": 218,
+   "construct_name_notation": "ALK (R1275Q)",
+   "construct_range": {
+    "end": 1620,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 1058
+   },
+   "construct_sequence_length": 563,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1275,
+     "construct_coordinate": 218,
+     "construct_residue": "R",
+     "construct_residue_verified": true,
+     "expected_old_residue": "R",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q9UM73"
+     ],
+     "new": "Q",
+     "observed_reference_residue": "R",
+     "old": "R",
+     "pos": 1275,
+     "reported": "R1275Q",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "ALK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q9UM73 (local SHA-256 in input_sha256)",
+   "reported_construct": "ALK (R1275Q)",
+   "reported_mutation_notation": "R1275Q",
+   "s1_reported_genbank": "BAG10812.1",
+   "s1_reported_protein_accession": "Q9UM73",
+   "s1_row_index": 11,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P15056 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "BRAF(V599E)",
+   "assay_row_s2_index": 16,
+   "canonical_accession": "P15056",
+   "clone_field": "aa 416-766",
+   "confidence": "high",
+   "construct_coordinate": 185,
+   "construct_name_notation": "BRAF (V599E)",
+   "construct_range": {
+    "end": 766,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 416
+   },
+   "construct_sequence_length": 351,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 600,
+     "construct_coordinate": 185,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "historical numbering V599E renumbered to canonical V600E (shorter reference used in Davies 2002); P15056 residue 599 is T, 600 is V",
+     "mapping_evidence": [
+      "https://doi.org/10.1038/nature00766 (Davies et al. 2002, Nature 417:949, reported BRAF V599E using the shorter reference)",
+      "https://www.uniprot.org/uniprotkb/P15056 (canonical P15056: V600; UniProt variant VAR_018629 p.Val600Glu; residue 599 is T)",
+      "https://klifs.net/api/kinase_ID?kinase_name=BRAF&species=Human (KLIFS BRAF Human -> P15056)"
+     ],
+     "new": "E",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 600,
+     "reported": "V599E",
+     "reported_pos": 599,
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "BRAF",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P15056 (local SHA-256 in input_sha256)",
+   "reported_construct": "BRAF (V599E)",
+   "reported_mutation_notation": "V599E",
+   "s1_reported_genbank": "NP_004324.1",
+   "s1_reported_protein_accession": "P15056",
+   "s1_row_index": 12,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q06187 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "BTK(E41K)",
+   "assay_row_s2_index": 18,
+   "canonical_accession": "Q06187",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 41,
+   "construct_name_notation": "BTK (E41K)",
+   "construct_range": {
+    "end": 659,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 659,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 41,
+     "construct_coordinate": 41,
+     "construct_residue": "E",
+     "construct_residue_verified": true,
+     "expected_old_residue": "E",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q06187"
+     ],
+     "new": "K",
+     "observed_reference_residue": "E",
+     "old": "E",
+     "pos": 41,
+     "reported": "E41K",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "BTK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q06187 (local SHA-256 in input_sha256)",
+   "reported_construct": "BTK (E41K)",
+   "reported_mutation_notation": "E41K",
+   "s1_reported_genbank": "GenBank NM_000061",
+   "s1_reported_protein_accession": "Q06187",
+   "s1_row_index": 13,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(A829P)",
+   "assay_row_s2_index": 20,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976 (end)",
+   "confidence": "high",
+   "construct_coordinate": 286,
+   "construct_name_notation": "C-KIT (A829P)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 829,
+     "construct_coordinate": 286,
+     "construct_residue": "A",
+     "construct_residue_verified": true,
+     "expected_old_residue": "A",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "P",
+     "observed_reference_residue": "A",
+     "old": "A",
+     "pos": 829,
+     "reported": "A829P",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (A829P)",
+   "reported_mutation_notation": "A829P",
+   "s1_reported_genbank": "NM_000213.1",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 14,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(D816H)",
+   "assay_row_s2_index": 21,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-end",
+   "confidence": "high",
+   "construct_coordinate": 273,
+   "construct_name_notation": "C-KIT (D816H)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 816,
+     "construct_coordinate": 273,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "H",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 816,
+     "reported": "D816H",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (D816H)",
+   "reported_mutation_notation": "D816H",
+   "s1_reported_genbank": "GenBank X06182",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 15,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(D816V)",
+   "assay_row_s2_index": 22,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-end",
+   "confidence": "high",
+   "construct_coordinate": 273,
+   "construct_name_notation": "C-KIT (D816V)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 816,
+     "construct_coordinate": 273,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "V",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 816,
+     "reported": "D816V",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (D816V)",
+   "reported_mutation_notation": "D816V",
+   "s1_reported_genbank": "GenBank X06182",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 16,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(D820E)",
+   "assay_row_s2_index": 23,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-end",
+   "confidence": "high",
+   "construct_coordinate": 277,
+   "construct_name_notation": "C-KIT (D820E)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 820,
+     "construct_coordinate": 277,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "E",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 820,
+     "reported": "D820E",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (D820E)",
+   "reported_mutation_notation": "D820E",
+   "s1_reported_genbank": "NM_000222",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 17,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(N822K)",
+   "assay_row_s2_index": 24,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-end",
+   "confidence": "high",
+   "construct_coordinate": 279,
+   "construct_name_notation": "C-KIT (N822K)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 822,
+     "construct_coordinate": 279,
+     "construct_residue": "N",
+     "construct_residue_verified": true,
+     "expected_old_residue": "N",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "K",
+     "observed_reference_residue": "N",
+     "old": "N",
+     "pos": 822,
+     "reported": "N822K",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (N822K)",
+   "reported_mutation_notation": "N822K",
+   "s1_reported_genbank": "NM_000222",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 18,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(T670I)",
+   "assay_row_s2_index": 25,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976",
+   "confidence": "high",
+   "construct_coordinate": 127,
+   "construct_name_notation": "C-KIT (T670I)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 670,
+     "construct_coordinate": 127,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "I",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 670,
+     "reported": "T670I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (T670I)",
+   "reported_mutation_notation": "T670I",
+   "s1_reported_genbank": "NP_000213",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 19,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(V559D)",
+   "assay_row_s2_index": 26,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976 (end)",
+   "confidence": "high",
+   "construct_coordinate": 16,
+   "construct_name_notation": "C-KIT (V559D)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 559,
+     "construct_coordinate": 16,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "D",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 559,
+     "reported": "V559D",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (V559D)",
+   "reported_mutation_notation": "V559D",
+   "s1_reported_genbank": "NM_000213.1",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 20,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "excluded_multi_point",
+   "assay_row_s2": "C-KIT(V559D/T670I)",
+   "assay_row_s2_index": 27,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976 (end)",
+   "confidence": "excluded",
+   "construct_coordinate": 16,
+   "construct_name_notation": "C-KIT (V559D/T670I)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "two or more point mutations in one construct",
+   "isoform": "SV=1",
+   "mutation_class": "multi_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 559,
+     "construct_coordinate": 16,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "D",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 559,
+     "reported": "V559D",
+     "residue_verified": true
+    },
+    {
+     "canonical_coordinate": 670,
+     "construct_coordinate": 127,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "I",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 670,
+     "reported": "T670I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (V559D/T670I)",
+   "reported_mutation_notation": "V559D, T670I",
+   "s1_reported_genbank": "NM_000213.1",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 21,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "excluded_multi_point",
+   "assay_row_s2": "C-KIT(V559D/V654A)",
+   "assay_row_s2_index": 28,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976 (end)",
+   "confidence": "excluded",
+   "construct_coordinate": 16,
+   "construct_name_notation": "C-KIT (V559D/V654A)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "two or more point mutations in one construct",
+   "isoform": "SV=1",
+   "mutation_class": "multi_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 559,
+     "construct_coordinate": 16,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "D",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 559,
+     "reported": "V559D",
+     "residue_verified": true
+    },
+    {
+     "canonical_coordinate": 654,
+     "construct_coordinate": 111,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "A",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 654,
+     "reported": "V654A",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (V559D/V654A)",
+   "reported_mutation_notation": "V559D, V654A",
+   "s1_reported_genbank": "NM_000213.1",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 22,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(V560G)",
+   "assay_row_s2_index": 29,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-end",
+   "confidence": "high",
+   "construct_coordinate": 17,
+   "construct_name_notation": "C-KIT (V560G)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 560,
+     "construct_coordinate": 17,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "G",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 560,
+     "reported": "V560G",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (V560G)",
+   "reported_mutation_notation": "V560G",
+   "s1_reported_genbank": "GenBank X06182",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 23,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P10721 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-KIT(V654A)",
+   "assay_row_s2_index": 30,
+   "canonical_accession": "P10721",
+   "clone_field": "aa 544-976",
+   "confidence": "high",
+   "construct_coordinate": 111,
+   "construct_name_notation": "C-KIT (V654A)",
+   "construct_range": {
+    "end": 976,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 544
+   },
+   "construct_sequence_length": 433,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 654,
+     "construct_coordinate": 111,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P10721"
+     ],
+     "new": "A",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 654,
+     "reported": "V654A",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "KIT",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P10721 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-KIT (V654A)",
+   "reported_mutation_notation": "V654A",
+   "s1_reported_genbank": "NP_000213",
+   "s1_reported_protein_accession": "P10721",
+   "s1_row_index": 24,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(D1228H)",
+   "assay_row_s2_index": 32,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 273,
+   "construct_name_notation": "C-MET (D1228H)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1228,
+     "construct_coordinate": 273,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "H",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 1228,
+     "reported": "D1228H",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (D1228H)",
+   "reported_mutation_notation": "D1228H",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 25,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(D1228N)",
+   "assay_row_s2_index": 33,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 273,
+   "construct_name_notation": "C-MET (D1228N)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1228,
+     "construct_coordinate": 273,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "N",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 1228,
+     "reported": "D1228N",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (D1228N)",
+   "reported_mutation_notation": "D1228N",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 26,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(F1200I)",
+   "assay_row_s2_index": 34,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 245,
+   "construct_name_notation": "C-MET (F1200I)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1200,
+     "construct_coordinate": 245,
+     "construct_residue": "F",
+     "construct_residue_verified": true,
+     "expected_old_residue": "F",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "I",
+     "observed_reference_residue": "F",
+     "old": "F",
+     "pos": 1200,
+     "reported": "F1200I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (F1200I)",
+   "reported_mutation_notation": "F1200I",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 27,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(M1250T)",
+   "assay_row_s2_index": 35,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 295,
+   "construct_name_notation": "C-MET (M1250T)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1250,
+     "construct_coordinate": 295,
+     "construct_residue": "M",
+     "construct_residue_verified": true,
+     "expected_old_residue": "M",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "T",
+     "observed_reference_residue": "M",
+     "old": "M",
+     "pos": 1250,
+     "reported": "M1250T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (M1250T)",
+   "reported_mutation_notation": "M1250T",
+   "s1_reported_genbank": "NP_000236.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 28,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(Y1230A)",
+   "assay_row_s2_index": 36,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 275,
+   "construct_name_notation": "C-MET (Y1230A)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1230,
+     "construct_coordinate": 275,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "A",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 1230,
+     "reported": "Y1230A",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (Y1230A)",
+   "reported_mutation_notation": "Y1230A",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 29,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(Y1230C)",
+   "assay_row_s2_index": 37,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 275,
+   "construct_name_notation": "C-MET (Y1230C)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1230,
+     "construct_coordinate": 275,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "C",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 1230,
+     "reported": "Y1230C",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (Y1230C)",
+   "reported_mutation_notation": "Y1230C",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 30,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(Y1230D)",
+   "assay_row_s2_index": 38,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 275,
+   "construct_name_notation": "C-MET (Y1230D)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1230,
+     "construct_coordinate": 275,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "D",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 1230,
+     "reported": "Y1230D",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (Y1230D)",
+   "reported_mutation_notation": "Y1230D",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 31,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P08581 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-MET(Y1230H)",
+   "assay_row_s2_index": 39,
+   "canonical_accession": "P08581",
+   "clone_field": "aa 956-1390",
+   "confidence": "high",
+   "construct_coordinate": 275,
+   "construct_name_notation": "C-MET (Y1230H)",
+   "construct_range": {
+    "end": 1390,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 956
+   },
+   "construct_sequence_length": 435,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=4",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1230,
+     "construct_coordinate": 275,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P08581"
+     ],
+     "new": "H",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 1230,
+     "reported": "Y1230H",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P08581 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-MET (Y1230H)",
+   "reported_mutation_notation": "Y1230H",
+   "s1_reported_genbank": "NP_000245.2",
+   "s1_reported_protein_accession": "P08581",
+   "s1_row_index": 32,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P12931 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "C-SRC(T341M)",
+   "assay_row_s2_index": 41,
+   "canonical_accession": "P12931",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 341,
+   "construct_name_notation": "C-SRC (T341M)",
+   "construct_range": {
+    "end": 536,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 536,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 341,
+     "construct_coordinate": 341,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P12931"
+     ],
+     "new": "M",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 341,
+     "reported": "T341M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "SRC",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P12931 (local SHA-256 in input_sha256)",
+   "reported_construct": "C-SRC (T341M)",
+   "reported_mutation_notation": "T341M",
+   "s1_reported_genbank": "EMBL K03218",
+   "s1_reported_protein_accession": "P12931",
+   "s1_row_index": 33,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession O96017 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "CHK2(I157T)",
+   "assay_row_s2_index": 43,
+   "canonical_accession": "O96017",
+   "clone_field": "full length",
+   "confidence": "high",
+   "construct_coordinate": 157,
+   "construct_name_notation": "CHK2 (I157T)",
+   "construct_range": {
+    "end": 543,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 543,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 157,
+     "construct_coordinate": 157,
+     "construct_residue": "I",
+     "construct_residue_verified": true,
+     "expected_old_residue": "I",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/O96017"
+     ],
+     "new": "T",
+     "observed_reference_residue": "I",
+     "old": "I",
+     "pos": 157,
+     "reported": "I157T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "CHEK2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference O96017 (local SHA-256 in input_sha256)",
+   "reported_construct": "CHK2 (I157T)",
+   "reported_mutation_notation": "I157T",
+   "s1_reported_genbank": "GenBank AF016582",
+   "s1_reported_protein_accession": "O96017",
+   "s1_row_index": 34,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_deletion",
+   "assay_row_s2": "EGFR(d746-750)",
+   "assay_row_s2_index": 45,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [669-745, 751-1210(end)",
+   "confidence": "excluded",
+   "construct_coordinate": null,
+   "construct_name_notation": "EGFR (d746-750)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      669,
+      745
+     ],
+     [
+      751,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 537,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "deletion-only construct",
+   "isoform": "SV=2",
+   "mutation_class": "deletion",
+   "mutations": [
+    {
+     "deleted_segment_observed": "ELREA",
+     "end": 750,
+     "kind": "deletion",
+     "reported": "d746-750",
+     "start": 746
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (d746-750)",
+   "reported_mutation_notation": "-",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 35,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_deletion_plus_point",
+   "assay_row_s2": "EGFR(d746-750/T790M)",
+   "assay_row_s2_index": 54,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [669-745, 751-1210(end)",
+   "confidence": "excluded",
+   "construct_coordinate": 117,
+   "construct_name_notation": "EGFR (d746-750/T790M)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      669,
+      745
+     ],
+     [
+      751,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 537,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "deletion combined with point mutation",
+   "isoform": "SV=2",
+   "mutation_class": "deletion_plus_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 790,
+     "construct_coordinate": 117,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "M",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 790,
+     "reported": "T790M",
+     "residue_verified": true
+    },
+    {
+     "deleted_segment_observed": "ELREA",
+     "end": 750,
+     "kind": "deletion",
+     "reported": "d746-750",
+     "start": 746
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (d746-750/T790M)",
+   "reported_mutation_notation": "T790M",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 36,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_deletion_plus_point",
+   "assay_row_s2": "EGFR(d747-749/A750P)",
+   "assay_row_s2_index": 46,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [672-746, 750-1210(end)",
+   "confidence": "excluded",
+   "construct_coordinate": 76,
+   "construct_name_notation": "EGFR (d747-749/A750P)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      672,
+      746
+     ],
+     [
+      750,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 536,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "deletion combined with point mutation",
+   "isoform": "SV=2",
+   "mutation_class": "deletion_plus_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 750,
+     "construct_coordinate": 76,
+     "construct_residue": "A",
+     "construct_residue_verified": true,
+     "expected_old_residue": "A",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "P",
+     "observed_reference_residue": "A",
+     "old": "A",
+     "pos": 750,
+     "reported": "A750P",
+     "residue_verified": true
+    },
+    {
+     "deleted_segment_observed": "LRE",
+     "end": 749,
+     "kind": "deletion",
+     "reported": "d747-749",
+     "start": 747
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (d747-749/A750P)",
+   "reported_mutation_notation": "A750P",
+   "s1_reported_genbank": "NM_005228.3",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 37,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_deletion_plus_point",
+   "assay_row_s2": "EGFR(d747-752/P753S)",
+   "assay_row_s2_index": 47,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [672-746, 753-1210(end)",
+   "confidence": "excluded",
+   "construct_coordinate": 76,
+   "construct_name_notation": "EGFR (d747-752/P753S)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      672,
+      746
+     ],
+     [
+      753,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 533,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "deletion combined with point mutation",
+   "isoform": "SV=2",
+   "mutation_class": "deletion_plus_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 753,
+     "construct_coordinate": 76,
+     "construct_residue": "P",
+     "construct_residue_verified": true,
+     "expected_old_residue": "P",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "S",
+     "observed_reference_residue": "P",
+     "old": "P",
+     "pos": 753,
+     "reported": "P753S",
+     "residue_verified": true
+    },
+    {
+     "deleted_segment_observed": "LREATS",
+     "end": 752,
+     "kind": "deletion",
+     "reported": "d747-752",
+     "start": 747
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (d747-752/P753S)",
+   "reported_mutation_notation": "P753S",
+   "s1_reported_genbank": "NM_005228.3",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 38,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_deletion",
+   "assay_row_s2": "EGFR(d752-759)",
+   "assay_row_s2_index": 48,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [672-751, 760-1210(end)",
+   "confidence": "excluded",
+   "construct_coordinate": null,
+   "construct_name_notation": "EGFR (d752-759)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      672,
+      751
+     ],
+     [
+      760,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 531,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "deletion-only construct",
+   "isoform": "SV=2",
+   "mutation_class": "deletion",
+   "mutations": [
+    {
+     "deleted_segment_observed": "SPKANKEI",
+     "end": 759,
+     "kind": "deletion",
+     "reported": "d752-759",
+     "start": 752
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (d752-759)",
+   "reported_mutation_notation": "-",
+   "s1_reported_genbank": "NM_005228.3",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 39,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "EGFR(G719C)",
+   "assay_row_s2_index": 49,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [672-1210(end)",
+   "confidence": "high",
+   "construct_coordinate": 48,
+   "construct_name_notation": "EGFR (G719C)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      672,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 539,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 719,
+     "construct_coordinate": 48,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "C",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 719,
+     "reported": "G719C",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (G719C)",
+   "reported_mutation_notation": "G719C",
+   "s1_reported_genbank": "NM_005228.3",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 40,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "EGFR(G719S)",
+   "assay_row_s2_index": 50,
+   "canonical_accession": "P00533",
+   "clone_field": "cytoplasmic domain [672-1210(end)",
+   "confidence": "high",
+   "construct_coordinate": 48,
+   "construct_name_notation": "EGFR (G719S)",
+   "construct_range": {
+    "kind": "parts",
+    "note": "non-contiguous construct parts",
+    "parts": [
+     [
+      672,
+      1210
+     ]
+    ]
+   },
+   "construct_sequence_length": 539,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 719,
+     "construct_coordinate": 48,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "S",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 719,
+     "reported": "G719S",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (G719S)",
+   "reported_mutation_notation": "G719S",
+   "s1_reported_genbank": "NM_005228.3",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 41,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "EGFR(L858R)",
+   "assay_row_s2_index": 51,
+   "canonical_accession": "P00533",
+   "clone_field": "catalytic domain (aa 668-1210)",
+   "confidence": "high",
+   "construct_coordinate": 191,
+   "construct_name_notation": "EGFR (L858R)",
+   "construct_range": {
+    "end": 1210,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 668
+   },
+   "construct_sequence_length": 543,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 858,
+     "construct_coordinate": 191,
+     "construct_residue": "L",
+     "construct_residue_verified": true,
+     "expected_old_residue": "L",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "R",
+     "observed_reference_residue": "L",
+     "old": "L",
+     "pos": 858,
+     "reported": "L858R",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (L858R)",
+   "reported_mutation_notation": "L858R",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 42,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "excluded_multi_point",
+   "assay_row_s2": "EGFR(L858R/T790M)",
+   "assay_row_s2_index": 55,
+   "canonical_accession": "P00533",
+   "clone_field": "catalytic domain (aa 668-1210)",
+   "confidence": "excluded",
+   "construct_coordinate": 123,
+   "construct_name_notation": "EGFR (L858R/T790M)",
+   "construct_range": {
+    "end": 1210,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 668
+   },
+   "construct_sequence_length": 543,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "two or more point mutations in one construct",
+   "isoform": "SV=2",
+   "mutation_class": "multi_point",
+   "mutations": [
+    {
+     "canonical_coordinate": 790,
+     "construct_coordinate": 123,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "M",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 790,
+     "reported": "T790M",
+     "residue_verified": true
+    },
+    {
+     "canonical_coordinate": 858,
+     "construct_coordinate": 191,
+     "construct_residue": "L",
+     "construct_residue_verified": true,
+     "expected_old_residue": "L",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "R",
+     "observed_reference_residue": "L",
+     "old": "L",
+     "pos": 858,
+     "reported": "L858R",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (L858R/T790M)",
+   "reported_mutation_notation": "T790M, L858R",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 43,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "EGFR(L861Q)",
+   "assay_row_s2_index": 52,
+   "canonical_accession": "P00533",
+   "clone_field": "catalytic domain (aa 668-1210)",
+   "confidence": "high",
+   "construct_coordinate": 194,
+   "construct_name_notation": "EGFR (L861Q)",
+   "construct_range": {
+    "end": 1210,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 668
+   },
+   "construct_sequence_length": 543,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 861,
+     "construct_coordinate": 194,
+     "construct_residue": "L",
+     "construct_residue_verified": true,
+     "expected_old_residue": "L",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "Q",
+     "observed_reference_residue": "L",
+     "old": "L",
+     "pos": 861,
+     "reported": "L861Q",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (L861Q)",
+   "reported_mutation_notation": "L861Q",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 44,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P00533 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "EGFR(T790M)",
+   "assay_row_s2_index": 53,
+   "canonical_accession": "P00533",
+   "clone_field": "catalytic domain (aa 668-1210)",
+   "confidence": "high",
+   "construct_coordinate": 123,
+   "construct_name_notation": "EGFR (T790M)",
+   "construct_range": {
+    "end": 1210,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 668
+   },
+   "construct_sequence_length": 543,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 790,
+     "construct_coordinate": 123,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P00533"
+     ],
+     "new": "M",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 790,
+     "reported": "T790M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "EGFR",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P00533 (local SHA-256 in input_sha256)",
+   "reported_construct": "EGFR (T790M)",
+   "reported_mutation_notation": "T790M",
+   "s1_reported_genbank": "NP_005219.2",
+   "s1_reported_protein_accession": "P00533",
+   "s1_row_index": 45,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P11362 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR1(V561M)",
+   "assay_row_s2_index": 57,
+   "canonical_accession": "P11362",
+   "clone_field": "aa 399-822",
+   "confidence": "high",
+   "construct_coordinate": 163,
+   "construct_name_notation": "FGFR1 (V561M)",
+   "construct_range": {
+    "end": 822,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 399
+   },
+   "construct_sequence_length": 424,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 561,
+     "construct_coordinate": 163,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P11362"
+     ],
+     "new": "M",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 561,
+     "reported": "V561M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P11362 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR1 (V561M)",
+   "reported_mutation_notation": "V561M",
+   "s1_reported_genbank": "NM_023110",
+   "s1_reported_protein_accession": "P11362",
+   "s1_row_index": 46,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P21802 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR2(N549H)",
+   "assay_row_s2_index": 59,
+   "canonical_accession": "P21802",
+   "clone_field": "aa 456-770",
+   "confidence": "high",
+   "construct_coordinate": 94,
+   "construct_name_notation": "FGFR2 (N549H)",
+   "construct_range": {
+    "end": 770,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 456
+   },
+   "construct_sequence_length": 315,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 549,
+     "construct_coordinate": 94,
+     "construct_residue": "N",
+     "construct_residue_verified": true,
+     "expected_old_residue": "N",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P21802"
+     ],
+     "new": "H",
+     "observed_reference_residue": "N",
+     "old": "N",
+     "pos": 549,
+     "reported": "N549H",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P21802 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR2 (N549H)",
+   "reported_mutation_notation": "N549H",
+   "s1_reported_genbank": "NM_000141",
+   "s1_reported_protein_accession": "P21802",
+   "s1_row_index": 47,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22607 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR3(G697C)",
+   "assay_row_s2_index": 61,
+   "canonical_accession": "P22607",
+   "clone_field": "cytoplasmic aa397-806 (end)",
+   "confidence": "high",
+   "construct_coordinate": 301,
+   "construct_name_notation": "FGFR3 (G697C)",
+   "construct_range": {
+    "end": 806,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 397
+   },
+   "construct_sequence_length": 410,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 697,
+     "construct_coordinate": 301,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22607"
+     ],
+     "new": "C",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 697,
+     "reported": "G697C",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR3",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22607 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR3 (G697C)",
+   "reported_mutation_notation": "G697C",
+   "s1_reported_genbank": "NP_000133.1",
+   "s1_reported_protein_accession": "P22607",
+   "s1_row_index": 48,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22607 used as canonical",
+   "admission_status": "excluded_construct_unresolved",
+   "assay_row_s2": "FGFR3(K650E)",
+   "assay_row_s2_index": 62,
+   "canonical_accession": "P22607",
+   "clone_field": "cytoplasmic",
+   "confidence": "excluded",
+   "construct_coordinate": null,
+   "construct_name_notation": "FGFR3 (K650E)",
+   "construct_range": {
+    "kind": "unresolved",
+    "note": "unparsed clone field: 'cytoplasmic'"
+   },
+   "construct_sequence_length": null,
+   "construct_sequence_resolvable": false,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "construct range could not be parsed from clone field unparsed clone field: 'cytoplasmic'; canonical position 650 cannot be mapped to a construct coordinate",
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 650,
+     "construct_coordinate": null,
+     "construct_residue": null,
+     "construct_residue_verified": null,
+     "expected_old_residue": "K",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22607"
+     ],
+     "new": "E",
+     "observed_reference_residue": "K",
+     "old": "K",
+     "pos": 650,
+     "reported": "K650E",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR3",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22607 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR3 (K650E)",
+   "reported_mutation_notation": "K650E",
+   "s1_reported_genbank": "NP_000133",
+   "s1_reported_protein_accession": "P22607",
+   "s1_row_index": 49,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22607 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR3(K650M)",
+   "assay_row_s2_index": 63,
+   "canonical_accession": "P22607",
+   "clone_field": "cytoplasmic aa436-806 (end)",
+   "confidence": "high",
+   "construct_coordinate": 215,
+   "construct_name_notation": "FGFR3 (K650M)",
+   "construct_range": {
+    "end": 806,
+    "kind": "range",
+    "note": "aa X-Y (end)",
+    "start": 436
+   },
+   "construct_sequence_length": 371,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 650,
+     "construct_coordinate": 215,
+     "construct_residue": "K",
+     "construct_residue_verified": true,
+     "expected_old_residue": "K",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22607"
+     ],
+     "new": "M",
+     "observed_reference_residue": "K",
+     "old": "K",
+     "pos": 650,
+     "reported": "K650M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR3",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22607 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR3 (K650M)",
+   "reported_mutation_notation": "K650M",
+   "s1_reported_genbank": "NP_000133.1",
+   "s1_reported_protein_accession": "P22607",
+   "s1_row_index": 50,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22455 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR4(N535K)",
+   "assay_row_s2_index": 65,
+   "canonical_accession": "P22455",
+   "clone_field": "aa 460-802",
+   "confidence": "high",
+   "construct_coordinate": 76,
+   "construct_name_notation": "FGFR4 (N535K)",
+   "construct_range": {
+    "end": 802,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 460
+   },
+   "construct_sequence_length": 343,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 535,
+     "construct_coordinate": 76,
+     "construct_residue": "N",
+     "construct_residue_verified": true,
+     "expected_old_residue": "N",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22455"
+     ],
+     "new": "K",
+     "observed_reference_residue": "N",
+     "old": "N",
+     "pos": 535,
+     "reported": "N535K",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR4",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22455 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR4 (N535K)",
+   "reported_mutation_notation": "N535K",
+   "s1_reported_genbank": "NP_002002.3",
+   "s1_reported_protein_accession": "P22455",
+   "s1_row_index": 51,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22455 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR4(V550E)",
+   "assay_row_s2_index": 66,
+   "canonical_accession": "P22455",
+   "clone_field": "aa 460-802",
+   "confidence": "high",
+   "construct_coordinate": 91,
+   "construct_name_notation": "FGFR4 (V550E)",
+   "construct_range": {
+    "end": 802,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 460
+   },
+   "construct_sequence_length": 343,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 550,
+     "construct_coordinate": 91,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22455"
+     ],
+     "new": "E",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 550,
+     "reported": "V550E",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR4",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22455 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR4 (V550E)",
+   "reported_mutation_notation": "V550E",
+   "s1_reported_genbank": "NP_002002.3",
+   "s1_reported_protein_accession": "P22455",
+   "s1_row_index": 52,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P22455 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FGFR4(V550L)",
+   "assay_row_s2_index": 67,
+   "canonical_accession": "P22455",
+   "clone_field": "aa 460-802",
+   "confidence": "high",
+   "construct_coordinate": 91,
+   "construct_name_notation": "FGFR4 (V550L)",
+   "construct_range": {
+    "end": 802,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 460
+   },
+   "construct_sequence_length": 343,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 550,
+     "construct_coordinate": 91,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P22455"
+     ],
+     "new": "L",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 550,
+     "reported": "V550L",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FGFR4",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P22455 (local SHA-256 in input_sha256)",
+   "reported_construct": "FGFR4 (V550L)",
+   "reported_mutation_notation": "V550L",
+   "s1_reported_genbank": "NP_002002.3",
+   "s1_reported_protein_accession": "P22455",
+   "s1_row_index": 53,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P36888 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "FLT3(D835Y)",
+   "assay_row_s2_index": 69,
+   "canonical_accession": "P36888",
+   "clone_field": "aa 564-958",
+   "confidence": "high",
+   "construct_coordinate": 272,
+   "construct_name_notation": "FLT3 (D835Y)",
+   "construct_range": {
+    "end": 958,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 564
+   },
+   "construct_sequence_length": 395,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 835,
+     "construct_coordinate": 272,
+     "construct_residue": "D",
+     "construct_residue_verified": true,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P36888"
+     ],
+     "new": "Y",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 835,
+     "reported": "D835Y",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FLT3",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P36888 (local SHA-256 in input_sha256)",
+   "reported_construct": "FLT3 (D835Y)",
+   "reported_mutation_notation": "D835Y",
+   "s1_reported_genbank": "NP_004110",
+   "s1_reported_protein_accession": "P36888",
+   "s1_row_index": 54,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P36888 used as canonical",
+   "admission_status": "excluded_insertion",
+   "assay_row_s2": "FLT3(ITD)",
+   "assay_row_s2_index": 70,
+   "canonical_accession": "P36888",
+   "clone_field": "aa 571-993",
+   "confidence": "excluded",
+   "construct_coordinate": null,
+   "construct_name_notation": "FLT3 (ITD)",
+   "construct_range": {
+    "end": 993,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 571
+   },
+   "construct_sequence_length": 423,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "internal tandem duplication / insertion construct",
+   "isoform": "SV=2",
+   "mutation_class": "insertion",
+   "mutations": [
+    {
+     "end": 601,
+     "kind": "insertion",
+     "reported": "internal tandem duplication aa591-601",
+     "start": 591
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "FLT3",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P36888 (local SHA-256 in input_sha256)",
+   "reported_construct": "FLT3 (ITD)",
+   "reported_mutation_notation": "internal tandem duplication aa591-601",
+   "s1_reported_genbank": "NM_004119",
+   "s1_reported_protein_accession": "P36888",
+   "s1_row_index": 55,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession O60674 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "JAK2(V617F)",
+   "assay_row_s2_index": 72,
+   "canonical_accession": "O60674",
+   "clone_field": "aa 532-1132",
+   "confidence": "high",
+   "construct_coordinate": 86,
+   "construct_name_notation": "JAK2 (V617F)",
+   "construct_range": {
+    "end": 1132,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 532
+   },
+   "construct_sequence_length": 601,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 617,
+     "construct_coordinate": 86,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/O60674"
+     ],
+     "new": "F",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 617,
+     "reported": "V617F",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "JAK2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference O60674 (local SHA-256 in input_sha256)",
+   "reported_construct": "JAK2 (V617F)",
+   "reported_mutation_notation": "V617F",
+   "s1_reported_genbank": "NP_004963",
+   "s1_reported_protein_accession": "O60674",
+   "s1_row_index": 56,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q5S007 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "LRRK2(G2019S)",
+   "assay_row_s2_index": 74,
+   "canonical_accession": "Q5S007",
+   "clone_field": "aa 970-2527",
+   "confidence": "high",
+   "construct_coordinate": 1050,
+   "construct_name_notation": "LRRK2 (G2019S)",
+   "construct_range": {
+    "end": 2527,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 970
+   },
+   "construct_sequence_length": 1558,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 2019,
+     "construct_coordinate": 1050,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q5S007"
+     ],
+     "new": "S",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 2019,
+     "reported": "G2019S",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "LRRK2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q5S007 (local SHA-256 in input_sha256)",
+   "reported_construct": "LRRK2 (G2019S)",
+   "reported_mutation_notation": "G2019S",
+   "s1_reported_genbank": "NP_940980.2",
+   "s1_reported_protein_accession": "Q5S007",
+   "s1_row_index": 57,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q5S007 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "LRRK2(I2020T)",
+   "assay_row_s2_index": 75,
+   "canonical_accession": "Q5S007",
+   "clone_field": "aa 970-2527",
+   "confidence": "high",
+   "construct_coordinate": 1051,
+   "construct_name_notation": "LRRK2 (I2020T)",
+   "construct_range": {
+    "end": 2527,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 970
+   },
+   "construct_sequence_length": 1558,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 2020,
+     "construct_coordinate": 1051,
+     "construct_residue": "I",
+     "construct_residue_verified": true,
+     "expected_old_residue": "I",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q5S007"
+     ],
+     "new": "T",
+     "observed_reference_residue": "I",
+     "old": "I",
+     "pos": 2020,
+     "reported": "I2020T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "LRRK2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q5S007 (local SHA-256 in input_sha256)",
+   "reported_construct": "LRRK2 (I2020T)",
+   "reported_mutation_notation": "I2020T",
+   "s1_reported_genbank": "NP_940980.2",
+   "s1_reported_protein_accession": "Q5S007",
+   "s1_row_index": 58,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q5S007 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "LRRK2(R1441C)",
+   "assay_row_s2_index": 76,
+   "canonical_accession": "Q5S007",
+   "clone_field": "aa 970-2527",
+   "confidence": "high",
+   "construct_coordinate": 472,
+   "construct_name_notation": "LRRK2 (R1441C)",
+   "construct_range": {
+    "end": 2527,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 970
+   },
+   "construct_sequence_length": 1558,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1441,
+     "construct_coordinate": 472,
+     "construct_residue": "R",
+     "construct_residue_verified": true,
+     "expected_old_residue": "R",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q5S007"
+     ],
+     "new": "C",
+     "observed_reference_residue": "R",
+     "old": "R",
+     "pos": 1441,
+     "reported": "R1441C",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "LRRK2",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q5S007 (local SHA-256 in input_sha256)",
+   "reported_construct": "LRRK2 (R1441C)",
+   "reported_mutation_notation": "R1441C",
+   "s1_reported_genbank": "NP_940980.2",
+   "s1_reported_protein_accession": "Q5S007",
+   "s1_row_index": 59,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q02750 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "MEK1(P124L)",
+   "assay_row_s2_index": 78,
+   "canonical_accession": "Q02750",
+   "clone_field": "full-length (1-393)",
+   "confidence": "high",
+   "construct_coordinate": 124,
+   "construct_name_notation": "MEK1 (P124L)",
+   "construct_range": {
+    "end": 393,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 393,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 124,
+     "construct_coordinate": 124,
+     "construct_residue": "P",
+     "construct_residue_verified": true,
+     "expected_old_residue": "P",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q02750"
+     ],
+     "new": "L",
+     "observed_reference_residue": "P",
+     "old": "P",
+     "pos": 124,
+     "reported": "P124L",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MAP2K1",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q02750 (local SHA-256 in input_sha256)",
+   "reported_construct": "MEK1 (P124L)",
+   "reported_mutation_notation": "P124L",
+   "s1_reported_genbank": "NP_002746.1",
+   "s1_reported_protein_accession": "Q02750",
+   "s1_row_index": 60,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q16539 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "P38\u03b1(T106M)",
+   "assay_row_s2_index": 80,
+   "canonical_accession": "Q16539",
+   "clone_field": "full-length",
+   "confidence": "high",
+   "construct_coordinate": 106,
+   "construct_name_notation": "P38\u03b1 (T106M)",
+   "construct_range": {
+    "end": 360,
+    "kind": "full",
+    "note": "full-length",
+    "start": 1
+   },
+   "construct_sequence_length": 360,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 106,
+     "construct_coordinate": 106,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q16539"
+     ],
+     "new": "M",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 106,
+     "reported": "T106M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "MAPK14",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q16539 (local SHA-256 in input_sha256)",
+   "reported_construct": "P38\u03b1 (T106M)",
+   "reported_mutation_notation": "T106M",
+   "s1_reported_genbank": "GenBank L35264",
+   "s1_reported_protein_accession": "Q16539",
+   "s1_row_index": 61,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 Protein Accession Q9DE49 superseded by P16234: Q9DE49 is not the human canonical for PDGFRA",
+   "admission_status": "excluded_construct_unresolved",
+   "assay_row_s2": "PDGFR\u03b1(D842V)",
+   "assay_row_s2_index": 82,
+   "canonical_accession": "P16234",
+   "clone_field": "Cytoplasmic (668-1210)",
+   "confidence": "excluded",
+   "construct_coordinate": 175,
+   "construct_name_notation": "PDGFR\u03b1 (D842V)",
+   "construct_range": {
+    "end": 1210,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 668
+   },
+   "construct_sequence_length": null,
+   "construct_sequence_resolvable": false,
+   "dataset": "duongly_2016",
+   "exclusion_reason": "construct range not resolvable on P16234: reported range {'kind': 'range', 'start': 668, 'end': 1210, 'note': 'aa X-Y'} extends beyond canonical length 1089",
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 842,
+     "construct_coordinate": 175,
+     "construct_residue": null,
+     "construct_residue_verified": null,
+     "expected_old_residue": "D",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P16234"
+     ],
+     "new": "V",
+     "observed_reference_residue": "D",
+     "old": "D",
+     "pos": 842,
+     "reported": "D842V",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "PDGFRA",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P16234 (local SHA-256 in input_sha256)",
+   "reported_construct": "PDGFR\u03b1 (D842V)",
+   "reported_mutation_notation": "D842V",
+   "s1_reported_genbank": "NP_006197",
+   "s1_reported_protein_accession": "Q9DE49",
+   "s1_row_index": 62,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 Protein Accession Q9DE49 superseded by P16234: Q9DE49 is not the human canonical for PDGFRA",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "PDGFR\u03b1(T674I)",
+   "assay_row_s2_index": 83,
+   "canonical_accession": "P16234",
+   "clone_field": "catalytic domain (aa 550-1089)",
+   "confidence": "high",
+   "construct_coordinate": 125,
+   "construct_name_notation": "PDGFR\u03b1 (T674I)",
+   "construct_range": {
+    "end": 1089,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 550
+   },
+   "construct_sequence_length": 540,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 674,
+     "construct_coordinate": 125,
+     "construct_residue": "T",
+     "construct_residue_verified": true,
+     "expected_old_residue": "T",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P16234"
+     ],
+     "new": "I",
+     "observed_reference_residue": "T",
+     "old": "T",
+     "pos": 674,
+     "reported": "T674I",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": "S1 Mutation column typo \"T6741I\"; construct name column reads T674I",
+   "parent_kinase": "PDGFRA",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P16234 (local SHA-256 in input_sha256)",
+   "reported_construct": "PDGFR\u03b1 (T674I)",
+   "reported_mutation_notation": "T6741I",
+   "s1_reported_genbank": "NP_006197",
+   "s1_reported_protein_accession": "Q9DE49",
+   "s1_row_index": 63,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 Protein Accession Q9DE49 superseded by P16234: Q9DE49 is not the human canonical for PDGFRA",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "PDGFR\u03b1(V561D)",
+   "assay_row_s2_index": 84,
+   "canonical_accession": "P16234",
+   "clone_field": "catalytic domain (aa 550-1089)",
+   "confidence": "high",
+   "construct_coordinate": 12,
+   "construct_name_notation": "PDGFR\u03b1 (V561D)",
+   "construct_range": {
+    "end": 1089,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 550
+   },
+   "construct_sequence_length": 540,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=1",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 561,
+     "construct_coordinate": 12,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P16234"
+     ],
+     "new": "D",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 561,
+     "reported": "V561D",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "PDGFRA",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P16234 (local SHA-256 in input_sha256)",
+   "reported_construct": "PDGFR\u03b1 (V561D)",
+   "reported_mutation_notation": "V561D",
+   "s1_reported_genbank": "NP_006197",
+   "s1_reported_protein_accession": "Q9DE49",
+   "s1_row_index": 64,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(E762Q)",
+   "assay_row_s2_index": 86,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 105,
+   "construct_name_notation": "RET (E762Q)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 762,
+     "construct_coordinate": 105,
+     "construct_residue": "E",
+     "construct_residue_verified": true,
+     "expected_old_residue": "E",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "Q",
+     "observed_reference_residue": "E",
+     "old": "E",
+     "pos": 762,
+     "reported": "E762Q",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (E762Q)",
+   "reported_mutation_notation": "E762Q",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 65,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(G691S)",
+   "assay_row_s2_index": 87,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 34,
+   "construct_name_notation": "RET (G691S)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 691,
+     "construct_coordinate": 34,
+     "construct_residue": "G",
+     "construct_residue_verified": true,
+     "expected_old_residue": "G",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "S",
+     "observed_reference_residue": "G",
+     "old": "G",
+     "pos": 691,
+     "reported": "G691S",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (G691S)",
+   "reported_mutation_notation": "G691S",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 66,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(M918T)",
+   "assay_row_s2_index": 88,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 261,
+   "construct_name_notation": "RET (M918T)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 918,
+     "construct_coordinate": 261,
+     "construct_residue": "M",
+     "construct_residue_verified": true,
+     "expected_old_residue": "M",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "T",
+     "observed_reference_residue": "M",
+     "old": "M",
+     "pos": 918,
+     "reported": "M918T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (M918T)",
+   "reported_mutation_notation": "M918T",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 67,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(R749T)",
+   "assay_row_s2_index": 89,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 92,
+   "construct_name_notation": "RET (R749T)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 749,
+     "construct_coordinate": 92,
+     "construct_residue": "R",
+     "construct_residue_verified": true,
+     "expected_old_residue": "R",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "T",
+     "observed_reference_residue": "R",
+     "old": "R",
+     "pos": 749,
+     "reported": "R749T",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (R749T)",
+   "reported_mutation_notation": "R749T",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 68,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(R813Q)",
+   "assay_row_s2_index": 90,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 156,
+   "construct_name_notation": "RET (R813Q)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 813,
+     "construct_coordinate": 156,
+     "construct_residue": "R",
+     "construct_residue_verified": true,
+     "expected_old_residue": "R",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "Q",
+     "observed_reference_residue": "R",
+     "old": "R",
+     "pos": 813,
+     "reported": "R813Q",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (R813Q)",
+   "reported_mutation_notation": "R813Q",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 69,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(V804L)",
+   "assay_row_s2_index": 91,
+   "canonical_accession": "P07949",
+   "clone_field": "Cytoplasmic (658-1114)",
+   "confidence": "high",
+   "construct_coordinate": 147,
+   "construct_name_notation": "RET (V804L)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 804,
+     "construct_coordinate": 147,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "L",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 804,
+     "reported": "V804L",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (V804L)",
+   "reported_mutation_notation": "V804L",
+   "s1_reported_genbank": "NP_066124",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 70,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(V804M)",
+   "assay_row_s2_index": 92,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-end",
+   "confidence": "high",
+   "construct_coordinate": 147,
+   "construct_name_notation": "RET (V804M)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-end",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 804,
+     "construct_coordinate": 147,
+     "construct_residue": "V",
+     "construct_residue_verified": true,
+     "expected_old_residue": "V",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "M",
+     "observed_reference_residue": "V",
+     "old": "V",
+     "pos": 804,
+     "reported": "V804M",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (V804M)",
+   "reported_mutation_notation": "V804M",
+   "s1_reported_genbank": "nan",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 71,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession P07949 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "RET(Y791F)",
+   "assay_row_s2_index": 93,
+   "canonical_accession": "P07949",
+   "clone_field": "aa 658-1114",
+   "confidence": "high",
+   "construct_coordinate": 134,
+   "construct_name_notation": "RET (Y791F)",
+   "construct_range": {
+    "end": 1114,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 658
+   },
+   "construct_sequence_length": 457,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=3",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 791,
+     "construct_coordinate": 134,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/P07949"
+     ],
+     "new": "F",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 791,
+     "reported": "Y791F",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "RET",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference P07949 (local SHA-256 in input_sha256)",
+   "reported_construct": "RET (Y791F)",
+   "reported_mutation_notation": "Y791F",
+   "s1_reported_genbank": "NP_066124.1",
+   "s1_reported_protein_accession": "P07949",
+   "s1_row_index": 72,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q02763 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "TIE2(R849W)",
+   "assay_row_s2_index": 95,
+   "canonical_accession": "Q02763",
+   "clone_field": "aa 771-1124",
+   "confidence": "high",
+   "construct_coordinate": 79,
+   "construct_name_notation": "TIE2 (R849W)",
+   "construct_range": {
+    "end": 1124,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 771
+   },
+   "construct_sequence_length": 354,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 849,
+     "construct_coordinate": 79,
+     "construct_residue": "R",
+     "construct_residue_verified": true,
+     "expected_old_residue": "R",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q02763"
+     ],
+     "new": "W",
+     "observed_reference_residue": "R",
+     "old": "R",
+     "pos": 849,
+     "reported": "R849W",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "TEK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q02763 (local SHA-256 in input_sha256)",
+   "reported_construct": "TIE2 (R849W)",
+   "reported_mutation_notation": "R849W",
+   "s1_reported_genbank": "NM_000450.1",
+   "s1_reported_protein_accession": "Q02763",
+   "s1_row_index": 73,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q02763 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "TIE2(Y1108F)",
+   "assay_row_s2_index": 96,
+   "canonical_accession": "Q02763",
+   "clone_field": "aa 771-1124",
+   "confidence": "high",
+   "construct_coordinate": 338,
+   "construct_name_notation": "TIE2 (Y1108F)",
+   "construct_range": {
+    "end": 1124,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 771
+   },
+   "construct_sequence_length": 354,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 1108,
+     "construct_coordinate": 338,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q02763"
+     ],
+     "new": "F",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 1108,
+     "reported": "Y1108F",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "TEK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q02763 (local SHA-256 in input_sha256)",
+   "reported_construct": "TIE2 (Y1108F)",
+   "reported_mutation_notation": "Y1108F",
+   "s1_reported_genbank": "NM_000450.2",
+   "s1_reported_protein_accession": "Q02763",
+   "s1_row_index": 74,
+   "species": "Homo sapiens"
+  },
+  {
+   "accession_mapping_note": "S1 accession Q02763 used as canonical",
+   "admission_status": "admitted_point_pair",
+   "assay_row_s2": "TIE2(Y897S)",
+   "assay_row_s2_index": 97,
+   "canonical_accession": "Q02763",
+   "clone_field": "aa 771-1124",
+   "confidence": "high",
+   "construct_coordinate": 127,
+   "construct_name_notation": "TIE2 (Y897S)",
+   "construct_range": {
+    "end": 1124,
+    "kind": "range",
+    "note": "aa X-Y",
+    "start": 771
+   },
+   "construct_sequence_length": 354,
+   "construct_sequence_resolvable": true,
+   "dataset": "duongly_2016",
+   "exclusion_reason": null,
+   "isoform": "SV=2",
+   "mutation_class": "point",
+   "mutations": [
+    {
+     "canonical_coordinate": 897,
+     "construct_coordinate": 127,
+     "construct_residue": "Y",
+     "construct_residue_verified": true,
+     "expected_old_residue": "Y",
+     "kind": "point",
+     "mapping_basis": "direct: reported coordinate is canonical UniProt numbering",
+     "mapping_evidence": [
+      "https://www.uniprot.org/uniprotkb/Q02763"
+     ],
+     "new": "S",
+     "observed_reference_residue": "Y",
+     "old": "Y",
+     "pos": 897,
+     "reported": "Y897S",
+     "residue_verified": true
+    }
+   ],
+   "notation_fix_note": null,
+   "parent_kinase": "TEK",
+   "provenance": "Duong-Ly 2016 Cell Reports Table S1/S2 + UniProt canonical reference Q02763 (local SHA-256 in input_sha256)",
+   "reported_construct": "TIE2 (Y897S)",
+   "reported_mutation_notation": "Y897S",
+   "s1_reported_genbank": "NM_000450.2",
+   "s1_reported_protein_accession": "Q02763",
+   "s1_row_index": 75,
+   "species": "Homo sapiens"
+  }
+ ],
+ "parents": [
+  {
+   "accessions_reported_in_s1": [
+    "P00519"
+   ],
+   "canonical_accession": "P00519",
+   "canonical_length": 1130,
+   "genbank_reported_in_s1": [
+    "NP_005148.2",
+    "NM_005157.3",
+    "GenBank U07563"
+   ],
+   "isoform": "SV=4",
+   "parent_kinase": "ABL1",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "2dfb7334098feccbd2d1ad4c5e0a4149b8ea711c539e5a6504b93a8876ac3435",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q9UM73"
+   ],
+   "canonical_accession": "Q9UM73",
+   "canonical_length": 1620,
+   "genbank_reported_in_s1": [
+    "BAG10812.1"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "ALK",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "5899d6a00cc0db02c26bb1b229126b9b3ff0d31301e43dd89e0f505212f74747",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P15056"
+   ],
+   "canonical_accession": "P15056",
+   "canonical_length": 766,
+   "genbank_reported_in_s1": [
+    "NP_004324.1"
+   ],
+   "isoform": "SV=4",
+   "parent_kinase": "BRAF",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "258db8949dff63fbd3295f25b2af297a059d181a3d6f717d12be96f5537a192f",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q06187"
+   ],
+   "canonical_accession": "Q06187",
+   "canonical_length": 659,
+   "genbank_reported_in_s1": [
+    "GenBank NM_000061"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "BTK",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "ffc096454c678a68ce36d3ef833c4cf1fc61391bf0e86f64d4d33373f8056a1d",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "O96017"
+   ],
+   "canonical_accession": "O96017",
+   "canonical_length": 543,
+   "genbank_reported_in_s1": [
+    "GenBank AF016582"
+   ],
+   "isoform": "SV=1",
+   "parent_kinase": "CHEK2",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "95dba5723f9348d6602b69c8a9584cc37e079702568115e2701b85a4e9dcf5d8",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P00533"
+   ],
+   "canonical_accession": "P00533",
+   "canonical_length": 1210,
+   "genbank_reported_in_s1": [
+    "NP_005219.2",
+    "NM_005228.3"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "EGFR",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "6e4b4d9cd163984a944d346faa17ded0bf7ebe39049466c51be5dbe79e78a473",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P11362"
+   ],
+   "canonical_accession": "P11362",
+   "canonical_length": 822,
+   "genbank_reported_in_s1": [
+    "NM_023110"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "FGFR1",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "f4a5c2d97f75aaf67da33ad44d4c6258b06b2284c6b36ff31f24cf8eb42bada3",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P21802"
+   ],
+   "canonical_accession": "P21802",
+   "canonical_length": 821,
+   "genbank_reported_in_s1": [
+    "NM_000141"
+   ],
+   "isoform": "SV=1",
+   "parent_kinase": "FGFR2",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "e9ebe32abf43ef74c56733420d1a011652061a7213df9771420795268f31a597",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P22607"
+   ],
+   "canonical_accession": "P22607",
+   "canonical_length": 806,
+   "genbank_reported_in_s1": [
+    "NP_000133.1",
+    "NP_000133"
+   ],
+   "isoform": "SV=1",
+   "parent_kinase": "FGFR3",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "9a908c6ac36addc418c04818ec7e1df4e4bc31c5e75d203aea14f91f6f5583f7",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P22455"
+   ],
+   "canonical_accession": "P22455",
+   "canonical_length": 802,
+   "genbank_reported_in_s1": [
+    "NP_002002.3"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "FGFR4",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "b37a30cd4f33de66db0383d8ddcd563bea02bbc87b7fc6fab56a7acef2a85d66",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P36888"
+   ],
+   "canonical_accession": "P36888",
+   "canonical_length": 993,
+   "genbank_reported_in_s1": [
+    "NP_004110",
+    "NM_004119"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "FLT3",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "522b8618e966c5cfef5fe48c73ccd126a8424d279562b38a177a2320ac204286",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "O60674"
+   ],
+   "canonical_accession": "O60674",
+   "canonical_length": 1132,
+   "genbank_reported_in_s1": [
+    "NP_004963"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "JAK2",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "9230bef469770e9bd3b428b157b8b65959ef5317eed2b3bfcbe6158a2b0d20a8",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P10721"
+   ],
+   "canonical_accession": "P10721",
+   "canonical_length": 976,
+   "genbank_reported_in_s1": [
+    "NM_000213.1",
+    "GenBank X06182",
+    "NM_000222",
+    "NP_000213"
+   ],
+   "isoform": "SV=1",
+   "parent_kinase": "KIT",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "f382e1ca74f807751db15b6756e287118530d2786850426fb09c1a4aea22d897",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q5S007"
+   ],
+   "canonical_accession": "Q5S007",
+   "canonical_length": 2527,
+   "genbank_reported_in_s1": [
+    "NP_940980.2"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "LRRK2",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "e0ef68cfffc3af1e2220ccaa1057f7f9d7be3494ca18871939beda44a7a7ce7e",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q02750"
+   ],
+   "canonical_accession": "Q02750",
+   "canonical_length": 393,
+   "genbank_reported_in_s1": [
+    "NP_002746.1"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "MAP2K1",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "0ae812a6becfeb79c2b286478867de5380963a52e2c8dd506693b7c7c99e7d14",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q16539"
+   ],
+   "canonical_accession": "Q16539",
+   "canonical_length": 360,
+   "genbank_reported_in_s1": [
+    "GenBank L35264"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "MAPK14",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "9c95217a9a3283c3cdddbfa485108ee8185913baddf669b94074d93f5c18dff5",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P08581"
+   ],
+   "canonical_accession": "P08581",
+   "canonical_length": 1390,
+   "genbank_reported_in_s1": [
+    "NP_000245.2",
+    "NP_000236.2"
+   ],
+   "isoform": "SV=4",
+   "parent_kinase": "MET",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "afeca1c96f3a6c785d4943ecbb585c5ce46d8ae89b36401113556c8501cda42c",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q9DE49"
+   ],
+   "canonical_accession": "P16234",
+   "canonical_length": 1089,
+   "genbank_reported_in_s1": [
+    "NP_006197"
+   ],
+   "isoform": "SV=1",
+   "parent_kinase": "PDGFRA",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "06a658526d6a00942b5dcbebb648b9e8973429bde783b1542880670bd03c0c7e",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P07949"
+   ],
+   "canonical_accession": "P07949",
+   "canonical_length": 1114,
+   "genbank_reported_in_s1": [
+    "NP_066124.1",
+    "NP_066124",
+    "nan"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "RET",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "8e90ec349eb304d417d616d76b1eb404d3323a8ffeb1562a21762224c8af81dc",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "P12931"
+   ],
+   "canonical_accession": "P12931",
+   "canonical_length": 536,
+   "genbank_reported_in_s1": [
+    "EMBL K03218"
+   ],
+   "isoform": "SV=3",
+   "parent_kinase": "SRC",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "99e845b9a395b58a204204129ec7f7a388d2548f3485190595ae81ff35763b6e",
+   "species": "Homo sapiens"
+  },
+  {
+   "accessions_reported_in_s1": [
+    "Q02763"
+   ],
+   "canonical_accession": "Q02763",
+   "canonical_length": 1124,
+   "genbank_reported_in_s1": [
+    "NM_000450.1",
+    "NM_000450.2"
+   ],
+   "isoform": "SV=2",
+   "parent_kinase": "TEK",
+   "provenance": "UniProt canonical reference fetched locally; S1-reported accessions listed separately",
+   "reference_fasta_sha256": "6a59b318aaeb5d8c839e4deb1efdc17604213702dc905475a7644085ec22f10d",
+   "species": "Homo sapiens"
+  }
+ ],
+ "preregistration_sha256": "03cdc907df3e778f5fe79fb1a238d35ebb6ece5e9e743db181728ba6b25e9683",
+ "schema": "MetaSieve.StageX.X0PairTable.v2",
+ "stage": "stageX_csc_signal"
+}
