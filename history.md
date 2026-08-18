@@ -1856,6 +1856,22 @@ claimed. Final: pipeline qualification FAILED at Q2; biological conclusion
 UNRESOLVED; B1/B2/C/D NOT AUTHORIZED. Next: new prereg (Q2d) moving the
 gate point along the measured power curve (tau*=2.0) or enlarging the
 synthetic graph; the frozen gate is not moved retroactively.
+## Stage Q2d-1 verdict (2026-08-18)
+Q2d (stageQ2d_bilinear_qualification_20260818, prereg SHA 4f7e8002...fa3d1).
+Q2d-1 isomorphic bilinear positive control FAILED at phase A (z-scale, no
+endpoint distortion): exact_bilinear dz 0.493 / sp 0.072 median, all phases
+A-E 0.467-0.509 (sigmoid/missingness/censoring/competition each ruled out as
+the killer step); oracle_latent 0.662-0.699; negative arms all failed.
+Closed-form diagnostic bound: train holdout dz 0.951 / sp 0.927 but half-cold
+(train parents x val ligands) dz 0.500 - the planted interaction is
+unrecoverable for unseen ligands by ANY learner because the truth generator
+draws U,V as iid random matrices: unseen-ligand factors are unidentifiable
+from ligand features (~15k factor parameters vs 6,429 train cells). The
+harness as generated tests an ID-space interaction, not the transferable
+pocket-physicochemical x ligand-substructure field of the mechanism claim.
+Q2d-2 NOT STARTED (frozen rule). Next: Q2d-1b prereg with feature-conditioned
+low-rank factors (U = f(pocket z-scales), V = g(ligand substructure
+descriptors)) and the same ladder/arms/gate.
 
 
 
