@@ -1,0 +1,349 @@
+{
+ "schema": "MetaSieve.StageQ2c.Q2C1_MATRIX.v1",
+ "preregistration_sha256": "1027ccde8c8946aa8314ebd7642af89a6abbc3366afd965e8ab43f0da5a26a5c",
+ "gate_point": "tau*=1.0, rank 4, dense",
+ "ligand_only_sign_acc_by_seed": {
+  "0": 0.5100917431192661,
+  "1": 0.5192660550458715,
+  "2": 0.5155963302752293
+ },
+ "summary": {
+  "one_hot_pocket": {
+   "linear": {
+    "dz_median": 0.5580808080808081,
+    "sp_median": 0.12173370823369971,
+    "gap_median": 0.05504587155963303,
+    "per_seed": {
+     "0": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5580808080808081,
+      "sp": 0.1093456724920186,
+      "sign_acc": 0.5743119266055046
+     },
+     "1": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5866666666666667,
+      "sp": 0.12173370823369971,
+      "sign_acc": 0.5743119266055046
+     },
+     "2": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5200945626477541,
+      "sp": 0.15962192731994065,
+      "sign_acc": 0.5082568807339449
+     }
+    }
+   },
+   "mlp": {
+    "dz_median": 0.5044444444444445,
+    "sp_median": 0.032936674275351616,
+    "gap_median": -0.022018348623853157,
+    "per_seed": {
+     "0": {
+      "source": "Q2_PLANTED.json correct_protein",
+      "dz": "0.45454545454545453",
+      "sp": "-0.14538106071638665",
+      "sign_acc": "0.46422018348623856"
+     },
+     "1": {
+      "source": "Q2_PLANTED.json correct_protein",
+      "dz": "0.5044444444444445",
+      "sp": "0.032936674275351616",
+      "sign_acc": "0.4972477064220184"
+     },
+     "2": {
+      "source": "Q2_PLANTED.json correct_protein",
+      "dz": "0.5791962174940898",
+      "sp": "0.18646529072316556",
+      "sign_acc": "0.5743119266055046"
+     }
+    }
+   },
+   "mlp_identity": {
+    "dz_median": 0.5044444444444445,
+    "sp_median": 0.032936674275351616,
+    "gap_median": -0.022018348623853157,
+    "per_seed": {
+     "0": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.45454545454545453,
+      "sp": -0.14538106071638665,
+      "sign_acc": 0.46422018348623856
+     },
+     "1": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.5044444444444445,
+      "sp": 0.032936674275351616,
+      "sign_acc": 0.4972477064220184
+     },
+     "2": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.5791962174940898,
+      "sp": 0.18646529072316556,
+      "sign_acc": 0.5743119266055046
+     }
+    }
+   }
+  },
+  "pocket_esm": {
+   "linear": {
+    "dz_median": 0.47754137115839246,
+    "sp_median": 0.034261148552306116,
+    "gap_median": -0.034862385321100864,
+    "per_seed": {
+     "0": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.4898989898989899,
+      "sp": 0.034261148552306116,
+      "sign_acc": 0.5027522935779817
+     },
+     "1": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.4577777777777778,
+      "sp": -0.04479186089368689,
+      "sign_acc": 0.46422018348623856
+     },
+     "2": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.47754137115839246,
+      "sp": 0.04125510926878602,
+      "sign_acc": 0.48073394495412847
+     }
+    }
+   },
+   "mlp": {
+    "dz_median": 0.4666666666666667,
+    "sp_median": -0.016902528872489192,
+    "gap_median": -0.06422018348623854,
+    "per_seed": {
+     "0": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.4494949494949495,
+      "sp": 0.04171887263175104,
+      "sign_acc": 0.44587155963302755
+     },
+     "1": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.4666666666666667,
+      "sp": -0.0566805043864093,
+      "sign_acc": 0.44587155963302755
+     },
+     "2": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.508274231678487,
+      "sp": -0.016902528872489192,
+      "sign_acc": 0.48623853211009177
+     }
+    }
+   },
+   "mlp_identity": {
+    "dz_median": 0.508274231678487,
+    "sp_median": -0.016902528872489192,
+    "gap_median": -0.02935779816513756,
+    "per_seed": {
+     "0": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.5303030303030303,
+      "sp": 0.10370604267318771,
+      "sign_acc": 0.5192660550458715
+     },
+     "1": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.4666666666666667,
+      "sp": -0.0566805043864093,
+      "sign_acc": 0.44587155963302755
+     },
+     "2": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.508274231678487,
+      "sp": -0.016902528872489192,
+      "sign_acc": 0.48623853211009177
+     }
+    }
+   }
+  },
+  "oracle_PU": {
+   "linear": {
+    "dz_median": 0.5319148936170213,
+    "sp_median": 0.041169814276204864,
+    "gap_median": -0.011009174311926606,
+    "per_seed": {
+     "0": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5858585858585859,
+      "sp": 0.17507780143834203,
+      "sign_acc": 0.5963302752293578
+     },
+     "1": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.48,
+      "sp": -0.06570636841481586,
+      "sign_acc": 0.48807339449541287
+     },
+     "2": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5319148936170213,
+      "sp": 0.041169814276204864,
+      "sign_acc": 0.5045871559633027
+     }
+    }
+   },
+   "mlp": {
+    "dz_median": 0.6643026004728132,
+    "sp_median": 0.3752191174130555,
+    "gap_median": 0.12844036697247707,
+    "per_seed": {
+     "0": {
+      "source": "Q2_PLANTED.json oracle_protein",
+      "dz": "0.6742424242424242",
+      "sp": "0.3752191174130555",
+      "sign_acc": "0.6385321100917432"
+     },
+     "1": {
+      "source": "Q2_PLANTED.json oracle_protein",
+      "dz": "0.6066666666666667",
+      "sp": "0.33107638953882235",
+      "sign_acc": "0.5944954128440367"
+     },
+     "2": {
+      "source": "Q2_PLANTED.json oracle_protein",
+      "dz": "0.6643026004728132",
+      "sp": "0.39040537699018174",
+      "sign_acc": "0.6513761467889908"
+     }
+    }
+   },
+   "mlp_identity": {
+    "dz_median": 0.640661938534279,
+    "sp_median": 0.3702951864093218,
+    "gap_median": 0.09541284403669725,
+    "per_seed": {
+     "0": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.6313131313131313,
+      "sp": 0.2948040785556103,
+      "sign_acc": 0.5743119266055046
+     },
+     "1": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.7,
+      "sp": 0.46633333897964646,
+      "sign_acc": 0.7045871559633028
+     },
+     "2": {
+      "source": "trained here on z-scale identity link (8 restarts, val selection)",
+      "dz": 0.640661938534279,
+      "sp": 0.3702951864093218,
+      "sign_acc": 0.6110091743119266
+     }
+    }
+   }
+  },
+  "random": {
+   "linear": {
+    "dz_median": 0.5,
+    "sp_median": 0.01604490466568314,
+    "gap_median": -0.003669724770642202,
+    "per_seed": {
+     "0": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5,
+      "sp": -0.0037859530110142298,
+      "sign_acc": 0.5155963302752293
+     },
+     "1": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5,
+      "sp": 0.024754194102101064,
+      "sign_acc": 0.5155963302752293
+     },
+     "2": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.5011820330969267,
+      "sp": 0.01604490466568314,
+      "sign_acc": 0.4990825688073395
+     }
+    }
+   },
+   "mlp": {
+    "dz_median": 0.47754137115839246,
+    "sp_median": -0.04350419282856018,
+    "gap_median": -0.04403669724770637,
+    "per_seed": {
+     "0": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.44696969696969696,
+      "sp": -0.05343470721242333,
+      "sign_acc": 0.46055045871559636
+     },
+     "1": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.5288888888888889,
+      "sp": 0.0786959535568775,
+      "sign_acc": 0.5192660550458715
+     },
+     "2": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.47754137115839246,
+      "sp": -0.04350419282856018,
+      "sign_acc": 0.47155963302752296
+     }
+    }
+   }
+  },
+  "shuffled": {
+   "linear": {
+    "dz_median": 0.4777777777777778,
+    "sp_median": -0.04350386010172449,
+    "gap_median": -0.038532110091743066,
+    "per_seed": {
+     "0": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.4797979797979798,
+      "sp": -0.018664473784857166,
+      "sign_acc": 0.4917431192660551
+     },
+     "1": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.4777777777777778,
+      "sp": -0.052319953396418595,
+      "sign_acc": 0.48073394495412847
+     },
+     "2": {
+      "source": "trained here (linear, 1 restart, val selection)",
+      "dz": 0.46335697399527187,
+      "sp": -0.04350386010172449,
+      "sign_acc": 0.46605504587155966
+     }
+    }
+   },
+   "mlp": {
+    "dz_median": 0.5177777777777778,
+    "sp_median": 0.030711957179843163,
+    "gap_median": -0.014678899082568808,
+    "per_seed": {
+     "0": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.5303030303030303,
+      "sp": 0.030711957179843163,
+      "sign_acc": 0.5192660550458715
+     },
+     "1": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.5177777777777778,
+      "sp": 0.10108213817511466,
+      "sign_acc": 0.5045871559633027
+     },
+     "2": {
+      "source": "trained here (8 restarts, val selection)",
+      "dz": 0.4326241134751773,
+      "sp": -0.13048292882666868,
+      "sign_acc": 0.44770642201834865
+     }
+    }
+   }
+  }
+ },
+ "interpretation_rules": "oracle-linear pass + e2e fail = optimization/routing; oracle pass + pocket_esm fail = representation gap; all probes fail = harness definition/graph power/truth; all pass = proceed to Q2c-2",
+ "budget_note": "mlp learner = official 8-restart val-selection protocol; linear learner = 1 restart x 6000 steps with val selection; mlp_identity = z-scale identity link 8 restarts"
+}

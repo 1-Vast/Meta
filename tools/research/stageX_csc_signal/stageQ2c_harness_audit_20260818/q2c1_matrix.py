@@ -118,7 +118,7 @@ def main():
                       open(HERE / 'q2c1_partial.json', 'w'), indent=1)
 
     # ligand_only baseline for gap (from frozen artifact)
-    lonly = {s: art[s]['ligand_only']['sign_accuracy'] for s in SEEDS}
+    lonly = {s: float(art[s]['ligand_only']['sign_accuracy']) for s in SEEDS}
     summary = {}
     for rep in matrix_cells:
         summary[rep] = {}

@@ -58,17 +58,17 @@ def train_linear(model, P, L, rows_t, ligs_t, mask, lat, device, seed,
     for step in range(TOTAL_STEPS):
         idx = rng.choice(n, size=min(BATCH, n), replace=False)
         out = model(Pt[r_c[idx]], Lt[l_c[idx]], r_c[idx], l_c[idx])
-        loss = q2.censored_loss(out, zc[idx], dc[idx], lo[idx], hi[idx], device)
+        loss = q2.censored_loss({'yhat': out}, zc[idx], dc[idx], lo[idx], hi[idx], device)
         opt.zero_grad(); loss.backward(); opt.step()
         if step % 300 == 0 or step == TOTAL_STEPS - 1:
             model.eval()
             with torch.no_grad():
                 if v_rows is not None:
                     outv = model(Pt[v_rows], Lt[v_ligs], v_rows, v_ligs)
-                    mon = float(q2.censored_loss(outv, vz, vd, vlo, vhi, device))
+                    mon = float(q2.censored_loss({'yhat': outv}, vz, vd, vlo, vhi, device))
                 else:
                     out2 = model(Pt[r_c], Lt[l_c], r_c, l_c)
-                    mon = float(q2.censored_loss(out2, zc, dc, lo, hi, device))
+                    mon = float(q2.censored_loss({'yhat': out2}, zc, dc, lo, hi, device))
             if best is None or mon < best - 1e-6:
                 best, best_ep = mon, step
                 best_state = {k: t.detach().clone() for k, t in model.state_dict().items()}
