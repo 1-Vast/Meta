@@ -1810,5 +1810,53 @@ learning/optimization capacity at this sample size, not information absence.
 Consequence: B1/B2/C/D NOT authorized; no real-data biological inference
 from this harness. Next step: new preregistration for the representation
 fix or a revised gate point (the frozen gate cannot be moved retroactively).
+## Stage Q2c successor audit (2026-08-18, per independent review)
+
+`tools/research/stageX_csc_signal/stageQ2c_harness_audit_20260818/` with a new
+frozen preregistration (SHA-256 1027ccde8c8946aa8314ebd7642af89a6abbc3366afd965e8ab43f0da5a26a5c).
+Review-mandated corrections landed: the X0c oracle clause (dz 0.68-0.76) is
+withdrawn (diag21 protocol differs from the in-artifact oracle arm: truth
+seeds, restart/selection rule, checkpoint choice; in-artifact oracle is dz
+0.607-0.674, below gate); Q1 is re-labelled Q1-A/B/C (only pair-centered
+local ESM is a genuine protein representation); Q3 is census-only.
+
+Q2c-0 findings (Q2C0_PROJECTION_AUDIT.json, Q2C0_REPORT.md):
+- The X0c artifact's anova_projection Pearson 0.51-0.54 on dead heads is
+  explained by (a) projecting the FULL fitted output instead of the head and
+  (b) the no_interaction_head arm's inter_scale drifting during training
+  (raw dz 0.457 after training); the projection itself is benign: interior
+  eval cells = 0/545 (eval parents AND ligands unseen in train), so it
+  degenerates to grand-mean subtraction; dead-head + true main effects
+  reproduces 0.093.
+- Projection negative controls: tau*=0 (0.000, p=1.00) PASS; random graph
+  (-0.064, p=0.169) PASS; no_interaction_head (0.021, p=0.637) PASS;
+  ligand_only (0.114, p=0.015) FAIL -> projection removed from diagnostics.
+- Endpoint distortion: latent I vs observable-implied interaction Pearson
+  0.59 / Spearman 0.555 - the sigmoid+quantization+censoring pipeline
+  destroys ~40% of interaction rank information.
+- Minimal linear no-censoring Q2: dz 0.52 - linear learners cannot read the
+  interaction from one-hot pockets even without endpoint distortion.
+- Truths separated (mu/pmain/lmain/I/z/y/det) with SHA-256.
+
+Q2c-1 matrix (running): representations {one_hot, pocket_esm, oracle_PU,
+random, shuffled} x learners {linear, mlp} x seeds 0-2 + identity-link
+sensitivity branch. Q3b pairability audit delivered (duplicate columns not
+resolved in S13; scaffold census 14/92 SMILES; WT median activity 95.0).
+## Stage Q2c final verdict (2026-08-18)
+
+Q2c-1 matrix (Q2C1_MATRIX.json, medians over 3 seeds, tau*=1.0 rank 4):
+oracle_PU mlp dz 0.664 / sp 0.375; one_hot mlp dz 0.504; pocket_esm mlp dz
+0.467 (chance); all linear cells 0.48-0.56; identity-link (z-scale) cells
+within 0.02 of logit-scale - endpoint not the blocker. Q2c-1b control:
+oracle at tau*=2.0 reaches dz 0.733 (>= 0.70), so the threshold is reachable
+and the tau*=1.0 failure is graph-power/SNR, not protocol or representation
+only. Frozen rule: Q2c-2 requires oracle-pass + ESM-fail; the oracle does
+not pass at tau*=1.0, so Q2c-2 was NOT STARTED and no representation fix is
+claimed. Final: pipeline qualification FAILED at Q2; biological conclusion
+UNRESOLVED; B1/B2/C/D NOT AUTHORIZED. Next: new prereg (Q2d) moving the
+gate point along the measured power curve (tau*=2.0) or enlarging the
+synthetic graph; the frozen gate is not moved retroactively.
+
+
 
 

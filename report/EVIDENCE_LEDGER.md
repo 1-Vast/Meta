@@ -201,8 +201,33 @@ Evidence status by gate (each with machine-readable artifact + prereg SHA):
   global pooled ESM and composition read nothing (0.000).
 - Q2 FAIL: planted harness grid; frozen gate at tau*=1.0, rank 4 failed
   (Spearman 0.033 / dead-zone sign acc 0.504 / gap -0.018 vs 0.30/0.70/0.05);
-  negative controls behaved as designed; oracle arm recovers the centred
-  interaction at dz 0.68-0.76 -> optimization/representation-limited.
+  negative controls behaved as designed; oracle clause withdrawn on alignment
+  grounds (in-artifact oracle dz 0.607-0.674).
+## Stage Q2c successor (2026-08-18)
+
+Frozen prereg SHA-256 1027ccde8c8946aa8314ebd7642af89a6abbc3366afd965e8ab43f0da5a26a5c.
+Review amendments accepted into stageX0c docs (RESULT.json review_amendments_20260818):
+oracle dz 0.68-0.76 clause withdrawn (protocol mismatch; aligned oracle dz
+0.607-0.674 below gate); Q1 re-labelled Q1-A/B/C; Q3 census-only; ANOVA
+projection demoted.
+
+Q2c-0 evidence: interior eval cells 0/545 -> projection degenerates to
+grand-mean subtraction; dead-head+true-main-effects reproduces 0.093 (not
+0.5), so the X0c artifact's 0.51-0.54 came from full-yhat projection plus
+inter_scale drift in the no_interaction_head arm (raw dz 0.457 after
+training). Projection negative controls: tau*=0 PASS, random graph PASS,
+no_interaction_head PASS, ligand_only FAIL (0.114, p=0.015) -> projection
+removed from diagnostics. Endpoint distortion Pearson 0.59 (sigmoid +
+quantization + censoring destroys ~40% of interaction rank information).
+Minimal linear no-censoring Q2: dz 0.52 (linear learners cannot read the
+interaction from one-hot pockets).
+
+Q2c-1 matrix: oracle dz 0.664 (tau*=1.0) vs 0.733 (tau*=2.0) -> the 0.70
+threshold is unreachable at the frozen gate point's SNR even with oracle
+factors; identity-link sensitivity: endpoint not the blocker; pocket_esm at
+chance on the interaction task. Q2c-2 precondition unmet -> NOT STARTED.
+B1/B2/C/D NOT AUTHORIZED; next = Q2d prereg along the measured power curve.
+
 - Q3 CENSUS: Saifudeen 2026 (CC BY-NC-ND 4.0): 92 inhibitors, 409 WT,
   349 variants; 313 matched-WT-gene, 272 matched gene+substrate; 21.3%
   saturated at 100; 103/349 responsive-window variants; construct background

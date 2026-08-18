@@ -483,4 +483,15 @@ dead-zone sign accuracy 0.504 / gap -0.018 at tau*=1.0, rank 4; needs
 so the failure is optimization/representation capacity, not information
 absence. No B1/B2/C/D authorization; next step is a new preregistration for
 the representation fix or a revised gate point.
+**Q2c successor (2026-08-18, running):** frozen prereg SHA
+1027ccde…26a5c in `stageQ2c_harness_audit_20260818/`. Review amendments:
+oracle clause withdrawn (in-artifact oracle dz 0.607-0.674 < 0.70);
+Q1 split Q1-A/B/C; Q3 census-only; ANOVA projection removed from diagnostics
+(dead-arm Pearson 0.51-0.54 explained by full-yhat projection + inter_scale
+drift in the no_interaction_head arm; interior eval cells 0/545; endpoint
+distortion Pearson 0.59). Q2c-0/1/1b done, Q3b done: oracle dz 0.664 at
+tau*=1.0 vs 0.733 at tau*=2.0 -> 0.70 threshold unreachable at the frozen
+gate point even with oracle factors; Q2c-2 precondition unmet -> NOT STARTED;
+B1/B2/C/D NOT AUTHORIZED; next = new prereg (Q2d) along the measured power
+curve.
 
