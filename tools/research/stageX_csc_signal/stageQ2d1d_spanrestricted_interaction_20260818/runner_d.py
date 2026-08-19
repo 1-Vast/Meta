@@ -102,7 +102,8 @@ def make_level_targets(t, level, cells):
     return z, y, z_obs, det, blo, bhi, int((~det).sum())
 
 
-def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev):
+def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev,
+                max_steps=TOTAL_STEPS):
     rng_steps = stable_rng("stageQ2d1d", "steps", "seed", seed, "phase", level,
                             "restart", restart)  # IDENTICAL across arms
     torch.manual_seed(restart)
@@ -144,17 +145,19 @@ def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev):
     l_t = torch.from_numpy(tr[:, 1]).to(device)
     n = len(tr)
 
-    def loss_fn(out_yhat, idx):
+    def loss_fn(out_yhat, targets):
         if level in ("A", "C"):
-            return ((out_yhat[idx] - zfull[idx]) ** 2).mean()
+            return ((out_yhat - targets[0]) ** 2).mean()
         if level == "B":
-            yh = 100.0 * torch.sigmoid(out_yhat[idx])
-            return ((yh - yc[idx]) ** 2).mean() / 100.0
-        return censored_loss({"yhat": out_yhat[idx]}, zc[idx], dc_t[idx],
-                              lo[idx], hi[idx], device)
+            yh = 100.0 * torch.sigmoid(out_yhat)
+            return ((yh - targets[1]) ** 2).mean() / 100.0
+        return censored_loss({"yhat": out_yhat},
+                              targets[2].cpu().numpy(), targets[3].cpu().numpy(),
+                              targets[4].cpu().numpy(), targets[5].cpu().numpy(),
+                              device)
     best = None
     best_state = None
-    for step in range(TOTAL_STEPS):
+    for step in range(max_steps):
         idx = rng_steps.choice(n, size=min(BATCH, n), replace=False)
         idx = torch.from_numpy(idx).to(device)
         if arm == "additive_only":
@@ -163,11 +166,12 @@ def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev):
             out = model(Pt[r_t[idx]], Lt_dev[l_t[idx]], r_t[idx], l_t[idx])
         else:
             out = model(Pt[r_t[idx]], Lt_dev[l_t[idx]])
-        loss = loss_fn(out["yhat"], torch.arange(len(idx), device=device))
+        loss = loss_fn(out["yhat"], (zfull[idx], yc[idx], zc[idx], dc_t[idx],
+                                          lo[idx], hi[idx]))
         opt.zero_grad()
         loss.backward()
         opt.step()
-        if step % 300 == 0 or step == TOTAL_STEPS - 1:
+        if step % 300 == 0 or step == max_steps - 1:
             model.eval()
             with torch.no_grad():
                 if arm == "additive_only":
@@ -176,7 +180,7 @@ def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev):
                     out_all = model(Pt[r_t], Lt_dev[l_t], r_t, l_t)
                 else:
                     out_all = model(Pt[r_t], Lt_dev[l_t])
-                mon = float(loss_fn(out_all["yhat"], torch.arange(n, device=device)))
+                mon = float(loss_fn(out_all["yhat"], (zfull, yc, zc, dc_t, lo, hi)))
             if best is None or mon < best - 1e-9:
                 best = mon
                 best_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
