@@ -552,3 +552,25 @@ AD1 truth repairs frozen BEFORE launch (sha 0b405df9...; M1/M2/M3 streams
 bit-identical, 9 tests). If 1e fails -> one frozen diagnostic
 (A=V_train.G span-param) -> terminal PASS/FAIL on the low-rank bilinear
 learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
+
+## Round update (2026-08-19, Q2d-1e running)
+
+- Global re-adjudication executed: full read of task/history/ledger/
+  record/evidence/programme + Q2d-1d report + 1e/diag preregs + P1 specs.
+  Q2d-1e ladder untouched and healthy (M1 D seed 0 at last check; watcher
+  auto-adjudicates on exit). 1e level-A medians (0.585/0.588/0.372) already
+  below the 0.70 gate -> 1e FAIL expected; frozen span-param diagnostic
+  will follow; no 1f/1g chains.
+- Core Task 1 funnel reset and frozen as plan:
+  tools/research/stageX_csc_signal/CORE1_FUNNEL_PLAN_20260819.md
+  (structure tests -> single-seed 4-arm screen -> stop rules -> 3-seed
+  full negatives + bootstrap -> real matched-pair data requirement).
+- P-line fairness fixes (no training started): MAML outer-gradient
+  contamination reproduced by a red test, fixed in task_fomaml_grad
+  (adapted-model grads cleared before query backward) and verified against
+  a toy functional reference; CNP re-adjudicated to deterministic
+  Deep Sets (AD2 sha f8909ede..., decision A over latent NP), k=0
+  context correction exactly 0, permutation invariance / query
+  equivariance / query-label isolation tests green. 17 stage-P trainer
+  tests green. Real arm-3/4/5 training remains queued behind the 1e
+  ladder (GPU budget).

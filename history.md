@@ -1961,3 +1961,17 @@ Takeover snapshot (verified from live system, not from history):
 - 07:13 runner_e.py launched (PID 54828, job za7); auto-adjudicate
   watcher job jxp. P-line arm-3 trainer committed earlier (ab2f020);
   real arm-3 training queued behind the 1e ladder (GPU budget).
+
+## 2026-08-19 (window 2) re-adjudication round: MAML/CNP fixes + funnel
+
+- 08:00-08:40 read task/history/consolidated/evidence/current-model/
+  programme + Q2D1D_REPORT + 1e/diag preregs + P1 backbone/arms45 specs.
+- 08:20 MAML fix: red test reproduced FOMAML violation (last support-step
+  gradient accumulated into query backward); p_maml.task_fomaml_grad now
+  zeroes adapted grads first; toy functional reference green.
+- 08:30 CNP adjudication AD2 (sha f8909ede...): deterministic Deep Sets,
+  fake latent/ELBO removed, k=0 correction == 0, param delta 180,544;
+  permutation/equivariance/label-isolation tests green. Commit 29ac9c2.
+- 08:45 CORE1_FUNNEL_PLAN_20260819.md frozen (short funnel + budget
+  discipline + authorization states).
+- Q2d-1e ladder: M1 D seed 0 at 08:40, healthy, untouched.

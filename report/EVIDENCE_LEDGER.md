@@ -349,3 +349,20 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   truth_d (9 tests green). runner_e running on GPU; auto-adjudication
   watcher active. If 1e FAILS: one frozen diagnostic A=V_train.G, then
   terminal PASS/FAIL on the low-rank bilinear learner family.
+
+- P-line MAML fix (2026-08-19): first version of the trainer accumulated
+  the last support-step gradient into the query backward (not first-order
+  MAML); red test reproduced it; fixed by clearing adapted-model grads
+  before query backward; toy functional reference, param-order/None-grad
+  and multi-task accumulation tests green (4/4).
+- P-line CNP re-adjudication AD2 (sha f8909ede...): deterministic
+  Deep-Sets (per-item encoder 2689->64->64->64, mean-pool, off_head no
+  bias, empty support -> context 0); k=0 correction exactly 0 and equals
+  the shared trunk bitwise; support permutation invariance and query
+  equivariance 1e-6; query labels isolated (behavioral test);
+  param delta vs arm 3 = 180,544. Latent-NP language removed.
+- Core Task 1 funnel frozen (CORE1_FUNNEL_PLAN_20260819.md): structure
+  gate -> single-seed 4-arm screen -> stop rules -> 3-seed full negatives
+  -> real matched-pair data requirement; promotion budgets for all new
+  candidates; Q2d-1e PASS/FAIL and diagnostic interpretation states
+  fixed.
