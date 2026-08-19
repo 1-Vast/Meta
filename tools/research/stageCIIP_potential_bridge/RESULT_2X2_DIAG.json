@@ -1,0 +1,879 @@
+{
+ "schema": "MetaSieve.StageCIIP1A.2x2.Result.v1",
+ "preregistration_2x2_sha256": "ee844b2b29f0009cf97c1bd18b8a92f68dcd2dc8ea1268731c740c2224f47a8b",
+ "data2x2_sha256": "8caf2d854788c337729aff1eb8f7fd951ca8e2237f1b0c61e470dcde6a5c6ff0",
+ "cells": {
+  "klifs_joint": {
+   "cell": "klifs_joint",
+   "seed": 1,
+   "best_val_mse": 263.6711020247691,
+   "grad_cov": {
+    "mu": true,
+    "p_enc.weight": true,
+    "p_enc.bias": true,
+    "l_enc.weight": true,
+    "l_enc.bias": true,
+    "b_P.weight": true,
+    "b_P.bias": true,
+    "b_L.weight": true,
+    "b_L.bias": true,
+    "alpha.weight": true,
+    "alpha.bias": true,
+    "psi.weight": true,
+    "psi.bias": true
+   },
+   "var_dec": {
+    "var_b_P": 5.394268989562988,
+    "var_b_L": 1.267657995223999,
+    "var_s": 627.96875,
+    "var_f": 656.4203491210938
+   },
+   "agg": {
+    "r2": -0.0744987704493372,
+    "spearman": -0.038147766283866284,
+    "sign_acc": 0.47904342146632334,
+    "mse": 247.87009318153716,
+    "n_nonconstant": 3,
+    "n_rank_evaluable": 3,
+    "n_parents_covered": 2,
+    "n_test_pairs": 9
+   },
+   "collapsed": true,
+   "test_rows": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "var_pred": 0.25537264347076416,
+     "nonconstant": true,
+     "r2": -0.04181270727894093,
+     "mse": 182.13482550099266,
+     "spearman": -0.4572268469452492,
+     "pearson": -0.5278971052442607,
+     "sign_acc": 0.1891891891891892,
+     "ols_slope": -13.812228995600307
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "var_pred": 356.9418029785156,
+     "nonconstant": true,
+     "r2": -0.23839055896113837,
+     "mse": 355.069805169659,
+     "spearman": 0.22547282727090742,
+     "pearson": 0.4510509818058309,
+     "sign_acc": 0.6111111111111112,
+     "ols_slope": 0.4042545812898521
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 571.1103063115802,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5252525252525253,
+     "ols_slope": null
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 487.6903496894855,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.42857142857142855,
+     "ols_slope": null
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 72.14707708456984,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.3953488372093023,
+     "ols_slope": null
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "var_pred": 76.95596313476562,
+     "nonconstant": true,
+     "r2": -0.39028566780395546,
+     "mse": 164.66090173304045,
+     "spearman": 0.1173107208227429,
+     "pearson": 0.16095098428294977,
+     "sign_acc": 0.59375,
+     "ols_slope": 0.19967132967847023
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 105.22804633757806,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.475,
+     "ols_slope": null
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 188.63846325774125,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5217391304347826,
+     "ols_slope": null
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 104.15106354918743,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5714285714285714,
+     "ols_slope": null
+    }
+   ],
+   "step1_grads": {
+    "g_ctr_s": 0.18046626448631287,
+    "g_abs_s": 111.31358337402344,
+    "R_g": 616.8110349613238,
+    "C_g": -0.021259043043294294
+   },
+   "abs_epoch_stats": {
+    "epoch0": {
+     "mean": 7074.0810953776045,
+     "var": 268484.55677844916,
+     "n_batches": 12
+    },
+    "epoch199": {
+     "mean": 127.2290267944336,
+     "var": 136.30235042015556,
+     "n_batches": 12
+    }
+   },
+   "objective_sampling_report": {
+    "n_abs_cells_pool": 8052,
+    "n_abs_valid_labels": 8035,
+    "wt_variant_rows": [
+     12,
+     32
+    ],
+    "note": "ESM joint: variant-row cells only (frozen rule); KLIFS joint: WT+variant rows - objective-sampling confound between the two joint cells, documented per review"
+   },
+   "structural_cap": {
+    "n_test_pairs_nonzero_input": 3,
+    "n_test_pairs": 9
+   }
+  },
+  "klifs_centered": {
+   "cell": "klifs_centered",
+   "seed": 1,
+   "best_val_mse": 251.8421165258216,
+   "grad_cov": {
+    "mu": false,
+    "p_enc.weight": true,
+    "p_enc.bias": true,
+    "l_enc.weight": true,
+    "l_enc.bias": true,
+    "b_P.weight": false,
+    "b_P.bias": false,
+    "b_L.weight": false,
+    "b_L.bias": false,
+    "alpha.weight": true,
+    "alpha.bias": false,
+    "psi.weight": true,
+    "psi.bias": true
+   },
+   "var_dec": {
+    "var_b_P": 0.02108260616660118,
+    "var_b_L": 0.6871683597564697,
+    "var_s": 206.59335327148438,
+    "var_f": 200.3602752685547
+   },
+   "agg": {
+    "r2": 0.013587639930363481,
+    "spearman": 0.11516676034179534,
+    "sign_acc": 0.5152932129244481,
+    "mse": 229.51275633571484,
+    "n_nonconstant": 3,
+    "n_rank_evaluable": 3,
+    "n_parents_covered": 2,
+    "n_test_pairs": 9
+   },
+   "collapsed": true,
+   "test_rows": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "var_pred": 0.5887917876243591,
+     "nonconstant": true,
+     "r2": -0.046817739842006656,
+     "mse": 183.00982992945822,
+     "spearman": -0.36874481401438264,
+     "pearson": -0.37435103159582617,
+     "sign_acc": 0.25675675675675674,
+     "ols_slope": -6.450595756902404
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "var_pred": 147.92044067382812,
+     "nonconstant": true,
+     "r2": 0.1871109352733662,
+     "mse": 233.0705444647125,
+     "spearman": 0.27346072602578714,
+     "pearson": 0.48938523575711496,
+     "sign_acc": 0.6666666666666666,
+     "ols_slope": 0.6813414798096893
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 571.1103063115802,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5252525252525253,
+     "ols_slope": null
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 487.6903496894855,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.42857142857142855,
+     "ols_slope": null
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 72.14707708456984,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.3953488372093023,
+     "ols_slope": null
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "var_pred": 87.9249496459961,
+     "nonconstant": true,
+     "r2": -0.018004436058088213,
+     "mse": 120.56912639712046,
+     "spearman": 0.4407843690139815,
+     "pearson": 0.42035902261311386,
+     "sign_acc": 0.796875,
+     "ols_slope": 0.48787385856504445
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 105.22804633757806,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.475,
+     "ols_slope": null
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 188.63846325774125,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5217391304347826,
+     "ols_slope": null
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "var_pred": 0.0,
+     "nonconstant": false,
+     "r2": 0.0,
+     "mse": 104.15106354918743,
+     "spearman": null,
+     "pearson": null,
+     "sign_acc": 0.5714285714285714,
+     "ols_slope": null
+    }
+   ],
+   "step1_grads": {
+    "g_ctr_s": 0.15709544718265533,
+    "g_abs_s": null,
+    "R_g": null,
+    "C_g": null
+   },
+   "abs_epoch_stats": {},
+   "objective_sampling_report": {
+    "n_abs_cells_pool": 0,
+    "n_abs_valid_labels": 0,
+    "wt_variant_rows": [
+     0,
+     0
+    ],
+    "note": "centered-only: no L_abs"
+   },
+   "structural_cap": {
+    "n_test_pairs_nonzero_input": 3,
+    "n_test_pairs": 9
+   }
+  },
+  "esm_joint": {
+   "cell": "esm_joint",
+   "seed": 1,
+   "best_val_mse": 211.1054100367297,
+   "grad_cov": {
+    "mu": true,
+    "p_enc.weight": true,
+    "p_enc.bias": true,
+    "l_enc.weight": true,
+    "l_enc.bias": true,
+    "b_P.weight": true,
+    "b_P.bias": true,
+    "b_L.weight": true,
+    "b_L.bias": true,
+    "alpha.weight": true,
+    "alpha.bias": true,
+    "psi.weight": true,
+    "psi.bias": true
+   },
+   "var_dec": {
+    "var_b_P": 0.0,
+    "var_b_L": 7.50015926361084,
+    "var_s": 340.0467529296875,
+    "var_f": 370.6592102050781
+   },
+   "agg": {
+    "r2": 0.043639134039357486,
+    "spearman": 0.25728262092001936,
+    "sign_acc": 0.6276653757526692,
+    "mse": 190.02522747595916,
+    "n_nonconstant": 9,
+    "n_rank_evaluable": 9,
+    "n_parents_covered": 6,
+    "n_test_pairs": 9
+   },
+   "collapsed": false,
+   "test_rows": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "var_pred": 41.79525375366211,
+     "nonconstant": true,
+     "r2": 0.263305607632474,
+     "mse": 128.79253983364367,
+     "spearman": 0.5476856123930722,
+     "pearson": 0.5137313190306663,
+     "sign_acc": 0.8513513513513513,
+     "ols_slope": 1.050689159535283
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "var_pred": 245.07272338867188,
+     "nonconstant": true,
+     "r2": 0.14802184493797932,
+     "mse": 244.2781199660052,
+     "spearman": 0.3015540211429478,
+     "pearson": 0.5423160971098743,
+     "sign_acc": 0.625,
+     "ols_slope": 0.5865878439851957
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "var_pred": 0.8821706175804138,
+     "nonconstant": true,
+     "r2": 0.012001108718355358,
+     "mse": 564.2563494353617,
+     "spearman": 0.17729792683612977,
+     "pearson": 0.17232859217816582,
+     "sign_acc": 0.6262626262626263,
+     "ols_slope": 4.3847115963733465
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "var_pred": 349.5615539550781,
+     "nonconstant": true,
+     "r2": 0.7807993162256254,
+     "mse": 106.9020581220991,
+     "spearman": 0.7909548043728987,
+     "pearson": 0.8844372678236522,
+     "sign_acc": 0.9404761904761905,
+     "ols_slope": 1.0446655653410923
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "var_pred": 23.51668357849121,
+     "nonconstant": true,
+     "r2": -0.3510061995954059,
+     "mse": 97.4711484239415,
+     "spearman": -0.028220559770442445,
+     "pearson": -0.021939367649237068,
+     "sign_acc": 0.5348837209302325,
+     "ols_slope": -0.038427790937768054
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "var_pred": 94.75189208984375,
+     "nonconstant": true,
+     "r2": -0.3127418011337051,
+     "mse": 155.47685898162615,
+     "spearman": 0.16681426088099346,
+     "pearson": 0.2723938038127087,
+     "sign_acc": 0.625,
+     "ols_slope": 0.30454151386156636
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "var_pred": 10.07201862335205,
+     "nonconstant": true,
+     "r2": -0.10985349387622456,
+     "mse": 116.78771488153028,
+     "spearman": 0.10797326173104906,
+     "pearson": -0.022847915422232943,
+     "sign_acc": 0.475,
+     "ols_slope": -0.07385060851618588
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "var_pred": 38.30804443359375,
+     "nonconstant": true,
+     "r2": 0.005462232616716967,
+     "mse": 187.60807609096744,
+     "spearman": 0.2545512751103153,
+     "pearson": 0.23138058621387853,
+     "sign_acc": 0.6376811594202898,
+     "ols_slope": 0.5134486985000614
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "var_pred": 2.963364839553833,
+     "nonconstant": true,
+     "r2": -0.04323640917159821,
+     "mse": 108.65418154845723,
+     "spearman": -0.0030670144167895385,
+     "pearson": -0.04382246051837506,
+     "sign_acc": 0.3333333333333333,
+     "ols_slope": -0.25979814842945
+    }
+   ],
+   "step1_grads": {
+    "g_ctr_s": 0.176774263381958,
+    "g_abs_s": 165.83265686035156,
+    "R_g": 938.1040751452438,
+    "C_g": 0.006409671497840376
+   },
+   "abs_epoch_stats": {
+    "epoch0": {
+     "mean": 6890.249755859375,
+     "var": 201282.31603787342,
+     "n_batches": 12
+    },
+    "epoch199": {
+     "mean": 98.10270754496257,
+     "var": 103.90658823212006,
+     "n_batches": 12
+    }
+   },
+   "objective_sampling_report": {
+    "n_abs_cells_pool": 5837,
+    "n_abs_valid_labels": 5837,
+    "wt_variant_rows": [
+     0,
+     32
+    ],
+    "note": "ESM joint: variant-row cells only (frozen rule); KLIFS joint: WT+variant rows - objective-sampling confound between the two joint cells, documented per review"
+   },
+   "structural_cap": {
+    "n_test_pairs_nonzero_input": 9,
+    "n_test_pairs": 9
+   }
+  },
+  "esm_centered": {
+   "cell": "esm_centered",
+   "seed": 1,
+   "best_val_mse": 200.71808815599522,
+   "grad_cov": {
+    "mu": false,
+    "p_enc.weight": true,
+    "p_enc.bias": true,
+    "l_enc.weight": true,
+    "l_enc.bias": true,
+    "b_P.weight": false,
+    "b_P.bias": false,
+    "b_L.weight": false,
+    "b_L.bias": false,
+    "alpha.weight": true,
+    "alpha.bias": false,
+    "psi.weight": true,
+    "psi.bias": true
+   },
+   "var_dec": {
+    "var_b_P": 0.0,
+    "var_b_L": 1.9037736654281616,
+    "var_s": 422.0582580566406,
+    "var_f": 455.59149169921875
+   },
+   "agg": {
+    "r2": 0.026283850525833114,
+    "spearman": 0.278228262776803,
+    "sign_acc": 0.6742426849026528,
+    "mse": 194.29229730855198,
+    "n_nonconstant": 9,
+    "n_rank_evaluable": 9,
+    "n_parents_covered": 6,
+    "n_test_pairs": 9
+   },
+   "collapsed": false,
+   "test_rows": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "var_pred": 74.14755249023438,
+     "nonconstant": true,
+     "r2": 0.1885480249258087,
+     "mse": 141.86202841448213,
+     "spearman": 0.4264734318436552,
+     "pearson": 0.47038313815654814,
+     "sign_acc": 0.7972972972972973,
+     "ols_slope": 0.722279013140571
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "var_pred": 202.4962921142578,
+     "nonconstant": true,
+     "r2": 0.18031389206162096,
+     "mse": 235.01938426445122,
+     "spearman": 0.3235869030456657,
+     "pearson": 0.5274746279190308,
+     "sign_acc": 0.6805555555555556,
+     "ols_slope": 0.6276552060424008
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "var_pred": 12.0375394821167,
+     "nonconstant": true,
+     "r2": -0.08268537731800452,
+     "mse": 618.3327774791543,
+     "spearman": -0.2534660331070735,
+     "pearson": -0.2121767761132845,
+     "sign_acc": 0.3434343434343434,
+     "ols_slope": -1.4614669331572425
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "var_pred": 626.3770141601562,
+     "nonconstant": true,
+     "r2": 0.8816462767723579,
+     "mse": 57.71996866794139,
+     "spearman": 0.8895848957588836,
+     "pearson": 0.9556234202176047,
+     "sign_acc": 0.9404761904761905,
+     "ols_slope": 0.8432201475933786
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "var_pred": 23.239778518676758,
+     "nonconstant": true,
+     "r2": 0.03572914595514176,
+     "mse": 69.56932363717839,
+     "spearman": 0.2950176378499979,
+     "pearson": 0.31525308863517204,
+     "sign_acc": 0.7441860465116279,
+     "ols_slope": 0.5554599077039791
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "var_pred": 203.23587036132812,
+     "nonconstant": true,
+     "r2": -0.6727601161027583,
+     "mse": 198.11625443540515,
+     "spearman": 0.3550681111808305,
+     "pearson": 0.39819123457056765,
+     "sign_acc": 0.703125,
+     "ols_slope": 0.30397281183323377
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "var_pred": 5.059101581573486,
+     "nonconstant": true,
+     "r2": 0.005062256067494553,
+     "mse": 104.69535502153506,
+     "spearman": 0.18507464147860636,
+     "pearson": 0.12117655785739909,
+     "sign_acc": 0.65,
+     "ols_slope": 0.5526468030312204
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "var_pred": 26.52870750427246,
+     "nonconstant": true,
+     "r2": 0.007649646486926787,
+     "mse": 187.1954456999824,
+     "spearman": 0.23908141215465606,
+     "pearson": 0.19770428926973113,
+     "sign_acc": 0.6376811594202898,
+     "ols_slope": 0.5271972983076746
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "var_pred": 37.125038146972656,
+     "nonconstant": true,
+     "r2": -0.3069490941160897,
+     "mse": 136.1201381568378,
+     "spearman": 0.043633364786005185,
+     "pearson": 0.04145860757770671,
+     "sign_acc": 0.5714285714285714,
+     "ols_slope": 0.0694405464725218
+    }
+   ],
+   "step1_grads": {
+    "g_ctr_s": 0.21775978803634644,
+    "g_abs_s": null,
+    "R_g": null,
+    "C_g": null
+   },
+   "abs_epoch_stats": {},
+   "objective_sampling_report": {
+    "n_abs_cells_pool": 0,
+    "n_abs_valid_labels": 0,
+    "wt_variant_rows": [
+     0,
+     32
+    ],
+    "note": "centered-only: no L_abs"
+   },
+   "structural_cap": {
+    "n_test_pairs_nonzero_input": 9,
+    "n_test_pairs": 9
+   }
+  }
+ },
+ "effects": {
+  "rep_main_joint": {
+   "observed_pair_mean_effect": 0.11813790448869468,
+   "observed_parent_mean_effect": 0.062211866525124865,
+   "bootstrap_ci": {
+    "lo2.5": -0.11650424801597328,
+    "hi97.5": 0.3002969745007679,
+    "draws": 2000,
+    "cluster": "parent"
+   },
+   "bootstrap_mean_not_a_point_estimate": 0.10870720654321601,
+   "status": "ambiguous",
+   "leave_one_parent_out_sign_stable": true
+  },
+  "rep_main_centered": {
+   "observed_pair_mean_effect": 0.012696210595469633,
+   "observed_parent_mean_effect": -0.06764247773719928,
+   "bootstrap_ci": {
+    "lo2.5": -0.28085518983152485,
+    "hi97.5": 0.23155191339628278,
+    "draws": 2000,
+    "cluster": "parent"
+   },
+   "bootstrap_mean_not_a_point_estimate": 0.0016666426981614664,
+   "status": "absent",
+   "leave_one_parent_out_sign_stable": false
+  },
+  "obj_main_klifs": {
+   "observed_pair_mean_effect": 0.08808641037970068,
+   "observed_parent_mean_effect": 0.09708824376359777,
+   "bootstrap_ci": {
+    "lo2.5": 0.0,
+    "hi97.5": 0.19819442335432652,
+    "draws": 2000,
+    "cluster": "parent"
+   },
+   "bootstrap_mean_not_a_point_estimate": 0.08830924121786339,
+   "status": "ambiguous",
+   "leave_one_parent_out_sign_stable": true
+  },
+  "obj_main_esm": {
+   "observed_pair_mean_effect": -0.01735528351352437,
+   "observed_parent_mean_effect": -0.032766100498726365,
+   "bootstrap_ci": {
+    "lo2.5": -0.16464694350423578,
+    "hi97.5": 0.12015949333288531,
+    "draws": 2000,
+    "cluster": "parent"
+   },
+   "bootstrap_mean_not_a_point_estimate": -0.018731322627191148,
+   "status": "absent",
+   "leave_one_parent_out_sign_stable": false
+  },
+  "interaction": {
+   "observed_pair_mean_effect": -0.10544169389322505,
+   "observed_parent_mean_effect": -0.12985434426232415,
+   "bootstrap_ci": {
+    "lo2.5": -0.33699739522486766,
+    "hi97.5": 0.09116751974683132,
+    "draws": 2000,
+    "cluster": "parent"
+   },
+   "bootstrap_mean_not_a_point_estimate": -0.10704056384505455,
+   "status": "ambiguous",
+   "leave_one_parent_out_sign_stable": true
+  }
+ },
+ "scope": "oracle-covered subset diagnostic; root-cause attribution only; no CIIP-1A PASS verdict possible from this stage",
+ "interpretation_bounds": {
+  "klifs_structural_cap": "among the 9 covered test pairs only 3 have nonzero KLIFS input difference, so the 5/9 nonconstant gate is unreachable for KLIFS cells by construction: KLIFS collapse is a structural statement, NOT an optimization statement; the objective main effect is therefore not fairly estimable on KLIFS and the interaction is confounded by the KLIFS null space",
+  "objective_sampling_confound": "KLIFS joint L_abs uses WT+variant row cells; ESM joint uses variant-row cells only (frozen rule) - per-cell pool sizes and valid label counts are reported; if they differ materially the stage is a matched representation diagnostic, not a pure factorial causal estimate",
+  "coverage_bias": "16 uncovered pairs are 4 whole families (ALK, MET, LRRK2, TEK-Y1108F) with higher target variance; every conclusion is restricted to the oracle-covered subset",
+  "no_universal_objective_claim": "this stage cannot establish a general main effect of joint vs centered-only beyond the covered subset"
+ }
+}
