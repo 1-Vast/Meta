@@ -13,8 +13,10 @@ import torch.nn as nn
 
 HERE = Path(__file__).resolve().parent
 X0C = HERE.parent / "stageX0c_measurement_qualification_20260818"
+STAGE_D = HERE.parent / "stageQ2d1d_spanrestricted_interaction_20260818"
 sys.path.insert(0, str(X0C))
 sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(STAGE_D))
 import q2
 from q2 import eval_metrics, censored_loss
 from x0_common import stable_rng
@@ -266,10 +268,10 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     import x0_i1
     rows, compounds, prot_feats, lig_feats, scaffolds, _meta = x0_i1.load_features()
-    fz = np.load(HERE / "q2d1d_features.npz", allow_pickle=False)  # identical truth inputs
+    fz = np.load(STAGE_D / "q2d1d_features.npz", allow_pickle=False)  # identical truth inputs
     P_t = fz["P_t"].astype(np.float32)
     L_t = fz["L_t"].astype(np.float32)
-    splits = json.loads(open(HERE / "Q2D1D_SPLITS.json", encoding="utf-8").read())  # identical truth inputs
+    splits = json.loads(open(STAGE_D / "Q2D1D_SPLITS.json", encoding="utf-8").read())  # identical truth inputs
     for k in ("train_cells", "pc", "lc", "dc"):
         splits[k] = np.asarray(splits[k], dtype=np.int64)
     for k in ("cold_row", "cold_lig", "train_row", "train_lig"):
@@ -278,7 +280,7 @@ def main():
     Lt_dev = torch.from_numpy(L_t).float().to(device)
     # frozen precondition: the Q2d-1d oracle precheck (same truth) must have
     # passed before any Q2d-1e training
-    pre = json.loads(open(HERE / "Q2D1D_ORACLE_PRECHECK.json", encoding="utf-8").read())
+    pre = json.loads(open(STAGE_D / "Q2D1D_ORACLE_PRECHECK.json", encoding="utf-8").read())
     assert pre["M1_identifiable_on_all_surfaces"] is True, "oracle precheck precondition unmet"
     Vsp, _ = truth._span_projection(P_t, splits)
     print("span basis rank:", Vsp.shape[1], flush=True)
