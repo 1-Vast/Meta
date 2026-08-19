@@ -248,6 +248,26 @@ per-position ESM kept as [position, embedding], not pooled), then Q2d-3
 matched delta training, then B1.
 
 
+## Stage Q2d-1b / Q2d-1c / Q2d-1d oracle-chain ledger (2026-08-19)
+
+Instrument-level evidence, all executed in-tree and pinned by tests:
+- Q2d-1b STOP (prereg 872bc440...): ALS oracle could not fit its own train
+  set (in-fit dz 0.50) - implementation defect; train-only ID centring
+  injects feature-unrepresentable offsets (grand-mean-only diagnostic: dc
+  0.392 -> 0.680).
+- Q2d-1c STOP (prereg 25b8b912...): SVD closed-form oracle exact in-fit
+  (1.0/1.0) but seed 1 pc 0.621 / dc 0.587 < 0.70. Attribution proven:
+  train-row feature submatrix rank 28 < 32; 8.8% of the drawn protein map
+  lies in the unidentifiable null space; true weights reach 0.968-0.994 on
+  all surfaces; ligand map fully identified (lc 1.0).
+- Q2d-1d oracle PASS (prereg baf4bb72...): span-restricted truth protein
+  map (A_t = V_train @ C). SVD oracle pc 0.700-0.920, lc 1.0, dc
+  0.753-0.893 across 3 seeds -> training authorized. Runner defect found
+  and fixed during startup verification: minibatch outputs were paired
+  with train-order targets (all arms collapsed to the zero predictor,
+  monitor loss 1.98); regression test asserts monitor loss < 1.5 and
+  dc dz > 0.75 for the oracle arm at 600 steps. Ladder relaunched clean.
+
 - Q3 CENSUS: Saifudeen 2026 (CC BY-NC-ND 4.0): 92 inhibitors, 409 WT,
   349 variants; 313 matched-WT-gene, 272 matched gene+substrate; 21.3%
   saturated at 100; 103/349 responsive-window variants; construct background
