@@ -1,0 +1,1171 @@
+{
+ "schema": "MetaSieve.StageCIIP1A.CollapseAudit.v1",
+ "structural_collapse_identity": {
+  "test_pairs_with_zero_input_difference": [
+   11,
+   14,
+   21,
+   23,
+   24,
+   36,
+   49,
+   55,
+   56,
+   64
+  ],
+  "test_pairs_with_constant_prediction": [
+   11,
+   14,
+   21,
+   23,
+   24,
+   36,
+   49,
+   55,
+   56,
+   64
+  ],
+  "constant_prediction_set_equals_zero_input_set": true,
+  "note": "for zero-input-difference pairs the potential contrast is IDENTICALLY 0 by antisymmetry (s(P,L)-s(P,L)=0), so constant prediction is forced by the representation, not by training"
+ },
+ "frozen_inputs_sha256": {
+  "RESULT_SCREENING.json": "9bd9d1b023bd5edbfe412270bac260473113c686c2e5ef0e21e818a12de03d36",
+  "DATA1A.json": "1c2b92dfc9f3f84676a25a15f331cefc178005afa2207125d6dc09b771defc68",
+  "DATA1A.npz": "40f69509ff88005d05cd2e65873d08caa8e10c1b44da9e9aff256c37866f52f1",
+  "q1_esm_cache.npz": "c8b59e33c3011ca898c51d02957f44f1865c89799ce9eb67c5327d8ff2d545db",
+  "Q1_SELECTIVITY.json": "7e3d5a733fba28356098e1eda0ee1deced8827fe7c1e6e3e502918bf82bd93a1",
+  "PREREGISTRATION_STAGE1_CIIP1A.md": "31d3eeaf6a0d77c46b3bbbee0fe9d2ff667aadeeb7d9dcabd26ca59ec48d5196"
+ },
+ "collapse": {
+  "per_arm": {
+   "unified_local": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "mse": 184.39629993788785,
+     "r2": -0.05474835974992365,
+     "ols_slope": -9.980394316138314,
+     "sign_acc": 0.17567567567567569,
+     "spearman": -0.4915048965495886,
+     "pearson": -0.5100696119730537,
+     "N_target_informative": 74,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "mse": 216.34515561087298,
+     "r2": 0.24544471457530337,
+     "ols_slope": 0.8505452376098231,
+     "sign_acc": 0.7083333333333334,
+     "spearman": 0.32643108727635334,
+     "pearson": 0.503253987312295,
+     "N_target_informative": 72,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 11,
+     "parent": "ALK",
+     "mutation": "R1275Q",
+     "n_lig": 182,
+     "var_true": 85.62790263596013,
+     "mse": 85.62790263596013,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.4666666666666667,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 45,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "mse": 571.1103063115802,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5252525252525253,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 99,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "mse": 487.6903496894855,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.42857142857142855,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 84,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 23,
+     "parent": "MET",
+     "mutation": "D1228H",
+     "n_lig": 182,
+     "var_true": 284.2533798345571,
+     "mse": 284.2533798345571,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5172413793103449,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 87,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 24,
+     "parent": "MET",
+     "mutation": "D1228N",
+     "n_lig": 182,
+     "var_true": 319.80248235027847,
+     "mse": 319.80248235027847,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.48,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 100,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "mse": 72.14707708456984,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.3953488372093023,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 43,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "mse": 119.94022871720053,
+     "r2": -0.012694447944908926,
+     "ols_slope": 0.4367172439973529,
+     "sign_acc": 0.59375,
+     "spearman": 0.04237593886320164,
+     "pearson": 0.13830878243215391,
+     "N_target_informative": 64,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 49,
+     "parent": "LRRK2",
+     "mutation": "R1441C",
+     "n_lig": 181,
+     "var_true": 278.0976996979406,
+     "mse": 278.0976996979406,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.47058823529411764,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 68,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "mse": 105.22804633757806,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.475,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 40,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "mse": 188.63846325774125,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5217391304347826,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 69,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "mse": 104.15106354918743,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5714285714285714,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 42,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    }
+   ],
+   "free_pairwise": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "mse": 175.09015001989374,
+     "r2": -0.0015171053001461487,
+     "ols_slope": 0.15774263639963912,
+     "sign_acc": 0.4864864864864865,
+     "spearman": 0.058345946962085254,
+     "pearson": 0.01669758370274218,
+     "N_target_informative": 74,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "mse": 239.75657696119424,
+     "r2": 0.16379180365474255,
+     "ols_slope": 0.7002139166945887,
+     "sign_acc": 0.6944444444444444,
+     "spearman": 0.3072277036272284,
+     "pearson": 0.4557973894842342,
+     "N_target_informative": 72,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 11,
+     "parent": "ALK",
+     "mutation": "R1275Q",
+     "n_lig": 182,
+     "var_true": 85.62790263596013,
+     "mse": 85.62790263596013,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.4666666666666667,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 45,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "mse": 571.1103063115802,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5252525252525253,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 99,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "mse": 487.6903496894855,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.42857142857142855,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 84,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 23,
+     "parent": "MET",
+     "mutation": "D1228H",
+     "n_lig": 182,
+     "var_true": 284.2533798345571,
+     "mse": 284.2533798345571,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5172413793103449,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 87,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 24,
+     "parent": "MET",
+     "mutation": "D1228N",
+     "n_lig": 182,
+     "var_true": 319.80248235027847,
+     "mse": 319.80248235027847,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.48,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 100,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "mse": 72.14707708456984,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.3953488372093023,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 43,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "mse": 107.6757456776821,
+     "r2": 0.09085858020813509,
+     "ols_slope": 0.5930302021814042,
+     "sign_acc": 0.78125,
+     "spearman": 0.4158025184517743,
+     "pearson": 0.41981150949795887,
+     "N_target_informative": 64,
+     "prediction_nonconstant": true,
+     "rank_evaluable": true
+    },
+    {
+     "pair": 49,
+     "parent": "LRRK2",
+     "mutation": "R1441C",
+     "n_lig": 181,
+     "var_true": 278.0976996979406,
+     "mse": 278.0976996979406,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.47058823529411764,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 68,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "mse": 105.22804633757806,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.475,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 40,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "mse": 188.63846325774125,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5217391304347826,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 69,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "mse": 104.15106354918743,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5714285714285714,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 42,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    }
+   ],
+   "ligand_only": [
+    {
+     "pair": 5,
+     "parent": "ABL1",
+     "mutation": "Q252H",
+     "n_lig": 183,
+     "var_true": 174.82492220382068,
+     "mse": 174.82492220382068,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 74,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 6,
+     "parent": "ABL1",
+     "mutation": "T315I",
+     "n_lig": 183,
+     "var_true": 286.7187597647063,
+     "mse": 286.7187597647063,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5138888888888888,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 72,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 11,
+     "parent": "ALK",
+     "mutation": "R1275Q",
+     "n_lig": 182,
+     "var_true": 85.62790263596013,
+     "mse": 85.62790263596013,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.4666666666666667,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 45,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 14,
+     "parent": "KIT",
+     "mutation": "A829P",
+     "n_lig": 180,
+     "var_true": 571.1103063115802,
+     "mse": 571.1103063115802,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5252525252525253,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 99,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 21,
+     "parent": "KIT",
+     "mutation": "V560G",
+     "n_lig": 183,
+     "var_true": 487.6903496894855,
+     "mse": 487.6903496894855,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.42857142857142855,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 84,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 23,
+     "parent": "MET",
+     "mutation": "D1228H",
+     "n_lig": 182,
+     "var_true": 284.2533798345571,
+     "mse": 284.2533798345571,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5172413793103449,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 87,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 24,
+     "parent": "MET",
+     "mutation": "D1228N",
+     "n_lig": 182,
+     "var_true": 319.80248235027847,
+     "mse": 319.80248235027847,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.48,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 100,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 36,
+     "parent": "EGFR",
+     "mutation": "L861Q",
+     "n_lig": 183,
+     "var_true": 72.14707708456984,
+     "mse": 72.14707708456984,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.3953488372093023,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 43,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 44,
+     "parent": "FGFR4",
+     "mutation": "V550L",
+     "n_lig": 183,
+     "var_true": 118.43673969043556,
+     "mse": 118.43673969043556,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.515625,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 64,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 49,
+     "parent": "LRRK2",
+     "mutation": "R1441C",
+     "n_lig": 181,
+     "var_true": 278.0976996979406,
+     "mse": 278.0976996979406,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.47058823529411764,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 68,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 55,
+     "parent": "RET",
+     "mutation": "G691S",
+     "n_lig": 183,
+     "var_true": 105.22804633757806,
+     "mse": 105.22804633757806,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.475,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 40,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 56,
+     "parent": "RET",
+     "mutation": "M918T",
+     "n_lig": 179,
+     "var_true": 188.63846325774125,
+     "mse": 188.63846325774125,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5217391304347826,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 69,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    },
+    {
+     "pair": 64,
+     "parent": "TEK",
+     "mutation": "Y897S",
+     "n_lig": 181,
+     "var_true": 104.15106354918743,
+     "mse": 104.15106354918743,
+     "r2": 0.0,
+     "ols_slope": null,
+     "sign_acc": 0.5714285714285714,
+     "spearman": null,
+     "pearson": null,
+     "N_target_informative": 42,
+     "prediction_nonconstant": false,
+     "rank_evaluable": false
+    }
+   ]
+  },
+  "counts": {
+   "unified_local": {
+    "N_total": 13,
+    "N_target_informative_median": 69.0,
+    "N_prediction_nonconstant": 3,
+    "N_rank_evaluable": 3,
+    "finite_pairs/total_pairs": "3/13"
+   },
+   "free_pairwise": {
+    "N_total": 13,
+    "N_target_informative_median": 69.0,
+    "N_prediction_nonconstant": 3,
+    "N_rank_evaluable": 3,
+    "finite_pairs/total_pairs": "3/13"
+   },
+   "ligand_only": {
+    "N_total": 13,
+    "N_target_informative_median": 69.0,
+    "N_prediction_nonconstant": 0,
+    "N_rank_evaluable": 0,
+    "finite_pairs/total_pairs": "0/13"
+   }
+  }
+ },
+ "variance_sources": {
+  "klifs_diff": {
+   "shape": [
+    65,
+    1700
+   ],
+   "norm_min": 0.0,
+   "norm_max": 1.4142135381698608,
+   "n_zero_difference_pairs": 38,
+   "zero_difference_pairs": [
+    3,
+    4,
+    8,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    20,
+    21,
+    23,
+    24,
+    26,
+    27,
+    28,
+    29,
+    30,
+    32,
+    35,
+    36,
+    40,
+    41,
+    45,
+    46,
+    47,
+    48,
+    49,
+    53,
+    54,
+    55,
+    56,
+    57,
+    62,
+    63,
+    64
+   ],
+   "zero_difference_by_split": {
+    "train": 20,
+    "val": 8,
+    "test": 10
+   },
+   "nonzero_norms_are_sqrt2_only": true,
+   "singular_values": [
+    3.1708390712738037,
+    2.580883502960205,
+    2.1916661262512207,
+    1.7320507764816284,
+    1.7320507764816284,
+    1.4142135381698608,
+    1.4142135381698608,
+    1.4142135381698608,
+    1.4142135381698608,
+    1.4142135381698608,
+    1.4142135381698608,
+    1.4142135381698608
+   ],
+   "effective_rank": 17.97415707811383,
+   "rank": 20
+  },
+  "local_esm_diff": {
+   "n_pairs_in_cache": 49,
+   "n_pairs_total": 65,
+   "shape": [
+    49,
+    640
+   ],
+   "norm_min": 0.25599199533462524,
+   "norm_median": 0.5179809331893921,
+   "norm_max": 0.8065051436424255,
+   "singular_values": [
+    1.7093226909637451,
+    1.5494321584701538,
+    1.0902073383331299,
+    0.8772037625312805,
+    0.854808509349823,
+    0.7464714646339417,
+    0.7201575636863708,
+    0.6454371809959412,
+    0.6246942281723022,
+    0.6122583746910095,
+    0.5504115223884583,
+    0.5383355021476746
+   ],
+   "effective_rank": 31.852963616334307,
+   "rank": 49,
+   "per_pair": [
+    {
+     "pair": "ABL1 E255K",
+     "norm": 0.5332067608833313
+    },
+    {
+     "pair": "ABL1 F317I",
+     "norm": 0.4523465037345886
+    },
+    {
+     "pair": "ABL1 G250E",
+     "norm": 0.6156838536262512
+    },
+    {
+     "pair": "ABL1 H396P",
+     "norm": 0.39471927285194397
+    },
+    {
+     "pair": "ABL1 M351T",
+     "norm": 0.47438639402389526
+    },
+    {
+     "pair": "ABL1 Q252H",
+     "norm": 0.39776286482810974
+    },
+    {
+     "pair": "ABL1 T315I",
+     "norm": 0.6360913515090942
+    },
+    {
+     "pair": "ABL1 Y253F",
+     "norm": 0.2776879370212555
+    },
+    {
+     "pair": "ALK C1156Y",
+     "norm": null
+    },
+    {
+     "pair": "ALK F1174L",
+     "norm": null
+    },
+    {
+     "pair": "ALK L1196M",
+     "norm": null
+    },
+    {
+     "pair": "ALK R1275Q",
+     "norm": null
+    },
+    {
+     "pair": "BRAF V599E",
+     "norm": 0.5717144012451172
+    },
+    {
+     "pair": "BTK E41K",
+     "norm": 0.45595583319664
+    },
+    {
+     "pair": "KIT A829P",
+     "norm": 0.4305468797683716
+    },
+    {
+     "pair": "KIT D816H",
+     "norm": 0.432884156703949
+    },
+    {
+     "pair": "KIT D816V",
+     "norm": 0.5060152411460876
+    },
+    {
+     "pair": "KIT D820E",
+     "norm": 0.25599199533462524
+    },
+    {
+     "pair": "KIT N822K",
+     "norm": 0.2937539517879486
+    },
+    {
+     "pair": "KIT T670I",
+     "norm": 0.6615869998931885
+    },
+    {
+     "pair": "KIT V559D",
+     "norm": 0.8065051436424255
+    },
+    {
+     "pair": "KIT V560G",
+     "norm": 0.7566233277320862
+    },
+    {
+     "pair": "KIT V654A",
+     "norm": 0.5022628307342529
+    },
+    {
+     "pair": "MET D1228H",
+     "norm": null
+    },
+    {
+     "pair": "MET D1228N",
+     "norm": null
+    },
+    {
+     "pair": "MET F1200I",
+     "norm": null
+    },
+    {
+     "pair": "MET M1250T",
+     "norm": null
+    },
+    {
+     "pair": "MET Y1230A",
+     "norm": null
+    },
+    {
+     "pair": "MET Y1230C",
+     "norm": null
+    },
+    {
+     "pair": "MET Y1230D",
+     "norm": null
+    },
+    {
+     "pair": "MET Y1230H",
+     "norm": null
+    },
+    {
+     "pair": "SRC T341M",
+     "norm": 0.5731176137924194
+    },
+    {
+     "pair": "CHEK2 I157T",
+     "norm": 0.6377426981925964
+    },
+    {
+     "pair": "EGFR G719C",
+     "norm": 0.558455765247345
+    },
+    {
+     "pair": "EGFR G719S",
+     "norm": 0.682464063167572
+    },
+    {
+     "pair": "EGFR L858R",
+     "norm": 0.5528820157051086
+    },
+    {
+     "pair": "EGFR L861Q",
+     "norm": 0.5909680128097534
+    },
+    {
+     "pair": "EGFR T790M",
+     "norm": 0.6916550397872925
+    },
+    {
+     "pair": "FGFR1 V561M",
+     "norm": 0.4595727324485779
+    },
+    {
+     "pair": "FGFR2 N549H",
+     "norm": 0.4631022810935974
+    },
+    {
+     "pair": "FGFR3 G697C",
+     "norm": 0.403303325176239
+    },
+    {
+     "pair": "FGFR3 K650M",
+     "norm": 0.4877455234527588
+    },
+    {
+     "pair": "FGFR4 N535K",
+     "norm": 0.47923994064331055
+    },
+    {
+     "pair": "FGFR4 V550E",
+     "norm": 0.7872114181518555
+    },
+    {
+     "pair": "FGFR4 V550L",
+     "norm": 0.472469687461853
+    },
+    {
+     "pair": "FLT3 D835Y",
+     "norm": 0.502945065498352
+    },
+    {
+     "pair": "JAK2 V617F",
+     "norm": 0.41774460673332214
+    },
+    {
+     "pair": "LRRK2 G2019S",
+     "norm": null
+    },
+    {
+     "pair": "LRRK2 I2020T",
+     "norm": null
+    },
+    {
+     "pair": "LRRK2 R1441C",
+     "norm": null
+    },
+    {
+     "pair": "MAP2K1 P124L",
+     "norm": 0.5179809331893921
+    },
+    {
+     "pair": "MAPK14 T106M",
+     "norm": 0.5272794961929321
+    },
+    {
+     "pair": "PDGFRA T6741I",
+     "norm": 0.7246843576431274
+    },
+    {
+     "pair": "PDGFRA V561D",
+     "norm": 0.7266709804534912
+    },
+    {
+     "pair": "RET E762Q",
+     "norm": 0.3074345886707306
+    },
+    {
+     "pair": "RET G691S",
+     "norm": 0.5357916951179504
+    },
+    {
+     "pair": "RET M918T",
+     "norm": 0.7723288536071777
+    },
+    {
+     "pair": "RET R749T",
+     "norm": 0.6994782090187073
+    },
+    {
+     "pair": "RET R813Q",
+     "norm": 0.4528804421424866
+    },
+    {
+     "pair": "RET V804L",
+     "norm": 0.5297062397003174
+    },
+    {
+     "pair": "RET V804M",
+     "norm": 0.47870567440986633
+    },
+    {
+     "pair": "RET Y791F",
+     "norm": 0.3553366959095001
+    },
+    {
+     "pair": "TEK R849W",
+     "norm": 0.6493991613388062
+    },
+    {
+     "pair": "TEK Y1108F",
+     "norm": null
+    },
+    {
+     "pair": "TEK Y897S",
+     "norm": 0.5249088406562805
+    }
+   ]
+  },
+  "q1_evidence": {
+   "pair_centered_local_esm": {
+    "selectivity": 0.18858024691358033,
+    "bootstrap_ci_lo": 0.033024691358024695,
+    "bootstrap_ci_hi": 0.36296296296296293,
+    "n_parents": 21,
+    "note": "ESM-2 150M hidden-state mean over the radius-6 window at the verified mutation coordinate (WT and mutant); same mask as global"
+   },
+   "klifs_pocket": {
+    "selectivity": -0.08571428571428585,
+    "bootstrap_ci_lo": -0.22857142857142856,
+    "bootstrap_ci_hi": 0.019047619047619042,
+    "n_parents": 21,
+    "note": "KLIFS 85-position pocket one-hot (WT and mutant, mutated at the mapped pocket index)"
+   },
+   "global_pooled_esm": {
+    "selectivity": 0.0,
+    "bootstrap_ci_lo": 0.0,
+    "bootstrap_ci_hi": 0.0,
+    "n_parents": 21,
+    "note": "global mean-pooled ESM-2 150M hidden states (WT and mutant); pairs with mutation position > 1020 are zero rows, excluded by mask"
+   },
+   "edit_descriptor": {
+    "selectivity": 0.18306878306878316,
+    "bootstrap_ci_lo": -0.03835978835978835,
+    "bootstrap_ci_hi": 0.3926686507936503,
+    "n_parents": 21,
+    "note": "old+new residue identity one-hot (pair-conditioned edit descriptor)"
+   },
+   "q1_pass": true,
+   "frozen_pass_rule": "at least one representation outside {edit_descriptor, random} achieves selectivity >= 0.10 with cluster-bootstrap 2.5% lower bound > 0 on task_A"
+  },
+  "init_model": {
+   "cov_psi_trace": 0.20369610285408385,
+   "cov_psi_singular_values": [
+    0.05352634269045588,
+    0.03719740379321243,
+    0.033368783123005466,
+    0.024321960080703427,
+    0.019366438401918026,
+    0.015356964836816714,
+    0.01197763171792044,
+    0.008580578210051454
+   ],
+   "cov_psi_effective_rank": 6.118213517604517,
+   "delta_alpha_norm_min": 0.0,
+   "delta_alpha_norm_median": 0.0,
+   "delta_alpha_norm_max": 0.19064421951770782,
+   "n_delta_alpha_near_zero": 38,
+   "pred_var_per_pair_min/median/max": [
+    0.0,
+    0.0,
+    0.0009445138278186284
+   ],
+   "potential_output_var_at_init": 0.00655690673738718,
+   "f_output_var_at_init": 0.04419507831335068,
+   "note": "at INITIALIZATION (seed-1 init; the training trajectory was not persisted, so no 10/25/50/75/100% checkpoints exist)"
+  }
+ },
+ "gradient_audit": {
+  "loss_ctr_value": 228.71261596679688,
+  "loss_abs_value": 8413.505859375,
+  "R_g": 1080.9823924717207,
+  "C_g": -0.015699367970228195,
+  "per_branch": {
+   "g_ctr": {
+    "s": 0.1515122354030609,
+    "b_P": 0.0,
+    "b_L": 0.0,
+    "enc": 1.9251773977082756
+   },
+   "g_abs": {
+    "s": 163.7820587158203,
+    "b_P": 316.16121530399647,
+    "b_L": 242.0604828214428,
+    "enc": 2203.29034664531
+   }
+  },
+  "note": "initialization only (no persisted trajectory)"
+ },
+ "free_vs_unified": {
+  "jointly_evaluable_pairs": [
+   5,
+   6,
+   44
+  ],
+  "n_jointly_evaluable": 3,
+  "per_joint_pair_delta": {
+   "5": 0.5498508435116739,
+   "6": -0.01920338364912494,
+   "44": 0.37342657958857267
+  },
+  "parent_level_median_spearman_unified": {
+   "ABL1": -0.08253690463661764,
+   "FGFR4": 0.04237593886320164
+  },
+  "parent_level_median_spearman_free": {
+   "ABL1": 0.18278682529465684,
+   "FGFR4": 0.4158025184517743
+  },
+  "bootstrap_2.5_lo_free_minus_unified_spearman": 0.26532372993127445,
+  "bootstrap_50_free_minus_unified_spearman": 0.30135801315037386,
+  "parent_level_median_delta": {
+   "ABL1": 0.2653237299312745,
+   "FGFR4": 0.37342657958857267
+  },
+  "driven_by_few_pairs": true,
+  "centered_mse_improved": true,
+  "scale_near_1": {
+   "5": 0.15774263639963912,
+   "6": 0.7002139166945887,
+   "44": 0.5930302021814042
+  }
+ }
+}

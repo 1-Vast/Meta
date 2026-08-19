@@ -1,0 +1,717 @@
+{
+ "schema": "MetaSieve.StageCIIP1A.Result.v1",
+ "preregistration_sha256": "31d3eeaf6a0d77c46b3bbbee0fe9d2ff667aadeeb7d9dcabd26ca59ec48d5196",
+ "mode": "screening",
+ "dry": false,
+ "data1a_sha256": "1c2b92dfc9f3f84676a25a15f331cefc178005afa2207125d6dc09b771defc68",
+ "arms": {
+  "unified_local": {
+   "1": {
+    "arm": "unified_local",
+    "seed": 1,
+    "best_val_mse": 239.76232133509754,
+    "grad_cov": {
+     "mu": true,
+     "p_enc.weight": true,
+     "p_enc.bias": true,
+     "l_enc.weight": true,
+     "l_enc.bias": true,
+     "b_P.weight": true,
+     "b_P.bias": true,
+     "b_L.weight": true,
+     "b_L.bias": true,
+     "alpha.weight": true,
+     "alpha.bias": true,
+     "psi.weight": true,
+     "psi.bias": true
+    },
+    "var_dec": {
+     "b_P_var": null,
+     "b_L_var": null,
+     "s_var": null,
+     "total_var": 488.5293884277344
+    },
+    "test_rows": [
+     {
+      "pair": 5,
+      "parent": "ABL1",
+      "mutation": "Q252H",
+      "spearman": -0.4915048965495886,
+      "pearson": -0.5100696119730537,
+      "sign_acc": 0.17567567567567569,
+      "mse": 184.39629993788785,
+      "scale": -9.980394316138314,
+      "n": 183
+     },
+     {
+      "pair": 6,
+      "parent": "ABL1",
+      "mutation": "T315I",
+      "spearman": 0.32643108727635334,
+      "pearson": 0.503253987312295,
+      "sign_acc": 0.7083333333333334,
+      "mse": 216.34515561087298,
+      "scale": 0.8505452376098231,
+      "n": 183
+     },
+     {
+      "pair": 11,
+      "parent": "ALK",
+      "mutation": "R1275Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.4666666666666667,
+      "mse": 85.62790263596013,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 14,
+      "parent": "KIT",
+      "mutation": "A829P",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5252525252525253,
+      "mse": 571.1103063115802,
+      "scale": NaN,
+      "n": 180
+     },
+     {
+      "pair": 21,
+      "parent": "KIT",
+      "mutation": "V560G",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.42857142857142855,
+      "mse": 487.6903496894855,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 23,
+      "parent": "MET",
+      "mutation": "D1228H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5172413793103449,
+      "mse": 284.2533798345571,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 24,
+      "parent": "MET",
+      "mutation": "D1228N",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.48,
+      "mse": 319.80248235027847,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 36,
+      "parent": "EGFR",
+      "mutation": "L861Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.3953488372093023,
+      "mse": 72.14707708456984,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 44,
+      "parent": "FGFR4",
+      "mutation": "V550L",
+      "spearman": 0.04237593886320164,
+      "pearson": 0.13830878243215391,
+      "sign_acc": 0.59375,
+      "mse": 119.94022871720053,
+      "scale": 0.4367172439973529,
+      "n": 183
+     },
+     {
+      "pair": 49,
+      "parent": "LRRK2",
+      "mutation": "R1441C",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.47058823529411764,
+      "mse": 278.0976996979406,
+      "scale": NaN,
+      "n": 181
+     },
+     {
+      "pair": 55,
+      "parent": "RET",
+      "mutation": "G691S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.475,
+      "mse": 105.22804633757806,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 56,
+      "parent": "RET",
+      "mutation": "M918T",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5217391304347826,
+      "mse": 188.63846325774125,
+      "scale": NaN,
+      "n": 179
+     },
+     {
+      "pair": 64,
+      "parent": "TEK",
+      "mutation": "Y897S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5714285714285714,
+      "mse": 104.15106354918743,
+      "scale": NaN,
+      "n": 181
+     }
+    ],
+    "agg": {
+     "spearman": -0.04089929013667788,
+     "pearson": 0.043831052590465075,
+     "sign_acc": 0.4868919833212883,
+     "mse": 232.1098811549877,
+     "scale_median": 0.4367172439973529
+    }
+   }
+  },
+  "ligand_only": {
+   "1": {
+    "arm": "ligand_only",
+    "seed": 1,
+    "best_val_mse": 251.8183385144483,
+    "grad_cov": {
+     "mu": true,
+     "p_enc.weight": false,
+     "p_enc.bias": false,
+     "l_enc.weight": true,
+     "l_enc.bias": true,
+     "b_P.weight": false,
+     "b_P.bias": false,
+     "b_L.weight": true,
+     "b_L.bias": true,
+     "alpha.weight": false,
+     "alpha.bias": false,
+     "psi.weight": false,
+     "psi.bias": false
+    },
+    "var_dec": {
+     "b_P_var": null,
+     "b_L_var": null,
+     "s_var": null,
+     "total_var": 0.8902021050453186
+    },
+    "test_rows": [
+     {
+      "pair": 5,
+      "parent": "ABL1",
+      "mutation": "Q252H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5,
+      "mse": 174.82492220382068,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 6,
+      "parent": "ABL1",
+      "mutation": "T315I",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5138888888888888,
+      "mse": 286.7187597647063,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 11,
+      "parent": "ALK",
+      "mutation": "R1275Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.4666666666666667,
+      "mse": 85.62790263596013,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 14,
+      "parent": "KIT",
+      "mutation": "A829P",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5252525252525253,
+      "mse": 571.1103063115802,
+      "scale": NaN,
+      "n": 180
+     },
+     {
+      "pair": 21,
+      "parent": "KIT",
+      "mutation": "V560G",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.42857142857142855,
+      "mse": 487.6903496894855,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 23,
+      "parent": "MET",
+      "mutation": "D1228H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5172413793103449,
+      "mse": 284.2533798345571,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 24,
+      "parent": "MET",
+      "mutation": "D1228N",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.48,
+      "mse": 319.80248235027847,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 36,
+      "parent": "EGFR",
+      "mutation": "L861Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.3953488372093023,
+      "mse": 72.14707708456984,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 44,
+      "parent": "FGFR4",
+      "mutation": "V550L",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.515625,
+      "mse": 118.43673969043556,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 49,
+      "parent": "LRRK2",
+      "mutation": "R1441C",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.47058823529411764,
+      "mse": 278.0976996979406,
+      "scale": NaN,
+      "n": 181
+     },
+     {
+      "pair": 55,
+      "parent": "RET",
+      "mutation": "G691S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.475,
+      "mse": 105.22804633757806,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 56,
+      "parent": "RET",
+      "mutation": "M918T",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5217391304347826,
+      "mse": 188.63846325774125,
+      "scale": NaN,
+      "n": 179
+     },
+     {
+      "pair": 64,
+      "parent": "TEK",
+      "mutation": "Y897S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5714285714285714,
+      "mse": 104.15106354918743,
+      "scale": NaN,
+      "n": 181
+     }
+    ],
+    "agg": {
+     "spearman": NaN,
+     "pearson": NaN,
+     "sign_acc": 0.4908731279274328,
+     "mse": 236.67132249291083,
+     "scale_median": NaN
+    }
+   }
+  },
+  "family_shuffle": {
+   "1": {
+    "arm": "family_shuffle",
+    "seed": 1,
+    "best_val_mse": 250.1390510275388,
+    "grad_cov": {
+     "mu": true,
+     "p_enc.weight": true,
+     "p_enc.bias": true,
+     "l_enc.weight": true,
+     "l_enc.bias": true,
+     "b_P.weight": true,
+     "b_P.bias": true,
+     "b_L.weight": true,
+     "b_L.bias": true,
+     "alpha.weight": true,
+     "alpha.bias": true,
+     "psi.weight": true,
+     "psi.bias": true
+    },
+    "var_dec": {
+     "b_P_var": null,
+     "b_L_var": null,
+     "s_var": null,
+     "total_var": 543.1419677734375
+    },
+    "test_rows": [
+     {
+      "pair": 5,
+      "parent": "ABL1",
+      "mutation": "Q252H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5,
+      "mse": 174.82492220382068,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 6,
+      "parent": "ABL1",
+      "mutation": "T315I",
+      "spearman": 0.05212249083962804,
+      "pearson": 0.04753292257011238,
+      "sign_acc": 0.5694444444444444,
+      "mse": 286.07168191607644,
+      "scale": 0.9675553142735928,
+      "n": 183
+     },
+     {
+      "pair": 11,
+      "parent": "ALK",
+      "mutation": "R1275Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.4666666666666667,
+      "mse": 85.62790263596013,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 14,
+      "parent": "KIT",
+      "mutation": "A829P",
+      "spearman": 0.09431272721287998,
+      "pearson": 0.032693424339990715,
+      "sign_acc": 0.6060606060606061,
+      "mse": 570.5327796715653,
+      "scale": 1.3024075102674502,
+      "n": 180
+     },
+     {
+      "pair": 21,
+      "parent": "KIT",
+      "mutation": "V560G",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.42857142857142855,
+      "mse": 487.6903496894855,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 23,
+      "parent": "MET",
+      "mutation": "D1228H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5172413793103449,
+      "mse": 284.2533798345571,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 24,
+      "parent": "MET",
+      "mutation": "D1228N",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.48,
+      "mse": 319.80248235027847,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 36,
+      "parent": "EGFR",
+      "mutation": "L861Q",
+      "spearman": -0.10704505557665676,
+      "pearson": -0.16378429272361272,
+      "sign_acc": 0.46511627906976744,
+      "mse": 99.34553297471217,
+      "scale": -0.34723796137862273,
+      "n": 183
+     },
+     {
+      "pair": 44,
+      "parent": "FGFR4",
+      "mutation": "V550L",
+      "spearman": 0.05507540522322633,
+      "pearson": 0.03160711281072865,
+      "sign_acc": 0.53125,
+      "mse": 123.66671795783293,
+      "scale": 0.12947904660327786,
+      "n": 183
+     },
+     {
+      "pair": 49,
+      "parent": "LRRK2",
+      "mutation": "R1441C",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.47058823529411764,
+      "mse": 278.0976996979406,
+      "scale": NaN,
+      "n": 181
+     },
+     {
+      "pair": 55,
+      "parent": "RET",
+      "mutation": "G691S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.475,
+      "mse": 105.22804633757806,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 56,
+      "parent": "RET",
+      "mutation": "M918T",
+      "spearman": 0.16546591362635962,
+      "pearson": 0.13821026980658357,
+      "sign_acc": 0.6086956521739131,
+      "mse": 187.42900616832446,
+      "scale": 5.40774445343981,
+      "n": 179
+     },
+     {
+      "pair": 64,
+      "parent": "TEK",
+      "mutation": "Y897S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5714285714285714,
+      "mse": 104.15106354918743,
+      "scale": NaN,
+      "n": 181
+     }
+    ],
+    "agg": {
+     "spearman": 0.05198629626508744,
+     "pearson": 0.01725188736076052,
+     "sign_acc": 0.5146202510015276,
+     "mse": 238.9785819221015,
+     "scale_median": 0.9675553142735928
+    }
+   }
+  },
+  "free_pairwise": {
+   "1": {
+    "arm": "free_pairwise",
+    "seed": 1,
+    "best_val_mse": 230.89227043480057,
+    "grad_cov": {
+     "h.0.weight": true,
+     "h.0.bias": true,
+     "h.2.weight": true,
+     "h.2.bias": true,
+     "h.4.weight": true,
+     "h.4.bias": false
+    },
+    "var_dec": {},
+    "test_rows": [
+     {
+      "pair": 5,
+      "parent": "ABL1",
+      "mutation": "Q252H",
+      "spearman": 0.058345946962085254,
+      "pearson": 0.01669758370274218,
+      "sign_acc": 0.4864864864864865,
+      "mse": 175.09015001989374,
+      "scale": 0.15774263639963912,
+      "n": 183
+     },
+     {
+      "pair": 6,
+      "parent": "ABL1",
+      "mutation": "T315I",
+      "spearman": 0.3072277036272284,
+      "pearson": 0.4557973894842342,
+      "sign_acc": 0.6944444444444444,
+      "mse": 239.75657696119424,
+      "scale": 0.7002139166945887,
+      "n": 183
+     },
+     {
+      "pair": 11,
+      "parent": "ALK",
+      "mutation": "R1275Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.4666666666666667,
+      "mse": 85.62790263596013,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 14,
+      "parent": "KIT",
+      "mutation": "A829P",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5252525252525253,
+      "mse": 571.1103063115802,
+      "scale": NaN,
+      "n": 180
+     },
+     {
+      "pair": 21,
+      "parent": "KIT",
+      "mutation": "V560G",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.42857142857142855,
+      "mse": 487.6903496894855,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 23,
+      "parent": "MET",
+      "mutation": "D1228H",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5172413793103449,
+      "mse": 284.2533798345571,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 24,
+      "parent": "MET",
+      "mutation": "D1228N",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.48,
+      "mse": 319.80248235027847,
+      "scale": NaN,
+      "n": 182
+     },
+     {
+      "pair": 36,
+      "parent": "EGFR",
+      "mutation": "L861Q",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.3953488372093023,
+      "mse": 72.14707708456984,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 44,
+      "parent": "FGFR4",
+      "mutation": "V550L",
+      "spearman": 0.4158025184517743,
+      "pearson": 0.41981150949795887,
+      "sign_acc": 0.78125,
+      "mse": 107.6757456776821,
+      "scale": 0.5930302021814042,
+      "n": 183
+     },
+     {
+      "pair": 49,
+      "parent": "LRRK2",
+      "mutation": "R1441C",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.47058823529411764,
+      "mse": 278.0976996979406,
+      "scale": NaN,
+      "n": 181
+     },
+     {
+      "pair": 55,
+      "parent": "RET",
+      "mutation": "G691S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.475,
+      "mse": 105.22804633757806,
+      "scale": NaN,
+      "n": 183
+     },
+     {
+      "pair": 56,
+      "parent": "RET",
+      "mutation": "M918T",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5217391304347826,
+      "mse": 188.63846325774125,
+      "scale": NaN,
+      "n": 179
+     },
+     {
+      "pair": 64,
+      "parent": "TEK",
+      "mutation": "Y897S",
+      "spearman": NaN,
+      "pearson": NaN,
+      "sign_acc": 0.5714285714285714,
+      "mse": 104.15106354918743,
+      "scale": NaN,
+      "n": 181
+     }
+    ],
+    "agg": {
+     "spearman": 0.260458723013696,
+     "pearson": 0.2974354942283117,
+     "sign_acc": 0.5241552080845131,
+     "mse": 232.2514802621268,
+     "scale_median": 0.5930302021814042
+    }
+   }
+  }
+ }
+}
