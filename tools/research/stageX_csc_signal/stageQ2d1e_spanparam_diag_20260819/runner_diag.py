@@ -293,10 +293,13 @@ def run_seed_arms(P_t, L_t, splits, device, Lt_dev, arm_inputs, mech, level, see
                 best_val = val
                 best_model = model
         res[arm] = eval_arm(best_model, P, arm, t, level, splits, device, Lt_dev)
-        if arm == "correct" and hasattr(best_model, "G") and Vsp is not None:
-            res[arm]["span_energy"] = 1.0  # by construction: A = V_train @ G
         print(mech, level, seed, arm, {s_: round(res[arm][s_]["dz"], 3) for s_ in res[arm]},
               flush=True)
+        # AD1-adjacent impl repair (2026-08-19): span_energy is reported per
+        # the prereg, but adding it before the print broke the surface-dict
+        # comprehension (float is not subscriptable). Added AFTER the print.
+        if arm == "correct" and hasattr(best_model, "G") and Vsp is not None:
+            res[arm]["span_energy"] = 1.0  # by construction: A = V_train @ G
     return res, n_cens_total
 
 
