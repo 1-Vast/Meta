@@ -712,3 +712,25 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
 - Run state resolved: first relaunch had crashed after cell 1 (var_dec
   shape bug 44 vs 64); fixed + reporting fields added (protocol
   unchanged); relaunched (job 4gq). Commit ad28ce9.
+
+## 2x2 reviewer verdict #3 (2026-08-19): three P1s fixed; status corrected
+
+- Corrected status: launch 3 (job 4gq) trained all four cells then
+  crashed in effect_boot LOPO (str-vs-int index); exit code had been
+  masked by the grep pipeline. State was 'execution incomplete /
+  process absent' - now fixed and relaunched from scratch (job x2k,
+  no pipes, PYEXIT captured). Stale watcher replaced (v2).
+- P1 abs-sampling repetition FIXED (amendment A1): the abs rng stream
+  now includes the minibatch index; previous launches re-consumed the
+  same <=512 absolute cells ~12x per epoch (inflated L_abs). Split/
+  seed/update count/loss weights/gates unchanged; prereg untouched.
+- P1 point estimate FIXED (A2): observed_pair_mean_effect (frozen
+  primary estimand) + observed_parent_mean_effect reported; bootstrap
+  mean explicitly NOT a point estimate; status rule uses observed
+  point + CI.
+- P1 LOPO FIXED (A3): leave-one-parent-out sign stability now computed
+  for all five effects.
+- Regression tests added (test_2x2_impl.py): unique-per-minibatch and
+  deterministic abs sampling, observed-point semantics, LOPO coverage,
+  determinism, status rule. 36/36 green. IMPLEMENTATION_AMENDMENTS.md
+  frozen (A1-A4) with code SHA f333c979... Commit d256beb.
