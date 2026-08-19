@@ -689,3 +689,26 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
 - NOT authorized: CIIP-1A PASS claim, CIIP-1B, BindingDB bridge,
   production model/scripts, oracle local ESM as deployable representation.
 - Frozen gates for collapsed cells + effects; no single-cell attribution.
+
+## 2x2 reviewer verdict #2 (2026-08-19): design limits accepted; run restarted
+
+- Upheld: prereg SHA match, matched 49-pair subset, oracle naming, no
+  production changes, no frozen-result overwrites.
+- Design limits recorded (final report MUST respect them):
+  1) KLIFS cells structurally capped: only 3/9 covered test pairs have
+     nonzero KLIFS input -> 5/9 nonconstant gate unreachable by
+     construction; KLIFS collapse = structural statement; objective
+     main effect not fairly estimable on KLIFS; interaction confounded.
+  2) Objective-sampling confound: KLIFS joint L_abs uses WT+variant rows
+     (pool ~9.1k cells), ESM joint variant rows only (~5.8k) -> not a
+     pure factorial estimate; per-cell pool/valid-label/WT-variant
+     counts + step-1 R_g/C_g + epoch L_abs stats now reported.
+  3) Coverage selection bias: 4 whole families missing; conclusions
+     restricted to the oracle-covered subset.
+  4) Allowed interpretations only: KLIFS structural deficit; whether
+     oracle ESM restores nonconstant potential; whether centered-only
+     relieves absolute-loss dominance. No universal objective claim,
+     no CIIP-1A PASS, no deployable-representation claim.
+- Run state resolved: first relaunch had crashed after cell 1 (var_dec
+  shape bug 44 vs 64); fixed + reporting fields added (protocol
+  unchanged); relaunched (job 4gq). Commit ad28ce9.
