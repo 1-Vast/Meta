@@ -2008,3 +2008,12 @@ Takeover snapshot (verified from live system, not from history):
 - CIIP censuses: KiRHub DATA BLOCKER (c0f8fd2); Davis INSUFFICIENT
   ALONE (a96dc39); combined census next.
 - Maintained suite re-verified: 310 passed / 6 skipped (no regressions).
+
+## 2026-08-19 (window 2) combined census + device audit
+
+- 18:10 stageCIIP_combined_census: Duong-Ly alone SUFFICIENT for
+  CIIP-1A/1B (70 pairs / 183 ligands median / 12 held-out parents);
+  commit e08ca06.
+- 17:45 device audit: _diag16.py orphan documented (cannot terminate
+  from this shell; left as-is); GPU 32% util / 4.2GB / 10.4W during
+  diagnostic; diag PID 19360 + arm-3 CPU PID 53968 healthy.

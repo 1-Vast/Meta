@@ -613,3 +613,22 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   (67 WT-variant pairs, median 33 common ligands, 7 held-out parents <
   10; stageCIIP_davis_census_20260819, prereg 2dd8b708...); combined
   census (Anastassiadis, Duong-Ly) next.
+
+## Round update (2026-08-19): combined census SUFFICIENT; device audit
+
+- Combined census (stageCIIP_combined_census_20260819, prereg
+  6952ed1a...): SUFFICIENT — Duong-Ly panel ALONE admits CIIP-1A and
+  CIIP-1B: 70 single-mutant WT-variant pairs, median 183 common ligands,
+  12 held-out parents (>=10 frozen), 6 multi-mutant rows excluded and
+  counted, endpoint = % inhibition (never relabeled pK/Ki/Kd), NA 0.23%.
+  Anastassiadis = cross-endpoint replication only; cross-panel pooling
+  of Kd with % inhibition FORBIDDEN.
+- Device audit: _diag16.py (PID 46544, started 2026-08-18 14:16Z, CPU
+  355s total, WS 2MB, no output files in the repo) — idle orphan from a
+  previous window; taskkill/Stop-Process failed from this shell (no
+  task instance — integrity-level mismatch), LEFT RUNNING as-is per
+  'no blind kill'; recorded. Runner processes: diag PID 19360 (job 6l9,
+  watcher ddf), arm-3 CPU PID 53968 (job w61) — both legitimate.
+- GPU metrics mid-diagnostic (2026-08-19 17:45Z): util 32%, mem
+  4219/8188 MiB, power 10.44 W, temp 47 C. Step-time measurement and
+  post-run metrics will be recorded when the diagnostic ends.

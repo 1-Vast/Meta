@@ -403,3 +403,14 @@ Data-source ledger (first-hand, accessed 2026-08-18):
 - CIIP census: KiRHub DATA BLOCKER (prereg 319d505a...); Davis panel
   INSUFFICIENT ALONE (prereg 2dd8b708...: 67 pairs / median 33 common
   ligands / 7 held-out parents < 10; logratio var median 0.254).
+
+- CIIP combined census (2026-08-19, prereg 6952ed1a...): SUFFICIENT —
+  Duong-Ly alone: 70 single-mutant WT-variant pairs (median 183 common
+  ligands; 12 held-out parents ABL1/ALK/CKIT/CMET/EGFR/FGFR3/FGFR4/
+  FLT3/LRRK2/PDGFRA/RET/TIE2); 6 multi-mutant rows excluded; endpoint
+  % inhibition with out-of-bounds range -12.5..191.3 recorded;
+  Anastassiadis replication-only; Kd-vs-inhibition pooling forbidden.
+  CIIP-1A/1B preregistration now unblocked (after Q2d terminal archival).
+- Device audit: _diag16.py orphan (PID 46544): 355s CPU over 27h, 2MB
+  WS, no outputs; termination denied from this shell (integrity level);
+  left running and documented, not blindly killed.
