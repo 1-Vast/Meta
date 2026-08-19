@@ -1872,6 +1872,21 @@ pocket-physicochemical x ligand-substructure field of the mechanism claim.
 Q2d-2 NOT STARTED (frozen rule). Next: Q2d-1b prereg with feature-conditioned
 low-rank factors (U = f(pocket z-scales), V = g(ligand substructure
 descriptors)) and the same ladder/arms/gate.
+## Stage Q2d-1b oracle precheck STOP (2026-08-19)
+
+stageQ2d1b_feature_interaction_20260818: prereg frozen (SHA
+872bc4402f228d940776e7efe2fee6b91e8310badb4e8830f653ca5e5d2e998e); Q2d-1
+forensic tests 5/5 pass; features/splits built; feature-space oracle
+precheck FAILED: the M1 rank-4 ALS oracle (train-only fit) reaches dz only
+0.32-0.58 on protein-cold / ligand-cold / double-cold (frozen rule requires
+>= 0.70 on all three). Per frozen rule 3.7 the stage STOPS before any
+training; no representation comparison is authorized. Suspected causes under
+diagnosis: (a) train-only ID centring injects per-row/col offsets that a
+feature bilinear cannot represent; (b) unresolved-SMILES ligands carry
+hash-fallback ECFP features and dominate the cold scaffold clusters.
+Next: centring/l ligand-pool attribution diagnostic, then a new prereg
+(Q2d-1c) with the identified fix.
+
 
 
 
