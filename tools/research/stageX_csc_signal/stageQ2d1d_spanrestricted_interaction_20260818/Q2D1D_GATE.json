@@ -1,0 +1,39 @@
+{
+ "schema": "MetaSieve.StageQ2d1d.GATE.v1",
+ "preregistration_sha256": "baf4bb72df02e9411d6b8d4815302ec91c7526cc15447b6e80cd06383d546991",
+ "rules": {
+  "dz_min": 0.7,
+  "sp_min": 0.3,
+  "gap_vs_ligand_only": 0.05,
+  "margin_over_best_negative": 0.03,
+  "surface": "dc",
+  "median_over_seeds": [
+   0,
+   1,
+   2
+  ]
+ },
+ "levels": {
+  "M1:A": {
+   "correct": {
+    "dz": 0.5616,
+    "sp": 0.1278
+   },
+   "ligand_only_dz": 0.5242,
+   "negative_dz": {
+    "ligand_only": 0.5242,
+    "additive_only": 0.0,
+    "shuffled_protein": 0.5275,
+    "family_preserving_shuffle": 0.6121,
+    "random_protein": 0.5455,
+    "no_interaction_head": 0.0
+   },
+   "best_negative_dz": 0.6121,
+   "every_negative_fails": true,
+   "core_pass": false,
+   "margin_pass": false,
+   "pass": false
+  }
+ },
+ "GATE_PASS": false
+}

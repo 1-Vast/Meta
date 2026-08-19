@@ -47,7 +47,7 @@ def censored_loss_t(out, z_obs, det, blo, bhi):
 
 
 
-import truth_d as truth
+import truth_e as truth
 
 PREREG_SHA = "61bc0cc50edcd40d581d16e67fd9fb8cef2729d3bbf58c4e9b831b727d0584f7"
 L2_PEN = 1e-3
@@ -262,7 +262,12 @@ def build_arm_inputs(P_t, t0, shuf, fam_perm, rand_p):
     ai["family_preserving_shuffle"] = P_t[fam_perm]
     ai["random_protein"] = rand_p
     ai["no_interaction_head"] = P_t
-    ai["oracle_diagnostic"] = (P_t.astype(np.float64) @ t0["A"]).astype(np.float32)
+    # AD1: NC1/NC2 have no feature-conditioned map (t0["A"] is None);
+    # their oracle diagnostic is the zero-interaction bound.
+    if t0["A"] is None:
+        ai["oracle_diagnostic"] = np.zeros_like(P_t, dtype=np.float32)
+    else:
+        ai["oracle_diagnostic"] = (P_t.astype(np.float64) @ t0["A"]).astype(np.float32)
     return ai
 
 
@@ -313,7 +318,11 @@ def main():
     shuf = rng_arm.permutation(n_rows)
     fams = np.asarray([q2.family_of_parent(x0_i1._parent_of(r)) for r in rows])
     fam_perm = np.arange(n_rows)
-    for f in set(fams.tolist()):
+    # AD1 repair 4: sorted iteration for cross-process reproducibility
+    # (set() order is PYTHONHASHSEED-dependent; the Q2d-1d ladder's
+    # family_preserving arm therefore differed between its original run
+    # and the M1-A recovery run, everything else matched bitwise).
+    for f in sorted(set(fams.tolist())):
         idx = np.where(fams == f)[0]
         fam_perm[idx] = idx[rng_arm.permutation(len(idx))]
     rand_p = rng_arm.normal(0, 1, size=(n_rows, P_t.shape[1])).astype(np.float32)
