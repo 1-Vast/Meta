@@ -168,6 +168,9 @@ def main() -> int:
                     [l in set(split_art["cell_split"][c]["ligand_id"]
                               for c in rec["support_cell_ids"]) for l in q_ligs])),
                 "split": rec["split"],
+                "k": int(k),
+                "target_id": rec["target_id"],
+                "draw": int(rec["draw"]),
             }
             per_arm_records[arm][str(k)].append(rec_metrics)
     for arm in ("ligand_only", "tanimoto"):
@@ -187,6 +190,20 @@ def main() -> int:
                 agg["support_seen_frac"] = float(np.mean(
                     [r["support_seen_frac"] for r in rows]))
                 out["arms"][arm][f"{split_name}:k{k}"] = agg
+    # per-record metrics for paired comparisons (p_report.py)
+    rec_out = {"schema": SCHEMA + ".Records",
+               "bank_sha256": sha256_file(OUT / "P_BANK.json"),
+               "records": {arm: {str(k): per_arm_records[arm][str(k)]
+                                 for k in K_LIST} for arm in ("ligand_only", "tanimoto")}}
+    rtext = json.dumps(rec_out, indent=1, sort_keys=True)
+    rpath = OUT / "P1_BASELINES_RECORDS.json"
+    rpath.write_text(rtext, encoding="utf-8")
+    rec_sha = sha256_file(rpath)
+    (OUT / "P1_BASELINES_RECORDS.json.manifest.json").write_text(json.dumps({
+        "schema": SCHEMA + ".Records.Manifest",
+        "file": "P1_BASELINES_RECORDS.json",
+        "sha256": rec_sha}, indent=1), encoding="utf-8")
+    print("wrote", rpath, "sha", rec_sha)
     text = json.dumps(out, indent=1, sort_keys=True)
     path = OUT / "P1_BASELINES.json"
     path.write_text(text, encoding="utf-8")
