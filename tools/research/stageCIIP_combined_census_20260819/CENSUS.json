@@ -1,0 +1,99 @@
+{
+ "schema": "MetaSieve.StageCIIP0c.CombinedCensus.v1",
+ "preregistration_sha256": "6952ed1aef7dedda92c1be45a9c10192d5640f6f208733bc4c31e993b0fec2fd",
+ "inputs_sha256": {
+  "duongly_mmc3.xlsx": "7a27e8dd271101eae54ed433d890d96631f44974560cd6d498690d74a2bcb7a4",
+  "anastassiadis_MOESM23.xls": "cd756bf2b6ad541a1781508c563caf0da6da876dfb71f2546fbff02e13d98684"
+ },
+ "duongly": {
+  "rows": 97,
+  "ligands": 183,
+  "wt_rows": 21,
+  "single_mutant_rows": 70,
+  "multi_mutant_rows": 6,
+  "multi_mutant_tags": {
+   "CKIT": [
+    "V559D/T670I",
+    "V559D/V654A"
+   ],
+   "EGFR": [
+    "d747-749/A750P",
+    "d747-752/P753S",
+    "d746-750/T790M",
+    "L858R/T790M"
+   ]
+  },
+  "unparsed_rows": [],
+  "na_fraction": 0.002309729029350459,
+  "value_range": [
+   -12.535,
+   191.34
+  ],
+  "endpoint": "% inhibition (0-100 nominal; observed beyond bounds)",
+  "direction": "larger = stronger inhibition",
+  "usable_pairs": 70,
+  "common_ligands_median": 183.0,
+  "common_ligands_min": 179,
+  "common_ligands_max": 183,
+  "parents_with_pairs": 21,
+  "parents_with_2plus_pairs": 12,
+  "per_parent_pairs": {
+   "ABL1": 8,
+   "ALK": 4,
+   "BRAF": 1,
+   "BTK": 1,
+   "CHK2": 1,
+   "CKIT": 9,
+   "CMET": 8,
+   "CSRC": 1,
+   "EGFR": 7,
+   "FGFR1": 1,
+   "FGFR2": 1,
+   "FGFR3": 3,
+   "FGFR4": 3,
+   "FLT3": 2,
+   "JAK2": 1,
+   "LRRK2": 3,
+   "MEK1": 1,
+   "P38A": 1,
+   "PDGFRA": 3,
+   "RET": 8,
+   "TIE2": 3
+  },
+  "effect_var_median_pairs_2plus_ligands": 178.3973533843738,
+  "single_mutant_pairs_ge_20": true,
+  "median_common_ge_5": true,
+  "heldout_parents_ge_10": true,
+  "ciiP1A_admissible": true,
+  "ciiP1B_admissible": true
+ },
+ "anastassiadis": {
+  "kinase_rows": 303,
+  "ligand_columns": 178,
+  "mutant_rows": 1,
+  "wt_rows": 302,
+  "na_fraction": 0.020395297956761968,
+  "value_range": [
+   -9.420776364940409,
+   379.8582451645285
+  ],
+  "endpoint": "% remaining activity (larger = weaker inhibition)",
+  "pairs_within_panel": 0,
+  "role": "WT-heavy screen; no within-panel WT-variant pairs; cross-endpoint replication reference only"
+ },
+ "davis_requoted": {
+  "pairs": 67,
+  "heldout_parents": {
+   "parents_with_2plus_mutants": 7,
+   "note": "each such parent supports leave-one-parent-out folds"
+  },
+  "verdict": "INSUFFICIENT ALONE"
+ },
+ "admissibility_classification": {
+  "davis": "same-platform (Kd binding): CIIP-1A yes, CIIP-1B no (7 parents)",
+  "duongly": "same-platform (% inhibition): CIIP-1A yes, CIIP-1B yes (12 parents)",
+  "anastassiadis": "cross-endpoint replication reference only",
+  "cross_panel_pooling": "FORBIDDEN (Kd vs % inhibition are different endpoints)"
+ },
+ "verdict": "SUFFICIENT: Duong-Ly alone supports CIIP-1A and CIIP-1B"
+}
