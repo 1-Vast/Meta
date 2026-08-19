@@ -158,7 +158,12 @@ def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev,
     for p_ in model.parameters():
         if p_.dim() > 1:
             nn.init.xavier_uniform_(p_)
-    if hasattr(model, "proj") and Vsp is not None:
+    # AD1-adjacent impl repair (2026-08-19): the oracle_diagnostic arm's
+    # protein input is the rank-4 TRUE factor matrix (P.shape[1] == 4), not
+    # the 32-dim features; the span projection only applies to 32-dim
+    # inputs. Shape-guard so the diagnostic arm keeps its frozen semantics.
+    if (hasattr(model, "proj") and Vsp is not None
+            and model.proj.weight.shape[1] == Vsp.T.shape[1]):
         with torch.no_grad():
             model.proj.weight.copy_(torch.from_numpy(Vsp.T.astype(np.float32)).to(model.proj.weight.device))
             model.proj.weight.requires_grad_(False)
