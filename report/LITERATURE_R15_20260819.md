@@ -20,12 +20,22 @@ local measurement only.
   active-compound proportion term R_a.
 - Protocol fields (unverified until FULL):
   - split: unknown (kinase-focused? benchmark sets unknown)
-  - support size: unknown
+  - support size: unknown (SI has a support-set-size sensitivity analysis)
   - test-time adaptation: appears YES (task module adapts per task)
   - protein/scaffold/double cold: unknown
   - external pretraining: unknown
   - protein counterfactual: unknown
   - ligand-similarity confound: unknown
+- VERIFIED fragments (search-index snippets of the article PDF + SI,
+  2026-08-19): primary performance comparison is under a RANDOM task split
+  (Fig. 2 caption) — i.e. the headline comparison is NOT a cold-target
+  protocol; SI MOESM2 carries the support-set-size sensitivity analysis;
+  reported Spearman/Pearson improvements reach +17.82% over a baseline
+  (0.5541 -> ...); HiSIF-DTA appears among the compared methods; the
+  adaptive task module is a task-weighting mechanism ("not all tasks
+  contribute equally"). Consequence for us: AdaMBind's advantage under
+  OUR protein-cold P1 protocol is unproven and must be measured; nothing
+  is adopted on paper claims.
 - Local decision rule (frozen elsewhere): AdaMBind-style loss +
   support/query gradient-consistency task sampling is a candidate for the
   P-line bake-off ONLY if it beats matched baselines under our own splits

@@ -316,5 +316,15 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   reusability report, MetaDTA ICLR, FS-CAP arXiv 2311.16328, ZeroBind
   Nat Commun 2023, CNP arXiv 2210.09211, HonestAffinity arXiv 2606.03422,
   ICLR 2026 "When Does Context Help?". None adopted on paper claims.
+- P1 strata (p_test, tanimoto arm, record-mean MSE): low/mid/high
+  similarity bands k5 1.136/0.683/0.395, k10 0.765/0.573/0.366,
+  k20 0.803/0.583/0.348, k40 0.613/0.579/-; activity-cliff vs non-cliff
+  MSE k5 1.471/0.541, k10 0.903/0.445, k20 0.776/0.427, k40 0.636/0.330.
+  Artifacts P1_STRATA.json (sha 6f1c05a5...) / P2_SCREENING.json (sha
+  d50e6b6c...).
+- P2 screening (p_test, tanimoto, active=pKi>=6): k5 PR-AUC 0.920,
+  EF1% 1.65, EF5% 1.55, EF10% 1.52; k40 PR-AUC 0.934, EF1% 1.67.
+  BEDROC(a=20) saturates at 1.000 when the top-1 ranked compound is
+  active (high active fraction), so EF/PR-AUC carry the information.
 
 
