@@ -1,0 +1,56 @@
+{
+ "schema": "MetaSieve.StageCIIP0.KiRHubCensus.v1",
+ "preregistration_sha256": "319d505a0285da68dafb2e0ad16755ddf25a0a838f1768c0fb13c86d4d0dead6",
+ "date": "2026-08-19",
+ "verdict": "DATA BLOCKER",
+ "items": {
+  "1_usable_wt_variant_pairs": {
+   "value": null,
+   "state": "MISSING",
+   "evidence": "raw profiling tables not accessible from this environment (network disabled for shell; web search returns snippet-only)"
+  },
+  "2_identical_ligands_per_pair": {
+   "value": null,
+   "state": "MISSING",
+   "evidence": "same"
+  },
+  "3_parent_mutation_fusion_counts": {
+   "value": null,
+   "state": "PARTIAL",
+   "evidence": "[U] programme review (report/metasieve_research_programme.md, 2026-08-19) records: 38 fusions are not single-point mutants and must be excluded from the WT/single-mutant estimand; % inhibition bounded [0,100], doubly censored"
+  },
+  "4_condition_completeness": {"value": null, "state": "MISSING"},
+  "5_duplicate_and_saturation_fraction": {"value": null, "state": "MISSING",
+   "evidence": "[U] % inhibition floor/ceiling censoring expected per review"},
+  "6_endpoint_direction_units": {
+   "value": "% inhibition, bounded [0,100]",
+   "state": "PARTIAL",
+   "evidence": "[U] review; [V-snippet] nature.com article snippet mentions KIRHub web resource; OncoDaily/Fred Hutch secondary coverage (URLs below)"
+  },
+  "7_parent_pocket_connectivity": {"value": null, "state": "MISSING"},
+  "8_heldout_parent_constructible": {"value": null, "state": "MISSING"},
+  "9_ligand_coverage_variance": {"value": null, "state": "MISSING"},
+  "10_data_availability": {
+   "value": "no repository/download URL identified from search snippets",
+   "state": "BLOCKED",
+   "evidence": "searches 2026-08-19: nature.com/articles/s41587-026-03090-8 (paywalled PDF), link.springer.com/article/10.1038/s41587-026-03090-8, fredhutch.org news 2026-04, oncodaily.com kirhub page, ebiotrade summaries; none yielded a figshare/Zenodo/GitHub raw-data link or the data-availability statement text"
+  }
+ },
+ "blocker": {
+  "cause": "environment cannot fetch web resources (shell network access prohibited; search tool returns snippets only); KiRHub raw data not present locally",
+  "consequence": "KiRHub-based CIIP-1A/1B training is STOPPED until the data become locally available",
+  "alternatives_local": [
+   "Davis Kd panel (tools/research/stageX_csc_signal/downloads/davis_MOESM2-6.xls/pdf; X0c Q0-B construct census exists)",
+   "Anastassiadis 2011 kinase inhibitor profiling (anastassiadis_MOESM22.pdf, MOESM23.xls)",
+   "Duong-Ly panel (duongly_mmc2-6.xlsx)",
+   "Saifudeen Q3 census (stageX0c Q3_SAIFUDEEN_CENSUS.json, biological pairability unresolved)"
+  ],
+  "next_step": "census the Davis Kd panel with the same 10-item checklist as the KiRHub substitute (stage dir: stageCIIP_davis_census_20260819); CIIP-1A/1B designs follow only after a passing census"
+ },
+ "sources": [
+  "https://www.nature.com/articles/s41587-026-03090-8",
+  "https://link.springer.com/article/10.1038/s41587-026-03090-8",
+  "https://www.fredhutch.org/en/news/center-news/2026/04/gujral-fda-approved-kinase-drug-kirhub.html",
+  "https://oncodaily.com/oncolibrary/lung-oncology/kirhub"
+ ]
+}
