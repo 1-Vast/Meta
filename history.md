@@ -2017,3 +2017,11 @@ Takeover snapshot (verified from live system, not from history):
 - 17:45 device audit: _diag16.py orphan documented (cannot terminate
   from this shell; left as-is); GPU 32% util / 4.2GB / 10.4W during
   diagnostic; diag PID 19360 + arm-3 CPU PID 53968 healthy.
+
+## 2026-08-19 (window 2) arm-3 real results: Tanimoto still ahead
+
+- 18:30 arm-3 CPU run finished (3 seeds, ~1.8h): p_test k5/k10/k20/k40
+  MSE 1.077/0.830/0.771/0.709; paired vs Tanimoto significantly worse
+  at k5 (+0.238 [0.058,0.414]) and k10 (+0.187 [0.055,0.305]); vs
+  ligand_only CIs cross zero. P2 PR-AUC/EF below Tanimoto baseline.
+  Artifact sha c9b15ca0...; comparison/p2 reports regenerated.

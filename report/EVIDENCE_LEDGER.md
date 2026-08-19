@@ -414,3 +414,16 @@ Data-source ledger (first-hand, accessed 2026-08-18):
 - Device audit: _diag16.py orphan (PID 46544): 355s CPU over 27h, 2MB
   WS, no outputs; termination denied from this shell (integrity level);
   left running and documented, not blindly killed.
+
+- P1 arm-3 ordinary FT REAL run (2026-08-19, 3 seeds x 6000 steps, CPU,
+  frozen protocol; artifact P1_ARM3_ORDINARYFT.json sha c9b15ca0...):
+  p_test MSE k0 2.858 / k1 1.929 / k2 1.459 / k3 1.241 / k5 1.077 /
+  k10 0.830 / k20 0.771 / k40 0.709; CI 0.565-0.712; rho 0.167-0.527.
+  Paired vs baselines (target bootstrap): vs ligand_only k5 +0.119
+  [-0.118,+0.347], k10 -0.127 [-0.377,+0.077] (both CI cross 0); vs
+  Tanimoto k5 +0.238 [+0.058,+0.414], k10 +0.187 [+0.055,+0.305] —
+  arm-3 is SIGNIFICANTLY WORSE than fixed Tanimoto at k5/k10. P2
+  screening: PR-AUC 0.736-0.866, EF1 1.09-1.82 vs Tanimoto baseline
+  0.920/1.65 (k5) — Tanimoto screening remains better. Honest
+  negative: ordinary FT with ESM+bilinear trunk is not a P1 win.
+  P1_COMPARISON.json / P2_ARMS.json regenerated from the real artifact.
