@@ -1945,3 +1945,19 @@ Takeover snapshot (verified from live system, not from history):
 
 
 
+
+## 2026-08-19 (window 2) Q2d-1d adjudicated FAIL; Q2d-1e launched
+
+- 07:05-07:12 runner_d ladder (PID 20348) finished M1 A-E and CRASHED at
+  M2 (NameError PCA_VT). M1 lines preserved in runner_d.log.
+- 07:00-07:15 recover_m1a.py (exact frozen code path, M1:A only) ->
+  Q2D1D_LADDER.json; cross-check vs log: 7/8 arms bitwise; family_pres.
+  differs (PYTHONHASHSEED set() order in frozen runner).
+- 07:25 adjudicate_d.py -> Q2D1D_GATE.json GATE FAIL (dz 0.5616, sp
+  0.1278, best_neg 0.6121). Q2D1D_REPORT.md written.
+- 07:30 AD1 frozen (sha 0b405df9...): truth_e.py (PCA_VT load; NC1/NC2
+  A=None + NC1 I=0; deterministic family order), runner_e patched,
+  9 tests green; commits 388fa82.
+- 07:13 runner_e.py launched (PID 54828, job za7); auto-adjudicate
+  watcher job jxp. P-line arm-3 trainer committed earlier (ab2f020);
+  real arm-3 training queued behind the 1e ladder (GPU budget).

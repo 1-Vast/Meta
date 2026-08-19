@@ -539,3 +539,16 @@ only, never pK/Ki/Kd DTA. Literature R15 recorded
 (report/LITERATURE_R15_20260819.md; AdaMBind Nat Commun 2026 full-text
 inspection pending).
 
+
+## Phase 1 verdict update (2026-08-19)
+
+Q2d-1d GATE FAIL (M1:A double-cold: correct dz 0.5616 / sp 0.1278 /
+family-preserving negative 0.6121 beats correct; correct dc dz 0.432-0.618
+across ladder A-E vs oracle 0.761-0.992). Ladder crashed at M2 (frozen
+PCA_VT NameError); M1:A recovered with the exact frozen code path
+(7/8 arms bitwise; family-preserving PYTHONHASHSEED note recorded).
+Q2d-1e (span-init + L2, frozen prereg 61bc0cc5...) is RUNNING on GPU with
+AD1 truth repairs frozen BEFORE launch (sha 0b405df9...; M1/M2/M3 streams
+bit-identical, 9 tests). If 1e fails -> one frozen diagnostic
+(A=V_train.G span-param) -> terminal PASS/FAIL on the low-rank bilinear
+learner family. Q2d-2/Q2d-3/B1 remain unauthorized.

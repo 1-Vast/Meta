@@ -328,3 +328,24 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   active (high active fraction), so EF/PR-AUC carry the information.
 
 
+
+- Q2d-1d gate adjudication (2026-08-19): GATE FAIL on M1:A double-cold —
+  correct dz 0.5616 (<0.70), sp 0.1278 (<0.30), gap vs ligand_only
+  0.0374 (<0.05), best negative (family_preserving) 0.6121 > correct
+  (margin -0.0505 < +0.03). Correct-arm dc dz never reaches 0.70 at any
+  ladder level A-E (0.432-0.618) while oracle ceilings are 0.761-0.992
+  (truth recoverable; the learner does not recover it). Artifacts:
+  Q2D1D_GATE.json, Q2D1D_LADDER.json (M1:A recovery), Q2D1D_REPORT.md.
+- Q2d-1d ladder crash recorded: M1 A-E complete, then NameError PCA_VT at
+  M2 (frozen truth_d never loaded the frozen PCA basis); recovery run
+  (recover_m1a.py) reproduced 7/8 arms bitwise vs runner_d.log; the
+  family_preserving arm differs (set() iteration is PYTHONHASHSEED-
+  dependent in the frozen runner) — gate verdict unaffected. 17 stage
+  GPU regression tests pass.
+- Q2d-1e (last authorized successor) launched with AD1 repairs
+  (sha 0b405df9...): truth_e.py = truth_d.py byte-copy with PCA_VT load,
+  NC1/NC2 A/B=None + NC1 frozen zero-interaction realization, sorted
+  family iteration for determinism; M1/M2/M3 streams bit-identical to
+  truth_d (9 tests green). runner_e running on GPU; auto-adjudication
+  watcher active. If 1e FAILS: one frozen diagnostic A=V_train.G, then
+  terminal PASS/FAIL on the low-rank bilinear learner family.
