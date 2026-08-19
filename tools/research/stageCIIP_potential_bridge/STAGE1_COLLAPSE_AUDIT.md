@@ -42,8 +42,10 @@ variant (ΔP = 0):
 - For ΔP = 0, the potential contrast is identically zero by
   antisymmetry: s(P_v,L) − s(P_wt,L) = s(P,L) − s(P,L) = 0. No
   training can change this.
-- Every nonzero ΔP has norm exactly √2 (a single one-hot flip; the old
-  residue is not even cleared), effective rank 18 of 1700 dimensions.
+- Every nonzero ΔP has norm exactly √2, i.e. exactly TWO one-hot
+  entries flip (old residue cleared 1→0, new residue set 0→1) — the
+  correct full-mutation signature; effective rank 18 of 1700
+  dimensions.
 
 Therefore the "output collapse" on 10/13 test pairs is a
 **representation bottleneck of the frozen input features**, not an
@@ -69,7 +71,7 @@ At initialization the encoder already erases 38/65 mutation pairs
 remaining pairs the potential's output variance is orders of magnitude
 below the target variance.
 
-## 4. Gradient competition audit (initialization; no trajectory was persisted)
+## 4. Gradient dominance audit (initialization; no trajectory was persisted)
 
 Reproducing the trainer's exact epoch-0 first batch (same SHA-256 keyed
 rng streams, same frozen row masks):
@@ -85,15 +87,19 @@ rng streams, same frozen row masks):
 | g_ctr on b_P / b_L | 0 / 0 (centering cancels main effects — correct) |
 | g_abs on b_P / b_L / enc | 316 / 242 / 2203 |
 
-Per the frozen interpretation rules: R_g >> 1 with C_g < 0 — the
-absolute objective's gradient on the interaction parameters is ~1080×
-the contrast objective's, so the joint step is dominated by the
-absolute task; the contrast signal is a ~0.1% perturbation inside the
-update. Consistent end-state evidence: best val contrast MSE = 239.8 ≈
-the zero-prediction floor (ligand_only = 251.8), i.e. the contrast
-objective was never effectively optimized, while the absolute fit
-succeeded (f variance at checkpoint = 488). Even the three informative
-test pairs show no learned structure (sp −0.49 / +0.33 / +0.04).
+Per the frozen interpretation rules: R_g >> 1 — the absolute
+objective's gradient on the interaction parameters is ~1080× the
+contrast objective's, so the joint update is dominated by the absolute
+task; the contrast signal is a ~0.1% perturbation inside the update
+(dominance, not proven destructive conflict).
+**Absolute objective dominance is proven; destructive gradient
+opposition is NOT established** — C_g = −0.016 is consistent with
+orthogonal objectives, not with active conflict. Consistent end-state
+evidence: best val contrast MSE = 239.8 ≈ the zero-prediction floor
+(ligand_only = 251.8), i.e. the contrast objective was never
+effectively optimized, while the absolute fit succeeded (f variance at
+checkpoint = 488). Even the three informative test pairs show no
+learned structure (sp −0.49 / +0.33 / +0.04).
 
 ## 5. What the free-pairwise result really means
 
@@ -121,9 +127,11 @@ Evidence-weighted primary causes:
    have zero input difference; Q1 independently shows klifs_pocket not
    significant (−0.086) while local ESM passed (+0.189). The frozen
    KLIFS one-hot input is insufficient for this estimand.
-2. **Objective competition — PROVEN.** R_g ≈ 1081, C_g ≈ −0.02 at
-   initialization; the contrast objective never improved from the zero
-   floor even for informative pairs.
+2. **Objective dominance — PROVEN (competition not established).**
+   R_g ≈ 1081 at initialization; C_g ≈ −0.02 ≈ orthogonal, so the
+   absolute objective dominates the shared update without proven
+   destructive opposition; the contrast objective never improved from
+   the zero floor even for informative pairs.
 3. Potential capacity — NOT implicated (collapse is explained without
    capacity arguments).
 4. Evaluation — sound (undefined Spearman handled as undefined; the
@@ -143,7 +151,7 @@ claimed from any 2×2 cell.
 ```text
 tested one-hot potential: FAIL
 biological protein-conditioned signal: UNRESOLVED
-primary cause: representation + objective (representation dominant; objective competition proven co-cause)
+primary cause: representation (dominant) + objective dominance (proven co-cause; destructive opposition not established)
 authorized successor: 2x2 (KLIFS/ESM x joint/centered-only), new preregistration required before training
 CIIP-1B: NOT AUTHORIZED
 BindingDB Potential Bridge: NOT AUTHORIZED
