@@ -2045,3 +2045,23 @@ Takeover snapshot (verified from live system, not from history):
   biological falsification). Q2D_TERMINAL_SUMMARY.md finalized.
 - Artifact SHAs: GATE 9c6cac43... / LADDER c7a2173a... (local, per
   stage gitignore). Commit 1624016.
+
+## 2026-08-19 (window 3) Stage-1 collapse audit: representation bottleneck PROVEN
+
+- Read-only audit (no training): unified_local FAIL is structural on
+  10/13 test pairs - the constant-prediction set EQUALS the zero-input-
+  difference set (KLIFS one-hot identical for WT/variant: 38/65 pairs
+  total, 20/8/10 by split). Contrast identically 0 by antisymmetry for
+  those pairs; no optimizer could change it. Nonzero diffs all exactly
+  sqrt(2) (single one-hot flip), effective rank 18/1700.
+- Q1 frozen evidence: klifs_pocket -0.086 (ns) vs pair_centered_local_esm
+  +0.189 [0.033,0.363] (only genuine protein rep that passed).
+- Objective competition proven: R_g = ||g_abs||/||g_ctr|| = 1081, C_g =
+  -0.016 at init (exact trainer epoch-0 batch); val contrast MSE 239.8 ==
+  zero floor; even the 3 informative pairs unlearned.
+- free_pairwise: 3/13 nonconstant, 2 parents, bootstrap lo2.5 +0.265 -
+  expression-insufficiency claim NOT established (5 conditions unmet).
+- Diagnosis: representation (dominant) + objective (co-cause); capacity
+  NOT implicated. Authorized successor: preregistered 2x2
+  {KLIFS, local-ESM} x {joint, centered-only}; new prereg REQUIRED
+  before any training. Signal stays UNRESOLVED. Commit b34452e.

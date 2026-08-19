@@ -668,3 +668,15 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   tests ready) -> Stage 2 CIIP-1B -> Stage 3 BindingDB Potential
   Bridge -> Stage 4 few-shot Potential Transport. P-line arm 4-7
   screening can now use the GPU (arm-3 already done: Tanimoto ahead).
+
+## Stage 1 collapse audit (2026-08-19): FAIL explained, not biological
+
+- tested one-hot potential: FAIL (3/13 nonconstant; the other 10 pairs
+  have IDENTICAL WT/variant KLIFS inputs -> contrast forced to 0).
+- biological protein-conditioned signal: UNRESOLVED (no falsification).
+- primary cause: representation (38/65 pairs dP=0; Q1 klifs ns) +
+  objective competition (R_g=1081, C_g=-0.016; contrast never left the
+  zero floor). Potential capacity not implicated.
+- authorized successor: preregistered 2x2 {KLIFS one-hot, local ESM} x
+  {joint, centered-only}; freeze new prereg before ANY training.
+- CIIP-1B / BindingDB Bridge / production integration: NOT AUTHORIZED.

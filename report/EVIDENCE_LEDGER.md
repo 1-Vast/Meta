@@ -438,3 +438,13 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   LOW-RANK BILINEAR SYNTHETIC LEARNER FAMILY CLOSED; no further
   synthetic successors; Core Task 1 UNRESOLVED (not biological
   falsification). Artifact SHAs: GATE 9c6cac43..., LADDER c7a2173a...
+
+- CIIP-1A collapse audit (2026-08-19): 38/65 Duong-Ly pairs have zero
+  KLIFS WT/variant difference (10/13 test) -> constant predictions are
+  structurally forced (antisymmetry), not an optimization failure.
+  Frozen Q1: klifs_pocket -0.086 ns; local ESM +0.189 [0.033,0.363].
+  Gradient audit at init: R_g 1081, C_g -0.016 (abs dominates contrast
+  on s-params); val contrast MSE == zero floor. Free-pairwise 3/13,
+  2 parents -> no expression-insufficiency claim. Diagnosis:
+  representation + objective (capacity not implicated). Successor =
+  preregistered 2x2 only, after new preregistration is frozen.
