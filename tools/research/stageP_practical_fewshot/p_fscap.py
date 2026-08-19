@@ -172,6 +172,7 @@ def eval_seed(model, seed, device, bank, pki, lid_of, fps_by_lid):
             "centered_mse": float(np.mean(((yh - q_y) - np.mean(yh - q_y)) ** 2)),
             "ci": PT.ci(yh, q_y), "spearman": PT.spearman(yh, q_y),
             "pearson": PT.pearson(yh, q_y), "best_support_loss": None,
+            "yhat": yh.tolist(), "y": q_y.tolist(),
         })
     return out
 
