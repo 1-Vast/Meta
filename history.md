@@ -2025,3 +2025,8 @@ Takeover snapshot (verified from live system, not from history):
   at k5 (+0.238 [0.058,0.414]) and k10 (+0.187 [0.055,0.305]); vs
   ligand_only CIs cross zero. P2 PR-AUC/EF below Tanimoto baseline.
   Artifact sha c9b15ca0...; comparison/p2 reports regenerated.
+
+## 2026-08-19 (window 2) unified potential authored (Stage-1 ready)
+
+- 18:45 potential.py + 10 structure tests + CIIP-1A prereg 31d3eeaf...
+  committed (0958e6b). Diagnostic at repro D/E (nearly done).

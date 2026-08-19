@@ -632,3 +632,24 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
 - GPU metrics mid-diagnostic (2026-08-19 17:45Z): util 32%, mem
   4219/8188 MiB, power 10.44 W, temp 47 C. Step-time measurement and
   post-run metrics will be recorded when the diagnostic ends.
+
+## Round update (2026-08-19): unified potential authored; Stage-1 gated on Stage-0
+
+- Unified deployable function frozen in code: f_theta(P,L) = b_P(P) +
+  b_L(L) + s_theta(P,L), s = alpha(P)^T psi(L) (rank 8, hid 64), one
+  module for scalar potential / protein contrast / ligand contrast /
+  CIIP double contrast / zero-shot endpoint / few-shot correction.
+  Free pairwise predictors exist ONLY as diagnostic arms (cycle test
+  fails for them by design). 10 structure tests green (identity exact,
+  antisymmetry exact, cycle ~1e-6, one-s contrasts, permutation/batch
+  contracts, no target-ID input, all branches non-zero grad, stable
+  seed). tools/research/stageCIIP_potential_bridge/ (commit 0958e6b).
+- CIIP-1A prereg frozen (sha 31d3eeaf...): Duong-Ly within-parent
+  capacity; pair-level 60/20/20 split stratified by parent; Q0B-admitted
+  single-point pairs only; centered mutation contrast target; 9 arms
+  incl. global-compression diagnostic + free pairwise (never a
+  mechanism); gates sp>=0.30, dead-zone sign-acc>=0.65 (dead zone 10 %
+  units), gaps vs family-shuffle/ligand-only >=0.05 with parent-cluster
+  bootstrap; single seed screen then 3 seeds.
+- Stage ordering: NO CIIP-1A execution before the Q2d Stage-0 archival
+  (diagnostic in final repro checks; watcher ddf armed).
