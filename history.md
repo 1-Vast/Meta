@@ -1902,6 +1902,45 @@ baf4bb72...d546991): truth protein map drawn entirely in the train-row span
 lc 1.0, dc 0.753-0.893. TRAINING AUTHORIZED; ladder M1 A-E x 3 seeds x 8
 arms + M2/M3/NC1/NC2 level A launched (runner_d.py).
 
+## New-window takeover record (2026-08-19, DeepSeek Harness new window)
+
+Authority: user re-adjudication ("总裁定") splitting the single worst-case
+protocol into Main Line P (practical cold-target few-shot performance,
+k={5,10,20,40} primary / k={0..5} stress) and Main Line M (strict
+mechanism gates: protein-component cold, scaffold cold, double-cold, all
+protein counterfactuals). Mechanism gates no longer block performance
+research; un-gated gains may only be claimed as performance, never as
+protein-conditioned interaction.
+
+Takeover snapshot (verified from live system, not from history):
+- HEAD 4c4bbb2 (research(stageQ2d1d/e): tensor-native censored loss),
+  main ahead of origin/main by 65, dirty: M report/README.md,
+  M tools/research/stageX_csc_signal/tests/test_x0_integrity.py,
+  untracked report/STAGE_X_ROUND1_REVIEW_20260818.md,
+  report/measurement_pipeline_qualification.md,
+  tools/research/stageX_csc_signal/{X0_PLANTED.json,x0_planted.py}.
+  Per discipline these belong to the previous agent; not overwritten,
+  not committed, not deleted.
+- Running processes: PID 20348 = drug-env python -u runner_d.py
+  (Q2d-1d ladder, started 13:49:31, GPU RTX 4060 Laptop 8GB in use);
+  PID 46544 = drug-env python _diag16.py (started 2026-08-18 14:16,
+  left untouched, not a Q2d training process).
+- GPU: RTX 4060 Laptop 8GB, driver 581.29 / CUDA 13.0, torch 2.6.0+cu124
+  in env drug (python 3.11.15) reports cuda available, 1 device.
+- Q2d-1d status at takeover: oracle precheck PASS (truth_d.log); ladder
+  in progress at level M1 A (seeds 0,1 done in runner_d.log; correct arm
+  train fits 0.99 dz but carries 33-43% null-space energy per
+  attr_correct.log; frozen Q2d-1e span-init+L2 prereg already exists as
+  the ONLY allowed successor). Q2D1D_LADDER.json not yet written.
+- Q2d-1e (stageQ2d1e_spaninit_interaction_20260818, prereg SHA
+  61bc0cc5...) frozen BEFORE the 1d verdict: span-initialized A=V_train@G
+  + L2 1e-3 on factor maps; same truth, splits, arms, budget, gate.
+- This window executes: finish/adjudicate Q2d-1d -> run frozen 1e if 1d
+  fails -> at most ONE limited diagnostic (explicit A=V_train@G
+  parameterization) -> final PASS/FAIL on the low-rank bilinear learner.
+  Then P-line baselines and the three evaluation layers; Saifudeen B1 is
+  requested only after all synthetic gates pass.
+
 
 
 

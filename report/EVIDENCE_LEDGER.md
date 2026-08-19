@@ -287,3 +287,34 @@ Data-source ledger (first-hand, accessed 2026-08-18):
 - Duong-Ly 2016 Cell Rep 14:772 doi:10.1016/j.celrep.2015.12.080 (CC BY-NC-ND
   4.0); Davis 2011 Nat Biotechnol 29:1046 (MOESM3 constructs).
 
+## P-line round 1 (2026-08-19, new-window takeover)
+
+- Split artifact P_SPLIT.json (sha fdaf0884...): quota-balanced whole-
+  cluster 60/20/20 target split over bindingdb_ki_main_v0 cdhit40 clusters;
+  298 p_train / 100 p_val / 101 p_test targets; clusters never split;
+  ligands never scaffold-split (P1/P2 same-series allowed by design).
+- Bank artifact P_BANK.json (sha 24970412...): per-(split,target,draw,k)
+  records, Q=8, draws=8, k in {0,1,2,3,5,10,20,40}, 6,376 records;
+  eligibility n_ligands >= k+Q; donor = p_train target in a different
+  cluster. 6 split/bank tests + 5 baseline tests green (11 total).
+- P1 practical few-shot baselines (p_test, record-mean metrics; artifact
+  P1_BASELINES.json sha 4a727a33...):
+  ligand_only MSE k0 2.709 / k5 0.958 / k10 0.957 / k20 1.110 / k40 1.350;
+  CI ~0.50 throughout (constant per-record predictions, rho undefined).
+  Tanimoto ECFP4 top-3: MSE k0 2.709 / k5 0.839 / k10 0.643 / k20 0.664 /
+  k40 0.598; CI 0.505/0.595/0.649/0.684/0.741; rho 0.25(k5)/0.39(k10)/
+  0.48(k20)/0.60(k40). Query-ligand train-recall 0.36-0.55 (the
+  exact-recall confound the promotion gate must control); support-recall
+  0 by construction. These are the numbers learned arms must beat in
+  paired tests; they are baselines, never the final method.
+- Raw dataset census (read-only): davis.tab 25,772 rows / 379 proteins /
+  68 ligands / 71.2% sentinel Y=10000 (interval-censoring required);
+  kiba.tab 117,657 rows / 229 proteins / 2,068 ligands / Y 0-17.2 /
+  0 duplicate pairs. PKIS2 supplements are PDFs.
+- Literature R15 (report/LITERATURE_R15_20260819.md): AdaMBind Nat Commun
+  2026 (SNIPPET state, full text pending), ActFound NMI 2024 + 2026
+  reusability report, MetaDTA ICLR, FS-CAP arXiv 2311.16328, ZeroBind
+  Nat Commun 2023, CNP arXiv 2210.09211, HonestAffinity arXiv 2606.03422,
+  ICLR 2026 "When Does Context Help?". None adopted on paper claims.
+
+

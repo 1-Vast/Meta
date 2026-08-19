@@ -506,3 +506,36 @@ authorized; minibatch target-alignment defect found+fixed+regression-tested
 during startup verification; ladder M1 A-E x 3 seeds x 8 arms + M2/M3/NC1/NC2
 running; gate adjudication pending. Q2d-2/Q2d-3/B1 still NOT AUTHORIZED.
 
+## Active direction update (2026-08-19, new-window takeover, user re-adjudication)
+
+The single worst-case protocol is split into Main Line P (practical
+cold-target few-shot performance; k={5,10,20,40} primary, k={0..5} stress;
+mechanism gates do NOT block it; un-gated gains are performance claims only)
+and Main Line M (strict mechanism: protein-component cold + scaffold cold +
+double-cold + all protein counterfactuals; decides interaction claims only).
+Q2d synthetic chain is bounded: adjudicate the running Q2d-1d ladder ->
+frozen Q2d-1e (span-init A=V_train@G + L2 1e-3) if 1d fails -> at most ONE
+limited diagnostic (explicit A=V_train@G parameterization) -> final PASS/FAIL
+on the low-rank bilinear learner. No Q2d-1f/1g chain.
+
+New stage: tools/research/stageP_practical_fewshot/ (prereg SHA
+b81283c2..., P1 bake-off prereg SHA 59a90ef2..., addendum AD1 SHA
+a675b0ec...). Three evaluation layers frozen: P1 practical few-shot
+(protein-cold, same-series support/query allowed, k={5,10,20,40} main /
+k={1,2,3} stress, k=0 continuity), P2 novel-target screening (k={0,5},
+screening metrics only with frozen threshold labels), M1 fundamental stress
+(double-cold + counterfactuals, k={0..5}, mechanism claims only).
+P-line artifacts built and tested (p_split.py: quota-balanced whole-cluster
+60/20/20 target split, 298/100/101 targets; p_bank.py: per-(target,draw,k)
+episode bank, Q=8, 6,376 records, SHA-pinned; 6 tests green). Bake-off arms:
+ligand-only, fixed Tanimoto, ordinary fine-tuning, first-order MAML, CNP,
+FS-CAP-style, ActFound-style pairwise, AdaMBind-style (frozen addendum
+required after FULL-text inspection), current admitted baseline. Adoption of
+AdaMBind/MAML decided by measurement only. Multi-dataset phase: BindingDB Ki
+/ Davis Kd (raw davis.tab, 379 proteins x 68 ligands, 71.2% sentinel
+censored) / KIBA (raw kiba.tab, 229 x 2,068) each with dataset-specific
+heads and normalization; Saifudeen = functional selectivity positive control
+only, never pK/Ki/Kd DTA. Literature R15 recorded
+(report/LITERATURE_R15_20260819.md; AdaMBind Nat Commun 2026 full-text
+inspection pending).
+
