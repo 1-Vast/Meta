@@ -1,0 +1,708 @@
+{
+ "schema": "MetaSieve.StageCIIP0b.DavisCensus.v1",
+ "preregistration_sha256": "2dd8b70829c2fdfef68f9201e0764d0cc10d7d9809934a5ac195b2b922f8c3fc",
+ "input_files": {
+  "davis_MOESM3.xls_sha256": "69c2957c1fa1b5ba032721031af2fffe1eb896acd0723829e4500da8f75779c9",
+  "davis_MOESM5.xls_sha256": "e47821b2e959ff22aa6d1613b236a63fb530f0da19cfa8d45408598cf27498d7"
+ },
+ "items": {
+  "1_usable_wt_variant_pairs": 67,
+  "2_identical_ligands_per_pair": {
+   "median": 33.0,
+   "p10": 5.0,
+   "min": 4,
+   "max": 43
+  },
+  "3_parent_mutation_fusion_counts": {
+   "genes": 379,
+   "kinase_rows": 442,
+   "wt_rows": 388,
+   "mutant_rows": 54,
+   "quarantined_rows": 0,
+   "fusion_flagged_rows": 0,
+   "duplicate_keys": {
+    "('ABL1', 'YES')": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13
+    ],
+    "('ABL1', 'NO')": [
+     14,
+     15
+    ],
+    "('CDK4', 'NO')": [
+     67,
+     68
+    ],
+    "('EGFR', 'YES')": [
+     113,
+     114,
+     115,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ],
+    "('FLT3', 'YES')": [
+     159,
+     160,
+     161,
+     162,
+     163,
+     164
+    ],
+    "('JAK1', 'NO')": [
+     193,
+     194
+    ],
+    "('KIT', 'YES')": [
+     201,
+     202,
+     203,
+     204,
+     205,
+     206,
+     207
+    ],
+    "('MET', 'YES')": [
+     246,
+     247
+    ],
+    "('PIK3CA', 'YES')": [
+     309,
+     310,
+     311,
+     312,
+     313,
+     314,
+     315,
+     316,
+     317
+    ],
+    "('RET', 'YES')": [
+     356,
+     357,
+     358
+    ],
+    "('RPS6KA4', 'NO')": [
+     369,
+     370
+    ],
+    "('RPS6KA5', 'NO')": [
+     371,
+     372
+    ],
+    "('RPS6KA1', 'NO')": [
+     373,
+     374
+    ],
+    "('RPS6KA2', 'NO')": [
+     376,
+     377
+    ],
+    "('RPS6KA6', 'NO')": [
+     378,
+     379
+    ],
+    "('TYK2', 'NO')": [
+     424,
+     425
+    ]
+   }
+  },
+  "4_condition_completeness": {
+   "state": "PARTIAL",
+   "note": "single-assay competition-binding Kd panel; fixed protocol (one condition class); measured-cell fraction = 0.296; no per-cell ATP/construct table in these SI files"
+  },
+  "5_duplicate_and_saturation_fraction": {
+   "na_fraction": 0.7038712921065863,
+   "cap_9900_fraction": 0.0004399195575666164,
+   "note": "9900 nM is the largest observed value; whether NA means 'not tested' or '>10 uM' is not distinguishable in this file -> recorded UNKNOWN"
+  },
+  "6_endpoint": {
+   "quantity": "Kd [nM], competition binding assay",
+   "direction": "larger = weaker binding",
+   "note": "never relabeled pK/Ki/DTA"
+  },
+  "7_parent_connectivity": {
+   "parents_with_pairs": 10,
+   "pairs_per_parent_median": 4.5
+  },
+  "8_heldout_parent_folds": {
+   "parents_with_2plus_mutants": 7,
+   "note": "each such parent supports leave-one-parent-out folds"
+  },
+  "9_ligand_coverage_variance": {
+   "pairs_with_3plus_common_ligands": 67,
+   "logratio_var_median": 0.2542270535622896,
+   "logratio_var_p10_p90": [
+    0.054131368552844485,
+    1.309086760638026
+   ]
+  },
+  "10_data_availability": {
+   "local": true,
+   "provenance": "Nature Biotechnology 2011 (Davis et al.) supplementary tables, kept under tools/research/stageX_csc_signal/downloads/",
+   "urls": [
+    "https://www.nature.com/articles/nbt.1990"
+   ]
+  }
+ },
+ "pair_details": [
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 1,
+   "common_ligands": 39,
+   "logratio_var": 0.6597311414449051,
+   "logratio_se": 0.10564152968729545
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 2,
+   "common_ligands": 31,
+   "logratio_var": 0.31067499006447896,
+   "logratio_se": 0.05579887542269604
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 3,
+   "common_ligands": 33,
+   "logratio_var": 0.5282393098736539,
+   "logratio_se": 0.09195466084646117
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 4,
+   "common_ligands": 38,
+   "logratio_var": 0.1854657883128136,
+   "logratio_se": 0.030086523751241795
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 5,
+   "common_ligands": 38,
+   "logratio_var": 0.5560465726185135,
+   "logratio_se": 0.09020266522506502
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 6,
+   "common_ligands": 41,
+   "logratio_var": 0.18560231448463788,
+   "logratio_se": 0.028986211668298015
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 7,
+   "common_ligands": 38,
+   "logratio_var": 0.554602642371861,
+   "logratio_se": 0.08996842880843935
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 8,
+   "common_ligands": 40,
+   "logratio_var": 0.44087117166353806,
+   "logratio_se": 0.06970785285819325
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 9,
+   "common_ligands": 41,
+   "logratio_var": 0.06093655967024164,
+   "logratio_se": 0.009516691760251154
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 10,
+   "common_ligands": 40,
+   "logratio_var": 0.5779672878136985,
+   "logratio_se": 0.09138465212806834
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 11,
+   "common_ligands": 34,
+   "logratio_var": 1.3799577924055244,
+   "logratio_se": 0.23666080895392735
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 12,
+   "common_ligands": 32,
+   "logratio_var": 1.4382344061061318,
+   "logratio_se": 0.25424632537336317
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 14,
+   "mut_row": 13,
+   "common_ligands": 41,
+   "logratio_var": 0.4125222924732469,
+   "logratio_se": 0.06442515827845877
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 1,
+   "common_ligands": 39,
+   "logratio_var": 0.11003873908357885,
+   "logratio_se": 0.017620300136493166
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 2,
+   "common_ligands": 30,
+   "logratio_var": 0.9529307903252173,
+   "logratio_se": 0.17398056320078242
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 3,
+   "common_ligands": 33,
+   "logratio_var": 0.4432791206392006,
+   "logratio_se": 0.07716499025497504
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 4,
+   "common_ligands": 36,
+   "logratio_var": 0.61372251148483,
+   "logratio_se": 0.10228708524747167
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 5,
+   "common_ligands": 38,
+   "logratio_var": 0.264672216510696,
+   "logratio_se": 0.04293550309619398
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 6,
+   "common_ligands": 40,
+   "logratio_var": 0.06558170973308698,
+   "logratio_se": 0.010369378780229406
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 7,
+   "common_ligands": 39,
+   "logratio_var": 0.04546606082113927,
+   "logratio_se": 0.007280396380078835
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 8,
+   "common_ligands": 39,
+   "logratio_var": 0.05786526152420829,
+   "logratio_se": 0.009265857497320016
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 9,
+   "common_ligands": 39,
+   "logratio_var": 0.3220419160201349,
+   "logratio_se": 0.05156797746015711
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 10,
+   "common_ligands": 39,
+   "logratio_var": 0.11948683474554007,
+   "logratio_se": 0.01913320625181687
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 11,
+   "common_ligands": 33,
+   "logratio_var": 1.4476706437303133,
+   "logratio_se": 0.2520071122564491
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 12,
+   "common_ligands": 31,
+   "logratio_var": 1.1531032780142543,
+   "logratio_se": 0.20710346251581435
+  },
+  {
+   "gene": "ABL1",
+   "wt_row": 15,
+   "mut_row": 13,
+   "common_ligands": 40,
+   "logratio_var": 0.10070357812955787,
+   "logratio_se": 0.01592263377090609
+  },
+  {
+   "gene": "BRAF",
+   "wt_row": 44,
+   "mut_row": 45,
+   "common_ligands": 19,
+   "logratio_var": 0.1133415555591673,
+   "logratio_se": 0.026002336146637415
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 113,
+   "common_ligands": 28,
+   "logratio_var": 0.19177334854021488,
+   "logratio_se": 0.036241756309108586
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 114,
+   "common_ligands": 27,
+   "logratio_var": 0.17151047826096702,
+   "logratio_se": 0.03300720693093692
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 115,
+   "common_ligands": 27,
+   "logratio_var": 0.08742685556405834,
+   "logratio_se": 0.016825306198103872
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 116,
+   "common_ligands": 30,
+   "logratio_var": 0.08817628325094913,
+   "logratio_se": 0.016098713124503266
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 117,
+   "common_ligands": 29,
+   "logratio_var": 0.11723435011972387,
+   "logratio_se": 0.021769872291449027
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 118,
+   "common_ligands": 30,
+   "logratio_var": 0.09291748797607023,
+   "logratio_se": 0.016964334717069568
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 119,
+   "common_ligands": 29,
+   "logratio_var": 0.08726767897020644,
+   "logratio_se": 0.016205201158298883
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 120,
+   "common_ligands": 23,
+   "logratio_var": 2.128933085397088,
+   "logratio_se": 0.44391323486829415
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 121,
+   "common_ligands": 29,
+   "logratio_var": 0.09324397885516841,
+   "logratio_se": 0.01731497218648437
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 122,
+   "common_ligands": 27,
+   "logratio_var": 0.13895408918026178,
+   "logratio_se": 0.026741726931074468
+  },
+  {
+   "gene": "EGFR",
+   "wt_row": 112,
+   "mut_row": 123,
+   "common_ligands": 27,
+   "logratio_var": 1.6104725616166324,
+   "logratio_se": 0.30993558899062296
+  },
+  {
+   "gene": "FGFR3",
+   "wt_row": 153,
+   "mut_row": 154,
+   "common_ligands": 24,
+   "logratio_var": 0.07256950300205474,
+   "logratio_se": 0.014813187770200513
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 159,
+   "common_ligands": 42,
+   "logratio_var": 0.5975049811402731,
+   "logratio_se": 0.09219702020898068
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 160,
+   "common_ligands": 40,
+   "logratio_var": 0.928177261983788,
+   "logratio_se": 0.1467577110123793
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 161,
+   "common_ligands": 42,
+   "logratio_var": 0.35610268855060817,
+   "logratio_se": 0.05494783777386631
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 162,
+   "common_ligands": 43,
+   "logratio_var": 0.06117854921204277,
+   "logratio_se": 0.00932964128985942
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 163,
+   "common_ligands": 42,
+   "logratio_var": 0.2093938553495997,
+   "logratio_se": 0.032310173341920934
+  },
+  {
+   "gene": "FLT3",
+   "wt_row": 158,
+   "mut_row": 164,
+   "common_ligands": 34,
+   "logratio_var": 0.5223450663586643,
+   "logratio_se": 0.0895814398366808
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 201,
+   "common_ligands": 38,
+   "logratio_var": 0.9627728580060458,
+   "logratio_se": 0.15618238125186662
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 202,
+   "common_ligands": 36,
+   "logratio_var": 1.8138201843598063,
+   "logratio_se": 0.3023033640599677
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 203,
+   "common_ligands": 39,
+   "logratio_var": 1.6940658167584455,
+   "logratio_se": 0.2712676316618369
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 204,
+   "common_ligands": 41,
+   "logratio_var": 0.13544273238982613,
+   "logratio_se": 0.0211526010377909
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 205,
+   "common_ligands": 41,
+   "logratio_var": 0.05179875823373351,
+   "logratio_se": 0.008089606934520571
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 206,
+   "common_ligands": 34,
+   "logratio_var": 0.5349253561173283,
+   "logratio_se": 0.09173894173097448
+  },
+  {
+   "gene": "KIT",
+   "wt_row": 200,
+   "mut_row": 207,
+   "common_ligands": 39,
+   "logratio_var": 0.39837126038762694,
+   "logratio_se": 0.06379045445487634
+  },
+  {
+   "gene": "LRRK2",
+   "wt_row": 215,
+   "mut_row": 216,
+   "common_ligands": 24,
+   "logratio_var": 0.17810267941796107,
+   "logratio_se": 0.036355057199708024
+  },
+  {
+   "gene": "MET",
+   "wt_row": 245,
+   "mut_row": 246,
+   "common_ligands": 27,
+   "logratio_var": 0.2542270535622896,
+   "logratio_se": 0.048926019269824435
+  },
+  {
+   "gene": "MET",
+   "wt_row": 245,
+   "mut_row": 247,
+   "common_ligands": 29,
+   "logratio_var": 0.2407293902143008,
+   "logratio_se": 0.044702325525000065
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 309,
+   "common_ligands": 5,
+   "logratio_var": 0.012814627147258884,
+   "logratio_se": 0.0057308754815170145
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 310,
+   "common_ligands": 5,
+   "logratio_var": 0.004997352791316889,
+   "logratio_se": 0.002234884109786577
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 311,
+   "common_ligands": 5,
+   "logratio_var": 0.013745217573433721,
+   "logratio_se": 0.006147048171944502
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 312,
+   "common_ligands": 5,
+   "logratio_var": 0.004634580215880393,
+   "logratio_se": 0.0020726472819768416
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 313,
+   "common_ligands": 5,
+   "logratio_var": 1.261839406126361,
+   "logratio_se": 0.5643117377573015
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 314,
+   "common_ligands": 5,
+   "logratio_var": 0.3587515715663512,
+   "logratio_se": 0.16043858021144838
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 315,
+   "common_ligands": 4,
+   "logratio_var": 0.09461420345466048,
+   "logratio_se": 0.04730710172733024
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 316,
+   "common_ligands": 5,
+   "logratio_var": 0.2911201622548102,
+   "logratio_se": 0.1301928944845048
+  },
+  {
+   "gene": "PIK3CA",
+   "wt_row": 308,
+   "mut_row": 317,
+   "common_ligands": 5,
+   "logratio_var": 0.009641258621456355,
+   "logratio_se": 0.004311701933246464
+  },
+  {
+   "gene": "RET",
+   "wt_row": 355,
+   "mut_row": 356,
+   "common_ligands": 37,
+   "logratio_var": 0.05568644209891846,
+   "logratio_se": 0.00915479468770061
+  },
+  {
+   "gene": "RET",
+   "wt_row": 355,
+   "mut_row": 357,
+   "common_ligands": 26,
+   "logratio_var": 0.49093742718257455,
+   "logratio_se": 0.09628075081373018
+  },
+  {
+   "gene": "RET",
+   "wt_row": 355,
+   "mut_row": 358,
+   "common_ligands": 28,
+   "logratio_var": 0.8453999791651491,
+   "logratio_se": 0.1597655788035836
+  }
+ ],
+ "stop_rule_check": {
+  "pairs_ge_20": true,
+  "median_common_ligands_ge_5": true,
+  "heldout_parents_ge_10": false
+ }
+}
