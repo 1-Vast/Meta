@@ -494,4 +494,15 @@ tau*=1.0 vs 0.733 at tau*=2.0 -> 0.70 threshold unreachable at the frozen
 gate point even with oracle factors; Q2c-2 precondition unmet -> NOT STARTED;
 B1/B2/C/D NOT AUTHORIZED; next = new prereg (Q2d) along the measured power
 curve.
+**Q2d-1b/1c/1d oracle chain (2026-08-19, running):** Q2d-1 forensics 5/5
+(Phase D/E never censored, C 70%, closed-form holdout leaked, half-cold
+zero-variance by construction, Phase A main effects + ID bias + unseen-ligand
+checkpointing); Q2d-1b STOP (broken ALS oracle + train-only ID centring);
+Q2d-1c STOP (train-row feature rank 28 < 32, 8.8% of drawn protein map
+unidentifiable; true weights 0.968+ everywhere, ligand map fully
+identified); Q2d-1d (prereg baf4bb72...) span-restricted truth: oracle
+precheck PASS all seeds (pc 0.700-0.920 / lc 1.0 / dc 0.753-0.893), training
+authorized; minibatch target-alignment defect found+fixed+regression-tested
+during startup verification; ladder M1 A-E x 3 seeds x 8 arms + M2/M3/NC1/NC2
+running; gate adjudication pending. Q2d-2/Q2d-3/B1 still NOT AUTHORIZED.
 
