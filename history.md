@@ -1997,3 +1997,14 @@ Takeover snapshot (verified from live system, not from history):
 - 1e M1 A-E preview from runner_e.log (pre-adjudication): correct dc
   medians A 0.585 / B 0.588 / C 0.589 / D 0.410 / E 0.489 — all below
   the 0.70 gate; D below ligand_only; E below family_preserving.
+
+## 2026-08-19 (window 2) Q2d-1e FAIL adjudicated; diagnostic launched
+
+- 17:09 runner_e.py exited; watcher ran adjudicate_e.py -> GATE FAIL
+  (all M1 A-E; NC1/NC2 fail as required; repro all True; cens 165/165).
+- 17:12 runner_diag.py launched (PID 55308, job uhq, watcher 3dz).
+- 17:15 Q2D_TERMINAL_SUMMARY.md written (diag slot pending).
+- 17:16 arm-3 real CPU training launched (job w61, 3 seeds).
+- CIIP censuses: KiRHub DATA BLOCKER (c0f8fd2); Davis INSUFFICIENT
+  ALONE (a96dc39); combined census next.
+- Maintained suite re-verified: 310 passed / 6 skipped (no regressions).

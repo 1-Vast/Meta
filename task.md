@@ -590,3 +590,26 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   (snippet-only access in this environment; bake-off prereg requires
   full text before its addendum). No real training started (1e ladder
   holds the GPU).
+
+## Round update (2026-08-19): Q2d-1e GATE FAIL; diagnostic + arm-3 running
+
+- Q2d-1e ladder completed 17:09Z: censored assertions D/E=165 pass,
+  value-level reproduction B/C/D/E all True; frozen adjudicator ->
+  GATE FAIL at every M1 level A-E (correct dc dz 0.585/0.588/0.589/
+  0.410/0.489, sp <= 0.195; best negatives beat correct at C/D/E);
+  NC1/NC2 fail as required. Q2D1E_GATE.json + Q2D1E_LADDER.json committed
+  (751a05b).
+- Q2D_TERMINAL_SUMMARY.md written (stageX_csc_signal/): full 1b->1e
+  chain, adjudication verification checklist, failure-mode classification
+  (optimization failure prime candidate; diag decides), frozen downstream
+  authorization, terminal slot pending the diagnostic.
+- Frozen span-param diagnostic LAUNCHED 17:12Z (runner_diag.py, PID 55308,
+  job uhq, watcher 3dz auto-adjudicates on exit; estimate ~8-10 GPU-h).
+  This is the ONLY successor; no further synthetic stages will be created.
+- P-line arm-3 ordinary FT REAL training launched on CPU (3 seeds, 4
+  threads, job w61; GPU reserved for the diagnostic; ~2-3 CPU-h).
+- CIIP data censuses: KiRHub -> DATA BLOCKER (stageCIIP_kirhub_census_
+  20260819, prereg 319d505a...); Davis panel -> INSUFFICIENT ALONE
+  (67 WT-variant pairs, median 33 common ligands, 7 held-out parents <
+  10; stageCIIP_davis_census_20260819, prereg 2dd8b708...); combined
+  census (Anastassiadis, Duong-Ly) next.

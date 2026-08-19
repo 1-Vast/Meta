@@ -385,3 +385,21 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   carry target_id/draw identity; p_report v2 supports arms 3-7 vs
   baselines and vs arm 3 with 2000x target bootstrap; pinned
   self-comparison dMSE == 0.
+
+- Q2d-1e adjudicated FAIL (2026-08-19 17:09Z, frozen adjudicator,
+  prereg 61bc0cc5...): correct-arm double-cold dz at M1 A-E = 0.585 /
+  0.588 / 0.589 / 0.410 / 0.489 (gate >= 0.70), sp 0.191 / 0.150 /
+  0.195 / -0.234 / 0.065 (gate >= 0.30); best negative beats correct at
+  C (0.601), D (0.525), E (0.638); NC1/NC2 fail as required; value-level
+  repro all True; censored assertions pass. Span-init+L2 fixed the null
+  drift (0.07-0.13 preflight) but NOT the cold failure -> span-param
+  diagnostic is the final determinant (RUNNING).
+- Q2D_TERMINAL_SUMMARY.md: verification checklist all confirmed (SHAs,
+  commands, seeds [0,1,2], 8 arms, 6000 steps/batch 1024/AdamW 5e-3,
+  correct 8 restarts/negatives 1, checkpoint rule); failure-mode
+  classification recorded; NC1 NaN dz in the gate JSON explained
+  (zero-interaction truth -> constant predictions -> dz undefined;
+  adjudicator treats NaN as fail, as required).
+- CIIP census: KiRHub DATA BLOCKER (prereg 319d505a...); Davis panel
+  INSUFFICIENT ALONE (prereg 2dd8b708...: 67 pairs / median 33 common
+  ligands / 7 held-out parents < 10; logratio var median 0.254).
