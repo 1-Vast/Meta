@@ -375,3 +375,13 @@ Data-source ledger (first-hand, accessed 2026-08-18):
 - AdaMBind full text: still snippet-only (nature.com PDF reachable but
   not fetchable from this environment) -> arm 8 addendum stays blocked
   per bake-off prereg.
+
+- Q2d-1e preview (pre-adjudication, from runner_e.log): M1 correct-arm
+  double-cold dz medians A 0.585, B 0.588, C 0.589, D 0.410, E 0.489
+  (gate needs >= 0.70 at EVERY level) -> 1e FAIL expected; frozen
+  span-param diagnostic is pre-validated (structure gate PASS,
+  null_frac == 0.0 by construction).
+- P-line pairing infrastructure: baseline per-record artifacts now
+  carry target_id/draw identity; p_report v2 supports arms 3-7 vs
+  baselines and vs arm 3 with 2000x target bootstrap; pinned
+  self-comparison dMSE == 0.

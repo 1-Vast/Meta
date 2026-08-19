@@ -1982,3 +1982,18 @@ Takeover snapshot (verified from live system, not from history):
   9 tests (commit a9a5597).
 - 09:05 stage-P full test suite rerun (job raa).
 - Q2d-1e ladder at M1 E seed 0; untouched; watcher jxp armed.
+
+## 2026-08-19 (window 2) diag prep + comparison report v2
+
+- 09:25 runner_diag.py patched with frozen AD1 repairs (truth_e, NC
+  oracle-zero, sorted family order) BEFORE first run; CPU structure
+  gate PASS (proj frozen 28x32, G trainable, trained A null_frac == 0.0);
+  commit 60101e2.
+- 09:30 1e launch command recorded retroactively (commit 1ff233c).
+- 09:45 p_baselines records carry target_id/draw/k identity (aggregate
+  sha unchanged 4a727a33...); p_report v2 multi-arm paired comparison
+  with target-level bootstrap; self-comparison pin 0.0000; commits
+  b9a485e. Stage-P tests: 40 + 2 + 4 + 17 green so far this window.
+- 1e M1 A-E preview from runner_e.log (pre-adjudication): correct dc
+  medians A 0.585 / B 0.588 / C 0.589 / D 0.410 / E 0.489 — all below
+  the 0.70 gate; D below ligand_only; E below family_preserving.
