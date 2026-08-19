@@ -20,6 +20,7 @@ X0C = STAGE_D.parent / "stageX0c_measurement_qualification_20260818"
 sys.path.insert(0, str(X0C))
 sys.path.insert(0, str(STAGE_D))
 sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(HERE.parent))
 
 import torch  # noqa: E402
 import truth_d as truth  # noqa: E402

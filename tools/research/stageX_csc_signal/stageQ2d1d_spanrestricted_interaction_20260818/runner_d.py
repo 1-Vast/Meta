@@ -17,6 +17,33 @@ sys.path.insert(0, str(HERE))
 import q2
 from q2 import eval_metrics, censored_loss
 from x0_common import stable_rng
+def huber1_t(yhat, bound, margin=1.0):
+    d = (yhat - bound) / margin
+    return torch.where(d.abs() <= 1.0, 0.5 * d.square(), d.abs() - 0.5).mean()
+
+
+def censored_loss_t(out, z_obs, det, blo, bhi):
+    """Tensor-native equivalent of q2.censored_loss (verified by test).
+    Avoids per-step GPU<->numpy round-trips."""
+    yhat = out["yhat"]
+    dm = det.float()
+    # numpy-equivalent nan handling: nan -> 0, +/-inf stays +/-inf so that
+    # isfinite() excludes them (q2 path casts float64 max to float32 inf)
+    zt = torch.where(torch.isnan(z_obs), torch.zeros_like(z_obs), z_obs)
+    lo = torch.where(torch.isnan(blo), torch.zeros_like(blo), blo)
+    hi = torch.where(torch.isnan(bhi), torch.zeros_like(bhi), bhi)
+    mse = ((yhat - zt).square() * dm).sum() / dm.sum().clamp(min=1)
+    left = (~det) & torch.isfinite(lo)
+    right = (~det) & torch.isfinite(hi)
+    loss = mse
+    if left.any():
+        loss = loss + huber1_t(yhat[left], lo[left])
+    if right.any():
+        loss = loss + huber1_t(yhat[right], hi[right])
+    return loss
+
+
+
 import truth_d as truth
 
 PREREG_SHA = "baf4bb72df02e9411d6b8d4815302ec91c7526cc15447b6e80cd06383d546991"
@@ -151,10 +178,8 @@ def train_level(P, arm, t, level, seed, splits, device, restart, Lt_dev,
         if level == "B":
             yh = 100.0 * torch.sigmoid(out_yhat)
             return ((yh - targets[1]) ** 2).mean() / 100.0
-        return censored_loss({"yhat": out_yhat},
-                              targets[2].cpu().numpy(), targets[3].cpu().numpy(),
-                              targets[4].cpu().numpy(), targets[5].cpu().numpy(),
-                              device)
+        return censored_loss_t({"yhat": out_yhat}, targets[2], targets[3],
+                                targets[4], targets[5])
     best = None
     best_state = None
     for step in range(max_steps):
