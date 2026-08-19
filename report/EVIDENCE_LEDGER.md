@@ -366,3 +366,12 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   -> real matched-pair data requirement; promotion budgets for all new
   candidates; Q2d-1e PASS/FAIL and diagnostic interpretation states
   fixed.
+
+- P1 arms 6/7 (AD3 sha 5c573132...): arm 6 FS-CAP-style ligand-only
+  (k=0 correction 0; support perm-invariance / query equivariance /
+  label isolation tested); arm 7 ActFound-style pairwise (identity-zero
+  and antisymmetry bitwise; anchor permutation invariance; query-label
+  isolation; k=0 frozen p_train mean). 9 tests green.
+- AdaMBind full text: still snippet-only (nature.com PDF reachable but
+  not fetchable from this environment) -> arm 8 addendum stays blocked
+  per bake-off prereg.

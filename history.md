@@ -1975,3 +1975,10 @@ Takeover snapshot (verified from live system, not from history):
 - 08:45 CORE1_FUNNEL_PLAN_20260819.md frozen (short funnel + budget
   discipline + authorization states).
 - Q2d-1e ladder: M1 D seed 0 at 08:40, healthy, untouched.
+
+## 2026-08-19 (window 2) arms 6/7 + AD3
+
+- 09:00 AD3 frozen (sha 5c573132...); p_fscap.py + p_actfound.py +
+  9 tests (commit a9a5597).
+- 09:05 stage-P full test suite rerun (job raa).
+- Q2d-1e ladder at M1 E seed 0; untouched; watcher jxp armed.

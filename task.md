@@ -574,3 +574,19 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   equivariance / query-label isolation tests green. 17 stage-P trainer
   tests green. Real arm-3/4/5 training remains queued behind the 1e
   ladder (GPU budget).
+
+## Round update (2026-08-19): P1 arms 6/7 implemented
+
+- AD3 frozen (sha 5c573132...): arm 6 = FS-CAP-style ligand-only
+  Deep-Sets support encoder (no protein features anywhere; k=0 context
+  correction exactly 0; total param delta vs arm 3 +96,446 recorded);
+  arm 7 = ActFound-style pairwise supervision (antisymmetric +
+  identity-zero by construction; eval = support-anchored differences;
+  k=0 = frozen p_train label mean). Both: shared sampler rng stream,
+  AdamW 3e-4 / 6000 steps, same monitor + checkpoint rule, eval with
+  query labels never entering. 9 tests green; stage-P suite rerun.
+- P1 bake-off implementation state: arms 1-7 implemented and tested;
+  arm 8 (AdaMBind-style) remains BLOCKED on full-text inspection
+  (snippet-only access in this environment; bake-off prereg requires
+  full text before its addendum). No real training started (1e ladder
+  holds the GPU).
