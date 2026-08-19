@@ -14,9 +14,11 @@ import torch.nn as nn
 HERE = Path(__file__).resolve().parent
 X0C = HERE.parent / "stageX0c_measurement_qualification_20260818"
 STAGE_D = HERE.parent / "stageQ2d1d_spanrestricted_interaction_20260818"
+STAGE_E = HERE.parent / "stageQ2d1e_spaninit_interaction_20260818"
 sys.path.insert(0, str(X0C))
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(STAGE_D))
+sys.path.insert(0, str(STAGE_E))
 import q2
 from q2 import eval_metrics, censored_loss
 from x0_common import stable_rng
@@ -47,7 +49,11 @@ def censored_loss_t(out, z_obs, det, blo, bhi):
 
 
 
-import truth_d as truth
+# AD1 repairs (frozen addendum sha 0b405df9..., same as Q2d-1e):
+# truth_e is bit-identical to truth_d on M1/M2/M3 and makes the frozen
+# NC1/NC2 descriptions executable; the diag prereg requires the same
+# truth streams, so no truth/gate/budget/arm change is involved.
+import truth_e as truth
 
 PREREG_SHA = "61bc0cc50edcd40d581d16e67fd9fb8cef2729d3bbf58c4e9b831b727d0584f7"
 L2_PEN = 1e-3
@@ -260,7 +266,12 @@ def build_arm_inputs(P_t, t0, shuf, fam_perm, rand_p):
     ai["family_preserving_shuffle"] = P_t[fam_perm]
     ai["random_protein"] = rand_p
     ai["no_interaction_head"] = P_t
-    ai["oracle_diagnostic"] = (P_t.astype(np.float64) @ t0["A"]).astype(np.float32)
+    # AD1: NC1/NC2 have no feature-conditioned map (t0["A"] is None);
+    # their oracle diagnostic is the zero-interaction bound.
+    if t0["A"] is None:
+        ai["oracle_diagnostic"] = np.zeros_like(P_t, dtype=np.float32)
+    else:
+        ai["oracle_diagnostic"] = (P_t.astype(np.float64) @ t0["A"]).astype(np.float32)
     return ai
 
 
@@ -313,7 +324,8 @@ def main():
     shuf = rng_arm.permutation(n_rows)
     fams = np.asarray([q2.family_of_parent(x0_i1._parent_of(r)) for r in rows])
     fam_perm = np.arange(n_rows)
-    for f in set(fams.tolist()):
+    # AD1 repair 4: sorted iteration for cross-process reproducibility.
+    for f in sorted(set(fams.tolist())):
         idx = np.where(fams == f)[0]
         fam_perm[idx] = idx[rng_arm.permutation(len(idx))]
     rand_p = rng_arm.normal(0, 1, size=(n_rows, P_t.shape[1])).astype(np.float32)
