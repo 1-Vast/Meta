@@ -2065,3 +2065,23 @@ Takeover snapshot (verified from live system, not from history):
   NOT implicated. Authorized successor: preregistered 2x2
   {KLIFS, local-ESM} x {joint, centered-only}; new prereg REQUIRED
   before any training. Signal stays UNRESOLVED. Commit b34452e.
+
+## 2026-08-19 (window 3) 2x2 root-cause diagnostic authorized (conditional)
+
+- Reviewer verdict: collapse-audit evidence upheld; conditional
+  authorization for the 2x2 root-cause diagnostic ONLY. Corrections
+  applied: sqrt(2) wording fixed (two one-hot flips = old cleared + new
+  set, correct mutation signature); gradient conclusion reworded to
+  dominance (C_g=-0.016 orthogonal; destructive opposition NOT
+  established).
+- Coverage analysis: 16 uncovered pairs = 4 whole families (ALK/MET/
+  LRRK2/TEK-Y1108F, all pos>1020, ESM window bound); missing set has
+  higher var_true (243 vs 169) and informative frac (0.40 vs 0.35).
+  Stage named ORACLE-COVERED SUBSET DIAGNOSTIC; all four cells use the
+  matched 49 pairs (32/8/9) with original assignment.
+- Frozen: PREREGISTRATION_STAGE1_2X2.md sha ee844b2b... (oracle_local_esm
+  naming; joint vs centered-only; collapsed-cell gate 5/9 nonconstant,
+  4/6 parents, r2>0.02; effect established iff bootstrap lo2.5>0 and
+  |point|>=0.05; few-pair safeguard; controls/3-seed/CIIP-1B separately
+  authorized). DATA2X2.json/npz + 29 tests green; single-seed 4-cell
+  run launched (seed 1). Commit 02c28d4.

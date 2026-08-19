@@ -680,3 +680,12 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
 - authorized successor: preregistered 2x2 {KLIFS one-hot, local ESM} x
   {joint, centered-only}; freeze new prereg before ANY training.
 - CIIP-1B / BindingDB Bridge / production integration: NOT AUTHORIZED.
+
+## 2x2 root-cause diagnostic (2026-08-19): running per conditional authorization
+
+- Authorized: freeze matched-subset 2x2 prereg; structure/coverage tests;
+  single-seed 4-cell root-cause diagnostic; controls + 3-seed only after
+  interpretable results (separate authorization).
+- NOT authorized: CIIP-1A PASS claim, CIIP-1B, BindingDB bridge,
+  production model/scripts, oracle local ESM as deployable representation.
+- Frozen gates for collapsed cells + effects; no single-cell attribution.

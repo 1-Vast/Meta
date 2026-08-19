@@ -448,3 +448,12 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   2 parents -> no expression-insufficiency claim. Diagnosis:
   representation + objective (capacity not implicated). Successor =
   preregistered 2x2 only, after new preregistration is frozen.
+
+- 2x2 root-cause diagnostic prereg frozen (ee844b2b...): oracle-covered
+  subset (49 matched pairs, 32/8/9; 16 missing = ALK/MET/LRRK2/TEK-
+  Y1108F families, pos>1020; missing set higher-variance). oracle_
+  local_esm = radius-6 window at verified mutation coordinate (positive
+  control only, NOT deployable). Cells: KLIFS/ESM x joint/centered-only;
+  identical budget/split/seed/checkpoint. Collapse gate per cell: >=5/9
+  nonconstant, >=4/6 parents, R2>0.02. Effects established iff cluster-
+  bootstrap lo2.5>0 and |point|>=0.05; leave-one-parent-out sign check.
