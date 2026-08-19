@@ -12,8 +12,8 @@ This document moves no gate and modifies no historical artifact.
 | Q2d-1c identifiable interaction | STOP at oracle precheck (protein-cold not recoverable in closed form on the then-truth) | stageQ2d1c report |
 | Q2d-1d span-restricted | **GATE FAIL** (M1:A: correct dc dz 0.5616, sp 0.128, best negative 0.612) | Q2D1D_GATE.json |
 | Q2d-1e span-init + L2 1e-3 | **GATE FAIL** (all M1 levels A-E: correct dc dz 0.585/0.588/0.589/0.410/0.489, sp 0.191/0.150/0.195/-0.234/0.065; best negative beats correct at C/D/E) | Q2D1E_GATE.json |
-| span-param diagnostic A=V_train.G | **RUNNING** (the single authorized successor; launched 2026-08-19 17:12Z, PID 55308) | runner_diag.log |
-| Terminal verdict on the low-rank bilinear learner family | PENDING the diagnostic | — |
+| span-param diagnostic A=V_train.G | **GATE FAIL** (M1 A-E: correct dc dz 0.669/0.544/0.549/0.630/0.508; sp up to 0.399; best negatives still competitive; repro all True; cens 165/165; NC1/NC2 fail as required) | Q2D1E_SPANPARAM_GATE.json |
+| Terminal verdict on the low-rank bilinear learner family | **CLOSED (FAIL)** — basic optimization failure under the frozen budget | this document |
 
 ## Adjudication verification checklist (executed, all confirmed)
 
@@ -105,10 +105,24 @@ This document moves no gate and modifies no historical artifact.
   data; KiRHub census -> DATA BLOCKER; Davis census -> INSUFFICIENT
   ALONE, combined-panel census next).
 
-## Terminal verdict slot
+## Terminal verdict (2026-08-19, 19:20Z)
 
-[TO BE FILLED after runner_diag.py exits and adjudicate_diag.py runs:
-PASS -> "low-rank bilinear learner: span-parameterized variant
-survives as synthetic candidate (null-space cause)". FAIL -> "low-rank
-bilinear learner family CLOSED (basic optimization failure under the
-frozen budget)".]
+**The low-rank bilinear synthetic learner family is CLOSED (final
+verdict FAIL).** The frozen span-param diagnostic (A = V_train @ G)
+ran to completion — censored assertions passed (D/E = 165), all four
+value-level reproduction checks passed bitwise, NC1/NC2 failed as
+required — and the frozen adjudicator returned GATE FAIL at every
+ladder level: correct-arm double-cold dz = 0.669 (A), 0.544 (B),
+0.549 (C), 0.630 (D), 0.508 (E), M2 0.620, M3 0.516, all below the
+never-moved 0.70 gate, with best negatives competitive (A 0.662).
+
+Interpretation (frozen): the span parameterization improved the
+cold surfaces (A: dz 0.585 -> 0.669, sp 0.191 -> 0.344; D: dz 0.410 ->
+0.630 vs 1e), confirming that null-space drift was a real contributor,
+but the learner still fails the gate under the frozen budget — the
+residual failure is BASIC OPTIMIZATION/ESTIMATION FAILURE of the
+low-rank bilinear learner at SNR 1 (train-fit perfect, cold surfaces
+do not reach the closed-form-achievable oracle). No further synthetic
+successors will be created; Q2d-2/Q2d-3/Saifudeen-B1 stay
+unauthorized; Core Task 1 remains UNRESOLVED (this is not a
+biological falsification). The Q2d chain is TERMINALLY ARCHIVED.
