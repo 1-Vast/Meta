@@ -31,10 +31,12 @@ DEAD_ZONE = 10.0
 SEED = 1
 
 
-def rng_key(cell, kind, ep=None):
+def rng_key(cell, kind, ep=None, mb=None):
     parts = ["stageCIIP2x2", kind, cell, str(SEED)]
     if ep is not None:
         parts += ["epoch", str(ep)]
+    if mb is not None:
+        parts += ["mb", str(mb)]
     return T.stable_rng(*parts)
 
 
@@ -115,7 +117,11 @@ def run_cell(cell, d1, z1, d2, z2, device):
             loss_ctr = ((hi - ci) ** 2).mean()
             loss_abs = None
             if joint and abs_cells:
-                rng_a = rng_key(cell, "abs", ep)
+                # implementation amendment 2026-08-19: the minibatch index b0
+                # enters the SHA-256 keyed stream so every contrast minibatch
+                # consumes its OWN absolute cells (previous launches re-sampled
+                # the same <=512 cells ~12x per epoch, inflating L_abs weight)
+                rng_a = rng_key(cell, "abs", ep, b0)
                 sel = np.asarray(abs_cells)[rng_a.permutation(len(abs_cells))[:BATCH]]
                 if is_esm:
                     ra = torch.tensor([pairs[int(i)]["var_row"] for i, _ in sel],
@@ -289,46 +295,81 @@ def run_cell(cell, d1, z1, d2, z2, device):
 
 
 def effect_boot(rows_by_cell, key):
-    """Bootstrap pair-mean-R2 differences over test parents (6)."""
+    """Effect estimates over test parents with parent-cluster bootstrap.
+
+    Primary (frozen) estimand = OBSERVED pair-mean R2 difference; the
+    bootstrap mean is NOT a point estimate (implementation amendment
+    2026-08-19). observed_parent_mean_effect and bootstrap CI are
+    reported alongside; leave-one-parent-out sign stability is computed
+    for ALL five effects.
+    """
     rng = T.stable_rng("stageCIIP2x2", "boot", key, "r2", 20260820)
-    def cell_means(cell):
-        rows = rows_by_cell[cell]
-        byp = {}
-        for r in rows:
-            byp.setdefault(r["parent"], []).append(r["r2"])
-        return byp
     parents = sorted({r["parent"] for rows in rows_by_cell.values() for r in rows})
-    def diff(ma, mb, idx):
-        sa = [x for pi in idx for x in ma[parents[pi]]]
-        sb = [x for pi in idx for x in mb[parents[pi]]]
+    def pair_mean(cell, keep=None):
+        rows = rows_by_cell[cell] if keep is None else [
+            r for r in rows_by_cell[cell] if r["parent"] in keep]
+        return float(np.mean([r["r2"] for r in rows]))
+    def parent_mean(cell, keep=None):
+        rs = rows_by_cell[cell] if keep is None else [
+            r for r in rows_by_cell[cell] if r["parent"] in keep]
+        byp = {}
+        for r in rs:
+            byp.setdefault(r["parent"], []).append(r["r2"])
+        return float(np.mean([float(np.mean(v)) for v in byp.values()]))
+    def resample_diff(cell_a, cell_b, idx):
+        sa = [r["r2"] for pi in idx for r in rows_by_cell[cell_a]
+              if r["parent"] == parents[pi]]
+        sb = [r["r2"] for pi in idx for r in rows_by_cell[cell_b]
+              if r["parent"] == parents[pi]]
         return float(np.mean(sa) - np.mean(sb))
-    ma = cell_means("esm_joint"); mb = cell_means("klifs_joint")
-    mc = cell_means("esm_centered"); md = cell_means("klifs_centered")
-    draws = {"rep_main_joint": [], "rep_main_centered": [],
-             "obj_main_klifs": [], "obj_main_esm": [], "interaction": []}
+    spec = {
+        "rep_main_joint": ("esm_joint", "klifs_joint", None),
+        "rep_main_centered": ("esm_centered", "klifs_centered", None),
+        "obj_main_klifs": ("klifs_centered", "klifs_joint", None),
+        "obj_main_esm": ("esm_centered", "esm_joint", None),
+        "interaction": ("esm_centered", "esm_joint",
+                        ("klifs_centered", "klifs_joint")),
+    }
+    draws = {k: [] for k in spec}
     for _ in range(2000):
         idx = rng.integers(len(parents), size=len(parents))
-        draws["rep_main_joint"].append(diff(ma, mb, idx))
-        draws["rep_main_centered"].append(diff(mc, md, idx))
-        draws["obj_main_klifs"].append(diff(md, mb, idx))
-        draws["obj_main_esm"].append(diff(mc, ma, idx))
-        draws["interaction"].append(diff(mc, ma, idx) - diff(md, mb, idx))
+        for k, (a, b, sub) in spec.items():
+            d = resample_diff(a, b, idx)
+            if sub is not None:
+                d -= resample_diff(sub[0], sub[1], idx)
+            draws[k].append(d)
     out = {}
-    for k, v in draws.items():
-        point = float(np.mean(v))
-        lo = float(np.percentile(v, 2.5))
-        hi = float(np.percentile(v, 97.5))
-        status = ("established" if lo > 0 and abs(point) >= 0.05
-                  else "absent" if abs(point) < 0.02 else "ambiguous")
-        out[k] = {"point": point, "lo2.5": lo, "hi97.5": hi, "status": status}
-    # few-pair safeguard: leave-one-parent-out sign stability
-    for k in ("rep_main_joint", "obj_main_klifs"):
+    for k, (a, b, sub) in spec.items():
+        obs_pair = pair_mean(a) - pair_mean(b)
+        obs_parent = parent_mean(a) - parent_mean(b)
+        if sub is not None:
+            obs_pair -= (pair_mean(sub[0]) - pair_mean(sub[1]))
+            obs_parent -= (parent_mean(sub[0]) - parent_mean(sub[1]))
+        lo = float(np.percentile(draws[k], 2.5))
+        hi = float(np.percentile(draws[k], 97.5))
+        status = ("established" if lo > 0 and abs(obs_pair) >= 0.05
+                  else "absent" if abs(obs_pair) < 0.02 else "ambiguous")
         signs = set()
         for pi in parents:
-            idx = [p for p in parents if p != pi]
-            d = (diff(ma, mb, idx) if k == "rep_main_joint" else diff(md, mb, idx))
+            keep = [p for p in parents if p != pi]
+            has_a = any(r["parent"] in keep for r in rows_by_cell[a])
+            has_b = any(r["parent"] in keep for r in rows_by_cell[b])
+            if not (has_a and has_b):
+                signs.add("nan")
+                continue
+            d = pair_mean(a, keep) - pair_mean(b, keep)
+            if sub is not None:
+                d -= (pair_mean(sub[0], keep) - pair_mean(sub[1], keep))
             signs.add("+" if d > 0 else "-")
-        out[k]["leave_one_parent_out_sign_stable"] = len(signs) == 1
+        out[k] = {
+            "observed_pair_mean_effect": obs_pair,
+            "observed_parent_mean_effect": obs_parent,
+            "bootstrap_ci": {"lo2.5": lo, "hi97.5": hi, "draws": 2000,
+                             "cluster": "parent"},
+            "bootstrap_mean_not_a_point_estimate": float(np.mean(draws[k])),
+            "status": status,
+            "leave_one_parent_out_sign_stable": len(signs) == 1,
+        }
     return out
 
 
