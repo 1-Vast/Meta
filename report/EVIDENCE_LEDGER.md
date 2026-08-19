@@ -427,3 +427,14 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   0.920/1.65 (k5) — Tanimoto screening remains better. Honest
   negative: ordinary FT with ESM+bilinear trunk is not a P1 win.
   P1_COMPARISON.json / P2_ARMS.json regenerated from the real artifact.
+
+- Q2d terminal verdict (2026-08-19 19:20Z): frozen span-param
+  diagnostic GATE FAIL at every level (correct dc dz A 0.669 / B 0.544
+  / C 0.549 / D 0.630 / E 0.508; sp up to 0.399; repro all True; cens
+  165/165; NC1/NC2 fail as required). Span-parameterization HELPED
+  (A: 0.585->0.669 dz, 0.191->0.344 sp vs 1e) -> null-space drift was
+  a real contributor; residual failure classified as basic
+  optimization/estimation failure at SNR 1 under the frozen budget.
+  LOW-RANK BILINEAR SYNTHETIC LEARNER FAMILY CLOSED; no further
+  synthetic successors; Core Task 1 UNRESOLVED (not biological
+  falsification). Artifact SHAs: GATE 9c6cac43..., LADDER c7a2173a...

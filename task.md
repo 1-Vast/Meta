@@ -653,3 +653,18 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   bootstrap; single seed screen then 3 seeds.
 - Stage ordering: NO CIIP-1A execution before the Q2d Stage-0 archival
   (diagnostic in final repro checks; watcher ddf armed).
+
+## Q2d TERMINAL VERDICT (2026-08-19 19:20Z) — family CLOSED
+
+- span-param diagnostic: GATE FAIL at all levels (correct dc dz
+  0.669/0.544/0.549/0.630/0.508 < 0.70; repro all True; cens 165/165;
+  NC1/NC2 fail as required). Per the frozen interpretation: basic
+  optimization failure of the low-rank bilinear learner under the
+  frozen budget. Learner family CLOSED; no further synthetic
+  successors; Q2d-2/Q2d-3/Saifudeen-B1 unauthorized; Core Task 1
+  UNRESOLVED. Q2D_TERMINAL_SUMMARY.md is the terminal archive.
+- Stage 0 (Q2d archival) is COMPLETE. Next authorized stages in order:
+  Stage 1 CIIP-1A (Duong-Ly, prereg 31d3eeaf..., module + 10 structure
+  tests ready) -> Stage 2 CIIP-1B -> Stage 3 BindingDB Potential
+  Bridge -> Stage 4 few-shot Potential Transport. P-line arm 4-7
+  screening can now use the GPU (arm-3 already done: Tanimoto ahead).

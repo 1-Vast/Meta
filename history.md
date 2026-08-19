@@ -2030,3 +2030,18 @@ Takeover snapshot (verified from live system, not from history):
 
 - 18:45 potential.py + 10 structure tests + CIIP-1A prereg 31d3eeaf...
   committed (0958e6b). Diagnostic at repro D/E (nearly done).
+
+## 2026-08-19 (window 2) Q2d TERMINAL VERDICT: family CLOSED
+
+- 19:20 runner_diag.py finished (repro B/C/D/E True, cens 165/165);
+  watcher ran adjudicate_diag.py -> GATE FAIL at every level (correct
+  dc dz A 0.669 / B 0.544 / C 0.549 / D 0.630 / E 0.508; sp up to
+  0.399; best negatives competitive; NC1/NC2 fail as required).
+- TERMINAL VERDICT: low-rank bilinear synthetic learner family CLOSED
+  (FAIL): span-parameterization improved cold surfaces (A dz 0.585->
+  0.669 vs 1e) but basic optimization/estimation failure at SNR 1
+  remains under the frozen budget. No further synthetic successors;
+  Q2d-2/Q2d-3/B1 stay unauthorized; Core Task 1 UNRESOLVED (not a
+  biological falsification). Q2D_TERMINAL_SUMMARY.md finalized.
+- Artifact SHAs: GATE 9c6cac43... / LADDER c7a2173a... (local, per
+  stage gitignore). Commit 1624016.
