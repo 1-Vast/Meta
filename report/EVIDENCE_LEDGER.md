@@ -457,3 +457,15 @@ Data-source ledger (first-hand, accessed 2026-08-18):
   identical budget/split/seed/checkpoint. Collapse gate per cell: >=5/9
   nonconstant, >=4/6 parents, R2>0.02. Effects established iff cluster-
   bootstrap lo2.5>0 and |point|>=0.05; leave-one-parent-out sign check.
+
+- 2x2 root-cause diagnostic archived (RESULT_2X2_DIAG.json): KLIFS
+  structural collapse supported (3/9 nonzero inputs); oracle ESM
+  restores nonconstant outputs (9/9 pairs, 6/6 parents) but pair-mean
+  R2 ~0.03-0.04 - variation restored, signal not demonstrated.
+  Effects: rep(joint) +0.118 CI [-0.117,0.300] ambiguous; rep(centered)
+  absent; obj(ESM) -0.017 absent -> centered-only superiority NOT
+  supported; interaction ambiguous; step-1 gradient dominance
+  confirmed (R_g 617-938, C_g ~ 0). Interpretation bounds enforced.
+- Controls prereg frozen (39d02166...): annotation-shortcut audit with
+  7 arms, centered-only objective, matched 49-pair subset; verdict
+  rules ORACLE_LOCAL_SIGNAL_SUPPORTED/NOT_SUPPORTED/UNRESOLVED.

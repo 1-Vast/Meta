@@ -2085,3 +2085,27 @@ Takeover snapshot (verified from live system, not from history):
   |point|>=0.05; few-pair safeguard; controls/3-seed/CIIP-1B separately
   authorized). DATA2X2.json/npz + 29 tests green; single-seed 4-cell
   run launched (seed 1). Commit 02c28d4.
+
+## 2026-08-19 (window 4) 2x2 archived; control-arm stage frozen and running
+
+- RESULT_2X2_DIAG.json archived with REPORT_2X2_DIAG.md: KLIFS cells
+  collapsed by construction (3/9 nonzero inputs); oracle ESM restores
+  nonconstant outputs 9/9 test pairs, 6/6 parents, but R2 ~0.03-0.04
+  (restored VARIATION is not restored SIGNAL). Effects: representation
+  joint +0.118 ambiguous, centered +0.013 absent; objective on ESM
+  -0.017 absent (centered-only superiority NOT supported); interaction
+  ambiguous; step-1 R_g 616.8/938.1 (dominance persists, C_g~0).
+- Mandated status: KLIFS structural collapse supported; oracle ESM
+  nonconstant restoration supported on covered subset; R2 gain
+  ambiguous; centered-only superiority not supported; interaction
+  ambiguous; signal UNRESOLVED; deployable rep not validated; CIIP-1A
+  PASS not authorized.
+- Controls prereg frozen (39d02166...): 7 arms on matched 49-pair
+  subset, centered-only objective for ALL arms (justified: objective
+  effect on ESM absent; removes L_abs confound). Arms: correct,
+  family-preserving shuffle, random matched window (|pos-true|>6,
+  SHA-keyed), ligand_only, ligand_invariant_shift, random_protein,
+  free_pairwise. Verdict rules frozen: ORACLE_LOCAL_SIGNAL_SUPPORTED/
+  NOT_SUPPORTED/UNRESOLVED; deployable rep NOT VALIDATED in every case.
+- 45/45 tests green; single-seed control run launched (job 098),
+  watcher cet armed. Commit f7cdeca.

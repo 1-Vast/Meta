@@ -734,3 +734,16 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   deterministic abs sampling, observed-point semantics, LOPO coverage,
   determinism, status rule. 36/36 green. IMPLEMENTATION_AMENDMENTS.md
   frozen (A1-A4) with code SHA f333c979... Commit d256beb.
+
+## Control-arm stage (2026-08-19): frozen prereg 39d02166..., running
+
+- Goal: attribute the oracle ESM nonconstant response - real mutation-
+  centered protein info vs annotation/generic-context/main-effect
+  shortcuts. Only the matched 49-pair covered subset; centered-only
+  objective for all arms; identical budget/checkpoint/bootstraps.
+- Deliverables in flight: CONTROL_RESULT.json, CONTROL_REPORT.md,
+  annotation shortcut audit, per-pair metrics, gradient coverage,
+  no-leakage audit, tests, SHA256SUMS.
+- Final status vocabulary only: ORACLE_LOCAL_SIGNAL_SUPPORTED /
+  NOT_SUPPORTED / UNRESOLVED + deployable NOT VALIDATED + CIIP-1A/1B/
+  Bridge/production NOT AUTHORIZED.
