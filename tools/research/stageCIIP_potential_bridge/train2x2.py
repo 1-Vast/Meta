@@ -97,9 +97,13 @@ def run_cell(cell, d1, z1, d2, z2, device):
     best_val = None
     best_state = None
     gradcov = None
+    step1_grads = None
+    abs_epoch_stats = {}
+    first_step = True
     for ep in range(EPOCHS):
         rng = rng_key(cell, "order", ep)
         order = np.asarray(cells)[rng.permutation(len(cells))]
+        abs_vals = []
         for b0 in range(0, len(order), BATCH):
             batch = order[b0:b0 + BATCH]
             opt.zero_grad()
@@ -108,35 +112,68 @@ def run_cell(cell, d1, z1, d2, z2, device):
                 hats[i] = pair_hat(i)
             hi = torch.stack([hats[int(i)][j] for i, j in batch])
             ci = torch.stack([c_of[int(i)][j] for i, j in batch])
-            loss = ((hi - ci) ** 2).mean()
+            loss_ctr = ((hi - ci) ** 2).mean()
+            loss_abs = None
             if joint and abs_cells:
                 rng_a = rng_key(cell, "abs", ep)
                 sel = np.asarray(abs_cells)[rng_a.permutation(len(abs_cells))[:BATCH]]
                 if is_esm:
-                    ra = [pairs[int(i)]["var_row"] for i, _ in sel]
+                    ra = torch.tensor([pairs[int(i)]["var_row"] for i, _ in sel],
+                                      device=device)
                     Pa = torch.stack([row_vec(int(i), "var") for i, _ in sel])
-                    la = [t for _, t in sel]
+                    la = torch.tensor([t for _, t in sel], device=device)
                     f = model(Pa, L[la])
                     y = Y[ra, la]
                 else:
-                    ra = [r for r, _ in sel]
-                    la = [l for _, l in sel]
-                    fin = np.isfinite(Y[ra, la])
+                    ra = torch.tensor([r for r, _ in sel], device=device)
+                    la = torch.tensor([l for _, l in sel], device=device)
+                    fin = torch.isfinite(Y[ra, la])
                     if fin.any():
-                        ra = np.asarray(ra)[fin]
-                        la = np.asarray(la)[fin]
+                        ra = ra[fin]
+                        la = la[fin]
                         f = model(Prot[ra], L[la])
                         y = Y[ra, la]
                     else:
                         f, y = None, None
                 if f is not None:
-                    loss = loss + LAMBDA_ABS * ((f - y) ** 2).mean()
+                    loss_abs = ((f - y) ** 2).mean()
+                    abs_vals.append(float(loss_abs.detach()))
+            loss = loss_ctr if loss_abs is None else loss_ctr + LAMBDA_ABS * loss_abs
+            if first_step:
+                # reporting only: per-loss gradient norms on s-params at step 1
+                s_pre = ("alpha.", "psi.")
+                loss_ctr.backward(retain_graph=True)
+                g_ctr_v = {n: p.grad.detach().clone() for n, p in
+                           model.named_parameters() if n.startswith(s_pre)}
+                g_ctr_s = float(sum((g ** 2).sum() for g in g_ctr_v.values()).sqrt())
+                model.zero_grad()
+                g_abs_s = None
+                dot = None
+                if loss_abs is not None:
+                    loss_abs.backward(retain_graph=True)
+                    g_abs_s = float(sum((p.grad ** 2).sum() for n, p in
+                                        model.named_parameters()
+                                        if n.startswith(s_pre)).sqrt())
+                    dot = float(sum((p.grad * g_ctr_v[n]).sum() for n, p in
+                                    model.named_parameters()
+                                    if n.startswith(s_pre)))
+                step1_grads = {
+                    "g_ctr_s": g_ctr_s, "g_abs_s": g_abs_s,
+                    "R_g": (g_abs_s / (g_ctr_s + 1e-12)) if g_abs_s is not None else None,
+                    "C_g": (dot / (g_ctr_s * g_abs_s + 1e-12)) if g_abs_s is not None else None,
+                }
+                model.zero_grad()
+                first_step = False
             loss.backward()
             if gradcov is None:
                 gradcov = {n: bool(p.grad is not None and float(p.grad.abs().max()) > 0)
                            for n, p in model.named_parameters()}
             torch.nn.utils.clip_grad_norm_(model.parameters(), 10.0)
             opt.step()
+        if joint and abs_vals and (ep == 0 or ep == EPOCHS - 1):
+            abs_epoch_stats[f"epoch{ep}"] = {
+                "mean": float(np.mean(abs_vals)), "var": float(np.var(abs_vals)),
+                "n_batches": len(abs_vals)}
         # val contrast mse over covered val pairs
         with torch.no_grad():
             errs = []
@@ -185,7 +222,7 @@ def run_cell(cell, d1, z1, d2, z2, device):
         else:
             rows = abs_rows[:64] if joint else sorted({pairs[i]["var_row"] for i in tr})[:64]
             Pa = Prot[rows]
-            Ls = L[torch.arange(min(64, Y.shape[1]), device=device)]
+            Ls = L[torch.arange(len(rows), device=device)]
             ep_ = torch.relu(model.p_enc(Pa))
             el_ = torch.relu(model.l_enc(Ls))
         var_dec = {
@@ -211,9 +248,44 @@ def run_cell(cell, d1, z1, d2, z2, device):
     }
     collapsed = (agg["n_nonconstant"] < 5 or agg["n_rank_evaluable"] < 5
                  or agg["n_parents_covered"] < 4 or agg["r2"] <= 0.02)
+    # objective-sampling report (reviewer-required)
+    if is_esm:
+        n_pool = len(abs_cells) if joint else 0
+        n_valid = n_pool
+        wt_var = [0, len({pairs[i]["var_row"] for i in tr})]
+    else:
+        n_pool = len(abs_cells) if joint else 0
+        n_valid = 0
+        wt_var = [0, 0]
+        if joint:
+            ypool = z1["Y"][np.ix_(abs_rows, np.arange(z1["Y"].shape[1]))]
+            n_valid = int(np.isfinite(ypool).sum())
+            wt_rows = {pairs[i]["wt_row"] for i in tr} & set(abs_rows)
+            var_rows = {pairs[i]["var_row"] for i in tr} & set(abs_rows)
+            wt_var = [len(wt_rows), len(var_rows)]
+    sampling_report = {
+        "n_abs_cells_pool": n_pool, "n_abs_valid_labels": n_valid,
+        "wt_variant_rows": wt_var,
+        "note": ("ESM joint: variant-row cells only (frozen rule); KLIFS joint: "
+                 "WT+variant rows - objective-sampling confound between the two "
+                 "joint cells, documented per review") if joint else
+                "centered-only: no L_abs",
+    }
+    # structural information cap of the representation on covered test pairs
+    if is_esm:
+        nz = sum(1 for i in te if float(np.linalg.norm(
+            z2["esm_var"][i] - z2["esm_wt"][i])) > 1e-9)
+    else:
+        nz = sum(1 for i in te if float(np.linalg.norm(
+            z1["prot"][pairs[i]["var_row"]] - z1["prot"][pairs[i]["wt_row"]])) > 0)
+    structural_cap = {"n_test_pairs_nonzero_input": int(nz),
+                      "n_test_pairs": len(te)}
     return {"cell": cell, "seed": SEED, "best_val_mse": best_val,
             "grad_cov": gradcov, "var_dec": var_dec, "agg": agg,
-            "collapsed": bool(collapsed), "test_rows": per_pair}
+            "collapsed": bool(collapsed), "test_rows": per_pair,
+            "step1_grads": step1_grads, "abs_epoch_stats": abs_epoch_stats,
+            "objective_sampling_report": sampling_report,
+            "structural_cap": structural_cap}
 
 
 def effect_boot(rows_by_cell, key):
@@ -279,6 +351,25 @@ def main() -> int:
         "cells": results, "effects": effects,
         "scope": "oracle-covered subset diagnostic; root-cause attribution only; "
                  "no CIIP-1A PASS verdict possible from this stage",
+        "interpretation_bounds": {
+            "klifs_structural_cap": "among the 9 covered test pairs only 3 have "
+                "nonzero KLIFS input difference, so the 5/9 nonconstant gate is "
+                "unreachable for KLIFS cells by construction: KLIFS collapse is "
+                "a structural statement, NOT an optimization statement; the "
+                "objective main effect is therefore not fairly estimable on "
+                "KLIFS and the interaction is confounded by the KLIFS null space",
+            "objective_sampling_confound": "KLIFS joint L_abs uses WT+variant "
+                "row cells; ESM joint uses variant-row cells only (frozen rule) "
+                "- per-cell pool sizes and valid label counts are reported; if "
+                "they differ materially the stage is a matched representation "
+                "diagnostic, not a pure factorial causal estimate",
+            "coverage_bias": "16 uncovered pairs are 4 whole families (ALK, MET, "
+                "LRRK2, TEK-Y1108F) with higher target variance; every conclusion "
+                "is restricted to the oracle-covered subset",
+            "no_universal_objective_claim": "this stage cannot establish a "
+                "general main effect of joint vs centered-only beyond the "
+                "covered subset",
+        },
     }
     path = HERE / "RESULT_2X2_DIAG.json"
     path.write_text(json.dumps(out, indent=1), encoding="utf-8")
