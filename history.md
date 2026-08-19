@@ -1887,6 +1887,21 @@ hash-fallback ECFP features and dominate the cold scaffold clusters.
 Next: centring/l ligand-pool attribution diagnostic, then a new prereg
 (Q2d-1c) with the identified fix.
 
+## Stage Q2d-1c STOP + Q2d-1d oracle PASS (2026-08-19)
+
+Q2d-1c (stageQ2d1c_identifiable_interaction_20260818, prereg SHA
+25b8b912...bfee7106): SVD closed-form oracle (exact in-fit) still missed the
+frozen 0.70 on seed 1 (pc 0.621 / dc 0.587). Attribution PROVEN: train-row
+feature submatrix rank 28 < 32; 8.8% of the drawn protein map lies in the
+unidentifiable null space (true weights: 0.968-0.994 everywhere; ligand side
+fully identified, lc dz 1.0). STOP before training per frozen rule.
+
+Q2d-1d (stageQ2d1d_spanrestricted_interaction_20260818, prereg SHA
+baf4bb72...d546991): truth protein map drawn entirely in the train-row span
+(A_t = V_train @ C). Oracle precheck PASSED all 3 seeds: pc 0.700-0.920,
+lc 1.0, dc 0.753-0.893. TRAINING AUTHORIZED; ladder M1 A-E x 3 seeds x 8
+arms + M2/M3/NC1/NC2 level A launched (runner_d.py).
+
 
 
 
