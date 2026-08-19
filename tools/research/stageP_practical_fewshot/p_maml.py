@@ -59,6 +59,29 @@ def collect_tasks(rng, tasks, ligs_of_target, first_cell):
     return kept
 
 
+def task_fomaml_grad(model, xp_s, xl_s, y_s, xp_q, xl_q, y_q,
+                     inner_steps=INNER_STEPS, inner_lr=INNER_LR):
+    """Per-task first-order MAML gradient (frozen semantics): INNER_STEPS
+    SGD steps on support, then the query-MSE gradient at the ADAPTED
+    parameters. The adapted model's gradients are cleared before the query
+    backward so the outer gradient is pure d(query)/dw' (first-order MAML),
+    not query + last support-step. Returns (qloss, grads aligned with
+    model.parameters())."""
+    m = copy.deepcopy(model)
+    inner = torch.optim.SGD(m.parameters(), lr=inner_lr)
+    for _ in range(inner_steps):
+        inner.zero_grad()
+        loss = ((m(xp_s, xl_s)["yhat"] - y_s) ** 2).mean()
+        loss.backward()
+        inner.step()
+    m.zero_grad()  # FIX (regression test test_p_maml_grad.py): drop the
+    # last support-step gradient before the query backward accumulates.
+    qloss = ((m(xp_q, xl_q)["yhat"] - y_q) ** 2).mean()
+    qloss.backward()
+    grads = [p.grad for p in m.parameters()]
+    return float(qloss.detach()), grads
+
+
 def train_seed_maml(seed, device, bank, split_art, pki, lid_of, fps_by_lid, pfeat, dry):
     torch.manual_seed(seed)
     np.random.seed(seed)
@@ -90,35 +113,26 @@ def train_seed_maml(seed, device, bank, split_art, pki, lid_of, fps_by_lid, pfea
         for sup, q in kept:
             if not q:
                 continue
-            m = copy.deepcopy(model)
-            inner = torch.optim.SGD(m.parameters(), lr=INNER_LR)
             xp_s, xl_s, y_s = PT.build_cell_features(sup, pki, lid_of, fps_by_lid,
                                                      pfeat, split_art)
-            xp_s = torch.from_numpy(xp_s).to(device)
-            xl_s = torch.from_numpy(xl_s).to(device)
-            y_s = torch.from_numpy(y_s).to(device)
-            for _ in range(INNER_STEPS):
-                inner.zero_grad()
-                loss = ((m(xp_s, xl_s)["yhat"] - y_s) ** 2).mean()
-                loss.backward()
-                inner.step()
             xp_q, xl_q, y_q = PT.build_cell_features(q, pki, lid_of, fps_by_lid,
                                                      pfeat, split_art)
-            xp_q = torch.from_numpy(xp_q).to(device)
-            xl_q = torch.from_numpy(xl_q).to(device)
-            y_q = torch.from_numpy(y_q).to(device)
-            qloss = ((m(xp_q, xl_q)["yhat"] - y_q) ** 2).mean()
-            if not torch.isfinite(qloss):
+            qloss, grads = task_fomaml_grad(
+                model,
+                torch.from_numpy(xp_s).to(device), torch.from_numpy(xl_s).to(device),
+                torch.from_numpy(y_s).to(device),
+                torch.from_numpy(xp_q).to(device), torch.from_numpy(xl_q).to(device),
+                torch.from_numpy(y_q).to(device))
+            if not np.isfinite(qloss):
                 # inner-loop divergence guard (implementation-level; the
                 # frozen inner/outer hyperparameters are untouched): the
                 # task contributes no gradient this step.
                 continue
-            qloss.backward()
-            for p_model, p_m in zip(model.parameters(), m.parameters()):
+            for p_model, g in zip(model.parameters(), grads):
                 if p_model.grad is None:
                     p_model.grad = torch.zeros_like(p_model)
-                p_model.grad.add_(p_m.grad)
-            qloss_sum += float(qloss.detach())
+                p_model.grad.add_(g)
+            qloss_sum += qloss
             qcount += 1
         if qcount > 0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), 10.0)

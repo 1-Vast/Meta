@@ -1,9 +1,10 @@
-"""Stage P1 arm 5: CNP-style support encoder (implementation addendum
-sha 84fea478...). Support set -> mean of [protein|ECFP|y] -> MLP -> latent
-mu (64-dim); prediction = PTrunk(xp, xl) + h(mu); k=0 -> learned prior.
-Train: task query MSE + KL(beta=1.0); eval: context-only adaptation
-(support-only by construction, zero gradient steps). Artifact
-P1_ARM5_CNP.json.
+"""Stage P1 arm 5: deterministic Deep-Sets CNP (addendum AD2 sha
+2fde8d6a...). Per-support-item encoder phi (2889 -> 64 -> 64 -> 64),
+mean-pool context r (empty support -> r = 0, no trainable prior), decoder
+yhat = PTrunk(xp, xl) + off_head(r) with off_head bias=False so the k=0
+context correction is exactly 0 and k=0 equals the shared trunk output.
+Train: per-task query MSE (no KL, no sampling). Eval: context encoding
+only, support-only, query labels never enter. Artifact P1_ARM5_CNP.json.
 """
 from __future__ import annotations
 
@@ -18,51 +19,48 @@ import torch.nn as nn
 import p_train as PT
 
 OUT = PT.OUT
-SCHEMA = "MetaSieve.StageP.P1Arm5CNP.v1"
+SCHEMA = "MetaSieve.StageP.P1Arm5CNP.v2"
 IMPL_SHA = "84fea478382fec1bf07be5a080b222046b18884d121792357e4ebb3418453ccf"
-CTX_DIM = 64
-BETA = 1.0
+AD2_SHA = "f8909eded8d3d11ec8e0207fdec9a30873ba383023cd57838c9ec4d462069e74"
+IN_DIM = 640 + 2048 + 1  # protein | ECFP | y (documented in AD2)
 
 
 class CNP(nn.Module):
-    """PTrunk + CNP context encoder (frozen parameter delta vs arm 3)."""
+    """Deterministic Deep-Sets CNP (AD2); parameter delta vs arm 3 =
+    180,544."""
 
     def __init__(self):
         super().__init__()
         self.trunk = PT.PTrunk()
-        self.enc = nn.Sequential(nn.Linear(640 + 2048 + 1, 64), nn.ReLU(),
-                                 nn.Linear(64, 64), nn.ReLU())
-        self.mu_head = nn.Linear(64, CTX_DIM)
-        self.lv_head = nn.Linear(64, CTX_DIM)
-        self.off_head = nn.Linear(CTX_DIM, 1)
-        self.prior = nn.Parameter(torch.zeros(CTX_DIM))
-        for m in [self.enc[0], self.enc[2]]:
-            nn.init.xavier_uniform_(m.weight)
-            nn.init.zeros_(m.bias)
-        for m in (self.mu_head, self.lv_head):
+        self.phi = nn.Sequential(nn.Linear(IN_DIM, 64), nn.ReLU(),
+                                 nn.Linear(64, 64), nn.ReLU(),
+                                 nn.Linear(64, 64))
+        self.off_head = nn.Linear(64, 1, bias=False)  # k=0 correction == 0
+        for m in [self.phi[0], self.phi[2], self.phi[4]]:
             nn.init.xavier_uniform_(m.weight)
             nn.init.zeros_(m.bias)
         nn.init.xavier_uniform_(self.off_head.weight)
-        nn.init.zeros_(self.off_head.bias)
 
     def context(self, xp, xl, y):
-        """mu, logvar from the mean-pooled support set (empty -> prior)."""
+        """r = mean_i phi([xp_i | xl_i | y_i]); empty support -> fixed 0."""
         if xp.shape[0] == 0:
-            return None, None
-        inp = torch.cat([xp, xl, y.unsqueeze(-1)], dim=-1).mean(0, keepdim=True)
-        h = self.enc(inp)
-        return self.mu_head(h), self.lv_head(h)
+            return torch.zeros(1, 64)
+        inp = torch.cat([xp, xl, y.unsqueeze(-1)], dim=-1)
+        return self.phi(inp).mean(0, keepdim=True)
 
     def forward(self, xp, xl, ctx=None):
         out = self.trunk(xp, xl)
         if ctx is None:
-            ctx = self.prior
-        yhat = out["yhat"] + self.off_head(ctx).squeeze(-1)
-        return {"yhat": yhat}
+            ctx = torch.zeros(1, 64)
+        return {"yhat": out["yhat"] + self.off_head(ctx).squeeze(-1)}
 
 
-def kl_loss(mu, lv):
-    return 0.5 * (mu.square() + lv.exp() - lv - 1.0).sum(-1).mean()
+def param_delta():
+    cnp = CNP()
+    trunk = PT.PTrunk()
+    n_cnp = sum(p.numel() for p in cnp.parameters())
+    n_trunk = sum(p.numel() for p in trunk.parameters())
+    return n_cnp - n_trunk
 
 
 def collect_tasks(rng, tasks, ligs_of_target, first_cell):
@@ -129,19 +127,22 @@ def train_seed_cnp(seed, device, bank, split_art, pki, lid_of, fps_by_lid, pfeat
                 continue
             xp_s, xl_s, y_s = PT.build_cell_features(sup, pki, lid_of, fps_by_lid,
                                                      pfeat, split_art)
-            mu, lv = model.context(torch.from_numpy(xp_s).to(device),
-                                   torch.from_numpy(xl_s).to(device),
-                                   torch.from_numpy(y_s).to(device))
+            ctx = model.context(torch.from_numpy(xp_s).to(device),
+                                torch.from_numpy(xl_s).to(device),
+                                torch.from_numpy(y_s).to(device))
             xp_q, xl_q, y_q = PT.build_cell_features(q, pki, lid_of, fps_by_lid,
                                                      pfeat, split_art)
             out = model(torch.from_numpy(xp_q).to(device),
-                        torch.from_numpy(xl_q).to(device), ctx=mu)
+                        torch.from_numpy(xl_q).to(device), ctx=ctx)
             mse = ((out["yhat"] - torch.from_numpy(y_q).to(device)) ** 2).mean()
-            kld = kl_loss(mu, lv) * BETA if mu is not None else 0.0
-            (mse + kld).backward()
+            if not torch.isfinite(mse):
+                continue
+            mse.backward()
             tot += float(mse.detach())
             cnt += 1
-        opt.step()
+        if cnt > 0:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 10.0)
+            opt.step()
         if step % PT.MONITOR_EVERY == PT.MONITOR_EVERY - 1 and not dry:
             mon = monitor_cnp(model, bank, split_art, pki, lid_of, fps_by_lid,
                               pfeat, device)
@@ -160,22 +161,22 @@ def train_seed_cnp(seed, device, bank, split_art, pki, lid_of, fps_by_lid, pfeat
 
 def cnp_predict(model, sup_ids, q_ids, pki, lid_of, fps_by_lid, pfeat,
                 split_art, device):
-    """Eval adaptation = context encoding (CNP mechanism; support-only;
-    zero gradient steps; query labels never used)."""
+    """Eval adaptation = context encoding (AD2): support-only by
+    construction; query labels never enter."""
     model.eval()
     with torch.no_grad():
         if sup_ids:
             xp_s, xl_s, y_s = PT.build_cell_features(sup_ids, pki, lid_of,
                                                      fps_by_lid, pfeat, split_art)
-            mu, _ = model.context(torch.from_numpy(xp_s).to(device),
-                                  torch.from_numpy(xl_s).to(device),
-                                  torch.from_numpy(y_s).to(device))
+            ctx = model.context(torch.from_numpy(xp_s).to(device),
+                                torch.from_numpy(xl_s).to(device),
+                                torch.from_numpy(y_s).to(device))
         else:
-            mu = None
+            ctx = None
         xp, xl, _ = PT.build_cell_features(q_ids, pki, lid_of, fps_by_lid,
                                            pfeat, split_art)
         out = model(torch.from_numpy(xp).to(device),
-                    torch.from_numpy(xl).to(device), ctx=mu)
+                    torch.from_numpy(xl).to(device), ctx=ctx)
     return out["yhat"].cpu().numpy()
 
 
@@ -230,12 +231,17 @@ def main():
     artifact = {
         "schema": SCHEMA,
         "impl_addendum_sha256": IMPL_SHA,
+        "ad2_sha256": AD2_SHA,
+        "adaptation_mechanism": "context-encoding (no gradient steps)",
+        "note": ("different adaptation mechanism vs ordinary FT/MAML "
+                 "(50 support gradient steps); same data protocol"),
+        "param_delta_vs_arm3": param_delta(),
         "backbone_spec_sha256": PT.BACKBONE_SHA,
         "bank_sha256": PT.sha256_file(OUT / "P_BANK.json"),
         "split_sha256": PT.sha256_file(OUT / "P_SPLIT.json"),
         "dry": bool(args.dry),
         "protocol": {"steps": (2 if args.dry else PT.STEPS), "lr": PT.LR, "wd": PT.WD,
-                     "batch_cells": PT.BATCH_CELLS, "ctx_dim": CTX_DIM, "beta": BETA,
+                     "batch_cells": PT.BATCH_CELLS, "in_dim": IN_DIM,
                      "eval_adaptation": "context-encoding-only",
                      "monitor_every": PT.MONITOR_EVERY,
                      "monitor_adapt_steps": PT.MONITOR_ADAPT_STEPS,
