@@ -1,6 +1,6 @@
 # Current model evidence
 
-Authority date: 2026-08-18. This file is the compact scientific state; leaf
+Authority date: 2026-08-20. This file is the compact BindingDB model state; leaf
 artifacts live under `report/meta_fewshot/stageR0_*` through `stageR14_*`.
 
 Interpretation note: `POST_COMPLETION_REVIEW_20260818.md` controls where the
@@ -12,6 +12,18 @@ experiments do not directly close their named external method families.
 Scope: every conclusion in this file is **BindingDB-Ki double-cold
 development evidence**. It does not extend to other DTA datasets, to
 architectures that were not run, or to what is achievable in principle.
+
+## Current track status
+
+The final project mission is cold-target zero-/few-shot DTA performance. Core
+Task 1 is a separate mechanism-attribution track. Overall Core Task 1 status is
+**UNRESOLVED**: CIIP-1A returned
+`ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED` for the tested oracle-coordinate local ESM
+potential, while contextual propagation was measured without fitting a
+context-only predictor. CIIP-1B, the BindingDB bridge, and production mechanism
+integration are not authorized. Independent practical performance baselines may
+continue under their own preregistration; their gains must not be attributed to
+protein-conditioned interaction without the mechanism controls.
 
 ## Protocol
 
@@ -173,9 +185,12 @@ shifts toward the second without proving it.
 6. Does MSA information explain protein-side target-level calibration residuals
    beyond frozen ESM, after depth and research-bias stratification?
 
-## Next decision
+## Historical next-decision note
 
-**No training is authorized.** `NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md` is
+The following A2 decision is retained as historical evidence for that closed
+lane, not as a global prohibition on the independent performance track.
+
+**No A2 training is authorized.** `NEXT_RESEARCH_PLAN_A2_MOMENT_20260816.md` is
 superseded for its A2 content: the model innovation it proposes is falsified
 before implementation. The centered-protein-counterfactual training innovation
 is structurally valid but has lost its measured premise and its located target,

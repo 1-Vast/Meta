@@ -1,0 +1,298 @@
+{
+ "schema": "MetaSieve.StageCIIP-S1.S0Audit.v1",
+ "items": {
+  "1_coverage": {
+   "n_pairs": 65,
+   "n_covered": 49,
+   "covered_recheck_matches_DATA2X2": true,
+   "missing_detail_reasons_all_pos_gt_maxlen": true,
+   "n_missing": 16,
+   "missing_pairs": [
+    {
+     "pair": 8,
+     "parent": "ALK",
+     "pos": 1156,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 9,
+     "parent": "ALK",
+     "pos": 1174,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 10,
+     "parent": "ALK",
+     "pos": 1196,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 11,
+     "parent": "ALK",
+     "pos": 1275,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 23,
+     "parent": "MET",
+     "pos": 1228,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 24,
+     "parent": "MET",
+     "pos": 1228,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 25,
+     "parent": "MET",
+     "pos": 1200,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 26,
+     "parent": "MET",
+     "pos": 1250,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 27,
+     "parent": "MET",
+     "pos": 1230,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 28,
+     "parent": "MET",
+     "pos": 1230,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 29,
+     "parent": "MET",
+     "pos": 1230,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 30,
+     "parent": "MET",
+     "pos": 1230,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 47,
+     "parent": "LRRK2",
+     "pos": 2019,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 48,
+     "parent": "LRRK2",
+     "pos": 2020,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 49,
+     "parent": "LRRK2",
+     "pos": 1441,
+     "reason": "pos > ESM_MAX_LEN"
+    },
+    {
+     "pair": 63,
+     "parent": "TEK",
+     "pos": 1108,
+     "reason": "pos > ESM_MAX_LEN"
+    }
+   ],
+   "covered_split_counts": {
+    "train": 32,
+    "val": 8,
+    "test": 9
+   },
+   "split_counts_match_DATA1A": true,
+   "construct_lengths_covered": {
+    "min": 360,
+    "max": 1210
+   }
+  },
+  "2_parent_overlap": {
+   "split_x_parent": {
+    "val": {
+     "ABL1": 2,
+     "KIT": 2,
+     "EGFR": 1,
+     "FGFR4": 1,
+     "RET": 2
+    },
+    "train": {
+     "ABL1": 4,
+     "BRAF": 1,
+     "BTK": 1,
+     "KIT": 5,
+     "SRC": 1,
+     "CHEK2": 1,
+     "EGFR": 3,
+     "FGFR1": 1,
+     "FGFR2": 1,
+     "FGFR3": 2,
+     "FGFR4": 1,
+     "FLT3": 1,
+     "JAK2": 1,
+     "MAP2K1": 1,
+     "MAPK14": 1,
+     "PDGFRA": 2,
+     "RET": 4,
+     "TEK": 1
+    },
+    "test": {
+     "ABL1": 2,
+     "KIT": 2,
+     "EGFR": 1,
+     "FGFR4": 1,
+     "RET": 2,
+     "TEK": 1
+    }
+   },
+   "same_parent_shares_single_wt_row": true,
+   "diff_parent_never_shares_wt_row": true,
+   "n_distinct_wt_rows_covered": 18,
+   "test_parent_sibling_train_counts": {
+    "Q252H_ABL1": 4,
+    "T315I_ABL1": 4,
+    "A829P_KIT": 5,
+    "V560G_KIT": 5,
+    "L861Q_EGFR": 3,
+    "V550L_FGFR4": 1,
+    "G691S_RET": 4,
+    "M918T_RET": 4,
+    "Y897S_TEK": 1
+   },
+   "all_test_pairs_F9_definable": true
+  },
+  "3_mutation_coordinates": {
+   "n_pairs_checked": 65,
+   "n_q0b_records": 76,
+   "mismatches": [],
+   "alias_ledger_entries": 1,
+   "alias_ledger_parents": [
+    "BRAF"
+   ],
+   "all_coordinates_consistent_with_Q0B": true
+  },
+  "4_ligand_overlap": {
+   "per_pair_n_lig": {
+    "min": 179,
+    "median": 183.0,
+    "max": 183
+   },
+   "pairwise_common_ligands": {
+    "min": 175,
+    "median": 182.0,
+    "max": 183
+   },
+   "per_ligand_pair_coverage": {
+    "min": 47,
+    "median": 49.0,
+    "max": 49,
+    "n_at_max": 158
+   }
+  },
+  "5_assay_semantics": {
+   "endpoint_namespace": [
+    "percent inhibition only (DATA1A/DATA2X2 endpoint fields)"
+   ],
+   "contrast_cells_outside_pm100_fraction": 0.0,
+   "raw_panel_outside_0_100_fraction_covered_rows": 0.2180898784764701,
+   "raw_panel_outside_0_100_fraction_full_panel": 0.23024054982817868,
+   "wt_panel": {
+    "per_ligand_wt_mean_median": 89.35826530612246,
+    "n_ligands_wt_mean_gt90": 87,
+    "n_ligands_wt_mean_lt10": 0,
+    "per_ligand_wt_sd_median": 14.976760968627179,
+    "n_midzone_ligands_10_90": 96
+   },
+   "concentration_metadata_excerpt": "no per-well concentration column or unit string found in Table S1/S2 of the local supplement copy (searched for concentration/dose/uM-like patterns); single-dose percent-inhibition endpoint recorded as data limitation",
+   "out_of_range_matches_prior_census_23pct": true
+  },
+  "6_censoring": {
+   "censoring_annotation_symbols_found": 0,
+   "conclusion": "no censoring annotations -> interval-censored formulations not identifiable; recorded data limitation"
+  },
+  "7_plan4_diagnostics": {
+   "n_train_val_pairs": 40,
+   "main_effect_energy_share_of_d": 0.10050661180617115,
+   "median_abs_mean_l_d": 3.2914029129149536,
+   "same_parent_cross_mutation_spearman_median": 0.4424733224216618,
+   "same_parent_wt_residualized_median": 0.39067438171903823,
+   "different_parent_keyed_baseline_median": 0.0411516379523894,
+   "parent_profile_LOPO_pooled_spearman": 0.5592591565204964,
+   "parent_profile_LOPO_pooled_R2": 0.25953289898709164,
+   "parent_profile_LOPO_per_pair_median_R2": 0.32568507541792246,
+   "ligand_global_leave_pair_out_R2": 0.0602293394432174,
+   "parent_residualized_cross_mutation_median": -0.27988094490825016,
+   "expected": {
+    "main_effect_energy_share": 0.105,
+    "sib_corr": 0.442,
+    "wt_resid": 0.406,
+    "diff_parent": 0.036,
+    "LOPO_spearman": 0.579,
+    "LOPO_R2": 0.326,
+    "lig_global_R2": 0.06,
+    "resid_corr": -0.28
+   }
+  },
+  "8_power": {
+   "test_clusters": {
+    "ABL1": 2,
+    "KIT": 2,
+    "EGFR": 1,
+    "FGFR4": 1,
+    "RET": 2,
+    "TEK": 1
+   },
+   "cluster_sizes": [
+    2,
+    2,
+    1,
+    1,
+    2,
+    1
+   ],
+   "sigma_r2_per_pair": 0.5978804240286562,
+   "sigma_spearman_per_pair": 0.21751025935837587,
+   "MDE_80pct_deltaR2_T1T2": 0.5657264888286591,
+   "MDE_80pct_deltaSpearman_T0m": 0.207565575838089,
+   "note": "MDE = paired per-pair effect delta such that parent-cluster bootstrap (2000 draws) lo2.5>0 in >=80% of keyed simulations; sigma from per-pair metric dispersion of a legal predictor (LOPO ligand/parent profile) on train+val pairs"
+  },
+  "10_leakage": {
+   "frozen_input_consistency": {
+    "esm_window_features_vs_DATA2X2_max_abs_diff": 0.0,
+    "note": "radius-6 window means recomputed from q1_esm_cache.npz reproduce DATA2X2.npz esm_wt/esm_var exactly over all 49 covered pairs (verified 2026-08-20, separate check logged in commands.jsonl)"
+   },
+   "channels": [
+    {
+     "channel": "same-parent pairs share one WT measurement row; parent labels appear in multiple pairs",
+     "mitigation": "parent-cluster bootstrap; cross-fitted F9 excludes self; val/test residuals from train parents only (prereg B.4)"
+    },
+    {
+     "channel": "F2 erased-context X token position encodes the mutation coordinate",
+     "mitigation": "F2 declared counterfactual/non-deployable; B branches carry the frozen label; deployability tested only by F3/F4"
+    },
+    {
+     "channel": "coverage selection: 16/65 pairs excluded (pos>1020; ALK/MET long constructs)",
+     "mitigation": "all S1 claims restricted to the 49-pair covered subset; recorded as claim restriction"
+    },
+    {
+     "channel": "shared ligand panel across pairs",
+     "mitigation": "F7f ligand-only floor is a mandatory comparison in every contrast"
+    },
+    {
+     "channel": "no replicate measurements",
+     "mitigation": "mutation-specific variance is noise-inclusive; no noise-floor claim"
+    }
+   ],
+   "unresolved_channels": []
+  }
+ }
+}

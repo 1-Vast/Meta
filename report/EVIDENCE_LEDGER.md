@@ -1,16 +1,34 @@
 # Evidence ledger
 
+## Current state (2026-08-20)
+
+The final mission is practical, trainable cold-target zero-/few-shot DTA
+performance. Core Task 1 is a separate attribution task: establish a
+deployable protein-conditioned interaction rather than merely improve
+predictions. Its overall status is **UNRESOLVED**. The latest CIIP-1A verdict is
+**ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED** for the tested oracle-coordinate local ESM
+potential; contextual propagation was measured but context-only predictive
+value was not evaluated. CIIP-1B, the BindingDB bridge, and production
+integration are not authorized. Practical performance baselines may proceed on
+their independent track; no such gain may be described as protein-conditioned
+without the mechanism controls below.
+
+The entries below are a chronological evidence index. Their dated launch states
+do not override this block or `task.md`.
+
 Compact evidence authority after the 2026-08-17 five-phase consolidation.
 Deleted pre-R0 evidence is summarized in
 `meta_fewshot/LEGACY_PRE_R0_SUMMARY.md` and recoverable from Git. Active work is
 governed by `../task.md`; this file records evidence rather than authorizing a
 new model.
 
-Interpretation authority: `POST_COMPLETION_REVIEW_20260818.md`. Every verdict
-below is **BindingDB-Ki double-cold development evidence** about the arm that
-was run. A rejected stage is a rejected implementation, not a closed research
-question, and a proxy experiment does not falsify the named method it stands
-in for.
+Interpretation authority for the retained BindingDB cycle is
+`POST_COMPLETION_REVIEW_20260818.md`. Unless a section explicitly names an
+external panel, its verdict is **BindingDB-Ki double-cold development evidence**
+about the arm that was run. Duong-Ly CIIP entries are functional percent-
+inhibition diagnostics and are not Ki/Kd/pK DTA results. A rejected stage is a
+rejected implementation, not a closed research question, and a proxy experiment
+does not falsify the named method it stands in for.
 
 | Cycle | Retained evidence | Decision |
 |---|---|---|
@@ -34,7 +52,7 @@ in for.
 | A2 exact (R, L2) | `tools/research/a2_exact_probe/` | **A2 closed on its own operator and gates**: loses to parameter-free Tanimoto at every k with resolved intervals; its protein and label controls are **inert**, not inverted (the earlier "inverted" reading came from non-nested banks and is withdrawn). `embed` carries a signed-SAR direction, +0.212 +/- 0.011, but it is **negative on activity cliffs** (-0.118) and near zero on novel ligands |
 | Stage P | `tools/research/stageP_cpc/` | **P1 fails** (-0.0066 [-0.0545,+0.0417]). Correct and wrong protein give identical ordering at every k in both arms. The centered objective excluded the level branch as designed and made the protein response reproducible across seeds (+0.316) but unaligned with truth (+0.022). Objective-only protein conditioning is closed for this architecture and budget |
 | M0 | `meta_fewshot/stageM0_msa_probe_20260816/PREREGISTRATION.md` | Independent diagnostic, not run |
-| Active programme | `../task.md` | Five sequential gates: transferable protein interaction -> relative SAR -> level/shape ownership -> few-shot target state -> causal confirmation. Only Phase 1 is open |
+| Current programme | `../task.md` | Parallel tracks: Main Line P measures practical cold-target performance; Main Line M/Core Task 1 governs protein-interaction attribution. The current CIIP-1A oracle-local mechanism is NOT SUPPORTED; Core Task 1 remains UNRESOLVED overall; no mechanism successor is authorized |
 | Stage A/B | `tools/research/stageA_innerloop/`, `stageB_complementary/` | AdaMBind-inspired inner/outer-loop meta-adaptation NOT PROMISING then REJECTED; meta_val checkpoint selection measured at ~0.62 pK^2 (k=0); ligand representation collapse quantified |
 | Stage C | `tools/research/stageC_level_shape/` | level/shape decomposition: k=0 is 68% level; boundary measured, not trained |
 | Stage D0/D/E | `tools/research/stageD_level_panel/` | Five governing questions answered (D0_REPORT.md); panel-set level head + orthogonal routing REJECTED (G1/G2); attribution ablations complete; document-transfer R^2 +0.451 measured |
@@ -469,3 +487,75 @@ Data-source ledger (first-hand, accessed 2026-08-18):
 - Controls prereg frozen (39d02166...): annotation-shortcut audit with
   7 arms, centered-only objective, matched 49-pair subset; verdict
   rules ORACLE_LOCAL_SIGNAL_SUPPORTED/NOT_SUPPORTED/UNRESOLVED.
+
+## CIIP contextual-propagation audit (2026-08-20)
+
+- **Claim tested:** whether frozen ESM-2 residue states outside an annotated
+  mutation window can carry mutation information through contextual propagation.
+- **Evidence:** `stageCIIP_context_propagation_20260820/CONTEXT_PROPAGATION_RESULT.json`,
+  prereg SHA `cdd6e0a8...e9b5b19`, and per-distance NPZ curves. Site / radius-6
+  / non-site / full-sequence mean delta norms are 4.0111 / 1.1605 / 0.05749 /
+  0.07392. Erasure control: 49/49 matched inputs, max embedding delta 0.0.
+- **Status:** context propagation is observed; therefore a random ESM window is
+  not a pure mutation-information null. No label was used and no model was fit,
+  so context-only ligand-conditioned predictive value and site-specific
+  predictive increment remain **NOT EVALUATED**. This does not alter the
+  control verdict or authorize a successor/production change.
+
+## CIIP-1A control-arm verdict (2026-08-20)
+
+- **Claim tested:** oracle mutation-centered local ESM has transferable
+  ligand-conditioned value beyond matched controls on Duong-Ly centered
+  percent-inhibition response.
+- **Evidence:** `stageCIIP_potential_bridge/CONTROL_RESULT.json`, frozen prereg
+  SHA `39d02166...`, and `CONTROL_ADJUDICATION.json`. Correct-minus-random-
+  window R2 = -0.1217, parent bootstrap [-0.4569, +0.0327]; both arms are 9/9
+  nonconstant. Correct-site ESM deltas are larger for 49/49 pairs (0.5310 vs
+  0.0267), which supports mutation sensitivity only.
+- **Status:** **NOT SUPPORTED** for ligand-conditioned predictive value. This is
+  an oracle-coordinate, pair-level-split functional-assay diagnostic, not a
+  Ki/Kd/DeltaDeltaG or cold-target-DTA result. CIIP-1B, BindingDB bridge, and
+  production integration remain unauthorized. The read-only context audit is
+  complete and did not authorize a successor; no further CIIP training is
+  currently authorized.
+
+## CIIP-2 cycle: audit, OLR-Potential successor, instrument qualification (2026-08-20)
+
+- Authority: user-issued independent-scientist mandate (phased CIIP-2 brief).
+  Master report: report/research_ideas/ciip/CIIP2_RESEARCH_REPORT_20260820.md.
+- **Read-only decomposition (new, no labels fit):** the true shared-ligand-pattern
+  baseline on the 9 covered test pairs is R2 = 0.1313 (train-mean centered
+  profile), matching the CIIP-1A random-window arm (0.1291); the frozen
+  ligand_only arm was structurally constant (0/9) and understated this baseline.
+  Covered interaction variance: parent-shared 134.8%^2 vs mutation-specific
+  89.7%^2 (40%, noise-inclusive). Same-parent sibling LOSO ceiling: per-pair
+  median R2 0.293. Family-mean LOSO-parent prior: R2 = -0.021. Assay structure:
+  23% of cells out of [0,100]; 99/183 ligands at WT-ceiling, 0 inactive.
+- **Successor stage:** stageCIIP2_olr_potential_20260820 (prereg a7b17e8a...,
+  ADD-1 aa8d06af..., ADD-2 91e2cb3a...). OLR-Potential = ligand-conditioned
+  residue router (mean-pool skip + routed deviation) + cross-fitted ligand
+  nuisance + assay-gain weights; 12/12 structural tests green; deployed path
+  coordinate-free, SGD-only, no test-time adaptation. Methodological results:
+  full mutation-erasure is degenerate for potentials (AM-1); orthogonal
+  main-effect decomposition is an exact identity on panel-centered contrasts
+  (AM-2; A3 training reproduced A2 exactly); residual-target evaluation makes
+  the ligand-prior ill-posed (ADD-2); first planted instrument keyed mean
+  states that are too similar across kinases (between-parent spread ~16 vs
+  measured 134.8) and was redesigned to parent-deviation fields.
+- **Instrument qualification:** planted parent-deviation field linear in real
+  ESM mean states, scaled to the measured between-parent variance, learnable
+  on train (R2 0.67), recovers at test only +0.016..+0.030 R2 over the
+  analytic prior (standard >= 0.25), robust across estimator family, rank,
+  and selection rule. Verdict **INSTRUMENT_UNDERPOWERED**.
+- **Real-data smoke (seed 11, S1):** A0 prior 0.1313; A1 0.1087; A2 0.0252;
+  A3 0.0252 (= A2); A4 0.1732; A5 0.1388; C-perm 0.1818. No arm beats the
+  permutation control; max model increment +0.042 R2. Phase-4 gate (b) FAILED;
+  Phase 5 not authorized by the frozen chain.
+- **Status:** R1 representation SUPPORTED; R2 identification NOT SUPPORTED at
+  this power; R3 deployment **UNRESOLVED (power)**; R4 few-shot bridge BLOCKED;
+  R5 binding interpretation NOT CLAIMED. Overall: **UNRESOLVED (power)** - the
+  panel cannot adjudicate deployable protein-conditioned interaction learning
+  in either direction at the pre-registered standard. Successor requires
+  >=100 mutation conditions across >=30 parents on one endpoint, or a Ki/Kd
+  DeltaDeltaG corpus with its own prereg. Production model/ and scripts/
+  untouched throughout.

@@ -70,6 +70,21 @@ def test_csc_antisymmetry_identity_reference():
     assert csc(1.0,2.0,0.0) == -csc(2.0,1.0,0.0)
     assert csc(1.0,1.0,0.0) == 0.0
 
+
+def test_planted_interaction_uses_both_projection_matrices():
+    from tools.research.stageX_csc_signal.x0_planted import planted_interaction
+
+    prot = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float32)
+    lig = np.array([[5.0, 6.0], [7.0, 8.0]], dtype=np.float32)
+    U = np.array([[1.0, 0.0], [0.0, 2.0]], dtype=np.float32)
+    V = np.array([[2.0, 0.0], [0.0, 3.0]], dtype=np.float32)
+
+    expected = (prot @ U) @ (lig @ V).T
+    actual = planted_interaction(prot, lig, U, V)
+
+    assert actual.shape == (2, 2)
+    np.testing.assert_allclose(actual, expected)
+
 def test_representation_capability_identifies_global_pooling_failure():
     d=json.loads((STAGE/'X0_INSTRUMENTS.json').read_text(encoding='utf-8'))
     cap=d['representation_capability']

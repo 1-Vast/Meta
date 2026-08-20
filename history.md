@@ -1,5 +1,31 @@
 # MetaSieve research history
 
+## Current executive state (2026-08-20)
+
+- The final mission remains a trainable, reproducible performance step-change
+  in cold-target zero-shot and few-shot DTA. No model has met the full governed
+  excellence target.
+- Work is split into two tracks. Main Line P evaluates practical performance;
+  Main Line M / Core Task 1 evaluates whether a gain is caused by transferable
+  protein-conditioned interaction. A failed mechanism probe does not invalidate
+  a performance result, but it forbids the corresponding mechanism claim and
+  production integration.
+- Core Task 1 is **UNRESOLVED overall**. The current CIIP-1A oracle-coordinate,
+  low-capacity potential is **ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED** on the
+  49-pair Duong-Ly covered subset: correct-minus-random-window pair-mean R2 is
+  -0.1217 with parent bootstrap [-0.4569, +0.0327]. This is not a biological
+  absence claim and is not a cold-target DTA result.
+- Frozen ESM residue states show contextual propagation outside the mutation
+  site (mean non-site delta norm 0.05749), while mutation erasure gives identical
+  inputs and maximum embedding delta 0.0 for 49/49 pairs. No predictor was fit,
+  so context-only ligand-conditioned predictive value is **NOT EVALUATED**.
+- CIIP-1B, a BindingDB interaction bridge, a deployable protein router, and
+  production integration remain **NOT AUTHORIZED**. The read-only context audit
+  is complete; no mechanism successor is currently authorized.
+- Older sections below are an append-only chronology. Their words such as
+  `active`, `running`, `next` and `authorized` describe the state at that time
+  and do not override `task.md` or this executive block.
+
 ## Active five-phase programme consolidation (2026-08-17)
 
 `task.md` was reduced from a chronological stage dump to the single active
@@ -2109,3 +2135,60 @@ Takeover snapshot (verified from live system, not from history):
   NOT_SUPPORTED/UNRESOLVED; deployable rep NOT VALIDATED in every case.
 - 45/45 tests green; single-seed control run launched (job 098),
   watcher cet armed. Commit f7cdeca.
+
+## 2026-08-20 contextual-propagation audit
+
+- Read-only Stage 1 completed in `stageCIIP_context_propagation_20260820`
+  (frozen prereg SHA `cdd6e0a8...e9b5b19`). It used cached original ESM states
+  plus local ESM-2 evaluation-mode erasure runs only; no labels, fitting, or
+  training occurred.
+- Mutation erasure passed exactly: 49/49 masked WT/variant strings identical,
+  and max absolute residue-state delta 0.0 (tolerance 1e-5). Original deltas:
+  site mean 4.0111, radius-6 mean 1.1605, non-site context mean 0.05749,
+  full-sequence mean 0.07392. Thus distant states carry nonzero context.
+- This explains why random-window is not a complete information null but does
+  not establish context-only prediction. No successor is authorized.
+
+
+## 2026-08-20 CIIP-1A control-arm adjudication
+
+- `CONTROL_RESULT.json` was adjudicated against frozen controls preregistration
+  `39d02166f69acf235a34d351b649a4cdbf3b828491a0994901bf2378777463f7` by
+  `adjudicate_controls.py`; 46 stage tests passed in the `drug` environment.
+- Terminal outcome: **ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED**. Correct and random
+  local-window outputs were both nonconstant on 9/9 test pairs; correct-minus-
+  random R2 was -0.1217 (parent bootstrap -0.4569..+0.0327). Feature-level
+  mutation sensitivity remains positive (49/49 true-site deltas larger; means
+  0.5310 vs 0.0267) but is not predictive interaction evidence.
+- `CONTROL_REPORT.md` and `CONTROL_ADJUDICATION.json` are the formal record.
+  No production files were changed. The read-only context audit is complete;
+  no successor is currently authorized.
+
+## 2026-08-20 CIIP-2 independent cycle (audit -> report -> OLR-Potential -> instrument -> verdict)
+
+- User mandate reopened a full independent research cycle on top of the CIIP-1A
+  terminal verdict: audit, diagnostics design, four candidate-mechanism classes,
+  one recommended mainline, phased execution with frozen preregistrations.
+- Read-only audit findings: the shared-ligand-pattern baseline is R2 = 0.1313 on
+  the covered test pairs (the CIIP-1A random-window arm 0.1291 was riding it;
+  the frozen ligand_only arm was structurally constant). Parent-shared vs
+  mutation-specific interaction variance 134.8 / 89.7 %^2; sibling LOSO ceiling
+  0.293 median; family prior -0.021; 23% out-of-bounds cells; 99/183 WT-ceiling
+  ligands. Master report: report/research_ideas/ciip/CIIP2_RESEARCH_REPORT_20260820.md
+  (recommended mainline: OLR-Potential; four candidate classes + two rejected;
+  negative-control matrix; stop rules; graded claim ladder).
+- Successor stage stageCIIP2_olr_potential_20260820: prereg a7b17e8a...,
+  ADD-1 aa8d06af... (SPB construction), ADD-2 91e2cb3a... (evaluation
+  definition). 12/12 structural tests green; ERASED_ESM.npz a8f36905...;
+  implementation amendments AM-1..AM-5 documented in stage README.
+- Instrument qualification: planted parent-deviation field (linear in real ESM
+  mean states, scaled to measured between-parent variance) recovers only
+  +0.016..+0.030 R2 over the analytic prior (standard 0.25) - INSTRUMENT_
+  UNDERPOWERED, robust across family/rank/selection. Real-data smoke seed 11:
+  A0 0.1313 / A1 0.1087 / A2 0.0252 / A3 0.0252 (=A2) / A4 0.1732 / A5 0.1388 /
+  C-perm 0.1818; permutation control ranks first; Phase-4 gate (b) FAILED;
+  Phase 5 not executed (frozen chain).
+- Terminal verdicts: R1 SUPPORTED; R2 NOT SUPPORTED at this power; R3 UNRESOLVED
+  (power); R4 BLOCKED; R5 not claimed. Overall UNRESOLVED (power). No production
+  code touched. Successor unblock condition: >=100 mutation conditions across
+  >=30 parents on one endpoint, or a Ki/Kd DeltaDeltaG corpus with its own prereg.

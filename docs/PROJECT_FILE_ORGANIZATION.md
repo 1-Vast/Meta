@@ -1,6 +1,6 @@
 # Project file organization
 
-Updated 2026-08-17 for the five-phase programme and Stage T.
+Updated 2026-08-19 for the split performance/mechanism programme.
 
 | Directory | Purpose | Authority |
 |---|---|---|
@@ -9,7 +9,7 @@ Updated 2026-08-17 for the five-phase programme and Stage T.
 | `dataset/` | Local governed source and processed data | manifests inside each corpus |
 | `report/` | Compact evidence authority and R0-R14 leaf artifacts | `report/README.md` |
 | `archive/` | Recovery index only; no duplicate source tree | `archive/README.md` |
-| `tools/research/` | Unadmitted research implementations and probes | stage preregistration |
+| `tools/research/` | Unadmitted research implementations, probes and stage artifacts | stage preregistration |
 | `tools/tests/` | Active contracts for retained code | `tools/tests/README.md` |
 | `tools/runtime/` | Ignored third-party executables and local helpers | tool-local metadata |
 
@@ -46,7 +46,12 @@ reserved for contracts on admitted or repository-wide behaviour.
 | `a2_readiness_v2/` | governance incident, noise/leakage audit, causal attention audit, Stage P's frozen design. Its A2 verdict is superseded |
 | `a2_exact_probe/` | **the superseding stage.** `FINAL_DECISION.md` is the single consolidated A2 record; `STAGE_R_EXACT_A2.md` closes A2 on its own operator; `STAGE_L_LIGAND_SAR.md` measures the ligand-side direction against Tanimoto |
 | `stageS_sar_field/` | rejected global protein-conditioned SAR field; retains the decisive shuffled-protein and counterfactual-degeneracy evidence |
-| `stageT_mmp/` | active Phase-1 true-MMP transformation-space test; frozen preregistration, T0 reliability and T1 census/coverage currently present |
+| `stageT_mmp/` | historical true-MMP probe; retained for scoped evidence and correction history |
+| `stageP_practical_fewshot/` | practical target-cold performance track; frozen three-layer evaluation and baseline bake-off |
+| `stageX_csc_signal/` | current mechanism qualification track; Q2d synthetic stages and matched-variant instruments |
+
+All other `stage*` directories are historical evidence. Their source is not
+production code and must not be imported by `main.py`.
 
 Frozen-feature caches (50 MB) were deleted after recording their sha256 in
 `a2_exact_probe/FEATURE_CACHE_MANIFEST.json`; the `*.meta.json` provenance
@@ -71,7 +76,9 @@ and promoted through a new preregistered stage rather than silently returned.
 For each new stage retain only its preregistration, machine result, decision
 report, necessary prediction rows and loadable admitted checkpoint. Delete
 generated caches, duplicate smokes, progress logs and failed checkpoints after
-recording the verdict. Update `history.md`, `task.md`,
+the stage process has exited and after recording the verdict. Never delete a
+leaf artifact cited by `task.md`, `history.md` or `EVIDENCE_LEDGER.md`. Update
+`history.md`, `task.md`,
 `CURRENT_MODEL_EVIDENCE.md` and the ledger.
 
 When research passes, move its reusable modules into `model/`, its commands into

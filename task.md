@@ -1,6 +1,6 @@
 # Current task contract
 
-Updated: 2026-08-17. This file is the single authority for active work. Detailed
+Updated: 2026-08-20. This file is the single authority for active work. Detailed
 chronology belongs in `history.md`; numerical evidence belongs in
 `report/EVIDENCE_LEDGER.md` and each stage's frozen artifacts.
 
@@ -15,8 +15,41 @@ gate.
 
 One core innovation must be a training mechanism with a separately attributable
 effect. The second intended innovation is a protein-ligand interaction
-representation. Few-shot adaptation is blocked until that representation is
-shown to carry transferable, affinity-relevant protein information.
+representation.
+
+The programme has two parallel tracks. **Main Line P** may continue to test
+practical cold-target few-shot performance without waiting for a mechanism
+claim. **Main Line M / Core Task 1** decides whether a gain may be attributed to
+transferable protein-conditioned interaction. Failure or non-identifiability on
+Main Line M does not erase a valid performance result on Main Line P; it blocks
+only the protein-interaction claim, the CIIP/BindingDB mechanism bridge, and
+production integration of that unvalidated mechanism.
+
+## Current execution state (authoritative, 2026-08-20)
+
+- **Final mission:** a reproducible performance step-change in cold-target
+  zero-shot and few-shot DTA with a trainable model and no ranking regression.
+- **Core Task 1:** **UNRESOLVED overall.** It asks whether a deployable protein
+  representation can produce ligand-dependent effects that transfer to unseen
+  proteins/families and survive matched protein, label, assay and context
+  controls.
+- **Current CIIP-1A mechanism:** **ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED.** On the
+  49-pair oracle-covered Duong-Ly subset, correct and random local ESM windows
+  were both nonconstant on 9/9 test pairs; correct-minus-random pair-mean R2 was
+  -0.1217 with parent bootstrap [-0.4569, +0.0327]. This is a scoped failure of
+  the oracle-coordinate, low-capacity potential, not biological falsification.
+- **Context propagation:** observed at representation level. Mutation erasure
+  made 49/49 WT/variant inputs identical and produced maximum embedding delta
+  0.0; original non-site states had mean delta norm 0.05749. Context-only
+  ligand-conditioned predictive value remains **NOT EVALUATED**.
+- **Authorization:** CIIP-1B, a BindingDB interaction bridge, a deployable
+  protein router, and production `model/`/`scripts/` integration are **NOT
+  AUTHORIZED**. The completed read-only context audit does not itself authorize
+  a successor. Any new mechanism experiment needs a new preregistration and
+  explicit authorization.
+- **Performance track:** remains scientifically independent of the mechanism
+  gate. Performance gains without a passed mechanism attribution matrix must be
+  reported only as performance gains.
 
 ## Current scientific state
 
@@ -67,6 +100,10 @@ shown to carry transferable, affinity-relevant protein information.
   protein biology fails to modulate SAR, and **not** a universal absence claim.
 - No present DTA cell has a legal common-frame protein-ligand pose. Cartesian or
   complex-geometry claims are prohibited on this corpus.
+- CIIP-1A has now supplied a scoped model-level negative: oracle mutation-site
+  ESM is mutation-sensitive, but the tested potential did not extract
+  ligand-conditioned value beyond random-window and matched controls. This does
+  not supersede the broader Core Task 1 status of UNRESOLVED.
 
 Authority for these statements:
 
@@ -78,13 +115,18 @@ Authority for these statements:
 6. `tools/research/stageT_mmp/CORRECTION_20260817_CORE_KEY.md` (scopes Stage T)
 7. `tools/research/stageV_core_mmp/REPORT.md` (corrected Phase-1 test)
 8. `tools/research/stageV_core_mmp/STAGE_U_GOVERNANCE_AUDIT.md` (Stage U stopped)
+9. `tools/research/stageCIIP_potential_bridge/CONTROL_REPORT.md` (current CIIP-1A verdict)
+10. `tools/research/stageCIIP_context_propagation_20260820/CONTEXT_PROPAGATION_REPORT.md`
 
-## Active five-phase programme
+## Historical five-phase mechanism programme
 
-The phases are sequential scientific gates. A phase may reject with one seed;
-promotion requires the stated evidence. A failed prerequisite blocks every
-downstream phase. Do not jump from an unidentifiable interaction representation
-to a larger meta-adapter.
+The phases below remain the dependency chain for **mechanism attribution**.
+They do not block Main Line P performance baselines. A phase may reject with one
+seed; promotion requires the stated evidence. A failed prerequisite blocks the
+downstream mechanism claim and mechanism integration. Do not jump from an
+unidentifiable interaction representation to a larger meta-adapter. Later dated
+status blocks are chronology; they cannot override the current execution state
+above.
 
 ### Phase 1 - transferable protein-conditioned interaction signal
 
@@ -98,10 +140,12 @@ protein residues or regions, and their local cross-interaction tokens until the
 readout. Early global pooling is not allowed. A protein embedding changing under
 a swap is insufficient; the change must align with affinity differentials.
 
-**Status: NOT ESTIMABLE on this dataset (2026-08-17). Phase 1 is neither closed
-nor in progress — it is blocked by identifiability, and no model-level verdict
-exists.** This supersedes the earlier "CLOSED" wording, which rested on a
-defective transformation key.
+**Current status: UNRESOLVED overall (2026-08-20).** BindingDB exact-MMP evidence
+remains not estimable, while the separate Duong-Ly CIIP-1A oracle-local
+potential now has a scoped model-level verdict of **NOT SUPPORTED**. Neither
+result establishes biological absence or validates a deployable representation.
+This supersedes both the earlier whole-family "CLOSED" wording and the later
+statement that no model-level verdict existed.
 
 **Stage T (`tools/research/stageT_mmp/`) — scoped to what it tested.** Its
 `exact_key` omitted the shared core, it median-pooled several cores into one
@@ -448,6 +492,10 @@ No further internal experiments before external asset injection.
 ## Stage X new independent cycle (2026-08-17 user authorization)
 
 New work in `tools/research/stageX_csc_signal/`; old S-W records read-only.
+The entries in this dated Stage X chronology preserve the state at each
+historical round. They do not override the authoritative current execution
+state above; in particular, Q2c/Q2d are complete and CIIP-1A/context audit are
+complete as recorded below.
 X0 prereg frozen (SHA-256 `03cdc907…9683`). X0-D downloaded and audited:
 Duong-Ly 2016 mutant panel, Anastassiadis 2011 complete matrix, Davis 2011 raw
 supplementary tables, PKIS2 supplements.
@@ -681,7 +729,7 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   {joint, centered-only}; freeze new prereg before ANY training.
 - CIIP-1B / BindingDB Bridge / production integration: NOT AUTHORIZED.
 
-## 2x2 root-cause diagnostic (2026-08-19): running per conditional authorization
+## 2x2 root-cause diagnostic (2026-08-19): historical run state
 
 - Authorized: freeze matched-subset 2x2 prereg; structure/coverage tests;
   single-seed 4-cell root-cause diagnostic; controls + 3-seed only after
@@ -735,15 +783,70 @@ learner family. Q2d-2/Q2d-3/B1 remain unauthorized.
   determinism, status rule. 36/36 green. IMPLEMENTATION_AMENDMENTS.md
   frozen (A1-A4) with code SHA f333c979... Commit d256beb.
 
-## Control-arm stage (2026-08-19): frozen prereg 39d02166..., running
+## Control-arm stage (2026-08-19): historical launch state; completed 2026-08-20
 
 - Goal: attribute the oracle ESM nonconstant response - real mutation-
   centered protein info vs annotation/generic-context/main-effect
   shortcuts. Only the matched 49-pair covered subset; centered-only
   objective for all arms; identical budget/checkpoint/bootstraps.
-- Deliverables in flight: CONTROL_RESULT.json, CONTROL_REPORT.md,
+- Deliverables completed: CONTROL_RESULT.json, CONTROL_REPORT.md,
   annotation shortcut audit, per-pair metrics, gradient coverage,
   no-leakage audit, tests, SHA256SUMS.
 - Final status vocabulary only: ORACLE_LOCAL_SIGNAL_SUPPORTED /
   NOT_SUPPORTED / UNRESOLVED + deployable NOT VALIDATED + CIIP-1A/1B/
   Bridge/production NOT AUTHORIZED.
+
+## CIIP contextual-propagation audit (2026-08-20)
+
+- Completed under frozen preregistration `cdd6e0a8...e9b5b19` in
+  `tools/research/stageCIIP_context_propagation_20260820/`. All 49 mutation-
+  erasure pairs used identical masked inputs and produced maximum absolute ESM
+  embedding delta 0.0 (tolerance 1e-5).
+- Original residue states show context propagation: mean site delta 4.0111,
+  radius-6 mean 1.1605, non-site context mean 0.05749, full-sequence mean
+  0.07392. A random ESM window can therefore carry nonzero edit information.
+- No labels or predictor fitting were used. Context-only predictive value and a
+  site-specific predictive residual are NOT EVALUATED; CIIP-1B, deployable
+  router work, BindingDB bridge, and production integration remain unauthorized.
+
+## CIIP-1A control-arm adjudication (2026-08-20)
+
+- Formal verdict: **ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED**. Correct and random
+  local windows are both nonconstant on 9/9 test pairs; correct-minus-random
+  pair-mean R2 = -0.1217, parent bootstrap [-0.4569, +0.0327].
+- ESM mutation sensitivity remains a representation fact, not ligand-conditioned
+  interaction evidence: correct-site delta norm 0.5310 vs random 0.0267, with
+  all 49 covered pairs larger at the true site.
+- The result is restricted to oracle coordinate, Duong-Ly centered % inhibition,
+  49 covered pairs, current low-capacity potential, and pair-level split. CIIP-1B,
+  BindingDB bridge, and production integration remain unauthorized. The
+  read-only contextual-propagation audit is complete and does not authorize a
+  successor. No further CIIP training is currently authorized.
+
+## CIIP-2 independent research cycle (2026-08-20, user-mandated)
+
+- A user-issued phased mandate authorized a full independent cycle: Phase 0
+  audit, Phase 1 diagnostic designs, Phase 2 candidate comparison across four
+  domains, Phase 3 preregistered successor, Phase 4 gated smoke. Master report:
+  `report/research_ideas/ciip/CIIP2_RESEARCH_REPORT_20260820.md`. Recommended
+  mainline: OLR-Potential (ligand-conditioned residue router with mean-pool
+  skip + cross-fitted ligand nuisance + assay-gain weights, unified under one
+  deployable s_theta(P,L)).
+- Audit additions: shared-ligand-pattern baseline R2 = 0.1313 on covered test
+  pairs (random-window CIIP-1A arm was riding it); parent-shared vs
+  mutation-specific variance 134.8 / 89.7 %^2; sibling LOSO ceiling 0.293;
+  family prior -0.021; 99/183 WT-ceiling ligands.
+- Successor stage `stageCIIP2_olr_potential_20260820` (prereg a7b17e8a...,
+  ADD-1 aa8d06af..., ADD-2 91e2cb3a...): 12/12 structural tests green;
+  instrument qualification INSTRUMENT_UNDERPOWERED (planted transferable field
+  recovers +0.016..+0.030 R2 vs 0.25 standard, robust across estimators);
+  real-data smoke gate (b) FAILED (C-perm 0.1818 ranks above all correct
+  arms; best increment +0.042 R2). Phase 5 not executed per frozen chain.
+- Terminal verdicts: R1 representation SUPPORTED; R2 identification NOT
+  SUPPORTED at this power; R3 deployment UNRESOLVED (power); R4 few-shot bridge
+  BLOCKED; R5 binding interpretation NOT CLAIMED. Overall **UNRESOLVED
+  (power)**: the 49-pair panel cannot adjudicate deployable protein-conditioned
+  interaction learning in either direction at the pre-registered standard.
+  Successor unblock: >=100 mutation conditions across >=30 parents on one
+  endpoint, or a Ki/Kd DeltaDeltaG corpus with its own prereg. Production
+  `model/` and `scripts/` untouched.

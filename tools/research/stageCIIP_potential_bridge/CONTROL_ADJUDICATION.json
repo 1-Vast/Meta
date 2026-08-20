@@ -1,0 +1,99 @@
+{
+  "schema": "MetaSieve.StageCIIP1A.Controls.Adjudication.v1",
+  "preregistration_controls_sha256": "39d02166f69acf235a34d351b649a4cdbf3b828491a0994901bf2378777463f7",
+  "control_result_sha256": "55b0de124dda9e092c5a6692c16211bdbffb575235aa585e844652c55bb38ffd",
+  "scope": "oracle-covered subset (49 pairs); annotation-shortcut audit; centered-only objective for all arms",
+  "verdict": "ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED",
+  "checks": {
+    "correct_nonconstant_coverage_exceeds_random": false,
+    "correct_beats_ligand_floor_r2_bootstrap": false,
+    "correct_beats_ligand_floor_sign": true,
+    "correct_beats_family_r2_bootstrap": false,
+    "correct_beats_random_protein_r2_bootstrap": false,
+    "correct_beats_random_window_r2_and_sign": false,
+    "correct_vs_random_window_lopo_sign_stable": true,
+    "not_supported_family_gap_absent": true,
+    "not_supported_random_window_gap_absent": true
+  },
+  "evidence": {
+    "correct": {
+      "n_nonconstant": 9,
+      "n_total": 9,
+      "n_rank_evaluable": 9,
+      "n_parents_covered": 6,
+      "r2": 0.007452471033593342,
+      "spearman": 0.33142782777105306,
+      "sign_acc": 0.7024775228537448,
+      "mse": 194.87332016139635,
+      "slope_median": 0.4658646945411989,
+      "scale_ratio_median": 0.6225514810959057
+    },
+    "random_window": {
+      "n_nonconstant": 9,
+      "n_total": 9,
+      "n_rank_evaluable": 9,
+      "n_parents_covered": 6,
+      "r2": 0.12912346358685425,
+      "spearman": 0.319619349722146,
+      "sign_acc": 0.7050190614607534,
+      "mse": 179.29030741306897,
+      "slope_median": 1.0756777408755591,
+      "scale_ratio_median": 0.30140454973137215
+    },
+    "v_family": {
+      "observed_pair_mean_effect": 0.011070385315451632,
+      "observed_parent_mean_effect": -0.09176203665124733,
+      "bootstrap_ci": {
+        "lo2.5": -0.35078442571939633,
+        "hi97.5": 0.24207654155565317,
+        "draws": 2000,
+        "cluster": "parent"
+      },
+      "bootstrap_mean_not_a_point_estimate": -0.005432537019165534,
+      "leave_one_parent_out_sign_stable": false
+    },
+    "v_random_window": {
+      "observed_pair_mean_effect": -0.12167099255326091,
+      "observed_parent_mean_effect": -0.19764180229858336,
+      "bootstrap_ci": {
+        "lo2.5": -0.45692875952934797,
+        "hi97.5": 0.03268219102694713,
+        "draws": 2000,
+        "cluster": "parent"
+      },
+      "bootstrap_mean_not_a_point_estimate": -0.13963476637059574,
+      "leave_one_parent_out_sign_stable": true
+    },
+    "v_random_protein": {
+      "observed_pair_mean_effect": 0.007009539435312524,
+      "observed_parent_mean_effect": -0.09656357222301346,
+      "bootstrap_ci": {
+        "lo2.5": -0.33869198194061256,
+        "hi97.5": 0.232223799438091,
+        "draws": 2000,
+        "cluster": "parent"
+      },
+      "bootstrap_mean_not_a_point_estimate": -0.011568358930730107,
+      "leave_one_parent_out_sign_stable": false
+    },
+    "v_ligand_only": {
+      "observed_pair_mean_effect": 0.007452471033593342,
+      "observed_parent_mean_effect": -0.09463857789894237,
+      "bootstrap_ci": {
+        "lo2.5": -0.3486854198138228,
+        "hi97.5": 0.2349583816759333,
+        "draws": 2000,
+        "cluster": "parent"
+      },
+      "bootstrap_mean_not_a_point_estimate": -0.010960417197152383,
+      "leave_one_parent_out_sign_stable": false
+    }
+  },
+  "authorization": {
+    "deployable_protein_representation": "NOT_VALIDATED",
+    "ciip_1a_pass": "NOT_AUTHORIZED",
+    "ciip_1b": "NOT_AUTHORIZED",
+    "bindingdb_potential_bridge": "NOT_AUTHORIZED",
+    "production_integration": "NOT_AUTHORIZED"
+  }
+}

@@ -2,14 +2,32 @@
 
 max_goal_rounds: 256
 
-current_status: ACTIVE (Stage X, new independent cycle)
-terminal_verdict: NONE (old cycle UNRESOLVED, not a stop condition)
-authority: tools/research/stageX_csc_signal/STAGE_X0_PREREGISTRATION.md
-reopening_condition: Stage X0 -> X0-P -> X1 gates as frozen in Stage X preregistrations
+current_status: ACTIVE_RESEARCH (performance track open; mechanism successor blocked)
+terminal_verdict: CORE_TASK_1_UNRESOLVED; CIIP_1A_ORACLE_LOCAL_NOT_SUPPORTED
+authority: task.md
+reopening_condition: new preregistration and explicit authorization for any mechanism successor
 
 
-Goal：
-长期自主研究并重构 MetaSieve，允许独立检索跨领域高质量论文、替换失败主干并发掘新的可训练基础框架；目标是在单数据集、严格无泄漏的 cold-target 协议下，使零样本及 k∈{1,2,3,5} 少样本 DTA 的 MSE 均达到或低于1.00 pK²，同时不牺牲CI、Spearman、Pearson、centered MSE与activity-cliff表现，核心创新最多两个且至少一个必须位于训练模块；逐阶段预注册、单seed筛选、多seed确认、物理封存meta_test并执行反事实与新颖性控制，禁止闭式解、选择偏差、查询标签或数据重复伪造收益，通过后才将精简实现并入model/和scripts/，持续整理tools/research、task.md与history.md，直至获得可复现的性能飞跃或形成适用边界明确且经过多类框架否证的最终结论。
+Goal:
+Long-term research and reconstruction of MetaSieve are permitted. The primary
+goal is a reproducible, trainable improvement on leak-free cold-target
+zero-/few-shot DTA, with MSE <= 1.00 pK^2 as an aspiration and CI/Spearman,
+novelty and bootstrap safeguards. A separately attributable training innovation
+is required. Core Task 1 is an attribution question about transferable
+protein-conditioned interaction, not a prerequisite for all practical
+performance experiments. Closed-form adaptation, query-label leakage and
+uncontrolled data mixing remain prohibited; production integration requires
+validated evidence and explicit authorization.
+
+Current state:
+- performance track: independently runnable under a fresh preregistration;
+- Core Task 1: UNRESOLVED overall;
+- CIIP-1A: ORACLE_LOCAL_SIGNAL_NOT_SUPPORTED for the tested oracle-local method;
+- context-only predictive value: NOT_EVALUATED;
+- CIIP-1B / BindingDB bridge / production integration: NOT_AUTHORIZED.
+
+The remaining dated round notes below are historical log entries. They do not
+override the current state above.
 ## 状态（2026-08-18 夜，round 3 末）
 
 目标的两个终结条件之一已达成：**形成适用边界明确且经过多类框架否证的最终结论**
